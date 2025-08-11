@@ -17,9 +17,12 @@
     "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-unused-imports": "^4.1.4",
     "prettier": "^3.6.2",
+    "style-dictionary": "^3.9.2",
+    "tailwindcss": "^4.1.11",
     "typescript": "^5.9.2"
   },
   "scripts": {
+    "build:tokens": "node scripts/build-tokens.js",
     "format": "prettier --write .",
     "lint": "eslint . --ext .ts,.tsx"
   }
