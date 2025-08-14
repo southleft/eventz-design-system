@@ -1,8 +1,15 @@
 /** @type {import('tailwindcss').Config} */
-module.exports = {
-  content: ['./src/**/*.{html,ts,tsx}'],
+import radixPlugin from 'tailwindcss-radix';
+
+export default {
+  content: ['./src/**/*.{js,ts,jsx,tsx,html}', './.storybook/**/*.{js,ts,jsx,tsx}'],
   theme: {
-    extend: {}
+    extend: {
+      // You can extend with tokens here, e.g.:
+      // colors: {
+      //   brand: 'var(--token-color-brand)',
+      // },
+    }
   },
-  plugins: []
+  plugins: [radixPlugin()]
 };
