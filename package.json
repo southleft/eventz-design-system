@@ -15,6 +15,7 @@
     "@storybook/addon-docs": "^9.1.1",
     "@storybook/addon-vitest": "^9.1.1",
     "@storybook/react-vite": "^9.1.1",
+    "@tsconfig/node22": "^22.0.2",
     "@typescript-eslint/eslint-plugin": "^8.39.0",
     "@typescript-eslint/parser": "^8.39.0",
     "@vitest/browser": "^3.2.4",
@@ -34,10 +35,11 @@
   },
   "scripts": {
     "build:tokens": "node scripts/build-tokens.js",
+    "build:storybook": "storybook build",
     "format": "prettier --write .",
     "lint": "eslint . --ext .ts,.tsx",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "type-check": "tsc -b"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.15",

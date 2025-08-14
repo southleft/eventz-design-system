@@ -1,4 +1,4 @@
-// src/components/TestDialog.stories.tsx
+import * as React from 'react';
 import { TestDialog } from './TestDialog';
 
 export default {
