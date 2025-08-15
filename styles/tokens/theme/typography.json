@@ -1,10 +1,14 @@
 {
   "typography": {
     "body": {
-      "value": "{typography.body}"
+      "fontSize": { "value": "{core.typography.body.fontSize}" },
+      "fontWeight": { "value": "{core.typography.body.fontWeight}" },
+      "lineHeight": { "value": "{core.typography.body.lineHeight}" }
     },
     "heading": {
-      "value": "{typography.heading}"
+      "fontSize": { "value": "{core.typography.heading.fontSize}" },
+      "fontWeight": { "value": "{core.typography.heading.fontWeight}" },
+      "lineHeight": { "value": "{core.typography.heading.lineHeight}" }
     }
   }
 }

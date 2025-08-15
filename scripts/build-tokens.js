@@ -1,6 +1,6 @@
 import StyleDictionary from 'style-dictionary';
 
-// Temporary config until tokens are defined
+// Optional: Load dynamic config or extend this later
 const config = {
   source: ['styles/tokens/**/*.json'],
   platforms: {
@@ -10,12 +10,17 @@ const config = {
       files: [
         {
           destination: 'tokens.css',
-          format: 'css/variables'
+          format: 'css/variables',
+          options: {
+            outputReferences: true // future-proof: allow referencing other tokens
+          }
         }
       ]
     }
   }
 };
 
+console.log('🔧 Building tokens...');
 const SD = StyleDictionary.extend(config);
 SD.buildAllPlatforms();
+console.log('✅ Token build complete.');

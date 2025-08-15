@@ -1,14 +1,16 @@
 {
-  "typography": {
-    "body": {
-      "fontSize": { "value": "16px" },
-      "fontWeight": { "value": "400" },
-      "lineHeight": { "value": "1.5" }
-    },
-    "heading": {
-      "fontSize": { "value": "24px" },
-      "fontWeight": { "value": "600" },
-      "lineHeight": { "value": "1.25" }
+  "core": {
+    "typography": {
+      "body": {
+        "fontSize": { "value": "16px" },
+        "fontWeight": { "value": "400" },
+        "lineHeight": { "value": "1.5" }
+      },
+      "heading": {
+        "fontSize": { "value": "24px" },
+        "fontWeight": { "value": "600" },
+        "lineHeight": { "value": "1.25" }
+      }
     }
   }
 }

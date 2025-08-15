@@ -1,11 +1,11 @@
 {
   "extends": "@tsconfig/node22/tsconfig.json",
   "compilerOptions": {
-    "composite": true,
+    "module": "preserve",
     "moduleResolution": "bundler",
     "types": ["node"],
     "noEmit": true,
     "tsBuildInfoFile": "node_modules/.cache/tsbuildinfo.node"
-  },
-  "include": ["vite.config.ts", "scripts/**/*.ts", "eslint.config.*"]
+  }
+  // "include": ["vite.config.ts", "scripts/**/*.ts", "eslint.config.*", "scripts/build-tokens.js"]
 }
