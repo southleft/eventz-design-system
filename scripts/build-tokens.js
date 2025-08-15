@@ -1,24 +1,5 @@
 import StyleDictionary from 'style-dictionary';
-
-// Optional: Load dynamic config or extend this later
-const config = {
-  source: ['styles/tokens/**/*.json'],
-  platforms: {
-    css: {
-      transformGroup: 'css',
-      buildPath: 'dist/',
-      files: [
-        {
-          destination: 'tokens.css',
-          format: 'css/variables',
-          options: {
-            outputReferences: true // future-proof: allow referencing other tokens
-          }
-        }
-      ]
-    }
-  }
-};
+import config from '../styles/tokens/tokens-config.js';
 
 console.log('🔧 Building tokens...');
 const SD = StyleDictionary.extend(config);
