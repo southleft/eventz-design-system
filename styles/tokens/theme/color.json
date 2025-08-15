@@ -1,0 +1,7 @@
+{
+  "color": {
+    "background": { "value": "{color.gray.50}" },
+    "foreground": { "value": "{color.gray.900}" },
+    "primary": { "value": "{color.blue.500}" }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "typography": {
+    "body": {
+      "value": "{typography.body}"
+    },
+    "heading": {
+      "value": "{typography.heading}"
+    }
+  }
+}

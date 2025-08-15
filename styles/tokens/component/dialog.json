@@ -1,0 +1,7 @@
+{
+  "dialog": {
+    "background": { "value": "{color.background}" },
+    "text": { "value": "{color.foreground}" },
+    "titleSize": { "value": "{typography.heading.fontSize}" }
+  }
+}
