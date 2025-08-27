@@ -3,9 +3,10 @@
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "noEmit": true,
+    "resolveJsonModule": true,
     "tsBuildInfoFile": "node_modules/.cache/tsbuildinfo.node",
     "types": ["node"]
   },
-  "extends": "@tsconfig/node22/tsconfig.json",
+  "extends": "@tsconfig/node20/tsconfig.json",
   "include": ["eslint.config.*", "scripts/**/*", "vite.config.*", "vitest.config.*"]
 }
