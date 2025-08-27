@@ -1,0 +1,15 @@
+@layer utilities {
+  .dialog-bg {
+    background-color: var(--dialog-background);
+  }
+
+  .dialog-text {
+    color: var(--dialog-text);
+  }
+
+  .dialog-title {
+    font-size: var(--dialog-title-size);
+    font-weight: var(--typography-heading-font-weight);
+    line-height: var(--typography-heading-line-height);
+  }
+}

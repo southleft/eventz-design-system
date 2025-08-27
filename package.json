@@ -17,6 +17,7 @@
     "@storybook/react-vite": "^9.1.1",
     "@tsconfig/node22": "^22.0.2",
     "@types/node": "^24.3.0",
+    "@types/react": "^19.1.11",
     "@typescript-eslint/eslint-plugin": "^8.39.0",
     "@typescript-eslint/parser": "^8.39.0",
     "@vitest/browser": "^3.2.4",
@@ -44,8 +45,6 @@
     "type-check": "tsc -b"
   },
   "dependencies": {
-    "@radix-ui/react-dialog": "^1.1.15",
-    "@types/react": "^19.1.10",
     "radix-ui": "^1.4.3",
     "react": "^19.1.1"
   }

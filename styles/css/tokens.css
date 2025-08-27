@@ -1,0 +1,31 @@
+/**
+ * Do not edit directly
+ * Generated on Fri, 15 Aug 2025 17:51:18 GMT
+ */
+
+:root {
+  --dialog-background: #f9fafb;
+  --dialog-text: #111827;
+  --dialog-title-size: 24px;
+  --color-blue-50: #eff6ff;
+  --color-blue-500: #3b82f6;
+  --color-blue-900: #1e3a8a;
+  --color-gray-50: #f9fafb;
+  --color-gray-500: #6b7280;
+  --color-gray-900: #111827;
+  --color-background: #f9fafb;
+  --color-foreground: #111827;
+  --color-primary: #3b82f6;
+  --core-typography-body-font-size: 16px;
+  --core-typography-body-font-weight: 400;
+  --core-typography-body-line-height: 1.5;
+  --core-typography-heading-font-size: 24px;
+  --core-typography-heading-font-weight: 600;
+  --core-typography-heading-line-height: 1.25;
+  --typography-body-font-size: 16px;
+  --typography-body-font-weight: 400;
+  --typography-body-line-height: 1.5;
+  --typography-heading-font-size: 24px;
+  --typography-heading-font-weight: 600;
+  --typography-heading-line-height: 1.25;
+}
