@@ -23,26 +23,29 @@ export default defineConfig({
   build: {
     lib: {
       entry: 'src/index.ts', // your barrel file
-      formats: ['es'],       // ESM-only
-      fileName: () => 'index' // dist/index.js
+      formats: ['es'] // ESM-only
     },
     rollupOptions: {
-      // externalize all peer deps so they are NOT bundled
-      external: [...Object.keys(pkg.peerDependencies || {})],
+      // Externalize peers AND their subpaths (e.g., react/jsx-runtime)
+      external: id => {
+        const peers = Object.keys(pkg.peerDependencies || {});
+        if (peers.some(name => id === name || id.startsWith(name + '/'))) return true;
+        if (id.startsWith('@radix-ui/')) return true; // future-proof if switching to per-package Radix
+        return false;
+      },
       output: {
+        entryFileNames: 'index.js', // ensure .js extension
         sourcemap: true,
         // force a single chunk even if someone adds a dynamic import later
         inlineDynamicImports: true,
         // emit a single CSS file named styles.css
         assetFileNames: asset =>
-          asset.name && asset.name.endsWith('.css')
-            ? 'styles.css'
-            : 'assets/[name]-[hash][extname]'
+          asset.name && asset.name.endsWith('.css') ? 'styles.css' : 'assets/[name]-[hash][extname]'
       }
     },
     target: 'es2020',
     sourcemap: true,
     cssCodeSplit: false, // one CSS file instead of many
-    minify: false        // flip to true for release builds if you like
+    minify: false // flip to true for release builds if desired
   }
 });

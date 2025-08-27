@@ -1,7 +1,7 @@
 {
-  "name": "doxyz",
+  "name": "doxyz-monorepo",
   "private": true,
-  "packageManager": "pnpm",
+  "packageManager": "pnpm@9",
   "workspaces": ["packages/*", "tools/*"],
   "scripts": {
     "build": "pnpm --filter doxyz build",
