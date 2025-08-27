@@ -17,8 +17,7 @@
   "peerDependencies": {
     "react": ">=18",
     "react-dom": ">=18",
-    "@radix-ui/react-dialog": "^1.0.0",
-    "@radix-ui/react-tooltip": "^1.0.0"
+    "radix-ui": "^1.0.0"
   },
   "scripts": {
     "clean": "rimraf dist",
