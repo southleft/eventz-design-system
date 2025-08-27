@@ -8,5 +8,5 @@
     "types": ["node"]
   },
   "extends": "@tsconfig/node20/tsconfig.json",
-  "include": ["eslint.config.*", "scripts/**/*", "vite.config.*", "vitest.config.*"]
+  "include": ["eslint.config.*", "scripts/**/*", "vite.config.*", "vitest.config.*", "packages/ui/vite.config.ts"]
 }

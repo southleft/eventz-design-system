@@ -1,9 +1,15 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import dts from 'vite-plugin-dts';
+import { fileURLToPath, URL } from 'node:url';
 import pkg from './package.json' with { type: 'json' };
 
 export default defineConfig({
+  resolve: {
+    alias: {
+      '@': fileURLToPath(new URL('./src', import.meta.url))
+    }
+  },
   plugins: [
     react(),
     dts({
@@ -17,7 +23,7 @@ export default defineConfig({
   build: {
     lib: {
       entry: 'src/index.ts', // your barrel file
-      formats: ['es'], // ESM-only
+      formats: ['es'],       // ESM-only
       fileName: () => 'index' // dist/index.js
     },
     rollupOptions: {
@@ -29,12 +35,14 @@ export default defineConfig({
         inlineDynamicImports: true,
         // emit a single CSS file named styles.css
         assetFileNames: asset =>
-          asset.name && asset.name.endsWith('.css') ? 'styles.css' : 'assets/[name]-[hash][extname]'
+          asset.name && asset.name.endsWith('.css')
+            ? 'styles.css'
+            : 'assets/[name]-[hash][extname]'
       }
     },
     target: 'es2020',
     sourcemap: true,
     cssCodeSplit: false, // one CSS file instead of many
-    minify: false // flip to true for release builds if you like
+    minify: false        // flip to true for release builds if you like
   }
 });
