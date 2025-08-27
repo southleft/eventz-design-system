@@ -3,8 +3,6 @@
     "allowSyntheticDefaultImports": true,
     "baseUrl": ".",
     "composite": true,
-    "declaration": true,
-    "declarationMap": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "isolatedModules": true,
@@ -12,12 +10,11 @@
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "module": "ESNext",
     "moduleResolution": "bundler",
-    "outDir": "dist",
+    "noEmit": true,
     "paths": {
       "@/*": ["./src/*"]
     },
     "resolveJsonModule": true,
-    "rootDir": "src",
     "skipLibCheck": true,
     "strict": true,
     "target": "ESNext",
