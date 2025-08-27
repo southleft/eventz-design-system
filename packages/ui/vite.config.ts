@@ -21,6 +21,7 @@ export default defineConfig({
     })
   ],
   build: {
+    emptyOutDir: true,
     lib: {
       entry: 'src/index.ts', // your barrel file
       formats: ['es'] // ESM-only
