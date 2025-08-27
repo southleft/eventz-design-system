@@ -1,16 +1,15 @@
 {
   "name": "doxyz-monorepo",
   "private": true,
-  "packageManager": "pnpm@9",
-  "workspaces": ["packages/*", "tools/*"],
+  "packageManager": "pnpm@9.12.3",
   "scripts": {
-    "build": "pnpm --filter doxyz build",
-    "build:tokens": "pnpm --filter doxyz build:tokens",
+    "build": "pnpm --filter @doxyz/ui build",
+    "build:tokens": "pnpm --filter @doxyz/ui build:tokens",
     "lint": "pnpm -r lint",
     "test": "pnpm -r test",
     "type-check": "pnpm -r type-check",
-    "sb": "pnpm --filter doxyz storybook",
-    "sb:build": "pnpm --filter doxyz build:storybook",
-    "pack:ui": "pnpm --filter doxyz pack --dry-run"
+    "sb": "pnpm --filter @doxyz/ui storybook",
+    "sb:build": "pnpm --filter @doxyz/ui build:storybook",
+    "pack:ui": "pnpm --filter @doxyz/ui exec npm pack --dry-run"
   }
 }
