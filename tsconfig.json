@@ -5,6 +5,8 @@
     { "path": "./packages/core/tsconfig.build.json" },
     { "path": "./packages/core/tsconfig.node.json" },
     { "path": "./packages/core/tsconfig.storybook.json" },
-    { "path": "./packages/core/tsconfig.vitest.json" }
+    { "path": "./packages/core/tsconfig.jest.json" },
+    { "path": "./packages/blueprints/tsconfig.json" },
+    { "path": "./packages/blueprints/tsconfig.jest.json" }
   ]
 }

@@ -1,0 +1,19 @@
+{
+  "name": "@doxyz/blueprints",
+  "version": "0.1.0",
+  "description": "Component contracts and style maps for MCP-based generation",
+  "private": true,
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "test": "jest --config jest.config.ts"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@types/jest": "^29.5.0",
+    "jest": "^29.6.0",
+    "ts-jest": "^29.1.0",
+    "typescript": "^5.3.0"
+  }
+}

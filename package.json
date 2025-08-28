@@ -11,5 +11,10 @@
     "sb": "pnpm --filter @doxyz/core storybook",
     "sb:build": "pnpm --filter @doxyz/core build:storybook",
     "pack:ui": "pnpm --filter @doxyz/core exec npm pack --dry-run"
+  },
+  "devDependencies": {
+    "@types/jest": "^30.0.0",
+    "jest": "^30.1.1",
+    "ts-jest": "^29.4.1"
   }
 }
