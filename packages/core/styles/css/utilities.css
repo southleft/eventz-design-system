@@ -1,3 +1,5 @@
+@import './tokens.css';
+
 @layer utilities {
   .dialog-bg {
     background-color: var(--dialog-background);

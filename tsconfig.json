@@ -1,9 +1,10 @@
 {
   "files": [],
   "references": [
-    { "path": "./tsconfig.app.json" },
-    { "path": "./tsconfig.node.json" },
-    { "path": "./tsconfig.jest.json" },
-    { "path": "./tsconfig.storybook.json" }
+    { "path": "./packages/core/tsconfig.app.json" },
+    { "path": "./packages/core/tsconfig.build.json" },
+    { "path": "./packages/core/tsconfig.node.json" },
+    { "path": "./packages/core/tsconfig.storybook.json" },
+    { "path": "./packages/core/tsconfig.vitest.json" }
   ]
 }
