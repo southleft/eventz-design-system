@@ -1,5 +1,5 @@
 {
-  "name": "@doxyz/ui",
+  "name": "@doxyz/core",
   "version": "0.1.0",
   "private": false,
   "type": "module",
@@ -25,7 +25,7 @@
     "react-dom": ">=18"
   },
   "scripts": {
-    "build": "pnpm run build:tokens && pnpm run build:css && vite build",
+    "build": "vite build && pnpm run build:tokens && pnpm run build:css",
     "build:tokens": "node scripts/build-tokens.js",
     "build:css": "pnpm exec tailwindcss -i ./styles/css/utilities.css -o ./dist/styles.css --minify",
     "storybook": "pnpm run build:tokens && pnpm run build:css && storybook dev -p 6006",

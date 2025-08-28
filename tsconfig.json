@@ -1,10 +1,10 @@
 {
   "files": [],
   "references": [
-    { "path": "./packages/ui/tsconfig.app.json" },
-    { "path": "./packages/ui/tsconfig.build.json" },
-    { "path": "./packages/ui/tsconfig.node.json" },
-    { "path": "./packages/ui/tsconfig.storybook.json" },
-    { "path": "./packages/ui/tsconfig.vitest.json" }
+    { "path": "./packages/core/tsconfig.app.json" },
+    { "path": "./packages/core/tsconfig.build.json" },
+    { "path": "./packages/core/tsconfig.node.json" },
+    { "path": "./packages/core/tsconfig.storybook.json" },
+    { "path": "./packages/core/tsconfig.vitest.json" }
   ]
 }

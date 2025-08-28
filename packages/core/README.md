@@ -7,11 +7,11 @@ Reusable UI primitives and components for DoXYZ projects, built with [React](htt
 ## Installation
 
 ```bash
-npm install @doxyz/ui
+npm install @doxyz/core
 # or
-yarn add @doxyz/ui
+yarn add @doxyz/core
 # or
-pnpm add @doxyz/ui
+pnpm add @doxyz/core
 ```
 
 ---
@@ -35,8 +35,8 @@ In a Next.js App Router project:
 ```tsx
 "use client";
 
-import { Button } from '@doxyz/ui';
-import '@doxyz/ui/styles.css'; // if you are using the provided CSS
+import { Button } from '@doxyz/core';
+import '@doxyz/core/styles.css'; // if you are using the provided CSS
 ```
 
 Components are ESM-only and tree-shakeable. Import just what you need.
@@ -52,7 +52,7 @@ Components are ESM-only and tree-shakeable. Import just what you need.
   ```js
   // next.config.mjs
   export default {
-    transpilePackages: ['@doxyz/ui']
+    transpilePackages: ['@doxyz/core']
   };
   ```
   Most projects won’t need this if targeting Node 20 + modern Next.js.

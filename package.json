@@ -3,13 +3,13 @@
   "private": true,
   "packageManager": "pnpm@9.12.3",
   "scripts": {
-    "build": "pnpm --filter @doxyz/ui build",
-    "build:tokens": "pnpm --filter @doxyz/ui build:tokens",
+    "build": "pnpm --filter @doxyz/core build",
+    "build:tokens": "pnpm --filter @doxyz/core build:tokens",
     "lint": "pnpm -r lint",
     "test": "pnpm -r test",
     "type-check": "pnpm -r type-check",
-    "sb": "pnpm --filter @doxyz/ui storybook",
-    "sb:build": "pnpm --filter @doxyz/ui build:storybook",
-    "pack:ui": "pnpm --filter @doxyz/ui exec npm pack --dry-run"
+    "sb": "pnpm --filter @doxyz/core storybook",
+    "sb:build": "pnpm --filter @doxyz/core build:storybook",
+    "pack:ui": "pnpm --filter @doxyz/core exec npm pack --dry-run"
   }
 }
