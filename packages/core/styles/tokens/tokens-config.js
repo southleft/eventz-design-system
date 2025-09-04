@@ -1,6 +1,6 @@
 /** @type {import('style-dictionary').Config} */
 const config = {
-  source: ['styles/tokens/**/*.json'],
+  source: ['styles/tokens/**/*.json'], // Core design tokens (theme-agnostic)
   platforms: {
     css: {
       transformGroup: 'css',
@@ -8,7 +8,15 @@ const config = {
       files: [
         {
           destination: 'tokens.css',
-          format: 'css/variables'
+          format: 'css/variables',
+          filter: token => !token.attributes?.theme,
+          selector: ':root'
+        },
+        {
+          destination: 'light.css',
+          format: 'css/variables-with-selector',
+          filter: token => token.attributes?.theme === 'light',
+          selector: '[data-theme="light"]'
         }
       ]
     }
