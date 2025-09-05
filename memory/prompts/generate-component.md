@@ -41,13 +41,19 @@ Generate all of the following files inside `{{destination}}`:
    - For icons or slots, use placeholders (e.g. emoji, inline SVG)
 
 ## Rules
-1. Use relative imports (`../Button`) for other internal components
-2. Use `clsx()` or `cx()` to combine class names from the styleMap
-3. Use only the props and slots defined in the contract—do not invent additional props
-4. If the contract defines a `layout` field, follow it exactly
-5. If the component accepts a Radix `asChild` prop, support it using `Slot` from `@radix-ui/react-slot`
-6. Follow existing project patterns for typing, file layout, and naming
-7. Do not emit unused imports or unused props
+* Treat the contract and styleMap as the single source of truth. Do not invent props, slots, or classes.
+* Props, slots, layout, and Radix base must be taken directly from the contract.
+* Classes and variants must be taken directly from the styleMap.
+* Do not add props, slots, or classes that are not defined in these sources.
+* Use Radix primitive only if `base` is specified by the contract.
+* Honor `layout` (including child container and slot order) exactly.
+* Apply Tailwind classes from the styleMap using clsx/cx.
+* Use only the props and slots defined in the contract—do not invent additional props.
+* If the contract defines a `layout` field, follow it exactly.
+* If the component accepts a Radix `asChild` prop, support it using `Slot` from `@radix-ui/react-slot`.
+* Follow existing project patterns for typing, file layout, and naming.
+* Do not emit unused imports or unused props.
+
 
 ## Source of Truth
 - Props, slots, layout, and Radix base must be taken directly from the contract.
