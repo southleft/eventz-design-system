@@ -1,0 +1,42 @@
+/* 1) Load your token variables first */
+@import './tokens.css';
+@import './light.css';
+
+/* 2) Tailwind v4 core layers */
+@import 'tailwindcss/preflight';
+
+/* 3) (Optional) Plugins, loaded in CSS with v4 */
+@plugin 'tailwindcss-radix';
+
+/* 4) Theme tokens -> Tailwind class names (v4 uses @theme) */
+/*    Define only what you need for Badge now; expand later as desired. */
+@theme {
+  /* Colors: map Tailwind color tokens to your CSS vars */
+  --color-brand-50: var(--color-brand-50);
+  --color-brand-100: var(--color-brand-100);
+  --color-brand-200: var(--color-brand-200);
+  --color-brand-300: var(--color-brand-300);
+  --color-brand-400: var(--color-brand-400);
+  --color-brand-500: var(--color-brand-500); /* <-- used by bg-brand-500 */
+  --color-brand-600: var(--color-brand-600);
+  --color-brand-700: var(--color-brand-700);
+  --color-brand-800: var(--color-brand-800);
+  --color-brand-900: var(--color-brand-900);
+  --color-brand-950: var(--color-brand-950);
+
+  /* Typography: give Tailwind a named size for text-label-sm */
+  --text-label-sm: var(--font-size-12);
+  --leading-label-sm: var(--line-height-16);
+}
+
+/* 5) Tailwind utilities */
+@import 'tailwindcss/utilities';
+
+/* 6) Your custom utilities (lives in the utilities layer) */
+@layer utilities {
+  /* Bind the named size + leading into a single utility */
+  .text-label-sm {
+    font-size: var(--text-label-sm);
+    line-height: var(--leading-label-sm);
+  }
+}
