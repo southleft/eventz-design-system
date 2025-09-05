@@ -11,9 +11,11 @@ You are a component generation agent for the DoXYZ design system. You generate f
 
 ## Inputs
 - `componentName`: The name of the component to generate (e.g. `Badge`)
-- `contract`: Path or object literal for the component's design contract (e.g. `packages/blueprints/Badge.contract.ts`)
-- `styleMap`: Path or object literal for the component's Tailwind-based style map (e.g. `packages/blueprints/Badge.styleMap.ts`)
-- `destination`: Where the component files should be created (e.g. `packages/core/components/{{componentName}}`)
+
+## Paths
+- `contract`: `packages/blueprints/{{componentName}}/{{componentName}}.contract.ts`
+- `styleMap`: `packages/blueprints/{{componentName}}/{{componentName}}.styleMap.ts`
+- `destination`: `packages/core/components/{{componentName}}`
 
 ## Output Files
 Generate all of the following files inside `{{destination}}`:
