@@ -1,42 +1,61 @@
-/* 1) Load your token variables first */
 @import './tokens.css';
 @import './light.css';
 
-/* 2) Tailwind v4 core layers */
 @import 'tailwindcss/preflight';
 
-/* 3) (Optional) Plugins, loaded in CSS with v4 */
 @plugin 'tailwindcss-radix';
 
-/* 4) Theme tokens -> Tailwind class names (v4 uses @theme) */
-/*    Define only what you need for Badge now; expand later as desired. */
 @theme {
   /* Colors: map Tailwind color tokens to your CSS vars */
-  --color-brand-50: var(--color-brand-50);
-  --color-brand-100: var(--color-brand-100);
-  --color-brand-200: var(--color-brand-200);
-  --color-brand-300: var(--color-brand-300);
-  --color-brand-400: var(--color-brand-400);
-  --color-brand-500: var(--color-brand-500); /* <-- used by bg-brand-500 */
-  --color-brand-600: var(--color-brand-600);
-  --color-brand-700: var(--color-brand-700);
-  --color-brand-800: var(--color-brand-800);
-  --color-brand-900: var(--color-brand-900);
-  --color-brand-950: var(--color-brand-950);
+  --color-brand-50: var(--dt-color-brand-50);
+  --color-brand-100: var(--dt-color-brand-100);
+  --color-brand-200: var(--dt-color-brand-200);
+  --color-brand-300: var(--dt-color-brand-300);
+  --color-brand-400: var(--dt-color-brand-400);
+  --color-brand-500: var(--dt-color-brand-500);
+  --color-brand-600: var(--dt-color-brand-600);
+  --color-brand-700: var(--dt-color-brand-700);
+  --color-brand-800: var(--dt-color-brand-800);
+  --color-brand-900: var(--dt-color-brand-900);
+  --color-brand-950: var(--dt-color-brand-950);
 
-  /* Typography: give Tailwind a named size for text-label-sm */
-  --text-label-sm: var(--font-size-12);
-  --leading-label-sm: var(--line-height-16);
+  --radius-none: var(--dt-border-radius-0);
+  --radius-xs: var(--dt-border-radius-2);
+  --radius-sm: var(--dt-border-radius-4);
+  --radius-md: var(--dt-border-radius-6);
+  --radius-lg: var(--dt-border-radius-8);
+  --radius-xl: var(--dt-border-radius-12);
+  --radius-2xl: var(--dt-border-radius-16);
+  --radius-3xl: var(--dt-border-radius-24);
+
+  /* Spacing scale (→ enables gap-*, px-*, py-*, m-*, etc.) */
+  --spacing-0: 0px;
+  --spacing-0_5: calc(var(--dt-spacing-0-5) * 1px);
+  --spacing-1: calc(var(--dt-spacing-1) * 1px);
+  --spacing-1_5: calc(var(--dt-spacing-1-5) * 1px);
+  --spacing-2: calc(var(--dt-spacing-2) * 1px);
+  --spacing-2_5: calc(var(--dt-spacing-2-5) * 1px);
+  --spacing-3: calc(var(--dt-spacing-3) * 1px);
+  --spacing-3_5: calc(var(--dt-spacing-3-5) * 1px);
+  --spacing-4: calc(var(--dt-spacing-4) * 1px);
 }
 
-/* 5) Tailwind utilities */
 @import 'tailwindcss/utilities';
 
-/* 6) Your custom utilities (lives in the utilities layer) */
 @layer utilities {
-  /* Bind the named size + leading into a single utility */
-  .text-label-sm {
-    font-size: var(--text-label-sm);
-    line-height: var(--leading-label-sm);
+  .bg-gradient-purple {
+    background-image: var(--dt-highlight-highlight-1);
+  }
+  .bg-gradient-blue {
+    background-image: var(--dt-highlight-highlight-3);
+  }
+  .bg-gradient-pink {
+    background-image: var(--dt-highlight-highlight-2);
+  }
+  .bg-gradient-orange {
+    background-image: var(--dt-highlight-highlight-4);
+  }
+  .text-case-uppercase {
+    text-transform: var(--dt-text-case-uppercase);
   }
 }
