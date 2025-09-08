@@ -45,6 +45,7 @@
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^4.1.0",
+    "@eslint/js": "^9.35.0",
     "@storybook/addon-a11y": "^9.1.1",
     "@storybook/addon-docs": "^9.1.1",
     "@storybook/react": "^9.1.4",
@@ -62,8 +63,14 @@
     "eslint": "^9.33.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-import": "^2.32.0",
+    "eslint-plugin-jest-dom": "^5.5.0",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-storybook": "^9.1.1",
+    "eslint-plugin-testing-library": "^7.6.8",
     "eslint-plugin-unused-imports": "^4.1.4",
+    "jest-environment-jsdom": "^29.7.0",
     "playwright": "^1.54.2",
     "prettier": "^3.6.2",
     "rimraf": "^6.0.0",
@@ -72,9 +79,9 @@
     "tailwindcss": "^4.1.11",
     "tailwindcss-radix": "^4.0.2",
     "typescript": "^5.9.2",
+    "typescript-eslint": "^8.43.0",
     "vite": "^5.4.0",
-    "vite-plugin-dts": "^3.9.1",
-    "jest-environment-jsdom": "^29.7.0"
+    "vite-plugin-dts": "^3.9.1"
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.2.3",
