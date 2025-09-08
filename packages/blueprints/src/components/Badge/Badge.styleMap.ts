@@ -1,14 +1,14 @@
 import { defineStyleMap } from '../../utilities';
 
 export const BadgeStyleMap = defineStyleMap({
-  base: 'inline-flex items-center rounded-full text-label-sm font-medium px-2.5 py-1',
+  base: 'inline-flex items-center rounded-sm px-1.5 py-0.5 text-caption-lg-allcaps-bold',
   variants: {
     variant: {
-      purple: 'bg-purple-500 text-white',
-      blue: 'bg-blue-500 text-white',
-      pink: 'bg-pink-500 text-white',
-      brand: 'bg-brand-500 text-white',
-      orange: 'bg-orange-500 text-white'
+      purple: 'bg-gradient-purple',
+      blue: 'bg-gradient-blue',
+      pink: 'bg-gradient-pink',
+      brand: 'bg-brand-500',
+      orange: 'bg-gradient-orange'
     }
   }
 });
