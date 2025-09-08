@@ -1,5 +1,13 @@
 # 🧾 PR Protocol for Agents
 
+<!-- @agents:paths:start -->
+### 📍 Canonical paths
+- Components root: `packages/core/src/components/<ComponentName>/`
+- Contract: `packages/blueprints/src/components/<ComponentName>/<ComponentName>.contract.ts`
+- styleMap: `packages/blueprints/src/components/<ComponentName>/<ComponentName>.styleMap.ts`
+> Source: AGENTS/META.yml (version: 1)
+<!-- @agents:paths:end -->
+
 This document defines how AI agents and humans should open, label, and review pull requests in this repo. It complements:
 	•	🔍 AGENTS/CODE_REVIEW.md
 	•	🏗️ AGENTS/GENERATION.md

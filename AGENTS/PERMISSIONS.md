@@ -1,5 +1,13 @@
 # 🔐 Agent Permissions & Guardrails
 
+<!-- @agents:paths:start -->
+### 📍 Canonical paths
+- Components root: `packages/core/src/components/<ComponentName>/`
+- Contract: `packages/blueprints/src/components/<ComponentName>/<ComponentName>.contract.ts`
+- styleMap: `packages/blueprints/src/components/<ComponentName>/<ComponentName>.styleMap.ts`
+> Source: AGENTS/META.yml (version: 1)
+<!-- @agents:paths:end -->
+
 This document defines **what AI agents are allowed to do** when contributing to this repo.
 It replaces the old restriction that banned direct IDE/MCP edits. Agents may now write to the repo **with guardrails**.
 

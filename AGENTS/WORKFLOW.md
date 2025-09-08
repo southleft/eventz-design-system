@@ -1,5 +1,13 @@
 # 🔄 Workflow Guidelines for Agents
 
+<!-- @agents:paths:start -->
+### 📍 Canonical paths
+- Components root: `packages/core/src/components/<ComponentName>/`
+- Contract: `packages/blueprints/src/components/<ComponentName>/<ComponentName>.contract.ts`
+- styleMap: `packages/blueprints/src/components/<ComponentName>/<ComponentName>.styleMap.ts`
+> Source: AGENTS/META.yml (version: 1)
+<!-- @agents:paths:end -->
+
 This document defines repo-wide working rules for AI agents and contributors.
 It complements task-specific documents like `AGENTS/CODE_REVIEW.md`, `AGENTS/GENERATION.md`, and `AGENTS/PR_PROTOCOL.md`.
 
