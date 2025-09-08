@@ -1,4 +1,4 @@
-🧾 PR Protocol for Agents
+# 🧾 PR Protocol for Agents
 
 This document defines how AI agents and humans should open, label, and review pull requests in this repo. It complements:
 	•	🔍 AGENTS/CODE_REVIEW.md
@@ -6,7 +6,7 @@ This document defines how AI agents and humans should open, label, and review pu
 	•	🔐 AGENTS/PERMISSIONS.md
 	•	🧩 AGENTS/STACK.md
 
-🏷️ PR Title Rule
+## 🏷️ PR Title Rule
 
 Prefix all agent-originated PR titles with 🤖.
 Examples:
@@ -15,7 +15,7 @@ Examples:
 
 This helps humans scan PR lists quickly.
 
-📝 Required PR Body Checklist
+## 📝 Required PR Body Checklist
 
 Copy/paste this block into the PR description:
 
@@ -26,15 +26,15 @@ Copy/paste this block into the PR description:
 - [ ] No unrelated changes in this PR
 - [ ] Labels applied: `needs-human-review`
 
-Labels
+### 🏷️ Labels
 	•	needs-human-review — required for all agent PRs
 	•	Optional: agent, a11y, contracts, stylemap, docs
 
-👥 Assignment & Merge
+## 👥 Assignment & Merge
 	•	Assign to a relevant human maintainer (if known).
 	•	Do not auto-merge. Human approval is required.
 
-🔎 Scope & Content Expectations
+## 🔎 Scope & Content Expectations
 	•	Component PRs must include:
 	•	/<ComponentName>.tsx
 	•	/<ComponentName>.stories.tsx
@@ -42,40 +42,40 @@ Labels
 	•	Files belong at: /packages/core/src/components/<ComponentName>/
 	•	No edits to blueprints unless explicitly requested.
 
-✅ Acceptance Criteria for Approval
+## ✅ Acceptance Criteria for Approval
 	•	Contract conformance: props, slots/layout, events
 	•	Style map conformance: variants, compound variants, exact classes
 	•	Radix usage correct; asChild when declared
 	•	Stories cover public props/variants; tests cover render/slots/variant/a11y minima
 	•	CI green (lint, tests, build, pack). Reviewers do not run toolchains locally.
 
-💬 Review Comment Templates
+## 💬 Review Comment Templates
 
-Contract mismatch
+### 🔗 Contract mismatch
 
 The prop set in the component differs from the contract: <propName>. Align with /packages/blueprints/<ComponentName>.contract.ts and update tests/stories accordingly.
 
-StyleMap drift
+### 🎨 StyleMap drift
 
 Variant <variantName> classes do not match the styleMap. Expected: <expectedClasses>. Found: <actualClasses>. Sync to /packages/blueprints/<ComponentName>.styleMap.ts.
 
-Radix base missing
+### ⚙️ Radix base missing
 
 Contract declares base: '<Primitive>', but the component doesn’t wrap that Radix primitive. Refactor and support asChild if specified.
 
-A11y: decorative icon
+### ♿ A11y: decorative icon
 
 Icon appears decorative; set aria-hidden="true" and ensure a text label is present.
 
-Story coverage
+### 📚 Story coverage
 
 Not all styleMap variants appear in stories. Please add: <missingVariants>.
 
-Test coverage
+### 🧪 Test coverage
 
 Add assertions for variant class switching and/or slot presence using Testing Library queries.
 
-🍒 Commit Style
+## 🍒 Commit Style
 
 Use Conventional Commits where possible (e.g., feat(ui-badge): add icon+label slot, fix(ui-badge): align variant class names).
 
