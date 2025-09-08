@@ -1,16 +1,30 @@
 {
   "compilerOptions": {
     "composite": true,
+    "noEmit": true,
+
+    // Keep ESM + modern resolution consistent with the repo
     "module": "esnext",
     "moduleResolution": "bundler",
+
     "jsx": "react-jsx",
-    "types": ["jest", "@testing-library/jest-dom"],
+    "types": ["jest", "node"],
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
     },
-    "noEmit": true,
     "tsBuildInfoFile": "node_modules/.cache/tsbuildinfo.jest"
   },
-  "include": ["src/**/*", "test.ts"]
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "src/**/*.test.ts",
+    "src/**/*.test.tsx",
+    "src/**/*.spec.ts",
+    "src/**/*.spec.tsx",
+    "src/__tests__/**/*",
+    "jest.setup.ts",
+    "jest.setup.tsx"
+  ],
+  "exclude": ["dist", "build", "node_modules"]
 }
