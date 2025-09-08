@@ -16,8 +16,10 @@ export default [
       'build/**',
       'coverage/**',
       'node_modules/**',
+      '.storybook/**',
       'scripts/**',
       'styles/tokens/**',
+      'test.ts',
       'eslint.config.js',
       // (optional, extra safety)
       '**/*.config.*',
