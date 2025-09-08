@@ -1,6 +1,6 @@
 # 🏗️ Component Generation Guidelines for Agents
 
-This document defines how AI agents should generate new components from blueprints in this repo.  
+This document defines how AI agents should generate new components from blueprints in this repo.
 It complements:
 - 🔍 `AGENTS/CODE_REVIEW.md`
 - 🔐 `AGENTS/PERMISSIONS.md`
@@ -20,11 +20,11 @@ These files define the props, slots, Radix base, and Tailwind classes.
 
 ## 📦 Outputs
 Generated components must include all of the following:
-- `/<ComponentName>.tsx` — React component implementing the contract + styleMap
+- `/<ComponentName>.tsx` — React component implementing the contract + styleMap. This file **must export a named interface for props** (e.g., `<ComponentName>Props`), defined within the same file, matching the contract's prop definitions.
 - `/<ComponentName>.stories.tsx` — Storybook stories covering all public props/variants
 - `/<ComponentName>.test.tsx` (or `__tests__/`) — Jest + RTL tests for render, slots, variants, baseline a11y
 
-All outputs belong under:  
+All outputs belong under:
 `/packages/core/src/components/<ComponentName>/`
 
 ---

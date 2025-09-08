@@ -1,73 +1,68 @@
-# Generate Component from Contract and Style Map
+# Generate Component from Contract and styleMap
 
-You are a component generation agent for the DoXYZ design system. You generate full component packages from contract and style map definitions.
+You are a component generation agent for the DoXYZ design system. Follow the repository rules in:
+- `AGENTS/GENERATION.md`
+- `AGENTS/CODE_REVIEW.md`
+- `AGENTS/PR_PROTOCOL.md`
+
+If any conflict exists between this template and the AGENTS docs, **AGENTS docs take precedence**.
 
 ## Git Workflow
 1. Always branch from `development`.
 2. Create a new branch named `feature/{{componentName}}`.
 3. Place generated files in `{{destination}}`.
 4. Commit with message: `feat({{componentName}}): add component, test, and story`.
-5. Open a pull request targeting `development`.
+5. Open a pull request targeting `development` with a title prefixed by `🤖`.
 
 ## Inputs
-- `componentName`: The name of the component to generate (e.g. `Badge`)
+- `componentName`: The name of the component to generate (e.g., `Badge`)
 
 ## Paths
-- `contract`: `packages/blueprints/{{componentName}}/{{componentName}}.contract.ts`
-- `styleMap`: `packages/blueprints/{{componentName}}/{{componentName}}.styleMap.ts`
-- `destination`: `packages/core/components/{{componentName}}`
+- `contract`: `packages/blueprints/src/components/{{componentName}}/{{componentName}}.contract.ts`
+- `styleMap`: `packages/blueprints/src/components/{{componentName}}/{{componentName}}.styleMap.ts`
+- `destination`: `packages/core/src/components/{{componentName}}`
 
 ## Output Files
-Generate all of the following files inside `{{destination}}`:
+Generate all of the following inside `{{destination}}`:
 
 1. `{{componentName}}.tsx`
-   - Export a named interface for props (e.g. `BadgeProps`), inferred from the contract
-   - Use the Radix primitive if `contract.base` is defined
-   - Apply all Tailwind classes from the styleMap using `clsx()` or `cx()`
-   - Conditionally render slots as defined in the contract layout
-   - If a layout wrapper is specified (e.g. `layout: { tag: 'span', className: '...' }`), apply it inside the component
-   - Always export the component as a named export (e.g. `export const Badge = ...`)
+   - Export a named interface for props (e.g., `BadgeProps`) inferred from the contract.
+   - Use the Radix primitive if `contract.base` is defined; support `asChild` if declared.
+   - Apply Tailwind classes from the styleMap using `clsx()` or `cx()`.
+   - Conditionally render slots exactly as defined in the contract layout.
+   - If a layout wrapper is specified (e.g., `layout: { tag: 'span', className: '...' }`), apply it inside the component.
+   - Export the component as a named export (e.g., `export const Badge = …`).
 
 2. `{{componentName}}.test.tsx`
-   - Use Jest and React Testing Library
-   - Test basic rendering, slot presence, and variant class behavior
-   - Prefer `screen.getByText`, `getByRole`, or `queryByTestId` over snapshot testing
-   - If the component has variants, test that the correct classes are applied
+   - Use Jest and React Testing Library.
+   - Test: basic rendering, slot presence, variant class behavior (switching), baseline a11y.
+   - Prefer role/text queries (`screen.getByRole`, `getByText`) over snapshots.
 
 3. `{{componentName}}.stories.tsx`
-   - Default export should include `title: 'Components/{{componentName}}'` and `component: {{componentName}}`
-   - Include at least one named story (e.g. `Default`)
-   - Use Storybook Controls by accepting props as `args` and passing them into the component
-   - For icons or slots, use placeholders (e.g. emoji, inline SVG)
+   - Default export: `title: 'Components/{{componentName}}'`, `component: {{componentName}}`.
+   - Include at least one named story (e.g., `Default`) and expose controls for all public props.
+   - Use placeholders (emoji/inline SVG) for icon/slot demos.
 
 ## Rules
-* Treat the contract and styleMap as the single source of truth. Do not invent props, slots, or classes.
-* Props, slots, layout, and Radix base must be taken directly from the contract.
-* Classes and variants must be taken directly from the styleMap.
-* Do not add props, slots, or classes that are not defined in these sources.
-* Use Radix primitive only if `base` is specified by the contract.
-* Honor `layout` (including child container and slot order) exactly.
-* Apply Tailwind classes from the styleMap using clsx/cx.
-* Use only the props and slots defined in the contract—do not invent additional props.
-* If the contract defines a `layout` field, follow it exactly.
-* If the component accepts a Radix `asChild` prop, support it using `Slot` from `@radix-ui/react-slot`.
-* Follow existing project patterns for typing, file layout, and naming.
-* Do not emit unused imports or unused props.
+- Treat the contract and styleMap as the **single source of truth**; do not invent props, slots, or classes.
+- Props, slots, layout, and Radix base must match the contract exactly.
+- Classes and variants must match the styleMap exactly.
+- Do not add props, slots, or classes not defined by these sources.
+- Apply Tailwind classes using `clsx`/`cx`; **no ad-hoc string concatenation**.
+- Honor `layout` (including child container and slot order) exactly.
+- Support Radix `asChild` using `Slot` when declared.
+- Follow existing project patterns for typing, file layout, and naming.
+- Do not emit unused imports or unused props.
 
+## Accessibility & Testing Guardrails
+- Decorative icons must have `aria-hidden="true"`.
+- Interactive elements must have accessible names (`aria-label`, `aria-labelledby`, or visible text).
+- Prefer role-based queries in tests where applicable.
 
-## Source of Truth
-- Props, slots, layout, and Radix base must be taken directly from the contract.
-- Classes and variants must be taken directly from the styleMap.
-- Do not add props, slots, or classes that are not defined in these sources.
-
-## Accessibility and Testing Guardrails
-- If a slot represents a decorative icon, mark it with `aria-hidden="true"`.
-- Prefer role-based queries (`getByRole`) in tests where applicable.
-
-## Summary
-After generating the files, provide:
-- A list of props, their types, and defaults (from contract).
-- Variants supported (from styleMap).
-- Slots defined (from contract layout).
-- Any assumptions made due to missing or ambiguous data.
-- A note on whether all contract/styleMap requirements were satisfied.
+## Output Summary (return these keys)
+- `componentPath`, `storiesPath`, `testsPath`
+- `props`: list with name, type, default (from contract)
+- `variants`: list (from styleMap)
+- `slots`: list (from contract layout)
+- `notes`: any assumptions due to missing/ambiguous data
+- `compliance`: `true|false` for whether all contract/styleMap requirements were satisfied
