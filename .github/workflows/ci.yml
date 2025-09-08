@@ -16,6 +16,7 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm -w lint
       - run: pnpm -w type-check
+      - run: pnpm agents:verify
       - run: pnpm -w test
       - run: pnpm --filter @doxyz/core build
       - run: pnpm --filter @doxyz/core exec npm pack --dry-run
