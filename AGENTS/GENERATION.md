@@ -18,11 +18,7 @@ It complements:
 ---
 
 ## 📂 Inputs
-Agents must use the following blueprint files as the source of truth:
-- **Contract**: `/packages/blueprints/src/components/<ComponentName>/<ComponentName>.contract.ts`
-- **styleMap**: `/packages/blueprints/src/components/<ComponentName>/<ComponentName>.styleMap.ts`
-
-These files define the props, slots, Radix base, and Tailwind classes.
+See **Canonical paths** above for contract and styleMap locations.
 
 ---
 

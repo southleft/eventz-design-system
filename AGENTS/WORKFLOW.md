@@ -31,12 +31,14 @@ It complements task-specific documents like `AGENTS/CODE_REVIEW.md`, `AGENTS/GEN
   - Example: `feat(ui-badge): add icon slot`
   - Example: `fix(core): align Button variant classes`
 - Keep commits small and focused.
+- Target branch for PRs is `development` (unless a maintainer specifies otherwise).
 
 ---
 
 ## 🧾 Pull Requests
 - PR titles for agent work must start with `🤖`.
 - PR bodies must include the checklist from `AGENTS/PR_PROTOCOL.md`.
+- Run `pnpm agents:sync` and `pnpm agents:verify` before requesting review.
 - Required labels:
   - `needs-human-review`
 - Optional labels:

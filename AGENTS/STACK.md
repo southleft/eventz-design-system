@@ -8,13 +8,13 @@
 > Source: AGENTS/META.yml (version: 1)
 <!-- @agents:paths:end -->
 
-A concise reference for agents about the technologies, conventions, and file locations in this repo.  
+A concise reference for agents about the technologies, conventions, and file locations in this repo.
 For procedures and policies, see: `AGENTS/CODE_REVIEW.md`, `AGENTS/GENERATION.md`, `AGENTS/PERMISSIONS.md`, `AGENTS/PR_PROTOCOL.md`, `AGENTS/WORKFLOW.md`.
 
 ---
 
 ## ⚙️ Toolchain
-- **Node:** 20.x • **pnpm:** 9.x • **TypeScript:** 5.x
+- **Node:** 20.x • **pnpm:** 9.x • **TypeScript:** 5.x • **Jest:** 29.x • **Storybook:** 8.x
 - **Monorepo:** Turborepo + pnpm workspaces
 - **ESM:** `module: esnext`, `moduleResolution: bundler`
 - **Paths:** `@/*` → `./src/*` (package-local)
@@ -22,11 +22,11 @@ For procedures and policies, see: `AGENTS/CODE_REVIEW.md`, `AGENTS/GENERATION.md
 ---
 
 ## 🧱 Repo Layout (high level)
-- **Core components:** `/packages/core/src/components/<ComponentName>/`
-- **Blueprints (sources of truth):**  
-  - Contract → `/packages/blueprints/src/components/<ComponentName>/<ComponentName>.contract.ts`  
-  - styleMap → `/packages/blueprints/src/components/<ComponentName>/<ComponentName>.styleMap.ts`
-- **Styles/tokens:** `/packages/core/styles/**` (maps from design tokens)
+- **Core components:** packages/core/src/components/<ComponentName>/
+- **Blueprints (sources of truth):**
+  - Contract → packages/blueprints/src/components/<ComponentName>/<ComponentName>.contract.ts
+  - styleMap → packages/blueprints/src/components/<ComponentName>/<ComponentName>.styleMap.ts
+- **Styles/tokens:** packages/core/styles/** (maps from design tokens)
 
 ---
 
@@ -39,7 +39,7 @@ For procedures and policies, see: `AGENTS/CODE_REVIEW.md`, `AGENTS/GENERATION.md
 ---
 
 ## 🧪 Testing & Stories
-- **Tests:** Jest + React Testing Library (RTL).  
+- **Tests:** Jest + React Testing Library (RTL).
   - Cover: render, slots, variant class switching, baseline a11y.
   - Prefer role/text queries over snapshots.
 - **Storybook:** Stories live alongside components; cover public props and all styleMap variants.
@@ -67,8 +67,8 @@ For procedures and policies, see: `AGENTS/CODE_REVIEW.md`, `AGENTS/GENERATION.md
 ---
 
 ## 📘 References
-- How to review: `AGENTS/CODE_REVIEW.md`  
-- How to generate: `AGENTS/GENERATION.md`  
-- Permissions & guardrails: `AGENTS/PERMISSIONS.md`  
-- PR rules: `AGENTS/PR_PROTOCOL.md`  
+- How to review: `AGENTS/CODE_REVIEW.md`
+- How to generate: `AGENTS/GENERATION.md`
+- Permissions & guardrails: `AGENTS/PERMISSIONS.md`
+- PR rules: `AGENTS/PR_PROTOCOL.md`
 - Workflow: `AGENTS/WORKFLOW.md`

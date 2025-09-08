@@ -13,8 +13,7 @@ It replaces the old restriction that banned direct IDE/MCP edits. Agents may now
 
 ---
 
-## 🟢 Allowed
-- ✅ **Allowed:** Agents may create new branches prefixed with `chore/*`, `feature/*`, `fix/*`, or `review/*`.
+- ✅ **Allowed:** Agents may create new branches using allowed prefixes (see Canonical paths above).
 - ✅ **Allowed:** Agents may edit files within changed packages only for mechanical fixes, such as lint/style corrections, type narrowings or import fixes, and test snapshot updates (but never test assertions).
 - ✅ **Allowed:** Agents may generate new components, stories, and tests according to the rules defined in `AGENTS/GENERATION.md`.
 - ✅ **Allowed:** Agents may attach `.patch` files to pull requests when proposing changes.
@@ -47,8 +46,8 @@ It replaces the old restriction that banned direct IDE/MCP edits. Agents may now
 
 ---
 
-## 📘 References
 - Review rules: `AGENTS/CODE_REVIEW.md`
 - Generation rules: `AGENTS/GENERATION.md`
 - PR rules: `AGENTS/PR_PROTOCOL.md`
 - Stack primer: `AGENTS/STACK.md`
+- Workflow: `AGENTS/WORKFLOW.md`

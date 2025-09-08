@@ -2,6 +2,14 @@
 
 This repository uses AI-assisted workflows to enhance development. Policies and guidelines for AI agents are organized across multiple documents within this folder.
 
+<!-- @agents:paths:start -->
+### 📍 Canonical paths
+- Components root: `packages/core/src/components/<ComponentName>/`
+- Contract: `packages/blueprints/src/components/<ComponentName>/<ComponentName>.contract.ts`
+- styleMap: `packages/blueprints/src/components/<ComponentName>/<ComponentName>.styleMap.ts`
+> Source: AGENTS/META.yml (version: 1)
+<!-- @agents:paths:end -->
+
 ---
 
 ## 📚 Agent Policy Documents

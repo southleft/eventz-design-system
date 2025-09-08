@@ -33,6 +33,7 @@ Copy/paste this block into the PR description:
 - [ ] Tests and stories present at baseline coverage
 - [ ] No unrelated changes in this PR
 - [ ] Labels applied: `needs-human-review`
+- [ ] Ran `pnpm agents:sync` and `pnpm agents:verify`
 
 ### 🏷️ Labels
 	•	needs-human-review — required for all agent PRs
@@ -47,12 +48,12 @@ Copy/paste this block into the PR description:
 	•	/<ComponentName>.tsx
 	•	/<ComponentName>.stories.tsx
 	•	/<ComponentName>.test.tsx (or __tests__/)
-	•	Files belong at: /packages/core/src/components/<ComponentName>/
+	•	Files belong at: packages/core/src/components/<ComponentName>/
 	•	No edits to blueprints unless explicitly requested.
 
 ## ✅ Acceptance Criteria for Approval
 	•	Contract conformance: props, slots/layout, events
-	•	Style map conformance: variants, compound variants, exact classes
+	•	styleMap conformance: variants, compound variants, exact classes
 	•	Radix usage correct; asChild when declared
 	•	Stories cover public props/variants; tests cover render/slots/variant/a11y minima
 	•	CI green (lint, tests, build, pack). Reviewers do not run toolchains locally.
@@ -61,19 +62,19 @@ Copy/paste this block into the PR description:
 
 ### 🔗 Contract mismatch
 
-The prop set in the component differs from the contract: <propName>. Align with /packages/blueprints/<ComponentName>.contract.ts and update tests/stories accordingly.
+The prop set in the component differs from the contract: `<propName>`. Align with `packages/blueprints/src/components/<ComponentName>/<ComponentName>.contract.ts` and update tests/stories accordingly.
 
-### 🎨 StyleMap drift
+### 🎨 styleMap drift
 
-Variant <variantName> classes do not match the styleMap. Expected: <expectedClasses>. Found: <actualClasses>. Sync to /packages/blueprints/<ComponentName>.styleMap.ts.
+Variant `<variantName>` classes do not match the styleMap. Expected: `<expectedClasses>`. Found: `<actualClasses>`. Sync to `packages/blueprints/src/components/<ComponentName>/<ComponentName>.styleMap.ts`.
 
 ### ⚙️ Radix base missing
 
-Contract declares base: '<Primitive>', but the component doesn’t wrap that Radix primitive. Refactor and support asChild if specified.
+Contract declares base: `<Primitive>`, but the component doesn’t wrap that Radix primitive. Refactor and support `asChild` if specified.
 
 ### ♿ A11y: decorative icon
 
-Icon appears decorative; set aria-hidden="true" and ensure a text label is present.
+Icon appears decorative; set `aria-hidden="true"` and ensure a text label is present.
 
 ### 📚 Story coverage
 
