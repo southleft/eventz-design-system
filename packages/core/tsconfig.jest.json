@@ -4,7 +4,7 @@
     "module": "esnext",
     "moduleResolution": "bundler",
     "jsx": "react-jsx",
-    "types": ["jest", "node"],
+    "types": ["jest", "@testing-library/jest-dom"],
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
@@ -12,11 +12,5 @@
     "noEmit": true,
     "tsBuildInfoFile": "node_modules/.cache/tsbuildinfo.jest"
   },
-  "include": [
-    "src/**/*.test.ts",
-    "src/**/*.test.tsx",
-    "src/**/*.spec.ts",
-    "src/**/*.spec.tsx",
-    "src/__tests__/**/*"
-  ]
+  "include": ["src/**/*", "test.ts"]
 }

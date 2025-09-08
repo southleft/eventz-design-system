@@ -4,6 +4,7 @@ const config = {
   platforms: {
     css: {
       transformGroup: 'css',
+      prefix: 'dt',
       buildPath: 'styles/css/',
       files: [
         {
