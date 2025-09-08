@@ -6,21 +6,18 @@ It replaces the old restriction that banned direct IDE/MCP edits. Agents may now
 ---
 
 ## 🟢 Allowed
-- - ✅ **Allowed:** Agents may create new branches prefixed with `chore/*`, `feature/*`, `fix/*`, or `review/*`.
-- Edit files within changed packages for **mechanical fixes**:
-  - Lint/style corrections
-  - Type narrowings / import fixes
-  - Test snapshot updates (never assertions)
-- Generate new components, stories, and tests as defined in `AGENTS/GENERATION.md`
-- Attach `.patch` files to PRs
-- Update review branches with small, mechanical changes
+- ✅ **Allowed:** Agents may create new branches prefixed with `chore/*`, `feature/*`, `fix/*`, or `review/*`.
+- ✅ **Allowed:** Agents may edit files within changed packages only for mechanical fixes, such as lint/style corrections, type narrowings or import fixes, and test snapshot updates (but never test assertions).
+- ✅ **Allowed:** Agents may generate new components, stories, and tests according to the rules defined in `AGENTS/GENERATION.md`.
+- ✅ **Allowed:** Agents may attach `.patch` files to pull requests when proposing changes.
+- ✅ **Allowed:** Agents may update review branches with small, mechanical changes that do not alter semantics or architecture.
 
 ---
 
 ## 🛡️ Protected
-- ❌ No direct commits to `main` or release branches
-- ❌ No architectural or public API changes without human approval + changeset
-- ❌ No secret management, infra edits, or CI pipeline rewrites
+- ❌ **Protected:** Agents must never commit directly to `main` or release branches.
+- ❌ **Protected:** Agents must not make architectural or public API changes without explicit human approval and a changeset.
+- ❌ **Protected:** Agents must not edit secrets, infrastructure files, or CI pipeline configurations.
 
 ---
 
