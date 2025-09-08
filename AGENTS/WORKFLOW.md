@@ -1,11 +1,11 @@
 # 🔄 Workflow Guidelines for Agents
 
-This document defines repo-wide working rules for AI agents and contributors.  
+This document defines repo-wide working rules for AI agents and contributors.
 It complements task-specific documents like `AGENTS/CODE_REVIEW.md`, `AGENTS/GENERATION.md`, and `AGENTS/PR_PROTOCOL.md`.
 
 ---
 
-## �� Branching
+## 🌱 Branching
 - Always branch from `development`.
 - Allowed branch prefixes:
   - `feature/*` — new components or features
@@ -18,6 +18,7 @@ It complements task-specific documents like `AGENTS/CODE_REVIEW.md`, `AGENTS/GEN
 
 ## 🍒 Commits
 - Use **Conventional Commits** style.
+- Write commit messages in present tense (e.g., "add icon slot" not "added icon slot").
 - Scope commits by package or component when relevant:
   - Example: `feat(ui-badge): add icon slot`
   - Example: `fix(core): align Button variant classes`
@@ -46,7 +47,7 @@ It complements task-specific documents like `AGENTS/CODE_REVIEW.md`, `AGENTS/GEN
 ## 📦 Versioning
 - Public API or contract changes require:
   - Human approval
-  - A changeset entry or version bump (as defined in release process)
+  - A changeset entry or version bump (as defined in the repo’s release process)
 
 ---
 
