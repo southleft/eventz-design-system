@@ -1,5 +1,4 @@
 // packages/blueprints/jest.config.ts
-
 import type { Config } from 'jest';
 
 const config: Config = {
@@ -7,13 +6,17 @@ const config: Config = {
   testEnvironment: 'node',
   roots: ['<rootDir>/src'],
   testMatch: ['**/__tests__/**/*.[jt]s?(x)', '**/?(*.)+(spec|test).[jt]s?(x)'],
-  moduleNameMapper: {
-    '^@/(.*)$': '<rootDir>/src/$1'
+
+  // Modern ts-jest config (replaces deprecated `globals['ts-jest']`)
+  transform: {
+    '^.+\\.(ts|tsx)$': ['ts-jest', { tsconfig: './tsconfig.jest.json', useESM: true }]
   },
-  globals: {
-    'ts-jest': {
-      tsconfig: './tsconfig.jest.json'
-    }
+  extensionsToTreatAsEsm: ['.ts', '.tsx'],
+
+  // Keep your alias AND handle TS/ESM relative imports that might include `.js`
+  moduleNameMapper: {
+    '^@/(.*)$': '<rootDir>/src/$1',
+    '^(\\.{1,2}/.*)\\.js$': '$1'
   }
 };
 
