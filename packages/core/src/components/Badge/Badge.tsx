@@ -31,7 +31,7 @@ export const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
             // root box
             'inline-flex items-center rounded-sm px-1.5 py-0.5',
             // typography — replace text-label-sm if you don't have it
-            'text-case-uppercase',
+            'text-caption-lg-allcaps-bold',
             // variant
             variantClasses[variant],
             className

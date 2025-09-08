@@ -3,6 +3,20 @@
 
 @import 'tailwindcss/preflight';
 
+:root {
+  /* your tokens already expose this */
+  font-size: var(--dt-base-font, 16px);
+}
+
+@layer base {
+  html {
+    font-size: var(--dt-base-font, 16px);
+  }
+  body {
+    font-family: var(--dt-font-family-primary, sans-serif);
+  }
+}
+
 @plugin 'tailwindcss-radix';
 
 @theme {
@@ -55,7 +69,12 @@
   .bg-gradient-orange {
     background-image: var(--dt-highlight-highlight-4);
   }
-  .text-case-uppercase {
+  .text-caption-lg-allcaps-bold {
+    /* maps "Bold 12/18 sans-serif" sensibly */
+    font-weight: 700; /* "Bold" */
+    font-size: calc(var(--dt-font-size-12) * 1px);
+    line-height: calc(var(--dt-line-height-18) * 1px);
+    font-family: var(--dt-font-family-primary, sans-serif);
     text-transform: var(--dt-text-case-uppercase);
   }
 }
