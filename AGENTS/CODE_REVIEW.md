@@ -1,7 +1,7 @@
 # 🔍 Code Review Guidelines for Agents
 
-This document defines how AI agents should conduct code reviews in this repo.  
-The goal is to ensure generated or edited code strictly conforms to contracts, style maps, accessibility rules, and project conventions.
+This document defines how AI agents should conduct code reviews in this repo.
+The goal is to ensure generated or edited code strictly conforms to contracts, styleMaps, accessibility rules, and project conventions.
 
 ---
 
@@ -20,8 +20,8 @@ Agents must:
 
 ## 📂 Where to Look
 - Files changed in the PR (diff view only)
-- Contract file: `/packages/blueprints/<ComponentName>.contract.ts`
-- Style map file: `/packages/blueprints/<ComponentName>.styleMap.ts`
+- Contract file: `/packages/blueprints/src/components/<ComponentName>/<ComponentName>.contract.ts`
+- StyleMap file: `/packages/blueprints/src/components/<ComponentName>/<ComponentName>.styleMap.ts`
 - Generated outputs: `/packages/core/src/components/<ComponentName>/`
 - Styles entry: `/packages/core/styles/css/index.css` if referenced
 
@@ -39,11 +39,12 @@ Agents must:
 4. **Verify styleMap conformance**:
    - Variants and compound variants: classes exactly match
    - No unused/undefined classes introduced
-   - Uses `clsx`/`cx`, no ad-hoc string concatenation
+   - Class composition must use clsx or cx; agents must not concatenate strings ad-hoc
 5. **Accessibility checks**:
    - Decorative icons set `aria-hidden="true"`
    - Labels/slots semantically intact
    - No color-only state communication
+   - Interactive elements must have accessible names (e.g., via aria-label, aria-labelledby, or visible text)
 6. **Storybook**:
    - Default export has `title: 'Components/<ComponentName>'`
    - Stories use controls for public props
@@ -62,10 +63,10 @@ Agents must:
 ## 💬 Comment Templates
 
 ### 🔗 Contract mismatch
-> The prop `<propName>` in the component does not match the contract. Please align with `/packages/blueprints/<ComponentName>.contract.ts`.
+> The prop `<propName>` in the component does not match the contract. Please align with `/packages/blueprints/src/components/<ComponentName>/<ComponentName>.contract.ts`.
 
 ### 🎨 StyleMap drift
-> Variant `<variantName>` classes differ from styleMap. Expected: `<expected>`, found: `<actual>`. Update to match `/packages/blueprints/<ComponentName>.styleMap.ts`.
+> Variant `<variantName>` classes differ from styleMap. Expected: `<expected>`, found: `<actual>`. Update to match `/packages/blueprints/src/components/<ComponentName>/<ComponentName>.styleMap.ts`.
 
 ### ⚙️ Radix base missing
 > Contract declares base `<Primitive>`, but component does not wrap it. Refactor to use the Radix primitive and support `asChild` if specified.
@@ -83,7 +84,7 @@ Agents must:
 
 ## ✅ Acceptance Criteria
 - Contracts fully respected
-- Style maps matched exactly
+- StyleMaps matched exactly
 - Radix usage correct
 - Accessibility verified
 - Stories complete
