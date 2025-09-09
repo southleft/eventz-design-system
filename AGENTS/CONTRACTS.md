@@ -1,15 +1,11 @@
 # 📜 Contracts & StyleMaps Guidelines for Agents
 
 <!-- @agents:paths:start -->
-
 ### 📍 Canonical paths
-
-* Components root: `packages/core/src/components/<ComponentName>/`
-* Contract: `packages/blueprints/src/components/<ComponentName>/<ComponentName>.contract.ts`
-* styleMap: `packages/blueprints/src/components/<ComponentName>/<ComponentName>.styleMap.ts`
-
+- Components root: `packages/core/src/components/<ComponentName>/`
+- Contract: `packages/blueprints/src/components/<ComponentName>/<ComponentName>.contract.ts`
+- styleMap: `packages/blueprints/src/components/<ComponentName>/<ComponentName>.styleMap.ts`
 > Source: AGENTS/META.yml (version: 1)
-
 <!-- @agents:paths:end -->
 
 This document explains **what contracts are**, **what styleMaps are**, and **how agents must use them** to generate components that are consistent with **DoXYZ** design tokens and **Radix UI** components (Primitives or Themes).
