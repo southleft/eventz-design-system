@@ -1,17 +1,28 @@
-// packages/blueprints/src/utilities/__tests__/defineContract.test.ts
+// packages/blueprints/src/utilities/defineContract/defineContract.test.ts
 
 import { defineContract } from './defineContract';
 
 describe('defineContract', () => {
   it('returns the object unchanged', () => {
-    const contract = defineContract({ foo: 'bar' });
-    expect(contract.foo).toBe('bar');
+    const input = {
+      component: 'Sample',
+      base: 'Button',
+      props: {}
+    } as const;
+
+    const contract = defineContract(input);
+    expect(contract).toBe(input);
   });
 
   it('preserves literal types', () => {
-    const contract = defineContract({ role: 'dialog' as const });
-    type Role = typeof contract.role;
-    const isLiteral: Role extends 'dialog' ? true : false = true;
+    const contract = defineContract({
+      component: 'Dialog' as const,
+      base: 'Button',
+      props: {}
+    } as const);
+
+    type ComponentName = typeof contract.component;
+    const isLiteral: ComponentName extends 'Dialog' ? true : false = true;
     expect(isLiteral).toBe(true);
   });
 });
