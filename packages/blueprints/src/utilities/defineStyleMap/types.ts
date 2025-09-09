@@ -1,7 +1,7 @@
 // packages/blueprints/src/utilities/defineStyleMap/types.ts
 
 /** Class lists are arrays of Tailwind/token classes. */
-export type ClassList = readonly string[];
+export type ClassList = string | string[];
 
 /**
  * styleMap spec:
