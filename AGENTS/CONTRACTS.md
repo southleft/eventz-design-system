@@ -28,8 +28,13 @@ A **contract** is the single source of truth for a component’s **public API** 
 * Optional **hints** that help adapters map design variants to Radix props.
 
 > 🔑 **Blueprints do not define runtime TS prop types.** Those live in **core** when the component is generated. Blueprints only express the schema to guide the generator.
+> ℹ️ **Radix base:** `base` refers to **Radix UI** components (either Primitives or Themes), imported via this repo’s `radix-ui` import convention, unless explicitly noted otherwise.
+
 
 ### Minimal schema (illustrative)
+
+> Contracts are type-checked against `ContractSpec`
+> (`packages/blueprints/src/utilities/defineContract/types.ts`)
 
 ```ts
 import { defineContract } from '../../utilities';
@@ -37,12 +42,12 @@ import { defineContract } from '../../utilities';
 export const ButtonContract = defineContract({
   component: 'Button',
   description: 'Clickable action with label and optional icons.',
-  base: 'Button', // Radix Themes primitive name
+  base: 'Button', // @radix-ui/themes primitive
 
   props: {
     variant: {
       type: 'enum',
-      options: ['primary', 'secondary', 'bare', 'knockout'],
+      options: ['primary', 'secondary', 'bare', 'knockout'] as const,
       default: 'primary'
     },
 
@@ -59,14 +64,14 @@ export const ButtonContract = defineContract({
     disabled:  { type: 'boolean', default: false },
 
     // Native passthrough
-    type: { type: 'enum', options: ['button','submit','reset'], default: 'button' },
+    type: { type: 'enum', options: ['button','submit','reset'] as const, default: 'button' },
 
     // Optional parity with Radix pattern
     asChild: { type: 'boolean', default: false }
   },
 
-  // Slots in render order
-  slots: ['startIcon','label','endIcon'],
+  // Slots in render order (must match slot props if present)
+  slots: ['startIcon','label','endIcon'] as const,
 
   // Optional layout hint for the generator
   layout: {
@@ -81,14 +86,16 @@ export const ButtonContract = defineContract({
   },
 
   rules: [
-    { validate: ({ label }) => typeof label === 'string' && label.trim().length > 0, message: 'label must be non-empty' },
+    {
+      validate: ({ label }) => typeof label === 'string' && label.trim().length > 0,
+      message: 'label must be non-empty'
+    },
     { when: { loading: true }, imply: { disabled: true }, hint: 'Loading forces disabled and sets aria-busy' }
   ],
 
-  // Signals that a styleMap exists for this component
   styleMap: true,
 
-  // Adapter hints (designer → Radix)
+  // Designer → Radix mapping hints
   hints: {
     radixAdapter: {
       variantMap: {
@@ -117,12 +124,19 @@ A **styleMap** binds the contract’s **variants/slots/layout/states** to **Tail
 > ✅ Use **token classes**, not ad-hoc colors.
 > ✅ Only use utilities where no tokens exist (layout, typography scale, border presence `border`, ring thickness).
 
+---
+
 ### Minimal schema (illustrative)
+
+> StyleMaps are type-checked against `StyleMapSpec`
+> (`packages/blueprints/src/utilities/defineStyleMap/types.ts`)
+> Note: `defineStyleMap` is a no-op identity helper (like `defineContract`) that enforces `StyleMapSpec` and preserves literal arrays (use `as const` when helpful).
+
 
 ```ts
 import { defineStyleMap } from '../../utilities';
 
-export const ButtonStyleMap = defineStyleMap('Button', {
+export const ButtonStyleMap = defineStyleMap({
   base: [
     'inline-flex select-none items-center justify-center',
     'font-medium',
@@ -133,18 +147,18 @@ export const ButtonStyleMap = defineStyleMap('Button', {
     'focus-visible:ring-offset-2',
     'disabled:opacity-50 disabled:pointer-events-none',
     'whitespace-nowrap'
-  ],
+  ] as const,
 
   // Single default size per spec (no size prop). Replace with tokens if/when available.
   slots: {
-    container: ['h-10','px-4','gap-2','rounded-md'],
-    startIcon: ['shrink-0','-ml-0.5'],
-    label: [],
-    endIcon: ['shrink-0','-mr-0.5']
+    container: ['h-10','px-4','gap-2','rounded-md'] as const,
+    startIcon: ['shrink-0','-ml-0.5'] as const,
+    label:     [] as const,
+    endIcon:   ['shrink-0','-mr-0.5'] as const
   },
 
   layout: {
-    fullWidth: ['w-full']
+    fullWidth: ['w-full'] as const
   },
 
   // Variants: map directly to component tokens (plus utilities where necessary)
@@ -154,21 +168,21 @@ export const ButtonStyleMap = defineStyleMap('Button', {
       'text-comp-button-primary-color-foreground-default',
       'hover:bg-comp-button-primary-color-background-hover',
       'active:bg-comp-button-primary-color-background-active'
-    ],
+    ] as const,
 
     secondary: [
       'bg-comp-button-secondary-color-background-default',
       'text-comp-button-secondary-color-foreground-default',
       'hover:bg-comp-button-secondary-color-background-hover',
       'active:bg-comp-button-secondary-color-background-active'
-    ],
+    ] as const,
 
     bare: [
       'bg-transparent',
       'text-comp-button-bare-color-foreground-default',
       'hover:bg-comp-button-bare-color-background-hover',
       'active:bg-comp-button-bare-color-background-active'
-    ],
+    ] as const,
 
     knockout: [
       'bg-transparent',
@@ -177,11 +191,11 @@ export const ButtonStyleMap = defineStyleMap('Button', {
       'border-comp-button-knockout-color-border-default',
       'hover:bg-comp-button-knockout-color-background-hover',
       'active:bg-comp-button-knockout-color-background-active'
-    ]
+    ] as const
   },
 
   state: {
-    loading: ['cursor-wait','data-[loading=true]:opacity-100']
+    loading: ['cursor-wait','data-[loading=true]:opacity-100'] as const
   }
 });
 ```
@@ -288,6 +302,132 @@ See **AGENTS/GENERATION.md** for story/test structure and acceptance criteria.
 
   * Contains generated React components + **exported prop interfaces**.
   * Shared runtime primitives (e.g., `IconSpec`, `IconSlot`) live in a shared types module under core (or `packages/contracts/types` if you prefer a neutral location). Components import from there.
+
+---
+
+---
+
+## 🧬 Blueprint Type System
+
+Contracts are validated against `ContractSpec`. Use these prop kinds only:
+
+- `string` — textual value (optional `default`)
+- `boolean` — flags (optional `default`)
+- `number` — numeric value (optional `default`)
+- `enum` — **use a const tuple**: `options: ['a','b'] as const` (so `default` is checked)
+- `slot` — for slottable visuals (icons, loaders, arbitrary React nodes)
+
+StyleMaps are validated against `StyleMapSpec` and accept:
+- `base`: shared class list
+- `slots`: `container`, plus slot names from the contract (e.g., `startIcon`, `label`, `endIcon`)
+- `layout`: boolean toggles (e.g., `fullWidth`)
+- `variants`: keys **must** match `props.variant.options` in the contract
+- `state`: extra hooks for `data-*`/ARIA-driven states (e.g., `loading`)
+
+---
+
+### Disabled & Focus Tokens
+
+- If the design tokens include **disabled** roles (e.g., `.../color/background/disabled`), prefer those:
+  `disabled:bg-…`, `disabled:text-…`, `disabled:border-…`.
+- If not, fall back to utilities:
+  `disabled:opacity-50 disabled:pointer-events-none`.
+- Focus ring color should use a token class (e.g., `focus-visible:ring-comp-button-focus-color-ring`).
+  Thickness/offset may remain utilities (`focus-visible:ring-2`, `focus-visible:ring-offset-2`) unless tokenized.
+
+---
+
+### Inverse/Dark Surfaces
+
+If tokens provide inverse/on-dark roles, prefer them with a container selector or data attribute, e.g.:
+
+```css
+/* Example container */
+[data-surface="inverse"] .Button {
+  /* swap to inverse tokens, e.g.: */
+  --color-comp-button-primary-color-background-default: var(--dt-comp-button-primary-color-background-inverse);
+}
+```
+
+---
+
+### Icon Slot Conventions
+
+- Icons in `startIcon` / `endIcon` inherit `currentColor`.
+- Default to ~1em square (or the system’s icon size token) for visual alignment.
+- Use truthiness of slots to space (`gap-*`) and apply subtle optical nudges (`-ml-0.5` / `-mr-0.5`).
+
+---
+
+## ✅ Contract & StyleMap Checklist
+
+- [ ] `base` is the correct Radix UI primitive/theme.
+- [ ] Contract enum `options` use **const tuples**; `default` is one of them.
+- [ ] All slot props use `type: 'slot'`; the `slots` array lists them in render order.
+- [ ] No invented props; events bind via `{...rest}` on the root element.
+- [ ] StyleMap `variants` keys **exactly** match the contract’s `props.variant.options`.
+- [ ] Color/semantic roles use **token classes** only (no hex/rgb literals).
+- [ ] Extra states use `state` with `data-*` (e.g., `data-[loading=true]`) or native pseudo-classes.
+- [ ] Focus ring uses a token for color; thickness/offset utilities are acceptable.
+
+---
+
+## 🏷️ RFC: Composite `base` shorthand (v0.1)
+
+<!-- @rfc:base-compose v0.1 — 2025-09-09 -->
+
+> Status: **Draft / do-not-implement**. This is a placeholder we’ll reference when composites enter the backlog.
+
+**Goal:** Keep today’s `base` simple and Radix-first, but allow an easy upgrade path for composites without breaking existing contracts.
+
+### Proposal
+
+- `base` accepts `string | string[]`.
+- **Default provider is Radix**. Unprefixed names (e.g., `Button`, `Badge`) resolve to `radix-ui` entrypoints used in this repo.
+- Prefixed names select other sources:
+  - `radix:Button` → Radix UI (Themes or Primitives) named export `Button`
+  - `core:Card` → `packages/core/src/components/Card/Card`
+  - `local:../foo/Bar` → relative import from the generated file
+  - (Optional later) `npm:@scope/pkg#Export` (named) or `npm:@scope/pkg` (default)
+
+### Semantics
+
+- **String** form (today’s behavior):
+  `base: "Button"` → render Radix `<Button>` as root.
+- **Array** form (composite shorthand):
+  `base: ["Badge", "core:Card", "core:Link"]`
+
+  Expansion (wrappers applied **left → right** *around* the root):
+
+```tsx
+  <CoreCard>
+    <CoreLink>
+      <RadixBadge>{/* layout/slots */}</RadixBadge>
+    </CoreLink>
+  </CoreCard>
+```
+- The first item is the root element that owns layout/slots.
+
+- Each subsequent item is a wrapper around the previous tree.
+
+- If a wrapper supports pass-through (e.g., Radix asChild), agents may use it when needed.
+
+---
+
+## 🧪 CI Suggestions
+
+Type-checking already enforces Contract/StyleMap shapes. Consider adding:
+
+1) **Variant parity check**
+   Assert that `Object.keys(styleMap.variants)` equals `contract.props.variant.options`.
+
+2) **Slot parity check**
+   If a slot prop exists (`type:'slot'`), ensure it appears in `slots` and (optionally) in `styleMap.slots`.
+
+3) **Token-only color rule**
+   Lint to forbid hard-coded color classes in `variants` (allow only `bg-*/text-*/border-*` that start with `comp-` or your token prefix).
+
+These can run as a pre-commit hook or a CI step.
 
 ---
 

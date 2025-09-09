@@ -125,7 +125,7 @@ export interface ContractSpec {
    * Radix Themes primitive to wrap, e.g., 'Button', 'Badge'.
    * Unless otherwise noted, base refers to @radix-ui/themes.
    */
-  base: string;
+  base: string | string[];
   /** Public props table for the component. */
   props: PropsTable;
   /**
