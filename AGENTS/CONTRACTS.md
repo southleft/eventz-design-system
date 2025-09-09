@@ -12,7 +12,7 @@
 
 <!-- @agents:paths:end -->
 
-This document explains **what contracts are**, **what styleMaps are**, and **how agents must use them** to generate components that are consistent with **DoXYZ** design tokens and **Radix Themes** primitives.
+This document explains **what contracts are**, **what styleMaps are**, and **how agents must use them** to generate components that are consistent with **DoXYZ** design tokens and **Radix UI** components (Primitives or Themes).
 
 ---
 
@@ -28,7 +28,7 @@ A **contract** is the single source of truth for a component’s **public API** 
 * Optional **hints** that help adapters map design variants to Radix props.
 
 > 🔑 **Blueprints do not define runtime TS prop types.** Those live in **core** when the component is generated. Blueprints only express the schema to guide the generator.
-> ℹ️ **Radix base:** `base` refers to **Radix UI** components (either Primitives or Themes), imported via this repo’s `radix-ui` import convention, unless explicitly noted otherwise.
+> ℹ️ **Radix base:** `base` refers to Radix UI components (Primitives or Themes), imported through this repo’s `radix-ui` convention, unless explicitly noted otherwise.
 
 
 ### Minimal schema (illustrative)
@@ -42,7 +42,7 @@ import { defineContract } from '../../utilities';
 export const ButtonContract = defineContract({
   component: 'Button',
   description: 'Clickable action with label and optional icons.',
-  base: 'Button', // @radix-ui/themes primitive
+  base: 'Button', // Radix UI primitive/theme per this repo's `radix-ui` import convention
 
   props: {
     variant: {
@@ -105,7 +105,9 @@ export const ButtonContract = defineContract({
         knockout: { variant: 'outline', color: 'blue'  }
       }
     }
-  }
+  },
+  // Generators MUST NOT pass Radix size/density props unless explicitly added to the contract.
+  // Dimensions and spacing come from our styleMap tokens/utilities.
 });
 ```
 
@@ -131,6 +133,7 @@ A **styleMap** binds the contract’s **variants/slots/layout/states** to **Tail
 > StyleMaps are type-checked against `StyleMapSpec`
 > (`packages/blueprints/src/utilities/defineStyleMap/types.ts`)
 > Note: `defineStyleMap` is a no-op identity helper (like `defineContract`) that enforces `StyleMapSpec` and preserves literal arrays (use `as const` when helpful).
+> **State key parity:** keys in `state` should mirror contract prop names (e.g., `loading`), so generators can toggle classes from props deterministically.
 
 
 ```ts
@@ -238,6 +241,8 @@ Design tokens arrive under the `--dt-*` namespace. In `packages/core/styles/css/
 }
 ```
 
+> Optional: If your design tokens include a focus ring *offset color*, expose it too (e.g., `--color-focus-offset`) and prefer `focus-visible:ring-offset-[token]` over a fixed value.
+
 **Resulting utilities used in styleMaps**
 
 * `bg-comp-button-…`
@@ -262,18 +267,19 @@ Utilities are also acceptable for:
 4. **Slots**: Compose `startIcon → label → endIcon` (or as declared). Use truthiness; never invent `hasX` booleans.
 5. **Classes**: Compose via `clsx/cx`:
    `base + slots.container + variants[variant] + layout.fullWidth? + state.loading?`
-6. **Radix adapter**: Use `hints.radixAdapter.variantMap` to set Radix `variant`/`color` props when provided.
+6. **Radix adapter**: If present, use `hints.radixAdapter.variantMap` to set Radix `variant`/`color` props; otherwise rely solely on tokens in the styleMap.
 7. **States**:
 
    * `disabled={disabled || loading}`
    * `data-loading={loading || undefined}`
    * `aria-busy={loading || undefined}`
-8. **Events**: Do **not** invent handler props. Bind native handlers via `{...rest}` spread on the root element.
+8. **Events**: Do **not** invent handler props. Bind native handlers via `{...rest}` on the **root**. If a consumer provides `className`, **merge** it (append after composed classes so consumer utilities can override safely).
 9. **A11y**:
 
    * Decorative icons use `aria-hidden="true"`.
    * The visible `label` provides the accessible name (icon-only belongs to **IconButton**, not **Button**).
    * Keep focus ring visible in all variants.
+   * If `asChild` renders a non-native element as the control, also reflect disabled state with `aria-disabled="true"` when `disabled` is effective.
 
 ---
 
@@ -287,6 +293,14 @@ Write to `packages/core/src/components/<ComponentName>/`:
 * `<ComponentName>.test.tsx` (or `__tests__/`) — Jest + RTL tests (render, slots, variant switching, baseline a11y)
 
 See **AGENTS/GENERATION.md** for story/test structure and acceptance criteria.
+
+**Test acceptance checklist (baseline):**
+- Renders without crashing in all `variant` options.
+- Applies the correct token classes per `variant` (assert with `toHaveClass`).
+- `loading` sets `aria-busy` and disables the control; `disabled` is respected.
+- `fullWidth` adds `w-full`.
+- Slot truthiness controls spacing (`startIcon`/`endIcon` present vs absent).
+- Focus ring token class is present on keyboard focus (RTL `tab` simulation).
 
 ---
 
@@ -304,6 +318,16 @@ See **AGENTS/GENERATION.md** for story/test structure and acceptance criteria.
   * Shared runtime primitives (e.g., `IconSpec`, `IconSlot`) live in a shared types module under core (or `packages/contracts/types` if you prefer a neutral location). Components import from there.
 
 ---
+
+### Naming & Semantics Invariants
+
+- **No invented props:** only what’s declared in the contract. Events bind via `{...rest}`.
+- **Icons & loaders:** use `type: 'slot'` (not runtime union types). Truthiness sets spacing.
+- **Label is the accessible name** for Button-like controls (icon-only goes to IconButton).
+- **Variants:** contract `props.variant.options` must match styleMap `variants` keys 1:1.
+- **States:** prefer tokens for `hover/active/focus/disabled`; use utilities only when no token exists.
+- **`asChild` usage:** only support it if the contract includes an `asChild` prop.
+- **Reserved vs pass-through:** `className`, `style`, `id`, `onClick`, and other native attributes are pass-through via `{...rest}`; do not redefine them as explicit props in the contract.
 
 ---
 
@@ -354,8 +378,8 @@ If tokens provide inverse/on-dark roles, prefer them with a container selector o
 ### Icon Slot Conventions
 
 - Icons in `startIcon` / `endIcon` inherit `currentColor`.
-- Default to ~1em square (or the system’s icon size token) for visual alignment.
-- Use truthiness of slots to space (`gap-*`) and apply subtle optical nudges (`-ml-0.5` / `-mr-0.5`).
+- Size icons to ~1em (or use a component icon size token when available); fall back to ~1em if no token exists.
+- Use slot truthiness to space (`gap-*`) and apply subtle optical nudges (`-ml-0.5` / `-mr-0.5`).
 
 ---
 
@@ -369,6 +393,7 @@ If tokens provide inverse/on-dark roles, prefer them with a container selector o
 - [ ] Color/semantic roles use **token classes** only (no hex/rgb literals).
 - [ ] Extra states use `state` with `data-*` (e.g., `data-[loading=true]`) or native pseudo-classes.
 - [ ] Focus ring uses a token for color; thickness/offset utilities are acceptable.
+- [ ] `state` keys in styleMap mirror prop names in the contract (e.g., `loading`).
 
 ---
 
@@ -406,11 +431,12 @@ If tokens provide inverse/on-dark roles, prefer them with a container selector o
     </CoreLink>
   </CoreCard>
 ```
+
 - The first item is the root element that owns layout/slots.
 
 - Each subsequent item is a wrapper around the previous tree.
 
-- If a wrapper supports pass-through (e.g., Radix asChild), agents may use it when needed.
+- If a wrapper supports pass-through (e.g., Radix `asChild`), agents may use it when needed.
 
 ---
 
@@ -420,6 +446,16 @@ Type-checking already enforces Contract/StyleMap shapes. Consider adding:
 
 1) **Variant parity check**
    Assert that `Object.keys(styleMap.variants)` equals `contract.props.variant.options`.
+
+*(Example script concept)* Read the contract and styleMap JSON (via ts-node or AST), then:
+
+```ts
+const contractVariants = new Set(contract.props.variant.options);
+const mapVariants = new Set(Object.keys(styleMap.variants ?? {}));
+if (contractVariants.size !== mapVariants.size || [...contractVariants].some(v => !mapVariants.has(v))) {
+  throw new Error('Variant keys in styleMap must match contract.props.variant.options');
+}
+```
 
 2) **Slot parity check**
    If a slot prop exists (`type:'slot'`), ensure it appears in `slots` and (optionally) in `styleMap.slots`.
