@@ -34,7 +34,7 @@ export const CheckboxGroupContract = defineContract({
     children: [
       { slot: 'header', tag: 'legend', className: 'mb-1' },
       { slot: 'headerDescription', tag: 'div', className: 'text-caption-md-regular' },
-      { slot: 'helpLabel', tag: 'div', className: 'ml-auto text-caption-md-medium underline' }
+      { slot: 'helpLabel', tag: 'div', className: 'ml-auto text-caption-md-medium' }
     ]
   },
 

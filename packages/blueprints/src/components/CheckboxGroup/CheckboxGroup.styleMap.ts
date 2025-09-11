@@ -11,7 +11,6 @@ export const CheckboxGroupStyleMap = defineStyleMap({
     helpLabel: [
       'text-comp-checkbox-group-help-color-foreground',
       'hover:text-comp-checkbox-group-help-color-foreground-hover',
-      'underline',
       'decoration-comp-checkbox-group-help-color-underline'
     ] as const
   },
