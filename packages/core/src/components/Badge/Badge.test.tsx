@@ -18,7 +18,7 @@ describe('Badge', () => {
 
   it('applies variant class', () => {
     render(<Badge label="Blue" variant="blue" />);
-    const badge = screen.getByText('Blue').parentElement as HTMLElement;
-    expect(badge).toHaveClass('bg-blue-500');
+    const badgeRoot = screen.getByText('Blue').closest('span.inline-flex') as HTMLElement;
+    expect(badgeRoot).toHaveClass('bg-gradient-blue');
   });
 });

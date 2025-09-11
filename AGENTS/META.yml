@@ -1,0 +1,19 @@
+version: 1
+
+paths:
+  components_root: "packages/core/src/components/<ComponentName>/"
+  contract: "packages/blueprints/src/components/<ComponentName>/<ComponentName>.contract.ts"
+  styleMap: "packages/blueprints/src/components/<ComponentName>/<ComponentName>.styleMap.ts"
+
+branches:
+  allowed_prefixes:
+    - "feature/*"
+    - "fix/*"
+    - "chore/*"
+    - "review/*"
+
+rules:
+  clsx_required: true
+  no_ad_hoc_class_concat: true
+  radix_asChild_respected: true
+  ci_is_source_of_truth: true

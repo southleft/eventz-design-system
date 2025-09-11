@@ -16,14 +16,14 @@ describe('defineStyleMap', () => {
 
   it('preserves type information on the returned object', () => {
     const map = defineStyleMap({
-      size: {
+      layout: {
         small: 'text-sm',
         large: 'text-lg'
       }
     });
 
     // Type inference test — will fail type check if incorrect
-    const sizeClass: string = map.size.small;
+    const sizeClass: string = map.layout.small;
     expect(sizeClass).toBe('text-sm');
   });
 });

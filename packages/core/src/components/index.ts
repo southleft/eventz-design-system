@@ -1,1 +1,1 @@
-export * from './TestDialog';
+export * from './Badge';

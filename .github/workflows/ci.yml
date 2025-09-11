@@ -14,8 +14,9 @@ jobs:
           node-version: 20
           cache: 'pnpm'
       - run: pnpm install --frozen-lockfile
-      - run: pnpm --filter doxyz lint
-      - run: pnpm --filter doxyz type-check
-      - run: pnpm --filter doxyz test
-      - run: pnpm --filter doxyz build
+      - run: pnpm -w lint
+      - run: pnpm -w type-check
+      - run: pnpm agents:verify
+      - run: pnpm -w test
+      - run: pnpm --filter @doxyz/core build
       - run: pnpm --filter @doxyz/core exec npm pack --dry-run
