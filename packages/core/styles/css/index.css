@@ -61,7 +61,8 @@
     --dt-comp-button-knockout-color-background-active
   );
 
-  --font-weight-font-family-primary: var(--dt-font-family-primary);
+  --font-font-family-primary: var(--dt-font-family-primary);
+
   --font-weight-font-weight-bold: var(--dt-font-weight-bold);
   --font-weight-font-weight-medium: var(--dt-font-weight-medium);
 
@@ -120,11 +121,6 @@
   }
   .bg-gradient-orange {
     background-image: var(--dt-highlight-highlight-4);
-  }
-
-  .font-medium {
-    font-weight: 500; /* fallback */
-    font-weight: var(--font-font-weight-medium, 500);
   }
 
   /* Focus ring token hook (Tailwind’s ring system uses --tw-ring-color) */

@@ -23,7 +23,7 @@ export interface ButtonProps
     ButtonOwnProps {}
 
 const baseClasses = `
-  inline-flex select-none items-center justify-center font-medium text-sm transition-colors outline-none
+  inline-flex select-none items-center justify-center font-font-weight-medium text-sm transition-colors outline-none
   focus-visible:ring-2 focus-visible:ring-comp-button-focus-color-ring focus-visible:ring-offset-2
   disabled:opacity-50 disabled:pointer-events-none whitespace-nowrap
 `;
