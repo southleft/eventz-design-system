@@ -15,6 +15,9 @@
   body {
     font-family: var(--dt-font-family-primary, sans-serif);
   }
+  :root {
+    --tw-ring-offset-color: var(--dt-color-background-default);
+  }
 }
 
 @plugin 'tailwindcss-radix';
@@ -77,4 +80,73 @@
     font-family: var(--dt-font-family-primary, sans-serif);
     text-transform: var(--dt-text-case-uppercase);
   }
+
+  /* --- Button token → Tailwind utilities mapping -------------------------------- */
+  /* Primary */
+  .bg-comp-button-primary-color-background-default {
+    background-color: var(--dt-comp-button-primary-color-background-default);
+  }
+  .bg-comp-button-primary-color-background-hover {
+    background-color: var(--dt-comp-button-primary-color-background-hover);
+  }
+  .bg-comp-button-primary-color-background-active {
+    background-color: var(--dt-comp-button-primary-color-background-active);
+  }
+  .text-comp-button-primary-color-foreground-default {
+    color: var(--dt-comp-button-primary-color-foreground-default);
+  }
+
+  /* Secondary */
+  .bg-comp-button-secondary-color-background-default {
+    background-color: var(--dt-comp-button-secondary-color-background-default);
+  }
+  .bg-comp-button-secondary-color-background-hover {
+    background-color: var(--dt-comp-button-secondary-color-background-hover);
+  }
+  .bg-comp-button-secondary-color-background-active {
+    background-color: var(--dt-comp-button-secondary-color-background-active);
+  }
+  .text-comp-button-secondary-color-foreground-default {
+    color: var(--dt-comp-button-secondary-color-foreground-default);
+  }
+
+  /* Bare (text-only) */
+  .text-comp-button-bare-color-foreground-default {
+    color: var(--dt-comp-button-bare-color-foreground-default);
+  }
+  .bg-comp-button-bare-color-background-hover {
+    background-color: var(--dt-comp-button-bare-color-background-hover);
+  }
+  .bg-comp-button-bare-color-background-active {
+    background-color: var(--dt-comp-button-bare-color-background-active);
+  }
+
+  /* Knockout (bordered) */
+  .text-comp-button-knockout-color-foreground-default {
+    color: var(--dt-comp-button-knockout-color-foreground-default);
+  }
+  .border-comp-button-knockout-color-border-default {
+    border-color: var(--dt-comp-button-knockout-color-border-default);
+  }
+  .bg-comp-button-knockout-color-background-hover {
+    background-color: var(--dt-comp-button-knockout-color-background-hover);
+  }
+  .bg-comp-button-knockout-color-background-active {
+    background-color: var(--dt-comp-button-knockout-color-background-active);
+  }
+
+  /* Focus ring token hook (Tailwind’s ring system uses --tw-ring-color) */
+  .ring-comp-button-focus-color-ring {
+    --tw-ring-color: var(--dt-comp-button-focus-color-ring);
+  }
+
+  /* If you have a general button surface token used across variants */
+  .bg-comp-button-color-background-default {
+    background-color: var(--dt-comp-button-color-background-default);
+  }
+
+  /* (Optional) Disabled colors — only if tokens exist; otherwise keep opacity utility in components */
+  /* .bg-comp-button-disabled-color-background { background-color: var(--dt-comp-button-disabled-color-background); } */
+  /* .text-comp-button-disabled-color-foreground { color: var(--dt-comp-button-disabled-color-foreground); } */
+  /* .border-comp-button-disabled-color-border { border-color: var(--dt-comp-button-disabled-color-border); } */
 }

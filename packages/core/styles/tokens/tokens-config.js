@@ -1,27 +1,50 @@
-/** @type {import('style-dictionary').Config} */
-const config = {
-  source: ['styles/tokens/**/*.json'], // Core design tokens (theme-agnostic)
-  platforms: {
-    css: {
-      transformGroup: 'css',
-      prefix: 'dt',
-      buildPath: 'styles/css/',
-      files: [
-        {
-          destination: 'tokens.css',
-          format: 'css/variables',
-          filter: token => !token.attributes?.theme,
-          selector: ':root'
-        },
-        {
-          destination: 'light.css',
-          format: 'css/variables-with-selector',
-          filter: token => token.attributes?.theme === 'light',
-          selector: '[data-theme="light"]'
-        }
-      ]
+// packages/core/styles/tokens/tokens-config.js
+/** @type {import('style-dictionary').Config[]} */
+export const configs = [
+  // 1) Default build: :root gets Default + Dark (dark is default)
+  {
+    source: ['styles/tokens/core/Default.json', 'styles/tokens/theme/dark.json'],
+    platforms: {
+      css: {
+        transformGroup: 'css',
+        prefix: 'dt',
+        buildPath: 'styles/css/',
+        files: [
+          {
+            destination: 'tokens.css',
+            format: 'css/variables-with-selector',
+            selector: ':root'
+          }
+        ]
+      }
+    }
+  },
+
+  // 2) Light overrides only: build with Default + Dark + Light, but emit only tokens that come from light.json
+  {
+    source: [
+      'styles/tokens/core/Default.json',
+      'styles/tokens/theme/dark.json',
+      'styles/tokens/theme/light.json'
+    ],
+    platforms: {
+      css: {
+        transformGroup: 'css',
+        prefix: 'dt',
+        buildPath: 'styles/css/',
+        files: [
+          {
+            destination: 'light.css',
+            format: 'css/variables-with-selector',
+            selector: '[data-theme="light"]',
+            // Only variables *defined in* light.json (references resolved via Default+Dark)
+            filter: t => {
+              const fp = String(t.filePath || '');
+              return /(^|[\\/])theme[\\/]+light\.json$/i.test(fp);
+            }
+          }
+        ]
+      }
     }
   }
-};
-
-export default config;
+];
