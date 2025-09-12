@@ -32,15 +32,15 @@ const containerClasses = 'h-10 px-4 gap-2 rounded-md';
 
 const variantClasses: Record<Variant, string> = {
   primary: `
-    bg-comp-button-primary-color-background-default text-comp-button-primary-color-content-default
+    bg-comp-button-primary-color-background-default text-comp-button-primary-color-content-default border-comp-border-none
     hover:bg-comp-button-primary-color-background-hover active:bg-comp-button-primary-color-background-active
   `,
   secondary: `
-    bg-comp-button-secondary-color-background-default text-comp-button-secondary-color-content-default
-    hover:bg-comp-button-secondary-color-background-hover active:bg-comp-button-secondary-color-background-active
+    bg-comp-button-color-background-default comp-button-color-border-default text-comp-button-color-content-default
+    hover:bg-comp-button-color-background-hover active:bg-comp-button-color-background-active
   `,
   bare: `
-    bg-transparent text-comp-button-bare-color-content-default
+    bg-background-none text-comp-button-bare-color-content-default
     hover:bg-comp-button-bare-color-background-hover active:bg-comp-button-bare-color-background-active
   `,
   knockout: `

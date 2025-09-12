@@ -262,12 +262,12 @@ Utilities are also acceptable for:
 | `--dt-…-color-…`          | `--color-… : var(--dt-…-color-…)`                                                      | `bg-`, `text-`, `border-`                  |
 | `--dt-font-size-<n>`      | `--text-font-size-<n>: calc(var(--dt-font-size-<n>) / var(--dt-base-font) * 1rem)`     | *(paired via size utility or `.text-*`)*   |
 | `--dt-line-height-<n>`    | `--text-line-height-<n>: calc(var(--dt-line-height-<n>) / var(--dt-base-font) * 1rem)` | *(paired via size utility or `.text-*`)*   |
-| `--dt-font-weight-<name>` | `--font-font-weight-<name>: var(--dt-font-weight-<name>)`                              | used by weight utilities (e.g., `.font-*`) |
+| `--dt-font-weight-<name>` | `--font-weight-font-weight-<name>: var(--dt-font-weight-<name>)`                              | used by weight utilities (e.g., `.font-*`) |
 | `--dt-…-focus-color-ring` | `--color-…-focus-color-ring: var(--dt-…-focus-color-ring)`                             | `focus-visible:ring-…`                     |
 
 **Rules**
-- Strip the `--dt-` prefix; **prepend the Tailwind bucket** (`--color-`, `--text-font-size-`, `--text-line-height-`, `--font-font-weight-`).
-- Keep the **rest of the path unchanged** (lossless; e.g., `--font-font-weight-bold`).
+- Strip the `--dt-` prefix; **prepend the Tailwind bucket** (`--color-`, `--text-font-size-`, `--text-line-height-`, `--font-weight-font-weight-`).
+- Keep the **rest of the path unchanged** (lossless; e.g., `--font-weight-font-weight-bold`).
 - Prefer Tailwind-built utilities when theme vars unlock them (e.g., `bg-*`, `text-*`, `border-*`, `focus-visible:ring-*`).
 - If Tailwind cannot synthesize a utility (e.g., a bespoke caption size), emit a **tiny, single-purpose utility** in CSS that reads the mapped vars (e.g., `.text-caption-lg { font-size: var(--text-font-size-12); line-height: var(--text-line-height-18); }`).
 
