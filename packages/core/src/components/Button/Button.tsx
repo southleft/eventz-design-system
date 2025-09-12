@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Button as RadixButton } from '@radix-ui/themes';
+import { Slot } from '@radix-ui/react-slot';
 
 const cx = (...classes: Array<string | undefined | null | false>) =>
   classes.filter(Boolean).join(' ');
@@ -14,6 +14,7 @@ export interface ButtonProps
   loading?: boolean;
   disabled?: boolean;
   type?: 'button' | 'submit' | 'reset';
+  asChild?: boolean;
 }
 
 type Variant = NonNullable<ButtonProps['variant']>;
@@ -82,6 +83,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       loading = false,
       disabled = false,
       type = 'button',
+      asChild = false,
       className,
       ...rest
     },
@@ -97,29 +99,30 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       className
     );
 
+    const Comp: React.ElementType = asChild ? Slot : 'button';
+
     return (
-      <RadixButton
+      <Comp
         ref={ref}
-        className="rounded-md outline-none focus-visible:ring-2 focus-visible:ring-comp-button-focus-color-ring focus-visible:ring-offset-2"
-        disabled={effectiveDisabled}
-        loading={loading}
-        type={type}
+        className={innerWrapperClass}
+        aria-busy={loading || undefined}
+        data-loading={loading ? 'true' : undefined}
+        // Only attach button-only attributes when not rendering asChild
+        {...(!asChild ? { type, disabled: effectiveDisabled } : {})}
         {...rest}
       >
-        <span className={innerWrapperClass}>
-          {startIcon && (
-            <span className={cx(...slotClasses.startIcon)} aria-hidden="true">
-              {startIcon}
-            </span>
-          )}
-          <span className={cx(...slotClasses.label)}>{label}</span>
-          {endIcon && (
-            <span className={cx(...slotClasses.endIcon)} aria-hidden="true">
-              {endIcon}
-            </span>
-          )}
-        </span>
-      </RadixButton>
+        {startIcon && (
+          <span className={cx(...slotClasses.startIcon)} aria-hidden="true">
+            {startIcon}
+          </span>
+        )}
+        <span className={cx(...slotClasses.label)}>{label}</span>
+        {endIcon && (
+          <span className={cx(...slotClasses.endIcon)} aria-hidden="true">
+            {endIcon}
+          </span>
+        )}
+      </Comp>
     );
   }
 );
