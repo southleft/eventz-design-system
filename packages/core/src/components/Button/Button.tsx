@@ -8,17 +8,12 @@ type Variant = 'primary' | 'secondary' | 'bare' | 'knockout';
 
 type ButtonOwnProps = {
   variant?: Variant;
-  /** visual icon before content */
   startIcon?: React.ReactNode;
-  /** visual icon after content */
   endIcon?: React.ReactNode;
-  fullWidth?: boolean;
   loading?: boolean;
   disabled?: boolean;
   type?: 'button' | 'submit' | 'reset';
-  /** render polymorphically (e.g., <a/>) via Radix Slot */
   asChild?: boolean;
-  /** required visible content (text or nodes) */
   children: React.ReactNode;
 };
 
@@ -28,32 +23,28 @@ export interface ButtonProps
     ButtonOwnProps {}
 
 const baseClasses = `
-  inline-flex select-none items-center justify-center font-medium transition-colors outline-none
+  inline-flex select-none items-center justify-center font-medium text-sm transition-colors outline-none
   focus-visible:ring-2 focus-visible:ring-comp-button-focus-color-ring focus-visible:ring-offset-2
   disabled:opacity-50 disabled:pointer-events-none whitespace-nowrap
 `;
 
 const containerClasses = 'h-10 px-4 gap-2 rounded-md';
 
-const layoutClasses = {
-  fullWidth: 'w-full'
-} as const;
-
 const variantClasses: Record<Variant, string> = {
   primary: `
-    bg-comp-button-primary-color-background-default text-comp-button-primary-color-foreground-default
+    bg-comp-button-primary-color-background-default text-comp-button-primary-color-content-default
     hover:bg-comp-button-primary-color-background-hover active:bg-comp-button-primary-color-background-active
   `,
   secondary: `
-    bg-comp-button-secondary-color-background-default text-comp-button-secondary-color-foreground-default
+    bg-comp-button-secondary-color-background-default text-comp-button-secondary-color-content-default
     hover:bg-comp-button-secondary-color-background-hover active:bg-comp-button-secondary-color-background-active
   `,
   bare: `
-    bg-transparent text-comp-button-bare-color-foreground-default
+    bg-transparent text-comp-button-bare-color-content-default
     hover:bg-comp-button-bare-color-background-hover active:bg-comp-button-bare-color-background-active
   `,
   knockout: `
-    bg-transparent text-comp-button-knockout-color-foreground-default border
+    bg-transparent text-comp-button-knockout-color-content-default border
     border-comp-button-knockout-color-border-default
     hover:bg-comp-button-knockout-color-background-hover active:bg-comp-button-knockout-color-background-active
   `
@@ -70,7 +61,6 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       variant = 'primary',
       startIcon,
       endIcon,
-      fullWidth = false,
       loading = false,
       disabled = false,
       type = 'button',
@@ -89,7 +79,6 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         containerClasses,
         variantClasses[variant],
         {
-          [layoutClasses.fullWidth]: fullWidth,
           'pointer-events-none opacity-50': effectiveDisabled || loading
         },
         className

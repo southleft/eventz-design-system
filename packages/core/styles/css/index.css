@@ -1,8 +1,6 @@
 @import './tokens.css';
 @import './light.css';
 
-@import 'tailwindcss/preflight';
-
 :root {
   /* your tokens already expose this */
   font-size: var(--dt-base-font, 16px);
@@ -55,6 +53,10 @@
   --spacing-3: calc(var(--dt-spacing-3) * 1px);
   --spacing-3_5: calc(var(--dt-spacing-3-5) * 1px);
   --spacing-4: calc(var(--dt-spacing-4) * 1px);
+
+  /* Typography: Body/SM (14/20) mapped to Tailwind text-sm in rems */
+  --text-sm: calc(var(--dt-font-size-14) / var(--dt-base-font) * 1rem);
+  --text-sm--line-height: calc(var(--dt-line-height-20) / var(--dt-base-font) * 1rem);
 }
 
 @import 'tailwindcss/utilities';
@@ -72,13 +74,19 @@
   .bg-gradient-orange {
     background-image: var(--dt-highlight-highlight-4);
   }
+
+  .font-medium {
+    font-weight: 500; /* fallback */
+    font-weight: var(--dt-font-weight-medium, 500);
+  }
+
   .text-caption-lg-allcaps-bold {
-    /* maps "Bold 12/18 sans-serif" sensibly */
-    font-weight: 700; /* "Bold" */
-    font-size: calc(var(--dt-font-size-12) * 1px);
-    line-height: calc(var(--dt-line-height-18) * 1px);
+    /* Bold 12/18, token-first and rem-based */
+    font-weight: var(--dt-font-weight-bold, 700);
+    font-size: calc((var(--dt-font-size-12) / var(--dt-base-font)) * 1rem);
+    line-height: calc((var(--dt-line-height-18) / var(--dt-base-font)) * 1rem);
     font-family: var(--dt-font-family-primary, sans-serif);
-    text-transform: var(--dt-text-case-uppercase);
+    text-transform: var(--dt-text-case-uppercase, uppercase);
   }
 
   /* --- Button token → Tailwind utilities mapping -------------------------------- */
@@ -92,8 +100,8 @@
   .bg-comp-button-primary-color-background-active {
     background-color: var(--dt-comp-button-primary-color-background-active);
   }
-  .text-comp-button-primary-color-foreground-default {
-    color: var(--dt-comp-button-primary-color-foreground-default);
+  .text-comp-button-primary-color-content-default {
+    color: var(--dt-comp-button-primary-color-content-default);
   }
 
   /* Secondary */
