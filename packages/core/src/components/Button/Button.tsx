@@ -1,6 +1,6 @@
 // packages/core/src/components/Button/Button.tsx
 import * as React from 'react';
-import { Slot } from '@radix-ui/react-slot';
+import { Slot } from 'radix-ui';
 import { composeClasses } from '../../utilities/composeClasses/composeClasses';
 import { collapseWhitespace } from '../../utilities/collapseWhitespace/collapseWhitespace';
 
@@ -12,14 +12,13 @@ type ButtonOwnProps = {
   endIcon?: React.ReactNode;
   loading?: boolean;
   disabled?: boolean;
-  type?: 'button' | 'submit' | 'reset';
   asChild?: boolean;
   children: React.ReactNode;
 };
 
 // Strip native props we don’t support/override; disallow passing children there.
 export interface ButtonProps
-  extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'type' | 'color' | 'children'>,
+  extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'color' | 'children'>,
     ButtonOwnProps {}
 
 const baseClasses = `
@@ -85,7 +84,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       )
     );
 
-    const Comp: React.ElementType = asChild ? Slot : 'button';
+    const Comp: React.ElementType = asChild ? Slot.Root : 'button';
 
     return (
       <Comp
@@ -93,8 +92,8 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         className={rootClass}
         aria-busy={loading || undefined}
         aria-disabled={effectiveDisabled || undefined}
-        // Only apply native button attributes when not using asChild
-        {...(!asChild ? { type, disabled: effectiveDisabled } : {})}
+        type={type}
+        disabled={effectiveDisabled}
         {...rest}
       >
         {startIcon && (
@@ -102,7 +101,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
             {startIcon}
           </span>
         )}
-        {children}
+        <Slot.Slottable>{children}</Slot.Slottable>
         {endIcon && (
           <span className={slotClasses.endIcon} aria-hidden="true">
             {endIcon}
