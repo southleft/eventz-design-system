@@ -7,12 +7,12 @@ const meta: Meta<ButtonProps> = {
   title: 'Components/Button',
   component: Button,
   args: {
-    label: 'Button',
+    children: 'Button',
     disabled: false,
     loading: false,
     fullWidth: false,
-    type: 'button',
-  },
+    type: 'button'
+  }
 };
 
 export default meta;
@@ -21,33 +21,32 @@ type Story = StoryObj<ButtonProps>;
 
 export const Primary: Story = {
   args: {
-    variant: 'primary',
-  },
+    variant: 'primary'
+  }
 };
 
 export const Secondary: Story = {
   args: {
-    variant: 'secondary',
-  },
+    variant: 'secondary'
+  }
 };
 
 export const Bare: Story = {
   args: {
-    variant: 'bare',
-  },
+    variant: 'bare'
+  }
 };
 
 export const Knockout: Story = {
   args: {
-    variant: 'knockout',
-  },
+    variant: 'knockout'
+  }
 };
 
 export const WithIcons: Story = {
   args: {
     variant: 'primary',
     startIcon: <span aria-hidden="true">🌟</span>,
-    endIcon: <span aria-hidden="true">➡️</span>,
-  },
+    endIcon: <span aria-hidden="true">➡️</span>
+  }
 };
-
