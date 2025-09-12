@@ -2,6 +2,7 @@
 import * as React from 'react';
 import { Slot } from '@radix-ui/react-slot';
 import { composeClasses } from '../../utilities/composeClasses/composeClasses';
+import { collapseWhitespace } from '../../utilities/collapseWhitespace/collapseWhitespace';
 
 type Variant = 'primary' | 'secondary' | 'bare' | 'knockout';
 
@@ -30,9 +31,7 @@ const baseClasses = `
   inline-flex select-none items-center justify-center font-medium transition-colors outline-none
   focus-visible:ring-2 focus-visible:ring-comp-button-focus-color-ring focus-visible:ring-offset-2
   disabled:opacity-50 disabled:pointer-events-none whitespace-nowrap
-`
-  .replace(/\s+/g, ' ')
-  .trim();
+`;
 
 const containerClasses = 'h-10 px-4 gap-2 rounded-md';
 
@@ -44,28 +43,20 @@ const variantClasses: Record<Variant, string> = {
   primary: `
     bg-comp-button-primary-color-background-default text-comp-button-primary-color-foreground-default
     hover:bg-comp-button-primary-color-background-hover active:bg-comp-button-primary-color-background-active
-  `
-    .replace(/\s+/g, ' ')
-    .trim(),
+  `,
   secondary: `
     bg-comp-button-secondary-color-background-default text-comp-button-secondary-color-foreground-default
     hover:bg-comp-button-secondary-color-background-hover active:bg-comp-button-secondary-color-background-active
-  `
-    .replace(/\s+/g, ' ')
-    .trim(),
+  `,
   bare: `
     bg-transparent text-comp-button-bare-color-foreground-default
     hover:bg-comp-button-bare-color-background-hover active:bg-comp-button-bare-color-background-active
-  `
-    .replace(/\s+/g, ' ')
-    .trim(),
+  `,
   knockout: `
     bg-transparent text-comp-button-knockout-color-foreground-default border
     border-comp-button-knockout-color-border-default
     hover:bg-comp-button-knockout-color-background-hover active:bg-comp-button-knockout-color-background-active
   `
-    .replace(/\s+/g, ' ')
-    .trim()
 };
 
 const slotClasses = {
@@ -92,15 +83,17 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ) => {
     const effectiveDisabled = disabled || loading;
 
-    const rootClass = composeClasses(
-      baseClasses,
-      containerClasses,
-      variantClasses[variant],
-      {
-        [layoutClasses.fullWidth]: fullWidth,
-        'pointer-events-none opacity-50': effectiveDisabled || loading
-      },
-      className
+    const rootClass = collapseWhitespace(
+      composeClasses(
+        baseClasses,
+        containerClasses,
+        variantClasses[variant],
+        {
+          [layoutClasses.fullWidth]: fullWidth,
+          'pointer-events-none opacity-50': effectiveDisabled || loading
+        },
+        className
+      )
     );
 
     const Comp: React.ElementType = asChild ? Slot : 'button';
