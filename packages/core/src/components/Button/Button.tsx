@@ -39,13 +39,12 @@ const variantClasses: Record<Variant, string> = {
     hover:bg-comp-button-color-background-hover active:bg-comp-button-color-background-active
   `,
   bare: `
-    bg-background-none text-comp-button-bare-color-content-default
-    hover:bg-comp-button-bare-color-background-hover active:bg-comp-button-bare-color-background-active
+    bg-background-none text-comp-button-color-content-default border-comp-border-none
+    hover:bg-comp-button-color-background-hover active:bg-comp-button-color-background-active
   `,
   knockout: `
-    bg-transparent text-comp-button-knockout-color-content-default border
-    border-comp-button-knockout-color-border-default
-    hover:bg-comp-button-knockout-color-background-hover active:bg-comp-button-knockout-color-background-active
+    bg-comp-button-color-background-knockout text-comp-button-color-content-default border-comp-border-none
+    hover:bg-comp-button-color-background-knockout-hover active:bg-comp-button-color-background-knockout-active
   `
 };
 

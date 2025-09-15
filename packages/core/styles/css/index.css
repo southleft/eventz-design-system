@@ -36,9 +36,6 @@
 
   --color-comp-border-none: var(--dt-comp-border-none);
   --color-comp-button-focus-color-ring: var(--dt-comp-button-focus-color-ring);
-  --color-comp-button-knockout-color-border-default: var(
-    --dt-comp-button-knockout-color-border-default
-  );
 
   --color-comp-button-primary-color-background-default: var(
     --dt-comp-button-primary-color-background-default
@@ -54,11 +51,12 @@
   --color-comp-button-color-background-hover: var(--dt-comp-button-color-background-hover);
   --color-comp-button-color-background-active: var(--dt-comp-button-color-background-active);
 
-  --color-comp-button-knockout-color-background-hover: var(
-    --dt-comp-button-knockout-color-background-hover
+  --color-comp-button-color-background-knockout: var(--dt-comp-button-color-background-knockout);
+  --color-comp-button-color-background-knockout-hover: var(
+    --dt-comp-button-color-background-knockout-hover
   );
-  --color-comp-button-knockout-color-background-active: var(
-    --dt-comp-button-knockout-color-background-active
+  --color-comp-button-color-background-knockout-active: var(
+    --dt-comp-button-color-background-knockout-active
   );
 
   --font-font-family-primary: var(--dt-font-family-primary);
