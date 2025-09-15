@@ -46,6 +46,7 @@
   --color-comp-button-primary-color-background-active: var(
     --dt-comp-button-primary-color-background-active
   );
+  --color-comp-button-color-border-default: var(--dt-comp-button-color-border-default);
 
   --color-comp-button-color-background-default: var(--dt-comp-button-color-background-default);
   --color-comp-button-color-background-hover: var(--dt-comp-button-color-background-hover);
@@ -58,6 +59,8 @@
   --color-comp-button-color-background-knockout-active: var(
     --dt-comp-button-color-background-knockout-active
   );
+
+  --color-comp-border-focus-ring: var(--dt-comp-border-focus-ring);
 
   --font-font-family-primary: var(--dt-font-family-primary);
 

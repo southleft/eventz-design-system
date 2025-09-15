@@ -22,9 +22,8 @@ export interface ButtonProps
     ButtonOwnProps {}
 
 const baseClasses = `
-  inline-flex select-none items-center justify-center font-font-weight-medium text-sm transition-colors outline-none
-  focus-visible:ring-2 focus-visible:ring-comp-button-focus-color-ring focus-visible:ring-offset-2
-  disabled:opacity-50 disabled:pointer-events-none whitespace-nowrap
+  inline-flex select-none items-center justify-center font-font-weight-medium text-sm transition-colors border-1
+  disabled:opacity-50 disabled:pointer-events-none whitespace-nowrap focus-visible:ring-comp-border-focus-ring focus-visible:ring
 `;
 
 const containerClasses = 'h-10 px-4 gap-2 rounded-md';
@@ -35,7 +34,7 @@ const variantClasses: Record<Variant, string> = {
     hover:bg-comp-button-primary-color-background-hover active:bg-comp-button-primary-color-background-active
   `,
   secondary: `
-    bg-comp-button-color-background-default comp-button-color-border-default text-comp-button-color-content-default border-1
+    bg-comp-button-color-background-default border-comp-button-color-border-default text-comp-button-color-content-default
     hover:bg-comp-button-color-background-hover active:bg-comp-button-color-background-active
   `,
   bare: `

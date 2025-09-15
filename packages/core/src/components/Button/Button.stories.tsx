@@ -10,7 +10,6 @@ const meta: Meta<ButtonProps> = {
     children: 'Button',
     disabled: false,
     loading: false,
-    fullWidth: false,
     type: 'button'
   }
 };
