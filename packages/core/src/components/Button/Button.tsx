@@ -35,7 +35,7 @@ const variantClasses: Record<Variant, string> = {
     hover:bg-comp-button-primary-color-background-hover active:bg-comp-button-primary-color-background-active
   `,
   secondary: `
-    bg-comp-button-color-background-default comp-button-color-border-default text-comp-button-color-content-default
+    bg-comp-button-color-background-default comp-button-color-border-default text-comp-button-color-content-default border-1
     hover:bg-comp-button-color-background-hover active:bg-comp-button-color-background-active
   `,
   bare: `
