@@ -36,8 +36,8 @@ describe('Button', () => {
     const cases: ReadonlyArray<[label: string, variant: Variant, classToken: string]> = [
       ['Primary', 'primary', 'bg-comp-button-primary-color-background-default'],
       ['Secondary', 'secondary', 'bg-comp-button-color-background-default'],
-      ['Bare', 'bare', 'text-comp-button-bare-color-content-default'],
-      ['Knockout', 'knockout', 'border-comp-button-knockout-color-border-default']
+      ['Bare', 'bare', 'bg-background-none'],
+      ['Knockout', 'knockout', 'bg-comp-button-color-background-knockout']
     ] as const;
 
     it.each(cases)('applies %s variant', (label, variant, classToken) => {
@@ -51,7 +51,7 @@ describe('Button', () => {
   it('includes focus ring token class on the root element', () => {
     const view: RenderResult = render(<Button>Focus</Button>);
     const root = screen.getByRole('button', { name: 'Focus' });
-    expect(root.className).toMatch(/focus-visible:ring-comp-button-focus-color-ring/);
+    expect(root.className).toMatch(/focus-visible:ring-comp-border-focus-ring/);
     view.unmount();
   });
 
