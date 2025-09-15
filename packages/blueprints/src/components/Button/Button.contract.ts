@@ -4,7 +4,7 @@ import { defineContract } from '../../utilities';
 export const ButtonContract = defineContract({
   component: 'Button',
   description: 'Clickable action control with a text label and optional start/end icons.',
-  base: 'Button', // Radix UI primitive/theme per repo's radix-ui import convention
+  base: 'Slot', // Radix UI primitive/theme per repo's radix-ui import convention
 
   props: {
     // Visual variants per design spec
@@ -21,7 +21,6 @@ export const ButtonContract = defineContract({
     endIcon: { type: 'slot', required: false, description: 'Trailing icon or node' },
 
     // Layout/state
-    fullWidth: { type: 'boolean', default: false, description: 'Expands to 100% width' },
     loading: {
       type: 'boolean',
       default: false,
