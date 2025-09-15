@@ -68,20 +68,5 @@ export const TextLinkContract = defineContract({
     }
   ],
 
-  styleMap: true,
-
-  // Optional adapter hints for Radix (if the generator wants to set Link color/underline props)
-  hints: {
-    radixAdapter: {
-      // Radix Themes Link supports `highContrast`/`underline` props;
-      // keep this as a hint only—tokens still define the actual colors.
-      // Example mapping (informational):
-      variantMap: {
-        strong: { underline: 'always', highContrast: true },
-        subtle: { underline: 'hover', highContrast: false },
-        inverted: { underline: 'always', highContrast: true },
-        brand: { underline: 'always', color: 'blue' }
-      } as const
-    }
-  }
+  styleMap: true
 });

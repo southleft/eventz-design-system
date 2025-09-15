@@ -78,17 +78,5 @@ export const InputContract = defineContract({
     }
   ],
 
-  styleMap: true,
-
-  // Optional Radix hints (advisory only)
-  hints: {
-    radixAdapter: {
-      // Example: pass validation to aria-invalid
-      validationMap: { none: {}, invalid: { 'aria-invalid': true }, valid: {} } as const
-    },
-    a11y: {
-      recommendation:
-        'Associate <label> with the input via id/for. If helperText is present, link it with aria-describedby.'
-    }
-  }
+  styleMap: true
 });
