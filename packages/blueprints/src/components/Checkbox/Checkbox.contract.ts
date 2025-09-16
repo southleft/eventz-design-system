@@ -47,17 +47,5 @@ export const CheckboxContract = defineContract({
     }
   ],
 
-  styleMap: true,
-
-  hints: {
-    radixAdapter: {
-      // Optional adapter hint — how to feed `checked` to Radix
-      // unchecked -> false, checked -> true, indeterminate -> 'indeterminate'
-      variantMap: {
-        unchecked: { checked: false },
-        checked: { checked: true },
-        indeterminate: { checked: 'indeterminate' }
-      } as const
-    }
-  }
+  styleMap: true
 });

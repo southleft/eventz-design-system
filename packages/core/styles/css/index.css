@@ -1,26 +1,23 @@
 @import './tokens.css';
 @import './light.css';
 
-@import 'tailwindcss/preflight';
-
-:root {
-  /* your tokens already expose this */
-  font-size: var(--dt-base-font, 16px);
-}
-
 @layer base {
   html {
-    font-size: var(--dt-base-font, 16px);
+    font-size: var(--text-base-font, 16px);
   }
   body {
-    font-family: var(--dt-font-family-primary, sans-serif);
+    font-family: var(--font-font-family-primary, sans-serif);
+    background-color: var(--color-body-background);
+  }
+  :root {
+    /* Use the same source as body background so ring offsets blend correctly */
+    --tw-ring-offset-color: var(--color-body-background);
   }
 }
 
 @plugin 'tailwindcss-radix';
 
 @theme {
-  /* Colors: map Tailwind color tokens to your CSS vars */
   --color-brand-50: var(--dt-color-brand-50);
   --color-brand-100: var(--dt-color-brand-100);
   --color-brand-200: var(--dt-color-brand-200);
@@ -33,6 +30,43 @@
   --color-brand-900: var(--dt-color-brand-900);
   --color-brand-950: var(--dt-color-brand-950);
 
+  --color-background-none: var(--dt-color-background-none);
+  --color-color-background-default: var(--dt-color-background-default);
+  --color-body-background: var(--dt-color-background-default);
+
+  --color-comp-border-none: var(--dt-comp-border-none);
+  --color-comp-button-focus-color-ring: var(--dt-comp-button-focus-color-ring);
+
+  --color-comp-button-primary-color-background-default: var(
+    --dt-comp-button-primary-color-background-default
+  );
+  --color-comp-button-primary-color-background-hover: var(
+    --dt-comp-button-primary-color-background-hover
+  );
+  --color-comp-button-primary-color-background-active: var(
+    --dt-comp-button-primary-color-background-active
+  );
+  --color-comp-button-color-border-default: var(--dt-comp-button-color-border-default);
+
+  --color-comp-button-color-background-default: var(--dt-comp-button-color-background-default);
+  --color-comp-button-color-background-hover: var(--dt-comp-button-color-background-hover);
+  --color-comp-button-color-background-active: var(--dt-comp-button-color-background-active);
+
+  --color-comp-button-color-background-knockout: var(--dt-comp-button-color-background-knockout);
+  --color-comp-button-color-background-knockout-hover: var(
+    --dt-comp-button-color-background-knockout-hover
+  );
+  --color-comp-button-color-background-knockout-active: var(
+    --dt-comp-button-color-background-knockout-active
+  );
+
+  --color-comp-border-focus-ring: var(--dt-comp-border-focus-ring);
+
+  --font-font-family-primary: var(--dt-font-family-primary);
+
+  --font-weight-font-weight-bold: var(--dt-font-weight-bold);
+  --font-weight-font-weight-medium: var(--dt-font-weight-medium);
+
   --radius-none: 0px;
   --radius-xs: calc(var(--dt-border-radius-2) * 1px);
   --radius-sm: calc(var(--dt-border-radius-4) * 1px);
@@ -42,7 +76,6 @@
   --radius-2xl: calc(var(--dt-border-radius-16) * 1px);
   --radius-3xl: calc(var(--dt-border-radius-24) * 1px);
 
-  /* Spacing scale (→ enables gap-*, px-*, py-*, m-*, etc.) */
   --spacing-0: 0px;
   --spacing-0_5: calc(var(--dt-spacing-0-5) * 1px);
   --spacing-1: calc(var(--dt-spacing-1) * 1px);
@@ -52,6 +85,27 @@
   --spacing-3: calc(var(--dt-spacing-3) * 1px);
   --spacing-3_5: calc(var(--dt-spacing-3-5) * 1px);
   --spacing-4: calc(var(--dt-spacing-4) * 1px);
+
+  --text-base-font: var(--dt-base-font);
+
+  /* Text color tokens (component-scoped) */
+  --color-comp-button-color-content-default: var(--dt-comp-button-color-content-default);
+  --color-comp-button-knockout-color-foreground-default: var(
+    --dt-comp-button-knockout-color-foreground-default
+  );
+  --color-comp-button-primary-color-content-default: var(
+    --dt-comp-button-primary-color-content-default
+  );
+
+  /* Granular typography tokens, rem-based */
+  --text-font-size-12: calc(var(--dt-font-size-12) / var(--text-base-font) * 1rem);
+  --text-font-size-14: calc(var(--dt-font-size-14) / var(--text-base-font) * 1rem);
+  --text-line-height-18: calc(var(--dt-line-height-18) / var(--text-base-font) * 1rem);
+
+  /* Tailwind semantic step derived from granular mappings */
+  /* These reflect typography tokens like --dt-body-sm */
+  --text-sm: var(--text-font-size-14);
+  --text-sm--line-height: var(--text-line-height-18);
 }
 
 @import 'tailwindcss/utilities';
@@ -69,12 +123,18 @@
   .bg-gradient-orange {
     background-image: var(--dt-highlight-highlight-4);
   }
+
+  /* Focus ring token hook (Tailwind’s ring system uses --tw-ring-color) */
+  .ring-comp-button-focus-color-ring {
+    --tw-ring-color: var(--color-comp-button-focus-color-ring);
+  }
+
   .text-caption-lg-allcaps-bold {
-    /* maps "Bold 12/18 sans-serif" sensibly */
-    font-weight: 700; /* "Bold" */
-    font-size: calc(var(--dt-font-size-12) * 1px);
-    line-height: calc(var(--dt-line-height-18) * 1px);
+    /* Bold 12/18, token-first and rem-based */
+    font-weight: var(--dt-font-weight-bold, 700);
+    font-size: calc((var(--dt-font-size-12) / var(--dt-base-font)) * 1rem);
+    line-height: calc((var(--dt-line-height-18) / var(--dt-base-font)) * 1rem);
     font-family: var(--dt-font-family-primary, sans-serif);
-    text-transform: var(--dt-text-case-uppercase);
+    text-transform: var(--dt-text-case-uppercase, uppercase);
   }
 }

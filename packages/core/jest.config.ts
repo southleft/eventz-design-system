@@ -5,7 +5,7 @@ const config: Config = {
   preset: 'ts-jest',
   testEnvironment: 'jsdom',
   roots: ['./src'],
-  testMatch: ['**/+(*.)+(spec).+(ts)', '**/+(*.)+(test).+(tsx)'],
+  testMatch: ['**/+(*.)+(test).+(ts)', '**/+(*.)+(test).+(tsx)'],
 
   // Modern ts-jest config (replaces deprecated `globals['ts-jest']`)
   transform: {
