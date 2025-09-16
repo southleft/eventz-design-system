@@ -17,6 +17,9 @@
 
 @plugin 'tailwindcss-radix';
 
+@source './src/**/*.{ts,tsx,js,jsx,mdx}';
+@source './.storybook/**/*.{ts,tsx,js,jsx,mdx}';
+
 @theme {
   --color-brand-50: var(--dt-color-brand-50);
   --color-brand-100: var(--dt-color-brand-100);
@@ -32,7 +35,6 @@
 
   --color-background-none: var(--dt-color-background-none);
   --color-color-background-default: var(--dt-color-background-default);
-  --color-body-background: var(--dt-color-background-default);
 
   --color-comp-border-none: var(--dt-comp-border-none);
   --color-comp-button-focus-color-ring: var(--dt-comp-button-focus-color-ring);
