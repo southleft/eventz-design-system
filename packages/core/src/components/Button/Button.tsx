@@ -22,11 +22,11 @@ export interface ButtonProps
     ButtonOwnProps {}
 
 const baseClasses = `
-  inline-flex select-none items-center justify-center font-font-weight-medium text-sm transition-colors border-1
+  inline-flex select-none items-center justify-center font-medium text-sm transition-colors border-1
   disabled:opacity-50 disabled:pointer-events-none whitespace-nowrap focus-visible:ring-comp-border-focus-ring focus-visible:ring
 `;
 
-const containerClasses = 'h-10 px-4 gap-2 rounded-md';
+const containerClasses = 'h-24 px-4 gap-2 rounded-md';
 
 const variantClasses: Record<Variant, string> = {
   primary: `
@@ -48,8 +48,8 @@ const variantClasses: Record<Variant, string> = {
 };
 
 const slotClasses = {
-  startIcon: 'shrink-0 -ml-0.5',
-  endIcon: 'shrink-0 -mr-0.5'
+  startIcon: 'shrink-0 -ml-0.5 pt-1',
+  endIcon: 'shrink-0 -mr-0.5 pt-1'
 } as const;
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
