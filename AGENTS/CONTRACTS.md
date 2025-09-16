@@ -253,9 +253,37 @@ Utilities are also acceptable for:
 * **Borders presence**: `border`
 * **Focus ring thickness/offset**: `focus-visible:ring-2`, `focus-visible:ring-offset-2`
 
+### 🔁 Lossless mapping table (for generators)
+
+> Generators **never edit** `@theme`. They assume mechanical mappings exist (or will be added by humans/component-gen). Keep mappings boring and reversible.
+
+| Source token (dt)         | Theme var (Tailwind bucket)                                                            | Class prefix used in styleMaps             |
+| ------------------------- | -------------------------------------------------------------------------------------- | ------------------------------------------ |
+| `--dt-…-color-…`          | `--color-… : var(--dt-…-color-…)`                                                      | `bg-`, `text-`, `border-`                  |
+| `--dt-font-size-<n>`      | `--text-font-size-<n>: calc(var(--dt-font-size-<n>) / var(--dt-base-font) * 1rem)`     | *(paired via size utility or `.text-*`)*   |
+| `--dt-line-height-<n>`    | `--text-line-height-<n>: calc(var(--dt-line-height-<n>) / var(--dt-base-font) * 1rem)` | *(paired via size utility or `.text-*`)*   |
+| `--dt-font-weight-<name>` | `--font-weight-font-weight-<name>: var(--dt-font-weight-<name>)`                              | used by weight utilities (e.g., `.font-*`) |
+| `--dt-…-focus-color-ring` | `--color-…-focus-color-ring: var(--dt-…-focus-color-ring)`                             | `focus-visible:ring-…`                     |
+
+**Rules**
+- Strip the `--dt-` prefix; **prepend the Tailwind bucket** (`--color-`, `--text-font-size-`, `--text-line-height-`, `--font-weight-font-weight-`).
+- Keep the **rest of the path unchanged** (lossless; e.g., `--font-weight-font-weight-bold`).
+- Prefer Tailwind-built utilities when theme vars unlock them (e.g., `bg-*`, `text-*`, `border-*`, `focus-visible:ring-*`).
+- If Tailwind cannot synthesize a utility (e.g., a bespoke caption size), emit a **tiny, single-purpose utility** in CSS that reads the mapped vars (e.g., `.text-caption-lg { font-size: var(--text-font-size-12); line-height: var(--text-line-height-18); }`).
+
 ---
 
 ## 🛠️ Agent Workflow (Contract + StyleMap → Component)
+
+> **Separation of responsibilities**
+> - **Blueprint generators** output only **contracts** and **styleMaps**. They do **not** modify `@theme`.
+> - **Component generation** (in `packages/core/`) is responsible for verifying that any classes referenced by the styleMap are backed by theme vars/utilities in `styles/css/index.css`. When missing, add the exact theme var mapping (token-first) or a tiny utility.
+
+**Component-gen confirmation checklist**
+- [ ] For every `bg-*/text-*/border-*` class, the corresponding `--color-*` var exists in `@theme` and points to the `--dt-*` token.
+- [ ] Typography: if `.text-*` is used, ensure the backing vars exist (e.g., `--text-sm`, `--text-sm--line-height`). If not, add granular pairs `--text-font-size-<n>` + `--text-line-height-<n>` and a small utility.
+- [ ] Focus ring: confirm `--color-…-focus-color-ring` exists; leave thickness/offset as utilities unless tokenized.
+- [ ] No reliance on Tailwind Preflight; base/reset comes from our token-driven base layer.
 
 1. **Read** the Contract + StyleMap.
 2. **Wrap** the Radix base specified by `base`.

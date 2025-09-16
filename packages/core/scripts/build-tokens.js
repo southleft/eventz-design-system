@@ -1,21 +1,23 @@
+// packages/core/scripts/build-tokens.js
 import StyleDictionary from 'style-dictionary';
-import config from '../styles/tokens/tokens-config.js';
+import { configs } from '../styles/tokens/tokens-config.js';
 
-// ✅ Register custom format: css/variables-with-selector
+// Custom format you already use
 StyleDictionary.registerFormat({
   name: 'css/variables-with-selector',
-  format: function ({ dictionary, file }) {
-    console.log({ file });
+  format: ({ dictionary, file }) => {
     const selector = file.selector || ':root';
     const header = `/**\n* Do not edit directly, this file was auto-generated.\n*/\n\n`;
-    const body = dictionary.allTokens.map(prop => `--${prop.name}: ${prop.value};`).join('\n');
+    const body = dictionary.allTokens.map(p => `--${p.name}: ${p.value};`).join('\n');
     return `${header}${selector} {\n${body}\n}`;
   }
 });
 
-console.log('🔧 Building tokens...');
+console.log('🔧 Building tokens...\n');
 
-const sd = new StyleDictionary(config);
-await sd.buildAllPlatforms();
+for (const cfg of configs) {
+  const sd = new StyleDictionary(cfg); // v4 ctor API
+  await sd.buildAllPlatforms();
+}
 
 console.log('✅ Token build complete.');

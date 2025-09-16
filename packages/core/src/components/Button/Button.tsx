@@ -1,0 +1,113 @@
+// packages/core/src/components/Button/Button.tsx
+import * as React from 'react';
+import { Slot } from 'radix-ui';
+import { composeClasses } from '../../utilities/composeClasses/composeClasses';
+import { collapseWhitespace } from '../../utilities/collapseWhitespace/collapseWhitespace';
+
+type Variant = 'primary' | 'secondary' | 'bare' | 'knockout';
+
+type ButtonOwnProps = {
+  variant?: Variant;
+  startIcon?: React.ReactNode;
+  endIcon?: React.ReactNode;
+  loading?: boolean;
+  disabled?: boolean;
+  asChild?: boolean;
+  children: React.ReactNode;
+};
+
+// Strip native props we don’t support/override; disallow passing children there.
+export interface ButtonProps
+  extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'color' | 'children'>,
+    ButtonOwnProps {}
+
+const baseClasses = `
+  inline-flex select-none items-center justify-center font-font-weight-medium text-sm transition-colors border-1
+  disabled:opacity-50 disabled:pointer-events-none whitespace-nowrap focus-visible:ring-comp-border-focus-ring focus-visible:ring
+`;
+
+const containerClasses = 'h-10 px-4 gap-2 rounded-md';
+
+const variantClasses: Record<Variant, string> = {
+  primary: `
+    bg-comp-button-primary-color-background-default text-comp-button-primary-color-content-default border-comp-border-none
+    hover:bg-comp-button-primary-color-background-hover active:bg-comp-button-primary-color-background-active
+  `,
+  secondary: `
+    bg-comp-button-color-background-default border-comp-button-color-border-default text-comp-button-color-content-default
+    hover:bg-comp-button-color-background-hover active:bg-comp-button-color-background-active
+  `,
+  bare: `
+    bg-background-none text-comp-button-color-content-default border-comp-border-none
+    hover:bg-comp-button-color-background-hover active:bg-comp-button-color-background-active
+  `,
+  knockout: `
+    bg-comp-button-color-background-knockout text-comp-button-color-content-default border-comp-border-none
+    hover:bg-comp-button-color-background-knockout-hover active:bg-comp-button-color-background-knockout-active
+  `
+};
+
+const slotClasses = {
+  startIcon: 'shrink-0 -ml-0.5',
+  endIcon: 'shrink-0 -mr-0.5'
+} as const;
+
+export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+  (
+    {
+      variant = 'primary',
+      startIcon,
+      endIcon,
+      loading = false,
+      disabled = false,
+      type = 'button',
+      asChild = false,
+      children,
+      className,
+      ...rest
+    },
+    ref
+  ) => {
+    const effectiveDisabled = disabled || loading;
+
+    const rootClass = collapseWhitespace(
+      composeClasses(
+        baseClasses,
+        containerClasses,
+        variantClasses[variant],
+        {
+          'pointer-events-none opacity-50': effectiveDisabled || loading
+        },
+        className
+      )
+    );
+
+    const Comp: React.ElementType = asChild ? Slot.Root : 'button';
+
+    return (
+      <Comp
+        ref={ref}
+        className={rootClass}
+        aria-busy={loading || undefined}
+        aria-disabled={effectiveDisabled || undefined}
+        type={type}
+        disabled={effectiveDisabled}
+        {...rest}
+      >
+        {startIcon && (
+          <span className={slotClasses.startIcon} aria-hidden="true">
+            {startIcon}
+          </span>
+        )}
+        <Slot.Slottable>{children}</Slot.Slottable>
+        {endIcon && (
+          <span className={slotClasses.endIcon} aria-hidden="true">
+            {endIcon}
+          </span>
+        )}
+      </Comp>
+    );
+  }
+);
+
+Button.displayName = 'Button';

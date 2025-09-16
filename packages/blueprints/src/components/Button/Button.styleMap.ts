@@ -2,72 +2,77 @@
 import { defineStyleMap } from '../../utilities';
 
 export const ButtonStyleMap = defineStyleMap({
-  // Base classes (token-first where possible)
+  // Mirrors the actual Button.tsx base classes (token-first where possible)
   base: [
-    'inline-flex select-none items-center justify-center',
-    'font-medium',
+    // layout & interaction
+    'inline-flex',
+    'select-none',
+    'items-center',
+    'justify-center',
     'transition-colors',
-    'outline-none',
-    'focus-visible:ring-2',
-    'focus-visible:ring-comp-button-focus-color-ring',
-    'focus-visible:ring-offset-2',
-    'disabled:opacity-50 disabled:pointer-events-none',
-    'whitespace-nowrap'
+    'whitespace-nowrap',
+    // typography
+    'font-font-weight-medium',
+    'text-sm',
+    // focus ring (token)
+    'focus-visible:ring',
+    'focus-visible:ring-comp-border-focus-ring',
+    // disabled
+    'disabled:opacity-50',
+    'disabled:pointer-events-none',
+    // structural
+    'h-10',
+    'px-4',
+    'gap-2',
+    'rounded-md',
+    // border thickness (as used by the component)
+    'border-1'
   ] as const,
 
-  // Single default size per spec (no size prop in contract)
+  // Slots used by the runtime component (no container wrapper)
   slots: {
-    container: ['h-10', 'px-4', 'gap-2', 'rounded-md'] as const,
     startIcon: ['shrink-0', '-ml-0.5'] as const,
     label: [] as const,
     endIcon: ['shrink-0', '-mr-0.5'] as const
   },
 
-  layout: {
-    fullWidth: ['w-full'] as const
-  },
-
-  // Variants map 1:1 to the contract `variant` options
+  // Variants match Button.tsx exactly
   variants: {
     primary: [
       'bg-comp-button-primary-color-background-default',
-      'text-comp-button-primary-color-foreground-default',
+      'text-comp-button-primary-color-content-default',
+      'border-comp-border-none',
       'hover:bg-comp-button-primary-color-background-hover',
       'active:bg-comp-button-primary-color-background-active'
-      // If you have disabled tokens, you can add:
-      // 'disabled:bg-comp-button-primary-color-background-disabled',
-      // 'disabled:text-comp-button-primary-color-foreground-disabled',
     ] as const,
 
     secondary: [
-      'bg-comp-button-secondary-color-background-default',
-      'text-comp-button-secondary-color-foreground-default',
-      'hover:bg-comp-button-secondary-color-background-hover',
-      'active:bg-comp-button-secondary-color-background-active'
-      // Optional disabled tokens:
-      // 'disabled:bg-comp-button-secondary-color-background-disabled',
-      // 'disabled:text-comp-button-secondary-color-foreground-disabled',
+      'bg-comp-button-color-background-default',
+      'border-comp-button-color-border-default',
+      'text-comp-button-color-content-default',
+      'hover:bg-comp-button-color-background-hover',
+      'active:bg-comp-button-color-background-active'
     ] as const,
 
     bare: [
-      'bg-transparent',
-      'text-comp-button-bare-color-foreground-default',
-      'hover:bg-comp-button-bare-color-background-hover',
-      'active:bg-comp-button-bare-color-background-active'
+      'bg-background-none',
+      'text-comp-button-color-content-default',
+      'border-comp-border-none',
+      'hover:bg-comp-button-color-background-hover',
+      'active:bg-comp-button-color-background-active'
     ] as const,
 
     knockout: [
-      'bg-transparent',
-      'text-comp-button-knockout-color-foreground-default',
-      'border',
-      'border-comp-button-knockout-color-border-default',
-      'hover:bg-comp-button-knockout-color-background-hover',
-      'active:bg-comp-button-knockout-color-background-active'
+      'bg-comp-button-color-background-knockout',
+      'text-comp-button-color-content-default',
+      'border-comp-border-none',
+      'hover:bg-comp-button-color-background-knockout-hover',
+      'active:bg-comp-button-color-background-knockout-active'
     ] as const
   },
 
+  // Semantic state hooks the runtime can toggle (kept minimal)
   state: {
-    // Extra hook for loading UI tweaks; aria-disabled handled by rules in contract
     loading: ['cursor-wait', 'data-[loading=true]:opacity-100'] as const
   }
 });
