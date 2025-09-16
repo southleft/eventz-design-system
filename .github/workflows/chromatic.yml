@@ -3,7 +3,7 @@ name: 'Chromatic'
 on:
   push:
     branches:
-      - development
+      - bugfix/chromatic_action
 
 jobs:
   chromatic:
