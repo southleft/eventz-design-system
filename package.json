@@ -5,6 +5,7 @@
   "scripts": {
     "build": "pnpm --filter @doxyz/core build",
     "build:tokens": "pnpm --filter @doxyz/core build:tokens",
+    "build-storybook": "pnpm --filter @doxyz/core build-storybook",
     "lint": "pnpm -r lint",
     "test": "pnpm -r test",
     "type-check": "tsc -b --noEmit",
