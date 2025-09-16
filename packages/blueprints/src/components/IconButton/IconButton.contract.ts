@@ -5,7 +5,7 @@ export const IconButtonContract = defineContract({
   component: 'IconButton',
   description:
     'Icon-only button. Requires an accessible label via `ariaLabel`. Accepts a single `icon` slot.',
-  base: 'IconButton', // Radix UI per repo's radix-ui import convention
+  base: 'Slot', // Radix UI per repo's radix-ui import convention
 
   props: {
     // Design variants (5 total)
