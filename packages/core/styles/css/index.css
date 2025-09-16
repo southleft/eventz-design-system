@@ -1,3 +1,4 @@
+@import 'tailwindcss/theme.css';
 @import './tokens.css';
 @import './light.css';
 
@@ -67,9 +68,6 @@
 
   --font-font-family-primary: var(--dt-font-family-primary);
 
-  --font-weight-font-weight-bold: var(--dt-font-weight-bold);
-  --font-weight-font-weight-medium: var(--dt-font-weight-medium);
-
   --radius-none: 0px;
   --radius-xs: calc(var(--dt-border-radius-2) * 1px);
   --radius-sm: calc(var(--dt-border-radius-4) * 1px);
@@ -79,6 +77,7 @@
   --radius-2xl: calc(var(--dt-border-radius-16) * 1px);
   --radius-3xl: calc(var(--dt-border-radius-24) * 1px);
 
+  --spacing: 1px;
   --spacing-0: 0px;
   --spacing-0_5: calc(var(--dt-spacing-0-5) * 1px);
   --spacing-1: calc(var(--dt-spacing-1) * 1px);
@@ -88,8 +87,6 @@
   --spacing-3: calc(var(--dt-spacing-3) * 1px);
   --spacing-3_5: calc(var(--dt-spacing-3-5) * 1px);
   --spacing-4: calc(var(--dt-spacing-4) * 1px);
-
-  --text-base-font: var(--dt-base-font);
 
   /* Text color tokens (component-scoped) */
   --color-comp-button-color-content-default: var(--dt-comp-button-color-content-default);
@@ -101,14 +98,15 @@
   );
 
   /* Granular typography tokens, rem-based */
+  --text-base-font: var(--dt-base-font);
   --text-font-size-12: calc(var(--dt-font-size-12) / var(--text-base-font) * 1rem);
-  --text-font-size-14: calc(var(--dt-font-size-14) / var(--text-base-font) * 1rem);
-  --text-line-height-18: calc(var(--dt-line-height-18) / var(--text-base-font) * 1rem);
+  --text-font-size-14: calc(14 / 16 * 1rem);
+  --text-line-height-20: var(--dt-line-height-20);
 
   /* Tailwind semantic step derived from granular mappings */
   /* These reflect typography tokens like --dt-body-sm */
   --text-sm: var(--text-font-size-14);
-  --text-sm--line-height: var(--text-line-height-18);
+  --text-sm--line-height: calc(var(--text-line-height-20) / var(--text-base-font));
 }
 
 @import 'tailwindcss/utilities';
