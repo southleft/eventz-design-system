@@ -17,6 +17,9 @@
 
 @plugin 'tailwindcss-radix';
 
+@source './src/**/*.{ts,tsx,js,jsx,mdx}';
+@source './.storybook/**/*.{ts,tsx,mdx}';
+
 @theme {
   --color-brand-50: var(--dt-color-brand-50);
   --color-brand-100: var(--dt-color-brand-100);

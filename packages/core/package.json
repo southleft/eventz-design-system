@@ -28,7 +28,7 @@
     "build": "vite build --mode lib && pnpm run build:tokens && pnpm run build:css",
     "build:tokens": "node scripts/build-tokens.js",
     "build:css": "pnpm exec tailwindcss -i ./styles/css/index.css -o ./dist/styles.css --minify",
-    "chromatic": "chromatic --project-token=chpt_758de87493596a5",
+    "chromatic": "chromatic --project-token=chpt_758de87493596a5 --no-interactive --exit-once-uploaded",
     "dev:css": "pnpm exec tailwindcss -i ./styles/css/index.css -o ./styles/css/styles.css --watch",
     "storybook": "pnpm run build:tokens && pnpm run build:css && storybook dev -p 6006",
     "build-storybook": "pnpm run build:tokens && pnpm run build:css && storybook build",
