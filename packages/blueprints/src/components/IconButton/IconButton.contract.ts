@@ -5,7 +5,7 @@ export const IconButtonContract = defineContract({
   component: 'IconButton',
   description:
     'Icon-only button. Requires an accessible label via `ariaLabel`. Accepts a single `icon` slot.',
-  base: 'IconButton', // Radix UI per repo's radix-ui import convention
+  base: 'button',
 
   props: {
     // Design variants (5 total)
@@ -31,8 +31,7 @@ export const IconButtonContract = defineContract({
     disabled: { type: 'boolean', default: false, description: 'Disables the control' },
 
     // Native passthrough
-    type: { type: 'enum', options: ['button', 'submit', 'reset'] as const, default: 'button' },
-    asChild: { type: 'boolean', default: false }
+    type: { type: 'enum', options: ['button', 'submit', 'reset'] as const, default: 'button' }
   },
 
   // Single slot in render order
