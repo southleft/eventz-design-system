@@ -33,45 +33,31 @@ const baseClasses = `
 `;
 
 const containerClasses = `
-  h-10
-  w-10
+  h-32
+  w-32
   rounded-md
 `;
 
 const variantClasses: Record<Variant, string> = {
   primary: `
-    bg-comp-icon-button-primary-color-background-default
-    text-comp-icon-button-primary-color-foreground-default
-    hover:bg-comp-icon-button-primary-color-background-hover
-    active:bg-comp-icon-button-primary-color-background-active
+    bg-comp-button-primary-color-background-default text-comp-button-primary-color-content-default border-comp-border-none
+    hover:bg-comp-button-primary-color-background-hover active:bg-comp-button-primary-color-background-active
   `,
   secondary: `
-    bg-comp-icon-button-secondary-color-background-default
-    text-comp-icon-button-secondary-color-foreground-default
-    hover:bg-comp-icon-button-secondary-color-background-hover
-    active:bg-comp-icon-button-secondary-color-background-active
+    bg-comp-button-color-background-default border-comp-button-color-border-default text-comp-button-color-content-default
+    hover:bg-comp-button-color-background-hover active:bg-comp-button-color-background-active
   `,
   bare: `
-    bg-transparent
-    text-comp-icon-button-bare-color-foreground-default
-    hover:bg-comp-icon-button-bare-color-background-hover
-    active:bg-comp-icon-button-bare-color-background-active
+    bg-background-none text-comp-button-color-content-default border-comp-border-none
+    hover:bg-comp-button-color-background-hover active:bg-comp-button-color-background-active
   `,
   knockout: `
-    bg-transparent
-    text-comp-icon-button-knockout-color-foreground-default
-    border
-    border-comp-icon-button-knockout-color-border-default
-    hover:bg-comp-icon-button-knockout-color-background-hover
-    active:bg-comp-icon-button-knockout-color-background-active
+    bg-comp-button-color-background-knockout text-comp-button-color-content-default border-comp-border-none
+    hover:bg-comp-button-color-background-knockout-hover active:bg-comp-button-color-background-knockout-active
   `,
   bareKnockout: `
-    bg-transparent
-    text-comp-icon-button-bare-knockout-color-foreground-default
-    border
-    border-comp-icon-button-bare-knockout-color-border-default
-    hover:bg-comp-icon-button-bare-knockout-color-background-hover
-    active:bg-comp-icon-button-bare-knockout-color-background-active
+    bg-background-none text-comp-button-primary-color-content-default border-comp-border-none
+    hover:bg-comp-button-color-background-hover active:bg-comp-button-color-background-active
   `
 };
 
@@ -82,7 +68,7 @@ const stateClasses = {
 } as const;
 
 const slotClasses = {
-  icon: 'shrink-0'
+  icon: 'shrink-0 pt-1'
 } as const;
 
 export const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
