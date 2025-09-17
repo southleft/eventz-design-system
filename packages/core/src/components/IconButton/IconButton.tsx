@@ -1,6 +1,5 @@
 // packages/core/src/components/IconButton/IconButton.tsx
 import * as React from 'react';
-import { Slot } from 'radix-ui';
 import { composeClasses } from '../../utilities/composeClasses/composeClasses';
 import { collapseWhitespace } from '../../utilities/collapseWhitespace/collapseWhitespace';
 
@@ -13,7 +12,6 @@ type IconButtonOwnProps = {
   loading?: boolean;
   disabled?: boolean;
   type?: 'button' | 'submit' | 'reset';
-  asChild?: boolean;
 };
 
 export interface IconButtonProps
@@ -80,7 +78,6 @@ const variantClasses: Record<Variant, string> = {
 const stateClasses = {
   loading: `
     cursor-wait
-    data-[loading=true]:opacity-100
   `
 } as const;
 
@@ -97,7 +94,6 @@ export const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
       loading = false,
       disabled = false,
       type = 'button',
-      asChild = false,
       children,
       className,
       ...rest
@@ -111,12 +107,8 @@ export const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
 
     const childElement = children ?? null;
 
-    if (!asChild && childElement !== null) {
-      throw new Error('IconButton only accepts children when asChild is true.');
-    }
-
-    if (childElement !== null && !React.isValidElement(childElement)) {
-      throw new Error('IconButton with asChild expects a single React element child.');
+    if (childElement !== null) {
+      throw new Error('IconButton does not accept children; pass the icon via the `icon` prop.');
     }
 
     const effectiveDisabled = disabled || loading;
@@ -131,34 +123,26 @@ export const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
       )
     );
 
-    const useSlot = asChild && childElement !== null;
-    const Comp: React.ElementType = useSlot ? Slot.Root : 'button';
-
     const iconSlot = (
       <span className={slotClasses.icon} aria-hidden="true">
         {icon}
       </span>
     );
 
-    const renderedChild =
-      useSlot && childElement !== null
-        ? React.cloneElement(childElement as React.ReactElement, undefined, iconSlot)
-        : iconSlot;
-
     return (
-      <Comp
+      <button
         ref={ref}
         className={rootClass}
         aria-label={normalizedAriaLabel}
         aria-busy={loading || undefined}
         aria-disabled={effectiveDisabled || undefined}
-        type={useSlot ? undefined : type}
+        type={type}
         disabled={effectiveDisabled || undefined}
         data-loading={loading ? 'true' : undefined}
         {...rest}
       >
-        {renderedChild}
-      </Comp>
+        {iconSlot}
+      </button>
     );
   }
 );

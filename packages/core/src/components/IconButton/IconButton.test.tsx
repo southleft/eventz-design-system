@@ -17,14 +17,14 @@ describe('IconButton', () => {
     ).toThrowError('IconButton requires a non-empty ariaLabel.');
   });
 
-  it('throws when children are provided without asChild', () => {
+  it('throws when children are provided', () => {
     expect(() =>
       render(
         <IconButton icon={sampleIcon} ariaLabel="Invalid child usage">
           <span />
         </IconButton>
       )
-    ).toThrowError('IconButton only accepts children when asChild is true.');
+    ).toThrowError('IconButton does not accept children; pass the icon via the `icon` prop.');
   });
 
   it('renders the icon slot inside a button by default', () => {
@@ -136,15 +136,4 @@ describe('IconButton', () => {
     view.unmount();
   });
 
-  it('supports rendering asChild with a custom element root', () => {
-    const view: RenderResult = render(
-      <IconButton icon={sampleIcon} ariaLabel="Go to link" asChild>
-        <a href="#destination" data-testid="custom-root" />
-      </IconButton>
-    );
-    const link = screen.getByRole('link', { name: 'Go to link' });
-    expect(link).toHaveAttribute('href', '#destination');
-    expect(link).toContainElement(screen.getByTestId('icon-slot'));
-    view.unmount();
-  });
 });
