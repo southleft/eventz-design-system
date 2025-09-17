@@ -49,15 +49,3 @@ export const BareKnockout: Story = {
     variant: 'bareKnockout'
   }
 };
-
-export const Loading: Story = {
-  args: {
-    loading: true
-  }
-};
-
-export const Disabled: Story = {
-  args: {
-    disabled: true
-  }
-};
