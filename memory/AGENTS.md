@@ -41,3 +41,24 @@ Keep templates concise, explicit, and consistent. Each one should:
 - Document any new automation assumptions here so future agents and humans understand the rationale.
 
 Use this file as a map: `memory/prompts/` tells agents **how** to drive repeatable workflows; `memory/skills/` hints at potential building blocks. Together, they keep AI assistance predictable, reviewable, and policy-compliant.
+
+## Referencing Templates & Examples (No Copying)
+
+**Task prompts reference canonical templates _and_ examples as guidance, not as copy sources.** When a task cites a template (e.g., `memory/prompts/generate-component.md`) or an example (e.g., “use Button as a pattern”), the agent must treat those references as **read-only guidance**.
+
+> **Do not copy** code, props, classes, or file contents from examples.  
+> **Do not clone** example files.  
+> **Do not import** example implementations.  
+> **Do not open** example files for bulk duplication.
+
+**How to reference correctly (pattern, not copy):**
+- Use the canonical template to define the **rules and guardrails**.
+- Apply only the **task’s deltas** (component name, paths, contract/styleMap specifics, etc.).
+- Derive structure from the contract + styleMap and the template rules; **do not lift** code from examples.
+- If an example is mentioned (e.g., Button), interpret it as a **shape/pattern cue** (slots, story coverage, test surface), not a source to duplicate.
+
+**Safety checklist for agents**
+- I am using the canonical template as the source of truth.  
+- I am applying only the task deltas.  
+- I have **not** copied or cloned example code/files.  
+- Output files and content are derived from the contract + styleMap + template rules only.
