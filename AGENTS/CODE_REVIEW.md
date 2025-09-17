@@ -52,7 +52,8 @@ Agents must:
 4. **Verify styleMap conformance**:
    - Variants and compound variants: classes exactly match
    - No unused/undefined classes introduced
-   - Class composition must use `clsx` or `cx`; agents must not concatenate strings ad-hoc
+   - Class composition must use `composeClasses` with styleMap variants (`packages/core/src/utilities/composeClasses/composeClasses.ts`)
+   - ClassNames must use `composeClasses`; avoid concatenation (`+`) or array joins; **prefer template literals** for static strings.
 5. **Accessibility checks**:
    - Decorative icons set `aria-hidden="true"`
    - Labels/slots semantically intact
@@ -80,8 +81,26 @@ Agents must:
 ### 🔗 Contract mismatch
 > The prop `<propName>` in the component does not match the contract. Please align with `/packages/blueprints/src/components/<ComponentName>/<ComponentName>.contract.ts`.
 
+
 ### 🎨 styleMap drift
 > Variant `<variantName>` classes differ from styleMap. Expected: `<expected>`, found: `<actual>`. Update to match `/packages/blueprints/src/components/<ComponentName>/<ComponentName>.styleMap.ts`.
+
+### 🧵 className composition
+> `className` composition does not follow repo conventions. Detected string concatenation (`a + ' ' + b`) or array joins (`[a, b].join(' ')`).
+> Please refactor to:
+> - Prefer template literals for static/inline class strings.
+> - Use `composeClasses` (`packages/core/src/utilities/composeClasses/composeClasses.ts`) for conditional composition and styleMap variant/state classes.
+> - Ensure classes come from the styleMap/tokens (no ad-hoc palettes).
+
+### 🧩 Class composition utility misuse
+> Detected `clsx`/`cx` (or ad-hoc string joins) for `className` composition.  
+> This repo uses the local utility **`composeClasses`** to keep class composition within our type structure.
+>
+> Please refactor to:
+> - Replace `clsx`/`cx` (and string joins) with **`composeClasses`**.
+> - Pull classes from the styleMap/token classes; avoid ad-hoc palettes.
+>
+> Reference: `packages/core/src/utilities/composeClasses/composeClasses.ts`
 
 ### ⚙️ Radix base missing
 > Contract declares base `<Primitive>`, but component does not wrap it. Refactor to use the Radix primitive and support `asChild` if specified.

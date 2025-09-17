@@ -42,7 +42,9 @@ All outputs belong under:
    - Must wrap the **Radix Primitive** declared in the contract. **Radix Themes as a base are disallowed.**
    - Must support `asChild` if contract specifies.
    - Props and types must exactly match contract.
-   - Class composition must use `clsx`/`cx` with styleMap variants.
+   - Class composition must use `composeClasses` with styleMap variants (`packages/core/src/utilities/composeClasses/composeClasses.ts`).
+   > Note: This repo does not use `clsx`/`cx`. Always use the local `composeClasses.ts` utility to keep class composition within our type structure.
+   - Prefer template literals (`` `...` ``) for static or inline className definitions. Avoid string concatenation (`+`) and arrays of strings joined into a className.
    - Accessibility: decorative icons → `aria-hidden="true"`, all interactive elements → accessible names.
 3. **Generate stories**:
    - Default export: `title: 'Components/<ComponentName>'`
@@ -75,3 +77,4 @@ All outputs belong under:
 - PR title prefixed with `🤖` and checklist from `AGENTS/PR_PROTOCOL.md` present
 - Base uses a **Radix Primitive** (no Themes); visuals driven by token classes from the styleMap.
 - Tests follow the unit test policy: one `expect()` per `it()`, organized with `describe()`, table-driven tests allowed when they reduce duplication (one `expect()` per case).
+- ClassNames follow the convention: `composeClasses` plus template literals preferred over concatenation or arrays of strings.

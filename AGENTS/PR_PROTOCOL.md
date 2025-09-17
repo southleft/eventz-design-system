@@ -30,7 +30,8 @@ Copy/paste this block into the PR description:
 ### 🤖 Agent PR Checklist
 - [ ] Generated or edited according to `AGENTS/GENERATION.md` or review guardrails in `AGENTS/PERMISSIONS.md`
 - [ ] Diff strictly matches contract + styleMap (no prop/class drift)
-- [ ] Tests follow the unit test policy: one expect() per it(), organized with describe(), table-driven tests allowed (one expect() per case)
+- [ ] Tests follow the unit test policy: one `expect()` per `it()`, organized with `describe()`; table-driven tests allowed (one `expect()` per case)
+- [ ] ClassNames use `composeClasses`; avoid concatenation (`+`) or array joins; prefer template literals for static strings
 - [ ] Tests and stories present at baseline coverage
 - [ ] No unrelated changes in this PR
 - [ ] Labels applied: `needs-human-review`
@@ -55,6 +56,7 @@ Copy/paste this block into the PR description:
 ## ✅ Acceptance Criteria for Approval
 	•	Contract conformance: props, slots/layout, events
 	•	styleMap conformance: variants, compound variants, exact classes
+	•	ClassNames should use `composeClasses`; avoid concatenation (`+`) or array joins.
 	•	Radix usage correct; asChild when declared
 	•	Stories cover public props/variants; tests cover render/slots/variant/a11y minima
 	•	CI green (lint, tests, build, pack). Reviewers do not run toolchains locally.

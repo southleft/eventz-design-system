@@ -286,7 +286,7 @@ Utilities are also acceptable for:
 2. **Wrap** the Radix Primitive specified by `base`.
 3. **Props**: Implement exactly as in contract. Support `asChild` only if present.
 4. **Slots**: Compose `startIcon → label → endIcon` (or as declared). Use truthiness; never invent `hasX` booleans.
-5. **Classes**: Compose via `clsx/cx`:
+5. **Classes**: Compose with `composeClasses` (`packages/core/src/utilities/composeClasses/composeClasses.ts`):
    `base + slots.container + variants[variant] + layout.fullWidth? + state.loading?`
 6. **Radix adapter**: If present, adapters may provide **structural** hints only (e.g., wrapper usage).
    Do **not** pass Theme `variant`/`color` props. All visual styling comes from the styleMap’s token classes.
