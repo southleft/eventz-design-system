@@ -4,16 +4,16 @@ import { defineContract } from '../../utilities';
 export const ControlContract = defineContract({
   component: 'Control',
   description:
-    'Non-interactive visual control used inside buttons and related UI. Supports style, size, and focused state.',
-  base: 'Box', // Radix UI generic container per this repo's radix-ui import convention
+    'Non-interactive visual control used inside buttons and related UI. Supports variant, size, and focused state.',
+  base: 'Slot', // Radix primitive per primitives-only policy
 
   props: {
-    // Design "style" axis
-    style: {
+    // Spec calls these "styles"; treat as component variants
+    variant: {
       type: 'enum',
-      options: ['brand', 'dark', 'mid'] as const,
+      options: ['brand', 'dark', 'light'] as const, // mid -> light
       default: 'brand',
-      description: 'Visual style of the control'
+      description: 'Visual variant of the control'
     },
 
     // Size axis (matches spec: lg, sm)
@@ -28,7 +28,7 @@ export const ControlContract = defineContract({
     focused: {
       type: 'boolean',
       default: false,
-      description: 'Visual focus state (maps to data-focused)'
+      description: 'Visual focus state'
     },
 
     // Optional composition
@@ -38,7 +38,7 @@ export const ControlContract = defineContract({
   // No child slots in the spec (pure visual)
   slots: [] as const,
 
-  // Optional layout hint (circle container)
+  // Advisory only — structural classes live in the styleMap
   layout: {
     type: 'container',
     tag: 'span',
@@ -46,17 +46,16 @@ export const ControlContract = defineContract({
   },
 
   rules: [
-    // Example guard: ensure size/style are present (enum default covers it; retained for pattern)
     {
       validate: (props: Record<string, unknown>) =>
-        typeof props['style'] === 'string' && typeof props['size'] === 'string',
-      message: 'style and size are required.'
+        typeof props['variant'] === 'string' && typeof props['size'] === 'string',
+      message: 'variant and size are required.'
     }
   ],
 
   styleMap: true,
 
   hints: {
-    // No Radix visual props to sync; color is token-driven.
+    // Visuals are token-driven; no Radix theme props
   }
 });
