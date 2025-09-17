@@ -47,10 +47,13 @@ Agents must:
    - Radix: uses `contract.base`; supports `asChild` if declared
    - Events: signatures match contract
    - Exported props interface must be named <ComponentName>Props and defined in <ComponentName>.tsx
+
+> **Policy:** `base` must be a **Radix Primitive**. Radix Themes are disallowed as `base`; styling comes from token classes in the styleMap.
 4. **Verify styleMap conformance**:
    - Variants and compound variants: classes exactly match
    - No unused/undefined classes introduced
-   - Class composition must use `clsx` or `cx`; agents must not concatenate strings ad-hoc
+   - Class composition must use `composeClasses` with styleMap variants (`packages/core/src/utilities/composeClasses/composeClasses.ts`)
+   - ClassNames must use `composeClasses`; avoid concatenation (`+`) or array joins; **prefer template literals** for static strings.
 5. **Accessibility checks**:
    - Decorative icons set `aria-hidden="true"`
    - Labels/slots semantically intact
@@ -65,6 +68,7 @@ Agents must:
    - Jest + RTL
    - Cover: render, slot presence, variant switching, baseline a11y
    - Prefer role/text queries over snapshots
+   - Follow the unit test policy: one `expect()` per `it()`, organize with `describe()`, table-driven tests permitted (one `expect()` per case).
 8. **Changelog discipline**:
    - PR title starts with `🤖`
    - PR body includes checklist from `AGENTS/PR_PROTOCOL.md`
@@ -77,8 +81,31 @@ Agents must:
 ### 🔗 Contract mismatch
 > The prop `<propName>` in the component does not match the contract. Please align with `/packages/blueprints/src/components/<ComponentName>/<ComponentName>.contract.ts`.
 
+### 🧱 Invented props detected
+> The component defines props not present in the contract (e.g., `hasIcon`, `hasLabel`, extra booleans for layout).  
+> Please remove invented props and rely on the contract + slot truthiness.  
+> If a new prop is truly required, update the contract first and regenerate.
+
+
 ### 🎨 styleMap drift
 > Variant `<variantName>` classes differ from styleMap. Expected: `<expected>`, found: `<actual>`. Update to match `/packages/blueprints/src/components/<ComponentName>/<ComponentName>.styleMap.ts`.
+
+### 🧵 className composition
+> `className` composition does not follow repo conventions. Detected string concatenation (`a + ' ' + b`) or array joins (`[a, b].join(' ')`).
+> Please refactor to:
+> - Prefer template literals for static/inline class strings.
+> - Use `composeClasses` (`packages/core/src/utilities/composeClasses/composeClasses.ts`) for conditional composition and styleMap variant/state classes.
+> - Ensure classes come from the styleMap/tokens (no ad-hoc palettes).
+
+### 🧩 Class composition utility misuse
+> Detected `clsx`/`cx` (or ad-hoc string joins) for `className` composition.  
+> This repo uses the local utility **`composeClasses`** to keep class composition within our type structure.
+>
+> Please refactor to:
+> - Replace `clsx`/`cx` (and string joins) with **`composeClasses`**.
+> - Pull classes from the styleMap/token classes; avoid ad-hoc palettes.
+>
+> Reference: `packages/core/src/utilities/composeClasses/composeClasses.ts`
 
 ### ⚙️ Radix base missing
 > Contract declares base `<Primitive>`, but component does not wrap it. Refactor to use the Radix primitive and support `asChild` if specified.
@@ -91,6 +118,14 @@ Agents must:
 
 ### 🧪 Test coverage
 > Add RTL assertions for variant classes and/or slot presence.
+
+### 🧪 Unit test policy violation
+> The test file violates the unit test policy: multiple `expect()` calls were detected inside a single `it()` block or tests are not grouped with `describe()`.
+> Please refactor so each `it()` contains exactly **one** `expect()`. If appropriate, convert to a table-driven test (e.g., `test.each`) where each case includes one `expect()`, or split assertions into separate `it()` cases.
+> Example fixes:
+> - Use `describe()` to group related cases and one `expect()` per `it()`.
+> - Replace a single `it()` with multiple `it()`s, each containing a single assertion.
+> - When using table-driven tests, ensure each test row has one `expect()`.
 
 ---
 

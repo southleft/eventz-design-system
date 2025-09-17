@@ -13,7 +13,7 @@ branches:
     - "review/*"
 
 rules:
-  clsx_required: true
+  composeClasses_required: true
   no_ad_hoc_class_concat: true
   radix_asChild_respected: true
   ci_is_source_of_truth: true

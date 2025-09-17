@@ -16,6 +16,7 @@ This repository uses AI-assisted workflows to enhance development. Policies and 
 
 - 🤝 [CODE_REVIEW.md](./CODE_REVIEW.md) – Guidelines for reviewing agent-generated code
 - ⚙️ [GENERATION.md](./GENERATION.md) – Instructions on generating components and tests
+- 🧭 [BLUEPRINTS.md](./BLUEPRINTS.md) – Reference for blueprints and styleMaps
 - 🔐 [PERMISSIONS.md](./PERMISSIONS.md) – Access and write permissions for agents
 - 📋 [PR_PROTOCOL.md](./PR_PROTOCOL.md) – Pull request requirements and checklist for agents
 - 🧱 [STACK.md](./STACK.md) – Technologies and tools used in the agent workflows
