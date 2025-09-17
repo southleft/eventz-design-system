@@ -21,7 +21,7 @@ export const ButtonStyleMap = defineStyleMap({
     'disabled:opacity-50',
     'disabled:pointer-events-none',
     // structural
-    'h-10',
+    'h-24',
     'px-4',
     'gap-2',
     'rounded-md',
