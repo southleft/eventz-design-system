@@ -48,7 +48,10 @@ Otherwise, do not post. Instead, output findings here.
 
 ## Decision
 - If DRY_RUN = true → never post, output findings here
-- If Required Fixes exist → do not post, output findings here
+- If Required Fixes exist:
+  - Reference the canonical template in `memory/prompts/post-changes-requested.md`
+  - If DRY_RUN=true → output findings here and do not post
+  - If DRY_RUN=false → follow the procedure in `post-changes-requested.md` to post the “🤖 Changes requested by AI” comment
 - If no Required Fixes and DRY_RUN = false:
   - Attempt to post the approval comment above
   - If posting fails (e.g., conversation UI unavailable), copy comment to clipboard and print it in Output for manual pasting
