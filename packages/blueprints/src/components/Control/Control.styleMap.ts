@@ -9,6 +9,11 @@ export const ControlStyleMap = defineStyleMap({
     'transition-colors outline-none'
   ] as const,
 
+  // Slots: icon-only control
+  slots: {
+    icon: ['shrink-0'] as const
+  },
+
   // Variants (spec “styles”): brand, dark, light
   variants: {
     brand: [
@@ -41,7 +46,7 @@ export const ControlStyleMap = defineStyleMap({
     // Visual focus treatment
     focused: ['ring-2', 'ring-comp-control-focus-color-ring', 'ring-offset-2'] as const,
 
-    // Size axis (moved from `layout`)
+    // Size axis
     sizeLg: ['h-6', 'w-6'] as const, // 24px
     sizeSm: ['h-4', 'w-4'] as const  // 16px
   }

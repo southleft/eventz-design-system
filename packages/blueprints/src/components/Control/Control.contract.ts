@@ -4,14 +4,14 @@ import { defineContract } from '../../utilities';
 export const ControlContract = defineContract({
   component: 'Control',
   description:
-    'Non-interactive visual control used inside buttons and related UI. Supports variant, size, and focused state.',
-  base: 'Slot', // Radix primitive per primitives-only policy
+    'Icon-only visual control used inside buttons and related UI. Single `icon` slot; requires `ariaLabel` for accessible name.',
+  base: 'Slot', // primitives-only policy; note: asChild is NOT supported here
 
   props: {
     // Spec calls these "styles"; treat as component variants
     variant: {
       type: 'enum',
-      options: ['brand', 'dark', 'light'] as const, // mid -> light
+      options: ['brand', 'dark', 'light'] as const,
       default: 'brand',
       description: 'Visual variant of the control'
     },
@@ -31,25 +31,35 @@ export const ControlContract = defineContract({
       description: 'Visual focus state'
     },
 
-    // Optional composition
-    asChild: { type: 'boolean', default: false }
+    // Icon-only API (same pattern as IconButton)
+    icon: { type: 'slot', required: true, description: 'Icon element or any node to render' },
+    ariaLabel: {
+      type: 'string',
+      required: true,
+      description: 'Accessible name for screen readers (applied to `aria-label`)'
+    }
+
+    // NOTE: no `asChild` and no runtime states like `disabled` / `loading`
   },
 
-  // No child slots in the spec (pure visual)
-  slots: [] as const,
+  // Single slot in render order
+  slots: ['icon'] as const,
 
   // Advisory only — structural classes live in the styleMap
   layout: {
     type: 'container',
     tag: 'span',
-    className: 'inline-flex items-center justify-center rounded-full'
+    className: 'inline-flex items-center justify-center rounded-full',
+    children: [{ slot: 'icon', tag: 'span', className: 'shrink-0' }]
   },
 
   rules: [
     {
-      validate: (props: Record<string, unknown>) =>
-        typeof props['variant'] === 'string' && typeof props['size'] === 'string',
-      message: 'variant and size are required.'
+      validate: (props: Record<string, unknown>) => {
+        const a = props['ariaLabel'];
+        return typeof a === 'string' && a.trim().length > 0;
+      },
+      message: 'ariaLabel must be a non-empty string for Control (icon-only).'
     }
   ],
 
