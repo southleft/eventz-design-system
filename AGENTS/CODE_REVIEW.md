@@ -81,6 +81,11 @@ Agents must:
 ### 🔗 Contract mismatch
 > The prop `<propName>` in the component does not match the contract. Please align with `/packages/blueprints/src/components/<ComponentName>/<ComponentName>.contract.ts`.
 
+### 🧱 Invented props detected
+> The component defines props not present in the contract (e.g., `hasIcon`, `hasLabel`, extra booleans for layout).  
+> Please remove invented props and rely on the contract + slot truthiness.  
+> If a new prop is truly required, update the contract first and regenerate.
+
 
 ### 🎨 styleMap drift
 > Variant `<variantName>` classes differ from styleMap. Expected: `<expected>`, found: `<actual>`. Update to match `/packages/blueprints/src/components/<ComponentName>/<ComponentName>.styleMap.ts`.

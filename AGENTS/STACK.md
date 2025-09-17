@@ -32,7 +32,7 @@ For procedures and policies, see: `AGENTS/CODE_REVIEW.md`, `AGENTS/GENERATION.md
 
 ## 🎛️ UI Stack & Patterns
 - **Radix UI** primitives as component bases; support `asChild` when declared in the contract.
-- **Tailwind CSS** classes applied via `composeClasses` (`packages/core/src/utilities/composeClasses/composeClasses.ts`); **prefer template literals** for static strings; **avoid string concatenation (`+`) and array joins**.
+- **Tailwind CSS** classes are composed with `composeClasses` (`packages/core/src/utilities/composeClasses/composeClasses.ts`); prefer template literals for static strings; avoid string concatenation (`+`) and array joins.
 - **Contracts** define props/slots/layout; **styleMaps** define classes/variants/compounds.
 - **Layout ownership:** parent layouts own spacing/margins; components avoid per-instance margin props.
 

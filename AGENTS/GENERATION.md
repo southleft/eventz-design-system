@@ -27,7 +27,7 @@ See **Canonical paths** above for contract and styleMap locations.
 
 ## 📦 Outputs
 Generated components must include all of the following:
-- `/<ComponentName>.tsx` — React component implementing the contract + styleMap. This file **must export a named interface for props** (e.g., `<ComponentName>Props`), defined within the same file, matching the contract's prop definitions.
+- `/<ComponentName>.tsx` — React component implementing the contract + styleMap. Do not export prop type aliases; export only the named `<ComponentName>Props` interface from this file. This file **must export a named interface for props** (e.g., `<ComponentName>Props`), defined within the same file, matching the contract's prop definitions.
 - `/<ComponentName>.stories.tsx` — Storybook stories covering all public props/variants
 - `/<ComponentName>.test.tsx` (or `__tests__/`) — Jest + RTL tests for render, slots, variants, baseline a11y
 
@@ -78,3 +78,4 @@ All outputs belong under:
 - Base uses a **Radix Primitive** (no Themes); visuals driven by token classes from the styleMap.
 - Tests follow the unit test policy: one `expect()` per `it()`, organized with `describe()`, table-driven tests allowed when they reduce duplication (one `expect()` per case).
 - ClassNames follow the convention: `composeClasses` plus template literals preferred over concatenation or arrays of strings.
+- Props export rule followed: only `<ComponentName>Props` is exported; no prop type aliases are exported.
