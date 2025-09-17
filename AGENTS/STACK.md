@@ -36,6 +36,8 @@ For procedures and policies, see: `AGENTS/CODE_REVIEW.md`, `AGENTS/GENERATION.md
 - **Contracts** define props/slots/layout; **styleMaps** define classes/variants/compounds.
 - **Layout ownership:** parent layouts own spacing/margins; components avoid per-instance margin props.
 
+> **Policy:** `base` must be a **Radix Primitive**. Radix Themes are disallowed as `base`; styling comes from token classes in the styleMap.
+
 ---
 
 ## 🧪 Testing & Stories

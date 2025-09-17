@@ -21,7 +21,7 @@ A **contract** is the single source of truth for a component’s **public API** 
 * The **slots** that determine composition (e.g., `startIcon`, `label`, `endIcon`).
 * Any **rules** (validation or implications like `loading ⇒ disabled`).
 * Optional **layout** hints for how slots are arranged.
-* Optional **hints** that help adapters map design variants to Radix props.
+* Optional **hints** that provide adapter **structural** guidance only (e.g., wrapper usage). Do **not** pass Radix Theme styling props (e.g., `variant`, `color`); all visuals come from token classes in the styleMap.
 
 > 🔑 **Blueprints do not define runtime TS prop types.** Those live in **core** when the component is generated. Blueprints only express the schema to guide the generator.
 > ℹ️ **Radix base:** `base` refers to **Radix UI Primitives only** imported through this repo’s `radix-ui` convention. **Radix Themes are disallowed as a `base`.**
@@ -519,7 +519,6 @@ These can run as a pre-commit hook or a CI step.
 * `variant: 'primary' | 'secondary' | 'bare' | 'knockout'` (default `'primary'`)
 * `label` required; `startIcon`/`endIcon` are `slot`s
 * `fullWidth`, `loading`, `disabled`, `type`, optional `asChild`
-* Radix adapter mapping (primary→solid/blue, secondary→soft/gray, bare→ghost/gray, knockout→outline/blue)
 
 **StyleMap highlights**
 
