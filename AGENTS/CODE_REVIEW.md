@@ -47,6 +47,8 @@ Agents must:
    - Radix: uses `contract.base`; supports `asChild` if declared
    - Events: signatures match contract
    - Exported props interface must be named <ComponentName>Props and defined in <ComponentName>.tsx
+
+> **Policy:** `base` must be a **Radix Primitive**. Radix Themes are disallowed as `base`; styling comes from token classes in the styleMap.
 4. **Verify styleMap conformance**:
    - Variants and compound variants: classes exactly match
    - No unused/undefined classes introduced

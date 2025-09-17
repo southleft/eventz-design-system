@@ -15,6 +15,9 @@ It complements:
 - 🧾 `AGENTS/PR_PROTOCOL.md`
 - 🧩 `AGENTS/STACK.md`
 
+> **Radix Primitive Policy:** Components must wrap **Radix Primitives only** as their `base`.
+> Radix Themes are **disallowed** as a `base`. All visual styling comes from our **styleMap** token classes.
+
 ---
 
 ## 📂 Inputs
@@ -36,7 +39,7 @@ All outputs belong under:
 ## 🔄 Workflow
 1. **Read contract + styleMap** to understand props, slots, variants, and Radix base.
 2. **Generate component**:
-   - Must wrap the Radix base primitive declared in contract.
+   - Must wrap the **Radix Primitive** declared in the contract. **Radix Themes as a base are disallowed.**
    - Must support `asChild` if contract specifies.
    - Props and types must exactly match contract.
    - Class composition must use `clsx`/`cx` with styleMap variants.
@@ -69,3 +72,4 @@ All outputs belong under:
 - Tests cover render/slots/variants/a11y minima
 - No unrelated changes in PR
 - PR title prefixed with `🤖` and checklist from `AGENTS/PR_PROTOCOL.md` present
+- Base uses a **Radix Primitive** (no Themes); visuals driven by token classes from the styleMap.

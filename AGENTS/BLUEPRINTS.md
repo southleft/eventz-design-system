@@ -8,7 +8,7 @@
 > Source: AGENTS/META.yml (version: 1)
 <!-- @agents:paths:end -->
 
-This document explains **what contracts are**, **what styleMaps are**, and **how agents must use them** to generate components that are consistent with **DoXYZ** design tokens and **Radix UI** components (Primitives or Themes).
+This document explains **what contracts are**, **what styleMaps are**, and **how agents must use them** to generate components that are consistent with **DoXYZ** design tokens and **Radix UI Primitives** (Primitives only; Themes are disallowed as a `base`).
 
 ---
 
@@ -24,7 +24,7 @@ A **contract** is the single source of truth for a component’s **public API** 
 * Optional **hints** that help adapters map design variants to Radix props.
 
 > 🔑 **Blueprints do not define runtime TS prop types.** Those live in **core** when the component is generated. Blueprints only express the schema to guide the generator.
-> ℹ️ **Radix base:** `base` refers to Radix UI components (Primitives or Themes), imported through this repo’s `radix-ui` convention, unless explicitly noted otherwise.
+> ℹ️ **Radix base:** `base` refers to **Radix UI Primitives only** imported through this repo’s `radix-ui` convention. **Radix Themes are disallowed as a `base`.**
 
 
 ### Minimal schema (illustrative)
@@ -32,13 +32,16 @@ A **contract** is the single source of truth for a component’s **public API** 
 > Contracts are type-checked against `ContractSpec`
 > (`packages/blueprints/src/utilities/defineContract/types.ts`)
 
+> **Radix Primitive Policy:** Contracts must specify a **Radix Primitive** in `base`.
+> Do **not** specify Radix Themes as `base`. All variant/color semantics are applied via **styleMap** token classes, not Theme props.
+
 ```ts
 import { defineContract } from '../../utilities';
 
 export const ButtonContract = defineContract({
   component: 'Button',
   description: 'Clickable action with label and optional icons.',
-  base: 'Button', // Radix UI primitive/theme per this repo's `radix-ui` import convention
+  base: 'Button', // Radix UI Primitive (Primitives only; Themes disallowed as base)
 
   props: {
     variant: {
@@ -93,14 +96,8 @@ export const ButtonContract = defineContract({
 
   // Designer → Radix mapping hints
   hints: {
-    radixAdapter: {
-      variantMap: {
-        primary:  { variant: 'solid',   color: 'blue'  },
-        secondary:{ variant: 'soft',    color: 'gray'  },
-        bare:     { variant: 'ghost',   color: 'gray'  },
-        knockout: { variant: 'outline', color: 'blue'  }
-      }
-    }
+    // Adapters may provide structural hints only; do not rely on Radix Theme props.
+    radixAdapter: { uses: ['Button'] as const }
   },
   // Generators MUST NOT pass Radix size/density props unless explicitly added to the contract.
   // Dimensions and spacing come from our styleMap tokens/utilities.
@@ -111,7 +108,7 @@ export const ButtonContract = defineContract({
 
 ## 🎨 What is a StyleMap?
 
-A **styleMap** binds the contract’s **variants/slots/layout/states** to **Tailwind classes** that are backed by **design tokens**. It is the “how it looks” counterpart to the contract’s “what it does.”
+A **styleMap** binds the contract’s **variants/slots/layout/states** to **Tailwind classes** that are backed by **design tokens**. It is the “how it looks” counterpart to the contract’s “what it does.” Radix Theme props (e.g., `variant`, `color`) are not used; all visuals come from token classes.
 
 * `base`: classes applied for all cases.
 * `slots`: classes applied to the root container and each slot (e.g., `startIcon`, `label`, `endIcon`).
@@ -286,12 +283,13 @@ Utilities are also acceptable for:
 - [ ] No reliance on Tailwind Preflight; base/reset comes from our token-driven base layer.
 
 1. **Read** the Contract + StyleMap.
-2. **Wrap** the Radix base specified by `base`.
+2. **Wrap** the Radix Primitive specified by `base`.
 3. **Props**: Implement exactly as in contract. Support `asChild` only if present.
 4. **Slots**: Compose `startIcon → label → endIcon` (or as declared). Use truthiness; never invent `hasX` booleans.
 5. **Classes**: Compose via `clsx/cx`:
    `base + slots.container + variants[variant] + layout.fullWidth? + state.loading?`
-6. **Radix adapter**: If present, use `hints.radixAdapter.variantMap` to set Radix `variant`/`color` props; otherwise rely solely on tokens in the styleMap.
+6. **Radix adapter**: If present, adapters may provide **structural** hints only (e.g., wrapper usage).
+   Do **not** pass Theme `variant`/`color` props. All visual styling comes from the styleMap’s token classes.
 7. **States**:
 
    * `disabled={disabled || loading}`
@@ -327,6 +325,12 @@ See **AGENTS/GENERATION.md** for story/test structure and acceptance criteria.
 - Focus ring token class is present on keyboard focus (RTL `tab` simulation).
 
 ---
+
+### Radix Primitive–Only Base (Policy)
+- `base` **must** be a Radix **Primitive**.
+- Radix **Themes are disallowed** as a `base`.
+- Do **not** pass Theme styling props (e.g., `variant`, `color`) via adapters.
+- All visuals are token-driven through the **styleMap** (`bg-*`, `text-*`, `border-*`, `focus-visible:ring-*`).
 
 ## 🧱 Blueprints vs Core (Types & Ownership)
 
@@ -409,7 +413,7 @@ If tokens provide inverse/on-dark roles, prefer them with a container selector o
 
 ## ✅ Contract & StyleMap Checklist
 
-- [ ] `base` is the correct Radix UI primitive/theme.
+- [ ] `base` is the correct Radix UI Primitive.
 - [ ] Contract enum `options` use **const tuples**; `default` is one of them.
 - [ ] All slot props use `type: 'slot'`; the `slots` array lists them in render order.
 - [ ] No invented props; events bind via `{...rest}` on the root element.
@@ -434,7 +438,7 @@ If tokens provide inverse/on-dark roles, prefer them with a container selector o
 - `base` accepts `string | string[]`.
 - **Default provider is Radix**. Unprefixed names (e.g., `Button`, `Badge`) resolve to `radix-ui` entrypoints used in this repo.
 - Prefixed names select other sources:
-  - `radix:Button` → Radix UI (Themes or Primitives) named export `Button`
+  - `radix:Button` → Radix UI Primitive named export `Button`
   - `core:Card` → `packages/core/src/components/Card/Card`
   - `local:../foo/Bar` → relative import from the generated file
   - (Optional later) `npm:@scope/pkg#Export` (named) or `npm:@scope/pkg` (default)

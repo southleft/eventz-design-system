@@ -58,6 +58,8 @@ Copy/paste this block into the PR description:
 	•	Stories cover public props/variants; tests cover render/slots/variant/a11y minima
 	•	CI green (lint, tests, build, pack). Reviewers do not run toolchains locally.
 
+> **Policy:** `base` must be a **Radix Primitive**. Radix Themes are disallowed as `base`; styling comes from token classes in the styleMap.
+
 ## 💬 Review Comment Templates
 
 ### 🔗 Contract mismatch
