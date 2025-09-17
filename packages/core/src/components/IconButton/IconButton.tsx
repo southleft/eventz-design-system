@@ -1,4 +1,3 @@
-// packages/core/src/components/IconButton/IconButton.tsx
 import * as React from 'react';
 import { composeClasses } from '../../utilities/composeClasses/composeClasses';
 import { collapseWhitespace } from '../../utilities/collapseWhitespace/collapseWhitespace';
@@ -17,7 +16,7 @@ type IconButtonOwnProps = {
 export interface IconButtonProps
   extends Omit<
       React.ButtonHTMLAttributes<HTMLButtonElement>,
-      'color' | 'disabled' | 'type' | 'aria-label'
+      'color' | 'disabled' | 'type' | 'aria-label' | 'children'
     >,
     IconButtonOwnProps {}
 
@@ -80,7 +79,6 @@ export const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
       loading = false,
       disabled = false,
       type = 'button',
-      children,
       className,
       ...rest
     },
@@ -89,12 +87,6 @@ export const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
     const normalizedAriaLabel = ariaLabel.trim();
     if (normalizedAriaLabel.length === 0) {
       throw new Error('IconButton requires a non-empty ariaLabel.');
-    }
-
-    const childElement = children ?? null;
-
-    if (childElement !== null) {
-      throw new Error('IconButton does not accept children; pass the icon via the `icon` prop.');
     }
 
     const effectiveDisabled = disabled || loading;
