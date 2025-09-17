@@ -16,6 +16,11 @@ describe('Control', () => {
     expect(screen.getByLabelText('Control icon')).toBeInTheDocument();
   });
 
+  it('renders as a button element', () => {
+    renderControl();
+    expect(screen.getByRole('button', { name: 'Control icon' })).toBeInTheDocument();
+  });
+
   it('throws when ariaLabel is empty', () => {
     expect(() => render(<Control icon={sampleIcon} ariaLabel="   " />)).toThrow(
       'Control requires a non-empty ariaLabel.'

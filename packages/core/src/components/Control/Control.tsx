@@ -1,6 +1,5 @@
 // packages/core/src/components/Control/Control.tsx
 import * as React from 'react';
-import { Slot } from 'radix-ui';
 import { composeClasses } from '../../utilities/composeClasses/composeClasses';
 import { collapseWhitespace } from '../../utilities/collapseWhitespace/collapseWhitespace';
 
@@ -16,7 +15,7 @@ type ControlOwnProps = {
 };
 
 export interface ControlProps
-  extends Omit<React.HTMLAttributes<HTMLSpanElement>, 'children' | 'aria-label'>,
+  extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'children' | 'aria-label'>,
     ControlOwnProps {}
 
 const baseClasses = `
@@ -58,7 +57,7 @@ const slotClasses = {
   icon: 'shrink-0'
 } as const;
 
-export const Control = React.forwardRef<HTMLSpanElement, ControlProps>(
+export const Control = React.forwardRef<HTMLButtonElement, ControlProps>(
   (
     { variant = 'brand', size = 'lg', focused = false, icon, ariaLabel, className, ...rest },
     ref
@@ -80,8 +79,9 @@ export const Control = React.forwardRef<HTMLSpanElement, ControlProps>(
     );
 
     return (
-      <Slot.Root
+      <button
         ref={ref}
+        type="button"
         className={rootClassName}
         aria-label={normalizedAriaLabel}
         {...rest}
@@ -89,7 +89,7 @@ export const Control = React.forwardRef<HTMLSpanElement, ControlProps>(
         <span className={slotClasses.icon} aria-hidden="true">
           {icon}
         </span>
-      </Slot.Root>
+      </button>
     );
   }
 );

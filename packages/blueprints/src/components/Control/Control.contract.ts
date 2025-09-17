@@ -5,41 +5,33 @@ export const ControlContract = defineContract({
   component: 'Control',
   description:
     'Icon-only visual control used inside buttons and related UI. Single `icon` slot; requires `ariaLabel` for accessible name.',
-  base: 'Slot', // primitives-only policy; note: asChild is NOT supported here
+  base: 'button', // semantic button; no asChild/children
 
   props: {
-    // Spec calls these "styles"; treat as component variants
     variant: {
       type: 'enum',
       options: ['brand', 'dark', 'light'] as const,
       default: 'brand',
       description: 'Visual variant of the control'
     },
-
-    // Size axis (matches spec: lg, sm)
     size: {
       type: 'enum',
       options: ['lg', 'sm'] as const,
       default: 'lg',
       description: 'Control size'
     },
-
-    // Focus visualization (component is not focusable; this toggles ring styles)
     focused: {
       type: 'boolean',
       default: false,
       description: 'Visual focus state'
     },
 
-    // Icon-only API (same pattern as IconButton)
+    // Icon-only API
     icon: { type: 'slot', required: true, description: 'Icon element or any node to render' },
     ariaLabel: {
       type: 'string',
       required: true,
-      description: 'Accessible name for screen readers (applied to `aria-label`)'
-    }
-
-    // NOTE: no `asChild` and no runtime states like `disabled` / `loading`
+      description: 'Accessible name for screen readers (applied to `aria-label`)' }
   },
 
   // Single slot in render order
@@ -48,7 +40,7 @@ export const ControlContract = defineContract({
   // Advisory only — structural classes live in the styleMap
   layout: {
     type: 'container',
-    tag: 'span',
+    tag: 'button',
     className: 'inline-flex items-center justify-center rounded-full',
     children: [{ slot: 'icon', tag: 'span', className: 'shrink-0' }]
   },
@@ -66,6 +58,6 @@ export const ControlContract = defineContract({
   styleMap: true,
 
   hints: {
-    // Visuals are token-driven; no Radix theme props
+    // Visuals are token-driven
   }
 });
