@@ -52,6 +52,7 @@ All outputs belong under:
    - Use Jest + RTL.
    - Cover: render, slot presence, variant switching, baseline a11y.
    - Prefer role/text queries, not snapshots.
+   - **Unit test policy:** Use exactly one `expect()` per `it()` block. Organize cases with `describe()`; table-driven tests are permitted when they reduce duplication (one `expect()` per case).
 5. **Validate**:
    - Ensure outputs live in correct folder.
    - Ensure imports are relative, no absolute paths.
@@ -73,3 +74,4 @@ All outputs belong under:
 - No unrelated changes in PR
 - PR title prefixed with `🤖` and checklist from `AGENTS/PR_PROTOCOL.md` present
 - Base uses a **Radix Primitive** (no Themes); visuals driven by token classes from the styleMap.
+- Tests follow the unit test policy: one `expect()` per `it()`, organized with `describe()`, table-driven tests allowed when they reduce duplication (one `expect()` per case).

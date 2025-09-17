@@ -67,6 +67,7 @@ Agents must:
    - Jest + RTL
    - Cover: render, slot presence, variant switching, baseline a11y
    - Prefer role/text queries over snapshots
+   - Follow the unit test policy: one `expect()` per `it()`, organize with `describe()`, table-driven tests permitted (one `expect()` per case).
 8. **Changelog discipline**:
    - PR title starts with `🤖`
    - PR body includes checklist from `AGENTS/PR_PROTOCOL.md`
@@ -93,6 +94,14 @@ Agents must:
 
 ### 🧪 Test coverage
 > Add RTL assertions for variant classes and/or slot presence.
+
+### 🧪 Unit test policy violation
+> The test file violates the unit test policy: multiple `expect()` calls were detected inside a single `it()` block or tests are not grouped with `describe()`.
+> Please refactor so each `it()` contains exactly **one** `expect()`. If appropriate, convert to a table-driven test (e.g., `test.each`) where each case includes one `expect()`, or split assertions into separate `it()` cases.
+> Example fixes:
+> - Use `describe()` to group related cases and one `expect()` per `it()`.
+> - Replace a single `it()` with multiple `it()`s, each containing a single assertion.
+> - When using table-driven tests, ensure each test row has one `expect()`.
 
 ---
 
