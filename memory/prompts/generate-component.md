@@ -28,7 +28,7 @@ Generate all of the following inside `{{destination}}`:
 1. `{{componentName}}.tsx`
    - Export a named interface for props (e.g., `BadgeProps`) inferred from the contract.
    - Use the Radix primitive if `contract.base` is defined; support `asChild` if declared.
-   - Apply Tailwind classes from the styleMap using `clsx()` or `cx()`.
+   - Apply Tailwind classes from the styleMap using `composeClasses` (`packages/core/src/utilities/composeClasses/composeClasses.ts`); prefer template literals for static strings; avoid string concatenation (`+`) and array joins.
    - Conditionally render slots exactly as defined in the contract layout.
    - If a layout wrapper is specified (e.g., `layout: { tag: 'span', className: '...' }`), apply it inside the component.
    - Export the component as a named export (e.g., `export const Badge = …`).
@@ -48,7 +48,7 @@ Generate all of the following inside `{{destination}}`:
 - Props, slots, layout, and Radix base must match the contract exactly.
 - Classes and variants must match the styleMap exactly.
 - Do not add props, slots, or classes not defined by these sources.
-- Apply Tailwind classes using `clsx`/`cx`; **no ad-hoc string concatenation**.
+- Apply Tailwind classes using `composeClasses`; prefer template literals for static strings; avoid string concatenation (`+`) and array joins.
 - Honor `layout` (including child container and slot order) exactly.
 - Support Radix `asChild` using `Slot` when declared.
 - Follow existing project patterns for typing, file layout, and naming.
