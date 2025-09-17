@@ -35,12 +35,7 @@ Copy/paste this block into the PR description:
 - [ ] ClassNames use `composeClasses`; avoid concatenation (`+`) or array joins; prefer template literals for static strings
 - [ ] Tests and stories present at baseline coverage
 - [ ] No unrelated changes in this PR
-- [ ] Labels applied: `needs-human-review`
 - [ ] Ran `pnpm agents:sync` and `pnpm agents:verify`
-
-### 🏷️ Labels
-	•	needs-human-review — required for all agent PRs
-	•	Optional: agent, a11y, contracts, stylemap, docs
 
 ## 👥 Assignment & Merge
 	•	Assign to a relevant human maintainer (if known).
