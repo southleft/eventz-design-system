@@ -1,23 +1,25 @@
 # 🤖 Agent PR Review Prompt
 
 ## Config
-- DRY_RUN: {{DRY_RUN}}   # true = output findings here only; false = attempt to post approval comment if clean
-- PR_NUMBER: {{PR_NUMBER}}
+- DRY_RUN: {{DRY_RUN}}   # true = output findings here only; false = attempt to post approval comment if clean (default: true)
+- PR_NUMBER: {{PR_NUMBER}}   # required so the agent opens the correct PR in VS Code
 
 ## Goal
 Perform a scoped review of this PR. Review **only** the files listed in the PR’s “Files changed” panel. Use the PR description to infer scope and intent. Compare changes against the `AGENTS/` guidelines to detect violations or missing policies.
 
 If **no required fixes** are found and `DRY_RUN=false`, post a single top-level PR comment:
 
+```
 🤖 Approved by AI
 Reviewed against AGENTS/{CODE_REVIEW,PR_PROTOCOL,GENERATION,PERMISSIONS,STACK,ROOT}.md. No required fixes found in “Files changed”.
+```
 
 Otherwise, do not post. Instead, output findings here.
 
 ---
 
 ## Scope / Guardrails
-- ✅ Only review files under **PR → Files changed**
+- ✅ Only review files under **PR → Files changed** for PR {{PR_NUMBER}}
 - ✅ Use `AGENTS/{CODE_REVIEW,PR_PROTOCOL,GENERATION,PERMISSIONS,STACK,ROOT}.md` as rubric
 - ❌ Do NOT search the entire workspace
 - ❌ Do NOT open files not in Files changed
@@ -68,11 +70,14 @@ Otherwise, do not post. Instead, output findings here.
     - post_error (if any): "<message>"
     - reason_if_skipped: "<existing approval found|dry_run|has_required_fixes|environment cannot access PR conversation|other>"
   - If fallback required, include:
-  === APPROVAL COMMENT (copy-paste) ===
-  🤖 Approved by AI
-  Reviewed against AGENTS/{CODE_REVIEW,PR_PROTOCOL,GENERATION,PERMISSIONS,STACK,ROOT}.md. No required fixes found in “Files changed”.
-  ================================
+    ```
+    === APPROVAL COMMENT (copy-paste) ===
+    🤖 Approved by AI
+    Reviewed against AGENTS/{CODE_REVIEW,PR_PROTOCOL,GENERATION,PERMISSIONS,STACK,ROOT}.md. No required fixes found in “Files changed”.
+    ================================
+    ```
 
 ## Failure Conditions
 - If Files changed cannot be enumerated → `ERROR: Unable to enumerate Files changed for this PR.`
 - If workspace-wide search attempted → `ERROR: Workspace search blocked by scope policy.`
+If the PR conversation UI is unavailable, this is **not** a failure; record `attempted_to_post=true`, `post_result=failure`, `reason_if_skipped="environment cannot access PR conversation"`, and include the fallback approval block in Output.
