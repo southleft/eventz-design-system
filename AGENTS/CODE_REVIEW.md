@@ -62,7 +62,7 @@ Agents must:
    - No per-component high-contrast toggles; high contrast is global.
 6. **Storybook**:
    - Default export must include `title: 'Components/<ComponentName>'` and `component: <ComponentName>`
-   - Stories use **controls** for public props (Canvas args)
+   - Stories rely on Storybook’s inferred controls from the component’s TypeScript interface. Do not manually add controls; they are auto‑generated.
    - **Variants-only:** all styleMap **variants** appear as stories; **no** additional stories for non-variant props
 7. **Tests**:
    - Jest + RTL
@@ -78,7 +78,7 @@ Agents must:
 
 ## Storybook
 - Default export includes `title: 'Components/<ComponentName>'` and `component: <ComponentName>`.
-- Stories expose controls for all public props (args in the Canvas).
+- Controls for all public props are inferred automatically by Storybook from the component’s TypeScript interface. Do not manually declare them.
 - **Variants-only policy:** Stories must cover **every styleMap variant**. Do **not** add stories for non-variant props (e.g., size, boolean flags, focus states); exercise those via Canvas controls.
 
 ---
@@ -89,8 +89,8 @@ Agents must:
 > The prop `<propName>` in the component does not match the contract. Please align with `/packages/blueprints/src/components/<ComponentName>/<ComponentName>.contract.ts`.
 
 ### 🧱 Invented props detected
-> The component defines props not present in the contract (e.g., `hasIcon`, `hasLabel`, extra booleans for layout).  
-> Please remove invented props and rely on the contract + slot truthiness.  
+> The component defines props not present in the contract (e.g., `hasIcon`, `hasLabel`, extra booleans for layout).
+> Please remove invented props and rely on the contract + slot truthiness.
 > If a new prop is truly required, update the contract first and regenerate.
 
 
@@ -105,7 +105,7 @@ Agents must:
 > - Ensure classes come from the styleMap/tokens (no ad-hoc palettes).
 
 ### 🧩 Class composition utility misuse
-> Detected `clsx`/`cx` (or ad-hoc string joins) for `className` composition.  
+> Detected `clsx`/`cx` (or ad-hoc string joins) for `className` composition.
 > This repo uses the local utility **`composeClasses`** to keep class composition within our type structure.
 >
 > Please refactor to:
@@ -121,7 +121,7 @@ Agents must:
 > Accessibility mismatch detected. Please ensure decorative icons use `aria-hidden="true"` and text labels are present.
 
 ### 📚 Story coverage
-> Not all **variants** are represented in stories. Per the variants-only policy, add missing **variant** stories.  
+> Not all **variants** are represented in stories. Per the variants-only policy, add missing **variant** stories.
 > Non-variant props (size, booleans, focus-visible, etc.) should be exercised via Canvas controls, not separate stories.
 
 ### 🧪 Test coverage
@@ -142,7 +142,7 @@ Agents must:
 - styleMaps matched exactly
 - Radix usage correct
 - Accessibility verified
-- Stories complete (variants-only policy): every variant represented as a story; non-variant props covered via Canvas controls
+- Stories complete (variants-only policy): every variant represented as a story; non-variant props covered via Canvas controls inferred automatically from component TypeScript interfaces
 - Tests cover render/slots/variants/a11y minima
 - CI green (lint/tests/build/pack)
 - Checklist from `AGENTS/PR_PROTOCOL.md` present
