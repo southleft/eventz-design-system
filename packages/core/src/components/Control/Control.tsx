@@ -19,34 +19,33 @@ export interface ControlProps
     ControlOwnProps {}
 
 const baseClasses = `
-  inline-flex select-none items-center justify-center rounded-full
-  transition-colors outline-none
+  inline-flex select-none items-center justify-center
+  rounded-full
+  transition-colors
+  focus-visible:ring-2
+  focus-visible:ring-comp-border-focus-ring
+  focus-visible:ring-offset-2
+  whitespace-nowrap
 `;
 
 const variantClasses: Record<Variant, string> = {
   brand: `
-    bg-comp-control-brand-color-background-default
-    border border-comp-control-brand-color-border-default
-    hover:bg-comp-control-brand-color-background-hover
-    active:bg-comp-control-brand-color-background-active
+    bg-comp-button-primary-color-background-default text-comp-button-primary-color-content-default border-comp-border-none
+    hover:bg-comp-button-primary-color-background-hover active:bg-comp-button-primary-color-background-active
   `,
   dark: `
-    bg-comp-control-dark-color-background-default
-    border border-comp-control-dark-color-border-default
-    hover:bg-comp-control-dark-color-background-hover
-    active:bg-comp-control-dark-color-background-active
+    bg-comp-button-color-background-knockout-blur text-comp-button-color-content-default border-comp-border-none
+    hover:bg-comp-button-color-background-knockout-blur-hover active:bg-comp-button-color-background-knockout-blur-active
   `,
   light: `
-    bg-comp-control-light-color-background-default
-    border border-comp-control-light-color-border-default
-    hover:bg-comp-control-light-color-background-hover
-    active:bg-comp-control-light-color-background-active
+    bg-comp-button-color-background-default-blur border-comp-border-none text-comp-button-color-content-default
+    hover:bg-comp-button-color-background-default-blur-hover active:bg-comp-button-color-background-default-blur-active
   `
 };
 
 const sizeClasses: Record<Size, string> = {
-  lg: 'h-6 w-6',
-  sm: 'h-4 w-4'
+  lg: 'h-40 w-40',
+  sm: 'h-32 w-32'
 };
 
 const stateClasses = {
@@ -56,6 +55,11 @@ const stateClasses = {
 const slotClasses = {
   icon: 'shrink-0'
 } as const;
+
+const iconSizeSelectorBySize: Record<Size, string> = {
+  sm: '[&>svg]:size-16',
+  lg: '[&>svg]:size-20'
+};
 
 export const Control = React.forwardRef<HTMLButtonElement, ControlProps>(
   (
@@ -78,6 +82,10 @@ export const Control = React.forwardRef<HTMLButtonElement, ControlProps>(
       )
     );
 
+    const iconWrapperClassName = collapseWhitespace(
+      composeClasses(slotClasses.icon, iconSizeSelectorBySize[size])
+    );
+
     return (
       <button
         ref={ref}
@@ -86,7 +94,7 @@ export const Control = React.forwardRef<HTMLButtonElement, ControlProps>(
         aria-label={normalizedAriaLabel}
         {...rest}
       >
-        <span className={slotClasses.icon} aria-hidden="true">
+        <span className={iconWrapperClassName} aria-hidden="true">
           {icon}
         </span>
       </button>
