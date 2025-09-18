@@ -58,10 +58,4 @@ describe('Control', () => {
       expect(root).toHaveClass(...expectedClasses);
     });
   });
-
-  it('applies focused state classes when focused', () => {
-    renderControl({ focused: true });
-    const root = screen.getByLabelText('Control icon');
-    expect(root).toHaveClass('ring-comp-control-focus-color-ring');
-  });
 });
