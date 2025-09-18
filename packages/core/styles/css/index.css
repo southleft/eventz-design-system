@@ -34,6 +34,9 @@
   --color-brand-900: var(--dt-color-brand-900);
   --color-brand-950: var(--dt-color-brand-950);
 
+  --color-color-content-brand: var(--dt-color-content-brand);
+  --color-color-content-brand-hover: var(--dt-color-content-brand-hover);
+
   --color-comp-border-focus-ring: var(--dt-comp-border-focus-ring);
 
   --color-background-none: var(--dt-color-background-none);

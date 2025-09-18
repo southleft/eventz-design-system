@@ -28,10 +28,7 @@ export default meta;
 type Story = StoryObj<TextLinkProps>;
 
 export const Default: Story = {
-  args: {
-    startIcon: <ArrowLeftIcon />,
-    endIcon: <ArrowRightIcon />
-  }
+  args: {}
 };
 
 export const Strong: Story = {

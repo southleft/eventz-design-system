@@ -22,17 +22,17 @@ export interface TextLinkProps
     TextLinkOwnProps {}
 
 const baseClasses = `
-  inline-flex items-center align-baseline gap-1.5
+  inline-flex items-center select-none justify-center no-underline gap-2
   text-sm whitespace-nowrap transition-colors outline-none rounded-sm
-  focus-visible:ring-2 focus-visible:ring-comp-text-link-focus-color-ring focus-visible:ring-offset-2
+  focus-visible:ring focus-visible:ring-comp-border-focus-ring focus-visible:ring-offset-2
   aria-disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:select-none
 `;
 
 const variantClasses: Record<Variant, string> = {
   brand: `
-    text-comp-text-link-brand-color-foreground-default
-    hover:text-comp-text-link-brand-color-foreground-hover
-    active:text-comp-text-link-brand-color-foreground-active
+    text-color-content-brand
+    hover:text-color-content-brand-hover
+    active:text-color-content-brand-hover
   `,
   strong: `
     text-comp-text-link-strong-color-foreground-default
@@ -52,9 +52,9 @@ const variantClasses: Record<Variant, string> = {
 };
 
 const slotClasses = {
-  startIcon: 'shrink-0 -ml-0.5',
+  startIcon: 'shrink-0 -ml-0.5 pt-2',
   label: '',
-  endIcon: 'shrink-0 -mr-0.5'
+  endIcon: 'shrink-0 -mr-0.5 pt-2'
 } as const;
 
 export const TextLink = React.forwardRef<HTMLAnchorElement, TextLinkProps>(
