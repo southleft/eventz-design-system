@@ -34,9 +34,9 @@ describe('Control', () => {
 
   describe('variants', () => {
     const cases: ReadonlyArray<[ControlProps['variant'], string]> = [
-      ['brand', 'bg-comp-control-brand-color-background-default'],
-      ['dark', 'bg-comp-control-dark-color-background-default'],
-      ['light', 'bg-comp-control-light-color-background-default']
+      ['brand', 'bg-comp-button-primary-color-background-default'],
+      ['dark', 'bg-comp-button-color-background-knockout-blur'],
+      ['light', 'bg-comp-button-color-background-default-blur']
     ];
 
     it.each(cases)('applies %s variant classes', (variant, classToken) => {
@@ -48,8 +48,8 @@ describe('Control', () => {
 
   describe('sizes', () => {
     const sizeCases: ReadonlyArray<[ControlProps['size'], [string, string]]> = [
-      ['lg', ['h-6', 'w-6']],
-      ['sm', ['h-4', 'w-4']]
+      ['lg', ['h-40', 'w-40']],
+      ['sm', ['h-32', 'w-32']]
     ];
 
     it.each(sizeCases)('applies %s size classes', (size, expectedClasses) => {
