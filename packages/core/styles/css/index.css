@@ -34,6 +34,8 @@
   --color-brand-900: var(--dt-color-brand-900);
   --color-brand-950: var(--dt-color-brand-950);
 
+  --color-comp-border-focus-ring: var(--dt-comp-border-focus-ring);
+
   --color-background-none: var(--dt-color-background-none);
   --color-color-background-default: var(--dt-color-background-default);
   --color-body-background: var(--dt-color-background-default);
@@ -56,12 +58,32 @@
   --color-comp-button-color-background-hover: var(--dt-comp-button-color-background-hover);
   --color-comp-button-color-background-active: var(--dt-comp-button-color-background-active);
 
+  --color-comp-button-color-background-default-blur: var(
+    --dt-comp-button-color-background-default-blur
+  );
+  --color-comp-button-color-background-default-blur-hover: var(
+    --dt-comp-button-color-background-default-blur-hover
+  );
+  --color-comp-button-color-background-default-blur-active: var(
+    --dt-comp-button-color-background-default-blur-active
+  );
+
   --color-comp-button-color-background-knockout: var(--dt-comp-button-color-background-knockout);
   --color-comp-button-color-background-knockout-hover: var(
     --dt-comp-button-color-background-knockout-hover
   );
   --color-comp-button-color-background-knockout-active: var(
     --dt-comp-button-color-background-knockout-active
+  );
+
+  --color-comp-button-color-background-knockout-blur: var(
+    --dt-comp-button-color-background-knockout-blur
+  );
+  --color-comp-button-color-background-knockout-blur-hover: var(
+    --dt-comp-button-color-background-knockout-blur-hover
+  );
+  --color-comp-button-color-background-knockout-blur-active: var(
+    --dt-comp-button-color-background-knockout-blur-active
   );
 
   --color-comp-border-focus-ring: var(--dt-comp-border-focus-ring);
@@ -96,17 +118,6 @@
   --color-comp-button-primary-color-content-default: var(
     --dt-comp-button-primary-color-content-default
   );
-
-  /* Granular typography tokens, rem-based */
-  --text-base-font: var(--dt-base-font);
-  --text-font-size-12: calc(var(--dt-font-size-12) / var(--text-base-font) * 1rem);
-  --text-font-size-14: calc(14 / 16 * 1rem);
-  --text-line-height-20: var(--dt-line-height-20);
-
-  /* Tailwind semantic step derived from granular mappings */
-  /* These reflect typography tokens like --dt-body-sm */
-  --text-sm: var(--text-font-size-14);
-  --text-sm--line-height: calc(var(--text-line-height-20) / var(--text-base-font));
 }
 
 @import 'tailwindcss/utilities';

@@ -4,51 +4,57 @@ import { defineStyleMap } from '../../utilities';
 export const ControlStyleMap = defineStyleMap({
   base: [
     // Structure
-    'inline-flex select-none items-center justify-center rounded-full',
+    'inline-flex',
+    'select-none',
+    'items-center',
+    'justify-center',
+    'rounded-full',
     // Visual engine
-    'transition-colors outline-none'
+    'transition-colors',
+    'outline-none',
+    'whitespace-nowrap',
+    // Focus-visible ring (matches component)
+    'focus-visible:ring-2',
+    'focus-visible:ring-comp-border-focus-ring',
+    'focus-visible:ring-offset-2'
   ] as const,
 
-  // Size definitions (layout bucket works fine for enumerated sizes)
-  layout: {
-    lg: ['h-6', 'w-6'] as const, // 24px
-    sm: ['h-4', 'w-4'] as const // 16px
+  // Slots: icon-only control
+  slots: {
+    icon: ['shrink-0'] as const
   },
 
-  // Style axis — token-first classes by role/state
+  // Variants (spec “styles”) — align with component token classes
   variants: {
     brand: [
-      'bg-comp-control-brand-color-background-default',
-      'border',
-      'border-comp-control-brand-color-border-default',
-      'hover:bg-comp-control-brand-color-background-hover',
-      'active:bg-comp-control-brand-color-background-active'
+      'bg-comp-button-primary-color-background-default',
+      'text-comp-button-primary-color-content-default',
+      'border-comp-border-none',
+      'hover:bg-comp-button-primary-color-background-hover',
+      'active:bg-comp-button-primary-color-background-active'
     ] as const,
 
     dark: [
-      'bg-comp-control-dark-color-background-default',
-      'border',
-      'border-comp-control-dark-color-border-default',
-      'hover:bg-comp-control-dark-color-background-hover',
-      'active:bg-comp-control-dark-color-background-active'
+      'bg-comp-button-color-background-knockout-blur',
+      'text-comp-button-color-content-default',
+      'border-comp-border-none',
+      'hover:bg-comp-button-color-background-knockout-blur-hover',
+      'active:bg-comp-button-color-background-knockout-blur-active'
     ] as const,
 
-    mid: [
-      'bg-comp-control-mid-color-background-default',
-      'border',
-      'border-comp-control-mid-color-border-default',
-      'hover:bg-comp-control-mid-color-background-hover',
-      'active:bg-comp-control-mid-color-background-active'
+    light: [
+      'bg-comp-button-color-background-default-blur',
+      'text-comp-button-color-content-default',
+      'border-comp-border-none',
+      'hover:bg-comp-button-color-background-default-blur-hover',
+      'active:bg-comp-button-color-background-default-blur-active'
     ] as const
   },
 
+  // Semantic, generator-applied state hooks (plain lists; no data-[...])
   state: {
-    // Spec shows a distinct “isFocused” visualization; since this element isn’t focusable,
-    // we use a data attribute from the generator (e.g., data-focused={focused || undefined}).
-    focused: [
-      'data-[focused=true]:ring-2',
-      'data-[focused=true]:ring-comp-control-focus-color-ring',
-      'data-[focused=true]:ring-offset-2'
-    ] as const
+    // Size axis (matches component h/w + icon svg sizing via slot selector)
+    sizeLg: ['h-40', 'w-40', '[&>svg]:size-20'] as const, // 40px button, 20px icon
+    sizeSm: ['h-32', 'w-32', '[&>svg]:size-16'] as const // 32px button, 16px icon
   }
 });
