@@ -9,6 +9,20 @@ describe('TextLink', () => {
   const renderLink = (props?: Partial<TextLinkProps>) =>
     render(<TextLink href="#example" label="Visit example" variant="brand" {...props} />);
 
+  describe('default parameter initializers', () => {
+    it('uses default variant when not provided', () => {
+      render(<TextLink href="#example" label="Visit example" />);
+      const link = screen.getByRole('link', { name: 'Visit example' });
+      expect(link).toHaveClass('text-comp-text-link-brand-color-foreground-default');
+    });
+
+    it('disabled defaults to false (no aria-disabled)', () => {
+      render(<TextLink href="#example" label="Visit example" />);
+      const link = screen.getByRole('link', { name: 'Visit example' });
+      expect(link).not.toHaveAttribute('aria-disabled');
+    });
+  });
+
   it('renders link with visible label', () => {
     renderLink();
     expect(screen.getByRole('link', { name: 'Visit example' })).toBeInTheDocument();
@@ -39,6 +53,68 @@ describe('TextLink', () => {
     expect(screen.getByTestId('end-icon').parentElement).toHaveAttribute('aria-hidden', 'true');
   });
 
+  describe('slot rendering (absence cases)', () => {
+    it('does not render start icon wrapper when startIcon is not provided', () => {
+      renderLink();
+      const link = screen.getByRole('link', { name: 'Visit example' });
+      expect(link.querySelector('span[aria-hidden="true"]')).toBeNull();
+    });
+
+    it('renders label within a span when no icons are provided', () => {
+      renderLink();
+      const link = screen.getByRole('link', { name: 'Visit example' });
+      const labelSpan = link.querySelector('span');
+      expect(labelSpan?.textContent).toBe('Visit example');
+    });
+
+    it('does not render end icon wrapper when endIcon is not provided', () => {
+      renderLink();
+      const link = screen.getByRole('link', { name: 'Visit example' });
+      expect(link.querySelector('span[aria-hidden="true"]')).toBeNull();
+    });
+  });
+
+  describe('label & icons (both present)', () => {
+    it('renders label span when both icons are provided', () => {
+      render(
+        <TextLink
+          href="#example"
+          label="Visit example"
+          startIcon={<span data-testid="start-icon">*</span>}
+          endIcon={<span data-testid="end-icon">*</span>}
+        />
+      );
+      const link = screen.getByRole('link', { name: 'Visit example' });
+      const spans = Array.from(link.querySelectorAll('span'));
+      const labelSpan = spans.find(span => span.textContent === 'Visit example');
+      expect(labelSpan).toBeTruthy();
+    });
+
+    it('renders start icon wrapper with aria-hidden when both icons are provided', () => {
+      render(
+        <TextLink
+          href="#example"
+          label="Visit example"
+          startIcon={<span data-testid="start-icon">*</span>}
+          endIcon={<span data-testid="end-icon">*</span>}
+        />
+      );
+      expect(screen.getByTestId('start-icon').parentElement).toHaveAttribute('aria-hidden', 'true');
+    });
+
+    it('renders end icon wrapper with aria-hidden when both icons are provided', () => {
+      render(
+        <TextLink
+          href="#example"
+          label="Visit example"
+          startIcon={<span data-testid="start-icon">*</span>}
+          endIcon={<span data-testid="end-icon">*</span>}
+        />
+      );
+      expect(screen.getByTestId('end-icon').parentElement).toHaveAttribute('aria-hidden', 'true');
+    });
+  });
+
   it('marks link as disabled via aria-disabled', () => {
     renderLink({ disabled: true });
     expect(screen.getByRole('link', { name: 'Visit example' })).toHaveAttribute(
@@ -51,18 +127,6 @@ describe('TextLink', () => {
     renderLink();
     expect(screen.getByRole('link', { name: 'Visit example' })).toHaveClass(
       'focus-visible:ring-comp-text-link-focus-color-ring'
-    );
-  });
-
-  it('throws when label is empty', () => {
-    expect(() => render(<TextLink href="#example" label="   " variant="brand" />)).toThrow(
-      'TextLink requires a non-empty label.'
-    );
-  });
-
-  it('throws when href is empty', () => {
-    expect(() => render(<TextLink href="   " label="Visit example" variant="brand" />)).toThrow(
-      'TextLink requires a non-empty href.'
     );
   });
 });

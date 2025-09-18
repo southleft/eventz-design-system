@@ -15,7 +15,10 @@ type TextLinkOwnProps = {
 };
 
 export interface TextLinkProps
-  extends Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'children' | 'aria-disabled' | 'href'>,
+  extends Omit<
+      React.AnchorHTMLAttributes<HTMLAnchorElement>,
+      'children' | 'aria-disabled' | 'href'
+    >,
     TextLinkOwnProps {}
 
 const baseClasses = `
@@ -55,27 +58,23 @@ const slotClasses = {
 } as const;
 
 export const TextLink = React.forwardRef<HTMLAnchorElement, TextLinkProps>(
-  ({
-    variant = 'brand',
-    href,
-    label,
-    disabled = false,
-    startIcon,
-    endIcon,
-    className,
-    ...restProps
-  }, ref) => {
-    const normalizedLabel = typeof label === 'string' ? label.trim() : '';
-    if (normalizedLabel.length === 0) {
-      throw new Error('TextLink requires a non-empty label.');
-    }
+  (
+    {
+      variant = 'brand',
+      href,
+      label,
+      disabled = false,
+      startIcon,
+      endIcon,
+      className,
+      ...restProps
+    },
+    ref
+  ) => {
+    const normalizedLabel = label.trim();
+    const normalizedHref = href.trim();
 
-    const normalizedHref = typeof href === 'string' ? href.trim() : '';
-    if (normalizedHref.length === 0) {
-      throw new Error('TextLink requires a non-empty href.');
-    }
-
-    const baseClassName = collapseWhitespace(
+    const rootClassName = collapseWhitespace(
       composeClasses(baseClasses, variantClasses[variant], className)
     );
 
@@ -83,7 +82,7 @@ export const TextLink = React.forwardRef<HTMLAnchorElement, TextLinkProps>(
       <a
         ref={ref}
         href={normalizedHref}
-        className={baseClassName}
+        className={rootClassName}
         aria-disabled={disabled ? 'true' : undefined}
         {...restProps}
       >
