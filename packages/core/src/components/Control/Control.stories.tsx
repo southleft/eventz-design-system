@@ -14,7 +14,8 @@ const meta: Meta<ControlProps> = {
     size: 'lg'
   },
   argTypes: {
-    icon: { control: false }
+    icon: { control: false },
+    size: { control: { type: 'radio' }, options: ['lg', 'sm'] }
   }
 };
 
