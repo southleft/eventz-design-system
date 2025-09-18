@@ -9,7 +9,6 @@ type Size = 'lg' | 'sm';
 type ControlOwnProps = {
   variant?: Variant;
   size?: Size;
-  focused?: boolean;
   icon: React.ReactNode;
   ariaLabel: string;
 };
@@ -48,10 +47,6 @@ const sizeClasses: Record<Size, string> = {
   sm: 'h-32 w-32'
 };
 
-const stateClasses = {
-  focused: 'ring-2 ring-comp-control-focus-color-ring ring-offset-2'
-} as const;
-
 const slotClasses = {
   icon: 'shrink-0'
 } as const;
@@ -62,10 +57,7 @@ const iconSizeSelectorBySize: Record<Size, string> = {
 };
 
 export const Control = React.forwardRef<HTMLButtonElement, ControlProps>(
-  (
-    { variant = 'brand', size = 'lg', focused = false, icon, ariaLabel, className, ...rest },
-    ref
-  ) => {
+  ({ variant = 'brand', size = 'lg', icon, ariaLabel, className, ...rest }, ref) => {
     const normalizedAriaLabel = ariaLabel.trim();
 
     if (normalizedAriaLabel.length === 0) {
@@ -73,13 +65,7 @@ export const Control = React.forwardRef<HTMLButtonElement, ControlProps>(
     }
 
     const rootClassName = collapseWhitespace(
-      composeClasses(
-        baseClasses,
-        variantClasses[variant],
-        sizeClasses[size],
-        focused ? stateClasses.focused : undefined,
-        className
-      )
+      composeClasses(baseClasses, variantClasses[variant], sizeClasses[size], className)
     );
 
     const iconWrapperClassName = collapseWhitespace(

@@ -11,8 +11,7 @@ const meta: Meta<ControlProps> = {
     icon: <CheckIcon />,
     ariaLabel: 'Control icon',
     variant: 'brand',
-    size: 'lg',
-    focused: false
+    size: 'lg'
   },
   argTypes: {
     icon: { control: false }
@@ -34,17 +33,5 @@ export const Dark: Story = {
 export const Light: Story = {
   args: {
     variant: 'light'
-  }
-};
-
-export const Small: Story = {
-  args: {
-    size: 'sm'
-  }
-};
-
-export const Focused: Story = {
-  args: {
-    focused: true
   }
 };
