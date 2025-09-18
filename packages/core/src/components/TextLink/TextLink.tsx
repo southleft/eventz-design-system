@@ -22,7 +22,7 @@ export interface TextLinkProps
     TextLinkOwnProps {}
 
 const baseClasses = `
-  inline-flex items-center select-none justify-center no-underline gap-2 outline-none
+  inline-flex items-center select-none justify-center no-underline gap-2
   text-sm whitespace-nowrap transition-colors outline-none rounded-sm
   focus-visible:ring focus-visible:ring-comp-border-focus-ring focus-visible:ring-offset-2
   aria-disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:select-none
@@ -39,9 +39,8 @@ const variantClasses: Record<Variant, string> = {
     hover:text-color-content-default-hover
   `,
   subtle: `
-    text-comp-text-link-subtle-color-foreground-default
-    hover:text-comp-text-link-subtle-color-foreground-hover
-    active:text-comp-text-link-subtle-color-foreground-active
+    text-color-content-weak
+    hover:text-color-content-weak-hover
   `,
   inverted: `
     text-comp-text-link-inverted-color-foreground-default
