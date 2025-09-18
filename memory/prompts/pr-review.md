@@ -18,6 +18,17 @@ Otherwise, do not post. Instead, output findings here.
 
 ---
 
+## Pre-flight
+- ✅ Ensure the PR review runs against the latest remote state (sync before reviewing).
+- ❌ Do not review stale local diffs.
+
+**Procedure (non-destructive):**
+1) Sync the local view of the branch backing PR {{PR_NUMBER}}:
+   - Run a *non-destructive* remote refresh (e.g., refresh the VS Code GitHub PR panel or equivalent) to ensure **Files changed** reflects the latest remote commits.
+2) Proceed only after the PR panel reflects the latest remote state.
+
+---
+
 ## Scope / Guardrails
 - ✅ Only review files under **PR → Files changed** for PR {{PR_NUMBER}}
 - ✅ Use `AGENTS/{CODE_REVIEW,PR_PROTOCOL,GENERATION,PERMISSIONS,STACK,ROOT}.md` as rubric
@@ -26,6 +37,8 @@ Otherwise, do not post. Instead, output findings here.
 - ❌ Do NOT edit files, commit, or merge the PR
 - ❌ Post at most one top-level PR comment (if passing & DRY_RUN=false)
 - ❌ If a top-level comment with body exactly `🤖 Approved by AI` already exists, do not post another
+- ✅ Ensure the PR review runs against the latest remote state (sync before reviewing).
+- ❌ Do not review stale local diffs.
 
 ---
 
@@ -47,15 +60,47 @@ Otherwise, do not post. Instead, output findings here.
 ---
 
 ## Decision
-- If DRY_RUN = true → never post, output findings here
-- If Required Fixes exist:
-  - Reference the canonical template in `memory/prompts/post-changes-requested.md`
-  - If DRY_RUN=true → output findings here and do not post
-  - If DRY_RUN=false → follow the procedure in `post-changes-requested.md` to post the “🤖 Changes requested by AI” comment
-- If no Required Fixes and DRY_RUN = false:
-  - Attempt to post the approval comment above
-  - If posting fails (e.g., conversation UI unavailable), copy comment to clipboard and print it in Output for manual pasting
-  - Log posting attempt and result in Summary
+- If `DRY_RUN = true` → never post; output findings here.
+- If **Required Fixes exist** and `DRY_RUN = false`:
+  - Compose a single top-level comment titled exactly:
+    ```
+    🤖 Changes requested by AI
+    Reviewed against AGENTS/{CODE_REVIEW,PR_PROTOCOL,GENERATION,PERMISSIONS,STACK,ROOT}.md. Required fixes are listed below.
+
+    ### Required fixes
+    - <file path>: <one-line fix summary>
+    - <file path>: <one-line fix summary>
+    - …
+    ```
+  - Check the PR Conversation for an existing top-level comment whose first line is exactly `🤖 Changes requested by AI`. If found:
+    - Do **not** post again. Log: `attempted_to_post=false`, `post_result=skipped`, `reason_if_skipped="existing changes-requested comment"`.
+  - If not found, attempt to post **one** top-level comment with the composed body.
+    - On success: `attempted_to_post=true`, `post_result=success`.
+    - On failure (e.g., PR conversation UI unavailable):
+      - `attempted_to_post=true`, `post_result=failure`, `reason_if_skipped="environment cannot access PR conversation"`.
+      - **Print the composed comment body** in Output for manual paste under the heading:
+        ```
+        === CHANGES-REQUESTED COMMENT (copy-paste) ===
+        …body…
+        ==============================================
+        ```
+- If **no Required Fixes** and `DRY_RUN = false`:
+  - Attempt to post the approval comment:
+    ```
+    🤖 Approved by AI
+    Reviewed against AGENTS/{CODE_REVIEW,PR_PROTOCOL,GENERATION,PERMISSIONS,STACK,ROOT}.md. No required fixes found in “Files changed”.
+    ```
+  - If a top-level approval comment whose first line is exactly `🤖 Approved by AI` already exists:
+    - Do **not** post again. Log: `attempted_to_post=false`, `post_result=skipped`, `reason_if_skipped="existing approval found"`.
+  - If posting fails (e.g., conversation UI unavailable):
+    - `attempted_to_post=true`, `post_result=failure`, `reason_if_skipped="environment cannot access PR conversation"`.
+    - **Print the approval comment** in Output for manual paste under the heading:
+      ```
+      === APPROVAL COMMENT (copy-paste) ===
+      🤖 Approved by AI
+      Reviewed against AGENTS/{CODE_REVIEW,PR_PROTOCOL,GENERATION,PERMISSIONS,STACK,ROOT}.md. No required fixes found in “Files changed”.
+      ================================
+      ```
 
 ---
 
@@ -72,13 +117,7 @@ Otherwise, do not post. Instead, output findings here.
     - post_result: <success|failure|skipped>
     - post_error (if any): "<message>"
     - reason_if_skipped: "<existing approval found|dry_run|has_required_fixes|environment cannot access PR conversation|other>"
-  - If fallback required, include:
-    ```
-    === APPROVAL COMMENT (copy-paste) ===
-    🤖 Approved by AI
-    Reviewed against AGENTS/{CODE_REVIEW,PR_PROTOCOL,GENERATION,PERMISSIONS,STACK,ROOT}.md. No required fixes found in “Files changed”.
-    ================================
-    ```
+  - If posting failed or was skipped because the environment cannot access the PR conversation, include the composed comment body under the appropriate heading shown in **Decision**.
 
 ## Failure Conditions
 - If Files changed cannot be enumerated → `ERROR: Unable to enumerate Files changed for this PR.`

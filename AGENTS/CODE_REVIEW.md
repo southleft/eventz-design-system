@@ -62,8 +62,8 @@ Agents must:
    - No per-component high-contrast toggles; high contrast is global.
 6. **Storybook**:
    - Default export must include `title: 'Components/<ComponentName>'` and `component: <ComponentName>`
-   - Stories use controls for public props
-   - All variants appear in stories
+   - Stories use **controls** for public props (Canvas args)
+   - **Variants-only:** all styleMap **variants** appear as stories; **no** additional stories for non-variant props
 7. **Tests**:
    - Jest + RTL
    - Cover: render, slot presence, variant switching, baseline a11y
@@ -73,6 +73,13 @@ Agents must:
    - PR title starts with `🤖`
    - PR body includes checklist from `AGENTS/PR_PROTOCOL.md`
    - No unrelated changes
+
+---
+
+## Storybook
+- Default export includes `title: 'Components/<ComponentName>'` and `component: <ComponentName>`.
+- Stories expose controls for all public props (args in the Canvas).
+- **Variants-only policy:** Stories must cover **every styleMap variant**. Do **not** add stories for non-variant props (e.g., size, boolean flags, focus states); exercise those via Canvas controls.
 
 ---
 
@@ -114,7 +121,8 @@ Agents must:
 > Accessibility mismatch detected. Please ensure decorative icons use `aria-hidden="true"` and text labels are present.
 
 ### 📚 Story coverage
-> Not all styleMap variants are represented in stories. Please add missing variants.
+> Not all **variants** are represented in stories. Per the variants-only policy, add missing **variant** stories.  
+> Non-variant props (size, booleans, focus-visible, etc.) should be exercised via Canvas controls, not separate stories.
 
 ### 🧪 Test coverage
 > Add RTL assertions for variant classes and/or slot presence.
@@ -134,7 +142,7 @@ Agents must:
 - styleMaps matched exactly
 - Radix usage correct
 - Accessibility verified
-- Stories complete
+- Stories complete (variants-only policy): every variant represented as a story; non-variant props covered via Canvas controls
 - Tests cover render/slots/variants/a11y minima
 - CI green (lint/tests/build/pack)
 - Checklist from `AGENTS/PR_PROTOCOL.md` present
