@@ -20,11 +20,6 @@ export const ControlContract = defineContract({
       default: 'lg',
       description: 'Control size'
     },
-    focused: {
-      type: 'boolean',
-      default: false,
-      description: 'Visual focus state'
-    },
 
     // Icon-only API
     icon: { type: 'slot', required: true, description: 'Icon element or any node to render' },
