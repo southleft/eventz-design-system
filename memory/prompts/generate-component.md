@@ -53,6 +53,7 @@ Generate all of the following inside `{{destination}}`:
 - Support Radix `asChild` using `Slot` when declared.
 - Follow existing project patterns for typing, file layout, and naming.
 - Do not emit unused imports or unused props.
+- For native elements (e.g., `<a>`, `<button>`, `<input>`), do not add custom event suppression or override native props (`tabIndex`, `rel`, etc.) unless the blueprint explicitly requires it.
 
 ## Accessibility & Testing Guardrails
 - Decorative icons must have `aria-hidden="true"`.
