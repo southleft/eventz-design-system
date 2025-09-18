@@ -55,23 +55,16 @@ const slotClasses = {
 } as const;
 
 export const TextLink = React.forwardRef<HTMLAnchorElement, TextLinkProps>(
-  (
-    {
-      variant = 'brand',
-      href,
-      label,
-      disabled = false,
-      startIcon,
-      endIcon,
-      className,
-      target,
-      rel,
-      onClick,
-      tabIndex,
-      ...restProps
-    },
-    ref
-  ) => {
+  ({
+    variant = 'brand',
+    href,
+    label,
+    disabled = false,
+    startIcon,
+    endIcon,
+    className,
+    ...restProps
+  }, ref) => {
     const normalizedLabel = typeof label === 'string' ? label.trim() : '';
     if (normalizedLabel.length === 0) {
       throw new Error('TextLink requires a non-empty label.');
@@ -82,40 +75,20 @@ export const TextLink = React.forwardRef<HTMLAnchorElement, TextLinkProps>(
       throw new Error('TextLink requires a non-empty href.');
     }
 
-    const rootClassName = collapseWhitespace(
+    const baseClassName = collapseWhitespace(
       composeClasses(baseClasses, variantClasses[variant], className)
     );
-
-    const handleClick: React.MouseEventHandler<HTMLAnchorElement> = event => {
-      if (disabled) {
-        event.preventDefault();
-        event.stopPropagation();
-        return;
-      }
-
-      onClick?.(event);
-    };
-
-    const computedTabIndex = disabled ? -1 : tabIndex;
-    const relValue = rel ?? (target === '_blank' ? 'noopener noreferrer' : undefined);
 
     return (
       <a
         ref={ref}
         href={normalizedHref}
-        className={rootClassName}
+        className={baseClassName}
         aria-disabled={disabled ? 'true' : undefined}
-        tabIndex={computedTabIndex}
-        target={target}
-        rel={relValue}
-        onClick={handleClick}
         {...restProps}
       >
         {startIcon ? (
-          <span
-            className={collapseWhitespace(composeClasses(slotClasses.startIcon))}
-            aria-hidden="true"
-          >
+          <span className={slotClasses.startIcon} aria-hidden="true">
             {startIcon}
           </span>
         ) : null}
@@ -123,10 +96,7 @@ export const TextLink = React.forwardRef<HTMLAnchorElement, TextLinkProps>(
         <span className={slotClasses.label}>{normalizedLabel}</span>
 
         {endIcon ? (
-          <span
-            className={collapseWhitespace(composeClasses(slotClasses.endIcon))}
-            aria-hidden="true"
-          >
+          <span className={slotClasses.endIcon} aria-hidden="true">
             {endIcon}
           </span>
         ) : null}
