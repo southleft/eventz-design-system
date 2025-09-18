@@ -53,11 +53,8 @@ export const ControlStyleMap = defineStyleMap({
 
   // Semantic, generator-applied state hooks (plain lists; no data-[...])
   state: {
-    // Visual focus treatment (kept separate from focus-visible)
-    focused: ['ring-2', 'ring-comp-control-focus-color-ring', 'ring-offset-2'] as const,
-
     // Size axis (matches component h/w + icon svg sizing via slot selector)
     sizeLg: ['h-40', 'w-40', '[&._icon>svg]:size-20'] as const, // 40px button, 20px icon
-    sizeSm: ['h-32', 'w-32', '[&._icon>svg]:size-16'] as const  // 32px button, 16px icon
+    sizeSm: ['h-32', 'w-32', '[&._icon>svg]:size-16'] as const // 32px button, 16px icon
   }
 });
