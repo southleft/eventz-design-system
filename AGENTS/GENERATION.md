@@ -46,6 +46,7 @@ All outputs belong under:
    > Note: This repo does not use `clsx`/`cx`. Always use the local `composeClasses.ts` utility to keep class composition within our type structure.
    - Prefer template literals (`` `...` ``) for static or inline className definitions. Avoid string concatenation (`+`) and arrays of strings joined into a className.
    - Accessibility: decorative icons → `aria-hidden="true"`, all interactive elements → accessible names.
+   - For native elements (e.g., `<a>`, `<button>`, `<input>`), do not add custom event suppression or override native props (`tabIndex`, `rel`, etc.) unless the blueprint explicitly requires it.
 3. **Generate stories**:
    - Default export: `title: 'Components/<ComponentName>'`
    - Include stories for all styleMap variants.

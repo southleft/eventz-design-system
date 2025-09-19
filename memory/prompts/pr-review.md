@@ -25,7 +25,7 @@ Otherwise, do not post. Instead, output findings here.
 **Procedure (non-destructive):**
 1) Sync the local view of the branch backing PR {{PR_NUMBER}}:
    - Run a *non-destructive* remote refresh (e.g., refresh the VS Code GitHub PR panel or equivalent) to ensure **Files changed** reflects the latest remote commits.
-2) Proceed only after the PR panel reflects the latest remote state.
+2) Proceed only after the PR panel reflects the latest remote state. If the panel cannot enumerate **Files changed** or appears stale, stop and log `ERROR: Unable to enumerate Files changed for this PR.`
 
 ---
 
@@ -39,6 +39,7 @@ Otherwise, do not post. Instead, output findings here.
 - ❌ If a top-level comment with body exactly `🤖 Approved by AI` already exists, do not post another
 - ✅ Ensure the PR review runs against the latest remote state (sync before reviewing).
 - ❌ Do not review stale local diffs.
+  - If Files changed cannot be enumerated or appears stale, stop and log `ERROR: Unable to enumerate Files changed for this PR.`
 
 ---
 
@@ -51,6 +52,7 @@ Otherwise, do not post. Instead, output findings here.
    - **Radix policy:** Base must be Radix Primitives only; Themes disallowed
    - **Unit tests:** one `expect()` per `it()`, `describe()` for grouping, table-driven allowed (one `expect()` per case)
    - **ClassName composition:** must use `composeClasses` (`packages/core/src/utilities/composeClasses/composeClasses.ts`), prefer template literals, avoid concatenation and array joins, no `clsx`/`cx`
+   - **Class parity:** Compare component ⇄ styleMap on **base, slots, and variants**. Utilities are acceptable if identical across both.
    - **PR protocol checklist:** design-spec link, unit-test item with backticked names, className item with composeClasses + template literals
    - **Comment templates:** present in CODE_REVIEW.md (`🧵 className composition`, `🧩 Class composition utility misuse`, `🧱 Invented props detected`)
    - **Props export rule:** only `<ComponentName>Props` exported; no prop type aliases

@@ -22,6 +22,7 @@
 @source './.storybook/**/*.{ts,tsx,js.jsx,mdx}';
 
 @theme {
+  /* Brand scale */
   --color-brand-50: var(--dt-color-brand-50);
   --color-brand-100: var(--dt-color-brand-100);
   --color-brand-200: var(--dt-color-brand-200);
@@ -34,26 +35,24 @@
   --color-brand-900: var(--dt-color-brand-900);
   --color-brand-950: var(--dt-color-brand-950);
 
-  --color-comp-border-focus-ring: var(--dt-comp-border-focus-ring);
-
+  /* Backgrounds */
   --color-background-none: var(--dt-color-background-none);
   --color-color-background-default: var(--dt-color-background-default);
   --color-body-background: var(--dt-color-background-default);
 
+  /* Content colors (brand) */
+  --color-color-content-brand: var(--dt-color-content-brand);
+  --color-color-content-brand-hover: var(--dt-color-content-brand-hover);
+  --color-color-content-default: var(--dt-color-content-default);
+  --color-color-content-default-hover: var(--dt-color-content-default-hover);
+  --color-color-content-weak: var(--dt-color-content-weak);
+  --color-color-content-weak-hover: var(--dt-color-content-weak-hover);
+
+  /* Borders & focus ring */
+  --color-comp-border-focus-ring: var(--dt-comp-border-focus-ring);
   --color-comp-border-none: var(--dt-comp-border-none);
-  --color-comp-button-focus-color-ring: var(--dt-comp-button-focus-color-ring);
 
-  --color-comp-button-primary-color-background-default: var(
-    --dt-comp-button-primary-color-background-default
-  );
-  --color-comp-button-primary-color-background-hover: var(
-    --dt-comp-button-primary-color-background-hover
-  );
-  --color-comp-button-primary-color-background-active: var(
-    --dt-comp-button-primary-color-background-active
-  );
-  --color-comp-button-color-border-default: var(--dt-comp-button-color-border-default);
-
+  /* Button (component tokens) */
   --color-comp-button-color-background-default: var(--dt-comp-button-color-background-default);
   --color-comp-button-color-background-hover: var(--dt-comp-button-color-background-hover);
   --color-comp-button-color-background-active: var(--dt-comp-button-color-background-active);
@@ -86,10 +85,30 @@
     --dt-comp-button-color-background-knockout-blur-active
   );
 
-  --color-comp-border-focus-ring: var(--dt-comp-border-focus-ring);
+  --color-comp-button-color-border-default: var(--dt-comp-button-color-border-default);
+  --color-comp-button-focus-color-ring: var(--dt-comp-button-focus-color-ring);
 
+  /* Button (text color tokens) */
+  --color-comp-button-color-content-active: var(--dt-comp-button-color-content-active);
+  --color-comp-button-color-content-default: var(--dt-comp-button-color-content-default);
+  --color-comp-button-color-content-hover: var(--dt-comp-button-color-content-active);
+  --color-comp-button-knockout-color-foreground-default: var(
+    --dt-comp-button-knockout-color-foreground-default
+  );
+  --color-comp-button-primary-color-content-active: var(
+    --dt-comp-button-primary-color-content-active
+  );
+  --color-comp-button-primary-color-content-default: var(
+    --dt-comp-button-primary-color-content-default
+  );
+  --color-comp-button-primary-color-content-hover: var(
+    --dt-comp-button-primary-color-content-active
+  );
+
+  /* Fonts */
   --font-font-family-primary: var(--dt-font-family-primary);
 
+  /* Radii */
   --radius-none: 0px;
   --radius-xs: calc(var(--dt-border-radius-2) * 1px);
   --radius-sm: calc(var(--dt-border-radius-4) * 1px);
@@ -99,6 +118,7 @@
   --radius-2xl: calc(var(--dt-border-radius-16) * 1px);
   --radius-3xl: calc(var(--dt-border-radius-24) * 1px);
 
+  /* Spacing */
   --spacing: 1px;
   --spacing-0: 0px;
   --spacing-0_5: calc(var(--dt-spacing-0-5) * 1px);
@@ -109,15 +129,6 @@
   --spacing-3: calc(var(--dt-spacing-3) * 1px);
   --spacing-3_5: calc(var(--dt-spacing-3-5) * 1px);
   --spacing-4: calc(var(--dt-spacing-4) * 1px);
-
-  /* Text color tokens (component-scoped) */
-  --color-comp-button-color-content-default: var(--dt-comp-button-color-content-default);
-  --color-comp-button-knockout-color-foreground-default: var(
-    --dt-comp-button-knockout-color-foreground-default
-  );
-  --color-comp-button-primary-color-content-default: var(
-    --dt-comp-button-primary-color-content-default
-  );
 }
 
 @import 'tailwindcss/utilities';

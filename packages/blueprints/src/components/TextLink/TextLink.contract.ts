@@ -4,16 +4,16 @@ import { defineContract } from '../../utilities';
 export const TextLinkContract = defineContract({
   component: 'TextLink',
   description:
-    'Inline text link with optional start/end icons. Emphasis variants: strong, subtle, inverted, brand.',
-  base: 'Link', // Radix UI per repo's `radix-ui` import convention
+    'Inline text link (styled like a button) with optional start/end icons; no underline. Variants: brand, strong, subtle, inverted.',
+  base: 'a', // primitive bias: native anchor
 
   props: {
-    // Design "emphasis" variants (spec)
-    emphasis: {
+    // Visual variants (favor "variant" naming across components)
+    variant: {
       type: 'enum',
-      options: ['strong', 'subtle', 'inverted', 'brand'] as const,
-      default: 'strong',
-      description: 'Visual emphasis level for the link'
+      options: ['brand', 'strong', 'subtle', 'inverted'] as const,
+      default: 'brand',
+      description: 'Visual style of the link'
     },
 
     // Content
@@ -29,44 +29,23 @@ export const TextLinkContract = defineContract({
       type: 'boolean',
       default: false,
       description:
-        'Disables interaction (applies aria-disabled and prevents pointer/keyboard activation)'
-    },
-
-    // Native passthrough / composition
-    asChild: { type: 'boolean', default: false }
+        'Signals disabled state (generator applies aria-disabled and disables interaction)'
+    }
   },
 
   // Slot render order
   slots: ['startIcon', 'label', 'endIcon'] as const,
 
-  // Optional layout hint (inline composition)
+  // Optional layout hint (advisory only; classes live in styleMap)
   layout: {
     type: 'container',
     tag: 'a',
-    className: 'inline-flex items-center align-baseline gap-1.5',
     children: [
-      { slot: 'startIcon', tag: 'span', className: 'shrink-0 -ml-0.5' },
+      { slot: 'startIcon', tag: 'span' },
       { slot: 'label', tag: 'span' },
-      { slot: 'endIcon', tag: 'span', className: 'shrink-0 -mr-0.5' }
+      { slot: 'endIcon', tag: 'span' }
     ]
   },
-
-  rules: [
-    {
-      // Keep param typed for strict mode and agent copy-paste
-      validate: (props: Record<string, unknown>) => {
-        const label = props['label'];
-        const href = props['href'];
-        return (
-          typeof label === 'string' &&
-          label.trim().length > 0 &&
-          typeof href === 'string' &&
-          href.length > 0
-        );
-      },
-      message: 'label and href must be non-empty strings.'
-    }
-  ],
 
   styleMap: true
 });
