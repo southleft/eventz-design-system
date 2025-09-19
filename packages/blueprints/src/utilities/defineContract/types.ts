@@ -95,10 +95,19 @@ export interface LayoutSpec {
   children?: LayoutNode[];
 }
 
-/** Adapter hints the generator can use to map design variants to Radix. */
+/** Adapter and accessibility hints for generators (backward-compatible). */
 export interface ContractHints {
   radixAdapter?: {
-    /** Map our design variants to Radix Themes Button props. */
+    /**
+     * Structural primitives used by the generator (preferred).
+     * Example: { uses: ['Checkbox'] }
+     */
+    uses?: readonly string[];
+
+    /**
+     * Legacy Radix Themes variant mapping (kept for back-compat).
+     * Example: map our design variants to Radix Themes Button props.
+     */
     variantMap?: Record<
       string,
       {
@@ -109,10 +118,20 @@ export interface ContractHints {
       }
     >;
   };
-  a11y?: {
-    loadingAddsAriaBusy?: boolean;
-    preserveFocusRing?: boolean;
-  };
+
+  /**
+   * Accessibility guidance. Accepts either:
+   *  - a concise string hint (preferred), or
+   *  - an object with a `recommendation` field (legacy), or
+   *  - structured flags used by older contracts.
+   */
+  a11y?:
+    | string
+    | { recommendation: string }
+    | {
+        loadingAddsAriaBusy?: boolean;
+        preserveFocusRing?: boolean;
+      };
 }
 
 /** The top-level blueprint contract spec. */
