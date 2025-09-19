@@ -11,19 +11,25 @@ const containerClasses = `
 `;
 
 const controlClasses = `
-  border
-  border-comp-checkbox-unchecked-color-border-default
-  bg-comp-checkbox-unchecked-color-background-default
-  hover:bg-comp-checkbox-unchecked-color-background-hover
-  active:bg-comp-checkbox-unchecked-color-background-active
+  size-20
+  bg-background-none
+  border-2
+  border-color-content-weak
+  rounded-xs
+  inline-flex
+  justify-center
+  items-center
   focus-visible:ring-2
   focus-visible:ring-comp-checkbox-focus-color-ring
   focus-visible:ring-offset-2
 `;
 
 const indicatorClasses = `
-  bg-comp-checkbox-checked-color-background-default
-  border-comp-checkbox-checked-color-border-default
+  bg-color-content-brand
+  border-color-content-brand
+  border-[2.5px]
+  h-16
+  rounded-xs
   hover:bg-comp-checkbox-checked-color-background-hover
   active:bg-comp-checkbox-checked-color-background-active
   text-comp-checkbox-checked-color-icon-default
