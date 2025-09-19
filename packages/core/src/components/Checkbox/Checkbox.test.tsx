@@ -153,7 +153,14 @@ describe('Checkbox', () => {
     await user.tab();
     await user.tab();
     const control = screen.getByRole('checkbox', { name: 'Focus me' });
-    expect(control.className).toMatch(/focus-visible:ring-comp-checkbox-focus-color-ring/);
+    expect(control.className).toMatch(/focus-visible:ring-comp-border-focus-ring/);
+    view.unmount();
+  });
+
+  it('applies control base classes from the styleMap/runtime (smoke)', () => {
+    const view: RenderResult = render(<Checkbox label="Base classes" />);
+    const control = screen.getByRole('checkbox', { name: 'Base classes' });
+    expect(control.className).toMatch(/\bborder-2\b/);
     view.unmount();
   });
 });
