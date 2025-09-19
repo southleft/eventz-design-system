@@ -5,24 +5,31 @@ export const CheckboxStyleMap = defineStyleMap({
   base: [] as const,
 
   slots: {
+    // container matches wrapper <div>
     container: ['inline-flex', 'items-start', 'gap-2', 'select-none'] as const,
 
-    // Square control (always rendered) — base/unchecked visuals + focus ring
+    // control matches Radix.Checkbox.Root
     control: [
-      'border',
-      'border-comp-checkbox-unchecked-color-border-default',
-      'bg-comp-checkbox-unchecked-color-background-default',
-      'hover:bg-comp-checkbox-unchecked-color-background-hover',
-      'active:bg-comp-checkbox-unchecked-color-background-active',
+      'size-20',
+      'bg-background-none',
+      'border-2',
+      'border-color-content-weak',
+      'rounded-xs',
+      'inline-flex',
+      'justify-center',
+      'items-center',
       'focus-visible:ring-2',
-      'focus-visible:ring-comp-checkbox-focus-color-ring',
+      'focus-visible:ring-comp-border-focus-ring',
       'focus-visible:ring-offset-2'
     ] as const,
 
-    // Checkmark/filled indicator — only rendered when checked
+    // indicator matches Radix.Checkbox.Indicator (renders only when checked)
     indicator: [
-      'bg-comp-checkbox-checked-color-background-default',
-      'border-comp-checkbox-checked-color-border-default',
+      'bg-color-content-brand',
+      'border-color-content-brand',
+      'border-[2.5px]',
+      'h-16',
+      'rounded-xs',
       'hover:bg-comp-checkbox-checked-color-background-hover',
       'active:bg-comp-checkbox-checked-color-background-active',
       'text-comp-checkbox-checked-color-icon-default'
