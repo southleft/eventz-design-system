@@ -54,6 +54,8 @@ Agents must:
    - No unused/undefined classes introduced
    - Class composition must use `composeClasses` with styleMap variants (`packages/core/src/utilities/composeClasses/composeClasses.ts`)
    - ClassNames must use `composeClasses`; avoid concatenation (`+`) or array joins; **prefer template literals** for static strings.
+   - **Compare base + slots + variants** classes between the **component** and the **styleMap**. Treat a match as compliant even if class lists include utilities.
+   - **Utilities allowed:** per token-first policy, structural/optical utilities (e.g., `inline-flex`, `gap-*`, `pt-2`, negative margins) are allowed **when tokens don’t exist**. Do **not** flag utilities as drift if component **and** styleMap use the same ones.
 5. **Accessibility checks**:
    - Decorative icons set `aria-hidden="true"`
    - Labels/slots semantically intact
