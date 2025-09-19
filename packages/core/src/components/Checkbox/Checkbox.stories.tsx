@@ -22,24 +22,12 @@ type Story = StoryObj<CheckboxProps>;
 
 const renderCheckbox = (args: CheckboxProps): React.ReactElement => {
   const { onCheckedChange, ...rest } = args;
-  const isControlled = args.checked !== undefined;
-  const [internalChecked, setInternalChecked] = React.useState(args.checked ?? false);
-
-  React.useEffect(() => {
-    if (isControlled) {
-      setInternalChecked(args.checked ?? false);
-    }
-  }, [args.checked, isControlled]);
 
   return (
     <Checkbox
       {...rest}
-      checked={isControlled ? args.checked : internalChecked}
-      onCheckedChange={(value) => {
+      onCheckedChange={value => {
         onCheckedChange?.(value);
-        if (!isControlled) {
-          setInternalChecked(value === true);
-        }
       }}
     />
   );
@@ -51,42 +39,5 @@ export const Default: Story = {
     name: undefined,
     value: undefined
   },
-  render: (args) => renderCheckbox(args)
+  render: args => renderCheckbox(args)
 };
-
-export const Checked: Story = {
-  args: {
-    checked: true
-  },
-  render: (args) => renderCheckbox(args)
-};
-
-export const WithHint: Story = {
-  args: {
-    hint: 'We will send occasional product updates.'
-  },
-  render: (args) => renderCheckbox(args)
-};
-
-export const Disabled: Story = {
-  args: {
-    disabled: true
-  },
-  render: (args) => renderCheckbox(args)
-};
-
-export const Required: Story = {
-  args: {
-    required: true
-  },
-  render: (args) => renderCheckbox(args)
-};
-
-export const FormProps: Story = {
-  args: {
-    name: 'terms',
-    value: 'accepted'
-  },
-  render: (args) => renderCheckbox(args)
-};
-
