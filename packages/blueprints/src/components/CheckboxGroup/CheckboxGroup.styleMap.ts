@@ -2,31 +2,30 @@
 import { defineStyleMap } from '../../utilities';
 
 export const CheckboxGroupStyleMap = defineStyleMap({
-  base: ['flex flex-col gap-2'] as const,
+  base: ['inline-flex', 'flex-col', 'gap-8'] as const,
 
   slots: {
-    container: [] as const,
-    header: ['text-comp-checkbox-group-header-color-foreground'] as const,
-    headerDescription: ['text-comp-checkbox-group-description-color-foreground'] as const,
-    helpLabel: [
-      'text-comp-checkbox-group-help-color-foreground',
-      'hover:text-comp-checkbox-group-help-color-foreground-hover',
-      'decoration-comp-checkbox-group-help-color-underline'
+    label: [
+      'text-color-content-default',
+      'text-xs',
+      'uppercase'
+      // Info trigger icon lives inline here and defaults to text-color-content-subtle;
+      // focus styles are pulled from shared utilities at runtime.
+    ] as const,
+    hint: ['text-color-content-subtle', 'text-xs'] as const,
+    choices: ['flex', 'flex-col', 'gap-4'] as const,
+    error: [
+      'text-color-danger-subtle',
+      'text-xs'
+      // Leading error icon is decorative; runtime may add a sizing utility.
     ] as const
   },
 
-  // Layout examples the spec shows (selected note/spacing) are driven by container spacing.
   layout: {},
 
   variants: {},
 
   state: {
-    // If the group has a focused visual (focus within), expose a data hook:
-    // generator can set data-[focus-within=true] when any child checkbox is focused.
-    focusWithin: [
-      'data-[focus-within=true]:ring-2',
-      'data-[focus-within=true]:ring-comp-checkbox-group-focus-color-ring',
-      'data-[focus-within=true]:ring-offset-2'
-    ] as const
+    // Future focusWithin data-flag can be added if the design introduces a group-level ring.
   }
 });

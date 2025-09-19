@@ -1,44 +1,83 @@
 // packages/blueprints/src/components/CheckboxGroup/CheckboxGroup.contract.ts
 import { defineContract } from '../../utilities';
+import type { PropDef } from '../../utilities/defineContract/types';
+
+const choicesProp = {
+  type: 'array',
+  required: true,
+  description:
+    'Checkbox options rendered inside the group. Each item should provide a label and optional value/id. Runtime falls back to the trimmed label when value is omitted.'
+} as unknown as PropDef;
+
+const onCheckedChangeProp = {
+  type: 'function',
+  description: 'Called after any checkbox toggles with the full array of selected values.'
+} as unknown as PropDef;
 
 export const CheckboxGroupContract = defineContract({
   component: 'CheckboxGroup',
-  description:
-    'Fieldset wrapper for related checkboxes with optional header, description, and help label.',
-  base: 'CheckboxGroup', // Radix UI per repo's radix-ui import convention
+  description: 'Fieldset wrapper for related checkboxes with optional hint, info popover, and error text.',
+  base: 'fieldset',
 
   props: {
-    header: { type: 'string', required: false, description: 'Group title/legend' },
-    headerDescription: {
+    label: {
       type: 'string',
-      required: false,
-      description: 'Helper text below the header'
+      description: 'Visible legend text describing the checkbox group.'
     },
-    helpLabel: {
+    ariaLabel: {
       type: 'string',
-      required: false,
-      description: 'Auxiliary action label (e.g., link)'
+      description: 'Accessible name used when label is omitted. Must be non-empty if label is not provided.'
     },
-
-    // Composition — children will be individual Checkboxes (asChild supported if needed)
-    asChild: { type: 'boolean', default: false }
+    hint: {
+      type: 'string',
+      description: 'Optional helper text shown below the legend.'
+    },
+    info: {
+      type: 'string',
+      description: 'Optional supporting information surfaced via an inline info trigger and popover.'
+    },
+    error: {
+      type: 'string',
+      description: 'Error message displayed below the choices list with a leading icon.'
+    },
+    name: {
+      type: 'string',
+      description: 'Form field name applied to each checkbox input for submission.'
+    },
+    choices: choicesProp,
+    onCheckedChange: onCheckedChangeProp
   },
 
-  // Slots in display order
-  slots: ['header', 'headerDescription', 'helpLabel'] as const,
+  slots: ['label', 'hint', 'choices', 'error'] as const,
 
   layout: {
     type: 'container',
     tag: 'fieldset',
-    className: 'flex flex-col gap-2',
     children: [
-      { slot: 'header', tag: 'legend', className: 'mb-1' },
-      { slot: 'headerDescription', tag: 'div', className: 'text-caption-md-regular' },
-      { slot: 'helpLabel', tag: 'div', className: 'ml-auto text-caption-md-medium' }
+      { slot: 'label', tag: 'legend' },
+      { slot: 'hint', tag: 'div' },
+      { slot: 'choices', tag: 'div' },
+      { slot: 'error', tag: 'div' }
     ]
   },
 
-  rules: [],
+  rules: [
+    {
+      validate: (props: Record<string, unknown>) => {
+        const label = props['label'];
+        if (typeof label === 'string' && label.trim().length > 0) {
+          return true;
+        }
+        const ariaLabel = props['ariaLabel'];
+        return typeof ariaLabel === 'string' && ariaLabel.trim().length > 0;
+      },
+      message: 'Provide ariaLabel when label is not set so the checkbox group has an accessible name.'
+    },
+    {
+      when: {},
+      hint: 'hint and error content should merge into aria-describedby when rendered at runtime.'
+    }
+  ],
 
   styleMap: true
 });
