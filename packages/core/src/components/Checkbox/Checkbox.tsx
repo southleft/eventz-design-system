@@ -4,6 +4,7 @@ import { Checkbox as RadixCheckbox } from 'radix-ui';
 import { CheckIcon } from '@radix-ui/react-icons';
 import { composeClasses } from '../../utilities/composeClasses/composeClasses';
 import { collapseWhitespace } from '../../utilities/collapseWhitespace/collapseWhitespace';
+import { mergeDescribedBy } from '../../utilities/mergeDescribedBy/mergeDescribedBy';
 
 const containerClasses = `
   inline-flex items-start gap-2 select-none
@@ -43,19 +44,11 @@ const disabledContainerClasses = `
 type CheckboxRootElement = React.ElementRef<typeof RadixCheckbox.Root>;
 type CheckboxRootProps = React.ComponentPropsWithoutRef<typeof RadixCheckbox.Root>;
 
-function mergeDescribedBy(
-  existing: string | undefined,
-  addition: string | undefined
-): string | undefined {
-  if (!addition) return existing;
-  if (!existing) return addition;
-  const tokens = new Set<string>(existing.split(/\s+/u).filter(Boolean));
-  tokens.add(addition);
-  return Array.from(tokens).join(' ');
-}
-
 export interface CheckboxProps
-  extends Omit<CheckboxRootProps, 'children' | 'className' | 'checked' | 'disabled' | 'name' | 'required' | 'value'> {
+  extends Omit<
+    CheckboxRootProps,
+    'children' | 'className' | 'checked' | 'disabled' | 'name' | 'required' | 'value'
+  > {
   checked?: boolean;
   label: string;
   hint?: string;
