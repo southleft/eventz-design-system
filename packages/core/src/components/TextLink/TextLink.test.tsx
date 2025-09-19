@@ -13,7 +13,7 @@ describe('TextLink', () => {
     it('uses default variant when not provided', () => {
       render(<TextLink href="#example" label="Visit example" />);
       const link = screen.getByRole('link', { name: 'Visit example' });
-      expect(link).toHaveClass('text-comp-text-link-brand-color-foreground-default');
+      expect(link).toHaveClass('text-color-content-brand');
     });
 
     it('disabled defaults to false (no aria-disabled)', () => {
@@ -30,10 +30,10 @@ describe('TextLink', () => {
 
   describe('variants', () => {
     const variantCases: ReadonlyArray<[TextLinkProps['variant'], string]> = [
-      ['brand', 'text-comp-text-link-brand-color-foreground-default'],
-      ['strong', 'text-comp-text-link-strong-color-foreground-default'],
-      ['subtle', 'text-comp-text-link-subtle-color-foreground-default'],
-      ['inverted', 'text-comp-text-link-inverted-color-foreground-default']
+      ['brand', 'text-color-content-brand'],
+      ['strong', 'text-color-content-default'],
+      ['subtle', 'text-color-content-weak'],
+      ['inverted', 'text-comp-button-primary-color-content-default']
     ];
 
     it.each(variantCases)('applies %s variant classes', (variant, classToken) => {
@@ -126,7 +126,7 @@ describe('TextLink', () => {
   it('includes focus ring token class', () => {
     renderLink();
     expect(screen.getByRole('link', { name: 'Visit example' })).toHaveClass(
-      'focus-visible:ring-comp-text-link-focus-color-ring'
+      'focus-visible:ring-comp-border-focus-ring'
     );
   });
 });
