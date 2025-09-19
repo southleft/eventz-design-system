@@ -32,6 +32,7 @@ const variantClasses: Record<Variant, string> = {
   brand: `
     text-color-content-brand
     hover:text-color-content-brand-hover
+    font-bold
   `,
   strong: `
     font-medium
@@ -43,9 +44,9 @@ const variantClasses: Record<Variant, string> = {
     hover:text-color-content-weak-hover
   `,
   inverted: `
-    text-comp-text-link-inverted-color-foreground-default
-    hover:text-comp-text-link-inverted-color-foreground-hover
-    active:text-comp-text-link-inverted-color-foreground-active
+    text-comp-button-primary-color-content-default
+    hover:text-comp-button-primary-color-content-hover
+    active:text-comp-button-primary-color-content-active
   `
 };
 

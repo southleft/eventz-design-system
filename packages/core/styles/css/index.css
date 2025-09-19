@@ -89,12 +89,20 @@
   --color-comp-button-focus-color-ring: var(--dt-comp-button-focus-color-ring);
 
   /* Button (text color tokens) */
+  --color-comp-button-color-content-active: var(--dt-comp-button-color-content-active);
   --color-comp-button-color-content-default: var(--dt-comp-button-color-content-default);
+  --color-comp-button-color-content-hover: var(--dt-comp-button-color-content-active);
   --color-comp-button-knockout-color-foreground-default: var(
     --dt-comp-button-knockout-color-foreground-default
   );
+  --color-comp-button-primary-color-content-active: var(
+    --dt-comp-button-primary-color-content-active
+  );
   --color-comp-button-primary-color-content-default: var(
     --dt-comp-button-primary-color-content-default
+  );
+  --color-comp-button-primary-color-content-hover: var(
+    --dt-comp-button-primary-color-content-active
   );
 
   /* Fonts */
