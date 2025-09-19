@@ -20,7 +20,7 @@ const controlClasses = `
   justify-center
   items-center
   focus-visible:ring-2
-  focus-visible:ring-comp-checkbox-focus-color-ring
+  focus-visible:ring-comp-border-focus-ring
   focus-visible:ring-offset-2
 `;
 
