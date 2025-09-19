@@ -36,34 +36,16 @@ export const TextLinkContract = defineContract({
   // Slot render order
   slots: ['startIcon', 'label', 'endIcon'] as const,
 
-  // Optional layout hint (inline composition)
+  // Optional layout hint (advisory only; classes live in styleMap)
   layout: {
     type: 'container',
     tag: 'a',
-    className: 'inline-flex items-center align-baseline gap-1.5',
     children: [
-      { slot: 'startIcon', tag: 'span', className: 'shrink-0 -ml-0.5' },
+      { slot: 'startIcon', tag: 'span' },
       { slot: 'label', tag: 'span' },
-      { slot: 'endIcon', tag: 'span', className: 'shrink-0 -mr-0.5' }
+      { slot: 'endIcon', tag: 'span' }
     ]
   },
-
-  rules: [
-    {
-      // Keep param typed for strict mode and agent copy-paste
-      validate: (props: Record<string, unknown>) => {
-        const label = props['label'];
-        const href = props['href'];
-        return (
-          typeof label === 'string' &&
-          label.trim().length > 0 &&
-          typeof href === 'string' &&
-          href.length > 0
-        );
-      },
-      message: 'label and href must be non-empty strings.'
-    }
-  ],
 
   styleMap: true
 });
