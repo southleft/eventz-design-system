@@ -3,37 +3,45 @@ import { defineContract } from '../../utilities';
 
 export const CheckboxContract = defineContract({
   component: 'Checkbox',
-  description:
-    'Binary/tri-state control with a visible label. Supports unchecked, checked, and indeterminate.',
+  description: 'Two-state checkbox with a visible label and optional hint.',
   base: 'Checkbox', // Radix UI per repo's radix-ui import convention
 
   props: {
-    // Tri-state maps directly to Radix's `checked: boolean | "indeterminate"`
     checked: {
-      type: 'enum',
-      options: ['unchecked', 'checked', 'indeterminate'] as const,
-      default: 'unchecked',
-      description: 'Visual/semantic state of the control'
+      type: 'boolean',
+      default: false,
+      description: 'Whether the checkbox is checked'
     },
 
     label: { type: 'string', required: true, description: 'Visible label (accessible name)' },
 
+    hint: { type: 'string', description: 'Optional helper text shown under the label' },
+
     disabled: { type: 'boolean', default: false, description: 'Disables the checkbox' },
 
-    // Composition
-    asChild: { type: 'boolean', default: false }
+    // Form props (pass-through to Radix root)
+    required: { type: 'boolean', default: false, description: 'Marks the checkbox as required' },
+    name: { type: 'string', description: 'Form field name' },
+    value: { type: 'string', description: 'Form value; Radix defaults to \"on\" when omitted' }
   },
 
   // Render order for slots (control square + text)
-  slots: ['label'] as const,
+  slots: ['control', 'indicator', 'label', 'hint'] as const,
 
   layout: {
     type: 'container',
-    tag: 'label',
+    tag: 'div',
     className: 'inline-flex items-start gap-2 select-none',
     children: [
-      // The visual square is the Radix Checkbox itself; label text is adjacent
-      { slot: 'label', tag: 'span' }
+      { slot: 'control', tag: 'div' },
+      {
+        tag: 'div',
+        className: '._textGroup',
+        children: [
+          { slot: 'label', tag: 'label' },
+          { slot: 'hint', tag: 'div' }
+        ]
+      }
     ]
   },
 
@@ -47,5 +55,10 @@ export const CheckboxContract = defineContract({
     }
   ],
 
-  styleMap: true
+  styleMap: true,
+
+  hints: {
+    radixAdapter: { uses: ['Checkbox'] as const },
+    a11y: 'Associate <label htmlFor={id}> with the control; map hint to aria-describedby; apply required to the control/input for forms.'
+  }
 });

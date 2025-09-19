@@ -2,66 +2,51 @@
 import { defineStyleMap } from '../../utilities';
 
 export const CheckboxStyleMap = defineStyleMap({
-  base: [
-    // Applies to the <label> wrapper when we render using the layout hint
-    'inline-flex items-start gap-2 select-none'
-  ] as const,
+  base: [] as const,
 
-  // Slot classes for a generated composition where the Radix <Checkbox> is the control,
-  // and the text is the label. The "control" slot is implied by the root Radix element.
   slots: {
-    container: [] as const,
-    label: ['text-comp-checkbox-color-foreground-label'] as const
-  },
+    // container matches wrapper <div>
+    container: ['inline-flex', 'items-start', 'gap-2', 'select-none'] as const,
 
-  // Size is defined visually on the control (square) via utilities until tokens exist.
-  layout: {},
-
-  // Variants reflect the tri-state visuals using component tokens.
-  variants: {
-    unchecked: [
-      // Base square: background, border; icon transparent
-      'bg-comp-checkbox-unchecked-color-background-default',
-      'border',
-      'border-comp-checkbox-unchecked-color-border-default',
-      'hover:bg-comp-checkbox-unchecked-color-background-hover',
-      'active:bg-comp-checkbox-unchecked-color-background-active'
+    // control matches Radix.Checkbox.Root
+    control: [
+      'size-20',
+      'bg-background-none',
+      'border-2',
+      'border-color-content-weak',
+      'rounded-xs',
+      'inline-flex',
+      'justify-center',
+      'items-center',
+      'focus-visible:ring-2',
+      'focus-visible:ring-comp-border-focus-ring',
+      'focus-visible:ring-offset-2'
     ] as const,
 
-    checked: [
-      'bg-comp-checkbox-checked-color-background-default',
-      'border',
-      'border-comp-checkbox-checked-color-border-default',
+    // indicator matches Radix.Checkbox.Indicator (renders only when checked)
+    indicator: [
+      'bg-color-content-brand',
+      'border-color-content-brand',
+      'border-[2.5px]',
+      'h-16',
+      'rounded-xs',
       'hover:bg-comp-checkbox-checked-color-background-hover',
       'active:bg-comp-checkbox-checked-color-background-active',
-      'text-comp-checkbox-checked-color-icon-default' // checkmark/indicator color
+      'text-comp-checkbox-checked-color-icon-default'
     ] as const,
 
-    indeterminate: [
-      'bg-comp-checkbox-indeterminate-color-background-default',
-      'border',
-      'border-comp-checkbox-indeterminate-color-border-default',
-      'hover:bg-comp-checkbox-indeterminate-color-background-hover',
-      'active:bg-comp-checkbox-indeterminate-color-background-active',
-      'text-comp-checkbox-indeterminate-color-icon-default' // dash/indicator color
-    ] as const
+    label: ['text-color-content-default', 'text-sm', 'leading-tight'] as const,
+    hint: ['text-color-content-subtle', 'text-xs'] as const
   },
 
-  state: {
-    // Native :disabled is supported on Radix checkbox
-    disabled: [
-      'disabled:bg-comp-checkbox-disabled-color-background',
-      'disabled:border-comp-checkbox-disabled-color-border',
-      'disabled:text-comp-checkbox-disabled-color-foreground',
-      'disabled:opacity-50',
-      'disabled:pointer-events-none'
-    ] as const,
+  // Size is defined visually on the control via utilities until tokens exist.
+  layout: {},
 
-    // Focus visualization (applied to the control)
-    focused: [
-      'focus-visible:ring-2',
-      'focus-visible:ring-comp-checkbox-focus-color-ring',
-      'focus-visible:ring-offset-2'
-    ] as const
+  // No variants — checked/unchecked are not enum variants
+  variants: {},
+
+  state: {
+    // Generator applies disabled hooks to the container wrapper
+    disabled: ['opacity-50', 'pointer-events-none'] as const
   }
 });
