@@ -25,6 +25,40 @@ beforeAll(() => {
   }
 });
 
+describe('aria-describedby merge', () => {
+  it('uses only the hint id when no existing aria-describedby is provided', () => {
+    const view = render(<Checkbox id="cb1" label="Email" hint="We will send updates" />);
+    const control = screen.getByRole('checkbox', { name: 'Email' });
+    expect(control).toHaveAttribute('aria-describedby', 'cb1-hint');
+    view.unmount();
+  });
+
+  it('preserves existing aria-describedby when no hint is provided', () => {
+    const view = render(<Checkbox id="cb2" label="Email" aria-describedby="external-id" />);
+    const control = screen.getByRole('checkbox', { name: 'Email' });
+    expect(control).toHaveAttribute('aria-describedby', 'external-id');
+    view.unmount();
+  });
+
+  it('merges existing aria-describedby with hint id without duplicates', () => {
+    const view = render(
+      <Checkbox id="cb3" label="Email" hint="We will send updates" aria-describedby="external-id" />
+    );
+    const control = screen.getByRole('checkbox', { name: 'Email' });
+    expect(control).toHaveAttribute('aria-describedby', 'external-id cb3-hint');
+    view.unmount();
+  });
+
+  it('does not duplicate tokens when existing already contains the hint id', () => {
+    const view = render(
+      <Checkbox id="cb4" label="Email" hint="We will send updates" aria-describedby="cb4-hint" />
+    );
+    const control = screen.getByRole('checkbox', { name: 'Email' });
+    expect(control).toHaveAttribute('aria-describedby', 'cb4-hint');
+    view.unmount();
+  });
+});
+
 describe('Checkbox', () => {
   it('renders a checkbox with a visible label', () => {
     const view: RenderResult = render(<Checkbox label="Subscribe" />);
