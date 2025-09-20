@@ -127,7 +127,11 @@ export const CheckboxGroup = React.forwardRef<HTMLFieldSetElement, CheckboxGroup
           {trimmedLabel ?? trimmedAriaLabel}
           {trimmedLabel && info ? (
             <Popover.Root>
-              <Popover.Trigger className={infoTriggerClassName} data-slot="infoTrigger">
+              <Popover.Trigger
+                className={infoTriggerClassName}
+                data-slot="infoTrigger"
+                aria-label="More info"
+              >
                 <InfoCircledIcon aria-hidden="true" />
               </Popover.Trigger>
               <Popover.Portal>

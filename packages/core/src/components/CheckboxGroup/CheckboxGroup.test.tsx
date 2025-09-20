@@ -311,6 +311,12 @@ describe('CheckboxGroup info popover', () => {
     const trigger = document.querySelector('[data-slot="infoTrigger"]') as HTMLButtonElement;
     expect(trigger).toHaveClass('focus-visible:ring-comp-border-focus-ring');
   });
+
+  it('names the info trigger for accessibility', () => {
+    render(<CheckboxGroup label="Notifications" info="More info" choices={[{ label: 'Email' }]} />);
+    const trigger = document.querySelector('[data-slot="infoTrigger"]') as HTMLButtonElement;
+    expect(trigger).toHaveAttribute('aria-label', 'More info');
+  });
 });
 
 describe('CheckboxGroup error slot', () => {
