@@ -2,31 +2,57 @@
 import { defineStyleMap } from '../../utilities';
 
 export const CheckboxGroupStyleMap = defineStyleMap({
-  base: ['flex flex-col gap-2'] as const,
+  base: ['inline-flex', 'flex-col', 'gap-1', 'border-none', 'py-8'] as const,
 
   slots: {
-    container: [] as const,
-    header: ['text-comp-checkbox-group-header-color-foreground'] as const,
-    headerDescription: ['text-comp-checkbox-group-description-color-foreground'] as const,
-    helpLabel: [
-      'text-comp-checkbox-group-help-color-foreground',
-      'hover:text-comp-checkbox-group-help-color-foreground-hover',
-      'decoration-comp-checkbox-group-help-color-underline'
+    label: [
+      'inline-flex',
+      'gap-1',
+      'text-color-content-default',
+      'text-xs',
+      'uppercase'
+      // Inline info trigger sits here visually; see `infoTrigger` slot for its classes.
+    ] as const,
+
+    infoTrigger: [
+      'border-none',
+      'bg-background-none',
+      'text-color-content-subtle',
+      'focus:outline-none',
+      'focus-visible:ring-2',
+      'focus-visible:ring-comp-border-focus-ring',
+      'focus-visible:ring-offset-2'
+    ] as const,
+
+    infoContent: [
+      'max-w-xs',
+      'rounded-md',
+      'bg-color-content-default',
+      'p-3',
+      'text-sm',
+      'shadow-lg'
+    ] as const,
+
+    hint: ['text-color-content-subtle', 'text-xs', '-mt-8'] as const,
+
+    choices: ['flex', 'flex-col', 'gap-3'] as const,
+
+    error: [
+      'text-color-content-utility-danger-subtle',
+      'text-xs',
+      'mt-1',
+      'inline-flex',
+      'gap-2',
+      'pl-1'
+      // Leading error icon is decorative; sizing remains a runtime concern.
     ] as const
   },
 
-  // Layout examples the spec shows (selected note/spacing) are driven by container spacing.
   layout: {},
 
   variants: {},
 
   state: {
-    // If the group has a focused visual (focus within), expose a data hook:
-    // generator can set data-[focus-within=true] when any child checkbox is focused.
-    focusWithin: [
-      'data-[focus-within=true]:ring-2',
-      'data-[focus-within=true]:ring-comp-checkbox-group-focus-color-ring',
-      'data-[focus-within=true]:ring-offset-2'
-    ] as const
+    // No state flags currently. Add a focusWithin or hasError flag here if design introduces it later.
   }
 });
