@@ -37,6 +37,39 @@ describe('CheckboxGroup accessible name', () => {
     expect(screen.getByRole('group')).toBeInTheDocument();
     view.unmount();
   });
+
+  it('uses the provided id for the fieldset', () => {
+    const view: RenderResult = render(
+      <CheckboxGroup id="custom-id-123" label="With ID" choices={[{ label: 'A' }]} />
+    );
+    expect(screen.getByRole('group', { name: /with id/i })).toHaveAttribute('id', 'custom-id-123');
+    view.unmount();
+  });
+
+  it('renders a visually hidden legend when using ariaLabel', () => {
+    const view: RenderResult = render(
+      <CheckboxGroup ariaLabel="Hidden legend name" choices={[{ label: 'A' }]} />
+    );
+    const fieldset = screen.getByRole('group', { name: /hidden legend name/i });
+    const legend = fieldset.querySelector('legend') as HTMLElement;
+    expect(legend.className).toMatch(/\bsr-only\b/);
+    view.unmount();
+  });
+
+  it('uses a visually hidden legend and no info trigger when label is whitespace', () => {
+    render(
+      <CheckboxGroup
+        label="   "
+        info="Should not render trigger when label is whitespace"
+        choices={[{ label: 'A' }]}
+      />
+    );
+    const fieldset = screen.getByRole('group');
+    const legend = fieldset.querySelector('legend') as HTMLElement;
+    expect(legend.className).toMatch(/\bsr-only\b/);
+    const trigger = fieldset.querySelector('button[aria-label="More info"]');
+    expect(trigger).toBeNull();
+  });
 });
 
 describe('CheckboxGroup aria-describedby wiring', () => {
@@ -63,7 +96,8 @@ describe('CheckboxGroup aria-describedby wiring', () => {
       />
     );
     const fieldset = screen.getByRole('group', { name: /newsletter/i });
-    const errorContainer = screen.getByText('Pick at least one option').parentElement as HTMLElement;
+    const errorContainer = screen.getByText('Pick at least one option')
+      .parentElement as HTMLElement;
     expect(fieldset).toHaveAttribute('aria-describedby', errorContainer.id);
     view.unmount();
   });
@@ -82,6 +116,24 @@ describe('CheckboxGroup aria-describedby wiring', () => {
     const errorContainer = screen.getByText('This field is required').parentElement as HTMLElement;
     expect(fieldset).toHaveAttribute('aria-describedby', `${hint.id} ${errorContainer.id}`);
     view.unmount();
+  });
+
+  it('does not render the error container when error is absent', () => {
+    render(<CheckboxGroup label="No error" choices={[{ label: 'A' }]} />);
+    const fieldset = screen.getByRole('group', { name: /no error/i });
+    expect(fieldset.getAttribute('aria-describedby') ?? '').not.toMatch(/-error$/);
+  });
+
+  it('does not render the hint container when hint is whitespace', () => {
+    render(<CheckboxGroup label="Has label" hint="   " choices={[{ label: 'A' }]} />);
+    const fieldset = screen.getByRole('group', { name: /has label/i });
+    expect(fieldset.getAttribute('aria-describedby') ?? '').not.toMatch(/-hint$/);
+  });
+
+  it('does not render the error container when error is whitespace', () => {
+    render(<CheckboxGroup label="No error" error="   " choices={[{ label: 'A' }]} />);
+    const fieldset = screen.getByRole('group', { name: /no error/i });
+    expect(fieldset.getAttribute('aria-describedby') ?? '').not.toMatch(/-error$/);
   });
 });
 
@@ -111,7 +163,7 @@ describe('CheckboxGroup choices interaction', () => {
 
   it('calls onCheckedChange with the updated values on check', async () => {
     const user = userEvent.setup();
-    const handleChange = jest.fn();
+    const handleChange = jest.fn<void, [string[]]>();
     const view: RenderResult = render(
       <CheckboxGroup
         label="Notifications"
@@ -121,14 +173,17 @@ describe('CheckboxGroup choices interaction', () => {
     );
     const checkbox = screen.getByRole('checkbox', { name: 'Email' });
     await user.click(checkbox);
-    const lastCall = handleChange.mock.calls[handleChange.mock.calls.length - 1]?.[0];
-    expect(lastCall).toEqual(['Email']);
+    const lastCall = handleChange.mock.calls[handleChange.mock.calls.length - 1] as
+      | [string[]]
+      | undefined;
+    const [values] = lastCall ?? [[]];
+    expect(values).toEqual(['Email']);
     view.unmount();
   });
 
   it('calls onCheckedChange with the updated values on uncheck', async () => {
     const user = userEvent.setup();
-    const handleChange = jest.fn();
+    const handleChange = jest.fn<void, [string[]]>();
     const view: RenderResult = render(
       <CheckboxGroup
         label="Notifications"
@@ -139,9 +194,88 @@ describe('CheckboxGroup choices interaction', () => {
     const checkbox = screen.getByRole('checkbox', { name: 'Email' });
     await user.click(checkbox);
     await user.click(checkbox);
-    const lastCall = handleChange.mock.calls[handleChange.mock.calls.length - 1]?.[0];
-    expect(lastCall).toEqual([]);
+    const lastCall = handleChange.mock.calls[handleChange.mock.calls.length - 1] as
+      | [string[]]
+      | undefined;
+    const [values] = lastCall ?? [[]];
+    expect(values).toEqual([]);
     view.unmount();
+  });
+
+  it('fires the group callback on both check and uncheck (two calls)', async () => {
+    const user = userEvent.setup();
+    const handleChange = jest.fn<void, [string[]]>();
+    render(
+      <CheckboxGroup
+        label="Notifications"
+        choices={[{ label: 'Email' }]}
+        onCheckedChange={handleChange}
+      />
+    );
+    const checkbox = screen.getByRole('checkbox', { name: 'Email' });
+    await user.click(checkbox); // check
+    await user.click(checkbox); // uncheck
+    expect(handleChange.mock.calls.length).toBe(2);
+  });
+
+  it('invokes the uncheck path with an empty selection array', async () => {
+    const user = userEvent.setup();
+    const handleChange = jest.fn<void, [string[]]>();
+    render(
+      <CheckboxGroup
+        label="Notifications"
+        choices={[{ label: 'Email' }]}
+        onCheckedChange={handleChange}
+      />
+    );
+    const checkbox = screen.getByRole('checkbox', { name: 'Email' });
+    await user.click(checkbox); // check
+    await user.click(checkbox); // uncheck
+    const [values] = handleChange.mock.calls[handleChange.mock.calls.length - 1];
+    expect(values).toEqual([]);
+  });
+
+  it('uses the provided choice.value as the selection identity', async () => {
+    const user = userEvent.setup();
+    const handleChange = jest.fn<void, [string[]]>();
+    render(
+      <CheckboxGroup
+        label="Prefs"
+        choices={[{ label: 'Email', value: 'email_pref' }]}
+        onCheckedChange={handleChange}
+      />
+    );
+    const checkbox = screen.getByRole('checkbox', { name: 'Email' });
+    await user.click(checkbox);
+    const lastCall = handleChange.mock.calls[handleChange.mock.calls.length - 1] as
+      | [string[]]
+      | undefined;
+    const [values] = lastCall ?? [[]];
+    expect(values).toEqual(['email_pref']);
+  });
+
+  it('removes only the toggled value on uncheck and preserves others', async () => {
+    const user = userEvent.setup();
+    const handleChange = jest.fn<void, [string[]]>();
+    render(
+      <CheckboxGroup
+        label="Multi"
+        choices={[{ label: 'Email' }, { label: 'SMS' }]}
+        onCheckedChange={handleChange}
+      />
+    );
+    const email = screen.getByRole('checkbox', { name: 'Email' });
+    const sms = screen.getByRole('checkbox', { name: 'SMS' });
+
+    await user.click(email);
+    await user.click(sms);
+    await user.click(email);
+
+    const lastCall = handleChange.mock.calls[handleChange.mock.calls.length - 1] as
+      | [string[]]
+      | undefined;
+    const [values] = lastCall ?? [[]];
+    expect(values).toEqual(['SMS']);
   });
 });
 
@@ -157,22 +291,19 @@ describe('CheckboxGroup info popover', () => {
     );
     const trigger = screen.getByRole('button', { name: 'More info' });
     await user.click(trigger);
-    expect(
-      await screen.findByText('Additional info about notification delivery.')
-    ).toBeVisible();
+    expect(await screen.findByText('Additional info about notification delivery.')).toBeVisible();
   });
 
   it('marks the info icon as decorative', () => {
-    render(
-      <CheckboxGroup
-        label="Notifications"
-        info="More info"
-        choices={[{ label: 'Email' }]}
-      />
-    );
+    render(<CheckboxGroup label="Notifications" info="More info" choices={[{ label: 'Email' }]} />);
     const trigger = screen.getByRole('button', { name: 'More info' });
     const icon = trigger.querySelector('svg');
     expect(icon).toHaveAttribute('aria-hidden', 'true');
+  });
+
+  it('does not render an info trigger when label is absent (ariaLabel path)', () => {
+    render(<CheckboxGroup ariaLabel="Name" info="Info text" choices={[{ label: 'A' }]} />);
+    expect(screen.queryByRole('button', { name: 'More info' })).toBeNull();
   });
 });
 
@@ -188,5 +319,57 @@ describe('CheckboxGroup error slot', () => {
     const errorText = screen.getByText('Select at least one option.');
     const icon = errorText.parentElement?.querySelector('svg');
     expect(icon).toHaveAttribute('aria-hidden', 'true');
+  });
+});
+
+describe('CheckboxGroup ids', () => {
+  it('generates a predictable checkbox id when choice.id is absent', () => {
+    render(
+      <CheckboxGroup id="group-1" label="IDs" choices={[{ label: 'First' }, { label: 'Second' }]} />
+    );
+    const first = screen.getByRole('checkbox', { name: 'First' });
+    expect(first.id).toBe('group-1-choice-0');
+  });
+
+  it('generates predictable ids for each item when choice.id is absent (second item)', () => {
+    render(
+      <CheckboxGroup id="group-2" label="IDs" choices={[{ label: 'First' }, { label: 'Second' }]} />
+    );
+    const second = screen.getByRole('checkbox', { name: 'Second' });
+    expect(second.id).toBe('group-2-choice-1');
+  });
+
+  it('uses provided choice.id when present', () => {
+    render(
+      <CheckboxGroup
+        label="IDs"
+        choices={[
+          { label: 'Email', id: 'email-id' },
+          { label: 'SMS', id: 'sms-id' }
+        ]}
+      />
+    );
+    const email = screen.getByRole('checkbox', { name: 'Email' });
+    expect(email.id).toBe('email-id');
+  });
+
+  it('renders newly added choices on rerender (mapping executes again)', () => {
+    const { rerender } = render(
+      <CheckboxGroup id="group-3" label="IDs" choices={[{ label: 'One' }]} />
+    );
+    rerender(
+      <CheckboxGroup id="group-3" label="IDs" choices={[{ label: 'One' }, { label: 'Two' }]} />
+    );
+    expect(screen.getByRole('checkbox', { name: 'Two' })).toBeInTheDocument();
+  });
+});
+
+describe('CheckboxGroup ids', () => {
+  it('generates a predictable checkbox id when choice.id is absent', () => {
+    render(
+      <CheckboxGroup id="group-1" label="IDs" choices={[{ label: 'First' }, { label: 'Second' }]} />
+    );
+    const first = screen.getByRole('checkbox', { name: 'First' });
+    expect(first.id).toBe('group-1-choice-0');
   });
 });
