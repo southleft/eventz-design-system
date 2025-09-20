@@ -6,7 +6,7 @@ const choicesProp = {
   type: 'array',
   required: true,
   description:
-    'Checkbox options rendered inside the group. Each item should provide a label and optional value/id. Runtime falls back to the trimmed label when value is omitted.'
+    'Checkbox options rendered inside the group. Each item should provide a label and optional value/id.'
 } as unknown as PropDef;
 
 const onCheckedChangeProp = {
@@ -16,7 +16,8 @@ const onCheckedChangeProp = {
 
 export const CheckboxGroupContract = defineContract({
   component: 'CheckboxGroup',
-  description: 'Fieldset wrapper for related checkboxes with optional hint, info popover, and error text.',
+  description:
+    'Fieldset wrapper for related checkboxes with optional hint, info popover, and error text.',
   base: 'fieldset',
 
   props: {
@@ -26,7 +27,8 @@ export const CheckboxGroupContract = defineContract({
     },
     ariaLabel: {
       type: 'string',
-      description: 'Accessible name used when label is omitted. Must be non-empty if label is not provided.'
+      description:
+        'Accessible name used when label is omitted. Must be non-empty if label is not provided.'
     },
     hint: {
       type: 'string',
@@ -34,7 +36,8 @@ export const CheckboxGroupContract = defineContract({
     },
     info: {
       type: 'string',
-      description: 'Optional supporting information surfaced via an inline info trigger and popover.'
+      description:
+        'Optional supporting information surfaced via an inline info trigger and popover.'
     },
     error: {
       type: 'string',
@@ -48,13 +51,24 @@ export const CheckboxGroupContract = defineContract({
     onCheckedChange: onCheckedChangeProp
   },
 
-  slots: ['label', 'hint', 'choices', 'error'] as const,
+  /**
+   * Slots note:
+   * - `infoTrigger` is an inline control that appears after the label text when `info` && `label`.
+   *   It currently renders an icon-only trigger (not exposed as a public prop).
+   * - `infoContent` is the popover content container that displays the `info` string.
+   */
+  slots: ['label', 'infoTrigger', 'infoContent', 'hint', 'choices', 'error'] as const,
 
   layout: {
     type: 'container',
     tag: 'fieldset',
     children: [
-      { slot: 'label', tag: 'legend' },
+      {
+        slot: 'label',
+        tag: 'legend',
+        children: [{ slot: 'infoTrigger', tag: 'button' }]
+      },
+      { slot: 'infoContent', tag: 'div' },
       { slot: 'hint', tag: 'div' },
       { slot: 'choices', tag: 'div' },
       { slot: 'error', tag: 'div' }
@@ -65,17 +79,21 @@ export const CheckboxGroupContract = defineContract({
     {
       validate: (props: Record<string, unknown>) => {
         const label = props['label'];
-        if (typeof label === 'string' && label.trim().length > 0) {
-          return true;
-        }
+        if (typeof label === 'string' && label.trim().length > 0) return true;
         const ariaLabel = props['ariaLabel'];
         return typeof ariaLabel === 'string' && ariaLabel.trim().length > 0;
       },
-      message: 'Provide ariaLabel when label is not set so the checkbox group has an accessible name.'
+      message:
+        'Provide ariaLabel when label is not set so the checkbox group has an accessible name.'
+    },
+    {
+      when: { info: (v: unknown) => typeof v === 'string' && v.trim().length > 0 },
+      hint:
+        '`infoTrigger` should render only when a visible `label` is present; `infoContent` renders the info string via a popover at runtime.'
     },
     {
       when: {},
-      hint: 'hint and error content should merge into aria-describedby when rendered at runtime.'
+      hint: 'Hint and error content should merge into `aria-describedby` when rendered at runtime.'
     }
   ],
 
