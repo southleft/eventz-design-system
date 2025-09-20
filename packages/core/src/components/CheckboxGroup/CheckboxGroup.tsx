@@ -7,23 +7,32 @@ import { mergeDescribedBy } from '../../utilities/mergeDescribedBy/mergeDescribe
 import { Checkbox } from '../Checkbox';
 
 const baseClasses = `
-  inline-flex flex-col gap-8
+  inline-flex flex-col gap-1 border-none py-8
 `;
 
 const labelClasses = `
-  text-color-content-default text-xs uppercase
+  inline-flex gap-1 text-color-content-default text-xs uppercase
+`;
+
+const infoTriggerClasses = `
+  border-none bg-background-none text-color-content-subtle
+  focus:outline-none focus-visible:ring-2 focus-visible:ring-comp-border-focus-ring focus-visible:ring-offset-2
+`;
+
+const infoContentClasses = `
+  max-w-xs rounded-md bg-color-content-default p-3 text-sm shadow-lg
 `;
 
 const hintClasses = `
-  text-color-content-subtle text-xs
+  text-color-content-subtle text-xs -mt-8
 `;
 
 const choicesClasses = `
-  flex flex-col gap-4
+  flex flex-col gap-3
 `;
 
 const errorClasses = `
-  text-color-danger-subtle text-xs
+  text-color-content-utility-danger-subtle text-xs mt-1 inline-flex gap-2 pl-1
 `;
 
 type CheckboxChoice = {
@@ -81,6 +90,8 @@ export const CheckboxGroup = React.forwardRef<HTMLFieldSetElement, CheckboxGroup
     const legendClassName = collapseWhitespace(
       composeClasses(labelClasses, trimmedLabel ? undefined : 'sr-only')
     );
+    const infoTriggerClassName = collapseWhitespace(composeClasses(infoTriggerClasses));
+    const infoContentClassName = collapseWhitespace(composeClasses(infoContentClasses));
     const hintClassName = collapseWhitespace(composeClasses(hintClasses));
     const choicesClassName = collapseWhitespace(composeClasses(choicesClasses));
     const errorClassName = collapseWhitespace(composeClasses(errorClasses));
@@ -116,21 +127,11 @@ export const CheckboxGroup = React.forwardRef<HTMLFieldSetElement, CheckboxGroup
           {trimmedLabel ?? trimmedAriaLabel}
           {trimmedLabel && info ? (
             <Popover.Root>
-              <Popover.Trigger asChild>
-                <button
-                  type="button"
-                  aria-label="More info"
-                  className="ml-2 inline-flex h-6 w-6 items-center justify-center rounded-full text-color-content-subtle focus:outline-none focus-visible:ring-2 focus-visible:ring-comp-border-focus-ring focus-visible:ring-offset-2"
-                >
-                  <InfoCircledIcon aria-hidden="true" />
-                </button>
+              <Popover.Trigger className={infoTriggerClassName}>
+                <InfoCircledIcon aria-hidden="true" />
               </Popover.Trigger>
               <Popover.Portal>
-                <Popover.Content
-                  side="top"
-                  sideOffset={8}
-                  className="max-w-xs rounded-md bg-color-background-default p-3 text-sm text-color-content-default shadow-lg"
-                >
+                <Popover.Content side="top" sideOffset={8} className={infoContentClassName}>
                   {info}
                 </Popover.Content>
               </Popover.Portal>
