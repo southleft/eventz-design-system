@@ -56,7 +56,7 @@ describe('CheckboxGroup accessible name', () => {
     view.unmount();
   });
 
-  it('uses a visually hidden legend and no info trigger when label is whitespace', () => {
+  it('uses a visually hidden legend when label is whitespace', () => {
     render(
       <CheckboxGroup
         label="   "
@@ -67,7 +67,18 @@ describe('CheckboxGroup accessible name', () => {
     const fieldset = screen.getByRole('group');
     const legend = fieldset.querySelector('legend') as HTMLElement;
     expect(legend.className).toMatch(/\bsr-only\b/);
-    const trigger = fieldset.querySelector('button[aria-label="More info"]');
+  });
+
+  it('does not render an info trigger when label is whitespace', () => {
+    render(
+      <CheckboxGroup
+        label="   "
+        info="Should not render trigger when label is whitespace"
+        choices={[{ label: 'A' }]}
+      />
+    );
+    const fieldset = screen.getByRole('group');
+    const trigger = fieldset.querySelector('[data-slot="infoTrigger"]');
     expect(trigger).toBeNull();
   });
 });
@@ -373,15 +384,5 @@ describe('CheckboxGroup ids', () => {
       <CheckboxGroup id="group-3" label="IDs" choices={[{ label: 'One' }, { label: 'Two' }]} />
     );
     expect(screen.getByRole('checkbox', { name: 'Two' })).toBeInTheDocument();
-  });
-});
-
-describe('CheckboxGroup ids', () => {
-  it('generates a predictable checkbox id when choice.id is absent', () => {
-    render(
-      <CheckboxGroup id="group-1" label="IDs" choices={[{ label: 'First' }, { label: 'Second' }]} />
-    );
-    const first = screen.getByRole('checkbox', { name: 'First' });
-    expect(first.id).toBe('group-1-choice-0');
   });
 });
