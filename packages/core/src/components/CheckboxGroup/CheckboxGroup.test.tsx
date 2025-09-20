@@ -289,21 +289,27 @@ describe('CheckboxGroup info popover', () => {
         choices={[{ label: 'Email' }]}
       />
     );
-    const trigger = screen.getByRole('button', { name: 'More info' });
+    const trigger = document.querySelector('[data-slot="infoTrigger"]') as HTMLButtonElement;
     await user.click(trigger);
     expect(await screen.findByText('Additional info about notification delivery.')).toBeVisible();
   });
 
   it('marks the info icon as decorative', () => {
     render(<CheckboxGroup label="Notifications" info="More info" choices={[{ label: 'Email' }]} />);
-    const trigger = screen.getByRole('button', { name: 'More info' });
+    const trigger = document.querySelector('[data-slot="infoTrigger"]') as HTMLButtonElement;
     const icon = trigger.querySelector('svg');
     expect(icon).toHaveAttribute('aria-hidden', 'true');
   });
 
   it('does not render an info trigger when label is absent (ariaLabel path)', () => {
     render(<CheckboxGroup ariaLabel="Name" info="Info text" choices={[{ label: 'A' }]} />);
-    expect(screen.queryByRole('button', { name: 'More info' })).toBeNull();
+    expect(document.querySelector('[data-slot="infoTrigger"]')).toBeNull();
+  });
+
+  it('applies the focus ring token classes to the info trigger', () => {
+    render(<CheckboxGroup label="Notifications" info="More info" choices={[{ label: 'Email' }]} />);
+    const trigger = document.querySelector('[data-slot="infoTrigger"]') as HTMLButtonElement;
+    expect(trigger).toHaveClass('focus-visible:ring-comp-border-focus-ring');
   });
 });
 
