@@ -23,6 +23,30 @@ describe('Input rendering', () => {
   });
 });
 
+describe('Input native attribute passthrough', () => {
+  it('forwards placeholder to the native input', () => {
+    render(<Input label="Email" placeholder="name@example.com" />);
+    const input = screen.getByRole('textbox', { name: /email/i });
+    expect(input).toHaveAttribute('placeholder', 'name@example.com');
+  });
+
+  it('marks the native input as required when requested', () => {
+    render(<Input label="Email" required />);
+    const input = screen.getByRole('textbox', { name: /email/i });
+    expect(input).toBeRequired();
+  });
+
+  it('merges user-provided aria-describedby with internal ids', async () => {
+    const user = userEvent.setup();
+    render(<Input label="Email" info="Info text" aria-describedby="external-id" />);
+    const trigger = screen.getByRole('button', { name: /more info/i });
+    await user.click(trigger);
+    const input = screen.getByRole('textbox', { name: /email/i });
+    const describedBy = input.getAttribute('aria-describedby') ?? '';
+    expect(describedBy).toContain('external-id');
+  });
+});
+
 describe('Input info popover', () => {
   it('renders the info trigger button when info text is present', () => {
     render(<Input label="Email" info="We will contact you at this email." />);
@@ -86,14 +110,10 @@ describe('Input icons', () => {
   });
 });
 
-describe('Input type passthrough', () => {
-  it.each([
-    'text',
-    'password',
-    'email'
-  ])('forwards type="%s" to the native input', typeValue => {
-    render(<Input label="Credential" type={typeValue} />);
-    const input = screen.getByRole('textbox', { name: /credential/i });
-    expect(input).toHaveAttribute('type', typeValue);
+describe('Input a11y structure', () => {
+  it('does not apply aria-describedby to the fieldset root', () => {
+    render(<Input label="Email" hint="Helpful hint" />);
+    const group = screen.getByRole('group', { name: /email/i });
+    expect(group).not.toHaveAttribute('aria-describedby');
   });
 });

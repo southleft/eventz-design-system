@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Popover } from 'radix-ui';
+import { Popover, Label } from 'radix-ui';
 import { InfoCircledIcon, ExclamationTriangleIcon } from '@radix-ui/react-icons';
 import { composeClasses } from '../../utilities/composeClasses/composeClasses';
 import { collapseWhitespace } from '../../utilities/collapseWhitespace/collapseWhitespace';
@@ -102,6 +102,7 @@ export const Input = React.forwardRef<InputElement, InputProps>(
     const trimmedInfo = info?.trim();
 
     const fieldsetId = React.useId();
+    const inputId = `${fieldsetId}-input`;
     const infoContentId = trimmedInfo ? `${fieldsetId}-info` : undefined;
     const showError = Boolean(trimmedError);
     const showHint = !showError && Boolean(trimmedHint);
@@ -148,6 +149,7 @@ export const Input = React.forwardRef<InputElement, InputProps>(
       ...nativeInputRest,
       className: valueClassName,
       disabled,
+      id: inputId,
       'aria-label': inputAriaLabel,
       'aria-describedby': describedBy
     };
@@ -171,32 +173,38 @@ export const Input = React.forwardRef<InputElement, InputProps>(
         data-disabled={disabled ? 'true' : undefined}
         data-invalid={showError ? 'true' : undefined}
       >
-        <legend className={legendClassName} data-slot="label">
-          {trimmedLabel ?? trimmedAriaLabel ?? ''}
-          {trimmedLabel && trimmedInfo ? (
-            <Popover.Root onOpenChange={setIsInfoOpen}>
-              <Popover.Trigger
-                className={infoTriggerClassName}
-                data-slot="infoTrigger"
-                aria-label="More info"
-                type="button"
-              >
-                <InfoCircledIcon aria-hidden="true" />
-              </Popover.Trigger>
-              <Popover.Portal>
-                <Popover.Content
-                  side="top"
-                  sideOffset={8}
-                  className={infoContentClassName}
-                  data-slot="infoContent"
-                  id={infoContentId}
+        <div>
+          <Label.Root
+            className={legendClassName}
+            data-slot="label"
+            htmlFor={inputId}
+          >
+            {trimmedLabel ?? trimmedAriaLabel ?? ''}
+            {trimmedLabel && trimmedInfo ? (
+              <Popover.Root onOpenChange={setIsInfoOpen}>
+                <Popover.Trigger
+                  className={infoTriggerClassName}
+                  data-slot="infoTrigger"
+                  aria-label="More info"
+                  type="button"
                 >
-                  {trimmedInfo}
-                </Popover.Content>
-              </Popover.Portal>
-            </Popover.Root>
-          ) : null}
-        </legend>
+                  <InfoCircledIcon aria-hidden="true" />
+                </Popover.Trigger>
+                <Popover.Portal>
+                  <Popover.Content
+                    side="top"
+                    sideOffset={8}
+                    className={infoContentClassName}
+                    data-slot="infoContent"
+                    id={infoContentId}
+                  >
+                    {trimmedInfo}
+                  </Popover.Content>
+                </Popover.Portal>
+              </Popover.Root>
+            ) : null}
+          </Label.Root>
+        </div>
 
         <div className={inputRowClassName} data-slot="input">
           {startIcon ? (
