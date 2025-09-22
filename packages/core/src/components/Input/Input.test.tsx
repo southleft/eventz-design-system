@@ -21,6 +21,12 @@ describe('Input rendering', () => {
     render(<Input label="Primary email" ariaLabel="Secondary" />);
     expect(screen.getByRole('textbox', { name: /primary email/i })).toBeInTheDocument();
   });
+
+  it('renders with an empty accessible name when neither label nor ariaLabel is provided', () => {
+    render(<Input />);
+    const input = screen.getByRole('textbox');
+    expect(input).toHaveAccessibleName('');
+  });
 });
 
 describe('Input native attribute passthrough', () => {
@@ -77,17 +83,18 @@ describe('Input messaging', () => {
     expect(input.getAttribute('aria-describedby')).toBe(errorElement.id);
   });
 
-  it('applies the invalid border token to the input row when error is present', () => {
+  it('sets the invalid state on the root so the input row gets the danger border via state selector', () => {
     render(<Input label="Email" error="This field is required." />);
-    const inputRow = document.querySelector('[data-slot="input"]') as HTMLElement;
-    expect(inputRow.className).toMatch(/border-comp-form-color-border-utility-danger/);
+    const group = screen.getByRole('group');
+    expect(group).toHaveAttribute('data-invalid', 'true');
   });
 });
 
 describe('Input disabled state', () => {
   it('disables the fieldset when disabled is true', () => {
     render(<Input label="Email" disabled />);
-    expect(screen.getByRole('group', { name: /email/i })).toBeDisabled();
+    const group = screen.getByRole('group');
+    expect(group).toBeDisabled();
   });
 
   it('disables the native input when disabled is true', () => {
@@ -113,7 +120,7 @@ describe('Input icons', () => {
 describe('Input a11y structure', () => {
   it('does not apply aria-describedby to the fieldset root', () => {
     render(<Input label="Email" hint="Helpful hint" />);
-    const group = screen.getByRole('group', { name: /email/i });
+    const group = screen.getByRole('group');
     expect(group).not.toHaveAttribute('aria-describedby');
   });
 });

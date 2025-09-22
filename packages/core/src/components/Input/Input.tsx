@@ -6,7 +6,7 @@ import { collapseWhitespace } from '../../utilities/collapseWhitespace/collapseW
 import { mergeDescribedBy } from '../../utilities/mergeDescribedBy/mergeDescribedBy';
 
 const baseClasses = `
-  inline-flex flex-col gap-1 disabled:opacity-50 disabled:pointer-events-none
+  inline-flex border-none flex-col gap-1 disabled:opacity-50 disabled:pointer-events-none
 `;
 
 const labelClasses = `
@@ -23,7 +23,7 @@ const infoContentClasses = `
 `;
 
 const inputRowClasses = `
-  inline-flex items-center gap-2 text-color-content-default
+  inline-flex items-center gap-2 rounded-lg  px-(--spacing-1_5)
   bg-comp-form-color-background-default border border-comp-form-color-border-default text-sm
   hover:bg-comp-form-color-background-hover hover:border-comp-form-color-hover
   focus-within:outline-none focus-within:ring-2 focus-within:ring-comp-border-focus-ring focus-within:ring-offset-2
@@ -31,15 +31,15 @@ const inputRowClasses = `
 `;
 
 const startIconClasses = `
-  shrink-0 [&>svg]:size-4
+  shrink-0 [&>svg]:size-4 py-(--spacing-1_5) inline-flex text-color-content-default
 `;
 
 const valueClasses = `
-  grow bg-transparent outline-none placeholder:text-color-content-weak
+  grow bg-transparent outline-none text-color-content-default placeholder:text-color-content-weak border-none py-(--spacing-1_5)
 `;
 
 const endIconClasses = `
-  shrink-0 [&>svg]:size-4
+  shrink-0 [&>svg]:size-4 py-(--spacing-1_5) inline-flex text-color-content-default
 `;
 
 const hintClasses = `
@@ -80,19 +80,7 @@ type InputElement = HTMLFieldSetElement;
 
 export const Input = React.forwardRef<InputElement, InputProps>(
   (
-    {
-      label,
-      ariaLabel,
-      hint,
-      error,
-      info,
-      startIcon,
-      endIcon,
-      value,
-      defaultValue,
-      disabled = false,
-      ...inputRest
-    },
+    { label, ariaLabel, hint, error, info, startIcon, endIcon, disabled = false, ...inputRest },
     ref
   ) => {
     const trimmedLabel = label?.trim();
@@ -117,7 +105,7 @@ export const Input = React.forwardRef<InputElement, InputProps>(
       }
     }, [trimmedInfo]);
 
-    const { 'aria-describedby': inputAriaDescribedBy, type: typeProp, ...nativeInputRest } = inputRest;
+    const { 'aria-describedby': inputAriaDescribedBy, ...nativeInputRest } = inputRest;
 
     const describedBy = mergeDescribedBy(
       inputAriaDescribedBy,
@@ -127,9 +115,7 @@ export const Input = React.forwardRef<InputElement, InputProps>(
       ].filter((token): token is string => Boolean(token))
     );
 
-    const fieldsetClassName = collapseWhitespace(
-      composeClasses(baseClasses, invalidStateClasses)
-    );
+    const fieldsetClassName = collapseWhitespace(composeClasses(baseClasses, invalidStateClasses));
 
     const legendClassName = collapseWhitespace(
       composeClasses(labelClasses, trimmedLabel ? undefined : 'sr-only')
@@ -154,16 +140,6 @@ export const Input = React.forwardRef<InputElement, InputProps>(
       'aria-describedby': describedBy
     };
 
-    if (typeProp !== undefined) {
-      inputProps.type = typeProp;
-    }
-
-    if (value !== undefined) {
-      inputProps.value = value;
-    } else if (defaultValue !== undefined) {
-      inputProps.defaultValue = defaultValue;
-    }
-
     return (
       <fieldset
         id={fieldsetId}
@@ -173,38 +149,32 @@ export const Input = React.forwardRef<InputElement, InputProps>(
         data-disabled={disabled ? 'true' : undefined}
         data-invalid={showError ? 'true' : undefined}
       >
-        <div>
-          <Label.Root
-            className={legendClassName}
-            data-slot="label"
-            htmlFor={inputId}
-          >
-            {trimmedLabel ?? trimmedAriaLabel ?? ''}
-            {trimmedLabel && trimmedInfo ? (
-              <Popover.Root onOpenChange={setIsInfoOpen}>
-                <Popover.Trigger
-                  className={infoTriggerClassName}
-                  data-slot="infoTrigger"
-                  aria-label="More info"
-                  type="button"
+        <Label.Root className={legendClassName} data-slot="label" htmlFor={inputId}>
+          {trimmedLabel ?? trimmedAriaLabel ?? ''}
+          {trimmedLabel && trimmedInfo ? (
+            <Popover.Root onOpenChange={setIsInfoOpen}>
+              <Popover.Trigger
+                className={infoTriggerClassName}
+                data-slot="infoTrigger"
+                aria-label="More info"
+                type="button"
+              >
+                <InfoCircledIcon aria-hidden="true" />
+              </Popover.Trigger>
+              <Popover.Portal>
+                <Popover.Content
+                  side="top"
+                  sideOffset={8}
+                  className={infoContentClassName}
+                  data-slot="infoContent"
+                  id={infoContentId}
                 >
-                  <InfoCircledIcon aria-hidden="true" />
-                </Popover.Trigger>
-                <Popover.Portal>
-                  <Popover.Content
-                    side="top"
-                    sideOffset={8}
-                    className={infoContentClassName}
-                    data-slot="infoContent"
-                    id={infoContentId}
-                  >
-                    {trimmedInfo}
-                  </Popover.Content>
-                </Popover.Portal>
-              </Popover.Root>
-            ) : null}
-          </Label.Root>
-        </div>
+                  {trimmedInfo}
+                </Popover.Content>
+              </Popover.Portal>
+            </Popover.Root>
+          ) : null}
+        </Label.Root>
 
         <div className={inputRowClassName} data-slot="input">
           {startIcon ? (
