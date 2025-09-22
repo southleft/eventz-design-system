@@ -48,11 +48,6 @@ export const InputContract = defineContract({
       type: 'boolean',
       default: false,
       description: 'Disables the fieldset contents and applies disabled styling.'
-    },
-    type: {
-      type: 'string',
-      default: 'text',
-      description: 'Native input type attribute forwarded to the value slot.'
     }
   },
 
@@ -60,7 +55,17 @@ export const InputContract = defineContract({
    * Slot order mirrors the rendered structure inside the fieldset:
    * legend (label + info trigger) → popover content → input row → adornments → value → messaging.
    */
-  slots: ['label', 'infoTrigger', 'infoContent', 'input', 'startIcon', 'value', 'endIcon', 'hint', 'error'] as const,
+  slots: [
+    'label',
+    'infoTrigger',
+    'infoContent',
+    'input',
+    'startIcon',
+    'value',
+    'endIcon',
+    'hint',
+    'error'
+  ] as const,
 
   layout: {
     type: 'container',
