@@ -2,65 +2,65 @@
 import { defineStyleMap } from '../../utilities';
 
 export const InputStyleMap = defineStyleMap({
-  // Applies to the outer wrapper (label + field + helper)
-  base: ['flex flex-col gap-1'] as const,
+  base: [
+    'inline-flex',
+    'flex-col',
+    'gap-1',
+    'disabled:opacity-50',
+    'disabled:pointer-events-none'
+  ] as const,
 
-  // Slot-level classes. The generator will also apply `input` classes to the actual input element.
   slots: {
-    container: [] as const,
-    label: ['text-comp-input-label-color-foreground'] as const,
-    helperText: ['text-comp-input-helper-color-foreground'] as const,
-    prefix: ['text-comp-input-adornment-color-foreground'] as const,
-    suffix: ['text-comp-input-adornment-color-foreground'] as const,
-    // Provide an explicit hook for the input element itself:
-    input: [
-      'h-10 w-full px-3 rounded-md outline-none transition-colors',
-      'bg-comp-input-color-background-default',
-      'text-comp-input-color-foreground-default',
-      'placeholder:text-comp-input-color-foreground-placeholder',
-      'border',
-      'border-comp-input-color-border-default',
-      'hover:bg-comp-input-color-background-hover',
-      // Focus visuals (ring color via token; thickness/offset via utilities)
+    label: ['inline-flex', 'gap-1', 'text-color-content-default', 'text-xs', 'uppercase'] as const,
+    infoTrigger: [
+      'border-none',
+      'bg-background-none',
+      'text-color-content-subtle',
+      'focus:outline-none',
       'focus-visible:ring-2',
-      'focus-visible:ring-comp-input-focus-color-ring',
-      'focus-visible:ring-offset-2',
-      // Disabled & readOnly base affordances
-      'disabled:opacity-50 disabled:pointer-events-none',
-      'read-only:bg-comp-input-readonly-color-background'
-    ] as const
+      'focus-visible:ring-comp-border-focus-ring',
+      'focus-visible:ring-offset-2'
+    ] as const,
+    infoContent: ['max-w-xs', 'rounded-md', 'bg-color-content-default', 'p-3', 'text-sm', 'shadow-lg'] as const,
+    hint: ['text-color-content-subtle', 'text-xs'] as const,
+    error: [
+      'text-color-content-utility-danger-subtle',
+      'text-xs',
+      'mt-1',
+      'inline-flex',
+      'gap-2',
+      'pl-1'
+    ] as const,
+    input: [
+      'inline-flex',
+      'items-center',
+      'gap-2',
+      'text-color-content-default',
+      'bg-comp-form-color-background-default',
+      'border',
+      'border-comp-form-color-border-default',
+      'text-sm',
+      'hover:bg-comp-form-color-background-hover',
+      'hover:border-comp-form-color-hover',
+      'focus-within:outline-none',
+      'focus-within:ring-2',
+      'focus-within:ring-comp-border-focus-ring',
+      'focus-within:ring-offset-2',
+      'focus-visible:ring-2',
+      'focus-visible:ring-comp-border-focus-ring',
+      'focus-visible:ring-offset-2'
+    ] as const,
+    startIcon: ['shrink-0', '[&>svg]:size-4'] as const,
+    value: ['grow', 'bg-transparent', 'outline-none', 'placeholder:text-color-content-weak'] as const,
+    endIcon: ['shrink-0', '[&>svg]:size-4'] as const
   },
 
-  // Layout toggles
-  layout: {
-    fullWidth: ['w-full'] as const // Applies to the wrapper; input slot already uses w-full
-  },
-
-  // No visual variants (design uses one visual style); validation is handled in `state` below.
   variants: {},
 
-  // State classes mirror prop names for deterministic toggling
   state: {
-    // Validation
+    disabled: ['data-[disabled=true]:opacity-50', 'data-[disabled=true]:pointer-events-none'] as const,
     invalid: [
-      'data-[validation=invalid]:border-comp-input-invalid-color-border',
-      'data-[validation=invalid]:bg-comp-input-invalid-color-background',
-      'data-[validation=invalid]:text-comp-input-invalid-color-foreground',
-      'data-[validation=invalid]:focus-visible:ring-comp-input-invalid-focus-color-ring'
-    ] as const,
-    valid: [
-      'data-[validation=valid]:border-comp-input-valid-color-border',
-      'data-[validation=valid]:bg-comp-input-valid-color-background',
-      'data-[validation=valid]:text-comp-input-valid-color-foreground',
-      'data-[validation=valid]:focus-visible:ring-comp-input-valid-focus-color-ring'
-    ] as const,
-
-    // Disabled/readOnly rely mostly on native pseudos on the input slot (above).
-    // Expose data hooks if the wrapper needs styling parity.
-    disabled: ['data-[disabled=true]:opacity-50'] as const,
-    readOnly: ['data-[readonly=true]:bg-comp-input-readonly-color-background'] as const,
-    required: [
-      'data-[required=true]:after:content-["*"] data-[required=true]:after:ml-0.5'
+      'data-[invalid=true]:[&_[data-slot=input]]:border-comp-form-color-border-utility-danger'
     ] as const
   }
 });
