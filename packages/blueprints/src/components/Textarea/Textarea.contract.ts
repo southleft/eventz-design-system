@@ -1,73 +1,90 @@
-// packages/blueprints/src/components/Textarea/Textarea.contract.ts
 import { defineContract } from '../../utilities';
 
 export const TextareaContract = defineContract({
   component: 'Textarea',
   description:
-    'Multi-line text input with label and optional helper text. Supports disabled/readOnly/required and validation states.',
-  base: 'TextArea', // Radix UI base remains TextArea
+    'Fieldset-wrapped textarea with Radix Label, optional info popover, adornments, and contextual messaging.',
+  base: 'fieldset',
 
   props: {
-    // Content
-    label: { type: 'string', required: true, description: 'Visible field label' },
-    placeholder: { type: 'string', required: false },
-    helperText: { type: 'string', required: false },
-
-    // Behavior / state
-    disabled: { type: 'boolean', default: false },
-    readOnly: { type: 'boolean', default: false },
-    required: { type: 'boolean', default: false },
-
-    // Validation (design shows explicit valid/invalid visuals)
-    validation: {
-      type: 'enum',
-      options: ['none', 'invalid', 'valid'] as const,
-      default: 'none',
-      description: 'Validation state: none, invalid, or valid'
+    label: {
+      type: 'string',
+      description:
+        'Visible label text rendered with Radix Label and associated to the textarea via htmlFor.'
     },
+    ariaLabel: {
+      type: 'string',
+      description: 'Accessible name announced when label is omitted.'
+    },
+    hint: { type: 'string', description: 'Helper text displayed below the textarea.' },
+    error: { type: 'string', description: 'Error message that replaces the hint when present.' },
+    info: { type: 'string', description: 'Inline info trigger + popover content.' },
 
-    // Sizing / layout
-    rows: { type: 'number', required: false, description: 'Initial row count' },
-    fullWidth: { type: 'boolean', default: false },
+    startIcon: { type: 'slot', description: 'Leading adornment in the textarea row.' },
+    endIcon: { type: 'slot', description: 'Trailing adornment in the textarea row.' },
 
-    // Composition
-    asChild: { type: 'boolean', default: false }
+    value: { type: 'string', description: 'Controlled value for the native textarea.' },
+    defaultValue: { type: 'string', description: 'Uncontrolled default for the native textarea.' },
+
+    disabled: { type: 'boolean', default: false, description: 'Disables the fieldset contents.' }
   },
 
-  // Render order for external content
-  slots: ['label', 'helperText'] as const,
+  /**
+   * Render order:
+   * label (+ info trigger) → popover content → textarea row → adornments → value → messaging.
+   */
+  slots: [
+    'label',
+    'infoTrigger',
+    'infoContent',
+    'textarea',
+    'startIcon',
+    'value',
+    'endIcon',
+    'hint',
+    'error'
+  ] as const,
 
-  // Layout hint (non-normative)
   layout: {
     type: 'container',
-    tag: 'div',
-    className: 'flex flex-col gap-1',
+    tag: 'fieldset',
     children: [
-      { slot: 'label', tag: 'label', className: 'text-comp-textarea-label-color-foreground' },
-      // The generator inserts the actual <textarea> element here.
-      { slot: 'helperText', tag: 'div', className: 'text-caption-md-regular' }
+      { slot: 'label', tag: 'label', children: [{ slot: 'infoTrigger', tag: 'button' }] },
+      { slot: 'infoContent', tag: 'div' },
+      {
+        slot: 'textarea',
+        tag: 'div',
+        children: [
+          { slot: 'startIcon', tag: 'span' },
+          { slot: 'value', tag: 'textarea' }, // native element (lowercase)
+          { slot: 'endIcon', tag: 'span' }
+        ]
+      },
+      {
+        type: 'container',
+        tag: 'div',
+        children: [
+          { slot: 'hint', tag: 'div' },
+          { slot: 'error', tag: 'div' }
+        ]
+      }
     ]
   },
 
   rules: [
     {
-      validate: (props: Record<string, unknown>) => {
-        const label = props['label'];
-        return typeof label === 'string' && label.trim().length > 0;
-      },
-      message: 'label must be a non-empty string.'
+      when: {},
+      hint: 'Provide either label or ariaLabel so the textarea has an accessible name (Radix Label via htmlFor or aria-label fallback).'
+    },
+    {
+      when: { info: (value: unknown) => typeof value === 'string' && value.trim().length > 0 },
+      hint: 'Render the info trigger inline with the label and pair infoContent with a popover.'
+    },
+    {
+      when: {},
+      hint: 'When both hint and error exist, render error instead of hint, and merge message id (and open info content id) into aria-describedby on the textarea.'
     }
   ],
 
-  styleMap: true,
-
-  hints: {
-    radixAdapter: {
-      validationMap: { none: {}, invalid: { 'aria-invalid': true }, valid: {} } as const
-    },
-    a11y: {
-      recommendation:
-        'Associate <label> with the textarea via id/for. If helperText is present, link it with aria-describedby.'
-    }
-  }
+  styleMap: true
 });
