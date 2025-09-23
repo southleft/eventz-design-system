@@ -136,9 +136,12 @@ export const Input = React.forwardRef<InputElement, InputProps>(
       className: valueClassName,
       disabled,
       id: inputId,
-      'aria-label': inputAriaLabel,
       'aria-describedby': describedBy
     };
+
+    if (inputAriaLabel) {
+      inputProps['aria-label'] = inputAriaLabel;
+    }
 
     return (
       <fieldset
