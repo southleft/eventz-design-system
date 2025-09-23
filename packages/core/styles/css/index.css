@@ -107,6 +107,11 @@
     --dt-comp-button-primary-color-content-active
   );
 
+  /* Forms */
+  --color-comp-form-color-background-default: var(--dt-comp-form-color-background-default);
+  --color-comp-form-color-border-default: var(--dt-comp-form-color-border-default);
+  --color-comp-form-color-border-utility-danger: var(--dt-comp-form-color-border-utility-danger);
+
   /* Fonts */
   --font-font-family-primary: var(--dt-font-family-primary);
 
