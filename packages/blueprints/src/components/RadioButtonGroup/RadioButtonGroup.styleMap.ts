@@ -34,8 +34,10 @@ export const RadioButtonGroupStyleMap = defineStyleMap({
       'shadow-lg'
     ] as const,
     hint: ['text-color-content-subtle', 'text-xs', '-mt-8'] as const,
-    radiogroup: ['flex', 'flex-col', 'gap-2'] as const,
-    choices: ['flex', 'flex-col', 'gap-2'] as const,
+    // Layout handled by Radix RadioGroup orientation handling.
+    radiogroup: [] as const,
+    // Individual choice stack order flows from Radix; no local layout classes.
+    choices: [] as const,
     choice: ['inline-flex', 'items-center', 'gap-2'] as const,
     control: [
       'relative',
@@ -72,25 +74,6 @@ export const RadioButtonGroupStyleMap = defineStyleMap({
   variants: {},
 
   state: {
-    disabled: [
-      'data-[disabled=true]:[&_[data-slot=label]]:text-color-content-subtle',
-      'data-[disabled=true]:[&_[data-slot=choiceLabel]]:text-color-content-subtle',
-      'data-[disabled=true]:[&_[data-slot=choiceHint]]:text-color-content-subtle',
-      'data-[disabled=true]:[&_[data-slot=hint]]:text-color-content-subtle',
-      'data-[disabled=true]:[&_[data-slot=control]]:cursor-not-allowed',
-      'data-[disabled=true]:[&_[data-slot=control]]:pointer-events-none',
-      'data-[disabled=true]:[&_[data-slot=control]]:opacity-60'
-    ] as const,
-    orientationHorizontal: [
-      'data-[orientation-horizontal=true]:[&_[data-slot=radiogroup]]:flex-row',
-      'data-[orientation-horizontal=true]:[&_[data-slot=radiogroup]]:flex-wrap',
-      'data-[orientation-horizontal=true]:[&_[data-slot=radiogroup]]:gap-x-4',
-      'data-[orientation-horizontal=true]:[&_[data-slot=radiogroup]]:gap-y-2',
-      'data-[orientation-horizontal=true]:[&_[data-slot=choices]]:flex-row',
-      'data-[orientation-horizontal=true]:[&_[data-slot=choices]]:flex-wrap',
-      'data-[orientation-horizontal=true]:[&_[data-slot=choices]]:gap-x-4',
-      'data-[orientation-horizontal=true]:[&_[data-slot=choices]]:gap-y-2'
-    ] as const,
     hasError: [
       // TODO: verify final danger border token during component styling QA.
       'data-[has-error=true]:[&_[data-slot=control]]:border-color-border-utility-danger-subtle'

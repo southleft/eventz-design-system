@@ -34,16 +34,6 @@ export const RadioButtonGroupContract = defineContract({
       type: 'string',
       description: 'Applied to radio group items for form submission when provided.'
     },
-    disabled: {
-      type: 'boolean',
-      description: 'Disables all radio options when true.'
-    },
-    orientation: {
-      type: 'enum',
-      options: ['vertical', 'horizontal'] as const,
-      default: 'vertical',
-      description: 'Layout direction for the radio group. Defaults to vertical.'
-    },
     choices: choicesProp,
     label: {
       type: 'string',
