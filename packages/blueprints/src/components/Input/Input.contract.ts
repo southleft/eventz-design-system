@@ -4,13 +4,14 @@ import { defineContract } from '../../utilities';
 export const InputContract = defineContract({
   component: 'Input',
   description:
-    'Fieldset-wrapped text input with optional label, info popover, adornments, and contextual messaging.',
+    'Fieldset-wrapped text input with optional Radix Label, info popover, adornments, and contextual messaging.',
   base: 'fieldset',
 
   props: {
     label: {
       type: 'string',
-      description: 'Visible legend text describing the input field.'
+      description:
+        'Visible label text rendered with Radix Label and associated to the input via htmlFor.'
     },
     ariaLabel: {
       type: 'string',
@@ -73,7 +74,7 @@ export const InputContract = defineContract({
     children: [
       {
         slot: 'label',
-        tag: 'legend',
+        tag: 'label',
         children: [{ slot: 'infoTrigger', tag: 'button' }]
       },
       { slot: 'infoContent', tag: 'div' },
@@ -100,15 +101,15 @@ export const InputContract = defineContract({
   rules: [
     {
       when: {},
-      hint: 'Provide either label or ariaLabel so the input exposes an accessible name.'
+      hint: 'Provide either label or ariaLabel so the input exposes an accessible name (Radix Label via htmlFor or aria-label fallback).'
     },
     {
       when: { info: (value: unknown) => typeof value === 'string' && value.trim().length > 0 },
-      hint: 'Render infoTrigger inline with the label text and pair infoContent with a popover.'
+      hint: 'Render the info trigger inline with the label text and pair infoContent with a popover.'
     },
     {
       when: {},
-      hint: 'When both hint and error exist, prefer rendering the error slot and merge messaging ids into aria-describedby for the input control.'
+      hint: 'When both hint and error exist, render error instead of hint, and merge the rendered message id (and info content id if open) into aria-describedby on the input.'
     }
   ],
 
