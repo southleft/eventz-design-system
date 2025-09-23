@@ -38,7 +38,6 @@ export const TextareaStyleMap = defineStyleMap({
       'gap-2',
       'rounded-lg',
       'px-(--spacing-1_5)',
-      'text-color-content-default',
       'bg-comp-form-color-background-default',
       'border',
       'border-comp-form-color-border-default',

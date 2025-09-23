@@ -38,13 +38,16 @@ export const InputStyleMap = defineStyleMap({
       'gap-2',
       'rounded-lg',
       'px-(--spacing-1_5)',
-      'text-color-content-default',
       'bg-comp-form-color-background-default',
       'border',
       'border-comp-form-color-border-default',
       'text-sm',
       'hover:bg-comp-form-color-background-hover',
-      'hover:border-comp-form-color-hover'
+      'hover:border-comp-form-color-hover',
+      '[&:has(:focus-visible)]:ring-2',
+      '[&:has(:focus-visible)]:ring-offset-4',
+      '[&:has(:focus-visible)]:ring-comp-border-focus-ring',
+      '[&:has(:focus-visible)]:ring-offset-color-background-default'
     ] as const,
     startIcon: ['shrink-0', '[&>svg]:size-4', 'py-(--spacing-1_5)', 'inline-flex', 'text-color-content-default'] as const,
     value: [
@@ -55,10 +58,7 @@ export const InputStyleMap = defineStyleMap({
       'placeholder-color-content-weak',
       'border-none',
       'py-(--spacing-1_5)',
-      'focus:placeholder:opacity-0',
-      'focus-visible:ring-2',
-      'focus-visible:ring-comp-border-focus-ring',
-      'focus-visible:ring-offset-2'
+      'focus:placeholder:opacity-0'
     ] as const,
     endIcon: ['shrink-0', '[&>svg]:size-4', 'py-(--spacing-1_5)', 'inline-flex', 'text-color-content-default'] as const
   },
