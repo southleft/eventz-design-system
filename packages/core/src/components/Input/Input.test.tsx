@@ -124,3 +124,29 @@ describe('Input a11y structure', () => {
     expect(group).not.toHaveAttribute('aria-describedby');
   });
 });
+
+describe('Input class tokens (sanity)', () => {
+  it('applies rounded corners on the input row', () => {
+    render(<Input label="Email" />);
+    const row = document.querySelector('[data-slot="input"]') as HTMLElement;
+    expect(row.className).toContain('rounded-lg');
+  });
+
+  it('applies horizontal padding on the input row', () => {
+    render(<Input label="Email" />);
+    const row = document.querySelector('[data-slot="input"]') as HTMLElement;
+    expect(row.className).toContain('px-(--spacing-1_5)');
+  });
+
+  it('applies placeholder base styling on the native input', () => {
+    render(<Input label="Email" placeholder="name@example.com" />);
+    const input = screen.getByRole('textbox', { name: /email/i });
+    expect(input.className).toContain('placeholder-color-content-weak');
+  });
+
+  it('contains the focus variant token for placeholder hiding', () => {
+    render(<Input label="Email" placeholder="name@example.com" />);
+    const input = screen.getByRole('textbox', { name: /email/i });
+    expect(input.className).toContain('focus:placeholder:opacity-0');
+  });
+});
