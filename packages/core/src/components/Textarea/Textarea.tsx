@@ -22,8 +22,8 @@ const infoContentClasses = `
   max-w-xs rounded-md bg-color-content-default p-3 text-sm shadow-lg
 `;
 
-const inputRowClasses = `
-  inline-flex items-center gap-2 rounded-lg  px-(--spacing-1_5)
+const textareaRowClasses = `
+  inline-flex items-center gap-2 rounded-lg px-(--spacing-1_5)
   bg-comp-form-color-background-default border border-comp-form-color-border-default text-sm
   hover:bg-comp-form-color-background-hover hover:border-comp-form-color-hover
   focus-within:outline-none focus-within:ring-2 focus-within:ring-comp-border-focus-ring focus-within:ring-offset-2
@@ -51,12 +51,12 @@ const errorClasses = `
 `;
 
 const invalidStateClasses = `
-  data-[invalid=true]:[&_[data-slot=input]]:border-comp-form-color-border-utility-danger
+  data-[invalid=true]:[&_[data-slot=textarea]]:border-comp-form-color-border-utility-danger
 `;
 
-type NativeInputProps = React.InputHTMLAttributes<HTMLInputElement>;
+type NativeTextareaProps = React.TextareaHTMLAttributes<HTMLTextAreaElement>;
 
-export interface InputProps extends Omit<NativeInputProps, 'children' | 'className' | 'id'> {
+export interface TextareaProps extends Omit<NativeTextareaProps, 'children' | 'className' | 'id'> {
   label?: string;
   ariaLabel?: string;
   hint?: string;
@@ -69,11 +69,11 @@ export interface InputProps extends Omit<NativeInputProps, 'children' | 'classNa
   disabled?: boolean;
 }
 
-type InputElement = HTMLFieldSetElement;
+type TextareaElement = HTMLFieldSetElement;
 
-export const Input = React.forwardRef<InputElement, InputProps>(
+export const Textarea = React.forwardRef<TextareaElement, TextareaProps>(
   (
-    { label, ariaLabel, hint, error, info, startIcon, endIcon, disabled = false, ...inputRest },
+    { label, ariaLabel, hint, error, info, startIcon, endIcon, disabled = false, ...textareaRest },
     ref
   ) => {
     const trimmedLabel = label?.trim();
@@ -83,7 +83,7 @@ export const Input = React.forwardRef<InputElement, InputProps>(
     const trimmedInfo = info?.trim();
 
     const fieldsetId = React.useId();
-    const inputId = `${fieldsetId}-input`;
+    const textareaId = `${fieldsetId}-textarea`;
     const infoContentId = trimmedInfo ? `${fieldsetId}-info` : undefined;
     const showError = Boolean(trimmedError);
     const showHint = !showError && Boolean(trimmedHint);
@@ -98,10 +98,10 @@ export const Input = React.forwardRef<InputElement, InputProps>(
       }
     }, [trimmedInfo]);
 
-    const { 'aria-describedby': inputAriaDescribedBy, ...nativeInputRest } = inputRest;
+    const { 'aria-describedby': textareaAriaDescribedBy, ...nativeTextareaRest } = textareaRest;
 
     const describedBy = mergeDescribedBy(
-      inputAriaDescribedBy,
+      textareaAriaDescribedBy,
       [
         isInfoOpen && infoContentId ? infoContentId : undefined,
         showError ? errorId : showHint ? hintId : undefined
@@ -110,30 +110,28 @@ export const Input = React.forwardRef<InputElement, InputProps>(
 
     const fieldsetClassName = collapseWhitespace(composeClasses(baseClasses, invalidStateClasses));
 
-    const legendClassName = collapseWhitespace(
+    const labelClassName = collapseWhitespace(
       composeClasses(labelClasses, trimmedLabel ? undefined : 'sr-only')
     );
     const infoTriggerClassName = collapseWhitespace(composeClasses(infoTriggerClasses));
     const infoContentClassName = collapseWhitespace(composeClasses(infoContentClasses));
-    const inputRowClassName = collapseWhitespace(composeClasses(inputRowClasses));
+    const textareaRowClassName = collapseWhitespace(composeClasses(textareaRowClasses));
     const startIconClassName = collapseWhitespace(composeClasses(startIconClasses));
     const valueClassName = collapseWhitespace(composeClasses(valueClasses));
     const endIconClassName = collapseWhitespace(composeClasses(endIconClasses));
     const hintClassName = collapseWhitespace(composeClasses(hintClasses));
     const errorClassName = collapseWhitespace(composeClasses(errorClasses));
 
-    const inputAriaLabel = trimmedLabel ? undefined : trimmedAriaLabel;
-
-    const inputProps: React.InputHTMLAttributes<HTMLInputElement> = {
-      ...nativeInputRest,
+    const textareaProps: React.TextareaHTMLAttributes<HTMLTextAreaElement> = {
+      ...nativeTextareaRest,
       className: valueClassName,
       disabled,
-      id: inputId,
+      id: textareaId,
       'aria-describedby': describedBy
     };
 
-    if (inputAriaLabel) {
-      inputProps['aria-label'] = inputAriaLabel;
+    if (!trimmedLabel && trimmedAriaLabel) {
+      textareaProps['aria-label'] = trimmedAriaLabel;
     }
 
     return (
@@ -145,7 +143,7 @@ export const Input = React.forwardRef<InputElement, InputProps>(
         data-disabled={disabled ? 'true' : undefined}
         data-invalid={showError ? 'true' : undefined}
       >
-        <Label.Root className={legendClassName} data-slot="label" htmlFor={inputId}>
+        <Label.Root className={labelClassName} data-slot="label" htmlFor={textareaId}>
           {trimmedLabel ?? trimmedAriaLabel ?? ''}
           {trimmedLabel && trimmedInfo ? (
             <Popover.Root onOpenChange={setIsInfoOpen}>
@@ -172,13 +170,13 @@ export const Input = React.forwardRef<InputElement, InputProps>(
           ) : null}
         </Label.Root>
 
-        <div className={inputRowClassName} data-slot="input">
+        <div className={textareaRowClassName} data-slot="textarea">
           {startIcon ? (
             <span className={startIconClassName} data-slot="startIcon" aria-hidden="true">
               {startIcon}
             </span>
           ) : null}
-          <input {...inputProps} />
+          <textarea {...textareaProps} data-slot="value" />
           {endIcon ? (
             <span className={endIconClassName} data-slot="endIcon" aria-hidden="true">
               {endIcon}
@@ -203,4 +201,4 @@ export const Input = React.forwardRef<InputElement, InputProps>(
   }
 );
 
-Input.displayName = 'Input';
+Textarea.displayName = 'Textarea';
