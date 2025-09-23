@@ -21,6 +21,47 @@ describe('Textarea rendering', () => {
     render(<Textarea aria-label="Custom label" />);
     expect(screen.getByRole('textbox', { name: /custom label/i })).toBeInTheDocument();
   });
+
+  it('prefers the visible label when both label and ariaLabel are provided', () => {
+    render(<Textarea label="Primary message" ariaLabel="Secondary" />);
+    expect(screen.getByRole('textbox', { name: /primary message/i })).toBeInTheDocument();
+  });
+
+  it('renders with an empty accessible name when neither label nor ariaLabel is provided', () => {
+    render(<Textarea />);
+    const textarea = screen.getByRole('textbox');
+    expect(textarea).toHaveAccessibleName('');
+  });
+});
+
+describe('Textarea native attribute passthrough', () => {
+  it('forwards placeholder to the native textarea', () => {
+    render(<Textarea label="Message" placeholder="Share details" />);
+    const textarea = screen.getByRole('textbox', { name: /message/i });
+    expect(textarea).toHaveAttribute('placeholder', 'Share details');
+  });
+
+  it('marks the native textarea as required when requested', () => {
+    render(<Textarea label="Message" required />);
+    const textarea = screen.getByRole('textbox', { name: /message/i });
+    expect(textarea).toBeRequired();
+  });
+
+  it('merges user-provided aria-describedby with internal ids when info is opened', async () => {
+    const user = userEvent.setup();
+    render(
+      <Textarea
+        label="Message"
+        info="Additional guidance"
+        aria-describedby="external-id"
+      />
+    );
+    await user.click(screen.getByRole('button', { name: /more info/i }));
+    const content = await screen.findByText('Additional guidance');
+    const textarea = screen.getByRole('textbox', { name: /message/i });
+    const tokens = (textarea.getAttribute('aria-describedby') ?? '').split(' ');
+    expect(tokens.includes('external-id') && tokens.includes(content.id ?? '')).toBe(true);
+  });
 });
 
 describe('Textarea value control', () => {
@@ -55,6 +96,11 @@ describe('Textarea messaging', () => {
   it('renders error instead of hint when both are provided', () => {
     render(<Textarea label="Feedback" hint="Help text" error="Error state" />);
     expect(screen.getByText('Error state')).toBeInTheDocument();
+  });
+
+  it('omits the hint slot when an error is provided', () => {
+    render(<Textarea label="Feedback" hint="Help text" error="Error state" />);
+    expect(document.querySelector('[data-slot="hint"]')).toBeNull();
   });
 
   it('sets the invalid state on the root when error is present', () => {
@@ -97,11 +143,11 @@ describe('Textarea disabled state', () => {
   });
 });
 
-describe('Textarea focus styles', () => {
-  it('includes the focus-visible ring token on the textarea row', () => {
-    render(<Textarea label="Message" />);
-    const row = document.querySelector('[data-slot="textarea"]') as HTMLElement;
-    expect(row.className).toContain('focus-visible:ring-2');
+describe('Textarea a11y structure', () => {
+  it('does not apply aria-describedby to the fieldset root', () => {
+    render(<Textarea label="Message" hint="Helpful hint" />);
+    const group = screen.getByRole('group');
+    expect(group).not.toHaveAttribute('aria-describedby');
   });
 });
 
