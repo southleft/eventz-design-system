@@ -35,7 +35,7 @@ const startIconClasses = `
 `;
 
 const valueClasses = `
-  grow bg-transparent outline-none text-color-content-default placeholder:text-color-content-weak border-none py-(--spacing-1_5)
+  grow bg-transparent outline-none text-color-content-default placeholder-color-content-weak border-none py-(--spacing-1_5) focus:placeholder:opacity-0
 `;
 
 const endIconClasses = `
