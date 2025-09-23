@@ -98,24 +98,23 @@ describe('Textarea disabled state', () => {
 });
 
 describe('Textarea focus styles', () => {
-  it('includes the focus-visible ring token on the native textarea', () => {
+  it('includes the focus-visible ring token on the textarea row', () => {
     render(<Textarea label="Message" />);
-    const textarea = screen.getByRole('textbox', { name: /message/i });
-    textarea.focus();
-    expect(textarea.className).toContain('focus-visible:ring-2');
+    const row = document.querySelector('[data-slot="textarea"]') as HTMLElement;
+    expect(row.className).toContain('focus-visible:ring-2');
   });
 });
 
 describe('Textarea class tokens (sanity)', () => {
   it('applies rounded corners on the textarea row', () => {
     render(<Textarea label="Message" />);
-    const row = document.querySelector('[data-slot="textArea"]') as HTMLElement;
+    const row = document.querySelector('[data-slot="textarea"]') as HTMLElement;
     expect(row.className).toContain('rounded-lg');
   });
 
   it('applies horizontal padding on the textarea row', () => {
     render(<Textarea label="Message" />);
-    const row = document.querySelector('[data-slot="textArea"]') as HTMLElement;
+    const row = document.querySelector('[data-slot="textarea"]') as HTMLElement;
     expect(row.className).toContain('px-(--spacing-1_5)');
   });
 
