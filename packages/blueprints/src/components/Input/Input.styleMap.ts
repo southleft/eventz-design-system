@@ -4,6 +4,7 @@ import { defineStyleMap } from '../../utilities';
 export const InputStyleMap = defineStyleMap({
   base: [
     'inline-flex',
+    'border-none',
     'flex-col',
     'gap-1',
     'disabled:opacity-50',
@@ -35,6 +36,8 @@ export const InputStyleMap = defineStyleMap({
       'inline-flex',
       'items-center',
       'gap-2',
+      'rounded-lg',
+      'px-(--spacing-1_5)',
       'text-color-content-default',
       'bg-comp-form-color-background-default',
       'border',
@@ -50,9 +53,18 @@ export const InputStyleMap = defineStyleMap({
       'focus-visible:ring-comp-border-focus-ring',
       'focus-visible:ring-offset-2'
     ] as const,
-    startIcon: ['shrink-0', '[&>svg]:size-4'] as const,
-    value: ['grow', 'bg-transparent', 'outline-none', 'placeholder:text-color-content-weak'] as const,
-    endIcon: ['shrink-0', '[&>svg]:size-4'] as const
+    startIcon: ['shrink-0', '[&>svg]:size-4', 'py-(--spacing-1_5)', 'inline-flex', 'text-color-content-default'] as const,
+    value: [
+      'grow',
+      'bg-transparent',
+      'outline-none',
+      'text-color-content-default',
+      'placeholder-color-content-weak',
+      'border-none',
+      'py-(--spacing-1_5)',
+      'focus:placeholder:opacity-0'
+    ] as const,
+    endIcon: ['shrink-0', '[&>svg]:size-4', 'py-(--spacing-1_5)', 'inline-flex', 'text-color-content-default'] as const
   },
 
   variants: {},
