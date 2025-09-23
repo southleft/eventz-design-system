@@ -4,4 +4,6 @@ export * from './Checkbox';
 export * from './CheckboxGroup';
 export * from './Control';
 export * from './IconButton';
+export * from './Input';
 export * from './TextLink';
+export * from './Textarea';

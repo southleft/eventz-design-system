@@ -26,8 +26,7 @@ const inputRowClasses = `
   inline-flex items-center gap-2 rounded-lg  px-(--spacing-1_5)
   bg-comp-form-color-background-default border border-comp-form-color-border-default text-sm
   hover:bg-comp-form-color-background-hover hover:border-comp-form-color-hover
-  focus-within:outline-none focus-within:ring-2 focus-within:ring-comp-border-focus-ring focus-within:ring-offset-2
-  focus-visible:ring-2 focus-visible:ring-comp-border-focus-ring focus-visible:ring-offset-2
+  focus-within:ring-2 focus-within:ring-offset-4 focus-within:ring-comp-border-focus-ring focus-within:ring-offset-color-background-default
 `;
 
 const startIconClasses = `
