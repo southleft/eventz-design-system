@@ -37,7 +37,7 @@ export const TextareaContract = defineContract({
     'label',
     'infoTrigger',
     'infoContent',
-    'textArea',
+    'textarea',
     'startIcon',
     'value',
     'endIcon',
@@ -52,7 +52,7 @@ export const TextareaContract = defineContract({
       { slot: 'label', tag: 'label', children: [{ slot: 'infoTrigger', tag: 'button' }] },
       { slot: 'infoContent', tag: 'div' },
       {
-        slot: 'textArea',
+        slot: 'textarea',
         tag: 'div',
         children: [
           { slot: 'startIcon', tag: 'span' },

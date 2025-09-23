@@ -31,7 +31,7 @@ export const TextareaStyleMap = defineStyleMap({
       'shadow-lg'
     ] as const,
 
-    textArea: [
+    textarea: [
       // row wrapper
       'inline-flex',
       'items-center',
@@ -44,8 +44,11 @@ export const TextareaStyleMap = defineStyleMap({
       'border-comp-form-color-border-default',
       'text-sm',
       'hover:bg-comp-form-color-background-hover',
-      'hover:border-comp-form-color-hover'
-      // (no focus classes here per decision — focus lives on `value`)
+      'hover:border-comp-form-color-hover',
+      '[&:has(:focus-visible)]:ring-2',
+      '[&:has(:focus-visible)]:ring-offset-4',
+      '[&:has(:focus-visible)]:ring-comp-border-focus-ring',
+      '[&:has(:focus-visible)]:ring-offset-color-background-default'
     ] as const,
 
     startIcon: [
@@ -65,11 +68,7 @@ export const TextareaStyleMap = defineStyleMap({
       'placeholder-color-content-weak',
       'border-none',
       'py-(--spacing-1_5)',
-      'focus:placeholder:opacity-0',
-      // focus ring on the focusable element
-      'focus-visible:ring-2',
-      'focus-visible:ring-comp-border-focus-ring',
-      'focus-visible:ring-offset-2'
+      'focus:placeholder:opacity-0'
     ] as const,
 
     endIcon: [
@@ -101,7 +100,7 @@ export const TextareaStyleMap = defineStyleMap({
     ] as const,
 
     invalid: [
-      'data-[invalid=true]:[&_[data-slot=textArea]]:border-comp-form-color-border-utility-danger'
+      'data-[invalid=true]:[&_[data-slot=textarea]]:border-comp-form-color-border-utility-danger'
     ] as const
   }
 });
