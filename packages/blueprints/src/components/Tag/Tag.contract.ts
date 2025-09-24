@@ -27,7 +27,7 @@ export const TagContract = defineContract({
     label: {
       type: 'string',
       required: true,
-      description: 'Visible tag text; provides the accessible name and must be non-empty.'
+      description: 'Visible tag text; provides the accessible name.'
     },
 
     // Spec "isInteractive"
@@ -55,13 +55,6 @@ export const TagContract = defineContract({
   },
 
   rules: [
-    {
-      validate: (props: Record<string, unknown>) => {
-        const label = props['label'];
-        return typeof label === 'string' && label.trim().length > 0;
-      },
-      message: 'label must be a non-empty string.'
-    },
     {
       when: { isInteractive: false },
       message: 'When `isInteractive` is false, variants are ignored (the `parent` visual is used).'
