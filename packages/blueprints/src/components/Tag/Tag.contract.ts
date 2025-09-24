@@ -1,11 +1,18 @@
 // packages/blueprints/src/components/Tag/Tag.contract.ts
 import { defineContract } from '../../utilities';
+import type { ContractHints } from '../../utilities/defineContract/types';
+
+type TagContractHints = ContractHints & {
+  generator?: {
+    computedBase: string;
+  };
+};
 
 export const TagContract = defineContract({
   component: 'Tag',
   description:
     'Label-style pill. Optional interactivity; supports parent/child variants and active state.',
-  base: 'Box', // Radix UI generic container; generator can use `asChild` for anchor/button
+  base: 'span', // Generator: when isInteractive is true, compute a <button type="button"> root.
 
   props: {
     // Spec "variant"
@@ -17,36 +24,34 @@ export const TagContract = defineContract({
     },
 
     // Content
-    label: { type: 'string', required: true, description: 'Visible tag text' },
+    label: {
+      type: 'string',
+      required: true,
+      description: 'Visible tag text; provides the accessible name and must be non-empty.'
+    },
 
     // Spec "isInteractive"
     isInteractive: {
       type: 'boolean',
       default: false,
       description:
-        'Enables interactive affordances (hover/active/focus). When true, generator should render semantic interactive markup (e.g., <button> or <a asChild>).'
+        'When true, render semantic interactive markup (<button>) and enable focus/hover behavior. When false, render a non-focusable pill.'
     },
 
     // Spec "isActive"
     isActive: {
       type: 'boolean',
       default: false,
-      description: 'Applies active styling (useful for filter chips / selection).'
-    },
-
-    // Composition
-    asChild: { type: 'boolean', default: false }
+      description: 'Visual active styling only; component is not a toggle.'
+    }
   },
 
-  // One slot
-  slots: ['label'] as const,
+  slots: [] as const,
 
   // Layout hint (non-normative; helps agents compose)
   layout: {
     type: 'container',
-    tag: 'span',
-    className: 'inline-flex items-center justify-center gap-1.5 rounded-full',
-    children: [{ slot: 'label', tag: 'span' }]
+    tag: 'span'
   },
 
   rules: [
@@ -56,17 +61,24 @@ export const TagContract = defineContract({
         return typeof label === 'string' && label.trim().length > 0;
       },
       message: 'label must be a non-empty string.'
+    },
+    {
+      when: { isInteractive: false },
+      message: 'When `isInteractive` is false, variants are ignored (the `parent` visual is used).'
     }
   ],
 
   styleMap: true,
 
   // Optional hints (purely advisory)
-  hints: {
-    a11y: {
-      // When interactive, prefer semantic elements and expose pressed state if applicable
-      recommendation:
-        'If `isInteractive` is true, render a semantic <button> / <a> (via asChild) and reflect `isActive` with aria-pressed.'
-    }
-  }
+  hints:
+    ({
+      generator: {
+        computedBase: 'When `isInteractive` is true, render a <button type="button"> root; otherwise use <span>.'
+      },
+      a11y: {
+        recommendation:
+          'label provides the accessible name; skip `aria-pressed`; events are pass-through via ...rest.'
+      }
+    }) satisfies TagContractHints
 });

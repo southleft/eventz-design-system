@@ -4,9 +4,12 @@ import { defineStyleMap } from '../../utilities';
 export const TagStyleMap = defineStyleMap({
   base: [
     // Structure
-    'inline-flex select-none items-center justify-center rounded-full',
+    'inline-flex items-center justify-center data-[interactive=true]:select-none',
     // Typography (swap to a tokenized text style if provided)
     'text-caption-md-medium',
+    // Shape toggles
+    'data-[interactive=true]:rounded-md',
+    'data-[interactive=false]:rounded-full',
     // Focus ring gated by interactivity (see below)
     'data-[interactive=true]:focus-visible:ring-2',
     'data-[interactive=true]:focus-visible:ring-comp-tag-focus-color-ring',
@@ -19,34 +22,34 @@ export const TagStyleMap = defineStyleMap({
   ] as const,
 
   slots: {
-    container: [] as const,
-    label: [] as const
+    container: [] as const
   },
 
   // Variant colors (default state). Hover/active are gated by `data-[interactive=true]`
   variants: {
     parent: [
-      'bg-comp-tag-parent-color-background-default',
-      'text-comp-tag-parent-color-foreground-default',
+      'data-[interactive=true]:font-bold',
+      'data-[interactive=true]:bg-comp-tag-parent-color-background-default',
+      'data-[interactive=true]:text-comp-tag-parent-color-foreground-default',
 
       // Interactivity-gated pseudo states
       'data-[interactive=true]:hover:bg-comp-tag-parent-color-background-hover',
       'data-[interactive=true]:active:bg-comp-tag-parent-color-background-active',
 
       // Active flag (non-pseudo) — useful for filter/tag selections
-      'data-[active=true]:bg-comp-tag-parent-color-background-active',
-      'data-[active=true]:text-comp-tag-parent-color-foreground-active'
+      'data-[interactive=true]:data-[active=true]:bg-comp-tag-parent-color-background-active',
+      'data-[interactive=true]:data-[active=true]:text-comp-tag-parent-color-foreground-active'
     ] as const,
 
     child: [
-      'bg-comp-tag-child-color-background-default',
-      'text-comp-tag-child-color-foreground-default',
+      'data-[interactive=true]:bg-comp-tag-child-color-background-default',
+      'data-[interactive=true]:text-comp-tag-child-color-foreground-default',
 
       'data-[interactive=true]:hover:bg-comp-tag-child-color-background-hover',
       'data-[interactive=true]:active:bg-comp-tag-child-color-background-active',
 
-      'data-[active=true]:bg-comp-tag-child-color-background-active',
-      'data-[active=true]:text-comp-tag-child-color-foreground-active'
+      'data-[interactive=true]:data-[active=true]:bg-comp-tag-child-color-background-active',
+      'data-[interactive=true]:data-[active=true]:text-comp-tag-child-color-foreground-active'
     ] as const
   },
 
@@ -55,6 +58,12 @@ export const TagStyleMap = defineStyleMap({
     interactive: [
       'data-[interactive=true]:cursor-pointer',
       'data-[interactive=false]:cursor-default'
+    ] as const,
+    nonInteractive: [
+      'data-[interactive=false]:bg-comp-tag-parent-color-background-default',
+      'data-[interactive=false]:text-comp-tag-parent-color-foreground-default',
+      'data-[interactive=false]:data-[active=true]:bg-comp-tag-parent-color-background-active',
+      'data-[interactive=false]:data-[active=true]:text-comp-tag-parent-color-foreground-active'
     ] as const
   }
 });
