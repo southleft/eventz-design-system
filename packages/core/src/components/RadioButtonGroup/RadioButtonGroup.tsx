@@ -33,7 +33,7 @@ const groupClasses = `
 
 const choiceClasses = `inline-flex items-start gap-2 select-none`;
 
-const choiceWrapperClasses = ``;
+const choiceWrapperClasses = `flex`;
 
 const controlClasses = `
   flex flex-col gap-3 items-center justify-center size-4 shrink-0 rounded-full border
