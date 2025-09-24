@@ -54,11 +54,7 @@ describe('RadioButtonGroup accessible name', () => {
 describe('RadioButtonGroup aria-describedby wiring', () => {
   it('references the hint when provided', () => {
     const view: RenderResult = render(
-      <RadioButtonGroup
-        label="Newsletter"
-        hint="Select one option"
-        choices={baseChoices}
-      />
+      <RadioButtonGroup label="Newsletter" hint="Select one option" choices={baseChoices} />
     );
     const radiogroup = screen.getByRole('radiogroup');
     const hint = screen.getByText('Select one option');
@@ -68,11 +64,7 @@ describe('RadioButtonGroup aria-describedby wiring', () => {
 
   it('references the error when provided', () => {
     const view: RenderResult = render(
-      <RadioButtonGroup
-        label="Newsletter"
-        error="Please make a selection"
-        choices={baseChoices}
-      />
+      <RadioButtonGroup label="Newsletter" error="Please make a selection" choices={baseChoices} />
     );
     const radiogroup = screen.getByRole('radiogroup');
     const error = screen.getByText('Please make a selection').parentElement as HTMLElement;

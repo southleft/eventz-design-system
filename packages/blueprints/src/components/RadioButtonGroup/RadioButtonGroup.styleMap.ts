@@ -38,7 +38,6 @@ export const RadioButtonGroupStyleMap = defineStyleMap({
     radiogroup: [] as const,
     // Individual choice stack order flows from Radix; no local layout classes.
     choices: [] as const,
-    choice: ['inline-flex', 'items-center', 'gap-2'] as const,
     control: [
       'relative',
       'inline-flex',

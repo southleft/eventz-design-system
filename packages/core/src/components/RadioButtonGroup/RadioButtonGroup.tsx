@@ -46,10 +46,6 @@ const indicatorClasses = `
   pointer-events-none block size-2 rounded-full bg-color-content-brand
 `;
 
-// const choiceLabelClasses = `
-//   text-color-content-default text-sm select-none -mt-[2px] block
-// `;
-
 const choiceHintClasses = `
   text-color-content-subtle text-xs
 `;
@@ -83,6 +79,10 @@ export const RadioButtonGroup = React.forwardRef<HTMLFieldSetElement, RadioButto
     const trimmedHint = hint?.trim();
     const trimmedInfo = info?.trim();
     const trimmedError = error?.trim();
+
+    if (!trimmedLabel && !trimmedAriaLabel) {
+      throw new Error('RadioButtonGroup requires a non-empty label or ariaLabel.');
+    }
 
     const generatedId = React.useId();
     const fieldsetId = idProp ?? generatedId;
@@ -163,13 +163,13 @@ export const RadioButtonGroup = React.forwardRef<HTMLFieldSetElement, RadioButto
           </div>
         ) : null}
 
-        <RadioGroup.Root className={groupClassName} {...radioGroupProps} data-slot="choices">
+        <RadioGroup.Root className={groupClassName} {...radioGroupProps}>
           {choices.map(choice => {
             const controlId = `${fieldsetId}-choice-${choice.value}`;
             const choiceLabelText = choice.label?.trim() || choice.value.trim();
             const trimmedChoiceHint = choice.hint?.trim();
             const choiceHintId = trimmedChoiceHint ? `${controlId}-hint` : undefined;
-            console.log(choice);
+            const labelTextId = `${controlId}-label`;
             return (
               <Label.Root key={controlId} className={choiceClassName}>
                 <RadioGroup.Item
@@ -178,6 +178,7 @@ export const RadioButtonGroup = React.forwardRef<HTMLFieldSetElement, RadioButto
                   className={controlClassName}
                   disabled={choice.disabled}
                   aria-describedby={choiceHintId}
+                  aria-labelledby={labelTextId}
                   data-slot="control"
                 >
                   <RadioGroup.Indicator
@@ -187,9 +188,11 @@ export const RadioButtonGroup = React.forwardRef<HTMLFieldSetElement, RadioButto
                   />
                 </RadioGroup.Item>
                 <div>
-                  {choiceLabelText}
+                  <span id={labelTextId} data-slot="choiceLabel">
+                    {choiceLabelText}
+                  </span>
                   {choiceHintId && (
-                    <div className={choiceHintClassName} data-slot="choiceHint" id={choiceHintId}>
+                    <div id={choiceHintId} data-slot="choiceHint" className={choiceHintClassName}>
                       {trimmedChoiceHint}
                     </div>
                   )}
@@ -201,10 +204,8 @@ export const RadioButtonGroup = React.forwardRef<HTMLFieldSetElement, RadioButto
 
         {errorId ? (
           <div className={errorClassName} id={errorId} data-slot="error">
-            <span className="inline-flex items-center gap-1">
-              <ExclamationTriangleIcon aria-hidden="true" />
-            </span>
-            <span>{trimmedError}</span>
+            <ExclamationTriangleIcon aria-hidden="true" />
+            {trimmedError}
           </div>
         ) : null}
       </fieldset>
