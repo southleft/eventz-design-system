@@ -67,7 +67,7 @@ describe('RadioButtonGroup aria-describedby wiring', () => {
       <RadioButtonGroup label="Newsletter" error="Please make a selection" choices={baseChoices} />
     );
     const radiogroup = screen.getByRole('radiogroup');
-    const error = screen.getByText('Please make a selection').parentElement as HTMLElement;
+    const error = screen.getByText('Please make a selection');
     expect(radiogroup.getAttribute('aria-describedby') === error.id).toBe(true);
     view.unmount();
   });
@@ -83,7 +83,7 @@ describe('RadioButtonGroup aria-describedby wiring', () => {
     );
     const radiogroup = screen.getByRole('radiogroup');
     const hint = screen.getByText('Select one option');
-    const error = screen.getByText('Please make a selection').parentElement as HTMLElement;
+    const error = screen.getByText('Please make a selection');
     const expected = `${hint.id} ${error.id}`;
     expect(radiogroup.getAttribute('aria-describedby') === expected).toBe(true);
     view.unmount();
@@ -94,20 +94,22 @@ describe('RadioButtonGroup choices rendering', () => {
   it('pairs each radio with a label element', () => {
     render(<RadioButtonGroup label="Delivery speed" choices={baseChoices} />);
     const radios = screen.getAllByRole('radio');
-    const hasMatchingLabels = radios.every(radio => {
-      const radioId = radio.getAttribute('id');
-      if (!radioId) return false;
-      const label = document.querySelector(`label[for="${radioId}"]`);
-      return Boolean(label && label.textContent && label.textContent.trim().length > 0);
-    });
-    expect(hasMatchingLabels && radios.length === baseChoices.length).toBe(true);
+    const ok =
+      radios.every(radio => {
+        const labelId = radio.getAttribute('aria-labelledby');
+        if (!labelId) return false;
+        const labelEl = document.getElementById(labelId);
+        return Boolean(labelEl && labelEl.textContent && labelEl.textContent.trim().length > 0);
+      }) && radios.length === baseChoices.length;
+    expect(ok).toBe(true);
   });
 
   it('falls back to choice.value when label is missing', () => {
     render(<RadioButtonGroup label="No labels" choices={[{ value: 'onlyValue' }]} />);
     const radio = screen.getByRole('radio');
-    const label = document.querySelector(`label[for="${radio.getAttribute('id')}"]`);
-    const hasValueFallback = Boolean(radio) && label?.textContent?.trim() === 'onlyValue';
+    const labelId = radio.getAttribute('aria-labelledby');
+    const labelEl = labelId ? document.getElementById(labelId) : null;
+    const hasValueFallback = Boolean(labelEl && labelEl.textContent?.trim() === 'onlyValue');
     expect(hasValueFallback).toBe(true);
   });
 
@@ -115,8 +117,12 @@ describe('RadioButtonGroup choices rendering', () => {
     render(<RadioButtonGroup label="Hints" choices={baseChoices} />);
     const sms = screen.getByRole('radio', { name: /sms alerts/i });
     const hint = screen.getByText('Standard messaging rates may apply.');
-    const hintWiringIsValid = Boolean(hint) && sms.getAttribute('aria-describedby') === hint.id;
-    expect(hintWiringIsValid).toBe(true);
+    const ok =
+      Boolean(hint) &&
+      sms.getAttribute('aria-describedby') === hint.id &&
+      hint.className.includes('text-color-content-subtle') &&
+      hint.className.includes('text-xs');
+    expect(ok).toBe(true);
   });
 
   it('trims choice-level hint text and wires describedBy', () => {
