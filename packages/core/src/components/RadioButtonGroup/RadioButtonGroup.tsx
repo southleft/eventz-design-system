@@ -1,6 +1,6 @@
 // packages/core/src/components/RadioButtonGroup/RadioButtonGroup.tsx
 import * as React from 'react';
-import { RadioGroup, Popover } from 'radix-ui';
+import { Label, RadioGroup, Popover } from 'radix-ui';
 import { InfoCircledIcon, ExclamationTriangleIcon } from '@radix-ui/react-icons';
 import { composeClasses } from '../../utilities/composeClasses/composeClasses';
 import { collapseWhitespace } from '../../utilities/collapseWhitespace/collapseWhitespace';
@@ -31,23 +31,24 @@ const groupClasses = `
   flex flex-col gap-3
 `;
 
-const choiceClasses = `inline-flex items-start gap-2 select-none`;
-
-const choiceWrapperClasses = `flex`;
+const choiceClasses = `
+  inline-flex items-start gap-2 select-none text-color-content-default text-sm select-none
+  [&:has(:is([disabled]))]:opacity-50
+`;
 
 const controlClasses = `
-  flex flex-col gap-3 items-center justify-center size-4 shrink-0 rounded-full border
-  border-color-border-default bg-background-default focus:outline-none
-  focus-visible:ring-2 focus-visible:ring-comp-border-focus-ring focus-visible:ring-offset-2
+  flex flex-col gap-3 items-center justify-center size-4 shrink-0 rounded-full border mt-[2px]
+  border-color-content-weak bg-background-none focus:outline-none disabled:opacity-50
+  focus-visible:ring-2 focus-visible:ring-comp-border-focus-ring focus-visible:ring-offset-4 focus-visible:ring-offset-color-background-default
 `;
 
 const indicatorClasses = `
   pointer-events-none block size-2 rounded-full bg-color-content-brand
 `;
 
-const choiceLabelClasses = `
-  text-color-content-default text-sm select-none
-`;
+// const choiceLabelClasses = `
+//   text-color-content-default text-sm select-none -mt-[2px] block
+// `;
 
 const choiceHintClasses = `
   text-color-content-subtle text-xs
@@ -83,10 +84,6 @@ export const RadioButtonGroup = React.forwardRef<HTMLFieldSetElement, RadioButto
     const trimmedInfo = info?.trim();
     const trimmedError = error?.trim();
 
-    if (!trimmedLabel && !trimmedAriaLabel) {
-      throw new Error('RadioButtonGroup requires a non-empty label or ariaLabel.');
-    }
-
     const generatedId = React.useId();
     const fieldsetId = idProp ?? generatedId;
     const hintId = trimmedHint ? `${fieldsetId}-hint` : undefined;
@@ -109,10 +106,8 @@ export const RadioButtonGroup = React.forwardRef<HTMLFieldSetElement, RadioButto
     const hintClassName = collapseWhitespace(composeClasses(hintClasses));
     const groupClassName = collapseWhitespace(composeClasses(groupClasses));
     const choiceClassName = collapseWhitespace(composeClasses(choiceClasses));
-    const choiceWrapperClassName = collapseWhitespace(composeClasses(choiceWrapperClasses));
     const controlClassName = collapseWhitespace(composeClasses(controlClasses));
     const indicatorClassName = collapseWhitespace(composeClasses(indicatorClasses));
-    const choiceLabelClassName = collapseWhitespace(composeClasses(choiceLabelClasses));
     const choiceHintClassName = collapseWhitespace(composeClasses(choiceHintClasses));
     const errorClassName = collapseWhitespace(composeClasses(errorClasses));
 
@@ -174,40 +169,32 @@ export const RadioButtonGroup = React.forwardRef<HTMLFieldSetElement, RadioButto
             const choiceLabelText = choice.label?.trim() || choice.value.trim();
             const trimmedChoiceHint = choice.hint?.trim();
             const choiceHintId = trimmedChoiceHint ? `${controlId}-hint` : undefined;
-
+            console.log(choice);
             return (
-              <div key={controlId} className={choiceWrapperClassName}>
-                <div className={choiceClassName}>
-                  <RadioGroup.Item
-                    id={controlId}
-                    value={choice.value}
-                    className={controlClassName}
-                    disabled={Boolean(choice.disabled)}
-                    aria-describedby={choiceHintId}
-                    data-slot="control"
-                  >
-                    <RadioGroup.Indicator
-                      className={indicatorClassName}
-                      data-slot="indicator"
-                      aria-hidden="true"
-                    />
-                  </RadioGroup.Item>
-                  <div>
-                    <label
-                      className={choiceLabelClassName}
-                      data-slot="choiceLabel"
-                      htmlFor={controlId}
-                    >
-                      {choiceLabelText}
-                    </label>
-                    {choiceHintId && (
-                      <div className={choiceHintClassName} data-slot="choiceHint" id={choiceHintId}>
-                        {trimmedChoiceHint}
-                      </div>
-                    )}
-                  </div>
+              <Label.Root key={controlId} className={choiceClassName}>
+                <RadioGroup.Item
+                  id={controlId}
+                  value={choice.value}
+                  className={controlClassName}
+                  disabled={choice.disabled}
+                  aria-describedby={choiceHintId}
+                  data-slot="control"
+                >
+                  <RadioGroup.Indicator
+                    className={indicatorClassName}
+                    data-slot="indicator"
+                    aria-hidden="true"
+                  />
+                </RadioGroup.Item>
+                <div>
+                  {choiceLabelText}
+                  {choiceHintId && (
+                    <div className={choiceHintClassName} data-slot="choiceHint" id={choiceHintId}>
+                      {trimmedChoiceHint}
+                    </div>
+                  )}
                 </div>
-              </div>
+              </Label.Root>
             );
           })}
         </RadioGroup.Root>
