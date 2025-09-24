@@ -6,5 +6,6 @@ export * from './Control';
 export * from './IconButton';
 export * from './Input';
 export * from './RadioButtonGroup';
+export * from './Tag';
 export * from './Textarea';
 export * from './TextLink';

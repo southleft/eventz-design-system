@@ -1,0 +1,100 @@
+// packages/core/src/components/Tag/Tag.test.tsx
+import '@testing-library/jest-dom';
+import * as React from 'react';
+import { render, screen } from '@testing-library/react';
+import { Tag } from './Tag';
+import type { TagProps } from './Tag';
+
+describe('Tag', () => {
+  it('renders a non-interactive tag as a span', () => {
+    render(<Tag label="Alpha" />);
+    expect(screen.getByText('Alpha').tagName).toBe('SPAN');
+  });
+
+  it('renders an interactive tag as a button with type="button"', () => {
+    render(<Tag label="Interactive" isInteractive />);
+    expect(screen.getByRole('button', { name: 'Interactive' })).toHaveAttribute('type', 'button');
+  });
+
+  describe('variant token application (interactive)', () => {
+    const cases: ReadonlyArray<{
+      variant: NonNullable<TagProps['variant']>;
+      token: string;
+    }> = [
+      {
+        variant: 'parent',
+        token: 'data-[interactive=true]:bg-color-background-weak'
+      },
+      {
+        variant: 'child',
+        token: 'data-[interactive=true]:bg-background-none'
+      }
+    ];
+
+    it.each(cases)('applies %s variant tokens', ({ variant, token }) => {
+      render(<Tag label="Variant" isInteractive variant={variant} />);
+      const button = screen.getByRole('button', { name: 'Variant' });
+      expect(button.className).toContain(token);
+    });
+  });
+
+  it('sets data-active when interactive and active', () => {
+    render(<Tag label="Active" isInteractive isActive />);
+    expect(screen.getByRole('button', { name: 'Active' })).toHaveAttribute('data-active', 'true');
+  });
+
+  it('applies interactive active class tokens when active', () => {
+    render(<Tag label="Active Parent" isInteractive isActive />);
+    const button = screen.getByRole('button', { name: 'Active Parent' });
+    expect(button.className).toContain(
+      'data-[interactive=true]:data-[active=true]:bg-color-background-brand'
+    );
+  });
+
+  it('falls back to parent visual when non-interactive even if variant is child', () => {
+    render(<Tag label="Static" variant="child" />);
+    expect(screen.getByText('Static').className).toContain(
+      'data-[interactive=false]:bg-comp-tag-parent-color-background-default'
+    );
+  });
+
+  it('applies non-interactive active class tokens when active', () => {
+    render(<Tag label="Selected" isActive />);
+    expect(screen.getByText('Selected').className).toContain(
+      'data-[interactive=false]:data-[active=true]:bg-comp-tag-parent-color-background-active'
+    );
+  });
+
+  it('includes focus ring token class when interactive', () => {
+    render(<Tag label="Focus" isInteractive />);
+    const button = screen.getByRole('button', { name: 'Focus' });
+    button.focus();
+    expect(button.className).toContain(
+      'data-[interactive=true]:focus-visible:ring-comp-border-focus-ring'
+    );
+  });
+
+  it('exposes data-interactive="false" when non-interactive', () => {
+    render(<Tag label="Calm" />);
+    expect(screen.getByText('Calm')).toHaveAttribute('data-interactive', 'false');
+  });
+
+  it('applies cursor-pointer token when interactive', () => {
+    render(<Tag label="Pointer" isInteractive />);
+    const button = screen.getByRole('button', { name: 'Pointer' });
+    expect(button.className).toContain('data-[interactive=true]:cursor-pointer');
+  });
+
+  it('applies cursor-default token when non-interactive', () => {
+    render(<Tag label="Default" />);
+    expect(screen.getByText('Default').className).toContain(
+      'data-[interactive=false]:cursor-default'
+    );
+  });
+
+  it('is not keyboard focusable when non-interactive (no tabIndex)', () => {
+    render(<Tag label="Plain" />);
+    const el = screen.getByText('Plain');
+    expect(el).not.toHaveAttribute('tabIndex');
+  });
+});

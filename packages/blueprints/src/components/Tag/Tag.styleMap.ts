@@ -3,58 +3,53 @@ import { defineStyleMap } from '../../utilities';
 
 export const TagStyleMap = defineStyleMap({
   base: [
-    // Structure
-    'inline-flex select-none items-center justify-center rounded-full',
-    // Typography (swap to a tokenized text style if provided)
-    'text-caption-md-medium',
-    // Focus ring gated by interactivity (see below)
+    'inline-block text-sm border-none focus:outline-none',
+    'text-color-content-default',
+    'data-[interactive=false]:rounded-full',
+    'data-[interactive=false]:bg-comp-button-color-background-default',
+    'data-[interactive=true]:select-none',
+    'data-[interactive=true]:rounded-md',
     'data-[interactive=true]:focus-visible:ring-2',
-    'data-[interactive=true]:focus-visible:ring-comp-tag-focus-color-ring',
-    'data-[interactive=true]:focus-visible:ring-offset-2',
-    // Non-interactive affordance
-    'data-[interactive=false]:pointer-events-none',
-    'whitespace-nowrap',
-    'px-2',
-    'h-6'
+    'data-[interactive=true]:focus-visible:ring-comp-border-focus-ring',
+    'data-[interactive=true]:focus-visible:ring-offset-4',
+    'data-[interactive=true]:focus-visible:ring-offset-color-background-default',
+    'whitespace-nowrap pt-2 pb-2 px-4'
   ] as const,
-
-  slots: {
-    container: [] as const,
-    label: [] as const
-  },
 
   // Variant colors (default state). Hover/active are gated by `data-[interactive=true]`
   variants: {
     parent: [
-      'bg-comp-tag-parent-color-background-default',
-      'text-comp-tag-parent-color-foreground-default',
-
-      // Interactivity-gated pseudo states
-      'data-[interactive=true]:hover:bg-comp-tag-parent-color-background-hover',
-      'data-[interactive=true]:active:bg-comp-tag-parent-color-background-active',
-
-      // Active flag (non-pseudo) — useful for filter/tag selections
-      'data-[active=true]:bg-comp-tag-parent-color-background-active',
-      'data-[active=true]:text-comp-tag-parent-color-foreground-active'
+      'data-[interactive=true]:font-bold',
+      'data-[interactive=true]:bg-color-background-weak',
+      'data-[interactive=true]:hover:bg-color-background-weak-hover',
+      'data-[interactive=true]:hover:text-color-content-default-hover',
+      'data-[interactive=true]:data-[active=true]:bg-color-background-brand',
+      'data-[interactive=true]:data-[active=true]:text-color-background-default',
+      'data-[interactive=true]:data-[active=true]:hover:bg-color-background-brand-hover'
     ] as const,
 
     child: [
-      'bg-comp-tag-child-color-background-default',
-      'text-comp-tag-child-color-foreground-default',
-
-      'data-[interactive=true]:hover:bg-comp-tag-child-color-background-hover',
-      'data-[interactive=true]:active:bg-comp-tag-child-color-background-active',
-
-      'data-[active=true]:bg-comp-tag-child-color-background-active',
-      'data-[active=true]:text-comp-tag-child-color-foreground-active'
+      'data-[interactive=true]:bg-background-none',
+      'data-[interactive=true]:text-color-content-weak',
+      'data-[interactive=true]:hover:bg-color-background-weak-hover',
+      'data-[interactive=true]:hover:text-color-content-weak-hover',
+      'data-[interactive=true]:data-[active=true]:text-color-background-brand',
+      'data-[interactive=true]:data-[active=true]:hover:bg-color-background-subtle-hover',
+      'data-[interactive=true]:data-[active=true]:hover:text-color-background-brand-hover'
     ] as const
   },
 
   state: {
     // Cursor behavior toggled via data attribute
-    interactive: [
+    cursor: [
       'data-[interactive=true]:cursor-pointer',
       'data-[interactive=false]:cursor-default'
+    ] as const,
+    nonInteractive: [
+      'data-[interactive=false]:bg-comp-tag-parent-color-background-default',
+      'data-[interactive=false]:text-comp-tag-parent-color-foreground-default',
+      'data-[interactive=false]:data-[active=true]:bg-comp-tag-parent-color-background-active',
+      'data-[interactive=false]:data-[active=true]:text-comp-tag-parent-color-foreground-active'
     ] as const
   }
 });
