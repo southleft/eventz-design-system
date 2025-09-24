@@ -37,8 +37,12 @@
 
   /* Backgrounds */
   --color-background-none: var(--dt-color-background-none);
-  --color-color-background-default: var(--dt-color-background-default);
   --color-body-background: var(--dt-color-background-default);
+  --color-color-background-brand: var(--dt-color-background-brand);
+  --color-color-background-brand-hover: var(--dt-color-background-brand-hover);
+  --color-color-background-default: var(--dt-color-background-default);
+  --color-color-background-weak: var(--dt-color-background-weak);
+  --color-color-background-weak-hover: var(--dt-color-background-weak-hover);
 
   /* Content colors (brand) */
   --color-color-content-brand: var(--dt-color-content-brand);
