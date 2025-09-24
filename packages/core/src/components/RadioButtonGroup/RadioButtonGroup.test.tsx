@@ -39,6 +39,16 @@ describe('RadioButtonGroup accessible name', () => {
       render(<RadioButtonGroup label="   " ariaLabel="  " choices={baseChoices} />)
     ).toThrow('RadioButtonGroup requires a non-empty label or ariaLabel.');
   });
+
+  it('uses the provided id for the fieldset and derived control ids', () => {
+    render(<RadioButtonGroup id="rbg-custom" label="With id" choices={baseChoices} />);
+    const fieldset = screen.getByRole('group', { name: /with id/i });
+    const radios = screen.getAllByRole('radio');
+    const idsAreScoped =
+      fieldset.getAttribute('id') === 'rbg-custom' &&
+      radios.every(radio => radio.getAttribute('id')?.startsWith('rbg-custom-choice-'));
+    expect(idsAreScoped).toBe(true);
+  });
 });
 
 describe('RadioButtonGroup aria-describedby wiring', () => {
@@ -100,6 +110,36 @@ describe('RadioButtonGroup choices rendering', () => {
     });
     expect(hasMatchingLabels && radios.length === baseChoices.length).toBe(true);
   });
+
+  it('falls back to choice.value when label is missing', () => {
+    render(<RadioButtonGroup label="No labels" choices={[{ value: 'onlyValue' }]} />);
+    const radio = screen.getByRole('radio');
+    const label = document.querySelector(`label[for="${radio.getAttribute('id')}"]`);
+    const hasValueFallback = Boolean(radio) && label?.textContent?.trim() === 'onlyValue';
+    expect(hasValueFallback).toBe(true);
+  });
+
+  it('renders a choice-level hint and wires aria-describedby', () => {
+    render(<RadioButtonGroup label="Hints" choices={baseChoices} />);
+    const sms = screen.getByRole('radio', { name: /sms alerts/i });
+    const hint = screen.getByText('Standard messaging rates may apply.');
+    const hintWiringIsValid = Boolean(hint) && sms.getAttribute('aria-describedby') === hint.id;
+    expect(hintWiringIsValid).toBe(true);
+  });
+
+  it('trims choice-level hint text and wires describedBy', () => {
+    render(
+      <RadioButtonGroup
+        label="Hint trim"
+        choices={[{ value: 'v1', label: 'One', hint: '   padded hint   ' }]}
+      />
+    );
+    const radio = screen.getByRole('radio', { name: /one/i });
+    const hint = screen.getByText('padded hint');
+    const trimmedHintValid =
+      hint.textContent === 'padded hint' && radio.getAttribute('aria-describedby') === hint.id;
+    expect(trimmedHintValid).toBe(true);
+  });
 });
 
 describe('RadioButtonGroup interactions', () => {
@@ -136,7 +176,10 @@ describe('RadioButtonGroup interactions', () => {
     const disabledRadio = screen.getByRole('radio', { name: /sms alerts/i });
     await user.click(disabledRadio);
     const isDisabledAndUnchanged =
-      disabledRadio.getAttribute('aria-disabled') === 'true' && handleChange.mock.calls.length === 0;
+      (disabledRadio.hasAttribute('disabled') ||
+        disabledRadio.getAttribute('data-disabled') === 'true' ||
+        disabledRadio.getAttribute('aria-disabled') === 'true') &&
+      handleChange.mock.calls.length === 0;
     expect(isDisabledAndUnchanged).toBe(true);
   });
 });

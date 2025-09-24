@@ -27,8 +27,6 @@ const hintClasses = `
   text-color-content-subtle text-xs -mt-8
 `;
 
-const radiogroupClasses = ``;
-
 const choicesClasses = ``;
 
 const controlClasses = `
@@ -103,7 +101,6 @@ export const RadioButtonGroup = React.forwardRef<HTMLFieldSetElement, RadioButto
     const infoTriggerClassName = collapseWhitespace(composeClasses(infoTriggerClasses));
     const infoContentClassName = collapseWhitespace(composeClasses(infoContentClasses));
     const hintClassName = collapseWhitespace(composeClasses(hintClasses));
-    const radiogroupClassName = collapseWhitespace(composeClasses(radiogroupClasses));
     const choicesClassName = collapseWhitespace(composeClasses(choicesClasses));
     const controlClassName = collapseWhitespace(composeClasses(controlClasses));
     const indicatorClassName = collapseWhitespace(composeClasses(indicatorClasses));
@@ -123,10 +120,6 @@ export const RadioButtonGroup = React.forwardRef<HTMLFieldSetElement, RadioButto
       'aria-invalid': hasError ? true : undefined,
       'data-slot': 'radiogroup'
     };
-
-    if (radiogroupClassName) {
-      radioGroupProps.className = radiogroupClassName;
-    }
 
     return (
       <fieldset
@@ -166,7 +159,8 @@ export const RadioButtonGroup = React.forwardRef<HTMLFieldSetElement, RadioButto
             {choices.map(choice => {
               const controlId = `${fieldsetId}-choice-${choice.value}`;
               const choiceLabelText = choice.label?.trim() || choice.value.trim();
-              const choiceHintId = choice.hint?.trim() ? `${controlId}-hint` : undefined;
+              const trimmedChoiceHint = choice.hint?.trim();
+              const choiceHintId = trimmedChoiceHint ? `${controlId}-hint` : undefined;
 
               return (
                 <React.Fragment key={controlId}>
@@ -193,7 +187,7 @@ export const RadioButtonGroup = React.forwardRef<HTMLFieldSetElement, RadioButto
                   </label>
                   {choiceHintId && (
                     <span className={choiceHintClassName} data-slot="choiceHint" id={choiceHintId}>
-                      {choice.hint?.trim()}
+                      {trimmedChoiceHint}
                     </span>
                   )}
                 </React.Fragment>
