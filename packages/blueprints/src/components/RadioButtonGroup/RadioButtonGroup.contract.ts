@@ -65,9 +65,7 @@ export const RadioButtonGroupContract = defineContract({
     'infoContent',
     'hint',
     'radiogroup',
-    'choices',
     'error',
-    'choice',
     'control',
     'indicator',
     'choiceLabel',
@@ -90,24 +88,12 @@ export const RadioButtonGroupContract = defineContract({
         tag: 'div',
         children: [
           {
-            slot: 'choices',
-            tag: 'div',
-            children: [
-              {
-                slot: 'choice',
-                tag: 'div',
-                children: [
-                  {
-                    slot: 'control',
-                    tag: 'button',
-                    children: [{ slot: 'indicator', tag: 'span' }]
-                  },
-                  { slot: 'choiceLabel', tag: 'label' },
-                  { slot: 'choiceHint', tag: 'span' }
-                ]
-              }
-            ]
-          }
+            slot: 'control',
+            tag: 'button',
+            children: [{ slot: 'indicator', tag: 'span' }]
+          },
+          { slot: 'choiceLabel', tag: 'span' },
+          { slot: 'choiceHint', tag: 'div' }
         ]
       },
       { slot: 'error', tag: 'div' }
@@ -134,7 +120,11 @@ export const RadioButtonGroupContract = defineContract({
     },
     {
       when: {},
-      hint: 'Each radio choice should receive a stable id; pair choiceLabel htmlFor with that id and keep the indicator decorative via aria-hidden="true".'
+      hint: 'Each radio choice should receive a stable id; associate the control’s accessible name via aria-labelledby to the choiceLabel element, and keep the indicator decorative via aria-hidden="true".'
+    },
+    {
+      when: {},
+      hint: 'Expose per-choice hint text via aria-describedby on the radio item pointing to the choiceHint element.'
     }
   ],
 
