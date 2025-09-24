@@ -16,10 +16,6 @@ export const TagStyleMap = defineStyleMap({
     'whitespace-nowrap pt-2 pb-2 px-4'
   ] as const,
 
-  slots: {
-    container: [] as const
-  },
-
   // Variant colors (default state). Hover/active are gated by `data-[interactive=true]`
   variants: {
     parent: [
