@@ -30,15 +30,16 @@ export type TagProps = InteractiveTagProps | NonInteractiveTagProps;
 type TagElement = HTMLButtonElement | HTMLSpanElement;
 
 const baseClasses = `
-  inline-block text-sm border-none
+  inline-block text-sm border-none focus:outline-none
   text-color-content-default
   data-[interactive=false]:rounded-full
   data-[interactive=false]:bg-comp-button-color-background-default
   data-[interactive=true]:select-none
   data-[interactive=true]:rounded-md
   data-[interactive=true]:focus-visible:ring-2
-  data-[interactive=true]:focus-visible:ring-comp-tag-focus-color-ring
-  data-[interactive=true]:focus-visible:ring-offset-2
+  data-[interactive=true]:focus-visible:ring-comp-border-focus-ring
+  data-[interactive=true]:focus-visible:ring-offset-4
+  data-[interactive=true]:focus-visible:ring-offset-color-background-default
   whitespace-nowrap pt-2 pb-2 px-4
 `;
 
@@ -53,12 +54,13 @@ const variantClasses: Record<TagVariant, string> = {
     data-[interactive=true]:data-[active=true]:hover:bg-color-background-brand-hover
   `,
   child: `
-    data-[interactive=true]:bg-comp-tag-child-color-background-default
-    data-[interactive=true]:text-comp-tag-child-color-foreground-default
-    data-[interactive=true]:hover:bg-comp-tag-child-color-background-hover
-    data-[interactive=true]:active:bg-comp-tag-child-color-background-active
-    data-[interactive=true]:data-[active=true]:bg-comp-tag-child-color-background-active
-    data-[interactive=true]:data-[active=true]:text-comp-tag-child-color-foreground-active
+    data-[interactive=true]:bg-background-none
+    data-[interactive=true]:text-color-content-weak
+    data-[interactive=true]:hover:bg-color-background-weak-hover
+    data-[interactive=true]:hover:text-color-content-weak-hover
+    data-[interactive=true]:data-[active=true]:text-color-background-brand
+    data-[interactive=true]:data-[active=true]:hover:bg-color-background-subtle-hover
+    data-[interactive=true]:data-[active=true]:hover:text-color-background-brand-hover
   `
 };
 
