@@ -23,11 +23,11 @@ describe('Tag', () => {
     }> = [
       {
         variant: 'parent',
-        token: 'data-[interactive=true]:bg-comp-tag-parent-color-background-default'
+        token: 'data-[interactive=true]:bg-color-background-weak'
       },
       {
         variant: 'child',
-        token: 'data-[interactive=true]:bg-comp-tag-child-color-background-default'
+        token: 'data-[interactive=true]:bg-background-none'
       }
     ];
 
@@ -47,7 +47,7 @@ describe('Tag', () => {
     render(<Tag label="Active Parent" isInteractive isActive />);
     const button = screen.getByRole('button', { name: 'Active Parent' });
     expect(button.className).toContain(
-      'data-[interactive=true]:data-[active=true]:bg-comp-tag-parent-color-background-active'
+      'data-[interactive=true]:data-[active=true]:bg-color-background-brand'
     );
   });
 
@@ -70,7 +70,7 @@ describe('Tag', () => {
     const button = screen.getByRole('button', { name: 'Focus' });
     button.focus();
     expect(button.className).toContain(
-      'data-[interactive=true]:focus-visible:ring-comp-tag-focus-color-ring'
+      'data-[interactive=true]:focus-visible:ring-comp-border-focus-ring'
     );
   });
 

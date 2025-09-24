@@ -89,10 +89,6 @@ export const Tag = React.forwardRef<TagElement, TagProps>((props, forwardedRef) 
   const isInteractive = isInteractiveProp ?? false;
   const trimmedLabel = label.trim();
 
-  if (trimmedLabel.length === 0) {
-    throw new Error('Tag: `label` must be a non-empty string.');
-  }
-
   const rootClassName = collapseWhitespace(
     composeClasses(
       baseClasses,
