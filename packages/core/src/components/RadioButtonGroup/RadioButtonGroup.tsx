@@ -27,10 +27,16 @@ const hintClasses = `
   text-color-content-subtle text-xs -mt-8
 `;
 
-const choicesClasses = ``;
+const groupClasses = `
+  flex flex-col gap-3
+`;
+
+const choiceClasses = `inline-flex items-start gap-2 select-none`;
+
+const choiceWrapperClasses = ``;
 
 const controlClasses = `
-  relative inline-flex items-center justify-center size-4 shrink-0 rounded-full border
+  flex flex-col gap-3 items-center justify-center size-4 shrink-0 rounded-full border
   border-color-border-default bg-background-default focus:outline-none
   focus-visible:ring-2 focus-visible:ring-comp-border-focus-ring focus-visible:ring-offset-2
 `;
@@ -101,7 +107,9 @@ export const RadioButtonGroup = React.forwardRef<HTMLFieldSetElement, RadioButto
     const infoTriggerClassName = collapseWhitespace(composeClasses(infoTriggerClasses));
     const infoContentClassName = collapseWhitespace(composeClasses(infoContentClasses));
     const hintClassName = collapseWhitespace(composeClasses(hintClasses));
-    const choicesClassName = collapseWhitespace(composeClasses(choicesClasses));
+    const groupClassName = collapseWhitespace(composeClasses(groupClasses));
+    const choiceClassName = collapseWhitespace(composeClasses(choiceClasses));
+    const choiceWrapperClassName = collapseWhitespace(composeClasses(choiceWrapperClasses));
     const controlClassName = collapseWhitespace(composeClasses(controlClasses));
     const indicatorClassName = collapseWhitespace(composeClasses(indicatorClasses));
     const choiceLabelClassName = collapseWhitespace(composeClasses(choiceLabelClasses));
@@ -154,16 +162,22 @@ export const RadioButtonGroup = React.forwardRef<HTMLFieldSetElement, RadioButto
           ) : null}
         </legend>
 
-        <RadioGroup.Root {...radioGroupProps}>
-          <div className={choicesClassName} data-slot="choices">
-            {choices.map(choice => {
-              const controlId = `${fieldsetId}-choice-${choice.value}`;
-              const choiceLabelText = choice.label?.trim() || choice.value.trim();
-              const trimmedChoiceHint = choice.hint?.trim();
-              const choiceHintId = trimmedChoiceHint ? `${controlId}-hint` : undefined;
+        {hintId ? (
+          <div className={hintClassName} id={hintId} data-slot="hint">
+            {trimmedHint}
+          </div>
+        ) : null}
 
-              return (
-                <React.Fragment key={controlId}>
+        <RadioGroup.Root className={groupClassName} {...radioGroupProps} data-slot="choices">
+          {choices.map(choice => {
+            const controlId = `${fieldsetId}-choice-${choice.value}`;
+            const choiceLabelText = choice.label?.trim() || choice.value.trim();
+            const trimmedChoiceHint = choice.hint?.trim();
+            const choiceHintId = trimmedChoiceHint ? `${controlId}-hint` : undefined;
+
+            return (
+              <div key={controlId} className={choiceWrapperClassName}>
+                <div className={choiceClassName}>
                   <RadioGroup.Item
                     id={controlId}
                     value={choice.value}
@@ -178,33 +192,31 @@ export const RadioButtonGroup = React.forwardRef<HTMLFieldSetElement, RadioButto
                       aria-hidden="true"
                     />
                   </RadioGroup.Item>
-                  <label
-                    className={choiceLabelClassName}
-                    data-slot="choiceLabel"
-                    htmlFor={controlId}
-                  >
-                    {choiceLabelText}
-                  </label>
-                  {choiceHintId && (
-                    <span className={choiceHintClassName} data-slot="choiceHint" id={choiceHintId}>
-                      {trimmedChoiceHint}
-                    </span>
-                  )}
-                </React.Fragment>
-              );
-            })}
-          </div>
+                  <div>
+                    <label
+                      className={choiceLabelClassName}
+                      data-slot="choiceLabel"
+                      htmlFor={controlId}
+                    >
+                      {choiceLabelText}
+                    </label>
+                    {choiceHintId && (
+                      <div className={choiceHintClassName} data-slot="choiceHint" id={choiceHintId}>
+                        {trimmedChoiceHint}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            );
+          })}
         </RadioGroup.Root>
 
-        {trimmedHint ? (
-          <div className={hintClassName} id={hintId} data-slot="hint">
-            {trimmedHint}
-          </div>
-        ) : null}
-
-        {trimmedError ? (
+        {errorId ? (
           <div className={errorClassName} id={errorId} data-slot="error">
-            <ExclamationTriangleIcon aria-hidden="true" />
+            <span className="inline-flex items-center gap-1">
+              <ExclamationTriangleIcon aria-hidden="true" />
+            </span>
             <span>{trimmedError}</span>
           </div>
         ) : null}
