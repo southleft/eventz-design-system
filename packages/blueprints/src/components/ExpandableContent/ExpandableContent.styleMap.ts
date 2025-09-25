@@ -10,13 +10,17 @@ export const ExpandableContentStyleMap = defineStyleMap({
       'data-[state=closed]:line-clamp-3',
       'transition-[max-height]',
       'duration-200',
-      'ease-in-out'
+      'ease-in-out',
+      'text-color-content-weak',
+      'text-sm'
     ] as const,
     control: [
-      'text-center',
-      'transition-transform',
-      'peer-data-[state=open]:rotate-180',
-      'peer-data-[state=closed]:rotate-0'
+      'flex',
+      'justify-center',
+      'pt-16',
+      '[&>button]:transition-transform',
+      'peer-data-[state=open]:[&>button]:rotate-180',
+      'peer-data-[state=closed]:[&>button]:rotate-0'
     ] as const
   }
 });

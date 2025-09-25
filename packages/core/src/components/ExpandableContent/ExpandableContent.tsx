@@ -10,7 +10,6 @@ const CLOSED_MAX_HEIGHT_PX = 75;
 const contentBaseClasses = `peer overflow-hidden transition-[max-height] duration-200 ease-in-out text-color-content-weak text-sm`;
 const contentClosedClasses = `data-[state=closed]:mh-75 data-[state=closed]:line-clamp-3`;
 const controlWrapperClasses = `flex justify-center pt-16 peer-data-[state=open]:[&>button]:rotate-180 peer-data-[state=closed]:[&>button]:rotate-0`;
-const controlClasses = `text-center transition-transform`;
 
 export interface ExpandableContentProps extends React.HTMLAttributes<HTMLDivElement> {
   defaultExpanded?: boolean;
@@ -88,7 +87,6 @@ export const ExpandableContent = React.forwardRef<HTMLDivElement, ExpandableCont
       composeClasses(contentBaseClasses, expanded ? undefined : contentClosedClasses)
     );
     const controlWrapperClassName = collapseWhitespace(composeClasses(controlWrapperClasses));
-    const controlClassName = collapseWhitespace(composeClasses(controlClasses));
 
     return (
       <div ref={ref} className={className} {...restWithoutChildren}>
@@ -108,7 +106,6 @@ export const ExpandableContent = React.forwardRef<HTMLDivElement, ExpandableCont
             ariaLabel="Toggle expanded content"
             icon={<ChevronDownIcon />}
             variant="knockout"
-            className={controlClassName}
           />
         </div>
       </div>
