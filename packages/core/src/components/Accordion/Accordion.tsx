@@ -18,7 +18,7 @@ const triggerClasses = `
 const imageClasses = `[&_img]:h-16 [&_img]:w-16 [&_img]:rounded-[4px] overflow-hidden [&_img]:object-cover`;
 const titleClasses = `text-mobile-heading-xs lg:text-heading-xs`;
 const iconClasses = `shrink-0 transition-transform group-data-[state=open]:rotate-180 group-data-[state=closed]:rotate-0`;
-const contentClasses = `text-color-content-weak text-sm`;
+const contentClasses = `text-color-content-weak text-sm pl-1 pr-1`;
 const introClasses = `text-color-content-weak text-sm`;
 const emphasisStrongClasses = `font-bold`;
 const triggerLabelGroupClasses = `inline-flex gap-8`;

@@ -14,7 +14,6 @@ const meta: Meta<AccordionProps> = {
         users may need to expand.
       </p>
     ),
-    size: 'md',
     emphasis: 'strong'
   },
   argTypes: {
@@ -51,38 +50,5 @@ export const EmphasisStrong: Story = {
 export const EmphasisWeak: Story = {
   args: {
     emphasis: 'weak'
-  }
-};
-
-export const Sizes: Story = {
-  render: args => (
-    <div className="flex flex-col gap-4">
-      <Accordion {...args} size="sm" title="Small size">
-        <p>Compact spacing for dense surfaces.</p>
-      </Accordion>
-      <Accordion {...args} size="md" title="Medium size">
-        <p>Default spacing for general content.</p>
-      </Accordion>
-      <Accordion {...args} size="lg" title="Large size">
-        <p>Generous spacing for editorial layouts.</p>
-      </Accordion>
-    </div>
-  )
-};
-
-export const Uncontrolled: Story = {
-  args: {
-    defaultValue: 'item',
-    intro: 'Opens on mount when defaultValue matches the single item key.'
-  }
-};
-
-export const Controlled: Story = {
-  render: args => {
-    const [value, setValue] = React.useState<'item' | ''>('item');
-    return <Accordion {...args} value={value} onValueChange={setValue} />;
-  },
-  args: {
-    intro: 'Controlled via value/onValueChange props, starting open by default.'
   }
 };
