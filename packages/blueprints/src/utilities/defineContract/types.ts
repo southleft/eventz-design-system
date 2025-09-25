@@ -1,7 +1,7 @@
 // packages/blueprints/src/utilities/defineContract/types.ts
 
 /** Primitive prop kinds supported in blueprints. */
-export type ContractPropKind = 'string' | 'boolean' | 'number' | 'enum' | 'slot';
+export type ContractPropKind = 'string' | 'boolean' | 'number' | 'enum' | 'slot' | 'event' | 'callback';
 
 /** Base shape shared by all prop definitions. */
 interface BasePropDef {
@@ -46,8 +46,29 @@ export interface SlotPropDef extends BasePropDef {
   type: 'slot';
 }
 
+/** Event prop — describes an emitted callback signature. */
+export interface EventPropDef extends BasePropDef {
+  type: 'event';
+  /** Ordered list of argument signatures, e.g., ['expanded: boolean']. */
+  args: readonly string[];
+}
+
+/** Callback prop — preferred alias for event-style callbacks. */
+export interface CallbackPropDef extends BasePropDef {
+  type: 'callback';
+  /** Ordered list of argument signatures, e.g., ['expanded: boolean']. */
+  args: readonly string[];
+}
+
 /** Union of all supported prop definitions. */
-export type PropDef = StringPropDef | BooleanPropDef | NumberPropDef | SlotPropDef | EnumPropDef;
+export type PropDef =
+  | StringPropDef
+  | BooleanPropDef
+  | NumberPropDef
+  | SlotPropDef
+  | EnumPropDef
+  | EventPropDef
+  | CallbackPropDef;
 
 /** Record of prop name → definition. */
 export type PropsTable = Record<string, PropDef>;
