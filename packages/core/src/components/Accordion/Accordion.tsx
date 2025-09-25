@@ -15,9 +15,9 @@ const triggerClasses = `
   text-color-content-default hover:text-color-content-default-hover border-none
   w-full flex justify-between outline-none bg-background-none pt-2 pb-2 pl-1 pr-1 group
 `;
-const imageClasses = `[&_img]:h-16 [&_img]:w-16 [&_img]:rounded-[4px] overflow-hidden [&_img]:object-cover`;
-const titleClasses = `text-mobile-heading-xs lg:text-heading-xs`;
-const iconClasses = `shrink-0 transition-transform group-data-[state=open]:rotate-180 group-data-[state=closed]:rotate-0`;
+const imageClasses = `[&_img]:h-24 [&_img]:w-24 [&_img]:rounded-[4px] overflow-hidden [&_img]:object-cover`;
+const titleClasses = `text-base lg:text-lg`;
+const iconClasses = `shrink-0 [&>svg]:size-20 transition-transform group-data-[state=open]:rotate-180 group-data-[state=closed]:rotate-0`;
 const contentClasses = `text-color-content-weak text-sm pl-1 pr-1`;
 const introClasses = `text-color-content-weak text-sm`;
 const emphasisStrongClasses = `font-bold`;
