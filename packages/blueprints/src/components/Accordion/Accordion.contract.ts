@@ -1,37 +1,45 @@
-// packages/blueprints/src/components/Accordion/Accordion.contract.ts
 import { defineContract } from '../../utilities';
 
 export const AccordionContract = defineContract({
   component: 'Accordion',
-  description: 'Multi-item disclosure list with togglable sections.',
+  description: 'Single-item disclosure with optional decorative thumbnail image, emphasis styling on the title, and optional intro above body.',
   base: 'Accordion',
 
   props: {
-    // Visual density
-    size: {
+    // Required header text shown on the trigger
+    title: { type: 'string', required: true },
+
+    // Optional decorative thumbnail (no reserved space when absent)
+    // The runtime expects an <img> element; this is modeled as a slot here.
+    image: { type: 'slot' },
+
+    // Title emphasis treatment
+    emphasis: {
       type: 'enum',
-      options: ['sm', 'md', 'lg'] as const,
-      default: 'md'
+      options: ['strong', 'weak'] as const,
+      default: 'strong'
     },
 
-    // Indicator icon behavior
-    iconStrategy: {
-      type: 'enum',
-      options: ['chevron', 'none', 'custom'] as const,
-      default: 'chevron'
-    },
+    // Optional intro paragraph rendered before the body (within content)
+    intro: { type: 'string' },
 
-    // Optional: visually separate items (spec shows both contained & ghost looks in some systems;
-    // omit if design later decides against it)
-    variant: {
-      type: 'enum',
-      options: ['contained', 'ghost'] as const,
-      default: 'contained'
-    }
+    // Radix controlled/uncontrolled passthrough
+    value: { type: 'string' },
+    defaultValue: { type: 'string' }
   },
 
-  // Render order follows anatomy per item
-  slots: ['item', 'trigger', 'icon', 'content'] as const,
+  // Render order (one logical item only)
+  // Matches the component structure, including wrapper slots used by runtime classes.
+  slots: [
+    'container',
+    'item',
+    'trigger',
+    'image',
+    'title',
+    'icon',
+    'content',
+    'intro'
+  ] as const,
 
   // Advisory only — structure lives in styleMap
   layout: {
@@ -42,6 +50,7 @@ export const AccordionContract = defineContract({
 
   styleMap: true,
 
+  // Structural adapter hint only (no Theme props)
   hints: {
     radixAdapter: { uses: ['Accordion'] as const }
   }
