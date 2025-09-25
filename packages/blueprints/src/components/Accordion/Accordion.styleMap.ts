@@ -19,8 +19,6 @@ export const AccordionStyleMap = defineStyleMap({
       'rounded-md'
     ] as const,
 
-    header: ['border', 'mt-auto', 'mb-auto', 'border-none'] as const,
-
     // Clickable header row
     trigger: [
       'text-color-content-default',
@@ -37,8 +35,6 @@ export const AccordionStyleMap = defineStyleMap({
       'pr-1',
       'group'
     ] as const,
-
-    labelGroup: ['inline-flex', 'items-center', 'gap-8'] as const,
 
     // Optional decorative thumbnail
     image: [
