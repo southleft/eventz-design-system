@@ -31,7 +31,7 @@ export const ExpandableContentContract = defineContract({
     tag: 'div',
     children: [
       { slot: 'content', tag: 'div' },
-      { slot: 'control', tag: 'button' }
+      { slot: 'control', tag: 'div' }
     ]
   },
 
@@ -39,6 +39,6 @@ export const ExpandableContentContract = defineContract({
 
   hints: {
     a11y:
-      'Slots: content is public and receives data-state="open" | "closed"; control is a private IconButton (ChevronDownIcon) that always renders, toggles expansion, and rotates. The control forwards aria-expanded and points aria-controls at the collapsible content region. Closed state clamps content to 75px max-height with overflow hidden/ellipsis; open state reveals full height via a smooth max-height transition driven by the content slot data-state.'
+      'Content slot receives children and data-state="open" | "closed"; control slot is a private wrapper that always renders and mounts an IconButton (ChevronDownIcon). The IconButton forwards aria-expanded and aria-controls pointing to the content region ID. Closed state clamps content to 75px with overflow hidden and line-clamp; open state reveals full height via an animated max-height transition. Control rotation is driven by peer-data selectors on the wrapper.'
   }
 });
