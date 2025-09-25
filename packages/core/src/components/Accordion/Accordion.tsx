@@ -4,31 +4,24 @@ import { ChevronDownIcon } from '@radix-ui/react-icons';
 import { composeClasses } from '../../utilities/composeClasses/composeClasses';
 import { collapseWhitespace } from '../../utilities/collapseWhitespace/collapseWhitespace';
 
-const baseClasses = `w-full bg-color-background-none focus-visible:ring-2 focus-visible:ring-offset-4 focus-visible:ring-comp-border-focus-ring focus-visible:ring-offset-color-background-default`;
-const containerClasses = `flex flex-col w-full`;
-const itemClasses = `bg-comp-accordion-item-color-background-default text-comp-accordion-item-color-foreground-default border border-comp-accordion-item-color-border-default rounded-md overflow-hidden`;
-const triggerClasses = `w-full flex items-center justify-between outline-none group`;
-const imageClasses = `h-8 w-8 p-4 rounded-4 overflow-hidden [&_img]:object-cover`;
-const titleClasses = `text-color-content-default text-mobile-heading-xs lg:text-heading-xs hover:text-color-content-default-hover`;
+const baseClasses = `
+  [&:has(:focus-visible)]:ring-2 [&:has(:focus-visible)]:ring-offset- [&:has(:focus-visible)]:ring-comp-border-focus-ring [&:has(:focus-visible)]:ring-offset-color-background-default
+`;
+const headerClasses = `border mt-auto mb-auto border-none`;
+const itemClasses = `
+  bg-comp-accordion-item-color-background-default text-comp-accordion-item-color-foreground-default rounded-md
+`;
+const triggerClasses = `
+  text-color-content-default hover:text-color-content-default-hover border-none
+  w-full flex justify-between outline-none bg-background-none pt-2 pb-2 pl-1 pr-1 group
+`;
+const imageClasses = `[&_img]:h-16 [&_img]:w-16 [&_img]:rounded-[4px] overflow-hidden [&_img]:object-cover`;
+const titleClasses = `text-mobile-heading-xs lg:text-heading-xs`;
 const iconClasses = `shrink-0 transition-transform group-data-[state=open]:rotate-180 group-data-[state=closed]:rotate-0`;
 const contentClasses = `text-color-content-weak text-sm`;
 const introClasses = `text-color-content-weak text-sm`;
-const emphasisStrongClasses = `[&._title]:font-bold`;
-const disabledClasses = `[&._trigger]:opacity-50 [&._trigger]:pointer-events-none`;
-const triggerLabelGroupClasses = `flex items-center gap-3`;
-
-const slotMarkers = {
-  container: '_container',
-  item: '_item',
-  trigger: '_trigger',
-  image: '_image',
-  title: '_title',
-  icon: '_icon',
-  content: '_content',
-  intro: '_intro'
-} as const;
-
-const itemValue = 'item';
+const emphasisStrongClasses = `font-bold`;
+const triggerLabelGroupClasses = `inline-flex gap-8`;
 
 type AccordionRootProps = React.ComponentPropsWithoutRef<typeof RadixAccordion.Root>;
 type AccordionRef = React.ElementRef<typeof RadixAccordion.Root>;
@@ -52,57 +45,21 @@ export interface AccordionProps
 
 export const Accordion = React.forwardRef<AccordionRef, AccordionProps>(
   (
-    {
-      title,
-      image,
-      emphasis = 'strong',
-      intro,
-      children,
-      className,
-      value: valueProp,
-      defaultValue: defaultValueProp,
-      ...rootProps
-    },
+    { title, image, emphasis = 'strong', intro, children, value, defaultValue, ...rootProps },
     ref
   ) => {
-    const isControlled = valueProp !== undefined;
-    const providedValue =
-      typeof valueProp === 'string' && valueProp.trim().length > 0 ? valueProp : undefined;
-    const providedDefaultValue =
-      typeof defaultValueProp === 'string' && defaultValueProp.trim().length > 0
-        ? defaultValueProp
-        : undefined;
-    const resolvedItemValue = providedValue ?? providedDefaultValue ?? itemValue;
-    const isDisabled = Boolean((rootProps as Record<string, unknown>)['data-disabled']);
+    const rootClassName = collapseWhitespace(composeClasses(baseClasses));
 
-    const rootClassName = collapseWhitespace(
-      composeClasses(baseClasses, containerClasses, slotMarkers.container, className)
+    const itemClassName = collapseWhitespace(composeClasses(itemClasses));
+    const headerClassName = collapseWhitespace(composeClasses(headerClasses));
+    const triggerClassName = collapseWhitespace(composeClasses(triggerClasses));
+    const imageClassName = collapseWhitespace(composeClasses(imageClasses));
+    const titleClassName = collapseWhitespace(
+      composeClasses(titleClasses, emphasis === 'strong' ? emphasisStrongClasses : '')
     );
-
-    const itemClassName = collapseWhitespace(
-      composeClasses(
-        itemClasses,
-        slotMarkers.item,
-        emphasis === 'strong' ? emphasisStrongClasses : undefined,
-        isDisabled ? disabledClasses : undefined
-      )
-    );
-
-    const triggerClassName = collapseWhitespace(
-      composeClasses(triggerClasses, slotMarkers.trigger)
-    );
-
-    const imageClassName = collapseWhitespace(composeClasses(imageClasses, slotMarkers.image));
-
-    const titleClassName = collapseWhitespace(composeClasses(titleClasses, slotMarkers.title));
-
-    const iconClassName = collapseWhitespace(composeClasses(iconClasses, slotMarkers.icon));
-
-    const contentClassName = collapseWhitespace(
-      composeClasses(contentClasses, slotMarkers.content)
-    );
-
-    const introClassName = collapseWhitespace(composeClasses(introClasses, slotMarkers.intro));
+    const iconClassName = collapseWhitespace(composeClasses(iconClasses));
+    const contentClassName = collapseWhitespace(composeClasses(contentClasses));
+    const introClassName = collapseWhitespace(composeClasses(introClasses));
     const triggerLabelGroupClassName = collapseWhitespace(composeClasses(triggerLabelGroupClasses));
 
     return (
@@ -111,12 +68,15 @@ export const Accordion = React.forwardRef<AccordionRef, AccordionProps>(
         ref={ref}
         type="single"
         className={rootClassName}
-        value={isControlled ? valueProp : undefined}
-        defaultValue={isControlled ? undefined : defaultValueProp}
+        collapsible
         data-slot="container"
       >
-        <RadixAccordion.Item value={resolvedItemValue} className={itemClassName} data-slot="item">
-          <RadixAccordion.Header>
+        <RadixAccordion.Item
+          value={value || defaultValue || 'accordionContent'}
+          className={itemClassName}
+          data-slot="item"
+        >
+          <RadixAccordion.Header className={headerClassName}>
             <RadixAccordion.Trigger className={triggerClassName} data-slot="trigger">
               <span className={triggerLabelGroupClassName}>
                 {image ? (
@@ -133,7 +93,7 @@ export const Accordion = React.forwardRef<AccordionRef, AccordionProps>(
               </span>
             </RadixAccordion.Trigger>
           </RadixAccordion.Header>
-          <RadixAccordion.Content forceMount className={contentClassName} data-slot="content">
+          <RadixAccordion.Content className={contentClassName} data-slot="content">
             {intro ? (
               <p className={introClassName} data-slot="intro">
                 {intro}

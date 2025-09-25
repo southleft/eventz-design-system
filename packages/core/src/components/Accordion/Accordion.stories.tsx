@@ -10,8 +10,8 @@ const meta: Meta<AccordionProps> = {
     title: 'What is DoXYZ?',
     children: (
       <p>
-        Accordion content lives here. Provide supporting details or onboarding information that users
-        may need to expand.
+        Accordion content lives here. Provide supporting details or onboarding information that
+        users may need to expand.
       </p>
     ),
     size: 'md',
@@ -32,11 +32,7 @@ export const Default: Story = {};
 
 export const WithImage: Story = {
   args: {
-    image: (
-      <span aria-hidden="true" role="img">
-        🖼️
-      </span>
-    )
+    image: <img src="https://placehold.co/600x400/png" alt="placeholder image" />
   }
 };
 
@@ -59,7 +55,7 @@ export const EmphasisWeak: Story = {
 };
 
 export const Sizes: Story = {
-  render: (args) => (
+  render: args => (
     <div className="flex flex-col gap-4">
       <Accordion {...args} size="sm" title="Small size">
         <p>Compact spacing for dense surfaces.</p>
@@ -82,7 +78,7 @@ export const Uncontrolled: Story = {
 };
 
 export const Controlled: Story = {
-  render: (args) => {
+  render: args => {
     const [value, setValue] = React.useState<'item' | ''>('item');
     return <Accordion {...args} value={value} onValueChange={setValue} />;
   },
