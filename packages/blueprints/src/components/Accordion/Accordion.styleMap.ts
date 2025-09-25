@@ -1,16 +1,21 @@
-// packages/blueprints/src/components/Accordion/Accordion.styleMap.ts
 import { defineStyleMap } from '../../utilities';
 
 export const AccordionStyleMap = defineStyleMap({
-  base: ['w-full'] as const,
+  base: [
+    'w-full',
+    'bg-color-background-none',
+    'focus-visible:ring-2',
+    'focus-visible:ring-offset-4',
+    'focus-visible:ring-comp-border-focus-ring',
+    'focus-visible:ring-offset-color-background-default'
+  ] as const,
 
   slots: {
     // Root stack
     container: ['flex', 'flex-col', 'w-full'] as const,
 
-    // One logical item wrapper
+    // One logical item wrapper (contained/default surface)
     item: [
-      // contained/default surface tokens; ghost variant will override via state/variant
       'bg-comp-accordion-item-color-background-default',
       'text-comp-accordion-item-color-foreground-default',
       'border',
@@ -19,25 +24,46 @@ export const AccordionStyleMap = defineStyleMap({
       'overflow-hidden'
     ] as const,
 
-    // Click/pressable header row
+    // Clickable header row
     trigger: [
       'w-full',
       'flex',
       'items-center',
       'justify-between',
-      'outline-none',
-      'focus-visible:ring-2',
-      'focus-visible:ring-comp-accordion-focus-color-ring',
-      'focus-visible:ring-offset-2'
+      'outline-none'
     ] as const,
 
-    // Leading/ending indicator
+    // Optional decorative thumbnail
+    image: [
+      'h-8',
+      'w-8',
+      'p-4',
+      'rounded-4',
+      'overflow-hidden',
+      '[&_img]:object-cover'
+    ] as const,
+
+    // Title text (emphasis handled via state)
+    title: [
+      'text-color-content-default',
+      'text-mobile-heading-xs',
+      'lg:text-heading-xs',
+      'hover:text-color-content-default-hover'
+    ] as const,
+
+    // Expand/collapse indicator
     icon: ['shrink-0', 'transition-transform'] as const,
 
     // Collapsible region
     content: [
-      'text-comp-accordion-content-color-foreground-default',
-      'bg-comp-accordion-content-color-background-default'
+      'text-color-content-weak',
+      'text-sm'
+    ] as const,
+
+    // Intro line above body; same treatment as body
+    intro: [
+      'text-color-content-weak',
+      'text-sm'
     ] as const
   },
 
@@ -68,30 +94,14 @@ export const AccordionStyleMap = defineStyleMap({
   },
 
   state: {
-    // Visual style alternative
-    ghost: [
-      // remove contained chrome, use ghost tokens
-      '[&._item]:bg-transparent',
-      '[&._item]:border-transparent',
-      '[&._trigger]:bg-comp-accordion-ghost-color-background-default',
-      '[&._trigger]:text-comp-accordion-ghost-color-foreground-default'
-    ] as const,
+    // Emphasis treatment for title
+    emphasisStrong: ['[&._title]:font-bold'] as const,
 
-    // Open/closed animations & icon rotation
-    itemOpen: [
-      '[&._content]:animate-in',
-      '[&._content]:fade-in',
-      '[&._content]:slide-in-from-top-1',
-      '[&._icon]:rotate-180'
-    ] as const,
-    itemClosed: [
-      '[&._content]:animate-out',
-      '[&._content]:fade-out',
-      '[&._content]:slide-out-to-top-1',
-      '[&._icon]:rotate-0'
-    ] as const,
+    // Icon rotation only (let Radix handle motion; no slide/fade utilities)
+    itemOpen: ['[&._icon]:rotate-180'] as const,
+    itemClosed: ['[&._icon]:rotate-0'] as const,
 
-    // Disabled item presentation
+    // Disabled presentation
     disabled: ['[&._trigger]:opacity-50', '[&._trigger]:pointer-events-none'] as const
   }
 });

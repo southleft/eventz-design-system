@@ -1,9 +1,8 @@
-// packages/blueprints/src/components/Accordion/Accordion.contract.ts
 import { defineContract } from '../../utilities';
 
 export const AccordionContract = defineContract({
   component: 'Accordion',
-  description: 'Multi-item disclosure list with togglable sections.',
+  description: 'Single-item disclosure with optional decorative thumbnail, emphasis styling on the title, and optional intro above body.',
   base: 'Accordion',
 
   props: {
@@ -14,24 +13,29 @@ export const AccordionContract = defineContract({
       default: 'md'
     },
 
-    // Indicator icon behavior
-    iconStrategy: {
+    // Required header text shown on the trigger
+    title: { type: 'string', required: true },
+
+    // Optional decorative thumbnail (no reserved space when absent)
+    image: { type: 'slot' },
+
+    // Title emphasis treatment
+    emphasis: {
       type: 'enum',
-      options: ['chevron', 'none', 'custom'] as const,
-      default: 'chevron'
+      options: ['strong', 'weak'] as const,
+      default: 'strong'
     },
 
-    // Optional: visually separate items (spec shows both contained & ghost looks in some systems;
-    // omit if design later decides against it)
-    variant: {
-      type: 'enum',
-      options: ['contained', 'ghost'] as const,
-      default: 'contained'
-    }
+    // Optional intro paragraph rendered before the body
+    intro: { type: 'string' },
+
+    // Radix controlled/uncontrolled passthrough
+    value: { type: 'string' },
+    defaultValue: { type: 'string' }
   },
 
-  // Render order follows anatomy per item
-  slots: ['item', 'trigger', 'icon', 'content'] as const,
+  // Render order (one logical item only)
+  slots: ['item', 'trigger', 'image', 'title', 'icon', 'content', 'intro'] as const,
 
   // Advisory only — structure lives in styleMap
   layout: {
@@ -42,6 +46,7 @@ export const AccordionContract = defineContract({
 
   styleMap: true,
 
+  // Structural adapter hint only (no Theme props)
   hints: {
     radixAdapter: { uses: ['Accordion'] as const }
   }
