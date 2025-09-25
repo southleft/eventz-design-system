@@ -24,7 +24,6 @@ const emphasisStrongClasses = `font-bold`;
 const triggerLabelGroupClasses = `inline-flex gap-8`;
 
 type AccordionRootProps = React.ComponentPropsWithoutRef<typeof RadixAccordion.Root>;
-type AccordionRef = React.ElementRef<typeof RadixAccordion.Root>;
 
 export interface AccordionProps
   extends Omit<
@@ -35,7 +34,7 @@ export interface AccordionProps
       className?: string;
     }> {
   title: string;
-  image?: React.ReactNode;
+  image?: React.ReactElement<React.ImgHTMLAttributes<HTMLImageElement>>;
   emphasis?: 'strong' | 'weak';
   intro?: string;
   value?: string;
@@ -43,7 +42,7 @@ export interface AccordionProps
   onValueChange?: (value: string) => void;
 }
 
-export const Accordion = React.forwardRef<AccordionRef, AccordionProps>(
+export const Accordion = React.forwardRef<HTMLDivElement, AccordionProps>(
   (
     { title, image, emphasis = 'strong', intro, children, value, defaultValue, ...rootProps },
     ref
