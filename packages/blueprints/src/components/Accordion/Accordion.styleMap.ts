@@ -3,7 +3,7 @@ import { defineStyleMap } from '../../utilities';
 export const AccordionStyleMap = defineStyleMap({
   base: [
     '[&:has(:focus-visible)]:ring-2',
-    '[&:has(:focus-visible)]:ring-offset-',
+    '[&:has(:focus-visible)]:ring-offset-4',
     '[&:has(:focus-visible)]:ring-comp-border-focus-ring',
     '[&:has(:focus-visible)]:ring-offset-color-background-default'
   ] as const,
@@ -19,12 +19,7 @@ export const AccordionStyleMap = defineStyleMap({
       'rounded-md'
     ] as const,
 
-    header: [
-      'border',
-      'mt-auto',
-      'mb-auto',
-      'border-none'
-    ] as const,
+    header: ['border', 'mt-auto', 'mb-auto', 'border-none'] as const,
 
     // Clickable header row
     trigger: [
@@ -43,11 +38,7 @@ export const AccordionStyleMap = defineStyleMap({
       'group'
     ] as const,
 
-    labelGroup: [
-      'inline-flex',
-      'items-center',
-      'gap-8'
-    ] as const,
+    labelGroup: ['inline-flex', 'items-center', 'gap-8'] as const,
 
     // Optional decorative thumbnail
     image: [
@@ -59,10 +50,7 @@ export const AccordionStyleMap = defineStyleMap({
     ] as const,
 
     // Title text (emphasis handled via state)
-    title: [
-      'text-base',
-      'lg:text-lg'
-    ] as const,
+    title: ['text-base', 'lg:text-lg'] as const,
 
     // Expand/collapse indicator
     icon: [
@@ -74,20 +62,10 @@ export const AccordionStyleMap = defineStyleMap({
     ] as const,
 
     // Collapsible region
-    content: [
-      'text-color-content-weak',
-      'text-sm',
-      'pl-1',
-      'pr-1'
-    ] as const,
+    content: ['text-color-content-weak', 'text-sm', 'pl-1', 'pr-1'] as const,
 
     // Intro line above body; same treatment as body
-    intro: [
-      'text-color-content-weak',
-      'text-sm'
-    ] as const
+    intro: ['text-color-content-weak', 'text-sm'] as const
   },
-  state: {
-    emphasisStrong: ['font-bold'] as const
-  } as const
+  state: {} as const
 });

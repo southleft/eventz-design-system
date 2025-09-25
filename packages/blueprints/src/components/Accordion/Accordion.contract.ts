@@ -2,7 +2,7 @@ import { defineContract } from '../../utilities';
 
 export const AccordionContract = defineContract({
   component: 'Accordion',
-  description: 'Single-item disclosure with optional decorative thumbnail, emphasis styling on the title, and optional intro above body.',
+  description: 'Single-item disclosure with optional decorative thumbnail image, emphasis styling on the title, and optional intro above body.',
   base: 'Accordion',
 
   props: {
@@ -10,6 +10,7 @@ export const AccordionContract = defineContract({
     title: { type: 'string', required: true },
 
     // Optional decorative thumbnail (no reserved space when absent)
+    // The runtime expects an <img> element; this is modeled as a slot here.
     image: { type: 'slot' },
 
     // Title emphasis treatment
@@ -19,7 +20,7 @@ export const AccordionContract = defineContract({
       default: 'strong'
     },
 
-    // Optional intro paragraph rendered before the body
+    // Optional intro paragraph rendered before the body (within content)
     intro: { type: 'string' },
 
     // Radix controlled/uncontrolled passthrough
@@ -28,7 +29,19 @@ export const AccordionContract = defineContract({
   },
 
   // Render order (one logical item only)
-  slots: ['item', 'trigger', 'image', 'title', 'icon', 'content', 'intro'] as const,
+  // Matches the component structure, including wrapper slots used by runtime classes.
+  slots: [
+    'container',
+    'item',
+    'header',
+    'trigger',
+    'labelGroup',
+    'image',
+    'title',
+    'icon',
+    'content',
+    'intro'
+  ] as const,
 
   // Advisory only — structure lives in styleMap
   layout: {
