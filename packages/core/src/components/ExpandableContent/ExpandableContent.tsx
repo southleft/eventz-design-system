@@ -5,9 +5,12 @@ import { IconButton } from '../IconButton';
 import { composeClasses } from '../../utilities/composeClasses/composeClasses';
 import { collapseWhitespace } from '../../utilities/collapseWhitespace/collapseWhitespace';
 
-const contentBaseClasses = `peer overflow-hidden transition-[max-height] duration-200 ease-in-out`;
+const CLOSED_MAX_HEIGHT_PX = 75;
+
+const contentBaseClasses = `peer overflow-hidden transition-[max-height] duration-200 ease-in-out text-color-content-weak text-sm`;
 const contentClosedClasses = `data-[state=closed]:mh-75 data-[state=closed]:line-clamp-3`;
-const controlClasses = `text-center transition-transform peer-data-[state=open]:rotate-180 peer-data-[state=closed]:rotate-0`;
+const controlWrapperClasses = `flex justify-center pt-16 peer-data-[state=open]:[&>button]:rotate-180 peer-data-[state=closed]:[&>button]:rotate-0`;
+const controlClasses = `text-center transition-transform`;
 
 export interface ExpandableContentProps extends React.HTMLAttributes<HTMLDivElement> {
   defaultExpanded?: boolean;
@@ -20,11 +23,56 @@ export const ExpandableContent = React.forwardRef<HTMLDivElement, ExpandableCont
     { defaultExpanded = false, expanded: expandedProp, onExpandedChange, className, ...rest },
     ref
   ) => {
+    const contentRef = React.useRef<HTMLDivElement>(null);
+    const lastOpenHeightRef = React.useRef(0);
+    const didMountRef = React.useRef(false);
     const contentId = React.useId();
     const isControlled = expandedProp !== undefined;
     const [uncontrolledExpanded, setUncontrolledExpanded] = React.useState(defaultExpanded);
 
     const expanded = isControlled ? Boolean(expandedProp) : uncontrolledExpanded;
+
+    React.useEffect(() => {
+      const el = contentRef.current;
+      if (!el) return;
+      if (!didMountRef.current) {
+        didMountRef.current = true;
+        el.style.maxHeight = '';
+        el.style.webkitLineClamp = '';
+        el.style.display = '';
+        return;
+      }
+
+      const measuredScrollHeight = el.scrollHeight;
+
+      const forceReflow = () => {
+        void el.offsetHeight;
+      };
+
+      if (expanded) {
+        lastOpenHeightRef.current = measuredScrollHeight;
+        el.style.maxHeight = `${CLOSED_MAX_HEIGHT_PX}px`;
+        forceReflow();
+        el.style.maxHeight = `${measuredScrollHeight}px`;
+
+        el.style.webkitLineClamp = '';
+        el.style.display = '';
+
+        const onEnd = () => {
+          el.style.maxHeight = '';
+          el.removeEventListener('transitionend', onEnd);
+        };
+        el.addEventListener('transitionend', onEnd);
+      } else {
+        el.style.webkitLineClamp = 'unset';
+        el.style.display = 'block';
+
+        const fromHeight = lastOpenHeightRef.current || measuredScrollHeight;
+        el.style.maxHeight = `${fromHeight}px`;
+        forceReflow();
+        el.style.maxHeight = `${CLOSED_MAX_HEIGHT_PX}px`;
+      }
+    }, [expanded]);
 
     const handleToggle = () => {
       const nextExpanded = !expanded;
@@ -35,26 +83,33 @@ export const ExpandableContent = React.forwardRef<HTMLDivElement, ExpandableCont
     };
 
     const { children: contentChildren, ...restWithoutChildren } = rest;
-
     const contentClassName = collapseWhitespace(
       composeClasses(contentBaseClasses, expanded ? undefined : contentClosedClasses)
     );
-
+    const controlWrapperClassName = collapseWhitespace(composeClasses(controlWrapperClasses));
     const controlClassName = collapseWhitespace(composeClasses(controlClasses));
 
     return (
       <div ref={ref} className={className} {...restWithoutChildren}>
-        <div id={contentId} data-state={expanded ? 'open' : 'closed'} className={contentClassName}>
+        <div
+          ref={contentRef}
+          id={contentId}
+          data-state={expanded ? 'open' : 'closed'}
+          className={contentClassName}
+        >
           {contentChildren}
         </div>
-        <IconButton
-          aria-expanded={expanded}
-          aria-controls={contentId}
-          onClick={handleToggle}
-          ariaLabel="Toggle expanded content"
-          icon={<ChevronDownIcon />}
-          className={controlClassName}
-        />
+        <div className={controlWrapperClassName}>
+          <IconButton
+            aria-expanded={expanded}
+            aria-controls={contentId}
+            onClick={handleToggle}
+            ariaLabel="Toggle expanded content"
+            icon={<ChevronDownIcon />}
+            variant="knockout"
+            className={controlClassName}
+          />
+        </div>
       </div>
     );
   }
