@@ -27,10 +27,7 @@ const triggerLabelGroupClasses = `inline-flex items-center gap-8`;
 type AccordionRootProps = React.ComponentPropsWithoutRef<typeof RadixAccordion.Root>;
 
 export interface AccordionProps
-  extends Omit<
-      AccordionRootProps,
-      'children' | 'type' | 'collapsible' | 'className' | 'value' | 'defaultValue' | 'onValueChange'
-    >,
+  extends Omit<AccordionRootProps, 'children' | 'type' | 'collapsible' | 'className'>,
     React.PropsWithChildren<{
       className?: string;
     }> {
@@ -45,10 +42,20 @@ export interface AccordionProps
 
 export const Accordion = React.forwardRef<HTMLDivElement, AccordionProps>(
   (
-    { title, image, emphasis = 'strong', intro, children, value, defaultValue, ...rootProps },
+    {
+      title,
+      image,
+      emphasis = 'strong',
+      intro,
+      children,
+      className,
+      ...rootProps
+    },
     ref
   ) => {
-    const rootClassName = collapseWhitespace(composeClasses(baseClasses, containerClasses));
+    const rootClassName = collapseWhitespace(
+      composeClasses(baseClasses, containerClasses, className)
+    );
 
     const itemClassName = collapseWhitespace(composeClasses(itemClasses));
     const headerClassName = collapseWhitespace(composeClasses(headerClasses));
@@ -72,7 +79,11 @@ export const Accordion = React.forwardRef<HTMLDivElement, AccordionProps>(
         data-slot="container"
       >
         <RadixAccordion.Item
-          value={value || defaultValue || 'accordionContent'}
+          value={
+            (rootProps as { value?: string; defaultValue?: string }).value ??
+            (rootProps as { value?: string; defaultValue?: string }).defaultValue ??
+            'accordionContent'
+          }
           className={itemClassName}
           data-slot="item"
         >
