@@ -1,6 +1,5 @@
 // packages/core/src/components/ExpandableContent/ExpandableContent.stories.tsx
 import type { Meta, StoryObj } from '@storybook/react';
-import * as React from 'react';
 import { ExpandableContent } from './ExpandableContent';
 
 const sampleParagraph = `
