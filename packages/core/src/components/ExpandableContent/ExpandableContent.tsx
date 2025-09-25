@@ -34,6 +34,7 @@ export const ExpandableContent = React.forwardRef<HTMLDivElement, ExpandableCont
 
     React.useEffect(() => {
       const el = contentRef.current;
+      /* istanbul ignore next */
       if (!el) return;
       if (!didMountRef.current) {
         didMountRef.current = true;
