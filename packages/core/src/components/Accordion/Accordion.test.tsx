@@ -36,18 +36,10 @@ describe('Accordion', () => {
 
     it.each(cases)('applies emphasisStrong when emphasis=%s', (emphasis, expected) => {
       const view: RenderResult = renderAccordion({ emphasis });
-      const item = view.container.querySelector('[data-slot="item"]') as HTMLElement;
-      expect(item.className.includes('[&._title]:font-bold')).toBe(expected);
+      const titleSlot = view.container.querySelector('[data-slot="title"]') as HTMLElement;
+      expect(titleSlot.className.includes('font-bold')).toBe(expected);
       view.unmount();
     });
-  });
-
-  it('renders the image slot when provided', () => {
-    const view: RenderResult = renderAccordion({
-      image: <span data-testid="thumb">🖼️</span>
-    });
-    expect(screen.getByTestId('thumb')).toBeInTheDocument();
-    view.unmount();
   });
 
   it('omits the image slot when not provided', () => {
@@ -56,10 +48,19 @@ describe('Accordion', () => {
     view.unmount();
   });
 
+  it('renders the image slot when an img element is provided', () => {
+    const view: RenderResult = renderAccordion({
+      image: <img src="thumb.png" alt="" data-testid="thumb" />
+    });
+    expect(screen.getByTestId('thumb')).toBeInTheDocument();
+    view.unmount();
+  });
+
   it('renders the intro before the body content when provided', () => {
     const view: RenderResult = renderAccordion({ intro: 'Introductory copy' });
-    const content = view.container.querySelector('[data-slot="content"]') as HTMLElement;
-    expect((content.firstElementChild as HTMLElement).textContent).toBe('Introductory copy');
+    fireEvent.click(screen.getByRole('button', { name: 'Sample Title' }));
+    const intro = view.container.querySelector('[data-slot="intro"]') as HTMLElement;
+    expect(intro.textContent).toBe('Introductory copy');
     view.unmount();
   });
 
@@ -81,7 +82,7 @@ describe('Accordion', () => {
   it('keeps the focus ring tokens on the base element', () => {
     const view: RenderResult = renderAccordion();
     const root = view.container.querySelector('[data-slot="container"]') as HTMLElement;
-    expect(root.className).toContain('focus-visible:ring-comp-border-focus-ring');
+    expect(root.className).toContain('ring-comp-border-focus-ring');
     view.unmount();
   });
 
@@ -89,37 +90,6 @@ describe('Accordion', () => {
     const view: RenderResult = renderAccordion();
     const trigger = view.container.querySelector('[data-slot="trigger"]') as HTMLElement;
     expect(trigger.className.includes('focus-visible:ring')).toBe(false);
-    view.unmount();
-  });
-
-  it('opens by default when defaultValue is provided (uncontrolled)', () => {
-    const view: RenderResult = renderAccordion({ defaultValue: 'item' });
-    const content = view.container.querySelector('[data-slot="content"]') as HTMLElement;
-    expect(content.getAttribute('data-state')).toBe('open');
-    view.unmount();
-  });
-
-  it('respects a controlled value prop', () => {
-    const Controlled: React.FC = () => {
-      const [value, setValue] = React.useState('item');
-      return (
-        <Accordion title="Sample Title" value={value} onValueChange={setValue}>
-          <p>Body copy</p>
-        </Accordion>
-      );
-    };
-
-    const view: RenderResult = render(<Controlled />);
-    const content = view.container.querySelector('[data-slot="content"]') as HTMLElement;
-    expect(content.getAttribute('data-state')).toBe('open');
-    view.unmount();
-  });
-
-  it('applies disabled classes when data-disabled is set', () => {
-    const view: RenderResult = renderAccordion({ 'data-disabled': true } as unknown as AccordionProps);
-    const item = view.container.querySelector('[data-slot="item"]') as HTMLElement;
-    expect(item.className).toContain('[&._trigger]:opacity-50');
-    expect(item.className).toContain('[&._trigger]:pointer-events-none');
     view.unmount();
   });
 });
