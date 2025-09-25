@@ -2,12 +2,10 @@ import { defineStyleMap } from '../../utilities';
 
 export const AccordionStyleMap = defineStyleMap({
   base: [
-    'w-full',
-    'bg-color-background-none',
-    'focus-visible:ring-2',
-    'focus-visible:ring-offset-4',
-    'focus-visible:ring-comp-border-focus-ring',
-    'focus-visible:ring-offset-color-background-default'
+    '[&:has(:focus-visible)]:ring-2',
+    '[&:has(:focus-visible)]:ring-offset-',
+    '[&:has(:focus-visible)]:ring-comp-border-focus-ring',
+    '[&:has(:focus-visible)]:ring-offset-color-background-default'
   ] as const,
 
   slots: {
@@ -18,43 +16,58 @@ export const AccordionStyleMap = defineStyleMap({
     item: [
       'bg-comp-accordion-item-color-background-default',
       'text-comp-accordion-item-color-foreground-default',
+      'rounded-md'
+    ] as const,
+
+    header: [
       'border',
-      'border-comp-accordion-item-color-border-default',
-      'rounded-md',
-      'overflow-hidden'
+      'mt-auto',
+      'mb-auto',
+      'border-none'
     ] as const,
 
     // Clickable header row
     trigger: [
+      'text-color-content-default',
+      'hover:text-color-content-default-hover',
+      'border-none',
       'w-full',
       'flex',
-      'items-center',
       'justify-between',
       'outline-none',
+      'bg-background-none',
+      'pt-2',
+      'pb-2',
+      'pl-1',
+      'pr-1',
       'group'
+    ] as const,
+
+    labelGroup: [
+      'inline-flex',
+      'items-center',
+      'gap-8'
     ] as const,
 
     // Optional decorative thumbnail
     image: [
-      'h-8',
-      'w-8',
-      'p-4',
-      'rounded-4',
+      '[&_img]:h-24',
+      '[&_img]:w-24',
+      '[&_img]:rounded-[4px]',
       'overflow-hidden',
       '[&_img]:object-cover'
     ] as const,
 
     // Title text (emphasis handled via state)
     title: [
-      'text-color-content-default',
-      'text-mobile-heading-xs',
-      'lg:text-heading-xs',
-      'hover:text-color-content-default-hover'
+      'text-base',
+      'lg:text-lg'
     ] as const,
 
     // Expand/collapse indicator
     icon: [
       'shrink-0',
+      '[&>svg]:size-20',
       'transition-transform',
       'group-data-[state=open]:rotate-180',
       'group-data-[state=closed]:rotate-0'
@@ -63,7 +76,9 @@ export const AccordionStyleMap = defineStyleMap({
     // Collapsible region
     content: [
       'text-color-content-weak',
-      'text-sm'
+      'text-sm',
+      'pl-1',
+      'pr-1'
     ] as const,
 
     // Intro line above body; same treatment as body
@@ -73,11 +88,6 @@ export const AccordionStyleMap = defineStyleMap({
     ] as const
   },
   state: {
-    // Emphasis treatment for title
-    emphasisStrong: ['[&._title]:font-bold'] as const,
-
-    // Icon rotation only (let Radix handle motion; no slide/fade utilities)
-    // Disabled presentation
-    disabled: ['[&._trigger]:opacity-50', '[&._trigger]:pointer-events-none'] as const
-  }
+    emphasisStrong: ['font-bold'] as const
+  } as const
 });

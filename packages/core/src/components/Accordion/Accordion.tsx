@@ -5,8 +5,9 @@ import { composeClasses } from '../../utilities/composeClasses/composeClasses';
 import { collapseWhitespace } from '../../utilities/collapseWhitespace/collapseWhitespace';
 
 const baseClasses = `
-  [&:has(:focus-visible)]:ring-2 [&:has(:focus-visible)]:ring-offset- [&:has(:focus-visible)]:ring-comp-border-focus-ring [&:has(:focus-visible)]:ring-offset-color-background-default
+  [&:has(:focus-visible)]:ring-2 [&:has(:focus-visible)]:ring-offset-4 [&:has(:focus-visible)]:ring-comp-border-focus-ring [&:has(:focus-visible)]:ring-offset-color-background-default
 `;
+const containerClasses = `flex flex-col w-full`;
 const headerClasses = `border mt-auto mb-auto border-none`;
 const itemClasses = `
   bg-comp-accordion-item-color-background-default text-comp-accordion-item-color-foreground-default rounded-md
@@ -21,7 +22,7 @@ const iconClasses = `shrink-0 [&>svg]:size-20 transition-transform group-data-[s
 const contentClasses = `text-color-content-weak text-sm pl-1 pr-1`;
 const introClasses = `text-color-content-weak text-sm`;
 const emphasisStrongClasses = `font-bold`;
-const triggerLabelGroupClasses = `inline-flex gap-8`;
+const triggerLabelGroupClasses = `inline-flex items-center gap-8`;
 
 type AccordionRootProps = React.ComponentPropsWithoutRef<typeof RadixAccordion.Root>;
 
@@ -47,7 +48,7 @@ export const Accordion = React.forwardRef<HTMLDivElement, AccordionProps>(
     { title, image, emphasis = 'strong', intro, children, value, defaultValue, ...rootProps },
     ref
   ) => {
-    const rootClassName = collapseWhitespace(composeClasses(baseClasses));
+    const rootClassName = collapseWhitespace(composeClasses(baseClasses, containerClasses));
 
     const itemClassName = collapseWhitespace(composeClasses(itemClasses));
     const headerClassName = collapseWhitespace(composeClasses(headerClasses));
