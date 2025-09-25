@@ -6,13 +6,6 @@ export const AccordionContract = defineContract({
   base: 'Accordion',
 
   props: {
-    // Visual density
-    size: {
-      type: 'enum',
-      options: ['sm', 'md', 'lg'] as const,
-      default: 'md'
-    },
-
     // Required header text shown on the trigger
     title: { type: 'string', required: true },
 

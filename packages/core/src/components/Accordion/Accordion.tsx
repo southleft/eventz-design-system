@@ -4,75 +4,20 @@ import { ChevronDownIcon } from '@radix-ui/react-icons';
 import { composeClasses } from '../../utilities/composeClasses/composeClasses';
 import { collapseWhitespace } from '../../utilities/collapseWhitespace/collapseWhitespace';
 
-const BASE_CLASSES = [
-  'w-full',
-  'bg-color-background-none',
-  'focus-visible:ring-2',
-  'focus-visible:ring-offset-4',
-  'focus-visible:ring-comp-border-focus-ring',
-  'focus-visible:ring-offset-color-background-default'
-] as const;
+const baseClasses = `w-full bg-color-background-none focus-visible:ring-2 focus-visible:ring-offset-4 focus-visible:ring-comp-border-focus-ring focus-visible:ring-offset-color-background-default`;
+const containerClasses = `flex flex-col w-full`;
+const itemClasses = `bg-comp-accordion-item-color-background-default text-comp-accordion-item-color-foreground-default border border-comp-accordion-item-color-border-default rounded-md overflow-hidden`;
+const triggerClasses = `w-full flex items-center justify-between outline-none group`;
+const imageClasses = `h-8 w-8 p-4 rounded-4 overflow-hidden [&_img]:object-cover`;
+const titleClasses = `text-color-content-default text-mobile-heading-xs lg:text-heading-xs hover:text-color-content-default-hover`;
+const iconClasses = `shrink-0 transition-transform group-data-[state=open]:rotate-180 group-data-[state=closed]:rotate-0`;
+const contentClasses = `text-color-content-weak text-sm`;
+const introClasses = `text-color-content-weak text-sm`;
+const emphasisStrongClasses = `[&._title]:font-bold`;
+const disabledClasses = `[&._trigger]:opacity-50 [&._trigger]:pointer-events-none`;
+const triggerLabelGroupClasses = `flex items-center gap-3`;
 
-const SLOT_CLASSES = {
-  container: ['flex', 'flex-col', 'w-full'] as const,
-  item: [
-    'bg-comp-accordion-item-color-background-default',
-    'text-comp-accordion-item-color-foreground-default',
-    'border',
-    'border-comp-accordion-item-color-border-default',
-    'rounded-md',
-    'overflow-hidden'
-  ] as const,
-  trigger: ['w-full', 'flex', 'items-center', 'justify-between', 'outline-none'] as const,
-  image: ['h-8', 'w-8', 'p-4', 'rounded-4', 'overflow-hidden', '[&_img]:object-cover'] as const,
-  title: [
-    'text-color-content-default',
-    'text-mobile-heading-xs',
-    'lg:text-heading-xs',
-    'hover:text-color-content-default-hover'
-  ] as const,
-  icon: ['shrink-0', 'transition-transform'] as const,
-  content: ['text-color-content-weak', 'text-sm'] as const,
-  intro: ['text-color-content-weak', 'text-sm'] as const
-} as const;
-
-const VARIANT_CLASSES = {
-  sm: [
-    '[&._trigger]:px-3',
-    '[&._trigger]:py-2',
-    '[&._trigger]:text-sm',
-    '[&._content]:px-3',
-    '[&._content]:py-2',
-    '[&._content]:text-sm'
-  ] as const,
-  md: [
-    '[&._trigger]:px-4',
-    '[&._trigger]:py-3',
-    '[&._trigger]:text-base',
-    '[&._content]:px-4',
-    '[&._content]:py-3'
-  ] as const,
-  lg: [
-    '[&._trigger]:px-5',
-    '[&._trigger]:py-4',
-    '[&._trigger]:text-lg',
-    '[&._content]:px-5',
-    '[&._content]:py-4'
-  ] as const
-} as const;
-
-const STATE_CLASSES = {
-  emphasisStrong: ['[&._title]:font-bold'] as const,
-  itemOpen: ['[&._icon]:rotate-180'] as const,
-  itemClosed: ['[&._icon]:rotate-0'] as const
-} as const;
-
-const TRIGGER_LABEL_GROUP_CLASSES = ['flex', 'items-center', 'gap-3'] as const;
-const TRIGGER_LABEL_GROUP_CLASSNAME = collapseWhitespace(
-  composeClasses(TRIGGER_LABEL_GROUP_CLASSES)
-);
-
-const SLOT_MARKERS = {
+const slotMarkers = {
   container: '_container',
   item: '_item',
   trigger: '_trigger',
@@ -83,31 +28,31 @@ const SLOT_MARKERS = {
   intro: '_intro'
 } as const;
 
-const ITEM_VALUE = 'item';
+const itemValue = 'item';
 
-type AccordionRootElement = React.ElementRef<typeof RadixAccordion.Root>;
 type AccordionRootProps = React.ComponentPropsWithoutRef<typeof RadixAccordion.Root>;
+type AccordionRef = React.ElementRef<typeof RadixAccordion.Root>;
 
 export interface AccordionProps
   extends Omit<
-    AccordionRootProps,
-    'children' | 'type' | 'collapsible' | 'className' | 'value' | 'defaultValue'
-  > {
-  size?: 'sm' | 'md' | 'lg';
+      AccordionRootProps,
+      'children' | 'type' | 'collapsible' | 'className' | 'value' | 'defaultValue' | 'onValueChange'
+    >,
+    React.PropsWithChildren<{
+      className?: string;
+    }> {
   title: string;
   image?: React.ReactNode;
   emphasis?: 'strong' | 'weak';
   intro?: string;
-  children: React.ReactNode;
-  className?: string;
   value?: string;
   defaultValue?: string;
+  onValueChange?: (value: string) => void;
 }
 
-export const Accordion = React.forwardRef<AccordionRootElement, AccordionProps>(
+export const Accordion = React.forwardRef<AccordionRef, AccordionProps>(
   (
     {
-      size = 'md',
       title,
       image,
       emphasis = 'strong',
@@ -116,102 +61,64 @@ export const Accordion = React.forwardRef<AccordionRootElement, AccordionProps>(
       className,
       value: valueProp,
       defaultValue: defaultValueProp,
-      onValueChange,
       ...rootProps
     },
     ref
   ) => {
-    if (typeof title !== 'string' || title.trim().length === 0) {
-      throw new Error('Accordion title must be a non-empty string.');
-    }
-
     const isControlled = valueProp !== undefined;
-    const [internalValue, setInternalValue] = React.useState(defaultValueProp ?? '');
-    const itemValue = React.useMemo(() => {
-      const controlledValue = valueProp && valueProp.trim().length > 0 ? valueProp : undefined;
-      const uncontrolledDefault =
-        defaultValueProp && defaultValueProp.trim().length > 0 ? defaultValueProp : undefined;
-      return controlledValue ?? uncontrolledDefault ?? ITEM_VALUE;
-    }, [valueProp, defaultValueProp]);
-
-    const currentValue = isControlled ? valueProp ?? '' : internalValue;
-    const isOpen = currentValue === itemValue;
-
-    const handleValueChange = React.useCallback(
-      (nextValue: string) => {
-        if (!isControlled) {
-          setInternalValue(nextValue);
-        }
-        onValueChange?.(nextValue);
-      },
-      [isControlled, onValueChange]
-    );
-
-    React.useEffect(() => {
-      if (!isControlled) {
-        setInternalValue(defaultValueProp ?? '');
-      }
-    }, [isControlled, defaultValueProp]);
+    const providedValue =
+      typeof valueProp === 'string' && valueProp.trim().length > 0 ? valueProp : undefined;
+    const providedDefaultValue =
+      typeof defaultValueProp === 'string' && defaultValueProp.trim().length > 0
+        ? defaultValueProp
+        : undefined;
+    const resolvedItemValue = providedValue ?? providedDefaultValue ?? itemValue;
+    const isDisabled = Boolean((rootProps as Record<string, unknown>)['data-disabled']);
 
     const rootClassName = collapseWhitespace(
-      composeClasses(
-        BASE_CLASSES,
-        SLOT_CLASSES.container,
-        SLOT_MARKERS.container,
-        VARIANT_CLASSES[size],
-        className
-      )
+      composeClasses(baseClasses, containerClasses, slotMarkers.container, className)
     );
 
     const itemClassName = collapseWhitespace(
       composeClasses(
-        SLOT_CLASSES.item,
-        SLOT_MARKERS.item,
-        emphasis === 'strong' ? STATE_CLASSES.emphasisStrong : undefined,
-        isOpen ? STATE_CLASSES.itemOpen : STATE_CLASSES.itemClosed
+        itemClasses,
+        slotMarkers.item,
+        emphasis === 'strong' ? emphasisStrongClasses : undefined,
+        isDisabled ? disabledClasses : undefined
       )
     );
 
     const triggerClassName = collapseWhitespace(
-      composeClasses(SLOT_CLASSES.trigger, SLOT_MARKERS.trigger)
+      composeClasses(triggerClasses, slotMarkers.trigger)
     );
 
-    const imageClassName = collapseWhitespace(
-      composeClasses(SLOT_CLASSES.image, SLOT_MARKERS.image)
-    );
+    const imageClassName = collapseWhitespace(composeClasses(imageClasses, slotMarkers.image));
 
-    const titleClassName = collapseWhitespace(
-      composeClasses(SLOT_CLASSES.title, SLOT_MARKERS.title)
-    );
+    const titleClassName = collapseWhitespace(composeClasses(titleClasses, slotMarkers.title));
 
-    const iconClassName = collapseWhitespace(
-      composeClasses(SLOT_CLASSES.icon, SLOT_MARKERS.icon)
-    );
+    const iconClassName = collapseWhitespace(composeClasses(iconClasses, slotMarkers.icon));
 
     const contentClassName = collapseWhitespace(
-      composeClasses(SLOT_CLASSES.content, SLOT_MARKERS.content)
+      composeClasses(contentClasses, slotMarkers.content)
     );
 
-    const introClassName = collapseWhitespace(
-      composeClasses(SLOT_CLASSES.intro, SLOT_MARKERS.intro)
-    );
+    const introClassName = collapseWhitespace(composeClasses(introClasses, slotMarkers.intro));
+    const triggerLabelGroupClassName = collapseWhitespace(composeClasses(triggerLabelGroupClasses));
 
     return (
       <RadixAccordion.Root
         {...rootProps}
         ref={ref}
         type="single"
-        collapsible
         className={rootClassName}
         value={isControlled ? valueProp : undefined}
         defaultValue={isControlled ? undefined : defaultValueProp}
-        onValueChange={handleValueChange}
         data-slot="container"
       >
-        <RadixAccordion.Item value={itemValue} className={itemClassName} data-slot="item">
+        <RadixAccordion.Item value={resolvedItemValue} className={itemClassName} data-slot="item">
           <RadixAccordion.Header>
             <RadixAccordion.Trigger className={triggerClassName} data-slot="trigger">
-              <span className={TRIGGER_LABEL_GROUP_CLASSNAME}>
+              <span className={triggerLabelGroupClassName}>
                 {image ? (
                   <span className={imageClassName} aria-hidden="true" data-slot="image">
                     {image}

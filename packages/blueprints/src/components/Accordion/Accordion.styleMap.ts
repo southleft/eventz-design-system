@@ -30,7 +30,8 @@ export const AccordionStyleMap = defineStyleMap({
       'flex',
       'items-center',
       'justify-between',
-      'outline-none'
+      'outline-none',
+      'group'
     ] as const,
 
     // Optional decorative thumbnail
@@ -52,7 +53,12 @@ export const AccordionStyleMap = defineStyleMap({
     ] as const,
 
     // Expand/collapse indicator
-    icon: ['shrink-0', 'transition-transform'] as const,
+    icon: [
+      'shrink-0',
+      'transition-transform',
+      'group-data-[state=open]:rotate-180',
+      'group-data-[state=closed]:rotate-0'
+    ] as const,
 
     // Collapsible region
     content: [
@@ -66,41 +72,11 @@ export const AccordionStyleMap = defineStyleMap({
       'text-sm'
     ] as const
   },
-
-  // Size controls spacing & typography scale for trigger/content
-  variants: {
-    sm: [
-      '[&._trigger]:px-3',
-      '[&._trigger]:py-2',
-      '[&._trigger]:text-sm',
-      '[&._content]:px-3',
-      '[&._content]:py-2',
-      '[&._content]:text-sm'
-    ] as const,
-    md: [
-      '[&._trigger]:px-4',
-      '[&._trigger]:py-3',
-      '[&._trigger]:text-base',
-      '[&._content]:px-4',
-      '[&._content]:py-3'
-    ] as const,
-    lg: [
-      '[&._trigger]:px-5',
-      '[&._trigger]:py-4',
-      '[&._trigger]:text-lg',
-      '[&._content]:px-5',
-      '[&._content]:py-4'
-    ] as const
-  },
-
   state: {
     // Emphasis treatment for title
     emphasisStrong: ['[&._title]:font-bold'] as const,
 
     // Icon rotation only (let Radix handle motion; no slide/fade utilities)
-    itemOpen: ['[&._icon]:rotate-180'] as const,
-    itemClosed: ['[&._icon]:rotate-0'] as const,
-
     // Disabled presentation
     disabled: ['[&._trigger]:opacity-50', '[&._trigger]:pointer-events-none'] as const
   }

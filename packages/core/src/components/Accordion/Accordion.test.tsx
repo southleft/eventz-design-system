@@ -5,7 +5,6 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import type { RenderResult } from '@testing-library/react';
 import { Accordion, AccordionProps } from './Accordion';
 
-type Size = NonNullable<AccordionProps['size']>;
 type Emphasis = NonNullable<AccordionProps['emphasis']>;
 
 const renderAccordion = (overrideProps?: Partial<AccordionProps>): RenderResult =>
@@ -64,33 +63,18 @@ describe('Accordion', () => {
     view.unmount();
   });
 
-  describe('size variants', () => {
-    const cases: ReadonlyArray<[Size, string]> = [
-      ['sm', '[&._trigger]:px-3'],
-      ['md', '[&._trigger]:px-4'],
-      ['lg', '[&._trigger]:px-5']
-    ] as const;
-
-    it.each(cases)('applies %s spacing token on the root', (size, token) => {
-      const view: RenderResult = renderAccordion({ size });
-      const root = view.container.querySelector('[data-slot="container"]') as HTMLElement;
-      expect(root.className.includes(token)).toBe(true);
-      view.unmount();
-    });
-  });
-
   it('applies the closed rotation state to the icon by default', () => {
     const view: RenderResult = renderAccordion();
-    const item = view.container.querySelector('[data-slot="item"]') as HTMLElement;
-    expect(item.className.includes('[&._icon]:rotate-0')).toBe(true);
+    const icon = view.container.querySelector('[data-slot="icon"]') as HTMLElement;
+    expect(icon.className).toContain('group-data-[state=closed]:rotate-0');
     view.unmount();
   });
 
   it('applies the open rotation state after toggling', () => {
     const view: RenderResult = renderAccordion();
     fireEvent.click(screen.getByRole('button', { name: 'Sample Title' }));
-    const item = view.container.querySelector('[data-slot="item"]') as HTMLElement;
-    expect(item.className.includes('[&._icon]:rotate-180')).toBe(true);
+    const icon = view.container.querySelector('[data-slot="icon"]') as HTMLElement;
+    expect(icon.className).toContain('group-data-[state=open]:rotate-180');
     view.unmount();
   });
 
@@ -110,8 +94,8 @@ describe('Accordion', () => {
 
   it('opens by default when defaultValue is provided (uncontrolled)', () => {
     const view: RenderResult = renderAccordion({ defaultValue: 'item' });
-    const item = view.container.querySelector('[data-slot="item"]') as HTMLElement;
-    expect(item.getAttribute('data-state')).toBe('open');
+    const content = view.container.querySelector('[data-slot="content"]') as HTMLElement;
+    expect(content.getAttribute('data-state')).toBe('open');
     view.unmount();
   });
 
@@ -126,8 +110,16 @@ describe('Accordion', () => {
     };
 
     const view: RenderResult = render(<Controlled />);
+    const content = view.container.querySelector('[data-slot="content"]') as HTMLElement;
+    expect(content.getAttribute('data-state')).toBe('open');
+    view.unmount();
+  });
+
+  it('applies disabled classes when data-disabled is set', () => {
+    const view: RenderResult = renderAccordion({ 'data-disabled': true } as unknown as AccordionProps);
     const item = view.container.querySelector('[data-slot="item"]') as HTMLElement;
-    expect(item.getAttribute('data-state')).toBe('open');
+    expect(item.className).toContain('[&._trigger]:opacity-50');
+    expect(item.className).toContain('[&._trigger]:pointer-events-none');
     view.unmount();
   });
 });
