@@ -1,0 +1,32 @@
+import type { Meta, StoryObj } from '@storybook/react';
+import { ErrorIcon, ErrorIconProps } from './ErrorIcon';
+
+const meta: Meta<ErrorIconProps> = {
+  title: 'Icons/ErrorIcon',
+  component: ErrorIcon,
+  args: {
+    decorative: true,
+    color: 'currentColor'
+  },
+  argTypes: {
+    decorative: { control: 'boolean' },
+    title: { control: 'text' },
+    titleId: { control: 'text' },
+    color: { control: 'color' },
+    className: { control: 'text' }
+  }
+};
+
+export default meta;
+
+type Story = StoryObj<ErrorIconProps>;
+
+export const Default: Story = {};
+
+export const NonDecorative: Story = {
+  args: {
+    decorative: false,
+    title: 'Error status',
+    titleId: 'error-icon-title'
+  }
+};

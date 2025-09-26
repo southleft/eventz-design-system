@@ -1,7 +1,7 @@
 // packages/core/src/components/RadioButtonGroup/RadioButtonGroup.tsx
 import * as React from 'react';
 import { Label, RadioGroup, Popover } from 'radix-ui';
-import { InfoCircledIcon, ExclamationTriangleIcon } from '@radix-ui/react-icons';
+import { InfoIcon, ErrorIcon } from '../../icons';
 import { composeClasses } from '../../utilities/composeClasses/composeClasses';
 import { collapseWhitespace } from '../../utilities/collapseWhitespace/collapseWhitespace';
 import { mergeDescribedBy } from '../../utilities/mergeDescribedBy/mergeDescribedBy';
@@ -51,7 +51,7 @@ const choiceHintClasses = `
 `;
 
 const errorClasses = `
-  text-color-content-utility-danger-subtle text-xs mt-1 inline-flex items-start gap-2 pl-1
+  text-color-content-utility-danger-subtle text-xs mt-1 inline-flex items-start gap-2 items-center
 `;
 
 type RadioGroupRootProps = React.ComponentPropsWithoutRef<typeof RadioGroup.Root>;
@@ -141,7 +141,7 @@ export const RadioButtonGroup = React.forwardRef<HTMLFieldSetElement, RadioButto
                 aria-label="More info"
                 type="button"
               >
-                <InfoCircledIcon aria-hidden="true" />
+                <InfoIcon height="15" width="15" />
               </Popover.Trigger>
               <Popover.Portal>
                 <Popover.Content
@@ -204,7 +204,7 @@ export const RadioButtonGroup = React.forwardRef<HTMLFieldSetElement, RadioButto
 
         {errorId ? (
           <div className={errorClassName} id={errorId} data-slot="error">
-            <ExclamationTriangleIcon aria-hidden="true" />
+            <ErrorIcon />
             {trimmedError}
           </div>
         ) : null}

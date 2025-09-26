@@ -1,0 +1,31 @@
+import { render, screen } from '@testing-library/react';
+import { KeyboardArrowDownIcon } from './KeyboardArrowDownIcon';
+
+describe('KeyboardArrowDownIcon', () => {
+  it('defaults to decorative and sets aria-hidden="true"', () => {
+    render(<KeyboardArrowDownIcon data-testid="icon" />);
+    expect(screen.getByTestId('icon')).toHaveAttribute('aria-hidden', 'true');
+  });
+
+  it('renders non-decorative icons with title as role="img" and aria-labelledby', () => {
+    render(<KeyboardArrowDownIcon decorative={false} title="Expand" titleId="expand-icon" />);
+    const svg = screen.getByRole('img', { name: 'Expand' });
+    expect(svg).toHaveAttribute('aria-labelledby', 'expand-icon');
+  });
+
+  it('applies the color prop to the fill attribute', () => {
+    render(<KeyboardArrowDownIcon data-testid="icon" color="#123456" />);
+    expect(screen.getByTestId('icon')).toHaveAttribute('fill', '#123456');
+  });
+
+  it('merges className onto the svg element', () => {
+    render(<KeyboardArrowDownIcon data-testid="icon" className="custom-class" />);
+    expect(screen.getByTestId('icon')).toHaveClass('custom-class');
+  });
+
+  it('generates a title id when non-decorative with title and no titleId', () => {
+    render(<KeyboardArrowDownIcon decorative={false} title="Expand" />);
+    const img = screen.getByRole('img', { name: 'Expand' });
+    expect(img).toHaveAttribute('aria-labelledby');
+  });
+});

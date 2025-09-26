@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Accordion as RadixAccordion } from 'radix-ui';
-import { ChevronDownIcon } from '@radix-ui/react-icons';
+import { KeyboardArrowDownIcon } from '../../icons';
 import { composeClasses } from '../../utilities/composeClasses/composeClasses';
 import { collapseWhitespace } from '../../utilities/collapseWhitespace/collapseWhitespace';
 
@@ -18,7 +18,7 @@ const triggerClasses = `
 `;
 const imageClasses = `[&_img]:h-24 [&_img]:w-24 [&_img]:rounded-[4px] overflow-hidden [&_img]:object-cover`;
 const titleClasses = `text-base lg:text-lg`;
-const iconClasses = `shrink-0 [&>svg]:size-20 transition-transform group-data-[state=open]:rotate-180 group-data-[state=closed]:rotate-0`;
+const iconClasses = `shrink-0 transition-transform group-data-[state=open]:rotate-180 group-data-[state=closed]:rotate-0`;
 const contentClasses = `text-color-content-weak text-sm pl-1 pr-1`;
 const introClasses = `text-color-content-weak text-sm`;
 const emphasisStrongClasses = `font-bold`;
@@ -41,18 +41,7 @@ export interface AccordionProps
 }
 
 export const Accordion = React.forwardRef<HTMLDivElement, AccordionProps>(
-  (
-    {
-      title,
-      image,
-      emphasis = 'strong',
-      intro,
-      children,
-      className,
-      ...rootProps
-    },
-    ref
-  ) => {
+  ({ title, image, emphasis = 'strong', intro, children, className, ...rootProps }, ref) => {
     const rootClassName = collapseWhitespace(
       composeClasses(baseClasses, containerClasses, className)
     );
@@ -100,7 +89,7 @@ export const Accordion = React.forwardRef<HTMLDivElement, AccordionProps>(
                 </span>
               </span>
               <span className={iconClassName} aria-hidden="true" data-slot="icon">
-                <ChevronDownIcon />
+                <KeyboardArrowDownIcon />
               </span>
             </RadixAccordion.Trigger>
           </RadixAccordion.Header>

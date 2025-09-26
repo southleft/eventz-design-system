@@ -1,0 +1,32 @@
+import type { Meta, StoryObj } from '@storybook/react';
+import { KeyboardArrowDownIcon, KeyboardArrowDownIconProps } from './KeyboardArrowDownIcon';
+
+const meta: Meta<KeyboardArrowDownIconProps> = {
+  title: 'Icons/KeyboardArrowDownIcon',
+  component: KeyboardArrowDownIcon,
+  args: {
+    decorative: true,
+    color: 'currentColor'
+  },
+  argTypes: {
+    decorative: { control: 'boolean' },
+    title: { control: 'text' },
+    titleId: { control: 'text' },
+    color: { control: 'color' },
+    className: { control: 'text' }
+  }
+};
+
+export default meta;
+
+type Story = StoryObj<KeyboardArrowDownIconProps>;
+
+export const Default: Story = {};
+
+export const NonDecorative: Story = {
+  args: {
+    decorative: false,
+    title: 'Expand section',
+    titleId: 'keyboard-arrow-down-icon-title'
+  }
+};

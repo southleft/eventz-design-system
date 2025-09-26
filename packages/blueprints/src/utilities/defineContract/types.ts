@@ -153,6 +153,12 @@ export interface ContractHints {
         loadingAddsAriaBusy?: boolean;
         preserveFocusRing?: boolean;
       };
+
+  /**
+   * Additional adapter/prompt guidance fields. These are informational only and
+   * are not interpreted by the schema checker.
+   */
+  [key: string]: unknown;
 }
 
 /** The top-level blueprint contract spec. */
@@ -161,6 +167,8 @@ export interface ContractSpec {
   description?: string;
   /** Logical DoXYZ component name, e.g., 'Button'. */
   component: string;
+  /** Optional passthrough type for component props (e.g., 'React.SVGAttributes<SVGSVGElement>'). */
+  extends?: string;
   /**
    * Radix Themes primitive to wrap, e.g., 'Button', 'Badge'.
    * Unless otherwise noted, base refers to @radix-ui/themes.
@@ -169,7 +177,7 @@ export interface ContractSpec {
   /** Public props table for the component. */
   props: PropsTable;
   /**
-   * Ordered list of slot names. The names here must correspond to any `type:'slot'` props.
+   * Ordered list of slot names. The names here may correspond to `type:'slot'` props; generators can source slots from this list.
    * Example: ['startIcon','label','endIcon']
    */
   slots?: readonly string[];
