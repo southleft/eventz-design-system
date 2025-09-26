@@ -40,6 +40,7 @@ export const KeyboardArrowDownIcon = React.forwardRef<
         ref={ref}
         {...rest}
         className={className}
+        color={color}
         viewBox="0 0 20 20"
         width={width}
         height={height}
