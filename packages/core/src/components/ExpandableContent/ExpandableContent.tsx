@@ -1,6 +1,6 @@
 // packages/core/src/components/ExpandableContent/ExpandableContent.tsx
 import * as React from 'react';
-import { ChevronDownIcon } from '@radix-ui/react-icons';
+import { KeyboardArrowDownIcon } from '../../icons';
 import { IconButton } from '../IconButton';
 import { composeClasses } from '../../utilities/composeClasses/composeClasses';
 import { collapseWhitespace } from '../../utilities/collapseWhitespace/collapseWhitespace';
@@ -104,7 +104,7 @@ export const ExpandableContent = React.forwardRef<HTMLDivElement, ExpandableCont
             aria-controls={contentId}
             onClick={handleToggle}
             ariaLabel="Toggle expanded content"
-            icon={<ChevronDownIcon />}
+            icon={<KeyboardArrowDownIcon />}
             variant="knockout"
           />
         </div>
