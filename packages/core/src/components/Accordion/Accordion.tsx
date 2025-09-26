@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Accordion as RadixAccordion } from 'radix-ui';
-import { ChevronDownIcon } from '@radix-ui/react-icons';
+import { KeyboardArrowDownIcon } from '../../icons';
 import { composeClasses } from '../../utilities/composeClasses/composeClasses';
 import { collapseWhitespace } from '../../utilities/collapseWhitespace/collapseWhitespace';
 
@@ -41,18 +41,7 @@ export interface AccordionProps
 }
 
 export const Accordion = React.forwardRef<HTMLDivElement, AccordionProps>(
-  (
-    {
-      title,
-      image,
-      emphasis = 'strong',
-      intro,
-      children,
-      className,
-      ...rootProps
-    },
-    ref
-  ) => {
+  ({ title, image, emphasis = 'strong', intro, children, className, ...rootProps }, ref) => {
     const rootClassName = collapseWhitespace(
       composeClasses(baseClasses, containerClasses, className)
     );
@@ -100,7 +89,7 @@ export const Accordion = React.forwardRef<HTMLDivElement, AccordionProps>(
                 </span>
               </span>
               <span className={iconClassName} aria-hidden="true" data-slot="icon">
-                <ChevronDownIcon />
+                <KeyboardArrowDownIcon />
               </span>
             </RadixAccordion.Trigger>
           </RadixAccordion.Header>
