@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Popover, Label } from 'radix-ui';
-import { InfoCircledIcon, ExclamationTriangleIcon } from '@radix-ui/react-icons';
+import { InfoIcon, ErrorIcon } from '../../icons';
 import { composeClasses } from '../../utilities/composeClasses/composeClasses';
 import { collapseWhitespace } from '../../utilities/collapseWhitespace/collapseWhitespace';
 import { mergeDescribedBy } from '../../utilities/mergeDescribedBy/mergeDescribedBy';
@@ -46,7 +46,7 @@ const hintClasses = `
 `;
 
 const errorClasses = `
-  text-color-content-utility-danger-subtle text-xs mt-1 inline-flex gap-2 pl-1
+  text-color-content-utility-danger-subtle text-xs mt-1 inline-flex gap-2 items-center
 `;
 
 const invalidStateClasses = `
@@ -152,7 +152,7 @@ export const Textarea = React.forwardRef<TextareaElement, TextareaProps>(
                 aria-label="More info"
                 type="button"
               >
-                <InfoCircledIcon aria-hidden="true" />
+                <InfoIcon height="15" width="15" />
               </Popover.Trigger>
               <Popover.Portal>
                 <Popover.Content
@@ -186,7 +186,7 @@ export const Textarea = React.forwardRef<TextareaElement, TextareaProps>(
         {errorId ? (
           <div className={errorClassName} id={errorId} data-slot="error">
             <span aria-hidden="true">
-              <ExclamationTriangleIcon aria-hidden="true" />
+              <ErrorIcon />
             </span>
             <span>{trimmedError}</span>
           </div>
