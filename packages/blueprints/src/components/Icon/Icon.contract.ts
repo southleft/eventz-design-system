@@ -60,6 +60,10 @@ export const IconContract = defineContract({
   hints: {
     a11y: 'When decorative=false expose a readable label via title or external aria attributes; otherwise set decorative=true to hide from assistive tech.',
     passthrough:
-      'Props extend React.SVGAttributes<SVGSVGElement>; width/height/viewBox and other svg attributes may be passed via ...rest.'
+      'Props extend React.SVGAttributes<SVGSVGElement>; width/height/viewBox and other svg attributes may be passed via ...rest.',
+    viewBoxBaseline:
+      'Normalize icons to viewBox="0 0 20 20" for consistency with the design baseline.',
+    normalization:
+      'If a source SVG uses the Material glyph viewBox "0 -960 960 960", set the component <svg viewBox="0 0 20 20"> and wrap the pasted path content in a <g transform="scale(0.0208333333,-0.0208333333)">…</g> to map the 960-unit, inverted Y space to the 20×20 grid. If the source is already 0 0 20 20, do not add a transform.'
   }
 });
