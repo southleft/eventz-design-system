@@ -19,6 +19,9 @@ export const AccordionStyleMap = defineStyleMap({
       'rounded-md'
     ] as const,
 
+    // Radix header element wraps the trigger
+    header: ['border', 'mt-auto', 'mb-auto', 'border-none'] as const,
+
     // Clickable header row
     trigger: [
       'text-color-content-default',
@@ -36,6 +39,9 @@ export const AccordionStyleMap = defineStyleMap({
       'group'
     ] as const,
 
+    // Wrapper around image + title to handle spacing
+    triggerLabelGroup: ['inline-flex', 'items-center', 'gap-8'] as const,
+
     // Optional decorative thumbnail
     image: [
       '[&_img]:h-24',
@@ -49,12 +55,14 @@ export const AccordionStyleMap = defineStyleMap({
     title: ['text-base', 'lg:text-lg'] as const,
 
     // Expand/collapse indicator
-    icon: [
-      'shrink-0',
-      '[&>svg]:size-20',
+    icon: ['shrink-0'] as const,
+
+    // Inner glyph rotates to reflect state
+    iconGlyph: [
       'transition-transform',
       'group-data-[state=open]:rotate-180',
-      'group-data-[state=closed]:rotate-0'
+      'group-data-[state=closed]:rotate-0',
+      'size-20'
     ] as const,
 
     // Collapsible region
@@ -63,5 +71,7 @@ export const AccordionStyleMap = defineStyleMap({
     // Intro line above body; same treatment as body
     intro: ['text-color-content-weak', 'text-sm'] as const
   },
-  state: {} as const
+  state: {
+    titleStrong: ['font-bold'] as const
+  }
 });

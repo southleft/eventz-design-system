@@ -66,16 +66,16 @@ describe('Accordion', () => {
 
   it('applies the closed rotation state to the icon by default', () => {
     const view: RenderResult = renderAccordion();
-    const icon = view.container.querySelector('[data-slot="icon"]') as HTMLElement;
-    expect(icon.className).toContain('group-data-[state=closed]:rotate-0');
+    const icon = view.container.querySelector('[data-slot="icon"] svg') as HTMLElement;
+    expect(icon.classList.contains('group-data-[state=closed]:rotate-0')).toBe(true);
     view.unmount();
   });
 
   it('applies the open rotation state after toggling', () => {
     const view: RenderResult = renderAccordion();
     fireEvent.click(screen.getByRole('button', { name: 'Sample Title' }));
-    const icon = view.container.querySelector('[data-slot="icon"]') as HTMLElement;
-    expect(icon.className).toContain('group-data-[state=open]:rotate-180');
+    const icon = view.container.querySelector('[data-slot="icon"] svg') as HTMLElement;
+    expect(icon.classList.contains('group-data-[state=open]:rotate-180')).toBe(true);
     view.unmount();
   });
 
@@ -90,6 +90,20 @@ describe('Accordion', () => {
     const view: RenderResult = renderAccordion();
     const trigger = view.container.querySelector('[data-slot="trigger"]') as HTMLElement;
     expect(trigger.className.includes('focus-visible:ring')).toBe(false);
+    view.unmount();
+  });
+
+  it('opens when a controlled value is provided (covers value ??)', () => {
+    const view: RenderResult = renderAccordion({ value: 'controlled' });
+    const content = view.container.querySelector('[data-slot="content"]') as HTMLElement;
+    expect(content.getAttribute('data-state')).toBe('open');
+    view.unmount();
+  });
+
+  it('opens when a defaultValue is provided (covers ?? defaultValue)', () => {
+    const view: RenderResult = renderAccordion({ defaultValue: 'uncontrolled' });
+    const content = view.container.querySelector('[data-slot="content"]') as HTMLElement;
+    expect(content.getAttribute('data-state')).toBe('open');
     view.unmount();
   });
 });
