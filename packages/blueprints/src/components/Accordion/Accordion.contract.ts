@@ -33,7 +33,9 @@ export const AccordionContract = defineContract({
   slots: [
     'container',
     'item',
+    'header',
     'trigger',
+    'triggerLabelGroup',
     'image',
     'title',
     'icon',
