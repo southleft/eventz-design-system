@@ -1,0 +1,31 @@
+import { render, screen } from '@testing-library/react';
+import { WarningIcon } from './WarningIcon';
+
+describe('WarningIcon', () => {
+  it('defaults to decorative and sets aria-hidden="true"', () => {
+    render(<WarningIcon data-testid="icon" />);
+    expect(screen.getByTestId('icon')).toHaveAttribute('aria-hidden', 'true');
+  });
+
+  it('renders non-decorative icons with title as role="img" and aria-labelledby', () => {
+    render(<WarningIcon decorative={false} title="Warning" titleId="warning-icon" />);
+    const svg = screen.getByRole('img', { name: 'Warning' });
+    expect(svg).toHaveAttribute('aria-labelledby', 'warning-icon');
+  });
+
+  it('applies the color prop to the fill attribute', () => {
+    render(<WarningIcon data-testid="icon" color="#123456" />);
+    expect(screen.getByTestId('icon')).toHaveAttribute('fill', '#123456');
+  });
+
+  it('merges className onto the svg element', () => {
+    render(<WarningIcon data-testid="icon" className="custom-class" />);
+    expect(screen.getByTestId('icon')).toHaveClass('custom-class');
+  });
+
+  it('generates a title id when non-decorative with title and no titleId', () => {
+    render(<WarningIcon decorative={false} title="Warning" />);
+    const img = screen.getByRole('img', { name: 'Warning' });
+    expect(img).toHaveAttribute('aria-labelledby');
+  });
+});
