@@ -2,7 +2,8 @@ import { defineContract } from '../../utilities';
 
 export const AccordionContract = defineContract({
   component: 'Accordion',
-  description: 'Single-item disclosure with optional decorative thumbnail image, emphasis styling on the title, and optional intro above body.',
+  description:
+    'Single-item disclosure with optional decorative thumbnail image, emphasis styling on the title, and optional intro above body.',
   base: 'Accordion',
 
   props: {
@@ -25,7 +26,8 @@ export const AccordionContract = defineContract({
 
     // Radix controlled/uncontrolled passthrough
     value: { type: 'string' },
-    defaultValue: { type: 'string' }
+    defaultValue: { type: 'string' },
+    onValueChange: { type: 'callback', args: ['expanded: boolean'] }
   },
 
   // Render order (one logical item only)
