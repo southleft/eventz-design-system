@@ -9,7 +9,7 @@ const CLOSED_MAX_HEIGHT_PX = 75;
 
 const contentBaseClasses = `peer overflow-hidden transition-[max-height] duration-200 ease-in-out text-color-content-weak text-sm`;
 const contentClosedClasses = `data-[state=closed]:mh-75 data-[state=closed]:line-clamp-3`;
-const controlWrapperClasses = `flex justify-center pt-16 peer-data-[state=open]:[&>button]:rotate-180 peer-data-[state=closed]:[&>button]:rotate-0`;
+const controlWrapperClasses = `flex justify-center pt-16 [&>button]:transition-transform peer-data-[state=open]:[&>button]:rotate-180 peer-data-[state=closed]:[&>button]:rotate-0`;
 
 export interface ExpandableContentProps extends React.HTMLAttributes<HTMLDivElement> {
   defaultExpanded?: boolean;
