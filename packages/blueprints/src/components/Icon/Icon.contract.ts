@@ -14,6 +14,20 @@ export const IconContract = defineContract({
       description: 'Marks the icon as decorative. Set to false when the icon conveys meaning.'
     },
 
+    width: {
+      type: 'string',
+      default: '20px',
+      description:
+        'Intrinsic rendered width. Defaults to 20px; consumers may override via className or explicit width.'
+    },
+
+    height: {
+      type: 'string',
+      default: '20px',
+      description:
+        'Intrinsic rendered height. Defaults to 20px; consumers may override via className or explicit height.'
+    },
+
     title: {
       type: 'string',
       description:
@@ -64,6 +78,6 @@ export const IconContract = defineContract({
     viewBoxBaseline:
       'Normalize icons to viewBox="0 0 20 20" for consistency with the design baseline.',
     normalization:
-      'If a source SVG uses the Material glyph viewBox "0 -960 960 960", set the component <svg viewBox="0 0 20 20"> and wrap the pasted path content in a <g transform="scale(0.0208333333,-0.0208333333)">…</g> to map the 960-unit, inverted Y space to the 20×20 grid. If the source is already 0 0 20 20, do not add a transform.'
+      'If a source SVG uses the Material glyph viewBox "0 -960 960 960", set the component <svg viewBox="0 0 20 20"> and wrap the pasted path content in <g transform="scale(0.0208333333,0.0208333333) translate(0,960)">…</g> to map the 960-unit, inverted-Y glyph space into the 20×20 grid without flipping the icon. If the source is already 0 0 20 20, do not add a transform.'
   }
 });
