@@ -91,7 +91,7 @@ export const Accordion = React.forwardRef<HTMLDivElement, AccordionProps>(
                 </span>
               </span>
               <span className={iconContainerClassName} aria-hidden="true" data-slot="icon">
-                <KeyboardArrowDownIcon className={iconClassName} />
+                <KeyboardArrowDownIcon className={iconClassName} data-slot="iconGlyph" />
               </span>
             </RadixAccordion.Trigger>
           </RadixAccordion.Header>

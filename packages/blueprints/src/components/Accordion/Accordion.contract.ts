@@ -37,6 +37,7 @@ export const AccordionContract = defineContract({
     'image',
     'title',
     'icon',
+    'iconGlyph',
     'content',
     'intro'
   ] as const,

@@ -49,12 +49,14 @@ export const AccordionStyleMap = defineStyleMap({
     title: ['text-base', 'lg:text-lg'] as const,
 
     // Expand/collapse indicator
-    icon: [
-      'shrink-0',
-      '[&>svg]:size-20',
+    icon: ['shrink-0'] as const,
+
+    // Inner glyph rotates to reflect state
+    iconGlyph: [
       'transition-transform',
       'group-data-[state=open]:rotate-180',
-      'group-data-[state=closed]:rotate-0'
+      'group-data-[state=closed]:rotate-0',
+      'size-20'
     ] as const,
 
     // Collapsible region
