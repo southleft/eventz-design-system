@@ -27,7 +27,7 @@ export const AccordionContract = defineContract({
     // Radix controlled/uncontrolled passthrough
     value: { type: 'string' },
     defaultValue: { type: 'string' },
-    onValueChange: { type: 'callback', args: ['expanded: boolean'] }
+    onValueChange: { type: 'callback', args: ['value: string'] }
   },
 
   // Render order (one logical item only)
