@@ -1,0 +1,31 @@
+import { render, screen } from '@testing-library/react';
+import { ErrorIcon } from './ErrorIcon';
+
+describe('ErrorIcon', () => {
+  it('defaults to decorative and sets aria-hidden="true"', () => {
+    render(<ErrorIcon data-testid="icon" />);
+    expect(screen.getByTestId('icon')).toHaveAttribute('aria-hidden', 'true');
+  });
+
+  it('renders non-decorative icons with title as role="img" and aria-labelledby', () => {
+    render(<ErrorIcon decorative={false} title="Error" titleId="error-icon" />);
+    const svg = screen.getByRole('img', { name: 'Error' });
+    expect(svg).toHaveAttribute('aria-labelledby', 'error-icon');
+  });
+
+  it('applies the color prop to the fill attribute', () => {
+    render(<ErrorIcon data-testid="icon" color="#123456" />);
+    expect(screen.getByTestId('icon')).toHaveAttribute('fill', '#123456');
+  });
+
+  it('merges className onto the svg element', () => {
+    render(<ErrorIcon data-testid="icon" className="custom-class" />);
+    expect(screen.getByTestId('icon')).toHaveClass('custom-class');
+  });
+
+  it('generates a title id when non-decorative with title and no titleId', () => {
+    render(<ErrorIcon decorative={false} title="Error" />);
+    const img = screen.getByRole('img', { name: 'Error' });
+    expect(img).toHaveAttribute('aria-labelledby');
+  });
+});
