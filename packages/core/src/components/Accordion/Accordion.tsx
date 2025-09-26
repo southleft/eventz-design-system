@@ -19,7 +19,7 @@ const triggerClasses = `
 const imageClasses = `[&_img]:h-24 [&_img]:w-24 [&_img]:rounded-[4px] overflow-hidden [&_img]:object-cover`;
 const titleClasses = `text-base lg:text-lg`;
 const iconContainerClasses = `shrink-0`;
-const iconClasses = `transition-transform group-data-[state=open]:rotate-180 group-data-[state=closed]:rotate-0`;
+const iconClasses = `transition-transform group-data-[state=open]:rotate-180 group-data-[state=closed]:rotate-0 size-20`;
 const contentClasses = `text-color-content-weak text-sm pl-1 pr-1`;
 const introClasses = `text-color-content-weak text-sm`;
 const emphasisStrongClasses = `font-bold`;
@@ -78,9 +78,9 @@ export const Accordion = React.forwardRef<HTMLDivElement, AccordionProps>(
           className={itemClassName}
           data-slot="item"
         >
-          <RadixAccordion.Header className={headerClassName}>
+          <RadixAccordion.Header className={headerClassName} data-slot="header">
             <RadixAccordion.Trigger className={triggerClassName} data-slot="trigger">
-              <span className={triggerLabelGroupClassName}>
+              <span className={triggerLabelGroupClassName} data-slot="triggerLabelGroup">
                 {image ? (
                   <span className={imageClassName} aria-hidden="true" data-slot="image">
                     {image}
