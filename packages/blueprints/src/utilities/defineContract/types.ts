@@ -1,7 +1,14 @@
 // packages/blueprints/src/utilities/defineContract/types.ts
 
 /** Primitive prop kinds supported in blueprints. */
-export type ContractPropKind = 'string' | 'boolean' | 'number' | 'enum' | 'slot' | 'event' | 'callback';
+export type ContractPropKind =
+  | 'string'
+  | 'boolean'
+  | 'number'
+  | 'enum'
+  | 'slot'
+  | 'event'
+  | 'callback';
 
 /** Base shape shared by all prop definitions. */
 interface BasePropDef {
@@ -27,6 +34,12 @@ export interface BooleanPropDef extends BasePropDef {
 export interface NumberPropDef extends BasePropDef {
   type: 'number';
   default?: number;
+}
+
+/** Object prop. */
+export interface ObjectPropDef extends BasePropDef {
+  type: 'object';
+  default?: object;
 }
 
 /**
@@ -65,6 +78,7 @@ export type PropDef =
   | StringPropDef
   | BooleanPropDef
   | NumberPropDef
+  | ObjectPropDef
   | SlotPropDef
   | EnumPropDef
   | EventPropDef
