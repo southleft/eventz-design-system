@@ -1,0 +1,57 @@
+import * as React from 'react';
+
+export interface CloseIconProps extends React.SVGAttributes<SVGSVGElement> {
+  decorative?: boolean;
+  title?: string;
+  titleId?: string;
+  color?: string;
+}
+
+type CloseIconElement = SVGSVGElement;
+
+export const CloseIcon = React.forwardRef<CloseIconElement, CloseIconProps>(
+  (
+    {
+      decorative = true,
+      width = '20px',
+      height = '20px',
+      title,
+      titleId: providedTitleId,
+      color = 'currentColor',
+      className,
+      'aria-labelledby': ariaLabelledby,
+      ...rest
+    },
+    ref
+  ) => {
+    const generatedTitleId = React.useId();
+    const resolvedTitleId = title ? (providedTitleId ?? generatedTitleId) : undefined;
+
+    const computedAriaHidden = decorative ? 'true' : undefined;
+    const computedRole = decorative ? undefined : 'img';
+    const computedAriaLabelledby =
+      !decorative && title && resolvedTitleId ? resolvedTitleId : ariaLabelledby;
+
+    return (
+      <svg
+        ref={ref}
+        {...rest}
+        className={className}
+        viewBox="0 0 20 20"
+        width={width}
+        height={height}
+        fill={color}
+        aria-hidden={computedAriaHidden}
+        role={computedRole}
+        aria-labelledby={computedAriaLabelledby}
+      >
+        {!decorative && title ? <title id={resolvedTitleId}>{title}</title> : null}
+        <g transform="scale(0.0208333333,0.0208333333) translate(0,960)">
+          <path d="M291-232.35 232.35-291l189-189-189-189L291-727.65l189 189 189-189L727.65-669l-189 189 189 189L669-232.35l-189-189-189 189Z" />
+        </g>
+      </svg>
+    );
+  }
+);
+
+CloseIcon.displayName = 'CloseIcon';

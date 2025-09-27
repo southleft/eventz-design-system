@@ -1,0 +1,31 @@
+import { render, screen } from '@testing-library/react';
+import { CircleCheckIcon } from './CircleCheckIcon';
+
+describe('CircleCheckIcon', () => {
+  it('defaults to decorative and sets aria-hidden="true"', () => {
+    render(<CircleCheckIcon data-testid="icon" />);
+    expect(screen.getByTestId('icon')).toHaveAttribute('aria-hidden', 'true');
+  });
+
+  it('renders non-decorative icons with title as role="img" and aria-labelledby', () => {
+    render(<CircleCheckIcon decorative={false} title="Success" titleId="circle-check-icon" />);
+    const svg = screen.getByRole('img', { name: 'Success' });
+    expect(svg).toHaveAttribute('aria-labelledby', 'circle-check-icon');
+  });
+
+  it('applies the color prop to the fill attribute', () => {
+    render(<CircleCheckIcon data-testid="icon" color="#123456" />);
+    expect(screen.getByTestId('icon')).toHaveAttribute('fill', '#123456');
+  });
+
+  it('merges className onto the svg element', () => {
+    render(<CircleCheckIcon data-testid="icon" className="custom-class" />);
+    expect(screen.getByTestId('icon')).toHaveClass('custom-class');
+  });
+
+  it('generates a title id when non-decorative with title and no titleId', () => {
+    render(<CircleCheckIcon decorative={false} title="Success" />);
+    const img = screen.getByRole('img', { name: 'Success' });
+    expect(img).toHaveAttribute('aria-labelledby');
+  });
+});
