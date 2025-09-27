@@ -27,7 +27,7 @@ export const AlertContract = defineContract({
   hints: {
     a11y: {
       recommendation:
-        'Use role="alert" for the danger variant (assertive); otherwise use role="status" (polite).'
+        "Use role='alert' for the danger variant (assertive); otherwise use role='status' (polite). The `closeIcon` slot styles the glyph; the interactive wrapper is not a slot."
     }
   }
 });
