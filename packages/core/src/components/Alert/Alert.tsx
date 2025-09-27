@@ -7,26 +7,29 @@ import { CircleCheckIcon, CloseIcon, ErrorIcon, InfoIcon, WarningIcon } from '..
 
 type AlertVariant = 'success' | 'info' | 'warning' | 'danger';
 
-const containerClasses =
-  'flex gap-8 items-start pt-12 pb-12 pl-16 pr-16 w-390 rounded-md text-color-content-inverse';
+const containerClasses = `
+  flex gap-8 items-start pt-12 pb-12 pl-16 pr-16 w-390 rounded-md text-color-content-inverse
+`;
 
 const surfaceByVariant: Record<AlertVariant, string> = {
-  success: 'bg-gradient-utility-success',
-  info: 'bg-gradient-utility-info',
-  warning: 'bg-gradient-utility-warning',
-  danger: 'bg-gradient-utility-danger'
+  success: `bg-gradient-utility-success`,
+  info: `bg-gradient-utility-info`,
+  warning: `bg-gradient-utility-warning`,
+  danger: `bg-gradient-utility-danger`
 };
 
-const iconSlotClasses = 'mt-0.5 shrink-0';
-const titleClasses = 'text-base font-bold';
-const descriptionClasses = 'text-sm';
-const closeGlyphClasses = 'fill-color-content-inverse';
+const iconSlotClasses = `mt-0.5 shrink-0`;
+const contentClasses = `flex, flex-col, gap-2 flex-grow`;
+const titleClasses = `text-base font-bold`;
+const descriptionClasses = `text-sm`;
+const closeButtonClasses = `pt-0`;
+const closeGlyphClasses = `fill-color-content-inverse -mt-2`;
 
 const iconFillClasses: Record<AlertVariant, string> = {
-  success: 'fill-color-content-utility-success-strong',
-  info: 'fill-color-content-utility-info-strong',
-  warning: 'fill-color-content-utility-warning-strong',
-  danger: 'fill-color-content-utility-danger-strong'
+  success: `fill-color-content-utility-success-strong`,
+  info: `fill-color-content-utility-info-strong`,
+  warning: `fill-color-content-utility-warning-strong`,
+  danger: `fill-color-content-utility-danger-strong`
 };
 
 const classNameFor = (variant: AlertVariant) =>
@@ -34,21 +37,11 @@ const classNameFor = (variant: AlertVariant) =>
 
 const iconByVariant: Record<AlertVariant, React.ReactElement> = {
   success: (
-    <CircleCheckIcon
-      className={classNameFor('success')}
-      aria-hidden="true"
-      data-slot="icon"
-    />
+    <CircleCheckIcon className={classNameFor('success')} aria-hidden="true" data-slot="icon" />
   ),
-  info: (
-    <InfoIcon className={classNameFor('info')} aria-hidden="true" data-slot="icon" />
-  ),
-  warning: (
-    <WarningIcon className={classNameFor('warning')} aria-hidden="true" data-slot="icon" />
-  ),
-  danger: (
-    <ErrorIcon className={classNameFor('danger')} aria-hidden="true" data-slot="icon" />
-  )
+  info: <InfoIcon className={classNameFor('info')} aria-hidden="true" data-slot="icon" />,
+  warning: <WarningIcon className={classNameFor('warning')} aria-hidden="true" data-slot="icon" />,
+  danger: <ErrorIcon className={classNameFor('danger')} aria-hidden="true" data-slot="icon" />
 };
 
 type NativeDivProps = Omit<React.HTMLAttributes<HTMLDivElement>, 'title'>;
@@ -87,15 +80,13 @@ export const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
       composeClasses(containerClasses, surfaceByVariant[variant], className)
     );
 
-    const contentClassName = collapseWhitespace(
-      composeClasses('flex', 'flex-col', 'gap-2')
-    );
+    const contentClassName = collapseWhitespace(composeClasses(contentClasses));
     const titleClassName = collapseWhitespace(composeClasses(titleClasses));
     const descriptionClassName = collapseWhitespace(composeClasses(descriptionClasses));
+    const closeButtonClassName = collapseWhitespace(composeClasses(closeButtonClasses));
+    const closeGlyphClassName = collapseWhitespace(composeClasses(closeGlyphClasses));
 
-    const textLinkElement = textLink ? (
-      <TextLink {...textLink} data-slot="textLink" />
-    ) : null;
+    const textLinkElement = textLink ? <TextLink {...textLink} data-slot="textLink" /> : null;
 
     return (
       <div {...rest} ref={ref} className={rootClassName} role={rootRole} data-slot="container">
@@ -119,9 +110,9 @@ export const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
           <IconButton
             ariaLabel="Dismiss alert"
             onClick={onCloseClick}
-            icon={
-              closeIcon ?? <CloseIcon className={closeGlyphClasses} data-slot="closeIcon" />
-            }
+            variant="bareKnockout"
+            className={closeButtonClassName}
+            icon={closeIcon ?? <CloseIcon className={closeGlyphClassName} data-slot="closeIcon" />}
           />
         ) : null}
       </div>

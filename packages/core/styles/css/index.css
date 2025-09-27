@@ -51,8 +51,13 @@
   --color-color-content-brand-hover: var(--dt-color-content-brand-hover);
   --color-color-content-default: var(--dt-color-content-default);
   --color-color-content-default-hover: var(--dt-color-content-default-hover);
+  --color-color-content-inverse: var(--dt-color-content-inverse);
   --color-color-content-subtle: var(--dt-color-content-subtle);
+  --color-color-content-utility-danger-strong: var(--dt-color-content-utility-danger-strong);
   --color-color-content-utility-danger-subtle: var(--dt-color-content-utility-danger-subtle);
+  --color-color-content-utility-info-strong: var(--dt-color-content-utility-info-strong);
+  --color-color-content-utility-success-strong: var(--dt-color-content-utility-success-strong);
+  --color-color-content-utility-warning-strong: var(--dt-color-content-utility-warning-strong);
   --color-color-content-weak: var(--dt-color-content-weak);
   --color-color-content-weak-hover: var(--dt-color-content-weak-hover);
 
@@ -158,6 +163,18 @@
   }
   .bg-gradient-orange {
     background-image: var(--dt-highlight-highlight-4);
+  }
+  .bg-gradient-utility-success {
+    background-image: var(--dt-utility-success);
+  }
+  .bg-gradient-utility-info {
+    background-image: var(--dt-utility-info);
+  }
+  .bg-gradient-utility-warning {
+    background-image: var(--dt-utility-warning);
+  }
+  .bg-gradient-utility-danger {
+    background-image: var(--dt-utility-danger);
   }
 
   /* Focus ring token hook (Tailwind’s ring system uses --tw-ring-color) */
