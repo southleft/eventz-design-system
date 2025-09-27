@@ -19,7 +19,7 @@ const surfaceByVariant: Record<AlertVariant, string> = {
 };
 
 const iconSlotClasses = `mt-0.5 shrink-0`;
-const contentClasses = `flex, flex-col, gap-2 flex-grow`;
+const contentClasses = `flex flex-col gap-2 flex-grow`;
 const titleClasses = `text-base font-bold`;
 const descriptionClasses = `text-sm`;
 const closeButtonClasses = `pt-0`;
