@@ -47,6 +47,7 @@
   --color-color-background-weak-hover: var(--dt-color-background-weak-hover);
 
   /* Content colors (brand) */
+  --color-color-border-inverse: var(--dt-color-border-inverse);
   --color-color-content-brand: var(--dt-color-content-brand);
   --color-color-content-brand-hover: var(--dt-color-content-brand-hover);
   --color-color-content-default: var(--dt-color-content-default);

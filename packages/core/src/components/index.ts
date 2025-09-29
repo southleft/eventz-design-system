@@ -1,3 +1,5 @@
+export * from './Accordion';
+export * from './Alert';
 export * from './Badge';
 export * from './Button';
 export * from './Checkbox';
@@ -10,4 +12,3 @@ export * from './RadioButtonGroup';
 export * from './Tag';
 export * from './Textarea';
 export * from './TextLink';
-export * from './Alert';

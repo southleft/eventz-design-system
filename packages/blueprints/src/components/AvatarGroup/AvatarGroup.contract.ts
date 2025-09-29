@@ -1,35 +1,58 @@
-// packages/blueprints/src/components/AvatarGroup/AvatarGroup.contract.ts
 import { defineContract } from '../../utilities';
 
 export const AvatarGroupContract = defineContract({
   component: 'AvatarGroup',
-  description: 'Inline stack of avatars with overlap and optional “+N” counter.',
-  // No Radix primitive for groups; use a neutral layout base (Radix Themes Flex)
-  base: 'Flex',
+  description:
+    'Inline stack of user avatars with overlap and an optional “+N others interested” message.',
+  // Root is a neutral container; Radix Avatar is used internally for faces/fallback.
+  base: 'div',
 
   props: {
-    breakpoint: {
-      type: 'enum',
-      options: ['sm', 'lg'] as const,
-      default: 'sm'
-    }
+    indicator: { type: 'string', default: '+' },
+    count: { type: 'number' },
+    message: { type: 'string', default: 'others interested' },
+    showMessage: { type: 'boolean', default: true },
+    avatarsToDisplay: { type: 'number', default: 4 },
+
+    // Users dataset (schema: { name: string; imageUrl: string }[])
+    // Keep guards minimal per spec; empty name ⇒ empty fallback.
+    // Note: The generator/runtime will type this precisely in core.
+    users: { type: 'object' }
   },
 
-  // Treat individual avatars as a collection slot; internals are owned by a future Avatar atom.
-  // Render order: avatars → counter
-  slots: ['avatars', 'counter'] as const,
+  // Slots in render order: avatars row, then the composed message.
+  // Avatar internals are exposed as sub-slots for styling control.
+  slots: [
+    'avatars',
+    'avatar',
+    'avatarImage',
+    'avatarFallback',
+    'message',
+    'indicator',
+    'count',
+    'messageText'
+  ] as const,
 
-  // Advisory only — structural classes live in the styleMap (slots.container)
+  // Optional layout hint for the generator (advisory; visuals live in styleMap)
   layout: {
     type: 'container',
     tag: 'div',
-    className: 'flex items-center'
+    className: 'flex gap-8 items-center'
   },
+
+  rules: [
+    // Behavioral notes (non-visual):
+    // - visibleFaces = min(users.length, avatarsToDisplay)
+    // - if count is undefined: count = users.length
+    // - displayCount = max(count - visibleFaces, 0)
+    // - abbreviation: nearest rounding, lowercase suffix (k/m/b); 0–999 raw
+    // - render order: avatars are displayed in reverse order (last user first)
+  ],
 
   styleMap: true,
 
   hints: {
-    // No coupling to a missing Avatar atom; generator should accept any nodes in `avatars`
-    radixAdapter: { uses: ['Flex'] as const }
+    // Structural adapter note only; visuals come from the styleMap.
+    radixAdapter: { uses: ['Avatar'] as const }
   }
 });
