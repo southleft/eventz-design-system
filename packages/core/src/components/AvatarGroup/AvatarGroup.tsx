@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Avatar } from 'radix-ui';
-import { composeClasses } from '../../utilities';
+import { collapseWhitespace, composeClasses } from '../../utilities';
 
 type AvatarUser = {
   name: string;
@@ -74,15 +74,15 @@ export const AvatarGroup = React.forwardRef<HTMLDivElement, AvatarGroupProps>(
 
     void avatarsToDisplay;
 
-    const rootClassName = composeClasses(baseClass, className);
-    const avatarsClassName = composeClasses(avatarsClasses);
-    const avatarClassName = composeClasses(avatarClasses);
-    const avatarImageClassName = composeClasses(avatarImageClasses);
-    const avatarFallbackClassName = composeClasses(avatarFallbackClasses);
-    const messageClassName = composeClasses(messageClasses);
-    const indicatorClassName = composeClasses(indicatorClasses);
-    const countClassName = composeClasses(countClasses);
-    const messageTextClassName = composeClasses(messageTextClasses);
+    const rootClassName = collapseWhitespace(composeClasses(baseClass, className));
+    const avatarsClassName = collapseWhitespace(composeClasses(avatarsClasses));
+    const avatarClassName = collapseWhitespace(composeClasses(avatarClasses));
+    const avatarImageClassName = collapseWhitespace(composeClasses(avatarImageClasses));
+    const avatarFallbackClassName = collapseWhitespace(composeClasses(avatarFallbackClasses));
+    const messageClassName = collapseWhitespace(composeClasses(messageClasses));
+    const indicatorClassName = collapseWhitespace(composeClasses(indicatorClasses));
+    const countClassName = collapseWhitespace(composeClasses(countClasses));
+    const messageTextClassName = collapseWhitespace(composeClasses(messageTextClasses));
 
     return (
       <div {...rest} ref={ref} className={rootClassName}>

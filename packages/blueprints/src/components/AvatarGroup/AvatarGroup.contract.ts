@@ -46,6 +46,7 @@ export const AvatarGroupContract = defineContract({
     // - if count is undefined: count = users.length
     // - displayCount = max(count - visibleFaces, 0)
     // - abbreviation: nearest rounding, lowercase suffix (k/m/b); 0–999 raw
+    // - render order: avatars are displayed in reverse order (last user first)
   ],
 
   styleMap: true,
