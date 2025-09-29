@@ -20,11 +20,17 @@ export interface AvatarGroupProps extends Omit<NativeDivProps, 'children'> {
 
 const baseClass = `flex gap-8 items-center`;
 
-const avatarsClasses = `flex items-center`;
-const avatarClasses = `inline-flex select-none items-center justify-center overflow-hidden rounded-full align-middle size-sm lg:size-lg -mr-12 lg:-mr-18`;
+const avatarsClasses = `flex items-center flex-row-reverse`;
+const avatarClasses = `
+  inline-flex select-none items-center justify-center overflow-hidden rounded-full align-middle
+  w-24 lg:w-32 -mr-12 lg:-mr-18 border-color-border-inverse border
+`;
 const avatarImageClasses = `size-full rounded-[inherit] object-cover`;
-const avatarFallbackClasses = `leading-1 flex size-full items-center justify-center bg-color-border-inverse text-base font-medium`;
-const messageClasses = `flex gap-4 text-color-content-subtle text-sm`;
+const avatarFallbackClasses = `
+  flex items-center justify-center overflow-hidden rounded-full bg-background-none text-base font-medium
+  w-24 h-24 lg:w-32 lg:h-32 -mr-12 lg:-mr-18
+`;
+const messageClasses = `inline-flex gap-[4] text-color-content-subtle text-sm ml-12 lg:ml-18`;
 const indicatorClasses = ``;
 const countClasses = ``;
 const messageTextClasses = ``;
@@ -62,9 +68,9 @@ export const AvatarGroup = React.forwardRef<HTMLDivElement, AvatarGroupProps>(
     const trimmedIndicator = indicator.trim();
     const trimmedMessage = messageProp.trim();
     const effectiveCount = typeof countProp === 'number' ? countProp : users.length;
-    const displayCount = Math.max(effectiveCount - users.length, 0);
-    const abbreviatedCount = abbreviateCount(displayCount);
     const usersToShow = users.slice(0, avatarsToDisplay);
+    const displayCount = Math.max(effectiveCount - usersToShow.length, 0);
+    const abbreviatedCount = abbreviateCount(displayCount);
 
     void avatarsToDisplay;
 
@@ -81,7 +87,7 @@ export const AvatarGroup = React.forwardRef<HTMLDivElement, AvatarGroupProps>(
     return (
       <div {...rest} ref={ref} className={rootClassName}>
         <div className={avatarsClassName} data-slot="avatars">
-          {usersToShow.map((user, index) => {
+          {usersToShow.reverse().map((user, index) => {
             const { name, imageUrl } = user;
             const trimmedName = name.trim();
             const trimmedImageUrl = imageUrl.trim();
