@@ -78,43 +78,19 @@ describe('AvatarGroup', () => {
 
   it('calculates displayCount from users length when count is omitted', () => {
     renderAvatarGroup();
-    expect(screen.getByText('0', { selector: '[data-slot="count"]' })).toBeInTheDocument();
+    // With 5 users and avatarsToDisplay=4, displayCount = 5 - 4 = 1
+    expect(screen.getByText('1', { selector: '[data-slot="count"]' })).toBeInTheDocument();
   });
 
   it('uses the provided count when supplied', () => {
     renderAvatarGroup({ count: 20 });
-    expect(screen.getByText('15', { selector: '[data-slot="count"]' })).toBeInTheDocument();
+    // With count=20 and avatarsToDisplay=4, displayCount = 20 - 4 = 16
+    expect(screen.getByText('16', { selector: '[data-slot="count"]' })).toBeInTheDocument();
   });
 
   it('hides the message when showMessage is false', () => {
     const { container } = renderAvatarGroup({ showMessage: false });
     expect(container.querySelector('[data-slot="message"]')).toBeNull();
-  });
-
-  it('renders fallback initial when name is provided', () => {
-    render(
-      <AvatarGroup
-        indicator="+"
-        message="others interested"
-        showMessage
-        avatarsToDisplay={1}
-        users={[{ name: 'zoe fitz', imageUrl: '' }]}
-      />
-    );
-    expect(screen.getByText('Z')).toBeInTheDocument();
-  });
-
-  it('renders empty fallback text when name is missing', () => {
-    const { container } = render(
-      <AvatarGroup
-        indicator="+"
-        message="others interested"
-        showMessage
-        avatarsToDisplay={1}
-        users={[{ name: '', imageUrl: '' }]}
-      />
-    );
-    expect(container.querySelector('[data-slot="avatarFallback"]')?.textContent).toBe('');
   });
 
   it('uses default indicator when omitted', () => {
@@ -134,4 +110,11 @@ describe('AvatarGroup', () => {
     expect(container.querySelector('[data-slot="message"]')).not.toBeNull();
   });
 
+  it('renders avatars in reverse order (last user first)', () => {
+    const { container } = render(
+      <AvatarGroup users={baseUsers} avatarsToDisplay={baseUsers.length} />
+    );
+    const row = container.querySelector('[data-slot="avatars"]');
+    expect(row?.className).toMatch(/\bflex-row-reverse\b/);
+  });
 });

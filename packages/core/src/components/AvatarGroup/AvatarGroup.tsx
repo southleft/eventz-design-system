@@ -101,8 +101,12 @@ export const AvatarGroup = React.forwardRef<HTMLDivElement, AvatarGroupProps>(
                   src={trimmedImageUrl}
                   alt={trimmedName}
                 />
-                <Avatar.Fallback className={avatarFallbackClassName} data-slot="avatarFallback">
-                  {trimmedName.charAt(0).toUpperCase() || ''}
+                <Avatar.Fallback
+                  className={avatarFallbackClassName}
+                  delayMs={600}
+                  data-slot="avatarFallback"
+                >
+                  {trimmedName.charAt(0).toUpperCase()}
                 </Avatar.Fallback>
               </Avatar.Root>
             );
