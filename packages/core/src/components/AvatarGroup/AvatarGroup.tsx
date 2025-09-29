@@ -64,6 +64,7 @@ export const AvatarGroup = React.forwardRef<HTMLDivElement, AvatarGroupProps>(
     const effectiveCount = typeof countProp === 'number' ? countProp : users.length;
     const displayCount = Math.max(effectiveCount - users.length, 0);
     const abbreviatedCount = abbreviateCount(displayCount);
+    const usersToShow = users.slice(0, avatarsToDisplay);
 
     void avatarsToDisplay;
 
@@ -80,20 +81,22 @@ export const AvatarGroup = React.forwardRef<HTMLDivElement, AvatarGroupProps>(
     return (
       <div {...rest} ref={ref} className={rootClassName}>
         <div className={avatarsClassName} data-slot="avatars">
-          {users.map((user, index) => {
+          {usersToShow.map((user, index) => {
             const { name, imageUrl } = user;
-            const key = `${name}-${imageUrl}-${index}`;
+            const trimmedName = name.trim();
+            const trimmedImageUrl = imageUrl.trim();
+            const key = `${trimmedName}-${trimmedImageUrl}-${index}`;
 
             return (
               <Avatar.Root key={key} className={avatarClassName} data-slot="avatar">
                 <Avatar.Image
                   className={avatarImageClassName}
                   data-slot="avatarImage"
-                  src={imageUrl}
-                  alt={name}
+                  src={trimmedImageUrl}
+                  alt={trimmedName}
                 />
                 <Avatar.Fallback className={avatarFallbackClassName} data-slot="avatarFallback">
-                  {name.charAt(0).toUpperCase() || ''}
+                  {trimmedName.charAt(0).toUpperCase() || ''}
                 </Avatar.Fallback>
               </Avatar.Root>
             );

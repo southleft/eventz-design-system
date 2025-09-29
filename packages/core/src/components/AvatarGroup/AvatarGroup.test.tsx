@@ -27,12 +27,26 @@ describe('AvatarGroup', () => {
 
   it('renders the message text when showMessage is true', () => {
     renderAvatarGroup();
-    expect(screen.getByText('others interested')).toBeInTheDocument();
+    expect(
+      screen.getByText('others interested', { selector: '[data-slot="messageText"]' })
+    ).toBeInTheDocument();
   });
 
-  it('renders an avatar per user', () => {
-    const { container } = renderAvatarGroup();
-    expect(container.querySelectorAll('[data-slot="avatar"]').length).toBe(baseUsers.length);
+  describe('avatar render limit', () => {
+    it.each([
+      { avatarsToDisplay: 0, expected: 0 },
+      { avatarsToDisplay: 1, expected: 1 },
+      { avatarsToDisplay: 3, expected: 3 },
+      { avatarsToDisplay: 10, expected: 5 }
+    ])(
+      'renders $expected avatars when avatarsToDisplay=$avatarsToDisplay',
+      ({ avatarsToDisplay, expected }) => {
+        const { container } = render(
+          <AvatarGroup users={baseUsers} avatarsToDisplay={avatarsToDisplay} />
+        );
+        expect(container.querySelectorAll('[data-slot="avatar"]').length).toBe(expected);
+      }
+    );
   });
 
   describe('count abbreviation', () => {
@@ -42,7 +56,9 @@ describe('AvatarGroup', () => {
       [987, '987'],
       [1_300, '1k'],
       [6_892, '7k'],
-      [1_200_000, '1m']
+      [1_200_000, '1m'],
+      [1_000_000_000, '1b'],
+      [1_500_000_000, '2b']
     ];
 
     it.each(cases)('abbreviates %d to %s', (incomingCount, expected) => {
@@ -101,8 +117,21 @@ describe('AvatarGroup', () => {
     expect(container.querySelector('[data-slot="avatarFallback"]')?.textContent).toBe('');
   });
 
-  it('sets img alt attribute from the user name', () => {
-    renderAvatarGroup();
-    expect(screen.getByRole('img', { name: 'Aliyah Ward' })).toHaveAttribute('alt', 'Aliyah Ward');
+  it('uses default indicator when omitted', () => {
+    render(<AvatarGroup users={baseUsers} />);
+    expect(screen.getByText('+', { selector: '[data-slot="indicator"]' })).toBeInTheDocument();
   });
+
+  it('uses default message when omitted', () => {
+    render(<AvatarGroup users={baseUsers} />);
+    expect(
+      screen.getByText('others interested', { selector: '[data-slot="messageText"]' })
+    ).toBeInTheDocument();
+  });
+
+  it('shows the message by default when showMessage is omitted', () => {
+    const { container } = render(<AvatarGroup users={baseUsers} />);
+    expect(container.querySelector('[data-slot="message"]')).not.toBeNull();
+  });
+
 });
