@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Dialog as RadixDialog } from 'radix-ui';
 import { IconButton } from '../IconButton';
-import { CloseIcon, ChevronLeftIcon, ChevronRightIcon } from '../../icons';
+import { CloseIcon, ArrowBackIcon, ArrowForwardIcon } from '../../icons';
 import { collapseWhitespace, composeClasses } from '../../utilities';
 
 type DialogContentElement = React.ComponentRef<typeof RadixDialog.Content>;
@@ -96,14 +96,14 @@ export const Dialog = React.forwardRef<DialogContentElement, DialogProps>(
                 <React.Fragment>
                   <IconButton
                     className={controlLeftClassName}
-                    icon={controlLeftIcon ?? <ChevronLeftIcon />}
+                    icon={controlLeftIcon ?? <ArrowBackIcon />}
                     ariaLabel="Previous"
                     variant="secondary"
                     onClick={onControlLeftClick}
                   />
                   <IconButton
                     className={controlRightClassName}
-                    icon={controlRightIcon ?? <ChevronRightIcon />}
+                    icon={controlRightIcon ?? <ArrowForwardIcon />}
                     ariaLabel="Next"
                     variant="secondary"
                     onClick={onControlRightClick}
