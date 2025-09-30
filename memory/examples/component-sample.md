@@ -1,0 +1,85 @@
+# Component sample template
+
+## Structure
+
+```ts
+// filename (example: // packages/core/src/components/Button/Button.tsx)
+
+// imports
+import { myFunction, MyTypeScriptInterface } from 'mycoolproject';
+import { collapseWhitespace, composeClasses } from '../../utilities';
+
+// typings, interfaces
+// export only component interface
+// name format: ComponentNameProps
+export ButtonProps { ... }
+
+// classes
+// use template literals for classes
+// name format: slotNameClasses
+// base is always `base`. Do not use `root`, `container`, or other common terms
+// do not use objects. This is incorrect: `const slotClasses = { base: ... }`
+const baseClasses = `
+  inline-flex select-none items-center justify-center font-medium text-sm transition-colors border-1
+  disabled:opacity-50 disabled:pointer-events-none whitespace-nowrap focus-visible:ring-comp-border-focus-ring focus-visible:ring
+`;
+
+// component
+export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+  (
+    {
+      variant = 'primary',
+      startIcon,
+      endIcon,
+      loading = false,
+      disabled = false,
+      type = 'button',
+      asChild = false,
+      children,
+      className,
+      ...rest
+    },
+    ref
+  ) => {
+
+  // prop shaping/normilization
+  // do not add guards or throw unless directed
+  // use this space to add variant logic or branching based on prop values
+
+  // class composition
+  // use internal composition functions
+  // name format: slotNameClassName
+  const baseClassName = collapseWhitespace(composeClasses(baseClasses));
+
+  // return
+  // do not use `flatMap` when mapping in JSX
+  // shape any Radix components if necessary
+  const Comp: React.ElementType = asChild ? Slot.Root : 'button';
+
+  return (
+    <Comp
+      ref={ref}
+      className={rootClass}
+      aria-busy={loading || undefined}
+      aria-disabled={effectiveDisabled || undefined}
+      type={type}
+      disabled={effectiveDisabled}
+      {...rest}
+    >
+      {startIcon && (
+        <span className={slotClasses.startIcon} aria-hidden="true">
+          {startIcon}
+        </span>
+      )}
+      <Slot.Slottable>{children}</Slot.Slottable>
+      {endIcon && (
+        <span className={slotClasses.endIcon} aria-hidden="true">
+          {endIcon}
+        </span>
+      )}
+    </Comp>
+  );
+});
+
+// display name
+Button.displayName = 'Button';
