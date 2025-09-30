@@ -28,8 +28,10 @@ const overlayClasses = `
 
 const contentClasses = `
   fixed
-  inset-0
-  m-auto
+  left-1/2
+  top-1/2
+  -translate-x-1/2
+  -translate-y-1/2
   rounded-md
   flex
   flex-col
@@ -37,12 +39,12 @@ const contentClasses = `
   items-center
   p-40
   relative
+  box-border
   bg-modal-dark
   shadow-md
-  max-h-[85vh]
-  overflow-auto
-  ml-20
-  mr-20
+  h-[min(650px,calc(100dvh-40px))]
+  overflow-hidden
+  mx-20
   focus-visible:ring-2
   focus-visible:ring-comp-dialog-focus-color-ring
   focus-visible:ring-offset-2
@@ -56,6 +58,12 @@ const closeClasses = `
   justify-end
 `;
 
+const contentBodyClasses = `
+  w-full
+  flex-1
+  overflow-auto
+`;
+
 const navigationClasses = `
   relative
 `;
@@ -66,6 +74,8 @@ const controlLeftClasses = `
   rounded-full
   opacity-50
   absolute
+  top-1/2
+  -translate-y-1/2
   -left-20
 `;
 
@@ -75,6 +85,8 @@ const controlRightClasses = `
   rounded-full
   opacity-50
   absolute
+  top-1/2
+  -translate-y-1/2
   right-20
 `;
 
@@ -115,6 +127,7 @@ export const Dialog = React.forwardRef<DialogContentElement, DialogProps>(
       })
     );
     const closeClassName = collapseWhitespace(composeClasses(closeClasses));
+    const contentBodyClassName = collapseWhitespace(composeClasses(contentBodyClasses));
     const navigationClassName = collapseWhitespace(composeClasses(navigationClasses));
     const controlLeftClassName = collapseWhitespace(composeClasses(controlLeftClasses));
     const controlRightClassName = collapseWhitespace(composeClasses(controlRightClasses));
@@ -130,7 +143,7 @@ export const Dialog = React.forwardRef<DialogContentElement, DialogProps>(
                 <IconButton icon={closeIcon ?? <CloseIcon />} ariaLabel="Close dialog" />
               </RadixDialog.Close>
             </div>
-            {children}
+            <div className={contentBodyClassName}>{children}</div>
             {hasNavigation ? (
               <div className={navigationClassName}>
                 <IconButton
