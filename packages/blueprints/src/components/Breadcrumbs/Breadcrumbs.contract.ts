@@ -57,25 +57,24 @@ export const BreadcrumbsContract = defineContract({
 
   rules: [
     {
-      validate: ({ items, current }) =>
-        Array.isArray(items) &&
-        items.every(
-          (it: any) =>
-            it &&
-            typeof it.label === 'string' &&
-            it.label.trim().length > 0 &&
-            typeof it.href === 'string' &&
-            it.href.trim().length > 0
-        ) &&
-        typeof current === 'string' &&
-        current.trim().length > 0,
-      message: 'items[].label/href and current must be non-empty strings'
+      hint:
+        'Render semantics: <nav aria-label={ariaLabel}><ol>…</ol></nav>. Non-final crumbs render as TextLink variant="subtle" separated by ChevronRightIcon. Final crumb renders as text with aria-current="page".'
     },
     {
-      hint: 'Render semantics: <nav aria-label={ariaLabel}><ol>…</ol></nav>. Non-final crumbs render as TextLink variant="subtle" separated by ChevronRightIcon. Final crumb renders as text with aria-current="page".'
+      hint:
+        'If items.length >= 5, render: first link → separator → MoreHorizIcon → separator → current (collapse middle crumbs).'
     },
     {
-      hint: 'If items.length >= 5, render: first link → separator → MoreHorizIcon → separator → current (collapse middle crumbs).'
+      hint:
+        'Do not add runtime validation or throws for props (TypeScript enforces shape); it is okay to trim the current label prior to render.'
+    },
+    {
+      hint:
+        'Do not accept or render arbitrary children; accept className via native nav props and compose with base classes.'
+    },
+    {
+      hint:
+        'Separator and ellipsis icons are decorative; implementation uses a subtle content color class on the icon elements.'
     }
   ],
 
