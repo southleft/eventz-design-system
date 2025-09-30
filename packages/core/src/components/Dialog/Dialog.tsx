@@ -4,7 +4,7 @@ import { IconButton } from '../IconButton';
 import { CloseIcon, ChevronLeftIcon, ChevronRightIcon } from '../../icons';
 import { collapseWhitespace, composeClasses } from '../../utilities';
 
-type DialogRootElement = React.ElementRef<typeof RadixDialog.Root>;
+type DialogContentElement = React.ComponentRef<typeof RadixDialog.Content>;
 type DialogRootProps = React.ComponentPropsWithoutRef<typeof RadixDialog.Root>;
 
 export interface DialogProps extends Omit<DialogRootProps, 'children'> {
@@ -18,11 +18,6 @@ export interface DialogProps extends Omit<DialogRootProps, 'children'> {
   onControlRightClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
   children?: React.ReactNode;
 }
-
-const baseClasses = `
-  relative
-  outline-none
-`;
 
 const overlayClasses = `
   fixed
@@ -100,7 +95,7 @@ const sizeLgClasses = `
   max-w-1600
 `;
 
-export const Dialog = React.forwardRef<DialogRootElement, DialogProps>(
+export const Dialog = React.forwardRef<DialogContentElement, DialogProps>(
   (
     {
       trigger,
@@ -112,12 +107,10 @@ export const Dialog = React.forwardRef<DialogRootElement, DialogProps>(
       onControlLeftClick,
       onControlRightClick,
       children,
-      className,
       ...rest
     },
     ref
   ) => {
-    const baseClassName = collapseWhitespace(composeClasses(baseClasses, className));
     const overlayClassName = collapseWhitespace(composeClasses(overlayClasses));
     const contentClassName = collapseWhitespace(
       composeClasses(contentClasses, {
@@ -132,11 +125,11 @@ export const Dialog = React.forwardRef<DialogRootElement, DialogProps>(
     const controlRightClassName = collapseWhitespace(composeClasses(controlRightClasses));
 
     return (
-      <RadixDialog.Root ref={ref} className={baseClassName} {...rest}>
+      <RadixDialog.Root {...rest}>
         <RadixDialog.Trigger asChild>{trigger}</RadixDialog.Trigger>
         <RadixDialog.Portal>
-          <RadixDialog.Overlay className={overlayClassName} />
-          <RadixDialog.Content className={contentClassName}>
+          <RadixDialog.Overlay className={overlayClassName} data-radix-dialog-overlay="" />
+          <RadixDialog.Content ref={ref} className={contentClassName}>
             <div className={closeClassName}>
               <RadixDialog.Close asChild>
                 <IconButton icon={closeIcon ?? <CloseIcon />} ariaLabel="Close dialog" />
