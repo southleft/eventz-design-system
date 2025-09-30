@@ -1,0 +1,32 @@
+import type { Meta, StoryObj } from '@storybook/react';
+import { ChevronLeftIcon, ChevronLeftIconProps } from './ChevronLeftIcon';
+
+const meta: Meta<ChevronLeftIconProps> = {
+  title: 'Icons/ChevronLeftIcon',
+  component: ChevronLeftIcon,
+  args: {
+    decorative: true,
+    color: 'currentColor'
+  },
+  argTypes: {
+    decorative: { control: 'boolean' },
+    title: { control: 'text' },
+    titleId: { control: 'text' },
+    color: { control: 'color' },
+    className: { control: 'text' }
+  }
+};
+
+export default meta;
+
+type Story = StoryObj<ChevronLeftIconProps>;
+
+export const Default: Story = {};
+
+export const NonDecorative: Story = {
+  args: {
+    decorative: false,
+    title: 'Warning status',
+    titleId: 'warning-icon-title'
+  }
+};
