@@ -6,7 +6,7 @@ import { MoreHorizIcon } from '../../icons/MoreHorizIcon';
 import { collapseWhitespace, composeClasses } from '../../utilities';
 
 const baseClasses = ``;
-const listClasses = `flex items-center gap-8`;
+const listClasses = `flex gap-8 list-none`;
 const itemClasses = ``;
 const separatorClasses = `shrink-0`;
 const iconClasses = `text-color-content-subtle`;
