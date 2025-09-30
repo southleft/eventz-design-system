@@ -19,19 +19,26 @@ export interface DialogProps extends Omit<DialogRootProps, 'children'> {
   children?: React.ReactNode;
 }
 
+const centererClasses = `
+  fixed
+  inset-0
+  grid
+  place-items-center
+  p-20
+  pointer-events-none
+`;
+
+const centererClassName = collapseWhitespace(composeClasses(centererClasses));
+
 const overlayClasses = `
   fixed
   inset-0
+  z-0
   bg-modal-dark/50
   data-[state=open]:animate-overlayShow
 `;
 
 const contentClasses = `
-  fixed
-  left-1/2
-  top-1/2
-  -translate-x-1/2
-  -translate-y-1/2
   rounded-md
   flex
   flex-col
@@ -40,11 +47,12 @@ const contentClasses = `
   p-40
   relative
   box-border
+  z-10
+  pointer-events-auto
   bg-modal-dark
   shadow-md
-  h-[min(650px,calc(100dvh-40px))]
-  overflow-hidden
-  mx-20
+  h-[min(650px,calc(100vh-40px))]
+  overflow-auto
   focus-visible:ring-2
   focus-visible:ring-comp-dialog-focus-color-ring
   focus-visible:ring-offset-2
@@ -56,12 +64,6 @@ const closeClasses = `
   w-full
   flex
   justify-end
-`;
-
-const contentBodyClasses = `
-  w-full
-  flex-1
-  overflow-auto
 `;
 
 const navigationClasses = `
@@ -95,10 +97,12 @@ const sizeSmClasses = `
 `;
 
 const sizeMdClasses = `
+  w-full
   max-w-1300
 `;
 
 const sizeLgClasses = `
+  w-full
   max-w-1600
 `;
 
@@ -127,7 +131,6 @@ export const Dialog = React.forwardRef<DialogContentElement, DialogProps>(
       })
     );
     const closeClassName = collapseWhitespace(composeClasses(closeClasses));
-    const contentBodyClassName = collapseWhitespace(composeClasses(contentBodyClasses));
     const navigationClassName = collapseWhitespace(composeClasses(navigationClasses));
     const controlLeftClassName = collapseWhitespace(composeClasses(controlLeftClasses));
     const controlRightClassName = collapseWhitespace(composeClasses(controlRightClasses));
@@ -137,30 +140,32 @@ export const Dialog = React.forwardRef<DialogContentElement, DialogProps>(
         <RadixDialog.Trigger asChild>{trigger}</RadixDialog.Trigger>
         <RadixDialog.Portal>
           <RadixDialog.Overlay className={overlayClassName} data-radix-dialog-overlay="" />
-          <RadixDialog.Content ref={ref} className={contentClassName}>
-            <div className={closeClassName}>
-              <RadixDialog.Close asChild>
-                <IconButton icon={closeIcon ?? <CloseIcon />} ariaLabel="Close dialog" />
-              </RadixDialog.Close>
-            </div>
-            <div className={contentBodyClassName}>{children}</div>
-            {hasNavigation ? (
-              <div className={navigationClassName}>
-                <IconButton
-                  className={controlLeftClassName}
-                  icon={controlLeftIcon ?? <ChevronLeftIcon />}
-                  ariaLabel="Previous"
-                  onClick={onControlLeftClick}
-                />
-                <IconButton
-                  className={controlRightClassName}
-                  icon={controlRightIcon ?? <ChevronRightIcon />}
-                  ariaLabel="Next"
-                  onClick={onControlRightClick}
-                />
+          <div className={centererClassName}>
+            <RadixDialog.Content ref={ref} className={contentClassName}>
+              <div className={closeClassName}>
+                <RadixDialog.Close asChild>
+                  <IconButton icon={closeIcon ?? <CloseIcon />} ariaLabel="Close dialog" />
+                </RadixDialog.Close>
               </div>
-            ) : null}
-          </RadixDialog.Content>
+              {children}
+              {hasNavigation ? (
+                <div className={navigationClassName}>
+                  <IconButton
+                    className={controlLeftClassName}
+                    icon={controlLeftIcon ?? <ChevronLeftIcon />}
+                    ariaLabel="Previous"
+                    onClick={onControlLeftClick}
+                  />
+                  <IconButton
+                    className={controlRightClassName}
+                    icon={controlRightIcon ?? <ChevronRightIcon />}
+                    ariaLabel="Next"
+                    onClick={onControlRightClick}
+                  />
+                </div>
+              ) : null}
+            </RadixDialog.Content>
+          </div>
         </RadixDialog.Portal>
       </RadixDialog.Root>
     );
