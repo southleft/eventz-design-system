@@ -19,92 +19,20 @@ export interface DialogProps extends Omit<DialogRootProps, 'children'> {
   children?: React.ReactNode;
 }
 
-const centererClasses = `
-  fixed
-  inset-0
-  grid
-  place-items-center
-  p-20
-  pointer-events-none
-`;
-
-const centererClassName = collapseWhitespace(composeClasses(centererClasses));
-
-const overlayClasses = `
-  fixed
-  inset-0
-  z-0
-  bg-modal-dark/50
-  data-[state=open]:animate-overlayShow
-`;
-
+const centererClasses = `fixed inset-0 grid place-items-center p-20 pointer-events-none`;
+const overlayClasses = `fixed inset-0 z-0 bg-color-background-inverted/50 data-[state=open]:animate-overlayShow`;
 const contentClasses = `
-  rounded-md
-  flex
-  flex-col
-  gap-8
-  items-center
-  p-40
-  relative
-  box-border
-  z-10
-  pointer-events-auto
-  bg-modal-dark
-  shadow-md
-  h-[min(650px,calc(100vh-40px))]
-  overflow-auto
-  focus-visible:ring-2
-  focus-visible:ring-comp-dialog-focus-color-ring
-  focus-visible:ring-offset-2
-  outline-none
+  rounded-md flex flex-col gap-8 items-center p-40 relative box-border z-10 outline-none text-color-content-default
+  pointer-events-auto bg-background-modal-dark shadow-md h-[min(650px,calc(100vh-40px))] overflow-auto
+  focus-visible:ring-2 focus-visible:ring-offset-4 focus-visible:ring-comp-border-focus-ring focus-visible:ring-offset-color-background-default
 `;
-
-const closeClasses = `
-  h-40
-  w-full
-  flex
-  justify-end
-`;
-
-const navigationClasses = `
-  relative
-`;
-
-const controlLeftClasses = `
-  h-40
-  w-40
-  rounded-full
-  opacity-50
-  absolute
-  top-1/2
-  -translate-y-1/2
-  -left-20
-`;
-
-const controlRightClasses = `
-  h-40
-  w-40
-  rounded-full
-  opacity-50
-  absolute
-  top-1/2
-  -translate-y-1/2
-  right-20
-`;
-
-const sizeSmClasses = `
-  w-600
-`;
-
-const sizeMdClasses = `
-  w-full
-  max-w-1300
-`;
-
-const sizeLgClasses = `
-  w-full
-  max-w-1600
-`;
+const closeClasses = `h-40 w-full flex justify-end`;
+const navigationClasses = `relative`;
+const controlLeftClasses = `h-40 w-40 rounded-full opacity-50 absolute top-1/2 -translate-y-1/2 -left-20`;
+const controlRightClasses = `h-40 w-40 rounded-full opacity-50 absolute top-1/2 -translate-y-1/2 right-20`;
+const sizeSmClasses = `w-600`;
+const sizeMdClasses = `w-full max-w-1300`;
+const sizeLgClasses = `w-full max-w-1600`;
 
 export const Dialog = React.forwardRef<DialogContentElement, DialogProps>(
   (
@@ -123,6 +51,7 @@ export const Dialog = React.forwardRef<DialogContentElement, DialogProps>(
     ref
   ) => {
     const overlayClassName = collapseWhitespace(composeClasses(overlayClasses));
+    const centererClassName = collapseWhitespace(composeClasses(centererClasses));
     const contentClassName = collapseWhitespace(
       composeClasses(contentClasses, {
         [sizeSmClasses]: size === 'sm',

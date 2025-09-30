@@ -41,6 +41,7 @@
   --color-color-background-brand: var(--dt-color-background-brand);
   --color-color-background-brand-hover: var(--dt-color-background-brand-hover);
   --color-color-background-default: var(--dt-color-background-default);
+  --color-color-background-inverted: var(--dt-color-background-inverted);
   --color-color-background-subtle: var(--dt-color-background-subtle);
   --color-color-background-subtle-hover: var(--dt-color-background-subtle-hover);
   --color-color-background-weak: var(--dt-color-background-weak);
@@ -148,6 +149,8 @@
   --spacing-3: calc(var(--dt-spacing-3) * 1px);
   --spacing-3_5: calc(var(--dt-spacing-3-5) * 1px);
   --spacing-4: calc(var(--dt-spacing-4) * 1px);
+
+  /* Shadows */
 }
 
 @import 'tailwindcss/utilities';
@@ -176,6 +179,9 @@
   }
   .bg-gradient-utility-danger {
     background-image: var(--dt-utility-danger);
+  }
+  .bg-background-modal-dark {
+    background-image: var(--dt-background-modal-dark);
   }
 
   /* Focus ring token hook (Tailwind’s ring system uses --tw-ring-color) */
