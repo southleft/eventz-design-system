@@ -21,7 +21,7 @@ type Story = StoryObj<typeof Dialog>;
 const renderTrigger = (label: string) => <button type="button">{label}</button>;
 
 const renderContent = () => (
-  <div>
+  <div style={{ width: '100%' }}>
     <h2>Team Upgrade</h2>
     <p>Use the navigation controls to preview team members or close to exit.</p>
   </div>
