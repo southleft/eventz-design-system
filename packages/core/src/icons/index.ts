@@ -1,3 +1,4 @@
+export * from './ArrowBackIcon';
 export * from './CircleCheckIcon';
 export * from './CloseIcon';
 export * from './ErrorIcon';
