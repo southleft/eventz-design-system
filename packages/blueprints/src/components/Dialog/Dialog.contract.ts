@@ -2,46 +2,38 @@ import { defineContract } from '../../utilities';
 
 export const DialogContract = defineContract({
   component: 'Dialog',
-  description:
-    'Modal overlay using Radix Dialog. Required trigger; optional left/right navigation controls; three sizes.',
-  // Radix Primitive base (Themes disallowed)
+  description: 'Modal overlay using Radix Dialog. Required trigger; optional left/right navigation controls; three sizes.',
   base: 'Dialog',
 
-  // Public API
   props: {
-    // Required: consumer-provided trigger rendered via <Dialog.Trigger asChild>
     trigger: { type: 'slot', required: true },
 
-    // Size axis (no variants). Default is medium.
     size: { type: 'enum', options: ['sm', 'md', 'lg'] as const, default: 'md' },
 
-    // Optional navigation (both controls shown when true)
     hasNavigation: { type: 'boolean', default: false },
 
-    // Icon slots for internal IconButtons (visual defaults are runtime concerns)
     closeIcon: { type: 'slot' },
     controlLeftIcon: { type: 'slot' },
     controlRightIcon: { type: 'slot' },
 
-    // Optional callbacks passed through to the corresponding controls
-    onControlLeftClick: { type: 'callback', args: ['e: event'] },
-    onControlRightClick: { type: 'callback', args: ['e: event'] }
+    onControlLeftClick: { type: 'callback', args: ['event'] },
+    onControlRightClick: { type: 'callback', args: ['event'] }
   },
 
-  // Slots in render order (consumer content lives in `content`)
-  // Note: `closeIcon`, `controlLeftIcon`, `controlRightIcon` are slot props above.
+  // Structural slots (parity with styleMap)
   slots: [
-    'trigger', // Dialog.Trigger (asChild)
-    'content', // children area inside Dialog.Content
-    'closeIcon', // icon rendered via IconButton in a close row
-    'controlLeftIcon',
-    'controlRightIcon'
+    'trigger',
+    'portal',
+    'overlay',
+    'content',
+    'close',
+    'navigation',
+    'controlLeft',
+    'controlRight'
   ] as const,
 
-  // StyleMap pairing enabled
   styleMap: true,
 
-  // Structural/a11y hints for the generator (non-styling)
   hints: {
     radixAdapter: { uses: ['Dialog'] as const },
     notes: [

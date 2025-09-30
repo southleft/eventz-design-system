@@ -1,13 +1,10 @@
 import { defineStyleMap } from '../../utilities';
 
 export const DialogStyleMap = defineStyleMap({
-  // Keep root minimal; most styling lives on slots
   base: ['relative', 'outline-none'] as const,
 
-  // Slot classes (token-first; utilities where tokens don’t exist)
-  // container = Dialog.Content
   slots: {
-    container: [
+    content: [
       'fixed', 'left-1/2', 'top-1/2', '-translate-x-1/2', '-translate-y-1/2',
       'rounded-md', 'flex', 'flex-col', 'gap-8', 'items-center', 'p-40', 'relative',
       'bg-modal-dark', 'shadow-md',
@@ -24,7 +21,6 @@ export const DialogStyleMap = defineStyleMap({
 
     portal: [] as const,
 
-    // Close row sits above the content block; spacing handled via container gap
     close: ['h-40', 'w-full', 'flex', 'justify-end'] as const,
 
     navigation: ['relative'] as const,
@@ -33,16 +29,13 @@ export const DialogStyleMap = defineStyleMap({
     controlRight: ['h-40', 'w-40', 'rounded-full', 'opacity-50', 'absolute', 'top-1/2', '-translate-y-1/2', 'right-20'] as const
   },
 
-  // No layout toggles for now
   layout: {},
 
-  // No visual variants for Dialog
   variants: {},
 
-  // Size axis modeled as state flags
   state: {
-    sizeSm: ['w-600'] as const,        // fixed width small
-    sizeMd: ['max-w-1300'] as const,   // responsive medium
-    sizeLg: ['max-w-1600'] as const    // responsive large
+    sizeSm: ['w-600'] as const,
+    sizeMd: ['max-w-1300'] as const,
+    sizeLg: ['max-w-1600'] as const
   }
 });
