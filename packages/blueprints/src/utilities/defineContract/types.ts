@@ -5,10 +5,12 @@ export type ContractPropKind =
   | 'string'
   | 'boolean'
   | 'number'
+  | 'object'
   | 'enum'
   | 'slot'
   | 'event'
-  | 'callback';
+  | 'callback'
+  | 'array';
 
 /** Base shape shared by all prop definitions. */
 interface BasePropDef {
@@ -39,7 +41,20 @@ export interface NumberPropDef extends BasePropDef {
 /** Object prop. */
 export interface ObjectPropDef extends BasePropDef {
   type: 'object';
+  /** Optional object shape description (per-property PropDef). */
+  shape?: Record<string, PropDef>;
   default?: object;
+}
+
+/** Array prop. */
+export interface ArrayPropDef extends BasePropDef {
+  type: 'array';
+  /** Element definition: may be any PropDef, including an object with a `shape`. */
+  of: PropDef | (ObjectPropDef & { type: 'object'; shape: Record<string, PropDef> });
+  /** Optional item count constraints. */
+  minItems?: number;
+  maxItems?: number;
+  default?: unknown[];
 }
 
 /**
@@ -79,6 +94,7 @@ export type PropDef =
   | BooleanPropDef
   | NumberPropDef
   | ObjectPropDef
+  | ArrayPropDef
   | SlotPropDef
   | EnumPropDef
   | EventPropDef
@@ -88,23 +104,30 @@ export type PropDef =
 export type PropsTable = Record<string, PropDef>;
 
 /** Simple implication/validation rules to guide generators. */
-export type ContractRule =
-  | {
-      /** A small validator; return true when props are valid. */
-      validate: (props: Record<string, unknown>) => boolean;
-      /** Message to show when validate returns false. */
-      message: string;
-    }
-  | {
-      /** When these props are true/equal, imply the following props/values. */
-      when: Partial<Record<string, unknown>>;
-      /** Props/values to imply when `when` matches. */
-      imply?: Partial<Record<string, unknown>>;
-      /** Optional human hint for the agent. */
-      hint?: string;
-      /** Optional message to display when implication is applied. */
-      message?: string;
-    };
+interface ValidateRule {
+  /** A small validator; return true when props are valid. */
+  validate: (props: Record<string, unknown>) => boolean;
+  /** Message to show when validate returns false. */
+  message: string;
+}
+
+interface ImplyRule {
+  /** When these props are true/equal, imply the following props/values. */
+  when: Partial<Record<string, unknown>>;
+  /** Props/values to imply when `when` matches. */
+  imply?: Partial<Record<string, unknown>>;
+  /** Optional human hint for the agent. */
+  hint?: string;
+  /** Optional message to display when implication is applied. */
+  message?: string;
+}
+
+interface HintRule {
+  /** Informational guidance for generators; no validation or implication. */
+  hint: string;
+}
+
+export type ContractRule = ValidateRule | ImplyRule | HintRule;
 
 /** Layout node for composing slots. */
 export interface LayoutNode {
