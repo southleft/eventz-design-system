@@ -4,3 +4,5 @@ export * from './ErrorIcon';
 export * from './InfoIcon';
 export * from './KeyboardArrowDownIcon';
 export * from './WarningIcon';
+export * from './ChevronLeftIcon';
+export * from './ChevronRightIcon';

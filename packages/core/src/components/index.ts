@@ -5,6 +5,7 @@ export * from './Button';
 export * from './Checkbox';
 export * from './CheckboxGroup';
 export * from './Control';
+export * from './Dialog';
 export * from './ExpandableContent';
 export * from './IconButton';
 export * from './Input';
