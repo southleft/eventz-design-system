@@ -44,6 +44,13 @@ describe('Dialog', () => {
     expect(result).toEqual(['dialog', true]);
   });
 
+  it('renders provided closeIcon node', async () => {
+    await openDialog({ closeIcon: <span data-testid="custom-close" /> });
+    const node = screen.getByTestId('custom-close');
+    const result = Boolean(node);
+    expect(result).toBe(true);
+  });
+
   it.each([
     ['sm', 'w-600'],
     ['md', 'max-w-1300'],
@@ -59,6 +66,19 @@ describe('Dialog', () => {
     const previous = screen.getByRole('button', { name: 'Previous' });
     const next = screen.getByRole('button', { name: 'Next' });
     const result = [Boolean(previous), Boolean(next)];
+    expect(result).toEqual([true, true]);
+  });
+
+  it('renders provided navigation icon nodes when supplied', async () => {
+    await openDialog({
+      hasNavigation: true,
+      controlLeftIcon: <span data-testid="custom-left" />,
+      controlRightIcon: <span data-testid="custom-right" />
+    });
+    const result = [
+      Boolean(screen.getByTestId('custom-left')),
+      Boolean(screen.getByTestId('custom-right'))
+    ];
     expect(result).toEqual([true, true]);
   });
 
