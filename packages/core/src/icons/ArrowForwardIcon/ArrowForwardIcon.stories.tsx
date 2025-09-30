@@ -1,0 +1,32 @@
+import type { Meta, StoryObj } from '@storybook/react';
+import { ArrowForwardIcon, ArrowForwardIconProps } from './ArrowForwardIcon';
+
+const meta: Meta<ArrowForwardIconProps> = {
+  title: 'Icons/ArrowForwardIcon',
+  component: ArrowForwardIcon,
+  args: {
+    decorative: true,
+    color: 'currentColor'
+  },
+  argTypes: {
+    decorative: { control: 'boolean' },
+    title: { control: 'text' },
+    titleId: { control: 'text' },
+    color: { control: 'color' },
+    className: { control: 'text' }
+  }
+};
+
+export default meta;
+
+type Story = StoryObj<ArrowForwardIconProps>;
+
+export const Default: Story = {};
+
+export const NonDecorative: Story = {
+  args: {
+    decorative: false,
+    title: 'Warning status',
+    titleId: 'warning-icon-title'
+  }
+};
