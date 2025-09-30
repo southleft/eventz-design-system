@@ -23,7 +23,7 @@ const centererClasses = `fixed inset-0 grid place-items-center p-20 pointer-even
 const overlayClasses = `fixed inset-0 z-0 bg-color-background-inverted/50 data-[state=open]:animate-overlayShow`;
 const contentClasses = `
   rounded-md flex flex-col gap-8 items-center p-40 relative box-border z-10 outline-none text-color-content-default
-  pointer-events-auto bg-background-modal-dark shadow-md h-[min(650px,calc(100vh-40px))] overflow-auto
+  pointer-events-auto bg-background-modal-dark shadow-(--shadow-shadows-shadow-6) h-[min(650px,calc(100vh-40px))] overflow-auto
   focus-visible:ring-2 focus-visible:ring-offset-4 focus-visible:ring-comp-border-focus-ring focus-visible:ring-offset-color-background-default
 `;
 const closeClasses = `h-40 w-full flex justify-end`;

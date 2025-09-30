@@ -138,6 +138,9 @@
   --radius-2xl: calc(var(--dt-border-radius-16) * 1px);
   --radius-3xl: calc(var(--dt-border-radius-24) * 1px);
 
+  /* Shadows */
+  --shadow-shadows-shadow-6: var(--dt-shadows-shadow-6);
+
   /* Spacing */
   --spacing: 1px;
   --spacing-0: 0px;
@@ -149,8 +152,6 @@
   --spacing-3: calc(var(--dt-spacing-3) * 1px);
   --spacing-3_5: calc(var(--dt-spacing-3-5) * 1px);
   --spacing-4: calc(var(--dt-spacing-4) * 1px);
-
-  /* Shadows */
 }
 
 @import 'tailwindcss/utilities';
