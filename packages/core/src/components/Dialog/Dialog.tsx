@@ -28,10 +28,8 @@ const overlayClasses = `
 
 const contentClasses = `
   fixed
-  left-1/2
-  top-1/2
-  -translate-x-1/2
-  -translate-y-1/2
+  inset-0
+  m-auto
   rounded-md
   flex
   flex-col
@@ -41,7 +39,8 @@ const contentClasses = `
   relative
   bg-modal-dark
   shadow-md
-  h-650
+  max-h-[85vh]
+  overflow-auto
   ml-20
   mr-20
   focus-visible:ring-2
@@ -67,8 +66,6 @@ const controlLeftClasses = `
   rounded-full
   opacity-50
   absolute
-  top-1/2
-  -translate-y-1/2
   -left-20
 `;
 
@@ -78,8 +75,6 @@ const controlRightClasses = `
   rounded-full
   opacity-50
   absolute
-  top-1/2
-  -translate-y-1/2
   right-20
 `;
 
