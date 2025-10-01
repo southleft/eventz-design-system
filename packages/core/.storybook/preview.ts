@@ -3,6 +3,7 @@ import type { Preview } from '@storybook/react';
 
 function applyScheme(scheme: 'dark' | 'light') {
   const root = document.documentElement;
+  const IS_CHROMATIC = (window as any).IS_CHROMATIC === true;
 
   // Set the attribute your CSS scopes on
   root.setAttribute('data-theme', scheme);
@@ -13,10 +14,18 @@ function applyScheme(scheme: 'dark' | 'light') {
 
   // Native hint for form controls, scrollbars, etc.
   if (scheme === 'light') {
+    // In light mode we always hint the UA for consistent widgets
     root.style.colorScheme = 'light';
   } else {
-    root.style.removeProperty('color-scheme');
+    // Locally we avoid setting a dark hint (tokens at :root are the source of truth),
+    // but Chromatic needs an explicit hint for deterministic snapshots.
+    if (IS_CHROMATIC) {
+      root.style.colorScheme = 'dark';
+    } else {
+      root.style.removeProperty('color-scheme');
+    }
   }
+
   // Only add a color-scheme meta tag for light mode; dark mode works best with no meta tag.
   let meta = document.querySelector('meta[name="color-scheme"]') as HTMLMetaElement | null;
   if (scheme === 'light') {
