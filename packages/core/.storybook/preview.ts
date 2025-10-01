@@ -1,5 +1,6 @@
+// must be the source, not dist
+import '../styles/css/index.css';
 import type { Preview } from '@storybook/react-vite';
-import '../dist/styles.css';
 
 const preview: Preview = {
   parameters: {

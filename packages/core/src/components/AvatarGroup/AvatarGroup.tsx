@@ -30,7 +30,7 @@ const avatarFallbackClasses = `
   flex items-center justify-center overflow-hidden rounded-full bg-background-none text-base font-medium
   w-24 h-24 lg:w-32 lg:h-32 -mr-12 lg:-mr-18
 `;
-const messageClasses = `inline-flex gap-[4] text-color-content-subtle text-sm ml-12 lg:ml-18`;
+const messageClasses = `inline-flex gap-[4px] text-color-content-subtle text-sm ml-12 lg:ml-18`;
 const indicatorClasses = ``;
 const countClasses = ``;
 const messageTextClasses = ``;
