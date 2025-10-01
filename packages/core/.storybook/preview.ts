@@ -1,4 +1,4 @@
-import '../styles/css/index.css';
+import '../dist/styles.css';
 import type { Preview } from '@storybook/react';
 
 /** Robust Chromatic detection: boolean true, string "true", or html[data-chromatic="true"] */
