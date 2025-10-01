@@ -32,14 +32,7 @@ export const Default: Story = {
     size: 'md'
   },
   render: args => {
-    const {
-      trigger: _trigger,
-      children: _children,
-      open: _open,
-      defaultOpen: _defaultOpen,
-      onOpenChange: _onOpenChange,
-      ...rest
-    } = args as DialogProps;
+    const { ...rest } = args as DialogProps;
 
     return (
       <Dialog {...rest} trigger={renderTrigger('Open dialog')}>
@@ -54,14 +47,7 @@ export const WithNavigation: Story = {
     hasNavigation: true
   },
   render: args => {
-    const {
-      trigger: _trigger,
-      children: _children,
-      open: _open,
-      defaultOpen: _defaultOpen,
-      onOpenChange: _onOpenChange,
-      ...rest
-    } = args as DialogProps;
+    const { ...rest } = args as DialogProps;
 
     return (
       <Dialog {...rest} trigger={renderTrigger('Open dialog with navigation')}>
@@ -76,15 +62,7 @@ export const Sizes: Story = {
     hasNavigation: false
   },
   render: args => {
-    const {
-      trigger: _trigger,
-      children: _children,
-      size: _size,
-      open: _open,
-      defaultOpen: _defaultOpen,
-      onOpenChange: _onOpenChange,
-      ...rest
-    } = args as DialogProps;
+    const { ...rest } = args as DialogProps;
 
     return (
       <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
