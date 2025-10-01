@@ -17,8 +17,13 @@ function applyScheme(scheme: 'dark' | 'light') {
   root.classList.toggle('dark', scheme === 'dark');
   root.classList.toggle('light', scheme === 'light');
 
-  // UA hint for form controls/scrollbars: always mirror the selected scheme
-  root.style.colorScheme = scheme;
+  // UA hint for form controls/scrollbars
+  if (scheme === 'light') {
+    root.style.colorScheme = 'light';
+  } else {
+    // Do not set a dark UA hint; rely on :root tokens to avoid color mismatches
+    root.style.removeProperty('color-scheme');
+  }
 
   // Only add a color-scheme meta tag for light mode; dark mode works best with no meta tag.
   let meta = document.querySelector('meta[name="color-scheme"]') as HTMLMetaElement | null;
@@ -33,6 +38,19 @@ function applyScheme(scheme: 'dark' | 'light') {
     if (meta) meta.remove();
   }
 }
+
+// Apply an initial scheme as early as possible based on URL globals (Chromatic/Storybook pass ?globals=...)
+function readInitialSchemeFromURL(): 'dark' | 'light' {
+  try {
+    const params = new URLSearchParams(window.location.search);
+    const g = params.get('globals');
+    if (g && /colorScheme:light/.test(g)) return 'light';
+  } catch {}
+  return 'dark';
+}
+
+// Early application prevents a light-first flash and ensures CI starts in dark unless explicitly overridden
+applyScheme(readInitialSchemeFromURL());
 
 export const globalTypes = {
   colorScheme: {
@@ -66,7 +84,8 @@ export const decorators = [
 const preview: Preview = {
   parameters: {
     controls: { matchers: { color: /(background|color)$/i, date: /Date$/i } },
-    backgrounds: { disable: true }
+    backgrounds: { disable: true },
+    chromatic: { viewMode: 'story' }
   }
 };
 
