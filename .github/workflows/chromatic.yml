@@ -22,9 +22,6 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
       - name: Run Chromatic (CLI)
-        uses: chromaui/action@latest --debug
-        with:
-          # ⚠️ Make sure to configure a `CHROMATIC_PROJECT_TOKEN` repository secret
-          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
-          workingDir: packages/core # <- path to the package that contains .storybook
-          buildScriptName: build-storybook
+        run: pnpm -F @doxyz/core chromatic -- --only-changed=false --debug
+        env:
+          CHROMATIC_PROJECT_TOKEN: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
