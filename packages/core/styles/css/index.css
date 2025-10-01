@@ -1,7 +1,7 @@
 @import 'tailwindcss/theme.css';
 @import './tokens.css';
 @import './light.css';
-
+@import 'tailwindcss/utilities';
 @layer base {
   html {
     font-size: var(--text-base-font, 16px);
@@ -18,8 +18,16 @@
 
 @plugin 'tailwindcss-radix';
 
+@source '../../src/**/*.{ts,tsx,js,jsx,mdx}';
+@source '../../.storybook/**/*.{ts,tsx,js,jsx,mdx}';
+
+/* Also include monorepo stories/components that might be imported here.
+   Keeping both relative bases covers CSS-file-relative and CWD resolution differences. */
 @source './src/**/*.{ts,tsx,js,jsx,mdx}';
-@source './.storybook/**/*.{ts,tsx,js.jsx,mdx}';
+@source './.storybook/**/*.{ts,tsx,js,jsx,mdx}';
+
+/* Always grab stories (commonly the only place certain classes appear) */
+@source '../../**/*.stories.@(ts|tsx|mdx)';
 
 @theme {
   /* Brand scale */
@@ -153,8 +161,6 @@
   --spacing-3_5: calc(var(--dt-spacing-3-5) * 1px);
   --spacing-4: calc(var(--dt-spacing-4) * 1px);
 }
-
-@import 'tailwindcss/utilities';
 
 @layer utilities {
   .bg-gradient-purple {

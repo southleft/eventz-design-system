@@ -28,9 +28,9 @@
     "build": "vite build --mode lib && pnpm run build:tokens && pnpm run build:css",
     "build:tokens": "node scripts/build-tokens.js",
     "build:css": "pnpm exec tailwindcss -i ./styles/css/index.css -o ./dist/styles.css --minify",
-    "chromatic": "chromatic --project-token=chpt_758de87493596a5 --no-interactive --exit-once-uploaded",
+    "chromatic": "pnpm run build-storybook && chromatic --project-token=chpt_758de87493596a5 --storybook-build-dir=storybook-static --no-interactive --exit-once-uploaded",
     "dev:css": "pnpm exec tailwindcss -i ./styles/css/index.css -o ./styles/css/styles.css --watch",
-    "storybook": "pnpm run build:tokens && pnpm run build:css && storybook dev -p 6006",
+    "storybook": "pnpm exec concurrently -n TOKENS,SB -c cyan,magenta \"pnpm run watch:tokens:once\" \"pnpm exec storybook dev -p 6006\"",
     "build-storybook": "pnpm run build:tokens && pnpm run build:css && storybook build",
     "clean": "rimraf dist",
     "rebuild": "pnpm run clean && pnpm run build",
@@ -42,7 +42,9 @@
     "test:coverage": "jest --config jest.config.ts --coverage",
     "test:dev": "jest --config jest.config.ts --clearCache && jest --coverage --maxWorkers=50%",
     "type-check": "tsc -b",
-    "prepublishOnly": "pnpm run build"
+    "prepublishOnly": "pnpm run build",
+    "watch:tokens": "pnpm exec chokidar \"styles/tokens/**/*.{json,js,ts}\" -c \"node scripts/build-tokens.js\"",
+    "watch:tokens:once": "node scripts/build-tokens.js && pnpm run watch:tokens"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^4.1.0",
@@ -52,6 +54,7 @@
     "@storybook/react": "^9.1.4",
     "@storybook/react-vite": "^9.1.1",
     "@tailwindcss/cli": "^4",
+    "@tailwindcss/postcss": "^4.1.13",
     "@testing-library/jest-dom": "^6.4.0",
     "@testing-library/react": "^16.0.0",
     "@tsconfig/node20": "^20.1.6",
@@ -82,7 +85,9 @@
     "tailwindcss-radix": "^4.0.2",
     "typescript-eslint": "^8.43.0",
     "vite": "^5.4.0",
-    "vite-plugin-dts": "^3.9.1"
+    "vite-plugin-dts": "^3.9.1",
+    "chokidar-cli": "^3.0.0",
+    "concurrently": "^8.2.2"
   },
   "dependencies": {
     "@radix-ui/react-icons": "^1.3.2",
