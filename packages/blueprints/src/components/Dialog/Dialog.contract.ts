@@ -20,16 +20,17 @@ export const DialogContract = defineContract({
     onControlRightClick: { type: 'callback', args: ['event'] }
   },
 
-  // Structural slots (parity with styleMap)
+  // Structural slots (updated to match runtime)
   slots: [
     'trigger',
     'portal',
     'overlay',
-    'content',
-    'close',
-    'navigation',
-    'controlLeft',
-    'controlRight'
+    'centerer',     // full-screen grid wrapper that centers content and provides 20px gutters
+    'content',      // actual modal surface
+    'close',        // close row (IconButton lives here)
+    'contentBody',  // scrollable body wrapper for children
+    'controlLeft',  // left nav IconButton
+    'controlRight'  // right nav IconButton
   ] as const,
 
   styleMap: true,
@@ -37,12 +38,12 @@ export const DialogContract = defineContract({
   hints: {
     radixAdapter: { uses: ['Dialog'] as const },
     notes: [
-      'Render structure: Root → Trigger(asChild) + Portal(Overlay + Content).',
-      'Inside Content: a close row (IconButton), then the consumer content.',
-      'When hasNavigation=true, render both left/right IconButtons absolutely positioned around content.',
-      'Icon-only controls (close/left/right) require non-empty aria-labels at runtime and icons should be aria-hidden.',
-      'Overlay click and Escape to close use Radix defaults (no extra handling here).',
-      'Root passes through Radix Root props at runtime; do not invent additional props.'
+      'Render: Root → Trigger(asChild) + Portal(Overlay + Centerer(div) + Content).',
+      'Content is centered by the Centerer grid; Content itself is not positioned.',
+      'Content height clamps to min(650px, 100vh - 40px) and scroll lives in the contentBody wrapper.',
+      'When hasNavigation=true, render both left/right IconButtons positioned to protrude ±20px from the content edges.',
+      'Icon-only controls (close/left/right) require non-empty aria-labels; icons are decorative.',
+      'Overlay click and Escape close use Radix defaults.'
     ] as const
   }
 });
