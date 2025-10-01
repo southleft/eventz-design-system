@@ -3,7 +3,7 @@ name: 'Chromatic'
 on:
   push:
     branches:
-      - development
+      - test/debug_chromatic_light_mode
 
 jobs:
   chromatic:

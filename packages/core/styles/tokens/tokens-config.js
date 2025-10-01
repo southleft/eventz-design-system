@@ -36,12 +36,7 @@ export const configs = [
           {
             destination: 'light.css',
             format: 'css/variables-with-selector',
-            selector: '[data-theme="light"]',
-            // Only variables *defined in* light.json (references resolved via Default+Dark)
-            filter: t => {
-              const fp = String(t.filePath || '');
-              return /(^|[\\/])theme[\\/]+light\.json$/i.test(fp);
-            }
+            selector: '[data-theme="light"]'
           }
         ]
       }
