@@ -36,8 +36,8 @@ export const DialogStyleMap = defineStyleMap({
     contentBody: ['w-full','flex-1','min-h-0','overflow-auto'] as const,
 
     // absolute nav controls that protrude 20px beyond edges; round & above content
-    controlLeft:  ['h-40','w-40','!rounded-full','opacity-50','absolute','z-20','pointer-events-auto','top-1/2','-translate-y-1/2','-left-20'] as const,
-    controlRight: ['h-40','w-40','!rounded-full','opacity-50','absolute','z-20','pointer-events-auto','top-1/2','-translate-y-1/2','-right-20'] as const,
+    controlLeft:  ['h-40','w-40','!rounded-full','border-none','absolute','z-20','pointer-events-auto','top-1/2','-translate-y-1/2','-left-20'] as const,
+    controlRight: ['h-40','w-40','!rounded-full','border-none','absolute','z-20','pointer-events-auto','top-1/2','-translate-y-1/2','-right-20'] as const,
 
     // portal kept for structural parity (Radix Portal does not accept className)
     portal: [] as const
