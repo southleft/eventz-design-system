@@ -43,6 +43,19 @@ function applyScheme(scheme: 'dark' | 'light') {
   }
 }
 
+// Keep the selected scheme enforced even if something else toggles attributes
+function lockScheme(desired: 'dark' | 'light') {
+  const root = document.documentElement;
+  const ensure = () => {
+    const current = root.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+    if (current !== desired) applyScheme(desired);
+  };
+  // Run immediately and observe future mutations
+  ensure();
+  const observer = new MutationObserver(() => ensure());
+  observer.observe(root, { attributes: true, attributeFilter: ['data-theme', 'class'] });
+}
+
 // Apply an initial scheme as early as possible based on URL globals (Chromatic/Storybook pass ?globals=...)
 function readInitialSchemeFromURL(): 'dark' | 'light' {
   try {
@@ -54,7 +67,9 @@ function readInitialSchemeFromURL(): 'dark' | 'light' {
 }
 
 // Early application prevents a light-first flash and ensures CI starts in dark unless explicitly overridden
-applyScheme(readInitialSchemeFromURL());
+const __initial = readInitialSchemeFromURL();
+applyScheme(__initial);
+lockScheme(__initial);
 
 export const globalTypes = {
   colorScheme: {
