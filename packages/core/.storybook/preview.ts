@@ -1,4 +1,8 @@
 import '../dist/styles.css';
+// Set a safe default immediately to avoid light-first renders in CI
+document.documentElement.setAttribute('data-theme', 'dark');
+document.documentElement.classList.add('dark');
+document.documentElement.classList.remove('light');
 import type { Preview } from '@storybook/react';
 
 /** Robust Chromatic detection: boolean true, string "true", or html[data-chromatic="true"] */
@@ -85,7 +89,7 @@ const preview: Preview = {
   parameters: {
     controls: { matchers: { color: /(background|color)$/i, date: /Date$/i } },
     backgrounds: { disable: true },
-    chromatic: { viewMode: 'story' }
+    chromatic: { viewMode: 'story', delay: 300 }
   }
 };
 
