@@ -76,6 +76,15 @@
   --color-comp-border-none: var(--dt-comp-border-none);
 
   /* Button (component tokens) */
+  --color-comp-button-primary-color-background-default: var(
+    --dt-comp-button-primary-color-background-default
+  );
+  --color-comp-button-primary-color-background-hover: var(
+    --dt-comp-button-primary-color-background-hover
+  );
+  --color-comp-button-primary-color-background-active: var(
+    --dt-comp-button-primary-color-background-active
+  );
   --color-comp-button-color-background-default: var(--dt-comp-button-color-background-default);
   --color-comp-button-color-background-hover: var(--dt-comp-button-color-background-hover);
   --color-comp-button-color-background-active: var(--dt-comp-button-color-background-active);

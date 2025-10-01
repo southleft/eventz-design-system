@@ -67,6 +67,15 @@
   --color-color-content-weak-hover: var(--dt-color-content-weak-hover);
   --color-comp-border-focus-ring: var(--dt-comp-border-focus-ring);
   --color-comp-border-none: var(--dt-comp-border-none);
+  --color-comp-button-primary-color-background-default: var(
+    --dt-comp-button-primary-color-background-default
+  );
+  --color-comp-button-primary-color-background-hover: var(
+    --dt-comp-button-primary-color-background-hover
+  );
+  --color-comp-button-primary-color-background-active: var(
+    --dt-comp-button-primary-color-background-active
+  );
   --color-comp-button-color-background-default: var(--dt-comp-button-color-background-default);
   --color-comp-button-color-background-hover: var(--dt-comp-button-color-background-hover);
   --color-comp-button-color-background-active: var(--dt-comp-button-color-background-active);
@@ -1063,6 +1072,9 @@
 .bg-comp-button-color-background-knockout-blur {
   background-color: var(--color-comp-button-color-background-knockout-blur);
 }
+.bg-comp-button-primary-color-background-default {
+  background-color: var(--color-comp-button-primary-color-background-default);
+}
 .bg-comp-form-color-background-default {
   background-color: var(--color-comp-form-color-background-default);
 }
@@ -1312,6 +1324,13 @@
     }
   }
 }
+.hover\:bg-comp-button-primary-color-background-hover {
+  &:hover {
+    @media (hover: hover) {
+      background-color: var(--color-comp-button-primary-color-background-hover);
+    }
+  }
+}
 .hover\:text-color-content-brand-hover {
   &:hover {
     @media (hover: hover) {
@@ -1405,6 +1424,11 @@
 .active\:bg-comp-button-color-background-knockout-blur-active {
   &:active {
     background-color: var(--color-comp-button-color-background-knockout-blur-active);
+  }
+}
+.active\:bg-comp-button-primary-color-background-active {
+  &:active {
+    background-color: var(--color-comp-button-primary-color-background-active);
   }
 }
 .active\:text-comp-button-primary-color-content-active {
