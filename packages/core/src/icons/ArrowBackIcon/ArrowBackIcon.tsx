@@ -1,0 +1,57 @@
+import * as React from 'react';
+
+export interface ArrowBackIconProps extends React.SVGAttributes<SVGSVGElement> {
+  decorative?: boolean;
+  title?: string;
+  titleId?: string;
+  color?: string;
+}
+
+type ArrowBackIconElement = SVGSVGElement;
+
+export const ArrowBackIcon = React.forwardRef<ArrowBackIconElement, ArrowBackIconProps>(
+  (
+    {
+      decorative = true,
+      width = '20px',
+      height = '20px',
+      title,
+      titleId: providedTitleId,
+      color = 'currentColor',
+      className,
+      'aria-labelledby': ariaLabelledby,
+      ...rest
+    },
+    ref
+  ) => {
+    const generatedTitleId = React.useId();
+    const resolvedTitleId = title ? (providedTitleId ?? generatedTitleId) : undefined;
+
+    const computedAriaHidden = decorative ? 'true' : undefined;
+    const computedRole = decorative ? undefined : 'img';
+    const computedAriaLabelledby =
+      !decorative && title && resolvedTitleId ? resolvedTitleId : ariaLabelledby;
+
+    return (
+      <svg
+        ref={ref}
+        {...rest}
+        className={className}
+        viewBox="0 0 20 20"
+        width={width}
+        height={height}
+        fill={color}
+        aria-hidden={computedAriaHidden}
+        role={computedRole}
+        aria-labelledby={computedAriaLabelledby}
+      >
+        {!decorative && title ? <title id={resolvedTitleId}>{title}</title> : null}
+        <g transform="scale(0.0208333333,0.0208333333) translate(0,960)">
+          <path d="m313-440 196 196q12 12 11.5 28T508-188q-12 11-28 11.5T452-188L188-452q-6-6-8.5-13t-2.5-15q0-8 2.5-15t8.5-13l264-264q11-11 27.5-11t28.5 11q12 12 12 28.5T508-715L313-520h447q17 0 28.5 11.5T800-480q0 17-11.5 28.5T760-440H313Z" />
+        </g>
+      </svg>
+    );
+  }
+);
+
+ArrowBackIcon.displayName = 'ArrowBackIcon';

@@ -1,0 +1,32 @@
+import type { Meta, StoryObj } from '@storybook/react';
+import { ArrowBackIcon, ArrowBackIconProps } from './ArrowBackIcon';
+
+const meta: Meta<ArrowBackIconProps> = {
+  title: 'Icons/ArrowBackIcon',
+  component: ArrowBackIcon,
+  args: {
+    decorative: true,
+    color: 'currentColor'
+  },
+  argTypes: {
+    decorative: { control: 'boolean' },
+    title: { control: 'text' },
+    titleId: { control: 'text' },
+    color: { control: 'color' },
+    className: { control: 'text' }
+  }
+};
+
+export default meta;
+
+type Story = StoryObj<ArrowBackIconProps>;
+
+export const Default: Story = {};
+
+export const NonDecorative: Story = {
+  args: {
+    decorative: false,
+    title: 'Warning status',
+    titleId: 'warning-icon-title'
+  }
+};

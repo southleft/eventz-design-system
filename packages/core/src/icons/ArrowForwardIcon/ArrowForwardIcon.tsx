@@ -1,0 +1,57 @@
+import * as React from 'react';
+
+export interface ArrowForwardIconProps extends React.SVGAttributes<SVGSVGElement> {
+  decorative?: boolean;
+  title?: string;
+  titleId?: string;
+  color?: string;
+}
+
+type ArrowForwardIconElement = SVGSVGElement;
+
+export const ArrowForwardIcon = React.forwardRef<ArrowForwardIconElement, ArrowForwardIconProps>(
+  (
+    {
+      decorative = true,
+      width = '20px',
+      height = '20px',
+      title,
+      titleId: providedTitleId,
+      color = 'currentColor',
+      className,
+      'aria-labelledby': ariaLabelledby,
+      ...rest
+    },
+    ref
+  ) => {
+    const generatedTitleId = React.useId();
+    const resolvedTitleId = title ? (providedTitleId ?? generatedTitleId) : undefined;
+
+    const computedAriaHidden = decorative ? 'true' : undefined;
+    const computedRole = decorative ? undefined : 'img';
+    const computedAriaLabelledby =
+      !decorative && title && resolvedTitleId ? resolvedTitleId : ariaLabelledby;
+
+    return (
+      <svg
+        ref={ref}
+        {...rest}
+        className={className}
+        viewBox="0 0 20 20"
+        width={width}
+        height={height}
+        fill={color}
+        aria-hidden={computedAriaHidden}
+        role={computedRole}
+        aria-labelledby={computedAriaLabelledby}
+      >
+        {!decorative && title ? <title id={resolvedTitleId}>{title}</title> : null}
+        <g transform="scale(0.0208333333,0.0208333333) translate(0,960)">
+          <path d="M647-440H200q-17 0-28.5-11.5T160-480q0-17 11.5-28.5T200-520h447L451-716q-12-12-11.5-28t12.5-28q12-11 28-11.5t28 11.5l264 264q6 6 8.5 13t2.5 15q0 8-2.5 15t-8.5 13L508-188q-11 11-27.5 11T452-188q-12-12-12-28.5t12-28.5l195-195Z" />
+        </g>
+      </svg>
+    );
+  }
+);
+
+ArrowForwardIcon.displayName = 'ArrowForwardIcon';

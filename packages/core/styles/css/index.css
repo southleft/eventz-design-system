@@ -41,6 +41,7 @@
   --color-color-background-brand: var(--dt-color-background-brand);
   --color-color-background-brand-hover: var(--dt-color-background-brand-hover);
   --color-color-background-default: var(--dt-color-background-default);
+  --color-color-background-inverted: var(--dt-color-background-inverted);
   --color-color-background-subtle: var(--dt-color-background-subtle);
   --color-color-background-subtle-hover: var(--dt-color-background-subtle-hover);
   --color-color-background-weak: var(--dt-color-background-weak);
@@ -137,6 +138,9 @@
   --radius-2xl: calc(var(--dt-border-radius-16) * 1px);
   --radius-3xl: calc(var(--dt-border-radius-24) * 1px);
 
+  /* Shadows */
+  --shadow-shadows-shadow-6: var(--dt-shadows-shadow-6);
+
   /* Spacing */
   --spacing: 1px;
   --spacing-0: 0px;
@@ -176,6 +180,9 @@
   }
   .bg-gradient-utility-danger {
     background-image: var(--dt-utility-danger);
+  }
+  .bg-background-modal-dark {
+    background-image: var(--dt-background-modal-dark);
   }
 
   /* Focus ring token hook (Tailwind’s ring system uses --tw-ring-color) */
