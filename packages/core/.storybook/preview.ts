@@ -12,11 +12,24 @@ function applyScheme(scheme: 'dark' | 'light') {
   root.classList.toggle('light', scheme === 'light');
 
   // Native hint for form controls, scrollbars, etc.
-  root.style.colorScheme = scheme;
-
-  // If present, keep meta in sync (harmless if missing)
-  const meta = document.querySelector('meta[name="color-scheme"]') as HTMLMetaElement | null;
-  if (meta) meta.content = scheme;
+  if (scheme === 'light') {
+    root.style.colorScheme = 'light';
+  } else {
+    root.style.removeProperty('color-scheme');
+  }
+  // Only add a color-scheme meta tag for light mode; dark mode works best with no meta tag.
+  let meta = document.querySelector('meta[name="color-scheme"]') as HTMLMetaElement | null;
+  if (scheme === 'light') {
+    if (!meta) {
+      meta = document.createElement('meta');
+      meta.setAttribute('name', 'color-scheme');
+      document.head.appendChild(meta);
+    }
+    meta.content = 'light';
+  } else {
+    // Remove the meta tag in dark mode so :root (dark tokens) is the only source of truth.
+    if (meta) meta.remove();
+  }
 }
 
 export const globalTypes = {
