@@ -52,13 +52,13 @@ describe('Dialog', () => {
   });
 
   it.each([
-    ['sm', 'w-600'],
-    ['md', 'max-w-1300'],
-    ['lg', 'max-w-1600']
-  ] as const)('applies %s size classes', async (size, expectedClass) => {
+    ['sm', ['w-600']],
+    ['md', ['w-full', 'max-w-1300']],
+    ['lg', ['w-full', 'max-w-1600']]
+  ] as const)('applies %s size classes', async (size, expectedClasses) => {
     const { dialog } = await openDialog({ size });
-    const hasClass = dialog.classList.contains(expectedClass);
-    expect(hasClass).toBe(true);
+    const hasAll = expectedClasses.every(c => dialog.classList.contains(c));
+    expect(hasAll).toBe(true);
   });
 
   it('renders navigation controls when enabled', async () => {
@@ -107,7 +107,7 @@ describe('Dialog', () => {
   it('applies overlay classes from the style map', async () => {
     await openDialog();
     const overlay = document.querySelector('[data-radix-dialog-overlay]');
-    const result = [Boolean(overlay), overlay?.classList.contains('bg-modal-dark/50') ?? false];
+    const result = [Boolean(overlay), overlay?.classList.contains('bg-color-background-inverted/50') ?? false];
     expect(result).toEqual([true, true]);
   });
 });
