@@ -11,24 +11,14 @@ function isChromatic(): boolean {
 
 function applyScheme(scheme: 'dark' | 'light') {
   const root = document.documentElement;
-  const IS_CHROMATIC = isChromatic();
 
   // Set attributes/classes our CSS depends on
   root.setAttribute('data-theme', scheme);
   root.classList.toggle('dark', scheme === 'dark');
   root.classList.toggle('light', scheme === 'light');
 
-  // UA hint for form controls/scrollbars
-  if (scheme === 'light') {
-    root.style.colorScheme = 'light';
-  } else {
-    // Chromatic needs an explicit hint for deterministic snapshots; local builds rely on :root tokens
-    if (IS_CHROMATIC) {
-      root.style.colorScheme = 'dark';
-    } else {
-      root.style.removeProperty('color-scheme');
-    }
-  }
+  // UA hint for form controls/scrollbars: always mirror the selected scheme
+  root.style.colorScheme = scheme;
 
   // Only add a color-scheme meta tag for light mode; dark mode works best with no meta tag.
   let meta = document.querySelector('meta[name="color-scheme"]') as HTMLMetaElement | null;
