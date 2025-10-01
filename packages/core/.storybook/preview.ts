@@ -1,24 +1,28 @@
 import '../styles/css/index.css';
 import type { Preview } from '@storybook/react';
 
+/** Robust Chromatic detection: boolean true, string "true", or html[data-chromatic="true"] */
+function isChromatic(): boolean {
+  const w = window as any;
+  if (w && (w.IS_CHROMATIC === true || w.IS_CHROMATIC === 'true')) return true;
+  const html = document.documentElement;
+  return html.getAttribute('data-chromatic') === 'true';
+}
+
 function applyScheme(scheme: 'dark' | 'light') {
   const root = document.documentElement;
-  const IS_CHROMATIC = (window as any).IS_CHROMATIC === true;
+  const IS_CHROMATIC = isChromatic();
 
-  // Set the attribute your CSS scopes on
+  // Set attributes/classes our CSS depends on
   root.setAttribute('data-theme', scheme);
-
-  // Optional: keep these in sync in case any legacy/style uses them
   root.classList.toggle('dark', scheme === 'dark');
   root.classList.toggle('light', scheme === 'light');
 
-  // Native hint for form controls, scrollbars, etc.
+  // UA hint for form controls/scrollbars
   if (scheme === 'light') {
-    // In light mode we always hint the UA for consistent widgets
     root.style.colorScheme = 'light';
   } else {
-    // Locally we avoid setting a dark hint (tokens at :root are the source of truth),
-    // but Chromatic needs an explicit hint for deterministic snapshots.
+    // Chromatic needs an explicit hint for deterministic snapshots; local builds rely on :root tokens
     if (IS_CHROMATIC) {
       root.style.colorScheme = 'dark';
     } else {
@@ -36,7 +40,6 @@ function applyScheme(scheme: 'dark' | 'light') {
     }
     meta.content = 'light';
   } else {
-    // Remove the meta tag in dark mode so :root (dark tokens) is the only source of truth.
     if (meta) meta.remove();
   }
 }
@@ -57,6 +60,11 @@ export const globalTypes = {
   }
 };
 
+// Ensure CI (Chromatic) starts in dark deterministically across stories & docs
+export const initialGlobals = {
+  colorScheme: 'dark'
+};
+
 export const decorators = [
   (Story, context) => {
     const scheme = (context.globals.colorScheme as 'dark' | 'light') ?? 'dark';
@@ -68,7 +76,6 @@ export const decorators = [
 const preview: Preview = {
   parameters: {
     controls: { matchers: { color: /(background|color)$/i, date: /Date$/i } },
-    a11y: { test: 'todo' },
     backgrounds: { disable: true }
   }
 };

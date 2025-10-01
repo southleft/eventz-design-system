@@ -19,7 +19,7 @@ jobs:
         with:
           node-version: 20
           cache: 'pnpm'
-      - run: pnpm install --frozen-lockfile
+      - run: pnpm -F @doxyz/core chromatic -- --only-changed=false
       - name: Run Chromatic (CLI)
         run: pnpm -F @doxyz/core chromatic
         env:
