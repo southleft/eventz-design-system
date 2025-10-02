@@ -20,7 +20,9 @@ export const configs = [
     }
   },
 
-  // 2) Light overrides only: emit ONLY tokens defined in light.json
+  // 2) Light overrides scoped under [data-theme="light"]
+  //    No filter: emit the full resolved dictionary under the selector,
+  //    so CI path/merge differences can’t zero-out the file.
   {
     include: ['styles/tokens/core/Default.json'],
     source: ['styles/tokens/theme/light.json'],
@@ -33,12 +35,7 @@ export const configs = [
           {
             destination: 'light.css',
             format: 'css/variables-with-selector',
-            selector: '[data-theme="light"]',
-            // ✅ filter by originating file, not metadata that may vary by env
-            filter: token => {
-              const fp = (token.filePath || '').replace(/\\\\/g, '/');
-              return fp.endsWith('styles/tokens/theme/light.json');
-            }
+            selector: '[data-theme="light"]'
           }
         ]
       }
