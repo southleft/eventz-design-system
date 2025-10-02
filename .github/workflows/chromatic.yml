@@ -3,7 +3,7 @@ name: 'Chromatic (core)'
 on:
   push:
     branches:
-      - test/debug_chromatic_light_mode
+      - development
 
 concurrency:
   group: chromatic-core-${{ github.ref }}
