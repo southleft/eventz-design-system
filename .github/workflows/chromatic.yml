@@ -1,4 +1,4 @@
-name: 'Chromatic'
+name: 'Chromatic (core)'
 
 on:
   push:
@@ -7,26 +7,63 @@ on:
 
 jobs:
   chromatic:
-    name: Run Chromatic
+    name: Build & Upload Storybook to Chromatic
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.12.3
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      # Clean only generated token css so we don't carry stale files between runs
       - name: Clean generated token CSS (keep index.css)
         working-directory: packages/core
         run: |
           rm -f styles/css/tokens.css || true
           rm -f styles/css/light.css || true
-      - uses: actions/checkout@v4
+
+      # Build Storybook once so we can inspect exactly what will be uploaded
+      - name: Build Storybook (core)
+        working-directory: packages/core
+        run: pnpm run build-storybook
+
+      # Quick diagnostics to confirm both theme layers exist in CI
+      - name: Inspect token CSS outputs
+        working-directory: packages/core
+        run: |
+          echo "== styles/css contents =="
+          ls -lah styles/css || true
+          echo "== Head of tokens.css =="
+          sed -n '1,80p' styles/css/tokens.css || true
+          echo "== Head of light.css =="
+          sed -n '1,80p' styles/css/light.css || true
+
+      - name: Inspect built iframe CSS for theme rules
+        working-directory: packages/core
+        run: |
+          echo "== grep for :root and [data-theme=\"light\"] in built CSS =="
+          grep -RnE '\\[data-theme=\"light\"\\]|:root' storybook-static/assets/*.css || true
+          echo "== CSS file sizes =="
+          wc -c storybook-static/assets/*.css || true
+
+      # Upload the exact static bundle we will hand to Chromatic, for easy debugging if needed
+      - name: Upload storybook-static artifact
+        uses: actions/upload-artifact@v4
         with:
-          fetch-depth: 0
-      - uses: pnpm/action-setup@v4
-        with: { version: 9.12.3 }
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: 'pnpm'
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-      - name: Run Chromatic (CLI)
-        run: pnpm -F @doxyz/core chromatic -- --force-rebuild
-        env:
-          CHROMATIC_PROJECT_TOKEN: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+          name: core-storybook-static
+          path: packages/core/storybook-static
+
+      # Use the prebuilt dir to avoid any rebuild-time differences; also force a fresh CDN upload
+      - name: Run Chromatic (CLI with prebuilt dir)
+        run: pnpm dlx chromatic --storybook-build-dir=packages/core/storybook-static --project-token=${{ secrets.CHROMATIC_PROJECT_TOKEN }} --no-interactive --exit-once-uploaded --only-changed=false --force-rebuild
