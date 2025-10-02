@@ -154,10 +154,18 @@ jobs:
 
       # Use the exact prebuilt dir to avoid rebuild drift, force fresh CDN push
       - name: Run Chromatic (CLI with prebuilt dir)
-        run: pnpm dlx chromatic \
-          --storybook-build-dir=packages/core/storybook-static \
-          --project-token=${{ secrets.CHROMATIC_PROJECT_TOKEN }} \
-          --no-interactive \
-          --exit-once-uploaded \
-          --only-changed=false \
-          --force-rebuild
+        env:
+          CHROMATIC_PROJECT_TOKEN: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+        run: |
+          set -euo pipefail
+          if [ -z "${CHROMATIC_PROJECT_TOKEN:-}" ]; then
+            echo "::error::CHROMATIC_PROJECT_TOKEN is empty or not set";
+            exit 1;
+          fi
+          pnpm dlx chromatic \
+            --project-token="$CHROMATIC_PROJECT_TOKEN" \
+            --storybook-build-dir=packages/core/storybook-static \
+            --no-interactive \
+            --exit-once-uploaded \
+            --only-changed=false \
+            --force-rebuild
