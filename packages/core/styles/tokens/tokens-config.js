@@ -3,11 +3,8 @@
 export const configs = [
   // 1) Default build: :root gets Default + Dark (dark is default)
   {
-    source: [
-      'styles/tokens/component/**/*.json',
-      'styles/tokens/core/Default.json',
-      'styles/tokens/theme/dark.json'
-    ],
+    include: ['styles/tokens/core/Default.json', 'styles/tokens/component/**/*.json'],
+    source: ['styles/tokens/theme/dark.json'],
     platforms: {
       css: {
         transformGroup: 'css',
@@ -37,7 +34,9 @@ export const configs = [
             destination: 'light.css',
             format: 'css/variables-with-selector',
             selector: '[data-theme="light"]',
-            filter: token => token.isSource === true
+            filter: token =>
+              typeof token.filePath === 'string' &&
+              token.filePath.replace(/\\\\/g, '/').endsWith('/styles/tokens/theme/light.json')
           }
         ]
       }
