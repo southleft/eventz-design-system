@@ -3,7 +3,11 @@
 export const configs = [
   // 1) Default build: :root gets Default + Dark (dark is default)
   {
-    source: ['styles/tokens/core/Default.json', 'styles/tokens/theme/dark.json'],
+    source: [
+      'styles/tokens/component/**/*.json',
+      'styles/tokens/core/Default.json',
+      'styles/tokens/theme/dark.json'
+    ],
     platforms: {
       css: {
         transformGroup: 'css',
@@ -13,7 +17,7 @@ export const configs = [
           {
             destination: 'tokens.css',
             format: 'css/variables-with-selector',
-            selector: ':root'
+            selector: '[data-theme="dark"]'
           }
         ]
       }
@@ -22,11 +26,7 @@ export const configs = [
 
   // 2) Light overrides only: build with Default + Dark + Light, but emit only tokens that come from light.json
   {
-    source: [
-      'styles/tokens/core/Default.json',
-      'styles/tokens/theme/dark.json',
-      'styles/tokens/theme/light.json'
-    ],
+    source: ['styles/tokens/core/Default.json', 'styles/tokens/theme/light.json'],
     platforms: {
       css: {
         transformGroup: 'css',
@@ -36,7 +36,8 @@ export const configs = [
           {
             destination: 'light.css',
             format: 'css/variables-with-selector',
-            selector: '[data-theme="light"]'
+            selector: '[data-theme="light"]',
+            filter: token => token.filePath.endsWith('styles/tokens/theme/light.json')
           }
         ]
       }

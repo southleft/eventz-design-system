@@ -22,6 +22,6 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
       - name: Run Chromatic (CLI)
-        run: pnpm -F @doxyz/core chromatic -- --only-changed=false --debug
+        run: pnpm -F @doxyz/core chromatic -- --only-changed=false --storybook-params="globals=colorScheme:dark"
         env:
           CHROMATIC_PROJECT_TOKEN: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
