@@ -10,6 +10,11 @@ jobs:
     name: Run Chromatic
     runs-on: ubuntu-latest
     steps:
+      - name: Clean generated token CSS (keep index.css)
+        working-directory: packages/core
+        run: |
+          rm -f styles/css/tokens.css || true
+          rm -f styles/css/light.css || true
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
