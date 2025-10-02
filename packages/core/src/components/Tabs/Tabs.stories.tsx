@@ -39,7 +39,10 @@ const sectionTabs: TabsProps['tabsList'] = [
   }
 ];
 
-const buttonTabs: TabsProps['tabsList'] = sectionTabs.map(({ icon, ...rest }) => ({ ...rest, icon: undefined }));
+const buttonTabs: TabsProps['tabsList'] = sectionTabs.map(({ ...rest }) => ({
+  ...rest,
+  icon: undefined
+}));
 
 const meta: Meta<TabsProps> = {
   title: 'Components/Tabs',
