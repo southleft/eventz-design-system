@@ -1,45 +1,15 @@
-import '../styles/css/index.css';
+import '../styles/css/styles.css';
 import type { Preview } from '@storybook/react';
 
 function applyScheme(scheme: 'dark' | 'light') {
   const root = document.documentElement;
-  const IS_CHROMATIC = (window as any).IS_CHROMATIC === true;
-
-  // Set the attribute your CSS scopes on
   root.setAttribute('data-theme', scheme);
-
-  // Optional: keep these in sync in case any legacy/style uses them
   root.classList.toggle('dark', scheme === 'dark');
   root.classList.toggle('light', scheme === 'light');
-
-  // Native hint for form controls, scrollbars, etc.
-  if (scheme === 'light') {
-    // In light mode we always hint the UA for consistent widgets
-    root.style.colorScheme = 'light';
-  } else {
-    // Locally we avoid setting a dark hint (tokens at :root are the source of truth),
-    // but Chromatic needs an explicit hint for deterministic snapshots.
-    if (IS_CHROMATIC) {
-      root.style.colorScheme = 'dark';
-    } else {
-      root.style.removeProperty('color-scheme');
-    }
-  }
-
-  // Only add a color-scheme meta tag for light mode; dark mode works best with no meta tag.
-  let meta = document.querySelector('meta[name="color-scheme"]') as HTMLMetaElement | null;
-  if (scheme === 'light') {
-    if (!meta) {
-      meta = document.createElement('meta');
-      meta.setAttribute('name', 'color-scheme');
-      document.head.appendChild(meta);
-    }
-    meta.content = 'light';
-  } else {
-    // Remove the meta tag in dark mode so :root (dark tokens) is the only source of truth.
-    if (meta) meta.remove();
-  }
+  // IMPORTANT: no UA hints, no meta tag — CSS tokens drive colors.
 }
+
+export const initialGlobals = { colorScheme: 'dark' };
 
 export const globalTypes = {
   colorScheme: {
@@ -59,8 +29,7 @@ export const globalTypes = {
 
 export const decorators = [
   (Story, context) => {
-    const scheme = (context.globals.colorScheme as 'dark' | 'light') ?? 'dark';
-    applyScheme(scheme);
+    applyScheme((context.globals.colorScheme as 'dark' | 'light') ?? 'dark');
     return Story();
   }
 ];
@@ -68,7 +37,6 @@ export const decorators = [
 const preview: Preview = {
   parameters: {
     controls: { matchers: { color: /(background|color)$/i, date: /Date$/i } },
-    a11y: { test: 'todo' },
     backgrounds: { disable: true }
   }
 };

@@ -1,26 +1,61 @@
-name: 'Chromatic'
+name: 'Chromatic (core)'
 
 on:
   push:
     branches:
       - development
 
+concurrency:
+  group: chromatic-core-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   chromatic:
-    name: Run Chromatic
+    name: Build & Upload Storybook to Chromatic
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
       - uses: pnpm/action-setup@v4
-        with: { version: 9.12.3 }
+        with:
+          version: 9.12.3
+
       - uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: 'pnpm'
-      - run: pnpm install --frozen-lockfile
-      - name: Run Chromatic (CLI)
-        run: pnpm -F @doxyz/core chromatic
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      # Clean only generated token CSS to avoid any stale artifacts
+      - name: Prebuild cleanup (token CSS)
+        working-directory: packages/core
+        run: |
+          rm -f styles/css/tokens.css || true
+          rm -f styles/css/light.css || true
+
+      # Deterministic prebuild of Storybook (includes tokens + Tailwind CSS)
+      - name: Build Storybook (core)
+        working-directory: packages/core
+        run: pnpm run build-storybook
+
+      # Upload the already-built Storybook directory to Chromatic
+      - name: Run Chromatic (CLI with prebuilt dir)
         env:
           CHROMATIC_PROJECT_TOKEN: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+        run: |
+          set -euo pipefail
+          if [ -z "${CHROMATIC_PROJECT_TOKEN:-}" ]; then
+            echo "::error::CHROMATIC_PROJECT_TOKEN is empty or not set";
+            exit 1;
+          fi
+          pnpm dlx chromatic \
+            --project-token="$CHROMATIC_PROJECT_TOKEN" \
+            --storybook-build-dir=packages/core/storybook-static \
+            --no-interactive \
+            --exit-once-uploaded \
+            --only-changed=false \
+            --force-rebuild
