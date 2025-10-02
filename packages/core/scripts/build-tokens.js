@@ -7,11 +7,15 @@ console.log('Style Dictionary version:', StyleDictionary?.VERSION || 'unknown');
 const sdLight = new StyleDictionary({
   include: ['styles/tokens/core/Default.json'],
   source: ['styles/tokens/theme/light.json'],
-  platforms: {}
+  platforms: {
+    css: {
+      transformGroup: 'css',
+      files: [] // no files needed; we only inspect the dictionary
+    }
+  }
 });
-
 // Count tokens from light.json (isSource)
-const dict = sdLight.exportPlatform('css') || sdLight; // forces load
+const dict = await sdLight.getPlatformTokens('css');
 const all = dict?.tokens ? Object.values(dict.tokens) : [];
 const flatten = (obj, acc = []) => (
   Object.values(obj || {}).forEach(v => (v.value !== undefined ? acc.push(v) : flatten(v, acc))),
