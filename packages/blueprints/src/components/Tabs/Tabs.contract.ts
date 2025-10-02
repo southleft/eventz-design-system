@@ -45,7 +45,7 @@ export const TabsContract = defineContract({
           },
           forceMount: {
             type: 'boolean',
-            description: 'Passthrough to Tabs.Content forceMount prop for this tab.'
+            description: 'Passthrough to Tabs.Content forceMount; when present it must be true (Radix literal flag).'
           }
         }
       }
