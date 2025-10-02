@@ -3,7 +3,11 @@ name: 'Chromatic (core)'
 on:
   push:
     branches:
-      - test/debug_chromatic_light_mode
+      - development
+
+concurrency:
+  group: chromatic-core-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   chromatic:
@@ -23,136 +27,22 @@ jobs:
           node-version: 20
           cache: 'pnpm'
 
-      - name: Print Node & pnpm
-        run: |
-          node -v
-          pnpm -v
-
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      # Quick check: what does tokens-config.js actually export in CI?
-      - name: Verify Style Dictionary config sources
-        working-directory: packages/core
-        run: |
-          node -e 'const run=async()=>{const m=await import("./styles/tokens/tokens-config.js"); console.log("Loaded token configs:", JSON.stringify(m.configs.map(c=>c.source), null, 2));}; run();'
-
-      # Clean only generated token CSS so we don't carry stale outputs
-      - name: Clean generated token CSS (keep index.css)
+      # Clean only generated token CSS to avoid any stale artifacts
+      - name: Prebuild cleanup (token CSS)
         working-directory: packages/core
         run: |
           rm -f styles/css/tokens.css || true
           rm -f styles/css/light.css || true
 
+      # Deterministic prebuild of Storybook (includes tokens + Tailwind CSS)
       - name: Build Storybook (core)
         working-directory: packages/core
         run: pnpm run build-storybook
 
-      - name: Compare token sets (light vs base)
-        working-directory: packages/core
-        run: |
-          echo "== count of CSS variables =="
-          grep -oE -- '--dt-[a-z0-9-]+' styles/css/tokens.css | sort -u | wc -l || true
-          grep -oE -- '--dt-[a-z0-9-]+' styles/css/light.css  | sort -u | wc -l || true
-
-          echo "== first 40 base-only keys (present in tokens.css, missing in light.css) =="
-          comm -23 <(grep -oE -- '--dt-[a-z0-9-]+' styles/css/tokens.css | sort -u) \
-                  <(grep -oE -- '--dt-[a-z0-9-]+' styles/css/light.css  | sort -u) | head -n 40 || true
-
-          echo "== first 80 light-only keys (present in light.css, missing in tokens.css) =="
-          comm -13 <(grep -oE -- '--dt-[a-z0-9-]+' styles/css/tokens.css | sort -u) \
-                  <(grep -oE -- '--dt-[a-z0-9-]+' styles/css/light.css  | sort -u) | head -n 80 || true
-
-          echo "== examples of sentinel tokens in each file =="
-          for KEY in \
-            '--dt-color-content-default' \
-            '--dt-color-background-default' \
-            '--dt-comp-button-primary-color-background-default' \
-            '--dt-color-border-default' \
-          ; do
-            echo ">>> $KEY"
-            echo "  tokens.css: $(grep -m1 -oE "$KEY:\s*[^;]*" styles/css/tokens.css || echo 'MISSING')"
-            echo "  light.css : $(grep -m1 -oE "$KEY:\s*[^;]*" styles/css/light.css  || echo 'MISSING')"
-          done
-
-      - name: Scan built CSS for theme rules and dt vars
-        working-directory: packages/core
-        run: |
-          echo "== theme selectors present =="
-          grep -RnoE '\[data-theme="light"\]|:root' storybook-static/assets/*.css || true
-          echo "== dt variable samples in built CSS =="
-          for KEY in \
-            '--dt-color-content-default' \
-            '--dt-comp-button-primary-color-background-default' \
-          ; do
-            echo ">>> $KEY occurrences"
-            grep -RnoE "$KEY:\s*[^;]*" storybook-static/assets/*.css || echo "  (none)"
-          done
-
-      # Inspect raw token css outputs
-      - name: Inspect token CSS outputs
-        working-directory: packages/core
-        run: |
-          echo "== styles/css contents =="
-          ls -lah styles/css || true
-          echo "== token file sizes =="
-          wc -c styles/css/tokens.css styles/css/light.css || true
-          echo "== token line counts =="
-          wc -l styles/css/tokens.css styles/css/light.css || true
-          echo "== Head of tokens.css =="
-          sed -n '1,120p' styles/css/tokens.css || true
-          echo "== Head of light.css =="
-          sed -n '1,120p' styles/css/light.css || true
-
-      # Sentinel check: these should differ between :root (dark) and [data-theme="light"]
-      - name: Guardrail – fail if base and light resolve to same values
-        working-directory: packages/core
-        run: |
-          set -e
-          echo "== Sentinel comparisons =="
-          for KEY in \
-            '--dt-color-content-default:' \
-            '--dt-color-background-default:' \
-            '--dt-comp-button-primary-color-background-default:' \
-            '--dt-color-border-default:' \
-            ; do
-            echo ">> $KEY in tokens.css"
-            grep -n "$KEY" styles/css/tokens.css || true
-            echo ">> $KEY in light.css"
-            grep -n "$KEY" styles/css/light.css || true
-            TOK=$(grep -m1 "$KEY" styles/css/tokens.css | sed 's/.*: *//; s/;.*//')
-            LIT=$(grep -m1 "$KEY" styles/css/light.css   | sed 's/.*: *//; s/;.*//')
-            if [ -n "$TOK" ] && [ -n "$LIT" ] && [ "$TOK" = "$LIT" ]; then
-              echo "::error::Theme merge failed – $KEY is identical in tokens.css (:root) and light.css."
-              echo "tokens.css=$TOK | light.css=$LIT"
-              exit 1
-            fi
-          done
-          echo "Sentinels differ – theme layering looks correct."
-
-      - name: Inspect built iframe CSS for theme rules
-        working-directory: packages/core
-        run: |
-          echo "== grep for :root and [data-theme=\"light\"] in built CSS =="
-          grep -RnE '\[data-theme="light"\]|:root' storybook-static/assets/*.css || true
-          echo "== CSS file sizes =="
-          wc -c storybook-static/assets/*.css || true
-
-      - name: Upload token-css artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: core-token-css
-          path: |
-            packages/core/styles/css/tokens.css
-            packages/core/styles/css/light.css
-
-      - name: Upload storybook-static artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: core-storybook-static
-          path: packages/core/storybook-static
-
-      # Use the exact prebuilt dir to avoid rebuild drift, force fresh CDN push
+      # Upload the already-built Storybook directory to Chromatic
       - name: Run Chromatic (CLI with prebuilt dir)
         env:
           CHROMATIC_PROJECT_TOKEN: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
