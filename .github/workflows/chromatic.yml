@@ -75,12 +75,6 @@ jobs:
             echo "  light.css : $(grep -m1 -oE "$KEY:\s*[^;]*" styles/css/light.css  || echo 'MISSING')"
           done
 
-          - name: List token files on runner (case-sensitive)
-          working-directory: packages/core
-          run: |
-            echo "== tokens dir tree =="
-            find styles/tokens -type f -maxdepth 3 | sort
-
       - name: Scan built CSS for theme rules and dt vars
         working-directory: packages/core
         run: |
