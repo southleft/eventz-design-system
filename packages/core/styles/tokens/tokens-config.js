@@ -16,8 +16,7 @@ export const configs = [
         files: [
           {
             destination: 'tokens.css',
-            format: 'css/variables-with-selector',
-            selector: '[data-theme="dark"]'
+            format: 'css/variables'
           }
         ]
       }
