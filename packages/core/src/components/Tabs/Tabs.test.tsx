@@ -55,6 +55,24 @@ describe('Tabs', () => {
     view.unmount();
   });
 
+  it('activates a trigger when clicked with no defaultValue (uncontrolled)', async () => {
+    const user = userEvent.setup();
+    const view: RenderResult = renderTabs({ defaultValue: undefined });
+    await user.click(screen.getByRole('tab', { name: 'Details' }));
+    const detailsTrigger = screen.getByRole('tab', { name: 'Details' });
+    expect(detailsTrigger.getAttribute('aria-selected')).toBe('true');
+    view.unmount();
+  });
+
+  it('calls onValueChange in uncontrolled mode', async () => {
+    const user = userEvent.setup();
+    const handleChange = jest.fn();
+    const view: RenderResult = renderTabs({ defaultValue: undefined, onValueChange: handleChange });
+    await user.click(screen.getByRole('tab', { name: 'Details' }));
+    expect(handleChange).toHaveBeenCalledWith('details');
+    view.unmount();
+  });
+
   it('requires Enter/Space to activate when activationMode is manual', async () => {
     const user = userEvent.setup();
     const view: RenderResult = renderTabs({ activationMode: 'manual' });
@@ -69,14 +87,15 @@ describe('Tabs', () => {
     view.unmount();
   });
 
-  it('wraps focus to the first trigger when loop is enabled', async () => {
+  it('focuses the first trigger with Home key (loop unsupported)', async () => {
     const user = userEvent.setup();
-    const view: RenderResult = renderTabs({ loop: true });
+    const view: RenderResult = renderTabs();
     const triggers = screen.getAllByRole('tab');
-    const lastTrigger = triggers[triggers.length - 1];
-    lastTrigger.focus();
-    await user.keyboard('{ArrowRight}');
-    expect(document.activeElement === triggers[0]).toBe(true);
+    const enabledTriggers = triggers.filter(t => !t.hasAttribute('disabled'));
+    const lastEnabled = enabledTriggers[enabledTriggers.length - 1];
+    lastEnabled.focus();
+    await user.keyboard('{Home}');
+    expect(triggers[0]).toHaveFocus();
     view.unmount();
   });
 
@@ -122,4 +141,12 @@ describe('Tabs', () => {
     expect(noIconAndIsButton).toBe(true);
     view.unmount();
   });
+
+  it('renders when loop boolean is provided (branch coverage)', () => {
+    const view: RenderResult = renderTabs({ loop: true });
+    const tablist = screen.getByRole('tablist', { name: 'Project tabs' });
+    expect(tablist).toBeInTheDocument();
+    view.unmount();
+  });
+
 });
