@@ -25,7 +25,8 @@ export const configs = [
 
   // 2) Light overrides only: build with Default + Dark + Light, but emit only tokens that come from light.json
   {
-    source: ['styles/tokens/core/Default.json', 'styles/tokens/theme/light.json'],
+    include: ['styles/tokens/core/Default.json'],
+    source: ['styles/tokens/theme/light.json'],
     platforms: {
       css: {
         transformGroup: 'css',
@@ -36,7 +37,7 @@ export const configs = [
             destination: 'light.css',
             format: 'css/variables-with-selector',
             selector: '[data-theme="light"]',
-            filter: token => token.filePath.endsWith('styles/tokens/theme/light.json')
+            filter: token => token.isSource === true
           }
         ]
       }
