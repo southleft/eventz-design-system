@@ -20,7 +20,7 @@ export const configs = [
     }
   },
 
-  // 2) Light overrides only: build with Default + Dark + Light, but emit only tokens that come from light.json
+  // 2) Light overrides only: emit ONLY tokens whose source is light.json
   {
     include: ['styles/tokens/core/Default.json'],
     source: ['styles/tokens/theme/light.json'],
@@ -34,9 +34,8 @@ export const configs = [
             destination: 'light.css',
             format: 'css/variables-with-selector',
             selector: '[data-theme="light"]',
-            filter: token =>
-              typeof token.filePath === 'string' &&
-              token.filePath.replace(/\\\\/g, '/').endsWith('/styles/tokens/theme/light.json')
+            // robust: rely on Style Dictionary metadata
+            filter: token => token.isSource === true
           }
         ]
       }
