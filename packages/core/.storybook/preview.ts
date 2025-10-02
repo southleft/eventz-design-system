@@ -1,4 +1,4 @@
-import '../dist/styles.css';
+import '../styles/css/styles.css';
 import type { Preview } from '@storybook/react';
 
 function applyScheme(scheme: 'dark' | 'light') {
