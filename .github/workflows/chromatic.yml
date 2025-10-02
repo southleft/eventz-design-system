@@ -48,6 +48,53 @@ jobs:
         working-directory: packages/core
         run: pnpm run build-storybook
 
+      - name: Compare token sets (light vs base)
+        working-directory: packages/core
+        run: |
+          echo "== count of CSS variables =="
+          grep -oE -- '--dt-[a-z0-9-]+' styles/css/tokens.css | sort -u | wc -l || true
+          grep -oE -- '--dt-[a-z0-9-]+' styles/css/light.css  | sort -u | wc -l || true
+
+          echo "== first 40 base-only keys (present in tokens.css, missing in light.css) =="
+          comm -23 <(grep -oE -- '--dt-[a-z0-9-]+' styles/css/tokens.css | sort -u) \
+                  <(grep -oE -- '--dt-[a-z0-9-]+' styles/css/light.css  | sort -u) | head -n 40 || true
+
+          echo "== first 80 light-only keys (present in light.css, missing in tokens.css) =="
+          comm -13 <(grep -oE -- '--dt-[a-z0-9-]+' styles/css/tokens.css | sort -u) \
+                  <(grep -oE -- '--dt-[a-z0-9-]+' styles/css/light.css  | sort -u) | head -n 80 || true
+
+          echo "== examples of sentinel tokens in each file =="
+          for KEY in \
+            '--dt-color-content-default' \
+            '--dt-color-background-default' \
+            '--dt-comp-button-primary-color-background-default' \
+            '--dt-color-border-default' \
+          ; do
+            echo ">>> $KEY"
+            echo "  tokens.css: $(grep -m1 -oE "$KEY:\s*[^;]*" styles/css/tokens.css || echo 'MISSING')"
+            echo "  light.css : $(grep -m1 -oE "$KEY:\s*[^;]*" styles/css/light.css  || echo 'MISSING')"
+          done
+
+          - name: List token files on runner (case-sensitive)
+          working-directory: packages/core
+          run: |
+            echo "== tokens dir tree =="
+            find styles/tokens -type f -maxdepth 3 | sort
+
+      - name: Scan built CSS for theme rules and dt vars
+        working-directory: packages/core
+        run: |
+          echo "== theme selectors present =="
+          grep -RnoE '\[data-theme="light"\]|:root' storybook-static/assets/*.css || true
+          echo "== dt variable samples in built CSS =="
+          for KEY in \
+            '--dt-color-content-default' \
+            '--dt-comp-button-primary-color-background-default' \
+          ; do
+            echo ">>> $KEY occurrences"
+            grep -RnoE "$KEY:\s*[^;]*" storybook-static/assets/*.css || echo "  (none)"
+          done
+
       # Inspect raw token css outputs
       - name: Inspect token CSS outputs
         working-directory: packages/core
