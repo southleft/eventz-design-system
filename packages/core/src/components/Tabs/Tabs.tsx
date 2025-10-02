@@ -19,9 +19,9 @@ type TabsListItem = {
 
 export interface TabsProps
   extends Omit<
-      TabsRootProps,
-      'children' | 'value' | 'defaultValue' | 'onValueChange' | 'loop' | 'activationMode'
-    > {
+    TabsRootProps,
+    'children' | 'value' | 'defaultValue' | 'onValueChange' | 'loop' | 'activationMode'
+  > {
   type?: 'section' | 'button';
   tabsList: ReadonlyArray<TabsListItem>;
   value?: string;
@@ -35,17 +35,21 @@ export interface TabsProps
 }
 
 const baseSlotClasses = `flex flex-col`;
-const listClasses = `flex shrink-0`;
-const triggerClasses = `
-  inline-flex cursor-default select-none items-center justify-center h-34 px-10
-  outline-none text-color-content-weak border-b border-b-color-border-default
-  data-[state=active]:border-b-color-border-brand data-[state=active]:text-color-content-brand
+const sectionListClasses = `flex`;
+const buttonListClasses = `flex gap-8`;
+const sectionTriggerClasses = `
+  flex-grow inline-flex cursor-default select-none items-center justify-center h-34 px-10
+  outline-none text-color-content-weak border-b border-b-color-border-default bg-background-none border-t-0 border-l-0 border-r-0
   disabled:opacity-50 disabled:pointer-events-none
   focus-visible:ring-2 focus-visible:ring-offset-4 focus-visible:ring-comp-border-focus-ring
   focus-visible:ring-offset-color-background-default gap-6
+  hover:text-color-content-weak-hover hover:border-b-color-border-default-hover
+  data-[state=active]:border-b-color-border-brand data-[state=active]:text-color-content-brand
+  data-[state=active]:hover:border-b-color-border-brand-hover data-[state=active]:hover:text-color-content-brand-hover
 `;
+const triggerButtonClasses = ``;
 const triggerIconClasses = `shrink-0 [&>svg]:size-16`;
-const contentClasses = `outline-none`;
+const contentClasses = `outline-none text-color-content-default`;
 
 export const Tabs = React.forwardRef<HTMLDivElement, TabsProps>(
   (
@@ -67,10 +71,12 @@ export const Tabs = React.forwardRef<HTMLDivElement, TabsProps>(
     const trimmedAriaLabel = ariaLabel.trim();
 
     const rootClassName = collapseWhitespace(composeClasses(baseSlotClasses, className));
-    const listClassName = collapseWhitespace(composeClasses(listClasses));
+    const sectionListClassName = collapseWhitespace(composeClasses(sectionListClasses));
+    const buttonListClassName = collapseWhitespace(composeClasses(buttonListClasses));
     const sectionTriggerClassName = collapseWhitespace(
-      composeClasses(type === 'section' ? triggerClasses : '')
+      composeClasses(type === 'section' ? sectionTriggerClasses : '')
     );
+    const triggerButtonClassName = collapseWhitespace(composeClasses(triggerButtonClasses));
     const triggerIconClassName = collapseWhitespace(composeClasses(triggerIconClasses));
     const contentClassName = collapseWhitespace(composeClasses(contentClasses));
 
@@ -100,7 +106,7 @@ export const Tabs = React.forwardRef<HTMLDivElement, TabsProps>(
         data-slot="base"
       >
         <RadixTabs.List
-          className={listClassName}
+          className={type === 'section' ? sectionListClassName : buttonListClassName}
           aria-label={trimmedAriaLabel}
           data-slot="list"
         >
@@ -117,11 +123,17 @@ export const Tabs = React.forwardRef<HTMLDivElement, TabsProps>(
                 data-slot="trigger"
               >
                 {type === 'button' ? (
-                  <Button disabled={isItemDisabled}>{trimmedLabel}</Button>
+                  <Button className={triggerButtonClassName} disabled={isItemDisabled}>
+                    {trimmedLabel}
+                  </Button>
                 ) : (
                   <>
                     {item.icon ? (
-                      <span className={triggerIconClassName} aria-hidden="true" data-slot="triggerIcon">
+                      <span
+                        className={triggerIconClassName}
+                        aria-hidden="true"
+                        data-slot="triggerIcon"
+                      >
                         {item.icon}
                       </span>
                     ) : null}
