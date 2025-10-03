@@ -9,9 +9,9 @@ jest.mock('rsuite', () => {
   return {
     DateRangePicker: React.forwardRef<
       HTMLDivElement,
-      { onChange?: (value: [unknown, unknown]) => void; showOneCalendar?: boolean }
+      { onChange?: (value: [unknown, unknown]) => void; showOneCalendar?: boolean; open?: boolean }
     >((props, ref) => {
-      const { onChange, showOneCalendar } = props;
+      const { onChange, showOneCalendar, open } = props;
 
       return (
         <div
@@ -20,6 +20,7 @@ jest.mock('rsuite', () => {
           tabIndex={0}
           data-testid="date-range-picker"
           data-prop-show-one={showOneCalendar ? 'true' : 'false'}
+          data-prop-open={open ? 'true' : 'false'}
           onClick={() => {
             const payload: [unknown, unknown] = [new Date(0), new Date(0)];
             onChange?.(payload);
@@ -144,6 +145,19 @@ describe('DatePicker', () => {
     const inner = screen.getByTestId('date-range-picker');
     await waitFor(() => {
       expect(inner).toHaveAttribute('data-prop-show-one', 'false');
+    });
+  });
+
+  it('opens the RSuite picker when clicking the visible Input', async () => {
+    setupMatchMedia(false);
+    render(<DatePicker />);
+
+    const input = screen.getByTestId('date-picker-input');
+    await userEvent.click(input);
+
+    const inner = screen.getByTestId('date-range-picker');
+    await waitFor(() => {
+      expect(inner).toHaveAttribute('data-prop-open', 'true');
     });
   });
 

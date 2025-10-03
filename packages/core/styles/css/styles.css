@@ -2125,6 +2125,16 @@
     line-height: var(--tw-leading, var(--text-lg--line-height));
   }
 }
+.\[\&_\.rs-picker-input-group\]\:pointer-events-none {
+  & .rs-picker-input-group {
+    pointer-events: none;
+  }
+}
+.\[\&_\.rs-picker-input-group\]\:invisible {
+  & .rs-picker-input-group {
+    visibility: hidden;
+  }
+}
 .\[\&_\.rs-picker-popup\]\:bg-background-modal-dark {
   & .rs-picker-popup {
     background-color: var(--color-background-modal-dark);
