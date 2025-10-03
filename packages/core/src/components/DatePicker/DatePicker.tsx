@@ -49,33 +49,8 @@ type RsuiteDateRangePickerProps = Omit<
 
 type InternalDatePickerProps = RsuiteDateRangePickerProps & DatePickerProps;
 
-type DateRange = [Date, Date];
-
-const isDate = (value: unknown): value is Date =>
-  value instanceof Date && !Number.isNaN(value.getTime());
-
-const isDateRange = (value: unknown): value is DateRange =>
-  Array.isArray(value) && value.length === 2 && isDate(value[0]) && isDate(value[1]);
-
 export const DatePicker = React.forwardRef<HTMLDivElement, InternalDatePickerProps>(
-  (
-    {
-      showOneCalendar,
-      fullWidth = false,
-      className,
-      placeholder,
-      open: openProp,
-      defaultOpen,
-      onOpen: onOpenProp,
-      onClose: onCloseProp,
-      value: valueProp,
-      defaultValue,
-      onChange: onChangeProp,
-      disabled: disabledProp,
-      ...passThrough
-    },
-    ref
-  ) => {
+  ({ showOneCalendar, fullWidth = false, className, placeholder, ...rest }, ref) => {
     const [matchesLg, setMatchesLg] = React.useState(false);
     const wrapperRef = React.useRef<HTMLDivElement | null>(null);
     const setWrapperRef = React.useCallback(
@@ -91,50 +66,65 @@ export const DatePicker = React.forwardRef<HTMLDivElement, InternalDatePickerPro
       [ref]
     );
 
-    const isDisabled = Boolean(disabledProp);
+    const isDisabled = Boolean((rest as { disabled?: boolean }).disabled);
 
-    const isOpenControlled = typeof openProp === 'boolean';
-    const [internalOpen, setInternalOpen] = React.useState<boolean>(defaultOpen ?? false);
-    const effectiveOpen = isOpenControlled ? (openProp as boolean) : internalOpen;
-
-    const requestOpen = React.useCallback((event?: React.SyntheticEvent | Event) => {
-      if (isDisabled) {
-        return;
-      }
-      if (!isOpenControlled) {
-        setInternalOpen(true);
-      }
-      onOpenProp?.(event);
-    }, [isDisabled, isOpenControlled, onOpenProp]);
-
-    const requestClose = React.useCallback((event?: React.SyntheticEvent | Event) => {
-      if (!isOpenControlled) {
-        setInternalOpen(false);
-      }
-      onCloseProp?.(event);
-    }, [isOpenControlled, onCloseProp]);
-
-    const isValueControlled = typeof valueProp !== 'undefined';
-    const [internalValue, setInternalValue] = React.useState<DateRange | null>(
-      isDateRange(defaultValue) ? defaultValue : null
+    const isOpenControlled =
+      Object.prototype.hasOwnProperty.call(rest, 'open') &&
+      typeof (rest as { open?: unknown }).open === 'boolean';
+    const [internalOpen, setInternalOpen] = React.useState<boolean>(
+      (rest as { defaultOpen?: boolean }).defaultOpen ?? false
     );
-    const effectiveValue: DateRange | null = isValueControlled
-      ? (isDateRange(valueProp) ? valueProp : null)
-      : internalValue;
+    const effectiveOpen = isOpenControlled
+      ? ((rest as { open?: boolean }).open ?? false)
+      : internalOpen;
+
+    const requestOpen = React.useCallback(
+      (event?: React.SyntheticEvent | Event) => {
+        if (isDisabled) {
+          return;
+        }
+        if (!isOpenControlled) {
+          setInternalOpen(true);
+        }
+        (rest as { onOpen?: (event?: React.SyntheticEvent | Event) => void }).onOpen?.(event);
+      },
+      [isDisabled, isOpenControlled, rest]
+    );
+
+    const requestClose = React.useCallback(
+      (event?: React.SyntheticEvent | Event) => {
+        if (!isOpenControlled) {
+          setInternalOpen(false);
+        }
+        (rest as { onClose?: (event?: React.SyntheticEvent | Event) => void }).onClose?.(event);
+      },
+      [isOpenControlled, rest]
+    );
+
+    type RangeValue = [Date, Date] | null;
+
+    const isValueControlled = Object.prototype.hasOwnProperty.call(rest, 'value');
+    const [internalValue, setInternalValue] = React.useState<RangeValue>(
+      ((rest as { defaultValue?: RangeValue }).defaultValue ?? null) as RangeValue
+    );
+    const effectiveValue: RangeValue =
+      (isValueControlled ? ((rest as { value?: RangeValue }).value ?? null) : internalValue) ??
+      null;
 
     const handleChange = React.useCallback(
-      (nextValue: DateRange | null, event?: React.SyntheticEvent | Event) => {
-        const nextRange = isDateRange(nextValue) ? nextValue : null;
+      (next: RangeValue, event?: React.SyntheticEvent | Event) => {
         if (!isValueControlled) {
-          setInternalValue(nextRange);
+          setInternalValue(next);
         }
-        onChangeProp?.(nextRange, event);
+        (
+          rest as { onChange?: (value: RangeValue, event?: React.SyntheticEvent | Event) => void }
+        ).onChange?.(next ?? null, event);
       },
-      [isValueControlled, onChangeProp]
+      [isValueControlled, rest]
     );
 
     const displayValue = React.useMemo(() => {
-      if (!effectiveValue) {
+      if (!effectiveValue || !effectiveValue[0] || !effectiveValue[1]) {
         return '';
       }
       const [start, end] = effectiveValue;
@@ -162,15 +152,21 @@ export const DatePicker = React.forwardRef<HTMLDivElement, InternalDatePickerPro
     const effectiveShowOneCalendar =
       typeof showOneCalendar === 'boolean' ? showOneCalendar : !matchesLg;
 
+    const userClassName: string | undefined =
+      typeof className === 'string' ? className : undefined;
+
     const wrapperClassName = collapseWhitespace(
       composeClasses(
         baseClasses,
         containerClasses,
         fullWidth ? layoutFullWidthClasses : undefined,
         effectiveShowOneCalendar ? showOneCalendarStateClasses : undefined,
-        className
+        userClassName
       )
     );
+
+    const inputPlaceholder: string =
+      typeof placeholder === 'string' ? placeholder : 'Select a date range';
 
     return (
       <div
@@ -191,19 +187,18 @@ export const DatePicker = React.forwardRef<HTMLDivElement, InternalDatePickerPro
             }
           }}
           disabled={isDisabled}
-          placeholder={placeholder ?? 'Select a date range'}
+          placeholder={inputPlaceholder}
           aria-haspopup="dialog"
           aria-expanded={effectiveOpen ? true : false}
         />
         <DateRangePicker
-          {...passThrough}
-          value={effectiveValue ?? null}
+          {...rest}
+          value={effectiveValue ?? undefined}
           onChange={handleChange}
           open={effectiveOpen}
           onOpen={requestOpen}
           onClose={requestClose}
           editable={false}
-          disabled={disabledProp}
           showOneCalendar={effectiveShowOneCalendar}
           container={() => wrapperRef.current as unknown as HTMLElement}
         />
