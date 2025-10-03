@@ -44,6 +44,7 @@
   --color-brand-950: var(--dt-color-brand-950);
 
   /* Backgrounds */
+  --color-background-modal-dark: var(--dt-background-modal-dark);
   --color-background-none: var(--dt-color-background-none);
   --color-body-background: var(--dt-color-background-default);
   --color-color-background-brand: var(--dt-color-background-brand);

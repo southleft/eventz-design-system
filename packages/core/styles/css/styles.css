@@ -42,6 +42,7 @@
   --color-brand-800: var(--dt-color-brand-800);
   --color-brand-900: var(--dt-color-brand-900);
   --color-brand-950: var(--dt-color-brand-950);
+  --color-background-modal-dark: var(--dt-background-modal-dark);
   --color-background-none: var(--dt-color-background-none);
   --color-body-background: var(--dt-color-background-default);
   --color-color-background-brand: var(--dt-color-background-brand);
@@ -1469,6 +1470,9 @@
 .border-b-color-border-default {
   border-bottom-color: var(--color-color-border-default);
 }
+.bg-background-modal-dark {
+  background-color: var(--color-background-modal-dark);
+}
 .bg-background-none {
   background-color: var(--color-background-none);
 }
@@ -2119,6 +2123,11 @@
   @media (width >= 64rem) {
     font-size: var(--text-lg);
     line-height: var(--tw-leading, var(--text-lg--line-height));
+  }
+}
+.\[\&_\.rs-picker-popup\]\:bg-background-modal-dark {
+  & .rs-picker-popup {
+    background-color: var(--color-background-modal-dark);
   }
 }
 .data-\[show-one-calendar\=true\]\:\[\&_\.rs-picker-toolbar\]\:flex {

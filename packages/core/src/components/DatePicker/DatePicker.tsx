@@ -3,7 +3,11 @@ import { DateRangePicker } from 'rsuite';
 import { composeClasses } from '../../utilities/composeClasses/composeClasses';
 import { collapseWhitespace } from '../../utilities/collapseWhitespace/collapseWhitespace';
 
-const baseClasses = `bg-modal-dark text-content-default`;
+const baseClasses = `
+  [&_.rs-picker-popup]:bg-background-modal-dark
+  [&_.rs-picker-popup]:text-content-default
+`;
+
 const containerClasses = `dxyz-date-picker`;
 const layoutFullWidthClasses = `w-full`;
 const showOneCalendarStateClasses = `

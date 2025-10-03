@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import 'rsuite/dist/rsuite.min.css';
+import 'rsuite/DateRangePicker/styles/index.css';
 
 import { DatePicker } from './DatePicker';
 
@@ -60,4 +60,3 @@ export const Controls: Story = {
     placeholder: 'Select a date range'
   }
 };
-
