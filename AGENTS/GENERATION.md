@@ -27,7 +27,7 @@ See **Canonical paths** above for contract and styleMap locations.
 
 ## 📦 Outputs
 Generated components must include all of the following:
-- `/<ComponentName>.tsx` — React component implementing the contract + styleMap. Do not export prop type aliases; export only the named `<ComponentName>Props` interface from this file. This file **must export a named interface for props** (e.g., `<ComponentName>Props`), defined within the same file, matching the contract's prop definitions.
+- `/<ComponentName>.tsx` — React component implementing the contract + styleMap. Do not export prop type aliases; export only the named `<ComponentName>Props` interface from this file. This file **must export a named interface for props** (e.g., `<ComponentName>Props`), defined within the same file, matching the contract's prop definitions. Class composition must use `composeClasses` with styleMap variants (`packages/core/src/utilities/composeClasses/composeClasses.ts`). MUST use template literals (`` `...` ``) for all static or inline className definitions. DO NOT use string concatenation (`+`), arrays of strings, or array joins; DO NOT pass arrays directly to `composeClasses`.
 - `/<ComponentName>.stories.tsx` — Storybook stories covering all public props/variants
 - `/<ComponentName>.test.tsx` (or `__tests__/`) — Jest + RTL tests for render, slots, variants, baseline a11y
 
@@ -43,8 +43,8 @@ All outputs belong under:
    - Must support `asChild` if contract specifies.
    - Props and types must exactly match contract.
    - Class composition must use `composeClasses` with styleMap variants (`packages/core/src/utilities/composeClasses/composeClasses.ts`).
-   > Note: This repo does not use `clsx`/`cx`. Always use the local `composeClasses.ts` utility to keep class composition within our type structure.
-   - Prefer template literals (`` `...` ``) for static or inline className definitions. Avoid string concatenation (`+`) and arrays of strings joined into a className.
+  > Note: This repo does not use `clsx`/`cx`. Always use the local `composeClasses.ts` utility to keep class composition within our type structure.
+   - MUST use template literals (`` `...` ``) for all static or inline className definitions. DO NOT use string concatenation (`+`), arrays of strings, or array joins; DO NOT pass arrays directly to `composeClasses`.
    - Accessibility: decorative icons → `aria-hidden="true"`, all interactive elements → accessible names.
    - For native elements (e.g., `<a>`, `<button>`, `<input>`), do not add custom event suppression or override native props (`tabIndex`, `rel`, etc.) unless the blueprint explicitly requires it.
 3. **Generate stories**:
@@ -78,5 +78,5 @@ All outputs belong under:
 - PR title prefixed with `🤖` and checklist from `AGENTS/PR_PROTOCOL.md` present
 - Base uses a **Radix Primitive** (no Themes); visuals driven by token classes from the styleMap.
 - Tests follow the unit test policy: one `expect()` per `it()`, organized with `describe()`, table-driven tests allowed when they reduce duplication (one `expect()` per case).
-- ClassNames follow the convention: `composeClasses` plus template literals preferred over concatenation or arrays of strings.
+- ClassNames follow the convention: `composeClasses` plus template literals ONLY; arrays of strings, concatenation, array joins, or passing arrays directly to `composeClasses` are disallowed.
 - Props export rule followed: only `<ComponentName>Props` is exported; no prop type aliases are exported.
