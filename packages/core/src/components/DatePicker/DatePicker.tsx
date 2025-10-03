@@ -31,6 +31,19 @@ type InternalDatePickerProps = RsuiteDateRangePickerProps & DatePickerProps;
 export const DatePicker = React.forwardRef<HTMLDivElement, InternalDatePickerProps>(
   ({ showOneCalendar, fullWidth = false, className, ...rest }, ref) => {
     const [matchesLg, setMatchesLg] = React.useState(false);
+    const wrapperRef = React.useRef<HTMLDivElement | null>(null);
+    const setWrapperRef = React.useCallback(
+      (node: HTMLDivElement | null) => {
+        wrapperRef.current = node;
+
+        if (typeof ref === 'function') {
+          ref(node);
+        } else if (ref) {
+          (ref as React.MutableRefObject<HTMLDivElement | null>).current = node;
+        }
+      },
+      [ref]
+    );
 
     React.useEffect(() => {
       if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') {
@@ -65,12 +78,16 @@ export const DatePicker = React.forwardRef<HTMLDivElement, InternalDatePickerPro
 
     return (
       <div
-        ref={ref}
+        ref={setWrapperRef}
         className={wrapperClassName}
         data-slot="container"
         data-show-one-calendar={effectiveShowOneCalendar ? 'true' : undefined}
       >
-        <DateRangePicker {...rest} showOneCalendar={effectiveShowOneCalendar} />
+        <DateRangePicker
+          {...rest}
+          showOneCalendar={effectiveShowOneCalendar}
+          container={() => wrapperRef.current as unknown as HTMLElement}
+        />
       </div>
     );
   }
