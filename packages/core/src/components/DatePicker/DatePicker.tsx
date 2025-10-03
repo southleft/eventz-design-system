@@ -3,17 +3,17 @@ import { DateRangePicker } from 'rsuite';
 import { composeClasses } from '../../utilities/composeClasses/composeClasses';
 import { collapseWhitespace } from '../../utilities/collapseWhitespace/collapseWhitespace';
 
-const baseClasses = ['bg-modal-dark', 'text-content-default'] as const;
-const containerClasses = ['dxyz-date-picker'] as const;
-const layoutFullWidthClasses = ['w-full'] as const;
-const showOneCalendarStateClasses = [
-  'data-[show-one-calendar=true]:[&_.rs-picker-toolbar]:flex',
-  'data-[show-one-calendar=true]:[&_.rs-picker-toolbar]:flex-col',
-  'data-[show-one-calendar=true]:[&_.rs-picker-toolbar-option-group]:order-first',
-  'data-[show-one-calendar=true]:[&_.rs-picker-toolbar-option-group]:mb-2',
-  'data-[show-one-calendar=true]:[&_.rs-picker-toolbar-option-group]:border-b',
-  'data-[show-one-calendar=true]:[&_.rs-picker-toolbar-option-group]:pb-1'
-] as const;
+const baseClasses = `bg-modal-dark text-content-default`;
+const containerClasses = `dxyz-date-picker`;
+const layoutFullWidthClasses = `w-full`;
+const showOneCalendarStateClasses = `
+  data-[show-one-calendar=true]:[&_.rs-picker-toolbar]:flex
+  data-[show-one-calendar=true]:[&_.rs-picker-toolbar]:flex-col
+  data-[show-one-calendar=true]:[&_.rs-picker-toolbar-option-group]:order-first
+  data-[show-one-calendar=true]:[&_.rs-picker-toolbar-option-group]:mb-2
+  data-[show-one-calendar=true]:[&_.rs-picker-toolbar-option-group]:border-b
+  data-[show-one-calendar=true]:[&_.rs-picker-toolbar-option-group]:pb-1
+`;
 
 export interface DatePickerProps {
   showOneCalendar?: boolean;
