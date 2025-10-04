@@ -4,11 +4,21 @@ import { composeClasses } from '../../utilities/composeClasses/composeClasses';
 import { collapseWhitespace } from '../../utilities/collapseWhitespace/collapseWhitespace';
 import { Input, InputProps as InputComponentProps } from '../Input';
 
+/**
+ * DatePicker wraps RSuite’s DateRangePicker:
+ * - We render our own <Input> as the visible trigger; the RSuite input group stays hidden.
+ * - A few minimal casts exist because RSuite’s public prop types are permissive in places.
+ *   These casts LOCALIZE looseness so the rest of this component stays strictly typed.
+ *   If RSuite tightens types later, remove the casts here — do not spread casts elsewhere.
+ * - Unit tests cover controlled/uncontrolled value & open, keyboard open/close, and portal container branches.
+ */
+
 const defaultInputProps: React.ComponentPropsWithoutRef<typeof Input> = {
   placeholder: 'Select a date range'
   // endIcon: <CalendarIcon aria-hidden="true" /> // optional: add when ready
 };
 
+/** Class policy: use template literals only (no arrays). Keep token classes intact; compose via `composeClasses`. */
 const baseClasses = `
   relative
   bg-modal-dark
@@ -69,6 +79,11 @@ export const DatePicker = React.forwardRef<HTMLDivElement, InternalDatePickerPro
 
     const isDisabled = Boolean((rest).disabled);
 
+    /**
+     * Controlled `open` detection: presence + boolean type.
+     * NOTE: The minimal cast(s) around RSuite props are intentional due to upstream wide types.
+     * Do not “clean up” by removing these unless RSuite typings improve.
+     */
     const isOpenControlled =
       Object.prototype.hasOwnProperty.call(rest, 'open') &&
       typeof (rest).open === 'boolean';
@@ -103,6 +118,10 @@ export const DatePicker = React.forwardRef<HTMLDivElement, InternalDatePickerPro
 
     type RangeValue = [Date, Date] | null;
 
+    /**
+     * Controlled `value` detection uses presence (not type) by design:
+     * RSuite may pass partial tuples; we normalize to `[Date, Date] | null` before forwarding.
+     */
     const isValueControlled = Object.prototype.hasOwnProperty.call(rest, 'value');
     const [internalValue, setInternalValue] = React.useState<RangeValue>(
       ((rest as { defaultValue?: RangeValue }).defaultValue ?? null) as RangeValue
@@ -123,6 +142,11 @@ export const DatePicker = React.forwardRef<HTMLDivElement, InternalDatePickerPro
       [isValueControlled, rest]
     );
 
+    /**
+     * Display formatting seam — intentionally simple for now.
+     * If product needs custom formatting, introduce a `formatRange?: (range) => string` prop
+     * and default to this implementation to avoid branching here.
+     */
     const displayValue = React.useMemo(() => {
       if (!effectiveValue || !effectiveValue[0] || !effectiveValue[1]) {
         return '';
@@ -132,6 +156,10 @@ export const DatePicker = React.forwardRef<HTMLDivElement, InternalDatePickerPro
     }, [effectiveValue]);
 
     React.useEffect(() => {
+      /**
+       * SSR-safe: `window` / `matchMedia` may be unavailable. We guard before reading.
+       * This effect drives the default for `showOneCalendar` based on the `lg` breakpoint.
+       */
       if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') {
         return;
       }
@@ -165,6 +193,10 @@ export const DatePicker = React.forwardRef<HTMLDivElement, InternalDatePickerPro
       )
     );
 
+    /**
+     * Keyboard trigger: open the popup from the visible Input.
+     * We `preventDefault()` to avoid native text-field behaviors on Enter/ArrowDown.
+     */
     const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
       if (event.key === 'Enter') {
         event.preventDefault();
@@ -177,6 +209,13 @@ export const DatePicker = React.forwardRef<HTMLDivElement, InternalDatePickerPro
       }
     };
 
+    /**
+     * Input defaults + consumer overrides:
+     * - `defaultInputProps` supplies design defaults (e.g., placeholder).
+     * - `InputProps` is a Partial of <Input> props and overrides defaults.
+     * - DatePicker’s controlled/a11y props are applied AFTER this spread and take precedence.
+     *   (Event handlers on the trigger are owned here; do not rely on `InputProps.onKeyDown/onClick`.)
+     */
     const effectiveInputProps = React.useMemo<PartialInputComponentProps>(
       (): PartialInputComponentProps => ({ ...defaultInputProps, ...InputProps }),
       [InputProps]
@@ -189,6 +228,9 @@ export const DatePicker = React.forwardRef<HTMLDivElement, InternalDatePickerPro
         data-slot="container"
         data-show-one-calendar={effectiveShowOneCalendar ? 'true' : undefined}
       >
+        {/*
+          Spread consumer InputProps first; DatePicker’s controlled & a11y props follow and win.
+        */}
         <Input
           {...effectiveInputProps}
           data-testid="date-picker-input"
@@ -200,6 +242,10 @@ export const DatePicker = React.forwardRef<HTMLDivElement, InternalDatePickerPro
           aria-haspopup="dialog"
           aria-expanded={effectiveOpen ? true : false}
         />
+        {/*
+          Portal container: mount inside our wrapper for styling/scope; fallback to `document.body` until ref is set.
+          Tests exercise both branches of `container={() => (wrapperRef.current ?? document.body)}`.
+        */}
         <DateRangePicker
           {...rest}
           value={effectiveValue ?? undefined}
