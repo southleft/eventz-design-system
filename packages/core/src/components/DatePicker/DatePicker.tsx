@@ -53,18 +53,7 @@ export const DatePicker = React.forwardRef<HTMLDivElement, InternalDatePickerPro
   ({ showOneCalendar, fullWidth = false, className, placeholder, ...rest }, ref) => {
     const [matchesLg, setMatchesLg] = React.useState(false);
     const wrapperRef = React.useRef<HTMLDivElement | null>(null);
-    const setWrapperRef = React.useCallback(
-      (node: HTMLDivElement | null) => {
-        wrapperRef.current = node;
-
-        if (typeof ref === 'function') {
-          ref(node);
-        } else if (ref) {
-          (ref as React.MutableRefObject<HTMLDivElement | null>).current = node;
-        }
-      },
-      [ref]
-    );
+    React.useImperativeHandle(ref, () => wrapperRef.current!, []);
 
     const isDisabled = Boolean((rest as { disabled?: boolean }).disabled);
 
@@ -74,9 +63,8 @@ export const DatePicker = React.forwardRef<HTMLDivElement, InternalDatePickerPro
     const [internalOpen, setInternalOpen] = React.useState<boolean>(
       (rest as { defaultOpen?: boolean }).defaultOpen ?? false
     );
-    const effectiveOpen = isOpenControlled
-      ? ((rest as { open?: boolean }).open ?? false)
-      : internalOpen;
+    const openProp = (rest as { open?: boolean }).open;
+    const effectiveOpen = isOpenControlled ? (openProp as boolean) : internalOpen;
 
     const requestOpen = React.useCallback(
       (event?: React.SyntheticEvent | Event) => {
@@ -168,9 +156,21 @@ export const DatePicker = React.forwardRef<HTMLDivElement, InternalDatePickerPro
     const inputPlaceholder: string =
       typeof placeholder === 'string' ? placeholder : 'Select a date range';
 
+    const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        requestOpen(event);
+        return;
+      }
+      if (event.key === 'ArrowDown') {
+        event.preventDefault();
+        requestOpen(event);
+      }
+    };
+
     return (
       <div
-        ref={setWrapperRef}
+        ref={wrapperRef}
         className={wrapperClassName}
         data-slot="container"
         data-show-one-calendar={effectiveShowOneCalendar ? 'true' : undefined}
@@ -180,12 +180,7 @@ export const DatePicker = React.forwardRef<HTMLDivElement, InternalDatePickerPro
           value={displayValue}
           readOnly
           onClick={requestOpen}
-          onKeyDown={event => {
-            if (event.key === 'Enter' || event.key === 'ArrowDown') {
-              event.preventDefault();
-              requestOpen(event);
-            }
-          }}
+          onKeyDown={handleKeyDown}
           disabled={isDisabled}
           placeholder={inputPlaceholder}
           aria-haspopup="dialog"

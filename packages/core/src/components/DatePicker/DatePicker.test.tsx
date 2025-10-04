@@ -9,9 +9,26 @@ jest.mock('rsuite', () => {
   return {
     DateRangePicker: React.forwardRef<
       HTMLDivElement,
-      { onChange?: (value: [unknown, unknown]) => void; showOneCalendar?: boolean; open?: boolean }
+      {
+        onChange?: (value: [unknown, unknown] | null, event?: unknown) => void;
+        showOneCalendar?: boolean;
+        open?: boolean;
+        onClose?: (e?: unknown) => void;
+        onOpen?: (e?: unknown) => void;
+        container?: () => HTMLElement;
+        value?: [unknown, unknown];
+        editable?: boolean;
+      }
     >((props, ref) => {
-      const { onChange, showOneCalendar, open } = props;
+      const { onChange, showOneCalendar, open, container, value, editable } = props;
+
+      React.useEffect(() => {
+        container?.();
+      }, [container]);
+
+      const toTs = (d: unknown) => (d instanceof Date ? String(d.getTime()) : '');
+      const v0 = Array.isArray(value) ? toTs(value[0]) : '';
+      const v1 = Array.isArray(value) ? toTs(value[1]) : '';
 
       return (
         <div
@@ -21,9 +38,27 @@ jest.mock('rsuite', () => {
           data-testid="date-range-picker"
           data-prop-show-one={showOneCalendar ? 'true' : 'false'}
           data-prop-open={open ? 'true' : 'false'}
+          data-prop-value-start={v0}
+          data-prop-value-end={v1}
+          data-prop-editable={editable ? 'true' : 'false'}
           onClick={() => {
             const payload: [unknown, unknown] = [new Date(0), new Date(0)];
             onChange?.(payload);
+          }}
+          onDoubleClick={(e: React.MouseEvent<HTMLDivElement>) => {
+            const payload: [unknown, unknown] = [new Date(0), new Date(0)];
+            onChange?.(payload, e.nativeEvent);
+          }}
+          onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => {
+            if (e.key === 'Escape') {
+              props.onClose?.(e);
+            }
+            if (e.key === 'Enter' || e.key === 'ArrowDown') {
+              props.onOpen?.(e);
+            }
+            if (e.key === 'Backspace') {
+              onChange?.(null);
+            }
           }}
         >
           DateRangePicker
@@ -190,5 +225,323 @@ describe('DatePicker', () => {
     await waitFor(() => {
       expect(container).not.toHaveAttribute('data-show-one-calendar');
     });
+  });
+
+  it('closes in uncontrolled mode when RSuite fires onClose (Escape)', async () => {
+    setupMatchMedia(false);
+    render(<DatePicker defaultOpen />);
+    const inner = screen.getByTestId('date-range-picker');
+
+    await waitFor(() => {
+      expect(inner).toHaveAttribute('data-prop-open', 'true');
+    });
+
+    inner.focus();
+    await userEvent.keyboard('{Escape}');
+
+    await waitFor(() => {
+      expect(inner).toHaveAttribute('data-prop-open', 'false');
+    });
+  });
+
+  it('calls user onClose in controlled mode even if open stays true', async () => {
+    setupMatchMedia(false);
+    const onClose = jest.fn();
+    render(<DatePicker open onClose={onClose} />);
+
+    const inner = screen.getByTestId('date-range-picker');
+    inner.focus();
+    await userEvent.keyboard('{Escape}');
+
+    await waitFor(() => {
+      expect(onClose).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  it('forwards wrapper element to a callback ref on mount', () => {
+    setupMatchMedia(false);
+    let received: HTMLDivElement | null = null;
+    render(
+      <DatePicker
+        ref={element => {
+          received = element;
+        }}
+      />
+    );
+    expect(received).toBeInstanceOf(HTMLDivElement);
+  });
+
+  it('calls callback ref with null on unmount', () => {
+    setupMatchMedia(false);
+    let last: HTMLDivElement | null = null;
+    const { unmount } = render(
+      <DatePicker
+        ref={element => {
+          last = element;
+        }}
+      />
+    );
+    unmount();
+    expect(last).toBeNull();
+  });
+
+  it('sets object ref.current to wrapper element on mount', () => {
+    setupMatchMedia(false);
+    const objRef = React.createRef<HTMLDivElement>();
+    render(<DatePicker ref={objRef} />);
+    expect(objRef.current).toBeInstanceOf(HTMLDivElement);
+  });
+
+  it('clears object ref.current on unmount', () => {
+    setupMatchMedia(false);
+    const objRef = React.createRef<HTMLDivElement>();
+    const { unmount } = render(<DatePicker ref={objRef} />);
+    unmount();
+    expect(objRef.current).toBeNull();
+  });
+
+  it('does not open when disabled (early return path)', async () => {
+    setupMatchMedia(false);
+    render(<DatePicker disabled />);
+
+    const inner = screen.getByTestId('date-range-picker');
+    inner.focus();
+    await userEvent.keyboard('{Enter}');
+
+    await waitFor(() => {
+      expect(inner).toHaveAttribute('data-prop-open', 'false');
+    });
+  });
+
+  it('prevents default on Enter key in the visible Input', () => {
+    setupMatchMedia(false);
+    render(<DatePicker />);
+
+    const input = screen.getByTestId('date-picker-input');
+    const ev = new KeyboardEvent('keydown', { key: 'Enter', bubbles: true, cancelable: true });
+    input.dispatchEvent(ev);
+
+    expect(ev.defaultPrevented).toBe(true);
+  });
+
+  it('opens the RSuite picker on ArrowDown key in the visible Input', async () => {
+    setupMatchMedia(false);
+    render(<DatePicker />);
+
+    const input = screen.getByTestId('date-picker-input');
+    const ev = new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true, cancelable: true });
+    input.dispatchEvent(ev);
+
+    const inner = screen.getByTestId('date-range-picker');
+    await waitFor(() => {
+      expect(inner).toHaveAttribute('data-prop-open', 'true');
+    });
+  });
+
+  it('initializes effective value from defaultValue (internal)', () => {
+    setupMatchMedia(false);
+    const d0 = new Date(2020, 0, 1);
+    const d1 = new Date(2020, 0, 2);
+    render(<DatePicker defaultValue={[d0, d1]} />);
+    const inner = screen.getByTestId('date-range-picker');
+    expect(inner).toHaveAttribute('data-prop-value-start', String(d0.getTime()));
+  });
+
+  it('updates internal value on onChange in uncontrolled mode', async () => {
+    setupMatchMedia(false);
+    render(<DatePicker />);
+    const inner = screen.getByTestId('date-range-picker');
+    await userEvent.click(inner);
+    await waitFor(() => {
+      expect(inner).toHaveAttribute('data-prop-value-start', '0');
+    });
+  });
+
+  it('does not change effective value in controlled mode on onChange (calls user handler)', async () => {
+    setupMatchMedia(false);
+    const d0 = new Date(2021, 0, 1);
+    const d1 = new Date(2021, 0, 2);
+    const onChange = jest.fn();
+    render(<DatePicker value={[d0, d1]} onChange={onChange} />);
+    const inner = screen.getByTestId('date-range-picker');
+
+    await waitFor(() => {
+      expect(inner).toHaveAttribute('data-prop-value-start', String(d0.getTime()));
+    });
+
+    await userEvent.click(inner);
+
+    await waitFor(() => {
+      expect(onChange).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  it('forwards null to onChange when the picker clears value', async () => {
+    setupMatchMedia(false);
+    const spy = jest.fn();
+    render(<DatePicker onChange={spy} />);
+    const inner = screen.getByTestId('date-range-picker');
+    inner.focus();
+    await userEvent.keyboard('{Backspace}');
+    await waitFor(() => {
+      expect(spy).toHaveBeenCalledWith(null, undefined);
+    });
+  });
+
+  it('calls user onOpen when clicking the visible Input', async () => {
+    setupMatchMedia(false);
+    const onOpen = jest.fn();
+    render(<DatePicker onOpen={onOpen} />);
+
+    const input = screen.getByTestId('date-picker-input');
+    await userEvent.click(input);
+
+    await waitFor(() => {
+      expect(onOpen).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  it('calls user onOpen when RSuite triggers onOpen (Enter)', async () => {
+    setupMatchMedia(false);
+    const onOpen = jest.fn();
+    render(<DatePicker onOpen={onOpen} />);
+
+    const inner = screen.getByTestId('date-range-picker');
+    inner.focus();
+    await userEvent.keyboard('{Enter}');
+
+    await waitFor(() => {
+      expect(onOpen).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  it('does not open when controlled open=false and clicking the visible Input', async () => {
+    setupMatchMedia(false);
+    render(<DatePicker open={false} />);
+    const input = screen.getByTestId('date-picker-input');
+    await userEvent.click(input);
+    const inner = screen.getByTestId('date-range-picker');
+    await waitFor(() => {
+      expect(inner).toHaveAttribute('data-prop-open', 'false');
+    });
+  });
+
+  it('applies disabled attribute to the visible Input when disabled', () => {
+    setupMatchMedia(false);
+    render(<DatePicker disabled />);
+    const input = screen.getByTestId('date-picker-input');
+    expect(input).toBeDisabled();
+  });
+
+  it('sets aria-expanded="true" on the visible Input when opened', async () => {
+    setupMatchMedia(false);
+    render(<DatePicker />);
+    const input = screen.getByTestId('date-picker-input');
+    await userEvent.click(input);
+    await waitFor(() => {
+      expect(input).toHaveAttribute('aria-expanded', 'true');
+    });
+  });
+
+  it('sets aria-expanded="false" on the visible Input after closing', async () => {
+    setupMatchMedia(false);
+    render(<DatePicker defaultOpen />);
+    const input = screen.getByTestId('date-picker-input');
+    const inner = screen.getByTestId('date-range-picker');
+    inner.focus();
+    await userEvent.keyboard('{Escape}');
+    await waitFor(() => {
+      expect(input).toHaveAttribute('aria-expanded', 'false');
+    });
+  });
+
+  it('prevents default on ArrowDown key in the visible Input', () => {
+    setupMatchMedia(false);
+    render(<DatePicker />);
+    const input = screen.getByTestId('date-picker-input');
+    const ev = new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true, cancelable: true });
+    input.dispatchEvent(ev);
+    expect(ev.defaultPrevented).toBe(true);
+  });
+
+  it('honors defaultOpen on initial render (uncontrolled)', async () => {
+    setupMatchMedia(false);
+    render(<DatePicker defaultOpen />);
+    const inner = screen.getByTestId('date-range-picker');
+    await waitFor(() => {
+      expect(inner).toHaveAttribute('data-prop-open', 'true');
+    });
+  });
+
+  it('forwards (value, undefined) to onChange when RSuite provides only value', async () => {
+    setupMatchMedia(false);
+    const spy = jest.fn();
+    render(<DatePicker onChange={spy} />);
+    const inner = screen.getByTestId('date-range-picker');
+    await userEvent.click(inner);
+    await waitFor(() => {
+      expect(spy).toHaveBeenCalledWith([new Date(0), new Date(0)], undefined);
+    });
+  });
+
+  it('does not open on unrelated keydown (Tab) in the visible Input', async () => {
+    setupMatchMedia(false);
+    render(<DatePicker />);
+    const input = screen.getByTestId('date-picker-input');
+    const ev = new KeyboardEvent('keydown', { key: 'Tab', bubbles: true, cancelable: true });
+    input.dispatchEvent(ev);
+    const inner = screen.getByTestId('date-range-picker');
+    await waitFor(() => {
+      expect(inner).toHaveAttribute('data-prop-open', 'false');
+    });
+  });
+
+  it('passes editable=false to RSuite DateRangePicker', () => {
+    setupMatchMedia(false);
+    render(<DatePicker />);
+    const inner = screen.getByTestId('date-range-picker');
+    expect(inner).toHaveAttribute('data-prop-editable', 'false');
+  });
+
+  it('forwards (value, event) to onChange when RSuite provides both (dblclick path)', async () => {
+    setupMatchMedia(false);
+    const spy = jest.fn();
+    render(<DatePicker onChange={spy} />);
+    const inner = screen.getByTestId('date-range-picker');
+    await userEvent.dblClick(inner);
+    await waitFor(() => {
+      expect(spy).toHaveBeenCalledWith([new Date(0), new Date(0)], expect.any(Event));
+    });
+  });
+
+  it('treats controlled undefined value as empty effective value', () => {
+    setupMatchMedia(false);
+    render(<DatePicker value={undefined as unknown as [Date, Date]} />);
+    const inner = screen.getByTestId('date-range-picker');
+    expect(inner).toHaveAttribute('data-prop-value-start', '');
+  });
+
+  it('handles both Enter and ArrowDown on the visible Input (prevent + open)', async () => {
+    setupMatchMedia(false);
+    render(<DatePicker />);
+    const input = screen.getByTestId('date-picker-input');
+
+    const ev = new KeyboardEvent('keydown', { key: 'Enter', bubbles: true, cancelable: true });
+    input.dispatchEvent(ev);
+    expect(ev.defaultPrevented).toBe(true);
+
+    const ev2 = new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true, cancelable: true });
+    input.dispatchEvent(ev2);
+    const inner = screen.getByTestId('date-range-picker');
+    await waitFor(() => {
+      expect(inner).toHaveAttribute('data-prop-open', 'true');
+    });
+  });
+
+  it('renders the provided custom placeholder string', () => {
+    setupMatchMedia(false);
+    render(<DatePicker placeholder="Pick dates" />);
+    const input = screen.getByTestId('date-picker-input');
+    expect(input).toHaveAttribute('placeholder', 'Pick dates');
   });
 });
