@@ -62,20 +62,21 @@ type RsuiteDateRangePickerProps = Omit<
 type InternalDatePickerProps = RsuiteDateRangePickerProps & DatePickerProps;
 
 export const DatePicker = React.forwardRef<HTMLDivElement, InternalDatePickerProps>(
-  ({ showOneCalendar, fullWidth = false, className, InputProps = {}, ...rest }, ref) => {
+  ({ showOneCalendar, fullWidth = false, className, InputProps = {}, ...rest }: InternalDatePickerProps, ref) => {
     const [matchesLg, setMatchesLg] = React.useState(false);
     const wrapperRef = React.useRef<HTMLDivElement | null>(null);
     React.useImperativeHandle(ref, () => wrapperRef.current!, []);
 
-    const isDisabled = Boolean(rest.disabled);
+    const isDisabled = Boolean((rest).disabled);
 
     const isOpenControlled =
-      Object.prototype.hasOwnProperty.call(rest, 'open') && typeof rest.open === 'boolean';
-    const [internalOpen, setInternalOpen] = React.useState<boolean>(rest.defaultOpen ?? false);
-    let effectiveOpen = internalOpen;
-    if (isOpenControlled) {
-      effectiveOpen = rest.open!;
-    }
+      Object.prototype.hasOwnProperty.call(rest, 'open') &&
+      typeof (rest).open === 'boolean';
+    const [internalOpen, setInternalOpen] = React.useState<boolean>(
+      (rest as { defaultOpen?: boolean }).defaultOpen ?? false
+    );
+    const openProp = (rest as { open?: boolean }).open;
+    const effectiveOpen = isOpenControlled ? (openProp) : internalOpen;
 
     const requestOpen = React.useCallback(
       (event?: React.SyntheticEvent | Event) => {
@@ -85,7 +86,7 @@ export const DatePicker = React.forwardRef<HTMLDivElement, InternalDatePickerPro
         if (!isOpenControlled) {
           setInternalOpen(true);
         }
-        rest.onOpen?.(event);
+        (rest as { onOpen?: (event?: React.SyntheticEvent | Event) => void }).onOpen?.(event);
       },
       [isDisabled, isOpenControlled, rest]
     );
@@ -95,7 +96,7 @@ export const DatePicker = React.forwardRef<HTMLDivElement, InternalDatePickerPro
         if (!isOpenControlled) {
           setInternalOpen(false);
         }
-        rest.onClose?.(event);
+        (rest as { onClose?: (event?: React.SyntheticEvent | Event) => void }).onClose?.(event);
       },
       [isOpenControlled, rest]
     );
@@ -103,15 +104,21 @@ export const DatePicker = React.forwardRef<HTMLDivElement, InternalDatePickerPro
     type RangeValue = [Date, Date] | null;
 
     const isValueControlled = Object.prototype.hasOwnProperty.call(rest, 'value');
-    const [internalValue, setInternalValue] = React.useState<RangeValue>(rest.defaultValue ?? null);
-    const effectiveValue: RangeValue = isValueControlled ? rest.value ?? null : internalValue;
+    const [internalValue, setInternalValue] = React.useState<RangeValue>(
+      ((rest as { defaultValue?: RangeValue }).defaultValue ?? null) as RangeValue
+    );
+    const effectiveValue: RangeValue =
+      (isValueControlled ? ((rest as { value?: RangeValue }).value ?? null) : internalValue) ??
+      null;
 
     const handleChange = React.useCallback(
       (next: RangeValue, event?: React.SyntheticEvent | Event) => {
         if (!isValueControlled) {
           setInternalValue(next);
         }
-        rest.onChange?.(next ?? null, event);
+        (
+          rest as { onChange?: (value: RangeValue, event?: React.SyntheticEvent | Event) => void }
+        ).onChange?.(next ?? null, event);
       },
       [isValueControlled, rest]
     );
