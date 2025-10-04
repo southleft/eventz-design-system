@@ -2,7 +2,12 @@ import * as React from 'react';
 import { DateRangePicker } from 'rsuite';
 import { composeClasses } from '../../utilities/composeClasses/composeClasses';
 import { collapseWhitespace } from '../../utilities/collapseWhitespace/collapseWhitespace';
-import { Input } from '../Input';
+import { Input, InputProps as InputComponentProps } from '../Input';
+
+const defaultInputProps: React.ComponentPropsWithoutRef<typeof Input> = {
+  placeholder: 'Select a date range'
+  // endIcon: <CalendarIcon aria-hidden="true" /> // optional: add when ready
+};
 
 const baseClasses = `
   relative
@@ -25,11 +30,18 @@ const showOneCalendarStateClasses = `
   data-[show-one-calendar=true]:[&_.rs-picker-toolbar-option-group]:pb-1
 `;
 
+type PartialInputComponentProps = Partial<InputComponentProps>
+
 export interface DatePickerProps {
   showOneCalendar?: boolean;
   fullWidth?: boolean;
   className?: string;
-  placeholder?: string;
+  /**
+   * Props to pass to the internal Input trigger.
+   * These are spread onto <Input />; DatePicker’s own props (value, readOnly, handlers, a11y)
+   * are applied AFTER the spread and therefore take precedence.
+   */
+  InputProps?: PartialInputComponentProps;
 }
 
 type RsuiteDateRangePickerProps = Omit<
@@ -50,21 +62,20 @@ type RsuiteDateRangePickerProps = Omit<
 type InternalDatePickerProps = RsuiteDateRangePickerProps & DatePickerProps;
 
 export const DatePicker = React.forwardRef<HTMLDivElement, InternalDatePickerProps>(
-  ({ showOneCalendar, fullWidth = false, className, placeholder, ...rest }, ref) => {
+  ({ showOneCalendar, fullWidth = false, className, InputProps = {}, ...rest }, ref) => {
     const [matchesLg, setMatchesLg] = React.useState(false);
     const wrapperRef = React.useRef<HTMLDivElement | null>(null);
     React.useImperativeHandle(ref, () => wrapperRef.current!, []);
 
-    const isDisabled = Boolean((rest as { disabled?: boolean }).disabled);
+    const isDisabled = Boolean(rest.disabled);
 
     const isOpenControlled =
-      Object.prototype.hasOwnProperty.call(rest, 'open') &&
-      typeof (rest as { open?: unknown }).open === 'boolean';
-    const [internalOpen, setInternalOpen] = React.useState<boolean>(
-      (rest as { defaultOpen?: boolean }).defaultOpen ?? false
-    );
-    const openProp = (rest as { open?: boolean }).open;
-    const effectiveOpen = isOpenControlled ? (openProp as boolean) : internalOpen;
+      Object.prototype.hasOwnProperty.call(rest, 'open') && typeof rest.open === 'boolean';
+    const [internalOpen, setInternalOpen] = React.useState<boolean>(rest.defaultOpen ?? false);
+    let effectiveOpen = internalOpen;
+    if (isOpenControlled) {
+      effectiveOpen = rest.open!;
+    }
 
     const requestOpen = React.useCallback(
       (event?: React.SyntheticEvent | Event) => {
@@ -74,7 +85,7 @@ export const DatePicker = React.forwardRef<HTMLDivElement, InternalDatePickerPro
         if (!isOpenControlled) {
           setInternalOpen(true);
         }
-        (rest as { onOpen?: (event?: React.SyntheticEvent | Event) => void }).onOpen?.(event);
+        rest.onOpen?.(event);
       },
       [isDisabled, isOpenControlled, rest]
     );
@@ -84,7 +95,7 @@ export const DatePicker = React.forwardRef<HTMLDivElement, InternalDatePickerPro
         if (!isOpenControlled) {
           setInternalOpen(false);
         }
-        (rest as { onClose?: (event?: React.SyntheticEvent | Event) => void }).onClose?.(event);
+        rest.onClose?.(event);
       },
       [isOpenControlled, rest]
     );
@@ -92,21 +103,15 @@ export const DatePicker = React.forwardRef<HTMLDivElement, InternalDatePickerPro
     type RangeValue = [Date, Date] | null;
 
     const isValueControlled = Object.prototype.hasOwnProperty.call(rest, 'value');
-    const [internalValue, setInternalValue] = React.useState<RangeValue>(
-      ((rest as { defaultValue?: RangeValue }).defaultValue ?? null) as RangeValue
-    );
-    const effectiveValue: RangeValue =
-      (isValueControlled ? ((rest as { value?: RangeValue }).value ?? null) : internalValue) ??
-      null;
+    const [internalValue, setInternalValue] = React.useState<RangeValue>(rest.defaultValue ?? null);
+    const effectiveValue: RangeValue = isValueControlled ? rest.value ?? null : internalValue;
 
     const handleChange = React.useCallback(
       (next: RangeValue, event?: React.SyntheticEvent | Event) => {
         if (!isValueControlled) {
           setInternalValue(next);
         }
-        (
-          rest as { onChange?: (value: RangeValue, event?: React.SyntheticEvent | Event) => void }
-        ).onChange?.(next ?? null, event);
+        rest.onChange?.(next ?? null, event);
       },
       [isValueControlled, rest]
     );
@@ -153,9 +158,6 @@ export const DatePicker = React.forwardRef<HTMLDivElement, InternalDatePickerPro
       )
     );
 
-    const inputPlaceholder: string =
-      typeof placeholder === 'string' ? placeholder : 'Select a date range';
-
     const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
       if (event.key === 'Enter') {
         event.preventDefault();
@@ -168,6 +170,11 @@ export const DatePicker = React.forwardRef<HTMLDivElement, InternalDatePickerPro
       }
     };
 
+    const effectiveInputProps = React.useMemo<PartialInputComponentProps>(
+      (): PartialInputComponentProps => ({ ...defaultInputProps, ...InputProps }),
+      [InputProps]
+    );
+
     return (
       <div
         ref={wrapperRef}
@@ -176,13 +183,13 @@ export const DatePicker = React.forwardRef<HTMLDivElement, InternalDatePickerPro
         data-show-one-calendar={effectiveShowOneCalendar ? 'true' : undefined}
       >
         <Input
+          {...effectiveInputProps}
           data-testid="date-picker-input"
           value={displayValue}
           readOnly
           onClick={requestOpen}
           onKeyDown={handleKeyDown}
           disabled={isDisabled}
-          placeholder={inputPlaceholder}
           aria-haspopup="dialog"
           aria-expanded={effectiveOpen ? true : false}
         />
@@ -195,7 +202,7 @@ export const DatePicker = React.forwardRef<HTMLDivElement, InternalDatePickerPro
           onClose={requestClose}
           editable={false}
           showOneCalendar={effectiveShowOneCalendar}
-          container={() => wrapperRef.current as unknown as HTMLElement}
+          container={() => (wrapperRef.current ?? document.body)}
         />
       </div>
     );

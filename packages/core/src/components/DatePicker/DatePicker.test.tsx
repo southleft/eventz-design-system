@@ -22,6 +22,8 @@ jest.mock('rsuite', () => {
     >((props, ref) => {
       const { onChange, showOneCalendar, open, container, value, editable } = props;
 
+      container?.();
+
       React.useEffect(() => {
         container?.();
       }, [container]);
@@ -538,10 +540,17 @@ describe('DatePicker', () => {
     });
   });
 
-  it('renders the provided custom placeholder string', () => {
+  it('uses default placeholder when InputProps provided without placeholder', () => {
     setupMatchMedia(false);
-    render(<DatePicker placeholder="Pick dates" />);
+    render(<DatePicker InputProps={{ 'data-probe': '1' }} />);
     const input = screen.getByTestId('date-picker-input');
-    expect(input).toHaveAttribute('placeholder', 'Pick dates');
+    expect(input).toHaveAttribute('placeholder', 'Select a date range');
+  });
+
+  it('spreads InputProps onto the visible Input', () => {
+    setupMatchMedia(false);
+    render(<DatePicker InputProps={{ 'data-probe': 'ok' }} />);
+    const input = screen.getByTestId('date-picker-input');
+    expect(input).toHaveAttribute('data-probe', 'ok');
   });
 });
