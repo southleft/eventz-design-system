@@ -1,4 +1,5 @@
 export * from './ArrowBackIcon';
+export * from './ArrowDropDownIcon'
 export * from './ArrowForwardIcon';
 export * from './CircleCheckIcon';
 export * from './CloseIcon';
