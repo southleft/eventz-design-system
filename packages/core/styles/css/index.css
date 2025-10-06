@@ -173,6 +173,16 @@
   --spacing-4: calc(var(--dt-spacing-4) * 1px);
 }
 
+@layer components {
+  /* DatePicker */
+  .rs-picker-daterange-header .rs-picker-header-date:first-child::before {
+    content: 'From: ';
+  }
+  .rs-picker-daterange-header .rs-picker-header-date:last-child::before {
+    content: 'To: ';
+  }
+}
+
 @layer utilities {
   .bg-gradient-purple {
     background-image: var(--dt-highlight-highlight-1);

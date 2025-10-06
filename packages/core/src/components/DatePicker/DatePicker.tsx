@@ -1,7 +1,8 @@
 import * as React from 'react';
-import { DateRangePicker } from 'rsuite';
+import { DateRangePicker, DateRangePickerProps } from 'rsuite';
 import { composeClasses } from '../../utilities/composeClasses/composeClasses';
 import { collapseWhitespace } from '../../utilities/collapseWhitespace/collapseWhitespace';
+import { ArrowDropDownIcon } from '../../icons';
 import { Input, InputProps as InputComponentProps } from '../Input';
 
 /**
@@ -14,8 +15,8 @@ import { Input, InputProps as InputComponentProps } from '../Input';
  */
 
 const defaultInputProps: React.ComponentPropsWithoutRef<typeof Input> = {
-  placeholder: 'Select a date range'
-  // endIcon: <CalendarIcon aria-hidden="true" /> // optional: add when ready
+  placeholder: 'Select a date range',
+  endIcon: <ArrowDropDownIcon aria-hidden="true" />
 };
 
 /** Class policy: use template literals only (no arrays). Keep token classes intact; compose via `composeClasses`. */
@@ -23,10 +24,16 @@ const baseClasses = `
   relative
   bg-modal-dark
   text-content-default
+  [&_.rs-picker-daterange-content]:mt-40
+  [&_.rs-picker-daterange-content]:ml-12
   [&_.rs-picker-popup]:bg-background-modal-dark
-  [&_.rs-picker-popup]:text-content-default
-  [&_.rs-picker-input-group]:invisible
+  [&_.rs-picker-popup]:text-color-content-default
+  [&_.rs-picker]:absolute
+  [&_.rs-picker]:left-0
+  [&_.rs-picker-input-group]:hidden
   [&_.rs-picker-input-group]:pointer-events-none
+  [&_.rs-picker-daterange-header]:flex
+  [&_.rs-picker-daterange-header]:justify-around
 `;
 
 const containerClasses = `dxyz-date-picker`;
@@ -46,6 +53,7 @@ export interface DatePickerProps {
   showOneCalendar?: boolean;
   fullWidth?: boolean;
   className?: string;
+  format?: string
   /**
    * Props to pass to the internal Input trigger.
    * These are spread onto <Input />; DatePicker’s own props (value, readOnly, handlers, a11y)
@@ -55,11 +63,12 @@ export interface DatePickerProps {
 }
 
 type RsuiteDateRangePickerProps = Omit<
-  React.ComponentPropsWithoutRef<typeof DateRangePicker>,
+  DateRangePickerProps,
   | 'className'
   | 'showOneCalendar'
   | 'disabledDate'
   | 'editable'
+  | 'format'
   | 'label'
   | 'appearance'
   | 'size'
@@ -72,7 +81,7 @@ type RsuiteDateRangePickerProps = Omit<
 type InternalDatePickerProps = RsuiteDateRangePickerProps & DatePickerProps;
 
 export const DatePicker = React.forwardRef<HTMLDivElement, InternalDatePickerProps>(
-  ({ showOneCalendar, fullWidth = false, className, InputProps = {}, ...rest }: InternalDatePickerProps, ref) => {
+  ({ showOneCalendar, format = 'MM/dd/yyyy', fullWidth = false, className, InputProps = {}, ...rest }: InternalDatePickerProps, ref) => {
     const [matchesLg, setMatchesLg] = React.useState(false);
     const wrapperRef = React.useRef<HTMLDivElement | null>(null);
     React.useImperativeHandle(ref, () => wrapperRef.current!, []);
@@ -248,6 +257,8 @@ export const DatePicker = React.forwardRef<HTMLDivElement, InternalDatePickerPro
         */}
         <DateRangePicker
           {...rest}
+          character=''
+          format={format}
           value={effectiveValue ?? undefined}
           onChange={handleChange}
           open={effectiveOpen}

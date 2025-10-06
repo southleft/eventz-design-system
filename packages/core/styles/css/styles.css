@@ -2125,19 +2125,54 @@
     line-height: var(--tw-leading, var(--text-lg--line-height));
   }
 }
+.\[\&_\.rs-picker\]\:absolute {
+  & .rs-picker {
+    position: absolute;
+  }
+}
+.\[\&_\.rs-picker\]\:left-0 {
+  & .rs-picker {
+    left: var(--spacing-0);
+  }
+}
+.\[\&_\.rs-picker-daterange-content\]\:mt-40 {
+  & .rs-picker-daterange-content {
+    margin-top: calc(var(--spacing) * 40);
+  }
+}
+.\[\&_\.rs-picker-daterange-content\]\:ml-12 {
+  & .rs-picker-daterange-content {
+    margin-left: calc(var(--spacing) * 12);
+  }
+}
+.\[\&_\.rs-picker-daterange-header\]\:flex {
+  & .rs-picker-daterange-header {
+    display: flex;
+  }
+}
+.\[\&_\.rs-picker-daterange-header\]\:justify-around {
+  & .rs-picker-daterange-header {
+    justify-content: space-around;
+  }
+}
 .\[\&_\.rs-picker-input-group\]\:pointer-events-none {
   & .rs-picker-input-group {
     pointer-events: none;
   }
 }
-.\[\&_\.rs-picker-input-group\]\:invisible {
+.\[\&_\.rs-picker-input-group\]\:hidden {
   & .rs-picker-input-group {
-    visibility: hidden;
+    display: none;
   }
 }
 .\[\&_\.rs-picker-popup\]\:bg-background-modal-dark {
   & .rs-picker-popup {
     background-color: var(--color-background-modal-dark);
+  }
+}
+.\[\&_\.rs-picker-popup\]\:text-color-content-default {
+  & .rs-picker-popup {
+    color: var(--color-color-content-default);
   }
 }
 .data-\[show-one-calendar\=true\]\:\[\&_\.rs-picker-toolbar\]\:flex {
@@ -2293,6 +2328,14 @@
   }
   :root {
     --tw-ring-offset-color: var(--color-body-background);
+  }
+}
+@layer components {
+  .rs-picker-daterange-header .rs-picker-header-date:first-child::before {
+    content: 'From: ';
+  }
+  .rs-picker-daterange-header .rs-picker-header-date:last-child::before {
+    content: 'To: ';
   }
 }
 @layer utilities {
