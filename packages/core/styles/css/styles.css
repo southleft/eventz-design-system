@@ -56,6 +56,7 @@
   --color-color-border-default: var(--dt-color-border-default);
   --color-color-border-default-hover: var(--dt-color-border-default-hover);
   --color-color-border-inverse: var(--dt-color-border-inverse);
+  --color-color-border-subtle: var(--dt-color-border-subtle);
   --color-color-content-brand: var(--dt-color-content-brand);
   --color-color-content-brand-hover: var(--dt-color-content-brand-hover);
   --color-color-content-default: var(--dt-color-content-default);
@@ -2126,11 +2127,6 @@
     border-color: var(--color-comp-button-color-border-default);
   }
 }
-.\[\&_\.rs-btn\]\:bg-comp-button-color-background-default {
-  & .rs-btn {
-    background-color: var(--color-comp-button-color-background-default);
-  }
-}
 .\[\&_\.rs-btn\]\:text-comp-button-color-content-default {
   & .rs-btn {
     color: var(--color-comp-button-color-content-default);
@@ -2160,13 +2156,6 @@
       @media (hover: hover) {
         text-decoration-line: none;
       }
-    }
-  }
-}
-.\[\&_\.rs-btn\]\:focus\:bg-comp-button-color-background-active {
-  & .rs-btn {
-    &:focus {
-      background-color: var(--color-comp-button-color-background-active);
     }
   }
 }
@@ -2206,28 +2195,6 @@
     }
   }
 }
-.\[\&_\.rs-btn\]\:focus-visible\:ring-offset-4 {
-  & .rs-btn {
-    &:focus-visible {
-      --tw-ring-offset-width: 4px;
-      --tw-ring-offset-shadow: var(--tw-ring-inset,) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
-    }
-  }
-}
-.\[\&_\.rs-btn\]\:focus-visible\:outline-color-background-default {
-  & .rs-btn {
-    &:focus-visible {
-      outline-color: var(--color-color-background-default);
-    }
-  }
-}
-.\[\&_\.rs-btn\]\:focus-visible\:outline-transparent {
-  & .rs-btn {
-    &:focus-visible {
-      outline-color: transparent;
-    }
-  }
-}
 .\[\&_\.rs-btn\]\:focus-visible\:outline-none {
   & .rs-btn {
     &:focus-visible {
@@ -2257,46 +2224,9 @@
     }
   }
 }
-.\[\&_\.rs-btn-link\]\:border-comp-button-color-border-default {
-  & .rs-btn-link {
-    border-color: var(--color-comp-button-color-border-default);
-  }
-}
 .\[\&_\.rs-btn-link\]\:bg-comp-button-color-background-default {
   & .rs-btn-link {
     background-color: var(--color-comp-button-color-background-default);
-  }
-}
-.\[\&_\.rs-btn-link\]\:text-comp-button-color-content-default {
-  & .rs-btn-link {
-    color: var(--color-comp-button-color-content-default);
-  }
-}
-.\[\&_\.rs-btn-link\]\:hover\:bg-comp-button-color-background-hover {
-  & .rs-btn-link {
-    &:hover {
-      @media (hover: hover) {
-        background-color: var(--color-comp-button-color-background-hover);
-      }
-    }
-  }
-}
-.\[\&_\.rs-btn-link\]\:hover\:text-comp-button-color-content-default {
-  & .rs-btn-link {
-    &:hover {
-      @media (hover: hover) {
-        color: var(--color-comp-button-color-content-default);
-      }
-    }
-  }
-}
-.\[\&_\.rs-btn-link\]\:hover\:no-underline {
-  & .rs-btn-link {
-    &:hover {
-      @media (hover: hover) {
-        text-decoration-line: none;
-      }
-    }
   }
 }
 .\[\&_\.rs-btn-link\]\:focus\:bg-comp-button-color-background-active {
@@ -2306,76 +2236,10 @@
     }
   }
 }
-.\[\&_\.rs-btn-link\]\:focus\:text-comp-button-color-content-default {
-  & .rs-btn-link {
-    &:focus {
-      color: var(--color-comp-button-color-content-default);
-    }
-  }
-}
-.\[\&_\.rs-btn-link\]\:focus\:no-underline {
-  & .rs-btn-link {
-    &:focus {
-      text-decoration-line: none;
-    }
-  }
-}
-.\[\&_\.rs-btn-link\]\:focus-visible\:ring-2 {
-  & .rs-btn-link {
-    &:focus-visible {
-      --tw-ring-shadow: var(--tw-ring-inset,) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color, currentcolor);
-      box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
-    }
-  }
-}
-.\[\&_\.rs-btn-link\]\:focus-visible\:ring-comp-border-focus-ring {
-  & .rs-btn-link {
-    &:focus-visible {
-      --tw-ring-color: var(--color-comp-border-focus-ring);
-    }
-  }
-}
-.\[\&_\.rs-btn-link\]\:focus-visible\:ring-offset-4 {
-  & .rs-btn-link {
-    &:focus-visible {
-      --tw-ring-offset-width: 4px;
-      --tw-ring-offset-shadow: var(--tw-ring-inset,) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
-    }
-  }
-}
 .\[\&_\.rs-btn-link\]\:focus-visible\:ring-offset-color-background-default {
   & .rs-btn-link {
     &:focus-visible {
       --tw-ring-offset-color: var(--color-color-background-default);
-    }
-  }
-}
-.\[\&_\.rs-btn-link\]\:focus-visible\:outline-none {
-  & .rs-btn-link {
-    &:focus-visible {
-      --tw-outline-style: none;
-      outline-style: none;
-    }
-  }
-}
-.\[\&_\.rs-btn-link\]\:active\:bg-comp-button-color-background-active {
-  & .rs-btn-link {
-    &:active {
-      background-color: var(--color-comp-button-color-background-active);
-    }
-  }
-}
-.\[\&_\.rs-btn-link\]\:active\:text-comp-button-color-content-default {
-  & .rs-btn-link {
-    &:active {
-      color: var(--color-comp-button-color-content-default);
-    }
-  }
-}
-.\[\&_\.rs-btn-link\]\:active\:no-underline {
-  & .rs-btn-link {
-    &:active {
-      text-decoration-line: none;
     }
   }
 }
@@ -2430,6 +2294,11 @@
         color: var(--color-color-content-subtle);
       }
     }
+  }
+}
+.\[\&_\.rs-calendar-month-dropdown-cell-active_span\]\:text-comp-button-primary-color-content-default {
+  & .rs-calendar-month-dropdown-cell-active span {
+    color: var(--color-comp-button-primary-color-content-default);
   }
 }
 .\[\&_\.rs-picker\]\:absolute {
@@ -2633,14 +2502,40 @@
   }
 }
 @layer components {
-  .rs-picker-daterange-header .rs-picker-header-date:first-child::before {
-    content: 'From: ';
-  }
-  .rs-picker-daterange-header .rs-picker-header-date:last-child::before {
-    content: 'To: ';
-  }
   .rs-picker-popup {
     background-image: var(--dt-background-modal-dark);
+    .rs-picker-daterange-header {
+      .rs-picker-header-date:first-child::before {
+        content: 'From: ';
+      }
+      .rs-picker-header-date:last-child::before {
+        content: 'To: ';
+      }
+    }
+    .rs-calendar, .rs-picker-toolbar, .rs-picker-daterange-header {
+      border-color: var(--color-color-border-subtle) !important;
+    }
+    .rs-calendar-month-dropdown-row-wrapper {
+      background-color: var(--color-color-background-default);
+    }
+    .rs-calendar-month-dropdown-year-active {
+      color: var(--color-color-content-brand) !important;
+    }
+    .rs-calendar-month-dropdown-cell-content {
+      &:hover {
+        background-color: var(--color-comp-button-color-background-hover) !important;
+        color: var(--color-color-content-brand-hover) !important;
+      }
+    }
+    .rs-calendar-month-dropdown-cell-active {
+      .rs-calendar-month-dropdown-cell-content {
+        background-color: var(--color-comp-button-primary-color-background-default) !important;
+        &:hover {
+          background-color: var(--color-comp-button-primary-color-background-hover) !important;
+          color: var(--color-comp-button-primary-color-content-default) !important;
+        }
+      }
+    }
   }
 }
 @layer utilities {

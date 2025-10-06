@@ -62,6 +62,7 @@ const baseClasses = `
   [&_.rs-btn-subtle]:font-bold
   [&_.rs-btn-subtle]:hover:bg-transparent
   [&_.rs-btn-subtle]:hover:text-color-content-subtle
+  [&_.rs-calendar-month-dropdown-cell-active_span]:text-comp-button-primary-color-content-default
 `;
 
 const containerClasses = `dxyz-date-picker`;
