@@ -26,9 +26,6 @@ const customLocale = {
 /** Class policy: use template literals only (no arrays). Keep token classes intact; compose via `composeClasses`. */
 const baseClasses = `
   relative
-  bg-modal-dark
-  text-content-default
-  [&_.rs-picker-popup]:mt-44
   [&_.rs-btn]:border-comp-button-color-border-default
   [&_.rs-btn]:text-comp-button-color-content-default
   [&_.rs-btn]:hover:bg-comp-button-color-background-hover
@@ -50,10 +47,6 @@ const baseClasses = `
   [&_.rs-btn-primary]:text-comp-button-primary-color-content-default
   [&_.rs-btn-primary]:disabled:bg-comp-button-primary-color-background-default
   [&_.rs-btn-primary]:disabled:text-comp-button-primary-color-content-default
-  [&_.rs-picker-popup]:ml-12
-  [&_.rs-picker-popup]:text-color-content-default
-  [&_.rs-picker]:absolute
-  [&_.rs-picker]:left-0
   [&_.rs-picker-input-group]:hidden
   [&_.rs-picker-input-group]:pointer-events-none
   [&_.rs-picker-daterange-header]:flex
@@ -62,7 +55,6 @@ const baseClasses = `
   [&_.rs-btn-subtle]:font-bold
   [&_.rs-btn-subtle]:hover:bg-transparent
   [&_.rs-btn-subtle]:hover:text-color-content-subtle
-  [&_.rs-calendar-month-dropdown-cell-active_span]:text-comp-button-primary-color-content-default
 `;
 
 const containerClasses = `dxyz-date-picker`;
