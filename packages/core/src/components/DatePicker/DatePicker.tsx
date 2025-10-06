@@ -24,9 +24,8 @@ const baseClasses = `
   relative
   bg-modal-dark
   text-content-default
-  [&_.rs-picker-daterange-content]:mt-40
-  [&_.rs-picker-daterange-content]:ml-12
-  [&_.rs-picker-popup]:bg-background-modal-dark
+  [&_.rs-picker-popup]:mt-44
+  [&_.rs-picker-popup]:ml-12
   [&_.rs-picker-popup]:text-color-content-default
   [&_.rs-picker]:absolute
   [&_.rs-picker]:left-0
@@ -34,6 +33,10 @@ const baseClasses = `
   [&_.rs-picker-input-group]:pointer-events-none
   [&_.rs-picker-daterange-header]:flex
   [&_.rs-picker-daterange-header]:justify-around
+  [&_.rs-btn-subtle]:text-color-content-default
+  [&_.rs-btn-subtle]:font-bold
+  [&_.rs-btn-subtle]:hover:bg-transparent
+  [&_.rs-btn-subtle]:hover:text-color-content-subtle
 `;
 
 const containerClasses = `dxyz-date-picker`;
@@ -47,13 +50,14 @@ const showOneCalendarStateClasses = `
   data-[show-one-calendar=true]:[&_.rs-picker-toolbar-option-group]:pb-1
 `;
 
-type PartialInputComponentProps = Partial<InputComponentProps>
+type PartialInputComponentProps = Partial<InputComponentProps>;
 
 export interface DatePickerProps {
   showOneCalendar?: boolean;
   fullWidth?: boolean;
   className?: string;
-  format?: string
+  format?: string;
+  showHeader?: boolean;
   /**
    * Props to pass to the internal Input trigger.
    * These are spread onto <Input />; DatePicker’s own props (value, readOnly, handlers, a11y)
@@ -76,17 +80,29 @@ type RsuiteDateRangePickerProps = Omit<
   | 'placeholder'
   | 'caretAs'
   | 'renderValue'
+  | 'showHeader'
 >;
 
 type InternalDatePickerProps = RsuiteDateRangePickerProps & DatePickerProps;
 
 export const DatePicker = React.forwardRef<HTMLDivElement, InternalDatePickerProps>(
-  ({ showOneCalendar, format = 'MM/dd/yyyy', fullWidth = false, className, InputProps = {}, ...rest }: InternalDatePickerProps, ref) => {
+  (
+    {
+      showOneCalendar,
+      showHeader,
+      format = 'MM/dd/yyyy',
+      fullWidth,
+      className,
+      InputProps = {},
+      ...rest
+    }: InternalDatePickerProps,
+    ref
+  ) => {
     const [matchesLg, setMatchesLg] = React.useState(false);
     const wrapperRef = React.useRef<HTMLDivElement | null>(null);
     React.useImperativeHandle(ref, () => wrapperRef.current!, []);
 
-    const isDisabled = Boolean((rest).disabled);
+    const isDisabled = Boolean(rest.disabled);
 
     /**
      * Controlled `open` detection: presence + boolean type.
@@ -94,13 +110,12 @@ export const DatePicker = React.forwardRef<HTMLDivElement, InternalDatePickerPro
      * Do not “clean up” by removing these unless RSuite typings improve.
      */
     const isOpenControlled =
-      Object.prototype.hasOwnProperty.call(rest, 'open') &&
-      typeof (rest).open === 'boolean';
+      Object.prototype.hasOwnProperty.call(rest, 'open') && typeof rest.open === 'boolean';
     const [internalOpen, setInternalOpen] = React.useState<boolean>(
       (rest as { defaultOpen?: boolean }).defaultOpen ?? false
     );
     const openProp = (rest as { open?: boolean }).open;
-    const effectiveOpen = isOpenControlled ? (openProp) : internalOpen;
+    const effectiveOpen = isOpenControlled ? openProp : internalOpen;
 
     const requestOpen = React.useCallback(
       (event?: React.SyntheticEvent | Event) => {
@@ -189,8 +204,10 @@ export const DatePicker = React.forwardRef<HTMLDivElement, InternalDatePickerPro
     const effectiveShowOneCalendar =
       typeof showOneCalendar === 'boolean' ? showOneCalendar : !matchesLg;
 
-    const userClassName: string | undefined =
-      typeof className === 'string' ? className : undefined;
+    const effectiveShowHeader = showHeader === undefined ? !matchesLg : showHeader;
+    console.log({ showHeader });
+    console.log({ matchesLg });
+    const userClassName: string | undefined = typeof className === 'string' ? className : undefined;
 
     const wrapperClassName = collapseWhitespace(
       composeClasses(
@@ -257,7 +274,7 @@ export const DatePicker = React.forwardRef<HTMLDivElement, InternalDatePickerPro
         */}
         <DateRangePicker
           {...rest}
-          character=''
+          character=""
           format={format}
           value={effectiveValue ?? undefined}
           onChange={handleChange}
@@ -266,7 +283,8 @@ export const DatePicker = React.forwardRef<HTMLDivElement, InternalDatePickerPro
           onClose={requestClose}
           editable={false}
           showOneCalendar={effectiveShowOneCalendar}
-          container={() => (wrapperRef.current ?? document.body)}
+          showHeader={effectiveShowHeader}
+          container={() => wrapperRef.current ?? document.body}
         />
       </div>
     );

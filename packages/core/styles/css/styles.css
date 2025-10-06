@@ -42,7 +42,6 @@
   --color-brand-800: var(--dt-color-brand-800);
   --color-brand-900: var(--dt-color-brand-900);
   --color-brand-950: var(--dt-color-brand-950);
-  --color-background-modal-dark: var(--dt-background-modal-dark);
   --color-background-none: var(--dt-color-background-none);
   --color-body-background: var(--dt-color-background-default);
   --color-color-background-brand: var(--dt-color-background-brand);
@@ -1470,9 +1469,6 @@
 .border-b-color-border-default {
   border-bottom-color: var(--color-color-border-default);
 }
-.bg-background-modal-dark {
-  background-color: var(--color-background-modal-dark);
-}
 .bg-background-none {
   background-color: var(--color-background-none);
 }
@@ -2125,6 +2121,35 @@
     line-height: var(--tw-leading, var(--text-lg--line-height));
   }
 }
+.\[\&_\.rs-btn-subtle\]\:font-bold {
+  & .rs-btn-subtle {
+    --tw-font-weight: var(--font-weight-bold);
+    font-weight: var(--font-weight-bold);
+  }
+}
+.\[\&_\.rs-btn-subtle\]\:text-color-content-default {
+  & .rs-btn-subtle {
+    color: var(--color-color-content-default);
+  }
+}
+.\[\&_\.rs-btn-subtle\]\:hover\:bg-transparent {
+  & .rs-btn-subtle {
+    &:hover {
+      @media (hover: hover) {
+        background-color: transparent;
+      }
+    }
+  }
+}
+.\[\&_\.rs-btn-subtle\]\:hover\:text-color-content-subtle {
+  & .rs-btn-subtle {
+    &:hover {
+      @media (hover: hover) {
+        color: var(--color-color-content-subtle);
+      }
+    }
+  }
+}
 .\[\&_\.rs-picker\]\:absolute {
   & .rs-picker {
     position: absolute;
@@ -2133,16 +2158,6 @@
 .\[\&_\.rs-picker\]\:left-0 {
   & .rs-picker {
     left: var(--spacing-0);
-  }
-}
-.\[\&_\.rs-picker-daterange-content\]\:mt-40 {
-  & .rs-picker-daterange-content {
-    margin-top: calc(var(--spacing) * 40);
-  }
-}
-.\[\&_\.rs-picker-daterange-content\]\:ml-12 {
-  & .rs-picker-daterange-content {
-    margin-left: calc(var(--spacing) * 12);
   }
 }
 .\[\&_\.rs-picker-daterange-header\]\:flex {
@@ -2165,9 +2180,29 @@
     display: none;
   }
 }
-.\[\&_\.rs-picker-popup\]\:bg-background-modal-dark {
+.\[\&_\.rs-picker-popup\]\:mt-40 {
   & .rs-picker-popup {
-    background-color: var(--color-background-modal-dark);
+    margin-top: calc(var(--spacing) * 40);
+  }
+}
+.\[\&_\.rs-picker-popup\]\:mt-44 {
+  & .rs-picker-popup {
+    margin-top: calc(var(--spacing) * 44);
+  }
+}
+.\[\&_\.rs-picker-popup\]\:ml-12 {
+  & .rs-picker-popup {
+    margin-left: calc(var(--spacing) * 12);
+  }
+}
+.\[\&_\.rs-picker-popup\]\:pt-40 {
+  & .rs-picker-popup {
+    padding-top: calc(var(--spacing) * 40);
+  }
+}
+.\[\&_\.rs-picker-popup\]\:pl-12 {
+  & .rs-picker-popup {
+    padding-left: calc(var(--spacing) * 12);
   }
 }
 .\[\&_\.rs-picker-popup\]\:text-color-content-default {
@@ -2336,6 +2371,9 @@
   }
   .rs-picker-daterange-header .rs-picker-header-date:last-child::before {
     content: 'To: ';
+  }
+  .rs-picker-popup {
+    background-image: var(--dt-background-modal-dark);
   }
 }
 @layer utilities {
