@@ -2121,6 +2121,288 @@
     line-height: var(--tw-leading, var(--text-lg--line-height));
   }
 }
+.\[\&_\.rs-btn\]\:border-comp-button-color-border-default {
+  & .rs-btn {
+    border-color: var(--color-comp-button-color-border-default);
+  }
+}
+.\[\&_\.rs-btn\]\:bg-comp-button-color-background-default {
+  & .rs-btn {
+    background-color: var(--color-comp-button-color-background-default);
+  }
+}
+.\[\&_\.rs-btn\]\:text-comp-button-color-content-default {
+  & .rs-btn {
+    color: var(--color-comp-button-color-content-default);
+  }
+}
+.\[\&_\.rs-btn\]\:hover\:bg-comp-button-color-background-hover {
+  & .rs-btn {
+    &:hover {
+      @media (hover: hover) {
+        background-color: var(--color-comp-button-color-background-hover);
+      }
+    }
+  }
+}
+.\[\&_\.rs-btn\]\:hover\:text-comp-button-color-content-default {
+  & .rs-btn {
+    &:hover {
+      @media (hover: hover) {
+        color: var(--color-comp-button-color-content-default);
+      }
+    }
+  }
+}
+.\[\&_\.rs-btn\]\:hover\:no-underline {
+  & .rs-btn {
+    &:hover {
+      @media (hover: hover) {
+        text-decoration-line: none;
+      }
+    }
+  }
+}
+.\[\&_\.rs-btn\]\:focus\:bg-comp-button-color-background-active {
+  & .rs-btn {
+    &:focus {
+      background-color: var(--color-comp-button-color-background-active);
+    }
+  }
+}
+.\[\&_\.rs-btn\]\:focus\:bg-transparent {
+  & .rs-btn {
+    &:focus {
+      background-color: transparent;
+    }
+  }
+}
+.\[\&_\.rs-btn\]\:focus\:text-comp-button-color-content-default {
+  & .rs-btn {
+    &:focus {
+      color: var(--color-comp-button-color-content-default);
+    }
+  }
+}
+.\[\&_\.rs-btn\]\:focus\:no-underline {
+  & .rs-btn {
+    &:focus {
+      text-decoration-line: none;
+    }
+  }
+}
+.\[\&_\.rs-btn\]\:focus-visible\:ring-2 {
+  & .rs-btn {
+    &:focus-visible {
+      --tw-ring-shadow: var(--tw-ring-inset,) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color, currentcolor);
+      box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+    }
+  }
+}
+.\[\&_\.rs-btn\]\:focus-visible\:ring-comp-border-focus-ring {
+  & .rs-btn {
+    &:focus-visible {
+      --tw-ring-color: var(--color-comp-border-focus-ring);
+    }
+  }
+}
+.\[\&_\.rs-btn\]\:focus-visible\:ring-offset-4 {
+  & .rs-btn {
+    &:focus-visible {
+      --tw-ring-offset-width: 4px;
+      --tw-ring-offset-shadow: var(--tw-ring-inset,) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+    }
+  }
+}
+.\[\&_\.rs-btn\]\:focus-visible\:outline-color-background-default {
+  & .rs-btn {
+    &:focus-visible {
+      outline-color: var(--color-color-background-default);
+    }
+  }
+}
+.\[\&_\.rs-btn\]\:focus-visible\:outline-transparent {
+  & .rs-btn {
+    &:focus-visible {
+      outline-color: transparent;
+    }
+  }
+}
+.\[\&_\.rs-btn\]\:focus-visible\:outline-none {
+  & .rs-btn {
+    &:focus-visible {
+      --tw-outline-style: none;
+      outline-style: none;
+    }
+  }
+}
+.\[\&_\.rs-btn\]\:active\:bg-comp-button-color-background-active {
+  & .rs-btn {
+    &:active {
+      background-color: var(--color-comp-button-color-background-active);
+    }
+  }
+}
+.\[\&_\.rs-btn\]\:active\:text-comp-button-color-content-default {
+  & .rs-btn {
+    &:active {
+      color: var(--color-comp-button-color-content-default);
+    }
+  }
+}
+.\[\&_\.rs-btn\]\:active\:no-underline {
+  & .rs-btn {
+    &:active {
+      text-decoration-line: none;
+    }
+  }
+}
+.\[\&_\.rs-btn-link\]\:border-comp-button-color-border-default {
+  & .rs-btn-link {
+    border-color: var(--color-comp-button-color-border-default);
+  }
+}
+.\[\&_\.rs-btn-link\]\:bg-comp-button-color-background-default {
+  & .rs-btn-link {
+    background-color: var(--color-comp-button-color-background-default);
+  }
+}
+.\[\&_\.rs-btn-link\]\:text-comp-button-color-content-default {
+  & .rs-btn-link {
+    color: var(--color-comp-button-color-content-default);
+  }
+}
+.\[\&_\.rs-btn-link\]\:hover\:bg-comp-button-color-background-hover {
+  & .rs-btn-link {
+    &:hover {
+      @media (hover: hover) {
+        background-color: var(--color-comp-button-color-background-hover);
+      }
+    }
+  }
+}
+.\[\&_\.rs-btn-link\]\:hover\:text-comp-button-color-content-default {
+  & .rs-btn-link {
+    &:hover {
+      @media (hover: hover) {
+        color: var(--color-comp-button-color-content-default);
+      }
+    }
+  }
+}
+.\[\&_\.rs-btn-link\]\:hover\:no-underline {
+  & .rs-btn-link {
+    &:hover {
+      @media (hover: hover) {
+        text-decoration-line: none;
+      }
+    }
+  }
+}
+.\[\&_\.rs-btn-link\]\:focus\:bg-comp-button-color-background-active {
+  & .rs-btn-link {
+    &:focus {
+      background-color: var(--color-comp-button-color-background-active);
+    }
+  }
+}
+.\[\&_\.rs-btn-link\]\:focus\:text-comp-button-color-content-default {
+  & .rs-btn-link {
+    &:focus {
+      color: var(--color-comp-button-color-content-default);
+    }
+  }
+}
+.\[\&_\.rs-btn-link\]\:focus\:no-underline {
+  & .rs-btn-link {
+    &:focus {
+      text-decoration-line: none;
+    }
+  }
+}
+.\[\&_\.rs-btn-link\]\:focus-visible\:ring-2 {
+  & .rs-btn-link {
+    &:focus-visible {
+      --tw-ring-shadow: var(--tw-ring-inset,) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color, currentcolor);
+      box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+    }
+  }
+}
+.\[\&_\.rs-btn-link\]\:focus-visible\:ring-comp-border-focus-ring {
+  & .rs-btn-link {
+    &:focus-visible {
+      --tw-ring-color: var(--color-comp-border-focus-ring);
+    }
+  }
+}
+.\[\&_\.rs-btn-link\]\:focus-visible\:ring-offset-4 {
+  & .rs-btn-link {
+    &:focus-visible {
+      --tw-ring-offset-width: 4px;
+      --tw-ring-offset-shadow: var(--tw-ring-inset,) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+    }
+  }
+}
+.\[\&_\.rs-btn-link\]\:focus-visible\:ring-offset-color-background-default {
+  & .rs-btn-link {
+    &:focus-visible {
+      --tw-ring-offset-color: var(--color-color-background-default);
+    }
+  }
+}
+.\[\&_\.rs-btn-link\]\:focus-visible\:outline-none {
+  & .rs-btn-link {
+    &:focus-visible {
+      --tw-outline-style: none;
+      outline-style: none;
+    }
+  }
+}
+.\[\&_\.rs-btn-link\]\:active\:bg-comp-button-color-background-active {
+  & .rs-btn-link {
+    &:active {
+      background-color: var(--color-comp-button-color-background-active);
+    }
+  }
+}
+.\[\&_\.rs-btn-link\]\:active\:text-comp-button-color-content-default {
+  & .rs-btn-link {
+    &:active {
+      color: var(--color-comp-button-color-content-default);
+    }
+  }
+}
+.\[\&_\.rs-btn-link\]\:active\:no-underline {
+  & .rs-btn-link {
+    &:active {
+      text-decoration-line: none;
+    }
+  }
+}
+.\[\&_\.rs-btn-primary\]\:bg-comp-button-primary-color-background-default {
+  & .rs-btn-primary {
+    background-color: var(--color-comp-button-primary-color-background-default);
+  }
+}
+.\[\&_\.rs-btn-primary\]\:text-comp-button-primary-color-content-default {
+  & .rs-btn-primary {
+    color: var(--color-comp-button-primary-color-content-default);
+  }
+}
+.\[\&_\.rs-btn-primary\]\:disabled\:bg-comp-button-primary-color-background-default {
+  & .rs-btn-primary {
+    &:disabled {
+      background-color: var(--color-comp-button-primary-color-background-default);
+    }
+  }
+}
+.\[\&_\.rs-btn-primary\]\:disabled\:text-comp-button-primary-color-content-default {
+  & .rs-btn-primary {
+    &:disabled {
+      color: var(--color-comp-button-primary-color-content-default);
+    }
+  }
+}
 .\[\&_\.rs-btn-subtle\]\:font-bold {
   & .rs-btn-subtle {
     --tw-font-weight: var(--font-weight-bold);
@@ -2180,11 +2462,6 @@
     display: none;
   }
 }
-.\[\&_\.rs-picker-popup\]\:mt-40 {
-  & .rs-picker-popup {
-    margin-top: calc(var(--spacing) * 40);
-  }
-}
 .\[\&_\.rs-picker-popup\]\:mt-44 {
   & .rs-picker-popup {
     margin-top: calc(var(--spacing) * 44);
@@ -2193,16 +2470,6 @@
 .\[\&_\.rs-picker-popup\]\:ml-12 {
   & .rs-picker-popup {
     margin-left: calc(var(--spacing) * 12);
-  }
-}
-.\[\&_\.rs-picker-popup\]\:pt-40 {
-  & .rs-picker-popup {
-    padding-top: calc(var(--spacing) * 40);
-  }
-}
-.\[\&_\.rs-picker-popup\]\:pl-12 {
-  & .rs-picker-popup {
-    padding-left: calc(var(--spacing) * 12);
   }
 }
 .\[\&_\.rs-picker-popup\]\:text-color-content-default {

@@ -25,6 +25,27 @@ const baseClasses = `
   bg-modal-dark
   text-content-default
   [&_.rs-picker-popup]:mt-44
+  [&_.rs-btn]:border-comp-button-color-border-default
+  [&_.rs-btn]:text-comp-button-color-content-default
+  [&_.rs-btn]:hover:bg-comp-button-color-background-hover
+  [&_.rs-btn]:hover:text-comp-button-color-content-default
+  [&_.rs-btn]:hover:no-underline
+  [&_.rs-btn]:active:text-comp-button-color-content-default
+  [&_.rs-btn]:active:no-underline
+  [&_.rs-btn]:active:bg-comp-button-color-background-active
+  [&_.rs-btn]:focus:text-comp-button-color-content-default
+  [&_.rs-btn]:focus:no-underline
+  [&_.rs-btn]:focus:bg-transparent
+  [&_.rs-btn]:focus-visible:outline-none
+  [&_.rs-btn]:focus-visible:ring-2
+  [&_.rs-btn]:focus-visible:ring-comp-border-focus-ring
+  [&_.rs-btn-link]:bg-comp-button-color-background-default
+  [&_.rs-btn-link]:focus:bg-comp-button-color-background-active
+  [&_.rs-btn-link]:focus-visible:ring-offset-color-background-default
+  [&_.rs-btn-primary]:bg-comp-button-primary-color-background-default
+  [&_.rs-btn-primary]:text-comp-button-primary-color-content-default
+  [&_.rs-btn-primary]:disabled:bg-comp-button-primary-color-background-default
+  [&_.rs-btn-primary]:disabled:text-comp-button-primary-color-content-default
   [&_.rs-picker-popup]:ml-12
   [&_.rs-picker-popup]:text-color-content-default
   [&_.rs-picker]:absolute
@@ -58,6 +79,7 @@ export interface DatePickerProps {
   className?: string;
   format?: string;
   showHeader?: boolean;
+  placeholder?: string;
   /**
    * Props to pass to the internal Input trigger.
    * These are spread onto <Input />; DatePicker’s own props (value, readOnly, handlers, a11y)
@@ -247,6 +269,24 @@ export const DatePicker = React.forwardRef<HTMLDivElement, InternalDatePickerPro
       [InputProps]
     );
 
+    const ranges = [
+      {
+        label: 'Today',
+        value: [new Date(), new Date()]
+      },
+      {
+        label: 'Tomorrow',
+        value: [
+          new Date(Date.now() + 1 * 24 * 60 * 60 * 1000),
+          new Date(Date.now() + 1 * 24 * 60 * 60 * 1000)
+        ]
+      },
+      {
+        label: 'Next 7 Days',
+        value: [new Date(), new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)]
+      }
+    ] as DateRangePickerProps['ranges'];
+
     return (
       <div
         ref={wrapperRef}
@@ -285,6 +325,7 @@ export const DatePicker = React.forwardRef<HTMLDivElement, InternalDatePickerPro
           showOneCalendar={effectiveShowOneCalendar}
           showHeader={effectiveShowHeader}
           container={() => wrapperRef.current ?? document.body}
+          ranges={ranges}
         />
       </div>
     );
