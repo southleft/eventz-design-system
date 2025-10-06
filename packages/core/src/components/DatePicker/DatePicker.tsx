@@ -19,6 +19,10 @@ const defaultInputProps: React.ComponentPropsWithoutRef<typeof Input> = {
   endIcon: <ArrowDropDownIcon aria-hidden="true" />
 };
 
+const customLocale = {
+  ok: 'Apply'
+};
+
 /** Class policy: use template literals only (no arrays). Keep token classes intact; compose via `composeClasses`. */
 const baseClasses = `
   relative
@@ -326,6 +330,7 @@ export const DatePicker = React.forwardRef<HTMLDivElement, InternalDatePickerPro
           showHeader={effectiveShowHeader}
           container={() => wrapperRef.current ?? document.body}
           ranges={ranges}
+          locale={customLocale}
         />
       </div>
     );
