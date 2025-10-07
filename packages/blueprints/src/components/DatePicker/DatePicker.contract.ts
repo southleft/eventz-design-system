@@ -3,52 +3,83 @@ import { defineContract } from '../../utilities';
 export const DatePickerContract = defineContract({
   component: 'DatePicker',
   description:
-    'Wrapper for rsuite DateRangePicker with passthrough props. Minimal DoXYZ wrapper handles responsive default for showOneCalendar and scoped styling.',
+    'Wrapper for RSuite DateRangePicker with a scoped container and our own visible Input trigger. Responsive defaults: showOneCalendar (< lg) and showHeader (!lg). Forwards unmodeled props to RSuite.',
 
-  // Use a neutral root container; core runtime renders rsuite DateRangePicker inside.
+  // Base root; runtime renders RSuite DateRangePicker inside and portals into this container.
   base: 'div',
 
-  // Public API modeled minimally; all other props are forwarded to rsuite.
-  // We do NOT set a default on showOneCalendar here because the default is responsive at runtime:
-  // < lg → true, >= lg → false.
+  // Public API modeled to mirror the core component. All other props are forwarded to RSuite.
   props: {
+    /**
+     * Force single-calendar (mobile) layout. If omitted, the runtime defaults to true below lg and false at/above lg.
+     */
     showOneCalendar: { type: 'boolean' },
-    fullWidth: { type: 'boolean', default: false }
+
+    /**
+     * Force showing the RSuite header. If omitted, the runtime defaults to !lg (hidden on mobile, visible on desktop).
+     */
+    showHeader: { type: 'boolean' },
+
+    /**
+     * Date display/parse format passed to RSuite.
+     */
+    format: { type: 'string', default: 'MM/dd/yyyy' },
+
+    /**
+     * Placeholder for the visible Input trigger.
+     */
+    placeholder: { type: 'string', default: 'Select a date range' },
+
+    /**
+     * Apply full-width layout to the wrapper container.
+     */
+    fullWidth: { type: 'boolean', default: false },
+
+    /**
+     * Additional classes for the wrapper container.
+     */
+    className: { type: 'string' },
+
+    /**
+     * Partial props forwarded to the internal Input trigger (not the RSuite input). Opaque, passthrough.
+     */
+    InputProps: { type: 'object' }
   },
 
-  // Single base slot; rsuite renders internally.
+  // Single base slot; RSuite renders internally beneath this container.
   slots: ['container'] as const,
 
-  // Optional hint for container layout; visual classes live in the styleMap.
+  // Optional layout hint for the container wrapper; visuals live in the styleMap.
   layout: {
     type: 'container',
     tag: 'div',
     className: 'dxyz-date-picker'
   },
 
-  // No validation guards; this is a passthrough wrapper.
+  // No validation guards at this layer; wrapper is a light adapter.
   rules: [],
 
+  // This component has a dedicated style map file.
   styleMap: true,
 
   // Adapter + runtime guidance for the generator.
   hints: {
-    // Not a Radix primitive; explicitly call out external adapter.
     radixAdapter: { uses: ['external:rsuite/DateRangePicker'] as const },
     dependencies: { npm: ['rsuite'] },
 
-    // Forward ALL non-modeled props to rsuite DateRangePicker (omit deprecated props upstream).
+    // Forward ALL non-modeled props directly to RSuite DateRangePicker (omit deprecated upstream props).
     passthrough:
-      'Forward all unmodeled props directly to rsuite DateRangePicker (omit deprecated props per rsuite docs).',
+      'Forward all unmodeled props directly to RSuite DateRangePicker (omit deprecated props per RSuite docs).',
 
-    // Responsive default documented for the runtime generator (handled in core):
+    // Responsive defaults documented for the runtime generator (handled in core runtime code):
     responsiveDefaults: {
-      showOneCalendar: { lessThanLg: true, greaterOrEqualLg: false }
+      showOneCalendar: { lessThanLg: true, greaterOrEqualLg: false },
+      showHeader: { lessThanLg: false, greaterOrEqualLg: true }
     },
 
     a11y: {
       recommendation:
-        'Rely on rsuite semantics for the picker dialog and inputs. The wrapper should not alter accessible naming.'
+        'Rely on RSuite semantics for the dialog and inputs. The wrapper does not alter accessible naming of the picker.'
     }
   }
 });
