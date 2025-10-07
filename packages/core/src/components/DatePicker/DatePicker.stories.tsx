@@ -5,12 +5,7 @@ import { DatePicker } from './DatePicker';
 
 const meta: Meta<typeof DatePicker> = {
   title: 'Components/DatePicker',
-  component: DatePicker,
-  argTypes: {
-    showOneCalendar: { control: 'boolean' },
-    fullWidth: { control: 'boolean' },
-    placeholder: { control: 'text' }
-  }
+  component: DatePicker
 };
 
 export default meta;
