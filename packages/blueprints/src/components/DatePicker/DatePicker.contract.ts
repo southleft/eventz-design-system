@@ -36,6 +36,11 @@ export const DatePickerContract = defineContract({
     className: { type: 'string' },
 
     /**
+     * Placeholder for the visible Input trigger.
+     */
+    placeholder: { type: 'string', default: 'Select a date range' },
+
+    /**
      * Partial props forwarded to the internal Input trigger (not the RSuite input).
      * Use `InputProps.placeholder` to override the visible placeholder (default: "Select a date range").
      * Opaque, passthrough.
