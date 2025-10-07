@@ -76,7 +76,7 @@ export const DatePickerContract = defineContract({
     // Responsive defaults documented for the runtime generator (handled in core runtime code):
     responsiveDefaults: {
       showOneCalendar: { lessThanLg: true, greaterOrEqualLg: false },
-      showHeader: { lessThanLg: false, greaterOrEqualLg: true }
+      showHeader: { lessThanLg: true, greaterOrEqualLg: false }
     },
 
     a11y: {

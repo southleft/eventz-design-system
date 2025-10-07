@@ -115,6 +115,7 @@ export const DatePicker = React.forwardRef<HTMLDivElement, InternalDatePickerPro
       showOneCalendar,
       showHeader,
       format = 'MM/dd/yyyy',
+      placeholder = 'Select a date range',
       fullWidth,
       className,
       InputProps = {},
@@ -247,10 +248,12 @@ export const DatePicker = React.forwardRef<HTMLDivElement, InternalDatePickerPro
      * - DatePicker’s controlled/a11y props are applied AFTER this spread and take precedence.
      *   (Event handlers on the trigger are owned here; do not rely on `InputProps.onKeyDown/onClick`.)
      */
-    const effectiveInputProps = React.useMemo<PartialInputComponentProps>(
-      (): PartialInputComponentProps => ({ ...defaultInputProps, ...InputProps }),
-      [InputProps]
-    );
+    const effectiveInputProps =
+      React.useMemo<PartialInputComponentProps>((): PartialInputComponentProps => {
+        const base = { ...defaultInputProps, ...InputProps } as PartialInputComponentProps;
+        base.placeholder = placeholder;
+        return base;
+      }, [InputProps, placeholder]);
 
     // Test seam: allow tests to inject custom ranges to exercise closeOverlay behavior.
     const injectedRanges = (
