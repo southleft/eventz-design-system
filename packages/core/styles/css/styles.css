@@ -2432,12 +2432,7 @@
   }
 }
 @layer components {
-  &[data-theme='light'] {
-    & .rs-picker-popup {
-      background-image: none;
-    }
-  }
-  .rs-picker {
+  .dxyz-date-picker .rs-picker {
     position: absolute;
     left: 0;
   }
@@ -2512,6 +2507,11 @@
     .rs-calendar-btn-close {
       background-color: var(--color-color-background-default) !important;
       color: var(--color-color-content-default) !important;
+    }
+  }
+  &[data-theme='light'] {
+    .rs-picker-popup {
+      background-image: none;
     }
   }
 }

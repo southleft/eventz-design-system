@@ -174,21 +174,28 @@
 }
 
 @layer components {
-  /* DatePicker */
-  @variant data-[theme='light'] {
-    & .rs-picker-popup {
-      background-image: none;
-    }
-  }
-  .rs-picker {
+  /*
+    DatePicker — RSuite DateRangePicker overrides
+    ----------------------------------------------------
+    Notes:
+    - Keep portal overrides GLOBAL (.rs-picker-popup) because RSuite renders in a portal and often applies inline styles.
+    - Keep existing !important flags; they’re required to beat inline styles and dynamic class application.
+    - Scope only the in-wrapper root adjustments under `.dxyz-date-picker`.
+  */
+
+  /* 1) Root (inside wrapper): position the RSuite root relative to our wrapper */
+  .dxyz-date-picker .rs-picker {
     position: absolute;
     left: 0;
   }
+
+  /* 2) Popup (portal) overrides — global on purpose */
   .rs-picker-popup {
     background-image: var(--dt-background-modal-dark);
     margin-left: 12px;
     margin-top: 44px;
     color: var(--color-color-content-default) !important;
+
     .rs-picker-daterange-header {
       .rs-picker-header-date:first-child::before {
         content: 'From: ';
@@ -201,12 +208,14 @@
         border-bottom-color: var(--color-color-border-brand) !important;
       }
     }
+
     .rs-calendar-table-cell-is-today {
       .rs-calendar-table-cell-content {
         border: 1px solid var(--color-color-border-brand);
         box-shadow: none !important;
       }
     }
+
     .rs-calendar-table-cell {
       &:hover {
         .rs-calendar-table-cell-content {
@@ -219,17 +228,20 @@
         opacity: 0.5;
       }
     }
+
     .rs-calendar-table-cell-selected {
       .rs-calendar-table-cell-content {
         background-color: var(--color-color-background-brand) !important;
         color: var(--color-color-content-inverse) !important;
       }
     }
+
     .rs-calendar,
     .rs-picker-toolbar,
     .rs-picker-daterange-header {
       border-color: var(--color-color-border-subtle) !important;
     }
+
     .rs-calendar-month-dropdown-row-wrapper {
       background-color: var(--color-color-background-default);
     }
@@ -252,12 +264,20 @@
         }
       }
     }
+
     .rs-calendar-header-title-date {
       color: var(--color-color-content-default) !important;
     }
     .rs-calendar-btn-close {
       background-color: var(--color-color-background-default) !important;
       color: var(--color-color-content-default) !important;
+    }
+  }
+
+  /* 3) Theme variant tweaks */
+  @variant data-[theme='light'] {
+    .rs-picker-popup {
+      background-image: none;
     }
   }
 }
