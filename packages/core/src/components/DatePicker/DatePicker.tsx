@@ -59,14 +59,6 @@ const baseClasses = `
 
 const containerClasses = `dxyz-date-picker`;
 const layoutFullWidthClasses = `w-full`;
-const showOneCalendarStateClasses = `
-  data-[show-one-calendar=true]:[&_.rs-picker-toolbar]:flex
-  data-[show-one-calendar=true]:[&_.rs-picker-toolbar]:flex-col
-  data-[show-one-calendar=true]:[&_.rs-picker-toolbar-option-group]:order-first
-  data-[show-one-calendar=true]:[&_.rs-picker-toolbar-option-group]:mb-2
-  data-[show-one-calendar=true]:[&_.rs-picker-toolbar-option-group]:border-b
-  data-[show-one-calendar=true]:[&_.rs-picker-toolbar-option-group]:pb-1
-`;
 
 type PartialInputComponentProps = Partial<InputComponentProps>;
 
@@ -233,7 +225,6 @@ export const DatePicker = React.forwardRef<HTMLDivElement, InternalDatePickerPro
         baseClasses,
         containerClasses,
         fullWidth ? layoutFullWidthClasses : undefined,
-        effectiveShowOneCalendar ? showOneCalendarStateClasses : undefined,
         userClassName
       )
     );
