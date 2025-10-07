@@ -1,144 +1,82 @@
-// packages/blueprints/src/components/DatePicker/DatePicker.contract.ts
 import { defineContract } from '../../utilities';
 
 export const DatePickerContract = defineContract({
   component: 'DatePicker',
   description:
-    'Calendar-driven date picker. Uses Radix TextField as trigger and Radix Popover for the calendar. Calendar grid is provided by React DayPicker.',
-  // Root wrapper is a Popover; generator will also import/use TextField internally.
-  base: 'Popover',
+    'Wrapper for RSuite DateRangePicker with a scoped container and our own visible Input trigger. Responsive defaults: showOneCalendar (< lg) and showHeader (!lg). Forwards unmodeled props to RSuite.',
 
+  // Base root; runtime renders RSuite DateRangePicker inside and portals into this container.
+  base: 'div',
+
+  // Public API modeled to mirror the core component. All other props are forwarded to RSuite.
   props: {
-    // Mode: single date or range
-    mode: {
-      type: 'enum',
-      options: ['single', 'range'] as const,
-      default: 'single',
-      description: 'Selection mode for the calendar'
-    },
+    /**
+     * Force single-calendar (mobile) layout. If omitted, the runtime defaults to true below lg and false at/above lg.
+     */
+    showOneCalendar: { type: 'boolean' },
 
-    // Visible field content
-    label: { type: 'string', required: true, description: 'Field label' },
-    placeholder: { type: 'string', required: false },
-    helperText: { type: 'string', required: false },
+    /**
+     * Force showing the RSuite header. If omitted, the runtime defaults to !lg (hidden on mobile, visible on desktop).
+     */
+    showHeader: { type: 'boolean' },
 
-    // Value (ISO-8601 strings, e.g., 2025-03-14). In range mode, use startValue/endValue.
-    value: {
-      type: 'string',
-      required: false,
-      description: 'Selected date (ISO yyyy-MM-dd) in single mode'
-    },
-    startValue: {
-      type: 'string',
-      required: false,
-      description: 'Range start (ISO yyyy-MM-dd) in range mode'
-    },
-    endValue: {
-      type: 'string',
-      required: false,
-      description: 'Range end (ISO yyyy-MM-dd) in range mode'
-    },
+    /**
+     * Date display/parse format passed to RSuite.
+     */
+    format: { type: 'string', default: 'MM/dd/yyyy' },
 
-    // Constraints
-    minDate: {
-      type: 'string',
-      required: false,
-      description: 'Minimum selectable date (ISO yyyy-MM-dd)'
-    },
-    maxDate: {
-      type: 'string',
-      required: false,
-      description: 'Maximum selectable date (ISO yyyy-MM-dd)'
-    },
-
-    // Behavior
-    closeOnSelect: {
-      type: 'boolean',
-      default: true,
-      description: 'Close the popover when a selection is made (single mode default)'
-    },
-    allowTyping: {
-      type: 'boolean',
-      default: false,
-      description: 'Allow manual typing in the TextField (parsed on blur)'
-    },
-
-    // Standard flags
-    disabled: { type: 'boolean', default: false },
-    readOnly: { type: 'boolean', default: false },
-    required: { type: 'boolean', default: false },
-
-    // Layout
+    /**
+     * Apply full-width layout to the wrapper container.
+     */
     fullWidth: { type: 'boolean', default: false },
 
-    // i18n / calendar options (forwarded to DayPicker)
-    locale: { type: 'string', required: false, description: 'BCP-47 locale tag, e.g., en-US' },
-    weekStartsOn: { type: 'number', required: false, description: '0 = Sunday … 6 = Saturday' },
-    numberOfMonths: {
-      type: 'number',
-      required: false,
-      description: 'Show multiple months in the grid'
-    },
-    showOutsideDays: {
-      type: 'boolean',
-      default: true,
-      description: 'Render days from adjacent months'
-    },
-    fixedWeeks: { type: 'boolean', default: false, description: 'Pad weeks to a fixed row count' },
+    /**
+     * Additional classes for the wrapper container.
+     */
+    className: { type: 'string' },
 
-    // Composition
-    asChild: { type: 'boolean', default: false }
+    /**
+     * Partial props forwarded to the internal Input trigger (not the RSuite input).
+     * Use `InputProps.placeholder` to override the visible placeholder (default: "Select a date range").
+     * Opaque, passthrough.
+     */
+    InputProps: { type: 'object' }
   },
 
-  // Render order for external slots
-  slots: ['label', 'helperText', 'prefix', 'suffix'] as const,
+  // Single base slot; RSuite renders internally beneath this container.
+  slots: ['container'] as const,
 
-  // Layout hint for generator (Popover + TextField + Calendar)
+  // Optional layout hint for the container wrapper; visuals live in the styleMap.
   layout: {
     type: 'container',
     tag: 'div',
-    className: 'flex flex-col gap-1',
-    children: [
-      { slot: 'label', tag: 'label', className: 'text-comp-date-picker-label-color-foreground' },
-      {
-        // Trigger field (TextField) - generator composes Root/Slot/Input and binds native onChange
-        type: 'container',
-        tag: 'div',
-        className: 'inline-flex items-center',
-        children: [
-          { slot: 'prefix', tag: 'span', className: 'shrink-0 -ml-0.5' },
-          // The actual input is placed here by the generator (TextField.Input)
-          { slot: 'suffix', tag: 'span', className: 'shrink-0 -mr-0.5' }
-        ]
-      },
-      // Helper text under field
-      { slot: 'helperText', tag: 'div', className: 'text-caption-md-regular' }
-    ]
+    className: 'dxyz-date-picker'
   },
 
-  rules: [
-    {
-      validate: (props: Record<string, unknown>) => {
-        const label = props['label'];
-        return typeof label === 'string' && label.trim().length > 0;
-      },
-      message: 'label must be a non-empty string.'
-    }
-  ],
+  // No validation guards at this layer; wrapper is a light adapter.
+  rules: [],
 
+  // This component has a dedicated style map file.
   styleMap: true,
 
+  // Adapter + runtime guidance for the generator.
   hints: {
-    // Advisory – helps the generator import/compose the right primitives and DayPicker
-    radixAdapter: {
-      uses: ['TextField', 'Popover'] as const
+    radixAdapter: { uses: ['external:rsuite/DateRangePicker'] as const },
+    dependencies: { npm: ['rsuite'] },
+
+    // Forward ALL non-modeled props directly to RSuite DateRangePicker (omit deprecated upstream props).
+    passthrough:
+      'Forward all unmodeled props directly to RSuite DateRangePicker (omit deprecated props per RSuite docs).',
+
+    // Responsive defaults documented for the runtime generator (handled in core runtime code):
+    responsiveDefaults: {
+      showOneCalendar: { lessThanLg: true, greaterOrEqualLg: false },
+      showHeader: { lessThanLg: true, greaterOrEqualLg: false }
     },
-    dependencies: {
-      npm: ['react-day-picker']
-    },
+
     a11y: {
       recommendation:
-        'Bind native onChange on the input. Reflect validation via aria-invalid when parsing fails, and link helperText via aria-describedby.'
+        'Rely on RSuite semantics for the dialog and inputs. The wrapper does not alter accessible naming of the picker.'
     }
   }
 });

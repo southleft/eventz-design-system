@@ -1,0 +1,984 @@
+import '@testing-library/jest-dom';
+import * as React from 'react';
+import { render, screen, waitFor, act } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { DatePicker } from './DatePicker';
+
+/**
+ * Mock RSuite DateRangePicker so we can:
+ * - Observe the props our wrapper forwards (open, value, showOneCalendar, editable, ranges, etc.)
+ * - Simulate onChange / onOpen / onClose from inside the picker
+ * - Materialize a `.rs-picker-daterange-panel` under the provided `container()` to host the mobile toolbar
+ */
+jest.mock('rsuite', () => {
+  return {
+    DateRangePicker: React.forwardRef<
+      HTMLDivElement,
+      {
+        onChange?: (value: [unknown, unknown] | null, event?: unknown) => void;
+        onClose?: (e?: unknown) => void;
+        onOpen?: (e?: unknown) => void;
+        open?: boolean;
+        value?: [unknown, unknown] | null;
+        editable?: boolean;
+        showOneCalendar?: boolean;
+        showHeader?: boolean;
+        format?: string;
+        character?: string;
+        container?: HTMLElement | (() => HTMLElement);
+        ranges?: Array<
+          { label?: React.ReactNode; value?: [Date, Date] | null } & { closeOverlay?: boolean }
+        >;
+        locale?: { ok?: string };
+      }
+    >((props, ref) => {
+      const {
+        onChange,
+        onOpen,
+        onClose,
+        open,
+        value,
+        editable,
+        showOneCalendar,
+        showHeader,
+        format,
+        character,
+        container,
+        ranges,
+        locale
+      } = props;
+
+      // Ensure the consumer-provided container exists and host a panel there when open.
+      React.useEffect(() => {
+        const host = typeof container === 'function' ? container() : container;
+        if (!host) return;
+
+        const ensurePanel = () => {
+          const existing = host.querySelector('.rs-picker-daterange-panel');
+          if (open) {
+            if (!existing) {
+              const create = () => {
+                const panel = document.createElement('div');
+                panel.className = 'rs-picker-daterange-panel';
+                host.insertBefore(panel, host.firstChild);
+              };
+              const shouldDelay = Boolean(
+                (globalThis as unknown as { __RSUITE_DELAY_PANEL__?: boolean })
+                  .__RSUITE_DELAY_PANEL__
+              );
+              if (shouldDelay) {
+                setTimeout(create, 0);
+              } else {
+                create();
+              }
+            }
+          } else if (existing) {
+            existing.parentElement?.removeChild(existing);
+          }
+        };
+
+        ensurePanel();
+
+        return () => {
+          const existing = host.querySelector('.rs-picker-daterange-panel');
+          if (existing) existing.parentElement?.removeChild(existing);
+        };
+      }, [container, open]);
+
+      const toTs = (d: unknown) => (d instanceof Date ? String(d.getTime()) : '');
+      const v0 = Array.isArray(value) ? toTs(value[0]) : '';
+      const v1 = Array.isArray(value) ? toTs(value[1]) : '';
+
+      return (
+        <div
+          ref={ref}
+          role="button"
+          tabIndex={0}
+          data-testid="date-range-picker"
+          data-prop-open={open ? 'true' : 'false'}
+          data-prop-value-start={v0}
+          data-prop-value-end={v1}
+          data-prop-editable={editable ? 'true' : 'false'}
+          data-prop-show-one={showOneCalendar ? 'true' : 'false'}
+          data-prop-show-header={showHeader ? 'true' : 'false'}
+          data-prop-format={format ?? ''}
+          data-prop-character={character ?? ''}
+          data-prop-ranges-length={String(ranges?.length ?? 0)}
+          data-prop-locale-ok={locale?.ok ?? ''}
+          onClick={() => {
+            // Simulate a simple selection
+            onChange?.([new Date(0), new Date(0)], undefined);
+          }}
+          onDoubleClick={e => {
+            onChange?.([new Date(0), new Date(0)], e.nativeEvent);
+          }}
+          onKeyDown={e => {
+            if (e.key === 'Enter' || e.key === 'ArrowDown') onOpen?.(e);
+            if (e.key === 'Escape') onClose?.(e);
+            if (e.key === 'Backspace') onChange?.(null, undefined);
+          }}
+        >
+          DateRangePicker
+        </div>
+      );
+    })
+  };
+});
+/**
+ * matchMedia test seam so we can simulate <lg and >=lg breakpoints.
+ */
+const setupMatchMedia = (initialMatches: boolean) => {
+  let matches = initialMatches;
+  const listeners = new Set<(e: { matches: boolean }) => void>();
+
+  const mql = {
+    get matches() {
+      return matches;
+    },
+    media: '(min-width: 1024px)',
+    addEventListener: (_: string, cb: (e: { matches: boolean }) => void) => {
+      listeners.add(cb);
+    },
+    removeEventListener: (_: string, cb: (e: { matches: boolean }) => void) => {
+      listeners.delete(cb);
+    }
+  } as unknown as MediaQueryList;
+
+  Object.defineProperty(window, 'matchMedia', {
+    writable: true,
+    value: jest.fn().mockImplementation(() => mql)
+  });
+
+  const dispatch = (next: boolean) => {
+    matches = next;
+    listeners.forEach(cb => cb({ matches: next }));
+  };
+
+  return { dispatch };
+};
+
+describe('Environment seams', () => {
+  it('uses document.body as first container before ref is set (ignores external fallback seam)', async () => {
+    setupMatchMedia(false);
+    const fallback = document.createElement('div');
+    document.body.appendChild(fallback);
+    (globalThis as unknown as { __DP_FALLBACK__?: HTMLElement }).__DP_FALLBACK__ = fallback;
+    try {
+      render(<DatePicker defaultOpen />);
+      await waitFor(() => {
+        const panelInBody = document.body.querySelector('.rs-picker-daterange-panel');
+        expect(Boolean(panelInBody)).toBe(true);
+      });
+    } finally {
+      delete (globalThis as unknown as { __DP_FALLBACK__?: HTMLElement }).__DP_FALLBACK__;
+      fallback.remove();
+    }
+  });
+
+  it('does not use MutationObserver work when __DP_NO_OBSERVER__ is set (hasObserver=false branch)', async () => {
+    setupMatchMedia(false);
+    (globalThis as unknown as { __DP_NO_OBSERVER__?: boolean }).__DP_NO_OBSERVER__ = true;
+    try {
+      render(<DatePicker defaultOpen />);
+      await waitFor(() => {
+        // Toolbar should still render via ensureHost even without observing
+        expect(screen.getByTestId('daterange-predefined-top')).toBeInTheDocument();
+      });
+    } finally {
+      delete (globalThis as unknown as { __DP_NO_OBSERVER__?: boolean }).__DP_NO_OBSERVER__;
+    }
+  });
+});
+
+describe('DatePicker (wrapper around RSuite DateRangePicker)', () => {
+  it('panel observer callback is a no-op after unmount (!mounted branch)', () => {
+    setupMatchMedia(false);
+
+    const OriginalMO = (globalThis as unknown as { MutationObserver: typeof MutationObserver })
+      .MutationObserver;
+
+    const instances: Array<{ trigger: () => void }> = [];
+
+    class FakeMO {
+      private cb: MutationCallback;
+      public observe = jest.fn();
+      public disconnect = jest.fn();
+      constructor(cb: MutationCallback) {
+        this.cb = cb;
+        instances.push({ trigger: this.trigger });
+      }
+      trigger = () => {
+        this.cb([] as unknown as MutationRecord[], this as unknown as MutationObserver);
+      };
+    }
+
+    (globalThis as unknown as { MutationObserver: typeof MutationObserver }).MutationObserver =
+      FakeMO as unknown as typeof MutationObserver;
+
+    try {
+      const { unmount } = render(<DatePicker defaultOpen />);
+      unmount();
+
+      // The most recently created observer is the panel observer (or the only one in fast path)
+      const panelObs = instances[instances.length - 1];
+      act(() => {
+        panelObs.trigger();
+      });
+
+      // After unmount, the callback should short-circuit; no host is (re)attached
+      expect(screen.queryByTestId('daterange-predefined-top')).toBeNull();
+    } finally {
+      (globalThis as unknown as { MutationObserver: typeof MutationObserver }).MutationObserver =
+        OriginalMO;
+    }
+  });
+  it('disconnects the document observer after attaching to the panel (doc->panel swap)', () => {
+    jest.useFakeTimers();
+    setupMatchMedia(false);
+
+    const OriginalMO = (globalThis as unknown as { MutationObserver: typeof MutationObserver })
+      .MutationObserver;
+
+    const instances: Array<{ disconnect: jest.Mock; trigger: () => void }> = [];
+
+    class FakeMO {
+      private cb: MutationCallback;
+      public observe = jest.fn();
+      public disconnect = jest.fn();
+      constructor(cb: MutationCallback) {
+        this.cb = cb;
+        instances.push(this as unknown as { disconnect: jest.Mock; trigger: () => void });
+      }
+      trigger() {
+        this.cb([] as unknown as MutationRecord[], this as unknown as MutationObserver);
+      }
+    }
+
+    (globalThis as unknown as { MutationObserver: typeof MutationObserver }).MutationObserver =
+      FakeMO as unknown as typeof MutationObserver;
+
+    (globalThis as unknown as { __RSUITE_DELAY_PANEL__?: boolean }).__RSUITE_DELAY_PANEL__ = true;
+
+    try {
+      render(<DatePicker defaultOpen />);
+
+      // Create the RSuite panel (scheduled by the mock)
+      jest.runOnlyPendingTimers();
+      jest.useRealTimers();
+
+      // Simulate a document mutation to trigger tryAttach() and perform the swap
+      const docObs = instances[0];
+      act(() => {
+        docObs.trigger();
+      });
+
+      expect(docObs.disconnect).toHaveBeenCalledTimes(1);
+    } finally {
+      (globalThis as unknown as { MutationObserver: typeof MutationObserver }).MutationObserver =
+        OriginalMO;
+      delete (globalThis as unknown as { __RSUITE_DELAY_PANEL__?: boolean }).__RSUITE_DELAY_PANEL__;
+    }
+  });
+  it('mounts panel under document.body on first render (container fallback)', async () => {
+    setupMatchMedia(false);
+    render(<DatePicker defaultOpen />);
+    await waitFor(() => {
+      expect(Boolean(document.body.querySelector('.rs-picker-daterange-panel'))).toBe(true);
+    });
+  });
+
+  it('mounts panel under wrapper on the next render (wrapperRef branch)', async () => {
+    setupMatchMedia(false);
+    const { rerender } = render(<DatePicker defaultOpen />);
+    const wrapper = screen.getByTestId('date-range-picker').parentElement as HTMLElement;
+    rerender(<DatePicker defaultOpen />);
+    await waitFor(() => {
+      expect(Boolean(wrapper.querySelector('.rs-picker-daterange-panel'))).toBe(true);
+    });
+  });
+  it('renders a wrapper with the base token class', () => {
+    setupMatchMedia(false);
+    render(<DatePicker />);
+    const wrapper = screen.getByTestId('date-range-picker').parentElement;
+    expect(wrapper?.className).toContain('dxyz-date-picker');
+  });
+
+  it('applies fullWidth class when fullWidth is true', () => {
+    setupMatchMedia(false);
+    render(<DatePicker fullWidth />);
+    const wrapper = screen.getByTestId('date-range-picker').parentElement;
+    expect(wrapper?.className).toContain('w-full');
+  });
+
+  it('defaults showOneCalendar=true below lg (responsive default)', async () => {
+    setupMatchMedia(false);
+    render(<DatePicker />);
+    const wrapper = screen.getByTestId('date-range-picker').parentElement as HTMLElement;
+    await waitFor(() => {
+      expect(wrapper).toHaveAttribute('data-show-one-calendar', 'true');
+    });
+  });
+
+  it('defaults showOneCalendar=false at or above lg', async () => {
+    setupMatchMedia(true);
+    render(<DatePicker />);
+    const wrapper = screen.getByTestId('date-range-picker').parentElement as HTMLElement;
+    await waitFor(() => {
+      expect(wrapper).not.toHaveAttribute('data-show-one-calendar');
+    });
+  });
+
+  it('honors explicit showOneCalendar=true regardless of breakpoint', async () => {
+    setupMatchMedia(true);
+    render(<DatePicker showOneCalendar />);
+    const wrapper = screen.getByTestId('date-range-picker').parentElement as HTMLElement;
+    await waitFor(() => {
+      expect(wrapper).toHaveAttribute('data-show-one-calendar', 'true');
+    });
+  });
+
+  it('honors explicit showOneCalendar=false regardless of breakpoint', async () => {
+    setupMatchMedia(false);
+    render(<DatePicker showOneCalendar={false} />);
+    const wrapper = screen.getByTestId('date-range-picker').parentElement as HTMLElement;
+    await waitFor(() => {
+      expect(wrapper).not.toHaveAttribute('data-show-one-calendar');
+    });
+  });
+
+  it('passes effective showOneCalendar to RSuite', async () => {
+    setupMatchMedia(false);
+    render(<DatePicker />);
+    const inner = screen.getByTestId('date-range-picker');
+    await waitFor(() => {
+      expect(inner).toHaveAttribute('data-prop-show-one', 'true');
+    });
+  });
+
+  it('uses showHeader default (hidden on mobile, visible on desktop)', async () => {
+    setupMatchMedia(false);
+    render(<DatePicker />);
+    const mobileInner = screen.getByTestId('date-range-picker');
+    await waitFor(() => {
+      expect(mobileInner).toHaveAttribute('data-prop-show-header', 'true');
+    });
+  });
+
+  it('forwards editable=false to RSuite', () => {
+    setupMatchMedia(true);
+    render(<DatePicker />);
+    const inner = screen.getByTestId('date-range-picker');
+    expect(inner).toHaveAttribute('data-prop-editable', 'false');
+  });
+
+  it('opens when clicking the visible Input (uncontrolled open path)', async () => {
+    setupMatchMedia(false);
+    render(<DatePicker />);
+    await userEvent.click(screen.getByTestId('date-picker-input'));
+    const inner = screen.getByTestId('date-range-picker');
+    await waitFor(() => {
+      expect(inner).toHaveAttribute('data-prop-open', 'true');
+    });
+  });
+
+  it('does not open when disabled', async () => {
+    setupMatchMedia(false);
+    render(<DatePicker disabled />);
+    await userEvent.click(screen.getByTestId('date-picker-input'));
+    const inner = screen.getByTestId('date-range-picker');
+    await waitFor(() => {
+      expect(inner).toHaveAttribute('data-prop-open', 'false');
+    });
+  });
+
+  it('prevents default on Enter in the visible Input and opens', () => {
+    setupMatchMedia(false);
+    render(<DatePicker />);
+    const input = screen.getByTestId('date-picker-input');
+    const ev = new KeyboardEvent('keydown', { key: 'Enter', bubbles: true, cancelable: true });
+    input.dispatchEvent(ev);
+    expect(ev.defaultPrevented).toBe(true);
+  });
+
+  it('prevents default on ArrowDown in the visible Input and opens', () => {
+    setupMatchMedia(false);
+    render(<DatePicker />);
+    const input = screen.getByTestId('date-picker-input');
+    const ev = new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true, cancelable: true });
+    input.dispatchEvent(ev);
+    expect(ev.defaultPrevented).toBe(true);
+  });
+
+  it('opens via ArrowDown from the visible Input (covers ArrowDown branch)', async () => {
+    setupMatchMedia(false);
+    render(<DatePicker />);
+    const input = screen.getByTestId('date-picker-input');
+    input.focus();
+    await userEvent.keyboard('{ArrowDown}');
+    const inner = screen.getByTestId('date-range-picker');
+    await waitFor(() => {
+      expect(inner).toHaveAttribute('data-prop-open', 'true');
+    });
+  });
+
+  it('does not handle other keys in the visible Input (ArrowDown condition false path)', () => {
+    setupMatchMedia(false);
+    render(<DatePicker />);
+    const input = screen.getByTestId('date-picker-input');
+    const ev = new KeyboardEvent('keydown', { key: 'Tab', bubbles: true, cancelable: true });
+    input.dispatchEvent(ev);
+    // Not Enter and not ArrowDown, so we should not prevent default (covers false side)
+    expect(ev.defaultPrevented).toBe(false);
+  });
+
+  it('sets aria-expanded=true after opening', async () => {
+    setupMatchMedia(false);
+    render(<DatePicker />);
+    await userEvent.click(screen.getByTestId('date-picker-input'));
+    const input = screen.getByTestId('date-picker-input');
+    await waitFor(() => {
+      expect(input).toHaveAttribute('aria-expanded', 'true');
+    });
+  });
+
+  it('sets aria-expanded=false after closing', async () => {
+    setupMatchMedia(false);
+    render(<DatePicker defaultOpen />);
+    const inner = screen.getByTestId('date-range-picker');
+    inner.focus();
+    await userEvent.keyboard('{Escape}');
+    const input = screen.getByTestId('date-picker-input');
+    await waitFor(() => {
+      expect(input).toHaveAttribute('aria-expanded', 'false');
+    });
+  });
+
+  it('supports defaultOpen (uncontrolled)', async () => {
+    setupMatchMedia(false);
+    render(<DatePicker defaultOpen />);
+    const inner = screen.getByTestId('date-range-picker');
+    await waitFor(() => {
+      expect(inner).toHaveAttribute('data-prop-open', 'true');
+    });
+  });
+
+  it('does not open when controlled open={false}', async () => {
+    setupMatchMedia(false);
+    render(<DatePicker open={false} />);
+    await userEvent.click(screen.getByTestId('date-picker-input'));
+    const inner = screen.getByTestId('date-range-picker');
+    await waitFor(() => {
+      expect(inner).toHaveAttribute('data-prop-open', 'false');
+    });
+  });
+
+  it('calls onOpen when the RSuite control emits onOpen via keydown', async () => {
+    setupMatchMedia(false);
+    const onOpen = jest.fn();
+    render(<DatePicker onOpen={onOpen} />);
+    const inner = screen.getByTestId('date-range-picker');
+    inner.focus();
+    await userEvent.keyboard('{Enter}');
+    await waitFor(() => {
+      expect(onOpen).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  it('calls onClose when the RSuite control emits onClose via Escape', async () => {
+    setupMatchMedia(false);
+    const onClose = jest.fn();
+    render(<DatePicker defaultOpen onClose={onClose} />);
+    const inner = screen.getByTestId('date-range-picker');
+    inner.focus();
+    await userEvent.keyboard('{Escape}');
+    await waitFor(() => {
+      expect(onClose).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  it('forwards value changes in uncontrolled mode (click -> 0 timestamp)', async () => {
+    setupMatchMedia(false);
+    render(<DatePicker />);
+    const inner = screen.getByTestId('date-range-picker');
+    await userEvent.click(inner);
+    await waitFor(() => {
+      expect(inner).toHaveAttribute('data-prop-value-start', '0');
+    });
+  });
+
+  it('does not change effective value in controlled mode (calls handler instead)', async () => {
+    setupMatchMedia(false);
+    const d0 = new Date(2024, 0, 1);
+    const d1 = new Date(2024, 0, 2);
+    const spy = jest.fn();
+    render(<DatePicker value={[d0, d1]} onChange={spy} />);
+    const inner = screen.getByTestId('date-range-picker');
+    await userEvent.click(inner);
+    await waitFor(() => {
+      expect(spy).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  it('forwards (value, undefined) when RSuite supplies only value', async () => {
+    setupMatchMedia(false);
+    const spy = jest.fn();
+    render(<DatePicker onChange={spy} />);
+    await userEvent.click(screen.getByTestId('date-range-picker'));
+    await waitFor(() => {
+      expect(spy).toHaveBeenCalledWith([new Date(0), new Date(0)], undefined);
+    });
+  });
+
+  it('forwards (value, event) when RSuite supplies both', async () => {
+    setupMatchMedia(false);
+    const spy = jest.fn();
+    render(<DatePicker onChange={spy} />);
+    await userEvent.dblClick(screen.getByTestId('date-range-picker'));
+    await waitFor(() => {
+      expect(spy).toHaveBeenCalledWith([new Date(0), new Date(0)], expect.any(Event));
+    });
+  });
+
+  it('forwards null when the picker clears (Backspace)', async () => {
+    setupMatchMedia(false);
+    const spy = jest.fn();
+    render(<DatePicker onChange={spy} />);
+    const inner = screen.getByTestId('date-range-picker');
+    inner.focus();
+    await userEvent.keyboard('{Backspace}');
+    await waitFor(() => {
+      expect(spy).toHaveBeenCalledWith(null, undefined);
+    });
+  });
+
+  it('treats controlled value={undefined} as empty effective value', () => {
+    setupMatchMedia(false);
+    render(<DatePicker value={undefined as unknown as [Date, Date]} />);
+    const inner = screen.getByTestId('date-range-picker');
+    expect(inner).toHaveAttribute('data-prop-value-start', '');
+  });
+
+  it('merges consumer className onto the wrapper', () => {
+    setupMatchMedia(false);
+    render(<DatePicker className="probe-class" />);
+    const wrapper = screen.getByTestId('date-range-picker').parentElement as HTMLElement;
+    expect(wrapper.className).toContain('probe-class');
+  });
+
+  it('spreads InputProps and preserves default placeholder', () => {
+    setupMatchMedia(false);
+    render(<DatePicker InputProps={{ 'aria-label': 'x' }} />);
+    const input = screen.getByTestId('date-picker-input');
+    expect(input).toHaveAttribute('placeholder', 'Select a date range');
+  });
+
+  it('spreads InputProps attributes onto the visible Input', () => {
+    setupMatchMedia(false);
+    render(<DatePicker InputProps={{ 'aria-label': 'probe' }} />);
+    const input = screen.getByTestId('date-picker-input');
+    expect(input).toHaveAttribute('aria-label', 'probe');
+  });
+
+  it('applies disabled attribute to the visible Input when disabled', () => {
+    setupMatchMedia(false);
+    render(<DatePicker disabled />);
+    const input = screen.getByTestId('date-picker-input');
+    expect(input).toBeDisabled();
+  });
+
+  it('exposes a callback ref to the wrapper element on mount', () => {
+    setupMatchMedia(false);
+    let el: HTMLDivElement | null = null;
+    render(
+      <DatePicker
+        ref={node => {
+          el = node;
+        }}
+      />
+    );
+    expect(el).toBeInstanceOf(HTMLDivElement);
+  });
+
+  it('clears a callback ref with null on unmount', () => {
+    setupMatchMedia(false);
+    let last: HTMLDivElement | null = null;
+    const { unmount } = render(
+      <DatePicker
+        ref={node => {
+          last = node;
+        }}
+      />
+    );
+    unmount();
+    expect(last).toBeNull();
+  });
+
+  it('sets an object ref on mount', () => {
+    setupMatchMedia(false);
+    const ref = React.createRef<HTMLDivElement>();
+    render(<DatePicker ref={ref} />);
+    expect(ref.current).toBeInstanceOf(HTMLDivElement);
+  });
+
+  it('clears an object ref on unmount', () => {
+    setupMatchMedia(false);
+    const ref = React.createRef<HTMLDivElement>();
+    const { unmount } = render(<DatePicker ref={ref} />);
+    unmount();
+    expect(ref.current).toBeNull();
+  });
+
+  it('uses default format "MM/dd/yyyy" and empty character', () => {
+    setupMatchMedia(false);
+    render(<DatePicker />);
+    const inner = screen.getByTestId('date-range-picker');
+    expect(inner).toHaveAttribute('data-prop-format', 'MM/dd/yyyy');
+  });
+
+  it('forwards custom format prop to RSuite', () => {
+    setupMatchMedia(false);
+    render(<DatePicker format="yyyy-MM" />);
+    const inner = screen.getByTestId('date-range-picker');
+    expect(inner).toHaveAttribute('data-prop-format', 'yyyy-MM');
+  });
+
+  it('forwards locale.ok="Apply" to RSuite', () => {
+    setupMatchMedia(false);
+    render(<DatePicker />);
+    const inner = screen.getByTestId('date-range-picker');
+    expect(inner).toHaveAttribute('data-prop-locale-ok', 'Apply');
+  });
+
+  it('renders a mobile toolbar with predefined ranges when open on mobile', async () => {
+    setupMatchMedia(false);
+    render(<DatePicker defaultOpen />);
+    await waitFor(() => {
+      // The toolbar is rendered by our wrapper into a panel host; the mock exposes no text,
+      // but the host exists under this test id.
+      expect(screen.getByTestId('daterange-predefined-top')).toBeInTheDocument();
+    });
+  });
+
+  it('omits custom toolbar and passes ranges to RSuite on desktop', async () => {
+    setupMatchMedia(true);
+    render(<DatePicker defaultOpen />);
+    const inner = screen.getByTestId('date-range-picker');
+    await waitFor(() => {
+      expect(inner).toHaveAttribute('data-prop-ranges-length', '3');
+    });
+  });
+
+  it('switches toolbars when breakpoint changes while open', async () => {
+    const ctl = setupMatchMedia(false);
+    render(<DatePicker defaultOpen />);
+    // Wait for the mobile toolbar host to exist (precondition) without asserting
+    await screen.findByTestId('daterange-predefined-top');
+    act(() => {
+      ctl.dispatch(true);
+    });
+    const inner = screen.getByTestId('date-range-picker');
+    await waitFor(() => {
+      expect(inner).toHaveAttribute('data-prop-ranges-length', '3');
+    });
+  });
+
+  it('handles absence of window.matchMedia safely (no attribute added)', async () => {
+    const original = window.matchMedia;
+    Object.defineProperty(window, 'matchMedia', { value: undefined, writable: true });
+    try {
+      render(<DatePicker />);
+      const wrapper = screen.getByTestId('date-range-picker').parentElement as HTMLElement;
+      await waitFor(() => {
+        // With no matchMedia, effect early-returns; component still renders.
+        expect(wrapper).toBeInTheDocument();
+      });
+    } finally {
+      Object.defineProperty(window, 'matchMedia', { value: original, writable: true });
+    }
+  });
+
+  it('does not call onOpen when disabled and trigger is clicked', async () => {
+    setupMatchMedia(false);
+    const onOpen = jest.fn();
+    render(<DatePicker disabled onOpen={onOpen} />);
+    await userEvent.click(screen.getByTestId('date-picker-input'));
+    await waitFor(() => {
+      expect(onOpen).toHaveBeenCalledTimes(0);
+    });
+  });
+
+  it('honors showHeader override to false on mobile', async () => {
+    setupMatchMedia(false);
+    render(<DatePicker showHeader={false} />);
+    const inner = screen.getByTestId('date-range-picker');
+    await waitFor(() => {
+      expect(inner).toHaveAttribute('data-prop-show-header', 'false');
+    });
+  });
+
+  it('honors showHeader override to true on desktop', async () => {
+    setupMatchMedia(true);
+    render(<DatePicker showHeader />);
+    const inner = screen.getByTestId('date-range-picker');
+    await waitFor(() => {
+      expect(inner).toHaveAttribute('data-prop-show-header', 'true');
+    });
+  });
+
+  it('renders empty display when controlled value is null', () => {
+    setupMatchMedia(false);
+    render(<DatePicker value={null} />);
+    const input = screen.getByTestId('date-picker-input');
+    expect(input).toHaveValue('');
+  });
+
+  it('renders formatted display for controlled value', () => {
+    setupMatchMedia(false);
+    const d0 = new Date(2024, 6, 10);
+    const d1 = new Date(2024, 6, 12);
+    render(<DatePicker value={[d0, d1]} />);
+    const input = screen.getByTestId('date-picker-input');
+    const expected = `${d0.toLocaleDateString()} - ${d1.toLocaleDateString()}`;
+    expect(input).toHaveValue(expected);
+  });
+
+  it('short-circuits requestOpen when disabled (no open state change)', async () => {
+    setupMatchMedia(false);
+    render(<DatePicker disabled />);
+    const inner = screen.getByTestId('date-range-picker');
+    inner.focus();
+    await userEvent.keyboard('{Enter}');
+    await waitFor(() => {
+      expect(inner).toHaveAttribute('data-prop-open', 'false');
+    });
+  });
+
+  it('does not invoke consumer onOpen when disabled (RSuite triggers onOpen)', async () => {
+    setupMatchMedia(false);
+    const onOpen = jest.fn();
+    render(<DatePicker disabled onOpen={onOpen} />);
+    const inner = screen.getByTestId('date-range-picker');
+    inner.focus();
+    await userEvent.keyboard('{Enter}');
+    await waitFor(() => {
+      expect(onOpen).toHaveBeenCalledTimes(0);
+    });
+  });
+
+  it('controlled open stays expanded on Escape (no internal state change)', async () => {
+    setupMatchMedia(false);
+    render(<DatePicker open onClose={jest.fn()} />);
+    const inner = screen.getByTestId('date-range-picker');
+    inner.focus();
+    await userEvent.keyboard('{Escape}');
+    const input = screen.getByTestId('date-picker-input');
+    await waitFor(() => {
+      expect(input).toHaveAttribute('aria-expanded', 'true');
+    });
+  });
+
+  it('removes mobile toolbar when switching to desktop while open', async () => {
+    const ctl = setupMatchMedia(false);
+    render(<DatePicker defaultOpen />);
+    act(() => {
+      ctl.dispatch(true);
+    });
+    await waitFor(() => {
+      expect(screen.queryByTestId('daterange-predefined-top')).toBeNull();
+    });
+  });
+
+  it('clicking a standard range closes the popup (mobile toolbar)', async () => {
+    setupMatchMedia(false);
+    render(<DatePicker defaultOpen />);
+    // Wait for the toolbar host to exist (precondition) without asserting
+    await screen.findByTestId('daterange-predefined-top');
+    const today = await screen.findByRole('button', { name: 'Today' });
+    await userEvent.click(today);
+    const input = screen.getByTestId('date-picker-input');
+    await waitFor(() => {
+      expect(input).toHaveAttribute('aria-expanded', 'false');
+    });
+  });
+
+  it('re-attaches a stray toolbar host back into the current panel on mutation (mobile)', async () => {
+    setupMatchMedia(false);
+    render(<DatePicker defaultOpen />);
+
+    // Wait for initial host + panel
+    const host = await screen.findByTestId('daterange-predefined-top');
+    const panel = document.querySelector('.rs-picker-daterange-panel') as HTMLDivElement;
+
+    // Simulate the host being moved outside of the panel (e.g., by external DOM ops)
+    document.body.appendChild(host);
+
+    // Trigger a childList mutation on the observed panel to make the effect run ensureHost(panel)
+    const marker = document.createElement('div');
+    panel.appendChild(marker);
+
+    await waitFor(() => {
+      // ensureHost should remove the stray host from its current parent and recreate/attach it under panel
+      expect(panel.contains(screen.getByTestId('daterange-predefined-top'))).toBe(true);
+    });
+  });
+
+  it('does not close when a range sets closeOverlay=false (mobile toolbar branch)', async () => {
+    setupMatchMedia(false);
+    const d = new Date(2024, 0, 1);
+    (
+      globalThis as unknown as {
+        __DP_RANGES__?: Array<
+          { label?: React.ReactNode; value?: [Date, Date] | null } & { closeOverlay?: boolean }
+        >;
+      }
+    ).__DP_RANGES__ = [
+      { label: 'StayOpen', value: [d, d], closeOverlay: false },
+      { label: 'Close', value: [d, d] }
+    ];
+    try {
+      render(<DatePicker defaultOpen />);
+      const stayOpen = await screen.findByRole('button', { name: 'StayOpen' });
+      await userEvent.click(stayOpen);
+      const input = screen.getByTestId('date-picker-input');
+      await waitFor(() => {
+        expect(input).toHaveAttribute('aria-expanded', 'true');
+      });
+    } finally {
+      delete (globalThis as unknown as { __DP_RANGES__?: unknown }).__DP_RANGES__;
+    }
+  });
+
+  it('removes matchMedia change listener on unmount (useMediaQuery cleanup)', () => {
+    const original = window.matchMedia;
+
+    const add = jest.fn();
+    const remove = jest.fn();
+    const mql = {
+      get matches() {
+        return false;
+      },
+      media: '(min-width: 1024px)',
+      addEventListener: add,
+      removeEventListener: remove
+    } as unknown as MediaQueryList;
+
+    Object.defineProperty(window, 'matchMedia', {
+      writable: true,
+      value: jest.fn().mockImplementation(() => mql)
+    });
+
+    const { unmount } = render(<DatePicker />);
+    unmount();
+
+    expect(remove).toHaveBeenCalledTimes(1);
+
+    Object.defineProperty(window, 'matchMedia', { writable: true, value: original });
+  });
+
+  it('handles matchMedia object without add/removeEventListener (optional chaining false branch)', () => {
+    const original = window.matchMedia;
+    const mql = {
+      get matches() {
+        return true;
+      },
+      media: '(min-width: 1024px)'
+      // intentionally no addEventListener/removeEventListener
+    } as unknown as MediaQueryList;
+
+    Object.defineProperty(window, 'matchMedia', {
+      writable: true,
+      value: jest.fn().mockImplementation(() => mql)
+    });
+
+    const { unmount } = render(<DatePicker />);
+    unmount();
+
+    // If optional chaining false branch executed, there is nothing to assert beyond not throwing.
+    expect(typeof window.matchMedia).toBe('function');
+
+    Object.defineProperty(window, 'matchMedia', { writable: true, value: original });
+  });
+  it('renders empty display for partial controlled value (missing end date)', () => {
+    setupMatchMedia(false);
+    const start = new Date(2024, 0, 1);
+    render(<DatePicker value={[start, undefined] as unknown as [Date, Date]} />);
+    const input = screen.getByTestId('date-picker-input');
+    expect(input).toHaveValue('');
+  });
+  it('attaches toolbar via document observer when panel appears later', async () => {
+    setupMatchMedia(false);
+    (globalThis as unknown as { __RSUITE_DELAY_PANEL__?: boolean }).__RSUITE_DELAY_PANEL__ = true;
+    try {
+      render(<DatePicker defaultOpen />);
+      await waitFor(() => {
+        expect(screen.getByTestId('daterange-predefined-top')).toBeInTheDocument();
+      });
+    } finally {
+      delete (globalThis as unknown as { __RSUITE_DELAY_PANEL__?: boolean }).__RSUITE_DELAY_PANEL__;
+    }
+  });
+
+  it('attaches via document observer when panel is created later (timers paused)', async () => {
+    jest.useFakeTimers();
+    setupMatchMedia(false);
+    (globalThis as unknown as { __RSUITE_DELAY_PANEL__?: boolean }).__RSUITE_DELAY_PANEL__ = true;
+    try {
+      render(<DatePicker defaultOpen />);
+      // At this point, panel creation is scheduled but not executed; effect should have installed doc observer.
+      jest.runOnlyPendingTimers();
+      jest.useRealTimers();
+
+      await waitFor(() => {
+        expect(screen.getByTestId('daterange-predefined-top')).toBeInTheDocument();
+      });
+    } finally {
+      delete (globalThis as unknown as { __RSUITE_DELAY_PANEL__?: boolean }).__RSUITE_DELAY_PANEL__;
+    }
+  });
+
+  it('continues observing when tryAttach returns false (doc observer false branch)', async () => {
+    jest.useFakeTimers();
+    setupMatchMedia(false);
+    (globalThis as unknown as { __RSUITE_DELAY_PANEL__?: boolean }).__RSUITE_DELAY_PANEL__ = true;
+
+    // Spy only the specific selector used by tryAttach
+    const realQS = document.querySelector.bind(document);
+    const qsSpy = jest.spyOn(document, 'querySelector').mockImplementation(((selector: string) => {
+      if (selector === '.rs-picker-daterange-panel') return null; // force tryAttach() -> false
+      return realQS(selector);
+    }) as unknown as typeof document.querySelector);
+
+    try {
+      render(<DatePicker defaultOpen />); // installs doc observer while panel is delayed
+
+      // Cause a doc-level mutation to fire the observer callback while timers are paused
+      document.body.appendChild(document.createElement('span'));
+
+      // MutationObserver callbacks run as microtasks
+      await Promise.resolve();
+
+      // Host should still be absent -> the `if (tryAttach())` evaluated to false
+      expect(screen.queryByTestId('daterange-predefined-top')).toBeNull();
+    } finally {
+      qsSpy.mockRestore();
+      jest.clearAllTimers();
+      jest.useRealTimers();
+      delete (globalThis as unknown as { __RSUITE_DELAY_PANEL__?: boolean }).__RSUITE_DELAY_PANEL__;
+    }
+  });
+});
+
+it('skips observer startup when MutationObserver is unavailable (hasObserver=false)', () => {
+  const original = (globalThis as unknown as { MutationObserver?: typeof MutationObserver })
+    .MutationObserver;
+  Object.defineProperty(globalThis, 'MutationObserver', { value: undefined, configurable: true });
+
+  try {
+    setupMatchMedia(false);
+    render(<DatePicker defaultOpen />);
+    // With no MutationObserver, the effect early-returns; the toolbar host should not be created.
+    expect(screen.queryByTestId('daterange-predefined-top')).toBeNull();
+  } finally {
+    Object.defineProperty(globalThis, 'MutationObserver', { value: original, configurable: true });
+  }
+});

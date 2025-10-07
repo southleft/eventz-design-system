@@ -56,6 +56,7 @@
   --color-color-border-default: var(--dt-color-border-default);
   --color-color-border-default-hover: var(--dt-color-border-default-hover);
   --color-color-border-inverse: var(--dt-color-border-inverse);
+  --color-color-border-subtle: var(--dt-color-border-subtle);
   --color-color-content-brand: var(--dt-color-content-brand);
   --color-color-content-brand-hover: var(--dt-color-content-brand-hover);
   --color-color-content-default: var(--dt-color-content-default);
@@ -1607,6 +1608,9 @@
   font-size: var(--text-xs);
   line-height: var(--tw-leading, var(--text-xs--line-height));
 }
+.text-\[10px\] {
+  font-size: 10px;
+}
 .leading-tight {
   --tw-leading: var(--leading-tight);
   line-height: var(--leading-tight);
@@ -2231,6 +2235,145 @@
   }
   :root {
     --tw-ring-offset-color: var(--color-body-background);
+  }
+}
+@layer components {
+  .dxyz-date-picker .rs-picker {
+    position: absolute;
+    left: 0;
+  }
+  .dxyz-date-picker {
+    .rs-picker-input-group {
+      display: none !important;
+      pointer-events: none !important;
+    }
+    .rs-picker-daterange-header {
+      display: flex;
+      justify-content: space-around;
+    }
+    .rs-btn {
+      border-color: var(--color-comp-button-color-border-default) !important;
+      color: var(--color-comp-button-color-content-default) !important;
+    }
+    .rs-btn:hover {
+      background-color: var(--color-comp-button-color-background-hover) !important;
+      color: var(--color-comp-button-color-content-default) !important;
+      text-decoration: none;
+    }
+    .rs-btn:active {
+      background-color: var(--color-comp-button-color-background-active) !important;
+      color: var(--color-comp-button-color-content-default) !important;
+      text-decoration: none;
+    }
+    .rs-btn:focus {
+      color: var(--color-comp-button-color-content-default) !important;
+      background: transparent;
+      text-decoration: none;
+    }
+    .rs-btn:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 2px var(--color-comp-border-focus-ring) !important;
+    }
+    .rs-btn-link {
+      background-color: var(--color-comp-button-color-background-default) !important;
+    }
+    .rs-btn-link:focus {
+      background-color: var(--color-comp-button-color-background-active) !important;
+    }
+    .rs-btn-primary {
+      background-color: var(--color-comp-button-primary-color-background-default) !important;
+      color: var(--color-comp-button-primary-color-content-default) !important;
+    }
+    .rs-btn-primary:disabled {
+      background-color: var(--color-comp-button-primary-color-background-default) !important;
+      color: var(--color-comp-button-primary-color-content-default) !important;
+    }
+    .rs-btn-subtle {
+      color: var(--color-color-content-default) !important;
+      font-weight: 700;
+    }
+    .rs-btn-subtle:hover {
+      background: transparent;
+      color: var(--color-color-content-subtle) !important;
+    }
+  }
+  .rs-picker-popup {
+    background-image: var(--dt-background-modal-dark);
+    margin-left: 12px;
+    margin-top: 44px;
+    color: var(--color-color-content-default) !important;
+    .rs-picker-daterange-header {
+      .rs-picker-header-date:first-child::before {
+        content: 'From: ';
+      }
+      .rs-picker-header-date:last-child::before {
+        content: 'To: ';
+      }
+      &.rs-picker-tab-active-start::after, &.rs-picker-tab-active-end::after {
+        border-bottom-color: var(--color-color-border-brand) !important;
+      }
+    }
+    .rs-calendar-table-cell-is-today {
+      .rs-calendar-table-cell-content {
+        border: 1px solid var(--color-color-border-brand);
+        box-shadow: none !important;
+      }
+    }
+    .rs-calendar-table-cell {
+      &:hover {
+        .rs-calendar-table-cell-content {
+          background-color: var(--color-color-background-subtle-hover) !important;
+          color: var(--color-color-content-brand) !important;
+        }
+      }
+      &.rs-calendar-table-cell-in-range::before {
+        background-color: var(--color-color-background-brand) !important;
+        opacity: 0.5;
+      }
+    }
+    .rs-calendar-table-cell-selected {
+      .rs-calendar-table-cell-content {
+        background-color: var(--color-color-background-brand) !important;
+        color: var(--color-color-content-inverse) !important;
+      }
+    }
+    .rs-calendar, .rs-picker-toolbar, .rs-picker-daterange-header {
+      border-color: var(--color-color-border-subtle) !important;
+    }
+    .rs-calendar-month-dropdown-row-wrapper {
+      background-color: var(--color-color-background-default);
+    }
+    .rs-calendar-month-dropdown-year-active {
+      color: var(--color-color-content-brand) !important;
+    }
+    .rs-calendar-month-dropdown-cell-content {
+      &:hover {
+        background-color: var(--color-comp-button-color-background-hover) !important;
+        color: var(--color-color-content-brand-hover) !important;
+      }
+    }
+    .rs-calendar-month-dropdown-cell-active {
+      .rs-calendar-month-dropdown-cell-content {
+        background-color: var(--color-comp-button-primary-color-background-default) !important;
+        color: var(--color-comp-button-primary-color-content-default) !important;
+        &:hover {
+          background-color: var(--color-comp-button-primary-color-background-hover) !important;
+          color: var(--color-comp-button-primary-color-content-default) !important;
+        }
+      }
+    }
+    .rs-calendar-header-title-date {
+      color: var(--color-color-content-default) !important;
+    }
+    .rs-calendar-btn-close {
+      background-color: var(--color-color-background-default) !important;
+      color: var(--color-color-content-default) !important;
+    }
+  }
+  &[data-theme='light'] {
+    .rs-picker-popup {
+      background-image: none;
+    }
   }
 }
 @layer utilities {
