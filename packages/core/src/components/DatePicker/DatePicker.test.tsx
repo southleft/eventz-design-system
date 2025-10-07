@@ -123,36 +123,6 @@ jest.mock('rsuite', () => {
       );
     })
   };
-  it('uses container __DP_FALLBACK__ when provided (forces container fallback branch)', async () => {
-    setupMatchMedia(false);
-    const fallback = document.createElement('div');
-    document.body.appendChild(fallback);
-    (globalThis as unknown as { __DP_FALLBACK__?: HTMLElement }).__DP_FALLBACK__ = fallback;
-    try {
-      render(<DatePicker defaultOpen />);
-      await waitFor(() => {
-        const panel = fallback.querySelector('.rs-picker-daterange-panel');
-        expect(Boolean(panel)).toBe(true);
-      });
-    } finally {
-      delete (globalThis as unknown as { __DP_FALLBACK__?: HTMLElement }).__DP_FALLBACK__;
-      fallback.remove();
-    }
-  });
-
-  it('does not use MutationObserver work when __DP_NO_OBSERVER__ is set (hasObserver=false branch)', async () => {
-    setupMatchMedia(false);
-    (globalThis as unknown as { __DP_NO_OBSERVER__?: boolean }).__DP_NO_OBSERVER__ = true;
-    try {
-      render(<DatePicker defaultOpen />);
-      await waitFor(() => {
-        // Toolbar should still render via ensureHost even without observing
-        expect(screen.getByTestId('daterange-predefined-top')).toBeInTheDocument();
-      });
-    } finally {
-      delete (globalThis as unknown as { __DP_NO_OBSERVER__?: boolean }).__DP_NO_OBSERVER__;
-    }
-  });
 });
 /**
  * matchMedia test seam so we can simulate <lg and >=lg breakpoints.
@@ -186,6 +156,39 @@ const setupMatchMedia = (initialMatches: boolean) => {
 
   return { dispatch };
 };
+
+describe('Environment seams', () => {
+  it('uses document.body as first container before ref is set (ignores external fallback seam)', async () => {
+    setupMatchMedia(false);
+    const fallback = document.createElement('div');
+    document.body.appendChild(fallback);
+    (globalThis as unknown as { __DP_FALLBACK__?: HTMLElement }).__DP_FALLBACK__ = fallback;
+    try {
+      render(<DatePicker defaultOpen />);
+      await waitFor(() => {
+        const panelInBody = document.body.querySelector('.rs-picker-daterange-panel');
+        expect(Boolean(panelInBody)).toBe(true);
+      });
+    } finally {
+      delete (globalThis as unknown as { __DP_FALLBACK__?: HTMLElement }).__DP_FALLBACK__;
+      fallback.remove();
+    }
+  });
+
+  it('does not use MutationObserver work when __DP_NO_OBSERVER__ is set (hasObserver=false branch)', async () => {
+    setupMatchMedia(false);
+    (globalThis as unknown as { __DP_NO_OBSERVER__?: boolean }).__DP_NO_OBSERVER__ = true;
+    try {
+      render(<DatePicker defaultOpen />);
+      await waitFor(() => {
+        // Toolbar should still render via ensureHost even without observing
+        expect(screen.getByTestId('daterange-predefined-top')).toBeInTheDocument();
+      });
+    } finally {
+      delete (globalThis as unknown as { __DP_NO_OBSERVER__?: boolean }).__DP_NO_OBSERVER__;
+    }
+  });
+});
 
 describe('DatePicker (wrapper around RSuite DateRangePicker)', () => {
   it('panel observer callback is a no-op after unmount (!mounted branch)', () => {
@@ -723,14 +726,19 @@ describe('DatePicker (wrapper around RSuite DateRangePicker)', () => {
     });
   });
 
-  it('updates formatted display when controlled value changes', () => {
+  it('renders empty display when controlled value is null', () => {
+    setupMatchMedia(false);
+    render(<DatePicker value={null} />);
+    const input = screen.getByTestId('date-picker-input');
+    expect(input).toHaveValue('');
+  });
+
+  it('renders formatted display for controlled value', () => {
     setupMatchMedia(false);
     const d0 = new Date(2024, 6, 10);
     const d1 = new Date(2024, 6, 12);
-    const { rerender } = render(<DatePicker value={null} />);
+    render(<DatePicker value={[d0, d1]} />);
     const input = screen.getByTestId('date-picker-input');
-    expect(input).toHaveValue('');
-    rerender(<DatePicker value={[d0, d1]} />);
     const expected = `${d0.toLocaleDateString()} - ${d1.toLocaleDateString()}`;
     expect(input).toHaveValue(expected);
   });
