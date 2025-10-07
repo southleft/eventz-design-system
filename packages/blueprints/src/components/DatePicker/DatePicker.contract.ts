@@ -26,11 +26,6 @@ export const DatePickerContract = defineContract({
     format: { type: 'string', default: 'MM/dd/yyyy' },
 
     /**
-     * Placeholder for the visible Input trigger.
-     */
-    placeholder: { type: 'string', default: 'Select a date range' },
-
-    /**
      * Apply full-width layout to the wrapper container.
      */
     fullWidth: { type: 'boolean', default: false },
@@ -41,7 +36,9 @@ export const DatePickerContract = defineContract({
     className: { type: 'string' },
 
     /**
-     * Partial props forwarded to the internal Input trigger (not the RSuite input). Opaque, passthrough.
+     * Partial props forwarded to the internal Input trigger (not the RSuite input).
+     * Use `InputProps.placeholder` to override the visible placeholder (default: "Select a date range").
+     * Opaque, passthrough.
      */
     InputProps: { type: 'object' }
   },
