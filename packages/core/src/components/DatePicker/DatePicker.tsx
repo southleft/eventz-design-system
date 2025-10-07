@@ -72,11 +72,6 @@ export interface DatePickerProps {
   format?: string;
   showHeader?: boolean;
   placeholder?: string;
-  /**
-   * Props to pass to the internal Input trigger.
-   * These are spread onto <Input />; DatePicker’s own props (value, readOnly, handlers, a11y)
-   * are applied AFTER the spread and therefore take precedence.
-   */
   InputProps?: PartialInputComponentProps;
 }
 
@@ -196,7 +191,7 @@ export const DatePicker = React.forwardRef<HTMLDivElement, InternalDatePickerPro
       return `${start.toLocaleDateString()} - ${end.toLocaleDateString()}`;
     }, [effectiveValue]);
 
-    React.useEffect(() => {
+    React.useLayoutEffect(() => {
       /**
        * SSR-safe: `window` / `matchMedia` may be unavailable. We guard before reading.
        * This effect drives the default for `showOneCalendar` based on the `lg` breakpoint.

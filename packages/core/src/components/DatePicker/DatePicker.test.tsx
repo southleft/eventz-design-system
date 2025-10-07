@@ -5,6 +5,40 @@ import { render, screen, waitFor, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { DatePicker } from './DatePicker';
 
+// --- Test-local suppression of Radix Dialog dev warnings ---
+// We only filter the two specific accessibility messages emitted by @radix-ui/react-dialog in dev.
+// All other console.error/warn traffic is passed through unchanged.
+const RADIX_DIALOG_DEV_WARN_PATTERNS = [
+  /`DialogContent` requires a `DialogTitle`/, // missing title
+  /Missing `Description` or `aria-describedby=\{undefined\}`/ // missing description
+];
+
+let __errorSpy: jest.SpyInstance | undefined;
+let __warnSpy: jest.SpyInstance | undefined;
+
+beforeAll(() => {
+  const passThroughError = console.error.bind(console);
+  const passThroughWarn = console.warn.bind(console);
+
+  __errorSpy = jest.spyOn(console, 'error').mockImplementation((...args: unknown[]) => {
+    const msg = args.map(a => String(a)).join(' ');
+    if (RADIX_DIALOG_DEV_WARN_PATTERNS.some(re => re.test(msg))) return;
+    passThroughError(...(args as []));
+  });
+
+  __warnSpy = jest.spyOn(console, 'warn').mockImplementation((...args: unknown[]) => {
+    const msg = args.map(a => String(a)).join(' ');
+    if (RADIX_DIALOG_DEV_WARN_PATTERNS.some(re => re.test(msg))) return;
+    passThroughWarn(...(args as []));
+  });
+});
+
+afterAll(() => {
+  __errorSpy?.mockRestore();
+  __warnSpy?.mockRestore();
+});
+// --- end suppression block ---
+
 jest.mock('rsuite', () => {
   return {
     DateRangePicker: React.forwardRef<
@@ -18,15 +52,37 @@ jest.mock('rsuite', () => {
         container?: () => HTMLElement;
         value?: [unknown, unknown];
         editable?: boolean;
+        ranges?: unknown[];
       }
     >((props, ref) => {
-      const { onChange, showOneCalendar, open, container, value, editable } = props;
+      const { onChange, showOneCalendar, open, container, value, editable, ranges } = props;
 
       container?.();
 
       React.useEffect(() => {
-        container?.();
-      }, [container]);
+        const el = container?.();
+        if (!el) return;
+
+        const ensurePanel = () => {
+          let panel = el.querySelector('.rs-picker-daterange-panel');
+          if (open) {
+            if (!panel) {
+              panel = document.createElement('div');
+              panel.className = 'rs-picker-daterange-panel';
+              el.insertBefore(panel, el.firstChild);
+            }
+          } else if (panel) {
+            el.removeChild(panel);
+          }
+        };
+
+        ensurePanel();
+
+        return () => {
+          const panel = el.querySelector('.rs-picker-daterange-panel');
+          if (panel) el.removeChild(panel);
+        };
+      }, [container, open]);
 
       const toTs = (d: unknown) => (d instanceof Date ? String(d.getTime()) : '');
       const v0 = Array.isArray(value) ? toTs(value[0]) : '';
@@ -43,6 +99,7 @@ jest.mock('rsuite', () => {
           data-prop-value-start={v0}
           data-prop-value-end={v1}
           data-prop-editable={editable ? 'true' : 'false'}
+          data-prop-ranges-length={String((ranges ?? []).length)}
           onClick={() => {
             const payload: [unknown, unknown] = [new Date(0), new Date(0)];
             onChange?.(payload);
@@ -105,7 +162,7 @@ describe('DatePicker', () => {
     setupMatchMedia(false);
     render(<DatePicker />);
     const container = screen.getByTestId('date-range-picker').parentElement;
-    expect(container?.className).toContain('bg-modal-dark');
+    expect(container?.className).toContain('dxyz-date-picker');
   });
 
   it('applies fullWidth layout class when enabled', () => {
@@ -211,7 +268,8 @@ describe('DatePicker', () => {
         expect(container).toHaveAttribute('data-show-one-calendar', 'true');
       });
     } finally {
-      (window as unknown as { matchMedia: typeof window.matchMedia }).matchMedia = originalMatchMedia;
+      (window as unknown as { matchMedia: typeof window.matchMedia }).matchMedia =
+        originalMatchMedia;
     }
   });
 
@@ -542,15 +600,67 @@ describe('DatePicker', () => {
 
   it('uses default placeholder when InputProps provided without placeholder', () => {
     setupMatchMedia(false);
-    render(<DatePicker InputProps={{ 'data-probe': '1' }} />);
+    render(<DatePicker InputProps={{ 'aria-label': 'probe-1' }} />);
     const input = screen.getByTestId('date-picker-input');
     expect(input).toHaveAttribute('placeholder', 'Select a date range');
   });
 
   it('spreads InputProps onto the visible Input', () => {
     setupMatchMedia(false);
-    render(<DatePicker InputProps={{ 'data-probe': 'ok' }} />);
+    render(<DatePicker InputProps={{ 'aria-label': 'ok' }} />);
     const input = screen.getByTestId('date-picker-input');
-    expect(input).toHaveAttribute('data-probe', 'ok');
+    expect(input).toHaveAttribute('aria-label', 'ok');
+  });
+
+  it('renders custom top ranges on mobile when open', async () => {
+    setupMatchMedia(false);
+    render(<DatePicker defaultOpen />);
+    await waitFor(() => {
+      expect(screen.getByText('Today')).toBeInTheDocument();
+    });
+    const inner = screen.getByTestId('date-range-picker');
+    expect(inner).toHaveAttribute('data-prop-ranges-length', '0');
+  });
+
+  it('clicking a custom range applies value and closes on mobile', async () => {
+    setupMatchMedia(false);
+    const onChange = jest.fn();
+    render(<DatePicker defaultOpen onChange={onChange} />);
+    await waitFor(() => {
+      expect(screen.getByText('Today')).toBeInTheDocument();
+    });
+    await userEvent.click(screen.getByText('Today'));
+    expect(onChange).toHaveBeenCalledTimes(1);
+    const inner = screen.getByTestId('date-range-picker');
+    await waitFor(() => {
+      expect(inner).toHaveAttribute('data-prop-open', 'false');
+    });
+  });
+
+  it('does not render custom toolbar on desktop; passes ranges to RSuite', async () => {
+    setupMatchMedia(true);
+    render(<DatePicker defaultOpen />);
+    const inner = screen.getByTestId('date-range-picker');
+    await waitFor(() => {
+      expect(inner).toHaveAttribute('data-prop-ranges-length', '3');
+    });
+    expect(screen.queryByTestId('daterange-predefined-top')).toBeNull();
+    expect(screen.queryByText('Today')).toBeNull();
+  });
+
+  it('switches toolbars when toggling breakpoint while open', async () => {
+    const { dispatch } = setupMatchMedia(false);
+    render(<DatePicker defaultOpen />);
+    await waitFor(() => {
+      expect(screen.getByText('Today')).toBeInTheDocument();
+    });
+    act(() => {
+      dispatch(true);
+    });
+    const inner = screen.getByTestId('date-range-picker');
+    await waitFor(() => {
+      expect(inner).toHaveAttribute('data-prop-ranges-length', '3');
+      expect(screen.queryByText('Today')).toBeNull();
+    });
   });
 });
