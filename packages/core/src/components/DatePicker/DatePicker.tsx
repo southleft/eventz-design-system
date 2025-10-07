@@ -1,9 +1,11 @@
 import * as React from 'react';
+import { createRoot, Root } from 'react-dom/client';
 import { DateRangePicker, DateRangePickerProps } from 'rsuite';
 import { composeClasses } from '../../utilities/composeClasses/composeClasses';
 import { collapseWhitespace } from '../../utilities/collapseWhitespace/collapseWhitespace';
 import { ArrowDropDownIcon } from '../../icons';
 import { Input, InputProps as InputComponentProps } from '../Input';
+import { Button } from '../Button';
 
 /**
  * DatePicker wraps RSuite’s DateRangePicker:
@@ -59,6 +61,7 @@ const baseClasses = `
 
 const containerClasses = `dxyz-date-picker`;
 const layoutFullWidthClasses = `w-full`;
+const buttonMobileClasses = `text-[10px]`;
 
 type PartialInputComponentProps = Partial<InputComponentProps>;
 
@@ -112,6 +115,9 @@ export const DatePicker = React.forwardRef<HTMLDivElement, InternalDatePickerPro
     const [matchesLg, setMatchesLg] = React.useState(false);
     const wrapperRef = React.useRef<HTMLDivElement | null>(null);
     React.useImperativeHandle(ref, () => wrapperRef.current!, []);
+    const customToolbarHostRef = React.useRef<HTMLDivElement | null>(null);
+    const customToolbarRootRef = React.useRef<Root | null>(null);
+    const [, setHasToolbarHost] = React.useState(false);
 
     const isDisabled = Boolean(rest.disabled);
 
@@ -216,8 +222,6 @@ export const DatePicker = React.forwardRef<HTMLDivElement, InternalDatePickerPro
       typeof showOneCalendar === 'boolean' ? showOneCalendar : !matchesLg;
 
     const effectiveShowHeader = showHeader === undefined ? !matchesLg : showHeader;
-    console.log({ showHeader });
-    console.log({ matchesLg });
     const userClassName: string | undefined = typeof className === 'string' ? className : undefined;
 
     const wrapperClassName = collapseWhitespace(
@@ -228,6 +232,7 @@ export const DatePicker = React.forwardRef<HTMLDivElement, InternalDatePickerPro
         userClassName
       )
     );
+    const buttonMobileClassName = collapseWhitespace(composeClasses(buttonMobileClasses));
 
     /**
      * Keyboard trigger: open the popup from the visible Input.
@@ -257,23 +262,185 @@ export const DatePicker = React.forwardRef<HTMLDivElement, InternalDatePickerPro
       [InputProps]
     );
 
-    const ranges = [
-      {
-        label: 'Today',
-        value: [new Date(), new Date()]
-      },
-      {
-        label: 'Tomorrow',
-        value: [
-          new Date(Date.now() + 1 * 24 * 60 * 60 * 1000),
-          new Date(Date.now() + 1 * 24 * 60 * 60 * 1000)
-        ]
-      },
-      {
-        label: 'Next 7 Days',
-        value: [new Date(), new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)]
+    const ranges = React.useMemo<DateRangePickerProps['ranges']>(() => {
+      const dayMs = 24 * 60 * 60 * 1000;
+      const now = Date.now();
+      return [
+        {
+          label: 'Today',
+          value: [new Date(now), new Date(now)]
+        },
+        {
+          label: 'Tomorrow',
+          value: [new Date(now + dayMs), new Date(now + dayMs)]
+        },
+        {
+          label: 'Next 7 Days',
+          value: [new Date(now), new Date(now + 7 * dayMs)]
+        }
+      ];
+    }, []);
+
+    React.useEffect(() => {
+      // Helper: remove host if present
+      const removeHost = () => {
+        if (customToolbarRootRef.current) {
+          customToolbarRootRef.current.unmount();
+          customToolbarRootRef.current = null;
+        }
+        if (customToolbarHostRef.current && customToolbarHostRef.current.parentNode) {
+          customToolbarHostRef.current.parentNode.removeChild(customToolbarHostRef.current);
+          customToolbarHostRef.current = null;
+        }
+        setHasToolbarHost(false);
+      };
+
+      // Only when the popup is open and we are in one-calendar (mobile) mode.
+      if (!effectiveOpen || !effectiveShowOneCalendar) {
+        removeHost();
+        return;
       }
-    ] as DateRangePickerProps['ranges'];
+
+      const renderToolbarIntoHost = () => {
+        const host = customToolbarHostRef.current;
+        if (!host) return;
+
+        // Ensure we have a root bound to the current host
+        if (!customToolbarRootRef.current) {
+          customToolbarRootRef.current = createRoot(host);
+        }
+
+        // Compose the same toolbar UI we previously portaled
+        const toolbar = (
+          <div
+            className="rs-picker-toolbar rs-stack"
+            style={{ alignItems: 'flex-start', justifyContent: 'space-between' }}
+          >
+            <div className="rs-stack-item">
+              <div
+                className="rs-picker-toolbar-ranges rs-stack"
+                style={{ alignItems: 'flex-start', gap: 4 }}
+              >
+                {ranges?.map(range => (
+                  <div key={range.label as string} className="rs-stack-item">
+                    <Button
+                      variant="secondary"
+                      className={buttonMobileClassName}
+                      onClick={e => {
+                        const closeOverlay = (range as { closeOverlay?: boolean }).closeOverlay;
+                        handleChange(range.value as [Date, Date] | null, e);
+                        if (closeOverlay !== false) {
+                          requestClose(e);
+                        }
+                      }}
+                    >
+                      {range.label}
+                    </Button>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="rs-stack-item">
+              {/* Keep an "Apply" affordance aligned with RSuite's layout; optional to implement later */}
+            </div>
+          </div>
+        );
+
+        customToolbarRootRef.current.render(toolbar);
+        setHasToolbarHost(true); // keep our state in sync
+      };
+
+      // Create and insert a host as the first child of the RSuite panel
+      const createHost = (panelEl: HTMLDivElement) => {
+        const host = document.createElement('div');
+        host.setAttribute('data-testid', 'daterange-predefined-top');
+        panelEl.insertBefore(host, panelEl.firstChild);
+        customToolbarHostRef.current = host;
+        renderToolbarIntoHost();
+      };
+
+      // Ensure a host exists and is attached to the current panel
+      const ensureHost = (panelEl: HTMLDivElement) => {
+        const current = customToolbarHostRef.current;
+        // If no host, or the current host is detached/not under this panel, (re)create it
+        if (!current || !panelEl.contains(current)) {
+          if (current && current.parentNode) {
+            current.parentNode.removeChild(current);
+          }
+          createHost(panelEl);
+          renderToolbarIntoHost();
+          return;
+        }
+        // Host is valid and in the DOM
+        renderToolbarIntoHost();
+      };
+
+      // Find the panel (fast path)
+      const panel = wrapperRef.current?.querySelector(
+        '.rs-picker-daterange-panel'
+      ) as HTMLDivElement | null;
+
+      // Observer that keeps the host alive across RSuite re-renders
+      let observer: MutationObserver | null = null;
+
+      const startObserving = (panelEl: HTMLDivElement) => {
+        // Initial ensure
+        ensureHost(panelEl);
+
+        // Observe direct children only — panel re-renders will swap its child list
+        observer = new MutationObserver(() => {
+          ensureHost(panelEl);
+        });
+        observer.observe(panelEl, { childList: true });
+      };
+
+      if (panel) {
+        startObserving(panel);
+        return () => {
+          if (observer) observer.disconnect();
+          if (customToolbarRootRef.current) {
+            customToolbarRootRef.current.unmount();
+            customToolbarRootRef.current = null;
+          }
+          removeHost();
+        };
+      }
+
+      // Slow path: panel not yet mounted — observe wrapper for subtree changes until panel appears
+      if (wrapperRef.current && typeof MutationObserver !== 'undefined') {
+        const wrapperObserver = new MutationObserver(() => {
+          const found = wrapperRef.current!.querySelector('.rs-picker-daterange-panel');
+          if (found instanceof HTMLDivElement) {
+            wrapperObserver.disconnect();
+            startObserving(found);
+          }
+        });
+
+        wrapperObserver.observe(wrapperRef.current, { childList: true, subtree: true });
+
+        // Cleanup: disconnect observer(s) and remove host (if any)
+        return () => {
+          wrapperObserver.disconnect();
+          if (observer) observer.disconnect();
+          if (customToolbarRootRef.current) {
+            customToolbarRootRef.current.unmount();
+            customToolbarRootRef.current = null;
+          }
+          removeHost();
+        };
+      }
+
+      // Fallback cleanup (non-DOM envs)
+      return removeHost;
+    }, [
+      effectiveOpen,
+      buttonMobileClassName,
+      effectiveShowOneCalendar,
+      wrapperRef,
+      ranges,
+      handleChange,
+      requestClose
+    ]);
 
     return (
       <div
@@ -313,7 +480,7 @@ export const DatePicker = React.forwardRef<HTMLDivElement, InternalDatePickerPro
           showOneCalendar={effectiveShowOneCalendar}
           showHeader={effectiveShowHeader}
           container={() => wrapperRef.current ?? document.body}
-          ranges={ranges}
+          ranges={effectiveShowOneCalendar ? [] : ranges}
           locale={customLocale}
         />
       </div>

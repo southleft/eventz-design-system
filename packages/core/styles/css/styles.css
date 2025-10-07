@@ -1608,6 +1608,9 @@
   font-size: var(--text-xs);
   line-height: var(--tw-leading, var(--text-xs--line-height));
 }
+.text-\[10px\] {
+  font-size: 10px;
+}
 .leading-tight {
   --tw-leading: var(--leading-tight);
   line-height: var(--leading-tight);
@@ -2316,49 +2319,6 @@
     display: none;
   }
 }
-.data-\[show-one-calendar\=true\]\:\[\&_\.rs-picker-toolbar\]\:flex {
-  &[data-show-one-calendar="true"] {
-    & .rs-picker-toolbar {
-      display: flex;
-    }
-  }
-}
-.data-\[show-one-calendar\=true\]\:\[\&_\.rs-picker-toolbar\]\:flex-col {
-  &[data-show-one-calendar="true"] {
-    & .rs-picker-toolbar {
-      flex-direction: column;
-    }
-  }
-}
-.data-\[show-one-calendar\=true\]\:\[\&_\.rs-picker-toolbar-option-group\]\:order-first {
-  &[data-show-one-calendar="true"] {
-    & .rs-picker-toolbar-option-group {
-      order: -9999;
-    }
-  }
-}
-.data-\[show-one-calendar\=true\]\:\[\&_\.rs-picker-toolbar-option-group\]\:mb-2 {
-  &[data-show-one-calendar="true"] {
-    & .rs-picker-toolbar-option-group {
-      margin-bottom: var(--spacing-2);
-    }
-  }
-}
-.data-\[show-one-calendar\=true\]\:\[\&_\.rs-picker-toolbar-option-group\]\:border-b {
-  &[data-show-one-calendar="true"] {
-    & .rs-picker-toolbar-option-group {
-      border-bottom-style: var(--tw-border-style);
-      border-bottom-width: 1px;
-    }
-  }
-}
-.data-\[show-one-calendar\=true\]\:\[\&_\.rs-picker-toolbar-option-group\]\:pb-1 {
-  &[data-show-one-calendar="true"] {
-    & .rs-picker-toolbar-option-group {
-      padding-bottom: var(--spacing-1);
-    }
-  }
-}
 .data-\[invalid\=true\]\:\[\&_\[data-slot\=input\]\]\:border-comp-form-color-border-utility-danger {
   &[data-invalid="true"] {
     & [data-slot=input] {
@@ -2472,18 +2432,6 @@
   }
 }
 @layer components {
-  &[data-show-one-calendar="true"] {
-    & .rs-picker-toolbar {
-      display: flex;
-      flex-direction: column;
-    }
-    & .rs-picker-toolbar-option-group {
-      order: -9999;
-      margin-bottom: 2px;
-      border-bottom: 1px solid var(--color-color-border-subtle);
-      padding-bottom: 1px;
-    }
-  }
   &[data-theme='light'] {
     & .rs-picker-popup {
       background-image: none;

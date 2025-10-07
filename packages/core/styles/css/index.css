@@ -175,18 +175,6 @@
 
 @layer components {
   /* DatePicker */
-  @variant data-[show-one-calendar=true] {
-    & .rs-picker-toolbar {
-      display: flex;
-      flex-direction: column;
-    }
-    & .rs-picker-toolbar-option-group {
-      order: -9999;
-      margin-bottom: 2px;
-      border-bottom: 1px solid var(--color-color-border-subtle);
-      padding-bottom: 1px;
-    }
-  }
   @variant data-[theme='light'] {
     & .rs-picker-popup {
       background-image: none;
