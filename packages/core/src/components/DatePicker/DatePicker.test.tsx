@@ -671,9 +671,8 @@ describe('DatePicker (wrapper around RSuite DateRangePicker)', () => {
   it('switches toolbars when breakpoint changes while open', async () => {
     const ctl = setupMatchMedia(false);
     render(<DatePicker defaultOpen />);
-    await waitFor(() => {
-      expect(screen.getByTestId('daterange-predefined-top')).toBeInTheDocument();
-    });
+    // Wait for the mobile toolbar host to exist (precondition) without asserting
+    await screen.findByTestId('daterange-predefined-top');
     act(() => {
       ctl.dispatch(true);
     });
@@ -792,10 +791,8 @@ describe('DatePicker (wrapper around RSuite DateRangePicker)', () => {
   it('clicking a standard range closes the popup (mobile toolbar)', async () => {
     setupMatchMedia(false);
     render(<DatePicker defaultOpen />);
-    // Ensure toolbar host is present
-    await waitFor(() => {
-      expect(screen.getByTestId('daterange-predefined-top')).toBeInTheDocument();
-    });
+    // Wait for the toolbar host to exist (precondition) without asserting
+    await screen.findByTestId('daterange-predefined-top');
     const today = await screen.findByRole('button', { name: 'Today' });
     await userEvent.click(today);
     const input = screen.getByTestId('date-picker-input');
