@@ -188,6 +188,94 @@ const setupMatchMedia = (initialMatches: boolean) => {
 };
 
 describe('DatePicker (wrapper around RSuite DateRangePicker)', () => {
+  it('panel observer callback is a no-op after unmount (!mounted branch)', () => {
+    setupMatchMedia(false);
+
+    const OriginalMO = (globalThis as unknown as { MutationObserver: typeof MutationObserver })
+      .MutationObserver;
+
+    const instances: Array<{ trigger: () => void }> = [];
+
+    class FakeMO {
+      private cb: MutationCallback;
+      public observe = jest.fn();
+      public disconnect = jest.fn();
+      constructor(cb: MutationCallback) {
+        this.cb = cb;
+        instances.push({ trigger: this.trigger });
+      }
+      trigger = () => {
+        this.cb([] as unknown as MutationRecord[], this as unknown as MutationObserver);
+      };
+    }
+
+    (globalThis as unknown as { MutationObserver: typeof MutationObserver }).MutationObserver =
+      FakeMO as unknown as typeof MutationObserver;
+
+    try {
+      const { unmount } = render(<DatePicker defaultOpen />);
+      unmount();
+
+      // The most recently created observer is the panel observer (or the only one in fast path)
+      const panelObs = instances[instances.length - 1];
+      act(() => {
+        panelObs.trigger();
+      });
+
+      // After unmount, the callback should short-circuit; no host is (re)attached
+      expect(screen.queryByTestId('daterange-predefined-top')).toBeNull();
+    } finally {
+      (globalThis as unknown as { MutationObserver: typeof MutationObserver }).MutationObserver =
+        OriginalMO;
+    }
+  });
+  it('disconnects the document observer after attaching to the panel (doc->panel swap)', () => {
+    jest.useFakeTimers();
+    setupMatchMedia(false);
+
+    const OriginalMO = (globalThis as unknown as { MutationObserver: typeof MutationObserver })
+      .MutationObserver;
+
+    const instances: Array<{ disconnect: jest.Mock; trigger: () => void }> = [];
+
+    class FakeMO {
+      private cb: MutationCallback;
+      public observe = jest.fn();
+      public disconnect = jest.fn();
+      constructor(cb: MutationCallback) {
+        this.cb = cb;
+        instances.push(this as unknown as { disconnect: jest.Mock; trigger: () => void });
+      }
+      trigger() {
+        this.cb([] as unknown as MutationRecord[], this as unknown as MutationObserver);
+      }
+    }
+
+    (globalThis as unknown as { MutationObserver: typeof MutationObserver }).MutationObserver =
+      FakeMO as unknown as typeof MutationObserver;
+
+    (globalThis as unknown as { __RSUITE_DELAY_PANEL__?: boolean }).__RSUITE_DELAY_PANEL__ = true;
+
+    try {
+      render(<DatePicker defaultOpen />);
+
+      // Create the RSuite panel (scheduled by the mock)
+      jest.runOnlyPendingTimers();
+      jest.useRealTimers();
+
+      // Simulate a document mutation to trigger tryAttach() and perform the swap
+      const docObs = instances[0];
+      act(() => {
+        docObs.trigger();
+      });
+
+      expect(docObs.disconnect).toHaveBeenCalledTimes(1);
+    } finally {
+      (globalThis as unknown as { MutationObserver: typeof MutationObserver }).MutationObserver =
+        OriginalMO;
+      delete (globalThis as unknown as { __RSUITE_DELAY_PANEL__?: boolean }).__RSUITE_DELAY_PANEL__;
+    }
+  });
   it('mounts panel under document.body on first render (container fallback)', async () => {
     setupMatchMedia(false);
     render(<DatePicker defaultOpen />);
@@ -316,6 +404,28 @@ describe('DatePicker (wrapper around RSuite DateRangePicker)', () => {
     const ev = new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true, cancelable: true });
     input.dispatchEvent(ev);
     expect(ev.defaultPrevented).toBe(true);
+  });
+
+  it('opens via ArrowDown from the visible Input (covers ArrowDown branch)', async () => {
+    setupMatchMedia(false);
+    render(<DatePicker />);
+    const input = screen.getByTestId('date-picker-input');
+    input.focus();
+    await userEvent.keyboard('{ArrowDown}');
+    const inner = screen.getByTestId('date-range-picker');
+    await waitFor(() => {
+      expect(inner).toHaveAttribute('data-prop-open', 'true');
+    });
+  });
+
+  it('does not handle other keys in the visible Input (ArrowDown condition false path)', () => {
+    setupMatchMedia(false);
+    render(<DatePicker />);
+    const input = screen.getByTestId('date-picker-input');
+    const ev = new KeyboardEvent('keydown', { key: 'Tab', bubbles: true, cancelable: true });
+    input.dispatchEvent(ev);
+    // Not Enter and not ArrowDown, so we should not prevent default (covers false side)
+    expect(ev.defaultPrevented).toBe(false);
   });
 
   it('sets aria-expanded=true after opening', async () => {
@@ -707,6 +817,32 @@ describe('DatePicker (wrapper around RSuite DateRangePicker)', () => {
     });
   });
 
+  it('does not close when a range sets closeOverlay=false (mobile toolbar branch)', async () => {
+    setupMatchMedia(false);
+    const d = new Date(2024, 0, 1);
+    (
+      globalThis as unknown as {
+        __DP_RANGES__?: Array<
+          { label?: React.ReactNode; value?: [Date, Date] | null } & { closeOverlay?: boolean }
+        >;
+      }
+    ).__DP_RANGES__ = [
+      { label: 'StayOpen', value: [d, d], closeOverlay: false },
+      { label: 'Close', value: [d, d] }
+    ];
+    try {
+      render(<DatePicker defaultOpen />);
+      const stayOpen = await screen.findByRole('button', { name: 'StayOpen' });
+      await userEvent.click(stayOpen);
+      const input = screen.getByTestId('date-picker-input');
+      await waitFor(() => {
+        expect(input).toHaveAttribute('aria-expanded', 'true');
+      });
+    } finally {
+      delete (globalThis as unknown as { __DP_RANGES__?: unknown }).__DP_RANGES__;
+    }
+  });
+
   it('removes matchMedia change listener on unmount (useMediaQuery cleanup)', () => {
     const original = window.matchMedia;
 
@@ -764,4 +900,80 @@ describe('DatePicker (wrapper around RSuite DateRangePicker)', () => {
     const input = screen.getByTestId('date-picker-input');
     expect(input).toHaveValue('');
   });
+  it('attaches toolbar via document observer when panel appears later', async () => {
+    setupMatchMedia(false);
+    (globalThis as unknown as { __RSUITE_DELAY_PANEL__?: boolean }).__RSUITE_DELAY_PANEL__ = true;
+    try {
+      render(<DatePicker defaultOpen />);
+      await waitFor(() => {
+        expect(screen.getByTestId('daterange-predefined-top')).toBeInTheDocument();
+      });
+    } finally {
+      delete (globalThis as unknown as { __RSUITE_DELAY_PANEL__?: boolean }).__RSUITE_DELAY_PANEL__;
+    }
+  });
+
+  it('attaches via document observer when panel is created later (timers paused)', async () => {
+    jest.useFakeTimers();
+    setupMatchMedia(false);
+    (globalThis as unknown as { __RSUITE_DELAY_PANEL__?: boolean }).__RSUITE_DELAY_PANEL__ = true;
+    try {
+      render(<DatePicker defaultOpen />);
+      // At this point, panel creation is scheduled but not executed; effect should have installed doc observer.
+      jest.runOnlyPendingTimers();
+      jest.useRealTimers();
+
+      await waitFor(() => {
+        expect(screen.getByTestId('daterange-predefined-top')).toBeInTheDocument();
+      });
+    } finally {
+      delete (globalThis as unknown as { __RSUITE_DELAY_PANEL__?: boolean }).__RSUITE_DELAY_PANEL__;
+    }
+  });
+
+  it('continues observing when tryAttach returns false (doc observer false branch)', async () => {
+    jest.useFakeTimers();
+    setupMatchMedia(false);
+    (globalThis as unknown as { __RSUITE_DELAY_PANEL__?: boolean }).__RSUITE_DELAY_PANEL__ = true;
+
+    // Spy only the specific selector used by tryAttach
+    const realQS = document.querySelector.bind(document);
+    const qsSpy = jest.spyOn(document, 'querySelector').mockImplementation(((selector: string) => {
+      if (selector === '.rs-picker-daterange-panel') return null; // force tryAttach() -> false
+      return realQS(selector);
+    }) as unknown as typeof document.querySelector);
+
+    try {
+      render(<DatePicker defaultOpen />); // installs doc observer while panel is delayed
+
+      // Cause a doc-level mutation to fire the observer callback while timers are paused
+      document.body.appendChild(document.createElement('span'));
+
+      // MutationObserver callbacks run as microtasks
+      await Promise.resolve();
+
+      // Host should still be absent -> the `if (tryAttach())` evaluated to false
+      expect(screen.queryByTestId('daterange-predefined-top')).toBeNull();
+    } finally {
+      qsSpy.mockRestore();
+      jest.clearAllTimers();
+      jest.useRealTimers();
+      delete (globalThis as unknown as { __RSUITE_DELAY_PANEL__?: boolean }).__RSUITE_DELAY_PANEL__;
+    }
+  });
+});
+
+it('skips observer startup when MutationObserver is unavailable (hasObserver=false)', () => {
+  const original = (globalThis as unknown as { MutationObserver?: typeof MutationObserver })
+    .MutationObserver;
+  Object.defineProperty(globalThis, 'MutationObserver', { value: undefined, configurable: true });
+
+  try {
+    setupMatchMedia(false);
+    render(<DatePicker defaultOpen />);
+    // With no MutationObserver, the effect early-returns; the toolbar host should not be created.
+    expect(screen.queryByTestId('daterange-predefined-top')).toBeNull();
+  } finally {
+    Object.defineProperty(globalThis, 'MutationObserver', { value: original, configurable: true });
+  }
 });

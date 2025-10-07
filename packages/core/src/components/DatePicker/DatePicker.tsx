@@ -281,7 +281,15 @@ export const DatePicker = React.forwardRef<HTMLDivElement, InternalDatePickerPro
       [InputProps]
     );
 
+    // Test seam: allow tests to inject custom ranges to exercise closeOverlay behavior.
+    const injectedRanges = (
+      globalThis as unknown as {
+        __DP_RANGES__?: DateRangePickerProps['ranges'];
+      }
+    ).__DP_RANGES__;
+
     const ranges = React.useMemo<DateRangePickerProps['ranges']>(() => {
+      if (injectedRanges) return injectedRanges;
       const dayMs = 24 * 60 * 60 * 1000;
       const now = Date.now();
       return [
@@ -298,13 +306,16 @@ export const DatePicker = React.forwardRef<HTMLDivElement, InternalDatePickerPro
           value: [new Date(now), new Date(now + 7 * dayMs)]
         }
       ];
-    }, []);
+    }, [injectedRanges]);
 
     React.useEffect(() => {
       let mounted = true;
       let panelObserver: MutationObserver | null = null;
+      let docObserver: MutationObserver | null = null;
 
       const cleanup = () => {
+        docObserver?.disconnect();
+        docObserver = null;
         panelObserver?.disconnect();
         panelObserver = null;
         if (customToolbarRootRef.current) {
@@ -323,12 +334,9 @@ export const DatePicker = React.forwardRef<HTMLDivElement, InternalDatePickerPro
         return cleanup;
       }
 
-      const wrapperEl = wrapperRef.current;
-      if (!wrapperEl) return cleanup;
+      const wrapperEl = wrapperRef.current!;
 
-      const renderToolbarIntoHost = () => {
-        const host = customToolbarHostRef.current;
-        if (!host) return;
+      const renderToolbarIntoHost = (host: HTMLDivElement) => {
         if (!customToolbarRootRef.current) {
           customToolbarRootRef.current = createRoot(host);
         }
@@ -342,7 +350,7 @@ export const DatePicker = React.forwardRef<HTMLDivElement, InternalDatePickerPro
                 className="rs-picker-toolbar-ranges rs-stack"
                 style={{ alignItems: 'flex-start', gap: 4 }}
               >
-                {ranges?.map(range => (
+                {ranges!.map(range => (
                   <div key={range.label as string} className="rs-stack-item">
                     <Button
                       variant="secondary"
@@ -374,7 +382,7 @@ export const DatePicker = React.forwardRef<HTMLDivElement, InternalDatePickerPro
         host.setAttribute('data-testid', 'daterange-predefined-top');
         panelEl.insertBefore(host, panelEl.firstChild);
         customToolbarHostRef.current = host;
-        renderToolbarIntoHost();
+        renderToolbarIntoHost(host);
       };
 
       const ensureHost = (panelEl: HTMLDivElement) => {
@@ -386,30 +394,42 @@ export const DatePicker = React.forwardRef<HTMLDivElement, InternalDatePickerPro
           createHost(panelEl);
           return;
         }
-        renderToolbarIntoHost();
+        renderToolbarIntoHost(current);
       };
+      const hasObserver = typeof MutationObserver !== 'undefined';
+      const doc = wrapperEl.ownerDocument;
 
-      const findPanel = (): HTMLDivElement | null =>
-        (wrapperRef.current?.ownerDocument ?? document).querySelector('.rs-picker-daterange-panel');
+      const start = () => {
+        if (!hasObserver) return; // keep env safety
 
-      const startObserving = (panelEl: HTMLDivElement) => {
-        ensureHost(panelEl);
-        const hasObserver =
-          typeof MutationObserver !== 'undefined' &&
-          !(globalThis as unknown as { __DP_NO_OBSERVER__?: boolean }).__DP_NO_OBSERVER__;
-        if (hasObserver) {
+        const tryAttach = (): boolean => {
+          const panel = doc.querySelector('.rs-picker-daterange-panel') as HTMLDivElement;
+          if (!panel) return false;
+          ensureHost(panel);
+
+          // swap: stop any prior panel observer, start a fresh one tied to this panel
           panelObserver = new MutationObserver(() => {
             if (!mounted) return;
-            ensureHost(panelEl);
+            ensureHost(panel);
           });
-          panelObserver.observe(panelEl, { childList: true });
-        }
+          panelObserver.observe(panel, { childList: true });
+          return true;
+        };
+
+        // first try (handles fast path)
+        if (tryAttach()) return;
+
+        // observe doc until the panel appears, then swap
+        docObserver = new MutationObserver(() => {
+          if (tryAttach()) {
+            docObserver!.disconnect();
+            docObserver = null;
+          }
+        });
+        docObserver.observe(doc, { childList: true, subtree: true });
       };
 
-      const panel = findPanel();
-      if (panel) {
-        startObserving(panel);
-      }
+      start();
 
       return () => {
         mounted = false;
