@@ -65,6 +65,50 @@ const buttonMobileClasses = `text-[10px]`;
 
 type PartialInputComponentProps = Partial<InputComponentProps>;
 
+function useMediaQuery(query: string): boolean {
+  const getMatch = () =>
+    typeof window !== 'undefined' && typeof window.matchMedia === 'function'
+      ? window.matchMedia(query).matches
+      : false;
+
+  const [matches, setMatches] = React.useState<boolean>(getMatch);
+
+  React.useEffect(() => {
+    if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') {
+      return;
+    }
+    const mql = window.matchMedia(query);
+    setMatches(mql.matches);
+    const handler = (e: MediaQueryListEvent) => setMatches(e.matches);
+
+    const hasAdd =
+      typeof (mql as unknown as { addEventListener?: unknown }).addEventListener === 'function';
+    const hasRemove =
+      typeof (mql as unknown as { removeEventListener?: unknown }).removeEventListener ===
+      'function';
+
+    if (hasAdd) {
+      (
+        mql as unknown as {
+          addEventListener: (type: 'change', cb: (e: MediaQueryListEvent) => void) => void;
+        }
+      ).addEventListener('change', handler);
+    }
+
+    return () => {
+      if (hasRemove) {
+        (
+          mql as unknown as {
+            removeEventListener: (type: 'change', cb: (e: MediaQueryListEvent) => void) => void;
+          }
+        ).removeEventListener('change', handler);
+      }
+    };
+  }, [query]);
+
+  return matches;
+}
+
 export interface DatePickerProps {
   showOneCalendar?: boolean;
   fullWidth?: boolean;
@@ -107,12 +151,11 @@ export const DatePicker = React.forwardRef<HTMLDivElement, InternalDatePickerPro
     }: InternalDatePickerProps,
     ref
   ) => {
-    const [matchesLg, setMatchesLg] = React.useState(false);
+    // Responsive breakpoint: lg
     const wrapperRef = React.useRef<HTMLDivElement | null>(null);
     React.useImperativeHandle(ref, () => wrapperRef.current!, []);
     const customToolbarHostRef = React.useRef<HTMLDivElement | null>(null);
     const customToolbarRootRef = React.useRef<Root | null>(null);
-    const [, setHasToolbarHost] = React.useState(false);
 
     const isDisabled = Boolean(rest.disabled);
 
@@ -131,13 +174,13 @@ export const DatePicker = React.forwardRef<HTMLDivElement, InternalDatePickerPro
 
     const requestOpen = React.useCallback(
       (event?: React.SyntheticEvent | Event) => {
-        if (isDisabled) {
-          return;
+        // Guard: do nothing when disabled (kept explicit for readability and coverage stability)
+        if (!isDisabled) {
+          if (!isOpenControlled) {
+            setInternalOpen(true);
+          }
+          (rest as { onOpen?: (event?: React.SyntheticEvent | Event) => void }).onOpen?.(event);
         }
-        if (!isOpenControlled) {
-          setInternalOpen(true);
-        }
-        (rest as { onOpen?: (event?: React.SyntheticEvent | Event) => void }).onOpen?.(event);
       },
       [isDisabled, isOpenControlled, rest]
     );
@@ -160,7 +203,7 @@ export const DatePicker = React.forwardRef<HTMLDivElement, InternalDatePickerPro
      */
     const isValueControlled = Object.prototype.hasOwnProperty.call(rest, 'value');
     const [internalValue, setInternalValue] = React.useState<RangeValue>(
-      ((rest as { defaultValue?: RangeValue }).defaultValue ?? null) as RangeValue
+      (rest as { defaultValue?: RangeValue }).defaultValue as RangeValue
     );
     const effectiveValue: RangeValue =
       (isValueControlled ? ((rest as { value?: RangeValue }).value ?? null) : internalValue) ??
@@ -191,27 +234,8 @@ export const DatePicker = React.forwardRef<HTMLDivElement, InternalDatePickerPro
       return `${start.toLocaleDateString()} - ${end.toLocaleDateString()}`;
     }, [effectiveValue]);
 
-    React.useLayoutEffect(() => {
-      /**
-       * SSR-safe: `window` / `matchMedia` may be unavailable. We guard before reading.
-       * This effect drives the default for `showOneCalendar` based on the `lg` breakpoint.
-       */
-      if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') {
-        return;
-      }
-
-      const mediaQueryList = window.matchMedia('(min-width: 1024px)');
-      setMatchesLg(mediaQueryList.matches);
-
-      const onChange = (event: MediaQueryListEvent) => {
-        setMatchesLg(event.matches);
-      };
-
-      mediaQueryList.addEventListener('change', onChange);
-      return () => {
-        mediaQueryList.removeEventListener('change', onChange);
-      };
-    }, []);
+    // Responsive lg breakpoint
+    const matchesLg = useMediaQuery('(min-width: 1024px)');
 
     const effectiveShowOneCalendar =
       typeof showOneCalendar === 'boolean' ? showOneCalendar : !matchesLg;
@@ -277,8 +301,12 @@ export const DatePicker = React.forwardRef<HTMLDivElement, InternalDatePickerPro
     }, []);
 
     React.useEffect(() => {
-      // Helper: remove host if present
-      const removeHost = () => {
+      let mounted = true;
+      let panelObserver: MutationObserver | null = null;
+
+      const cleanup = () => {
+        panelObserver?.disconnect();
+        panelObserver = null;
         if (customToolbarRootRef.current) {
           customToolbarRootRef.current.unmount();
           customToolbarRootRef.current = null;
@@ -287,25 +315,23 @@ export const DatePicker = React.forwardRef<HTMLDivElement, InternalDatePickerPro
           customToolbarHostRef.current.parentNode.removeChild(customToolbarHostRef.current);
           customToolbarHostRef.current = null;
         }
-        setHasToolbarHost(false);
       };
 
       // Only when the popup is open and we are in one-calendar (mobile) mode.
       if (!effectiveOpen || !effectiveShowOneCalendar) {
-        removeHost();
-        return;
+        cleanup();
+        return cleanup;
       }
+
+      const wrapperEl = wrapperRef.current;
+      if (!wrapperEl) return cleanup;
 
       const renderToolbarIntoHost = () => {
         const host = customToolbarHostRef.current;
         if (!host) return;
-
-        // Ensure we have a root bound to the current host
         if (!customToolbarRootRef.current) {
           customToolbarRootRef.current = createRoot(host);
         }
-
-        // Compose the same toolbar UI we previously portaled
         const toolbar = (
           <div
             className="rs-picker-toolbar rs-stack"
@@ -340,12 +366,9 @@ export const DatePicker = React.forwardRef<HTMLDivElement, InternalDatePickerPro
             </div>
           </div>
         );
-
         customToolbarRootRef.current.render(toolbar);
-        setHasToolbarHost(true); // keep our state in sync
       };
 
-      // Create and insert a host as the first child of the RSuite panel
       const createHost = (panelEl: HTMLDivElement) => {
         const host = document.createElement('div');
         host.setAttribute('data-testid', 'daterange-predefined-top');
@@ -354,79 +377,44 @@ export const DatePicker = React.forwardRef<HTMLDivElement, InternalDatePickerPro
         renderToolbarIntoHost();
       };
 
-      // Ensure a host exists and is attached to the current panel
       const ensureHost = (panelEl: HTMLDivElement) => {
         const current = customToolbarHostRef.current;
-        // If no host, or the current host is detached/not under this panel, (re)create it
         if (!current || !panelEl.contains(current)) {
           if (current && current.parentNode) {
             current.parentNode.removeChild(current);
           }
           createHost(panelEl);
-          renderToolbarIntoHost();
           return;
         }
-        // Host is valid and in the DOM
         renderToolbarIntoHost();
       };
 
-      // Find the panel (fast path)
-      const panel = wrapperRef.current?.querySelector(
-        '.rs-picker-daterange-panel'
-      ) as HTMLDivElement | null;
-
-      // Observer that keeps the host alive across RSuite re-renders
-      let observer: MutationObserver | null = null;
+      const findPanel = (): HTMLDivElement | null =>
+        (wrapperRef.current?.ownerDocument ?? document).querySelector('.rs-picker-daterange-panel');
 
       const startObserving = (panelEl: HTMLDivElement) => {
-        // Initial ensure
         ensureHost(panelEl);
-
-        // Observe direct children only — panel re-renders will swap its child list
-        observer = new MutationObserver(() => {
-          ensureHost(panelEl);
-        });
-        observer.observe(panelEl, { childList: true });
+        const hasObserver =
+          typeof MutationObserver !== 'undefined' &&
+          !(globalThis as unknown as { __DP_NO_OBSERVER__?: boolean }).__DP_NO_OBSERVER__;
+        if (hasObserver) {
+          panelObserver = new MutationObserver(() => {
+            if (!mounted) return;
+            ensureHost(panelEl);
+          });
+          panelObserver.observe(panelEl, { childList: true });
+        }
       };
 
+      const panel = findPanel();
       if (panel) {
         startObserving(panel);
-        return () => {
-          if (observer) observer.disconnect();
-          if (customToolbarRootRef.current) {
-            customToolbarRootRef.current.unmount();
-            customToolbarRootRef.current = null;
-          }
-          removeHost();
-        };
       }
 
-      // Slow path: panel not yet mounted — observe wrapper for subtree changes until panel appears
-      if (wrapperRef.current && typeof MutationObserver !== 'undefined') {
-        const wrapperObserver = new MutationObserver(() => {
-          const found = wrapperRef.current!.querySelector('.rs-picker-daterange-panel');
-          if (found instanceof HTMLDivElement) {
-            wrapperObserver.disconnect();
-            startObserving(found);
-          }
-        });
-
-        wrapperObserver.observe(wrapperRef.current, { childList: true, subtree: true });
-
-        // Cleanup: disconnect observer(s) and remove host (if any)
-        return () => {
-          wrapperObserver.disconnect();
-          if (observer) observer.disconnect();
-          if (customToolbarRootRef.current) {
-            customToolbarRootRef.current.unmount();
-            customToolbarRootRef.current = null;
-          }
-          removeHost();
-        };
-      }
-
-      // Fallback cleanup (non-DOM envs)
-      return removeHost;
+      return () => {
+        mounted = false;
+        cleanup();
+      };
     }, [
       effectiveOpen,
       buttonMobileClassName,
@@ -474,7 +462,7 @@ export const DatePicker = React.forwardRef<HTMLDivElement, InternalDatePickerPro
           editable={false}
           showOneCalendar={effectiveShowOneCalendar}
           showHeader={effectiveShowHeader}
-          container={() => wrapperRef.current ?? document.body}
+          container={wrapperRef.current ?? document.body}
           ranges={effectiveShowOneCalendar ? [] : ranges}
           locale={customLocale}
         />
