@@ -28,35 +28,6 @@ const customLocale = {
 /** Class policy: use template literals only (no arrays). Keep token classes intact; compose via `composeClasses`. */
 const baseClasses = `
   relative
-  [&_.rs-btn]:border-comp-button-color-border-default
-  [&_.rs-btn]:text-comp-button-color-content-default
-  [&_.rs-btn]:hover:bg-comp-button-color-background-hover
-  [&_.rs-btn]:hover:text-comp-button-color-content-default
-  [&_.rs-btn]:hover:no-underline
-  [&_.rs-btn]:active:text-comp-button-color-content-default
-  [&_.rs-btn]:active:no-underline
-  [&_.rs-btn]:active:bg-comp-button-color-background-active
-  [&_.rs-btn]:focus:text-comp-button-color-content-default
-  [&_.rs-btn]:focus:no-underline
-  [&_.rs-btn]:focus:bg-transparent
-  [&_.rs-btn]:focus-visible:outline-none
-  [&_.rs-btn]:focus-visible:ring-2
-  [&_.rs-btn]:focus-visible:ring-comp-border-focus-ring
-  [&_.rs-btn-link]:bg-comp-button-color-background-default
-  [&_.rs-btn-link]:focus:bg-comp-button-color-background-active
-  [&_.rs-btn-link]:focus-visible:ring-offset-color-background-default
-  [&_.rs-btn-primary]:bg-comp-button-primary-color-background-default
-  [&_.rs-btn-primary]:text-comp-button-primary-color-content-default
-  [&_.rs-btn-primary]:disabled:bg-comp-button-primary-color-background-default
-  [&_.rs-btn-primary]:disabled:text-comp-button-primary-color-content-default
-  [&_.rs-picker-input-group]:hidden
-  [&_.rs-picker-input-group]:pointer-events-none
-  [&_.rs-picker-daterange-header]:flex
-  [&_.rs-picker-daterange-header]:justify-around
-  [&_.rs-btn-subtle]:text-color-content-default
-  [&_.rs-btn-subtle]:font-bold
-  [&_.rs-btn-subtle]:hover:bg-transparent
-  [&_.rs-btn-subtle]:hover:text-color-content-subtle
 `;
 
 const containerClasses = `dxyz-date-picker`;

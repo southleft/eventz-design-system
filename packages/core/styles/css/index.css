@@ -189,6 +189,72 @@
     left: 0;
   }
 
+  /* 2b) In-wrapper overrides formerly in TSX */
+  .dxyz-date-picker {
+    /* Hide RSuite’s internal input group; we render our own Input */
+    .rs-picker-input-group {
+      display: none !important;
+      pointer-events: none !important;
+    }
+
+    /* Header layout parity with our design */
+    .rs-picker-daterange-header {
+      display: flex;
+      justify-content: space-around;
+    }
+
+    /* Button family overrides scoped to the wrapper */
+    .rs-btn {
+      border-color: var(--color-comp-button-color-border-default) !important;
+      color: var(--color-comp-button-color-content-default) !important;
+    }
+    .rs-btn:hover {
+      background-color: var(--color-comp-button-color-background-hover) !important;
+      color: var(--color-comp-button-color-content-default) !important;
+      text-decoration: none;
+    }
+    .rs-btn:active {
+      background-color: var(--color-comp-button-color-background-active) !important;
+      color: var(--color-comp-button-color-content-default) !important;
+      text-decoration: none;
+    }
+    .rs-btn:focus {
+      color: var(--color-comp-button-color-content-default) !important;
+      background: transparent;
+      text-decoration: none;
+    }
+    .rs-btn:focus-visible {
+      outline: none;
+      /* mirrors Tailwind ring-2 with our token */
+      box-shadow: 0 0 0 2px var(--color-comp-border-focus-ring) !important;
+    }
+
+    .rs-btn-link {
+      background-color: var(--color-comp-button-color-background-default) !important;
+    }
+    .rs-btn-link:focus {
+      background-color: var(--color-comp-button-color-background-active) !important;
+    }
+
+    .rs-btn-primary {
+      background-color: var(--color-comp-button-primary-color-background-default) !important;
+      color: var(--color-comp-button-primary-color-content-default) !important;
+    }
+    .rs-btn-primary:disabled {
+      background-color: var(--color-comp-button-primary-color-background-default) !important;
+      color: var(--color-comp-button-primary-color-content-default) !important;
+    }
+
+    .rs-btn-subtle {
+      color: var(--color-color-content-default) !important;
+      font-weight: 700; /* bold */
+    }
+    .rs-btn-subtle:hover {
+      background: transparent;
+      color: var(--color-color-content-subtle) !important;
+    }
+  }
+
   /* 2) Popup (portal) overrides — global on purpose */
   .rs-picker-popup {
     background-image: var(--dt-background-modal-dark);
