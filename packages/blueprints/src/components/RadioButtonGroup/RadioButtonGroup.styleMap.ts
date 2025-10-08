@@ -14,25 +14,6 @@ export const RadioButtonGroupStyleMap = defineStyleMap({
       'text-xs',
       'uppercase'
     ] as const,
-    infoTrigger: [
-      'inline-flex',
-      'items-center',
-      'border-none',
-      'bg-background-none',
-      'text-color-content-subtle',
-      'focus:outline-none',
-      'focus-visible:ring-2',
-      'focus-visible:ring-comp-border-focus-ring',
-      'focus-visible:ring-offset-2'
-    ] as const,
-    infoContent: [
-      'max-w-xs',
-      'rounded-md',
-      'bg-color-content-default',
-      'p-3',
-      'text-sm',
-      'shadow-lg'
-    ] as const,
     hint: ['text-color-content-subtle', 'text-xs', '-mt-8'] as const,
     // Layout handled by Radix RadioGroup orientation handling.
     radiogroup: ['flex', 'flex-col', 'gap-3'] as const,

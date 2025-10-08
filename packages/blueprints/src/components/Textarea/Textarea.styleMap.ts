@@ -13,24 +13,6 @@ export const TextareaStyleMap = defineStyleMap({
 
   slots: {
     label: ['inline-flex', 'gap-1', 'text-color-content-default', 'text-xs', 'uppercase'] as const,
-    infoTrigger: [
-      'border-none',
-      'bg-background-none', // token-driven per design
-      'text-color-content-subtle',
-      'focus:outline-none',
-      'focus-visible:ring-2',
-      'focus-visible:ring-comp-border-focus-ring',
-      'focus-visible:ring-offset-2'
-    ] as const,
-    infoContent: [
-      'max-w-xs',
-      'rounded-md',
-      'bg-color-content-default',
-      'p-3',
-      'text-sm',
-      'shadow-lg'
-    ] as const,
-
     textarea: [
       // row wrapper
       'inline-flex',

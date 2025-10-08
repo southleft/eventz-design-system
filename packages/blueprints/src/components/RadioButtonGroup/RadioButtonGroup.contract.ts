@@ -116,7 +116,7 @@ export const RadioButtonGroupContract = defineContract({
     },
     {
       when: { info: (v: unknown) => typeof v === 'string' && v.trim().length > 0 },
-      hint: 'Render infoTrigger as an icon-only button with aria-label="More info"; the icon remains aria-hidden.'
+      hint: 'Render infoTrigger as an icon-only button via InfoPopover; derive the trigger aria-label as `${label} info` (non-empty at runtime) and keep the icon aria-hidden.'
     },
     {
       when: {},
