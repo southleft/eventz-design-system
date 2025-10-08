@@ -33,6 +33,7 @@ Agents must:
 - Contract file: `/packages/blueprints/src/components/<ComponentName>/<ComponentName>.contract.ts`
 - styleMap file: `/packages/blueprints/src/components/<ComponentName>/<ComponentName>.styleMap.ts`
 - Generated outputs: `/packages/core/src/components/<ComponentName>/`
+- Public API barrel: `packages/core/src/components/index.ts`
 - Styles entry: `/packages/core/styles/css/index.css` if referenced
 
 ---
@@ -47,8 +48,6 @@ Agents must:
    - Radix: uses `contract.base`; supports `asChild` if declared
    - Events: signatures match contract
    - Exported props interface must be named <ComponentName>Props and defined in <ComponentName>.tsx
-
-> **Policy:** `base` must be a **Radix Primitive**. Radix Themes are disallowed as `base`; styling comes from token classes in the styleMap.
 4. **Verify styleMap conformance**:
    - Variants and compound variants: classes exactly match
    - No unused/undefined classes introduced
@@ -75,6 +74,9 @@ Agents must:
    - PR title starts with `🤖`
    - PR body includes checklist from `AGENTS/PR_PROTOCOL.md`
    - No unrelated changes
+9. **Barrel files & public API**:
+   - Component-level barrel exists: `packages/core/src/components/<ComponentName>/index.ts` re-exports the component.
+   - Package-level public API re-exports the component: `packages/core/src/components/index.ts` includes it (if the component is public).
 
 ---
 
@@ -137,6 +139,15 @@ Agents must:
 > - Replace a single `it()` with multiple `it()`s, each containing a single assertion.
 > - When using table-driven tests, ensure each test row has one `expect()`.
 
+### 📦 Barrel file / public API export missing
+> Missing component barrel or package-level export.
+>
+> Please ensure:
+> - `packages/core/src/components/<ComponentName>/index.ts` exists and re-exports the component, and
+> - `packages/core/src/components/index.ts` re-exports `<ComponentName>` (if it should be public).
+>
+> This ensures the component is included in the package’s public API and import paths remain consistent.
+
 ---
 
 ## ✅ Acceptance Criteria
@@ -148,3 +159,4 @@ Agents must:
 - Tests cover render/slots/variants/a11y minima
 - CI green (lint/tests/build/pack)
 - Checklist from `AGENTS/PR_PROTOCOL.md` present
+- Component-level barrel present and package-level public API export updated (when applicable).
