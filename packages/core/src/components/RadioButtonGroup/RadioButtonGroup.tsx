@@ -1,10 +1,11 @@
 // packages/core/src/components/RadioButtonGroup/RadioButtonGroup.tsx
 import * as React from 'react';
-import { Label, RadioGroup, Popover } from 'radix-ui';
-import { InfoIcon, ErrorIcon } from '../../icons';
+import { Label, RadioGroup } from 'radix-ui';
+import { ErrorIcon } from '../../icons';
 import { composeClasses } from '../../utilities/composeClasses/composeClasses';
 import { collapseWhitespace } from '../../utilities/collapseWhitespace/collapseWhitespace';
 import { mergeDescribedBy } from '../../utilities/mergeDescribedBy/mergeDescribedBy';
+import { InfoPopover } from '../InfoPopover';
 
 const baseClasses = `
   inline-flex flex-col gap-1 border-none py-8
@@ -12,15 +13,6 @@ const baseClasses = `
 
 const labelClasses = `
   inline-flex items-center gap-1 text-color-content-default text-xs uppercase
-`;
-
-const infoTriggerClasses = `
-  inline-flex items-center border-none bg-background-none text-color-content-subtle
-  focus:outline-none focus-visible:ring-2 focus-visible:ring-comp-border-focus-ring focus-visible:ring-offset-2
-`;
-
-const infoContentClasses = `
-  max-w-xs rounded-md bg-color-content-default p-3 text-sm shadow-lg
 `;
 
 const hintClasses = `
@@ -101,8 +93,6 @@ export const RadioButtonGroup = React.forwardRef<HTMLFieldSetElement, RadioButto
     const legendClassName = collapseWhitespace(
       composeClasses(labelClasses, trimmedLabel ? undefined : 'sr-only')
     );
-    const infoTriggerClassName = collapseWhitespace(composeClasses(infoTriggerClasses));
-    const infoContentClassName = collapseWhitespace(composeClasses(infoContentClasses));
     const hintClassName = collapseWhitespace(composeClasses(hintClasses));
     const groupClassName = collapseWhitespace(composeClasses(groupClasses));
     const choiceClassName = collapseWhitespace(composeClasses(choiceClasses));
@@ -110,6 +100,10 @@ export const RadioButtonGroup = React.forwardRef<HTMLFieldSetElement, RadioButto
     const indicatorClassName = collapseWhitespace(composeClasses(indicatorClasses));
     const choiceHintClassName = collapseWhitespace(composeClasses(choiceHintClasses));
     const errorClassName = collapseWhitespace(composeClasses(errorClasses));
+    const infoAriaLabel = React.useMemo(
+      () => (trimmedLabel ? `${trimmedLabel} info` : undefined),
+      [trimmedLabel]
+    );
 
     type RadioGroupEnhancements = {
       'aria-describedby': string | undefined;
@@ -133,27 +127,8 @@ export const RadioButtonGroup = React.forwardRef<HTMLFieldSetElement, RadioButto
       >
         <legend className={legendClassName} data-slot="label">
           {trimmedLabel ?? trimmedAriaLabel}
-          {trimmedLabel && trimmedInfo ? (
-            <Popover.Root>
-              <Popover.Trigger
-                className={infoTriggerClassName}
-                data-slot="infoTrigger"
-                aria-label="More info"
-                type="button"
-              >
-                <InfoIcon height="15" width="15" />
-              </Popover.Trigger>
-              <Popover.Portal>
-                <Popover.Content
-                  side="top"
-                  sideOffset={8}
-                  className={infoContentClassName}
-                  data-slot="infoContent"
-                >
-                  {trimmedInfo}
-                </Popover.Content>
-              </Popover.Portal>
-            </Popover.Root>
+          {trimmedLabel && trimmedInfo && infoAriaLabel ? (
+            <InfoPopover ariaLabel={infoAriaLabel}>{trimmedInfo}</InfoPopover>
           ) : null}
         </legend>
 
