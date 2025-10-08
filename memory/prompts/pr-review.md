@@ -56,6 +56,7 @@ Otherwise, do not post. Instead, output findings here.
    - **PR protocol checklist:** design-spec link, unit-test item with backticked names, className item with composeClasses + template literals
    - **Comment templates:** present in CODE_REVIEW.md (`🧵 className composition`, `🧩 Class composition utility misuse`, `🧱 Invented props detected`)
    - **Props export rule:** only `<ComponentName>Props` exported; no prop type aliases
+   - **Barrel files / public API export:** confirm `packages/core/src/components/<ComponentName>/index.ts` exists and re‑exports the component; and that `packages/core/src/components/index.ts` re‑exports the component for the public API. If either is missing, record a violation using the **Barrel file / public API export missing** template.
 4. **Infer PR scope/intent**: From the PR description, check that the diffs align with the stated intent. If diffs include unrelated changes, flag them.
 5. **Aggregate violations**: For each, prepare the matching comment template text (but only output here unless posting approval).
 
