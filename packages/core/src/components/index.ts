@@ -11,6 +11,7 @@ export * from './DatePicker';
 export * from './Dialog';
 export * from './ExpandableContent';
 export * from './IconButton';
+export * from './InfoPopover';
 export * from './Input';
 export * from './RadioButtonGroup';
 export * from './Tabs';
