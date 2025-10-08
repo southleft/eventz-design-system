@@ -1,0 +1,57 @@
+import * as React from 'react';
+
+export interface CheckIconProps extends React.SVGAttributes<SVGSVGElement> {
+  decorative?: boolean;
+  title?: string;
+  titleId?: string;
+  color?: string;
+}
+
+type CheckIconElement = SVGSVGElement;
+
+export const CheckIcon = React.forwardRef<CheckIconElement, CheckIconProps>(
+  (
+    {
+      decorative = true,
+      width = '20px',
+      height = '20px',
+      title,
+      titleId: providedTitleId,
+      color = 'currentColor',
+      className,
+      'aria-labelledby': ariaLabelledby,
+      ...rest
+    },
+    ref
+  ) => {
+    const generatedTitleId = React.useId();
+    const resolvedTitleId = title ? (providedTitleId ?? generatedTitleId) : undefined;
+
+    const computedAriaHidden = decorative ? 'true' : undefined;
+    const computedRole = decorative ? undefined : 'img';
+    const computedAriaLabelledby =
+      !decorative && title && resolvedTitleId ? resolvedTitleId : ariaLabelledby;
+
+    return (
+      <svg
+        ref={ref}
+        {...rest}
+        className={className}
+        viewBox="0 0 20 20"
+        width={width}
+        height={height}
+        fill={color}
+        aria-hidden={computedAriaHidden}
+        role={computedRole}
+        aria-labelledby={computedAriaLabelledby}
+      >
+        {!decorative && title ? <title id={resolvedTitleId}>{title}</title> : null}
+        <g transform="scale(0.0208333333,0.0208333333) translate(0,960)">
+          <path d="m382-354 339-339q12-12 28-12t28 12q12 12 12 28.5T777-636L410-268q-12 12-28 12t-28-12L182-440q-12-12-11.5-28.5T183-497q12-12 28.5-12t28.5 12l142 143Z" />
+        </g>
+      </svg>
+    );
+  }
+);
+
+CheckIcon.displayName = 'CheckIcon';
