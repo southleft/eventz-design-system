@@ -1,9 +1,10 @@
 import * as React from 'react';
-import { Popover, Label } from 'radix-ui';
-import { InfoIcon, ErrorIcon } from '../../icons';
+import { Label } from 'radix-ui';
+import { ErrorIcon } from '../../icons';
 import { composeClasses } from '../../utilities/composeClasses/composeClasses';
 import { collapseWhitespace } from '../../utilities/collapseWhitespace/collapseWhitespace';
 import { mergeDescribedBy } from '../../utilities/mergeDescribedBy/mergeDescribedBy';
+import { InfoPopover } from '../InfoPopover';
 
 const baseClasses = `
   inline-flex border-none flex-col gap-1 disabled:opacity-50 disabled:pointer-events-none
@@ -11,15 +12,6 @@ const baseClasses = `
 
 const labelClasses = `
   inline-flex gap-1 text-color-content-default text-xs uppercase
-`;
-
-const infoTriggerClasses = `
-  border-none bg-background-none text-color-content-subtle
-  focus:outline-none focus-visible:ring-2 focus-visible:ring-comp-border-focus-ring focus-visible:ring-offset-2
-`;
-
-const infoContentClasses = `
-  max-w-xs rounded-md bg-color-content-default p-3 text-sm shadow-lg
 `;
 
 const textareaRowClasses = `
@@ -112,14 +104,13 @@ export const Textarea = React.forwardRef<TextareaElement, TextareaProps>(
     const labelClassName = collapseWhitespace(
       composeClasses(labelClasses, trimmedLabel ? undefined : 'sr-only')
     );
-    const infoTriggerClassName = collapseWhitespace(composeClasses(infoTriggerClasses));
-    const infoContentClassName = collapseWhitespace(composeClasses(infoContentClasses));
     const textareaRowClassName = collapseWhitespace(composeClasses(textareaRowClasses));
     const startIconClassName = collapseWhitespace(composeClasses(startIconClasses));
     const valueClassName = collapseWhitespace(composeClasses(valueClasses));
     const endIconClassName = collapseWhitespace(composeClasses(endIconClasses));
     const hintClassName = collapseWhitespace(composeClasses(hintClasses));
     const errorClassName = collapseWhitespace(composeClasses(errorClasses));
+    const infoAriaLabel = trimmedLabel ? `${trimmedLabel} info` : undefined;
 
     const textareaProps: React.TextareaHTMLAttributes<HTMLTextAreaElement> = {
       ...nativeTextareaRest,
@@ -144,28 +135,14 @@ export const Textarea = React.forwardRef<TextareaElement, TextareaProps>(
       >
         <Label.Root className={labelClassName} data-slot="label" htmlFor={textareaId}>
           {trimmedLabel ?? trimmedAriaLabel ?? ''}
-          {trimmedLabel && trimmedInfo ? (
-            <Popover.Root onOpenChange={setIsInfoOpen}>
-              <Popover.Trigger
-                className={infoTriggerClassName}
-                data-slot="infoTrigger"
-                aria-label="More info"
-                type="button"
-              >
-                <InfoIcon height="15" width="15" />
-              </Popover.Trigger>
-              <Popover.Portal>
-                <Popover.Content
-                  side="top"
-                  sideOffset={8}
-                  className={infoContentClassName}
-                  data-slot="infoContent"
-                  id={infoContentId}
-                >
-                  {trimmedInfo}
-                </Popover.Content>
-              </Popover.Portal>
-            </Popover.Root>
+          {trimmedLabel && trimmedInfo && infoContentId && infoAriaLabel ? (
+            <InfoPopover
+              ariaLabel={infoAriaLabel}
+              contentId={infoContentId}
+              onOpenChange={setIsInfoOpen}
+            >
+              {trimmedInfo}
+            </InfoPopover>
           ) : null}
         </Label.Root>
 
