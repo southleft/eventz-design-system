@@ -99,6 +99,40 @@ describe('MenuItem', () => {
     expect(screen.getByTestId('menu-item-selected-icon')).toBeInTheDocument();
   });
 
+  it('uses option text as img alt when imgAlt is missing (complex)', () => {
+    render(
+      <MenuItem
+        type="complex"
+        option="Alt from option"
+        supportingText="Supporting"
+        imgSrc="https://via.placeholder.com/40"
+      />
+    );
+    expect(screen.getByRole('img', { name: 'Alt from option' })).toBeInTheDocument();
+  });
+
+  it('falls back to ariaLabel for img alt when option is missing (complex)', () => {
+    render(
+      <MenuItem
+        type="complex"
+        ariaLabel="Alt from ariaLabel"
+        imgSrc="https://via.placeholder.com/40"
+      />
+    );
+    expect(screen.getByRole('img', { name: 'Alt from ariaLabel' })).toBeInTheDocument();
+  });
+
+  it('omits the alt attribute when imgAlt, option, and ariaLabel are all missing (complex)', () => {
+    render(
+      <MenuItem
+        type="complex"
+        imgSrc="https://via.placeholder.com/40"
+      />
+    );
+    const img = screen.getByRole('img');
+    expect(img).not.toHaveAttribute('alt');
+  });
+
   it('sets the border data attribute when borderBottom is false', () => {
     renderMenuItem({ borderBottom: false });
     expect(screen.getByRole('button', { name: 'Sample option' })).toHaveAttribute('data-border-bottom', 'false');
@@ -109,9 +143,10 @@ describe('MenuItem', () => {
     expect(screen.getByRole('button', { name: 'Sample option' }).className).toContain('data-[border-bottom=true]:border-b');
   });
 
-  it('omits the border token classes when borderBottom is false', () => {
+  it('retains the border token selector when borderBottom is false (activation via data attr)', () => {
     renderMenuItem({ borderBottom: false });
-    expect(screen.getByRole('button', { name: 'Sample option' }).className).not.toContain('data-[border-bottom=true]:border-b');
+    const btn = screen.getByRole('button', { name: 'Sample option' });
+    expect(btn.className).toContain('data-[border-bottom=true]:border-b');
   });
 
   it('includes the focus ring token classes on the root element', () => {

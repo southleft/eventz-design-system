@@ -18,7 +18,7 @@ export interface MenuItemProps extends Omit<React.ButtonHTMLAttributes<HTMLButto
 }
 
 const baseClasses = `
-  flex flex-nowrap items-center justify-between gap-8 bg-background-none
+  flex flex-nowrap items-center justify-between gap-8 bg-background-none border-none
   [&:has(:focus-visible)]:ring-2 [&:has(:focus-visible)]:ring-offset-4
   [&:has(:focus-visible)]:ring-comp-border-focus-ring [&:has(:focus-visible)]:ring-offset-color-background-default
   data-[border-bottom=true]:border-b data-[border-bottom=true]:border-b-color-border-subtle
@@ -71,12 +71,12 @@ export const MenuItem = React.forwardRef<HTMLButtonElement, MenuItemProps>(
       supportingText,
       imgSrc,
       imgAlt,
-      className,
+      className = '',
       ...rest
     },
     ref
   ) => {
-    const baseClassName = collapseWhitespace(composeClasses(baseClasses, className ?? ''));
+    const baseClassName = collapseWhitespace(composeClasses(baseClasses, className));
 
     const optionClassName = collapseWhitespace(composeClasses(optionClasses));
     const startIconClassName = collapseWhitespace(composeClasses(startIconClasses));
