@@ -14,22 +14,43 @@ export interface InfoPopoverProps extends Omit<React.HTMLAttributes<HTMLDivEleme
   ariaLabel: string;
   side?: Side;
   sideOffset?: number;
+  onOpenChange?: (open: boolean) => void;
+  contentId?: string;
   children: React.ReactNode;
 }
 
 export const InfoPopover = React.forwardRef<HTMLDivElement, InfoPopoverProps>(
-  ({ ariaLabel, side = 'top', sideOffset = 8, children, className, ...rest }, ref) => {
+  (
+    {
+      ariaLabel,
+      side = 'top',
+      sideOffset = 8,
+      children,
+      className,
+      onOpenChange,
+      contentId,
+      ...rest
+    },
+    ref
+  ) => {
     const baseClassName = collapseWhitespace(composeClasses(baseClasses, className));
     const triggerClassName = collapseWhitespace(composeClasses(triggerClasses));
     const contentClassName = collapseWhitespace(composeClasses(contentClasses));
+    const handleOpenChange = React.useCallback(
+      (open: boolean) => {
+        onOpenChange?.(open);
+      },
+      [onOpenChange]
+    );
 
     return (
       <div ref={ref} className={baseClassName} {...rest}>
-        <Popover.Root>
+        <Popover.Root onOpenChange={handleOpenChange}>
           <Popover.Trigger
             className={triggerClassName}
             aria-label={ariaLabel}
             data-slot="infoTrigger"
+            type="button"
           >
             <InfoIcon aria-hidden="true" />
           </Popover.Trigger>
@@ -39,6 +60,7 @@ export const InfoPopover = React.forwardRef<HTMLDivElement, InfoPopoverProps>(
               side={side}
               sideOffset={sideOffset}
               data-slot="infoContent"
+              id={contentId}
             >
               {children}
             </Popover.Content>
