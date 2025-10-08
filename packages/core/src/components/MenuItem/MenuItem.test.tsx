@@ -22,13 +22,8 @@ describe('MenuItem', () => {
     expect(screen.getByRole('button', { name: 'Sample option' })).toHaveAccessibleName('Sample option');
   });
 
-  it('falls back to ariaLabel when option text is not visible', () => {
-    render(
-      <MenuItem
-        option={<span aria-hidden="true" />}
-        ariaLabel="Icons only"
-      />
-    );
+  it('falls back to ariaLabel when option text is not provided', () => {
+    render(<MenuItem ariaLabel="Icons only" />);
     expect(screen.getByRole('button', { name: 'Icons only' })).toHaveAccessibleName('Icons only');
   });
 

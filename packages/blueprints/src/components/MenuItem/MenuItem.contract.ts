@@ -19,6 +19,8 @@ export const MenuItemContract = defineContract({
 
     // Accessible name fallback when the item has no visible text (icons/image-only)
     ariaLabel: { type: 'string' },
+    option: { type: 'string' },
+    supportingText: { type: 'string' },
 
     // Visuals
     // - simple: may render a start icon
@@ -44,6 +46,6 @@ export const MenuItemContract = defineContract({
   // Structural notes for the generator (no visual semantics here)
   hints: {
     notes:
-      'For type="simple", ignore `image` and prefer `startIcon`. For type="complex", ignore `startIcon` and render an internal image using imgSrc/imgAlt (if missing, render a neutral placeholder). The image alt should fall back to the plain-text label from the `option` slot when possible, otherwise to `ariaLabel`. Selected icon is internal-only (checkmark), revealed when isSelected=true.'
+      'For type="simple", ignore `image` and prefer `startIcon`. For type="complex", ignore `startIcon` and render an internal image using imgSrc/imgAlt (if missing, render a neutral placeholder). For complex items, the image alt should fall back to the `option` prop text when possible, otherwise to `ariaLabel`. Selected icon is internal-only (checkmark), revealed when isSelected=true.'
   }
 });

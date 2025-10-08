@@ -5,18 +5,16 @@ import { CheckIcon } from '../../icons';
 
 type MenuItemType = 'simple' | 'complex';
 
-export interface MenuItemProps
-  extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'type' | 'className'> {
+export interface MenuItemProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'type'> {
   type?: MenuItemType;
   isSelected?: boolean;
   borderBottom?: boolean;
   ariaLabel?: string;
   startIcon?: React.ReactNode;
-  option?: React.ReactNode;
-  supportingText?: React.ReactNode;
+  option?: string;
+  supportingText?: string;
   imgSrc?: string;
   imgAlt?: string;
-  className?: string;
 }
 
 const baseClasses = `
@@ -61,25 +59,6 @@ const selectedIconVisibleClasses = `
   data-[is-selected=true]:inline-flex
 `;
 
-const extractText = (value: React.ReactNode): string => {
-  if (typeof value === 'string' || typeof value === 'number') {
-    return String(value);
-  }
-
-  if (Array.isArray(value)) {
-    return value
-      .map(item => extractText(item))
-      .filter(text => text.trim().length > 0)
-      .join(' ');
-  }
-
-  if (React.isValidElement(value)) {
-    return extractText(value.props.children);
-  }
-
-  return '';
-};
-
 export const MenuItem = React.forwardRef<HTMLButtonElement, MenuItemProps>(
   (
     {
@@ -97,12 +76,7 @@ export const MenuItem = React.forwardRef<HTMLButtonElement, MenuItemProps>(
     },
     ref
   ) => {
-    const optionText = extractText(option).trim();
-    const trimmedAriaLabel = ariaLabel?.trim() ?? '';
-
-    const rootClassName = collapseWhitespace(
-      composeClasses(baseClasses, className ?? '')
-    );
+    const baseClassName = collapseWhitespace(composeClasses(baseClasses, className ?? ''));
 
     const optionClassName = collapseWhitespace(composeClasses(optionClasses));
     const startIconClassName = collapseWhitespace(composeClasses(startIconClasses));
@@ -118,7 +92,7 @@ export const MenuItem = React.forwardRef<HTMLButtonElement, MenuItemProps>(
 
     const resolvedImgAlt =
       type === 'complex'
-        ? imgAlt?.trim() || optionText || trimmedAriaLabel || undefined
+        ? imgAlt?.trim() || option?.trim() || ariaLabel?.trim() || undefined
         : undefined;
 
     return (
@@ -126,10 +100,10 @@ export const MenuItem = React.forwardRef<HTMLButtonElement, MenuItemProps>(
         {...rest}
         ref={ref}
         type="button"
-        className={rootClassName}
+        className={baseClassName}
         data-is-selected={isSelected}
         data-border-bottom={borderBottom}
-        aria-label={trimmedAriaLabel || undefined}
+        aria-label={ariaLabel?.trim() || undefined}
       >
         {type === 'simple' ? (
           <>
