@@ -11,7 +11,7 @@ export default defineContract({
   styleMap: true,
 
   // Slots reflect the runtime structure used in form controls today.
-  slots: ['trigger', 'content'],
+  slots: ['infoTrigger', 'infoContent'],
 
   // Public props — minimal to match current usage.
   props: {
