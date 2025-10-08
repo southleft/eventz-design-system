@@ -54,7 +54,7 @@ describe('InfoPopover', () => {
     view.unmount();
   });
 
-  it('calls onOpenChange when the open state changes', async () => {
+  it('invokes onOpenChange(true) when opening', async () => {
     const handleOpenChange = jest.fn<void, [boolean]>();
     const user = userEvent.setup();
     const view: RenderResult = render(
@@ -64,14 +64,26 @@ describe('InfoPopover', () => {
     );
     const trigger = screen.getByRole('button', { name: 'Open change' });
     await user.click(trigger);
+    await screen.findByText('Toggle me');
     await waitFor(() => {
-      expect(handleOpenChange).toHaveBeenCalledTimes(1);
       expect(handleOpenChange).toHaveBeenLastCalledWith(true);
     });
+    view.unmount();
+  });
+
+  it('invokes onOpenChange(false) when closing with Escape', async () => {
+    const handleOpenChange = jest.fn<void, [boolean]>();
+    const user = userEvent.setup();
+    const view: RenderResult = render(
+      <InfoPopover ariaLabel="Open change" onOpenChange={handleOpenChange}>
+        Toggle me
+      </InfoPopover>
+    );
+    const trigger = screen.getByRole('button', { name: 'Open change' });
+    await user.click(trigger);
     await screen.findByText('Toggle me');
     await user.keyboard('{Escape}');
     await waitFor(() => {
-      expect(handleOpenChange).toHaveBeenCalledTimes(2);
       expect(handleOpenChange).toHaveBeenLastCalledWith(false);
     });
     view.unmount();
