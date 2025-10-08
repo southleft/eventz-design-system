@@ -14,6 +14,15 @@ describe('InfoPopover', () => {
     view.unmount();
   });
 
+  it('renders the trigger as a type="button"', () => {
+    const view: RenderResult = render(
+      <InfoPopover ariaLabel="Inspect type">Check trigger type</InfoPopover>
+    );
+    const trigger = screen.getByRole('button', { name: 'Inspect type' });
+    expect(trigger).toHaveAttribute('type', 'button');
+    view.unmount();
+  });
+
   it('reveals content when the trigger is clicked', async () => {
     const user = userEvent.setup();
     const view: RenderResult = render(
@@ -42,6 +51,54 @@ describe('InfoPopover', () => {
       };
       expect(result).toEqual({ content: null, active: trigger });
     });
+    view.unmount();
+  });
+
+  it('invokes onOpenChange(true) when opening', async () => {
+    const handleOpenChange = jest.fn<void, [boolean]>();
+    const user = userEvent.setup();
+    const view: RenderResult = render(
+      <InfoPopover ariaLabel="Open change" onOpenChange={handleOpenChange}>
+        Toggle me
+      </InfoPopover>
+    );
+    const trigger = screen.getByRole('button', { name: 'Open change' });
+    await user.click(trigger);
+    await screen.findByText('Toggle me');
+    await waitFor(() => {
+      expect(handleOpenChange).toHaveBeenLastCalledWith(true);
+    });
+    view.unmount();
+  });
+
+  it('invokes onOpenChange(false) when closing with Escape', async () => {
+    const handleOpenChange = jest.fn<void, [boolean]>();
+    const user = userEvent.setup();
+    const view: RenderResult = render(
+      <InfoPopover ariaLabel="Open change" onOpenChange={handleOpenChange}>
+        Toggle me
+      </InfoPopover>
+    );
+    const trigger = screen.getByRole('button', { name: 'Open change' });
+    await user.click(trigger);
+    await screen.findByText('Toggle me');
+    await user.keyboard('{Escape}');
+    await waitFor(() => {
+      expect(handleOpenChange).toHaveBeenLastCalledWith(false);
+    });
+    view.unmount();
+  });
+
+  it('applies the provided contentId to the content element', async () => {
+    const user = userEvent.setup();
+    const view: RenderResult = render(
+      <InfoPopover ariaLabel="Has id" contentId="custom-info-id">
+        Content with custom id
+      </InfoPopover>
+    );
+    await user.click(screen.getByRole('button', { name: 'Has id' }));
+    const content = await screen.findByText('Content with custom id');
+    expect(content).toHaveAttribute('id', 'custom-info-id');
     view.unmount();
   });
 

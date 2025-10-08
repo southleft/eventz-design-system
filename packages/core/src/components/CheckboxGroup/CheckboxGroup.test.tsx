@@ -77,9 +77,7 @@ describe('CheckboxGroup accessible name', () => {
         choices={[{ label: 'A' }]}
       />
     );
-    const fieldset = screen.getByRole('group');
-    const trigger = fieldset.querySelector('[data-slot="infoTrigger"]');
-    expect(trigger).toBeNull();
+    expect(screen.queryByRole('button', { name: /info$/i })).toBeNull();
   });
 });
 
@@ -300,33 +298,33 @@ describe('CheckboxGroup info popover', () => {
         choices={[{ label: 'Email' }]}
       />
     );
-    const trigger = document.querySelector('[data-slot="infoTrigger"]') as HTMLButtonElement;
+    const trigger = screen.getByRole('button', { name: 'Notifications info' });
     await user.click(trigger);
     expect(await screen.findByText('Additional info about notification delivery.')).toBeVisible();
   });
 
   it('marks the info icon as decorative', () => {
     render(<CheckboxGroup label="Notifications" info="More info" choices={[{ label: 'Email' }]} />);
-    const trigger = document.querySelector('[data-slot="infoTrigger"]') as HTMLButtonElement;
+    const trigger = screen.getByRole('button', { name: 'Notifications info' });
     const icon = trigger.querySelector('svg');
     expect(icon).toHaveAttribute('aria-hidden', 'true');
   });
 
   it('does not render an info trigger when label is absent (ariaLabel path)', () => {
     render(<CheckboxGroup ariaLabel="Name" info="Info text" choices={[{ label: 'A' }]} />);
-    expect(document.querySelector('[data-slot="infoTrigger"]')).toBeNull();
+    expect(screen.queryByRole('button', { name: /name info/i })).toBeNull();
   });
 
   it('applies the focus ring token classes to the info trigger', () => {
     render(<CheckboxGroup label="Notifications" info="More info" choices={[{ label: 'Email' }]} />);
-    const trigger = document.querySelector('[data-slot="infoTrigger"]') as HTMLButtonElement;
+    const trigger = screen.getByRole('button', { name: 'Notifications info' });
     expect(trigger).toHaveClass('focus-visible:ring-comp-border-focus-ring');
   });
 
   it('names the info trigger for accessibility', () => {
     render(<CheckboxGroup label="Notifications" info="More info" choices={[{ label: 'Email' }]} />);
-    const trigger = document.querySelector('[data-slot="infoTrigger"]') as HTMLButtonElement;
-    expect(trigger).toHaveAttribute('aria-label', 'More info');
+    const trigger = screen.getByRole('button', { name: 'Notifications info' });
+    expect(trigger).toHaveAttribute('aria-label', 'Notifications info');
   });
 });
 

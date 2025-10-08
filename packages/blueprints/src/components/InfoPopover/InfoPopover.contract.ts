@@ -30,13 +30,23 @@ export default defineContract({
       type: 'number',
       default: 8,
       description: 'Offset distance in pixels between trigger and content.'
+    },
+    onOpenChange: {
+      type: 'callback',
+      args: ['open: boolean'],
+      description: 'Notifies the caller when the popover open state changes.'
+    },
+    contentId: {
+      type: 'string',
+      description: 'Optional id applied to the popover content for aria-describedby wiring.'
     }
   },
 
   // Generator/adaptor guidance
   hints: {
-    a11y: 'Icon-only trigger; callers must supply ariaLabel; the icon is decorative (aria-hidden).',
+    a11y: 'Icon-only trigger rendered as a native button (type="button"); callers must supply ariaLabel; the icon is decorative (aria-hidden).',
     radixAdapter: { uses: ['Popover'] },
-    guideline: 'No event handlers are exposed; Radix Popover manages disclosure behavior.'
+    guideline:
+      'Runtime exposes an onOpenChange callback for parent controls to mirror disclosure state when needed.'
   }
 });

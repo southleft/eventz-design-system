@@ -1,10 +1,10 @@
 import * as React from 'react';
-import { Popover } from 'radix-ui';
-import { InfoIcon, ErrorIcon } from '../../icons';
+import { ErrorIcon } from '../../icons';
 import { composeClasses } from '../../utilities/composeClasses/composeClasses';
 import { collapseWhitespace } from '../../utilities/collapseWhitespace/collapseWhitespace';
 import { mergeDescribedBy } from '../../utilities/mergeDescribedBy/mergeDescribedBy';
 import { Checkbox } from '../Checkbox';
+import { InfoPopover } from '../InfoPopover';
 
 const baseClasses = `
   inline-flex flex-col gap-1 border-none py-8
@@ -12,15 +12,6 @@ const baseClasses = `
 
 const labelClasses = `
   inline-flex gap-1 text-color-content-default text-xs uppercase
-`;
-
-const infoTriggerClasses = `
-  border-none bg-background-none text-color-content-subtle
-  focus:outline-none focus-visible:ring-2 focus-visible:ring-comp-border-focus-ring focus-visible:ring-offset-2
-`;
-
-const infoContentClasses = `
-  max-w-xs rounded-md bg-color-content-default p-3 text-sm shadow-lg
 `;
 
 const hintClasses = `
@@ -90,8 +81,7 @@ export const CheckboxGroup = React.forwardRef<HTMLFieldSetElement, CheckboxGroup
     const legendClassName = collapseWhitespace(
       composeClasses(labelClasses, trimmedLabel ? undefined : 'sr-only')
     );
-    const infoTriggerClassName = collapseWhitespace(composeClasses(infoTriggerClasses));
-    const infoContentClassName = collapseWhitespace(composeClasses(infoContentClasses));
+    const infoAriaLabel = trimmedLabel ? `${trimmedLabel} info` : 'More info';
     const hintClassName = collapseWhitespace(composeClasses(hintClasses));
     const choicesClassName = collapseWhitespace(composeClasses(choicesClasses));
     const errorClassName = collapseWhitespace(composeClasses(errorClasses));
@@ -125,27 +115,7 @@ export const CheckboxGroup = React.forwardRef<HTMLFieldSetElement, CheckboxGroup
       >
         <legend className={legendClassName} data-slot="label">
           {trimmedLabel ?? trimmedAriaLabel}
-          {trimmedLabel && info ? (
-            <Popover.Root>
-              <Popover.Trigger
-                className={infoTriggerClassName}
-                data-slot="infoTrigger"
-                aria-label="More info"
-              >
-                <InfoIcon width="15" height="15" />
-              </Popover.Trigger>
-              <Popover.Portal>
-                <Popover.Content
-                  side="top"
-                  sideOffset={8}
-                  className={infoContentClassName}
-                  data-slot="infoContent"
-                >
-                  {info}
-                </Popover.Content>
-              </Popover.Portal>
-            </Popover.Root>
-          ) : null}
+          {trimmedLabel && info ? <InfoPopover ariaLabel={infoAriaLabel}>{info}</InfoPopover> : null}
         </legend>
 
         {hintId ? (
