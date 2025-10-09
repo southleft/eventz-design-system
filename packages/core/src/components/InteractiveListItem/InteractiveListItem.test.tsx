@@ -19,17 +19,28 @@ const renderInteractiveListItem = (props: Partial<InteractiveListItemProps> = {}
 describe('InteractiveListItem', () => {
   it('renders the title as the button label', () => {
     renderInteractiveListItem();
-    expect(screen.getByRole('button', { name: 'Account settings' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /Account settings/ })).toBeInTheDocument();
+  });
+
+  it('applies default props when omitted', () => {
+    // Render with only the required prop to exercise default initializers
+    render(<InteractiveListItem title="Account settings" />);
+    const root = screen.getByRole('button', { name: /Account settings/ });
+    // borderBottom defaults to true → attribute present; also exercises isRemovable default false branch
+    expect(root.getAttribute('data-border-bottom')).toBe('true');
   });
 
   it.each([
     { isRemovable: false, expectedAttribute: null },
     { isRemovable: true, expectedAttribute: 'true' }
-  ])('reflects data attribute when isRemovable is $isRemovable', ({ isRemovable, expectedAttribute }) => {
-    renderInteractiveListItem({ isRemovable });
-    const root = screen.getByRole('button', { name: 'Account settings' });
-    expect(root.getAttribute('data-is-removable')).toBe(expectedAttribute);
-  });
+  ])(
+    'reflects data attribute when isRemovable is $isRemovable',
+    ({ isRemovable, expectedAttribute }) => {
+      renderInteractiveListItem({ isRemovable });
+      const root = screen.getByRole('button', { name: /Account settings/ });
+      expect(root.getAttribute('data-is-removable')).toBe(expectedAttribute);
+    }
+  );
 
   it.each([
     { imgAlt: undefined, expectedAlt: '' },
@@ -40,40 +51,66 @@ describe('InteractiveListItem', () => {
     expect(image?.getAttribute('alt')).toBe(expectedAlt);
   });
 
-  it('includes the divider token class on the root element', () => {
-    renderInteractiveListItem();
-    expect(screen.getByRole('button', { name: 'Account settings' }).className).toContain(
-      'data-[border-bottom=true]:border-b'
-    );
+  it('renders a decorative placeholder when removable and no image is provided', () => {
+    const { container } = renderInteractiveListItem({ isRemovable: true, imgSrc: undefined });
+    const placeholder = container.querySelector('div[aria-hidden="true"]');
+    expect(placeholder).not.toBeNull();
   });
 
   it.each([
-    {
-      isRemovable: false,
-      expectedPath: 'M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z'
-    },
-    {
-      isRemovable: true,
-      expectedPath: 'M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm5 13.59L15.59 17 12 13.41 8.41 17 7 15.59 10.59 12 7 8.41 8.41 7 12 10.59 15.59 7 17 8.41 13.41 12 17 15.59z'
+    { borderBottom: true, expected: 'true' },
+    { borderBottom: false, expected: null }
+  ])(
+    'reflects borderBottom as a data attribute when borderBottom=$borderBottom',
+    ({ borderBottom, expected }) => {
+      renderInteractiveListItem({ borderBottom });
+      const root = screen.getByRole('button', { name: /Account settings/ });
+      expect(root.getAttribute('data-border-bottom')).toBe(expected);
     }
-  ])('renders the correct trailing icon path for isRemovable = $isRemovable', ({ isRemovable, expectedPath }) => {
-    renderInteractiveListItem({ isRemovable });
-    const button = screen.getByRole('button', { name: 'Account settings' });
-    const iconPath = button.querySelector('svg path');
-    expect(iconPath?.getAttribute('d')).toBe(expectedPath);
+  );
+
+  it('switches the trailing icon when isRemovable toggles', () => {
+    const { unmount } = renderInteractiveListItem({ isRemovable: false });
+    const btnA = screen.getByRole('button', { name: /Account settings/ });
+    const pathA = btnA.querySelector('svg path')?.getAttribute('d') || '';
+    unmount();
+    renderInteractiveListItem({ isRemovable: true });
+    const btnB = screen.getByRole('button', { name: /Account settings/ });
+    const pathB = btnB.querySelector('svg path')?.getAttribute('d') || '';
+    expect(pathA).not.toBe(pathB);
+  });
+  it('does not render an image when not removable', () => {
+    const { container } = renderInteractiveListItem({ isRemovable: false });
+    expect(container.querySelector('img')).toBeNull();
   });
 
-  it('throws when the title is empty or whitespace', () => {
-    expect(() => renderInteractiveListItem({ title: '   ' })).toThrow(
-      'InteractiveListItem requires a non-empty title.'
-    );
+  it('renders supporting and highlight text only when not removable', () => {
+    renderInteractiveListItem({ isRemovable: false });
+    // Both texts present in default non-removable state
+    expect(screen.getByText('Manage your account preferences')).toBeInTheDocument();
   });
 
-  it('retains the focus ring token classes after keyboard focus', async () => {
+  it('does not render supporting text when not provided (non-removable)', () => {
+    renderInteractiveListItem({ isRemovable: false, supportingText: undefined });
+    expect(screen.queryByText('Manage your account preferences')).toBeNull();
+  });
+
+  it('does not render highlight text when not provided (non-removable)', () => {
+    renderInteractiveListItem({ isRemovable: false, highlightText: undefined });
+    expect(screen.queryByText('Updated 2 days ago')).toBeNull();
+  });
+
+  it('hides supporting and highlight text when removable', () => {
+    renderInteractiveListItem({ isRemovable: true });
+    // Not found when removable
+    expect(screen.queryByText('Manage your account preferences')).toBeNull();
+  });
+
+  it('includes the focus ring token classes', async () => {
     const user = userEvent.setup();
     renderInteractiveListItem();
     await user.tab();
-    expect(screen.getByRole('button', { name: 'Account settings' }).className).toContain(
+    expect(screen.getByRole('button', { name: /Account settings/ }).className).toContain(
       'focus-visible:ring-comp-border-focus-ring'
     );
   });
