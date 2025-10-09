@@ -36,6 +36,9 @@ Copy/paste this block into the PR description:
 - [ ] Tests and stories present at baseline coverage
 - [ ] No unrelated changes in this PR
 - [ ] Ran `pnpm agents:sync` and `pnpm agents:verify`
+- [ ] Base branch is development (or the PR’s configured base)
+- [ ] Variants-only exception banner included (if applicable)
+- [ ] Stories rely on inferred controls (no manual argTypes)
 
 ## 👥 Assignment & Merge
 	•	Assign to a relevant human maintainer (if known).
@@ -48,6 +51,14 @@ Copy/paste this block into the PR description:
 	•	/<ComponentName>.test.tsx (or __tests__/)
 	•	Files belong at: packages/core/src/components/<ComponentName>/
 	•	No edits to blueprints unless explicitly requested.
+	•	Controls are inferred from the component’s TypeScript interface. Do not add manual argTypes.
+
+## 🔍 Review Procedure
+- Base branch: Always review against the PR’s base branch (default: development). Treat PR → Files changed as authoritative; do not diff against main.
+
+### Exception Banner (when applicable)
+- Variants-only policy is waived for this PR.
+  → Do not flag non-variant stories as violations.
 
 ## ✅ Acceptance Criteria for Approval
 	•	Contract conformance: props, slots/layout, events

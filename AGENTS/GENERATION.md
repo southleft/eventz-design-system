@@ -17,17 +17,23 @@ It complements:
 
 > **Radix Primitive Policy:** Components must wrap **Radix Primitives only** as their `base`.
 > Radix Themes are **disallowed** as a `base`. All visual styling comes from our **styleMap** token classes.
+> Exceptions: When Branch Facts or the contract explicitly specify a native element as the base (e.g., `base: 'button'`), use the native base. Call out the exception in the PR body.
 
 ---
 
 ## 📂 Inputs
 See **Canonical paths** above for contract and styleMap locations.
 
+## 🧭 Blueprint Runtime Policy (authoritative)
+- **Blueprints (contract + styleMap) are schema-only.** They are the single source of truth for generation and **review**, not runtime imports.
+- **Do not import blueprint files in runtime code.** Runtime must compose class names with `composeClasses` using **literal token strings** that **match** the styleMap.
+- **Drift policy:** Any mismatch between runtime token strings and the styleMap is a violation (fix runtime or update the styleMap).
+
 ---
 
 ## 📦 Outputs
 Generated components must include all of the following:
-- `/<ComponentName>.tsx` — React component implementing the contract + styleMap. Do not export prop type aliases; export only the named `<ComponentName>Props` interface from this file. This file **must export a named interface for props** (e.g., `<ComponentName>Props`), defined within the same file, matching the contract's prop definitions. Class composition must use `composeClasses` with styleMap variants (`packages/core/src/utilities/composeClasses/composeClasses.ts`). MUST use template literals (`` `...` ``) for all static or inline className definitions. DO NOT use string concatenation (`+`), arrays of strings, or array joins; DO NOT pass arrays directly to `composeClasses`.
+- `/<ComponentName>.tsx` — React component implementing the contract + styleMap. Do not export prop type aliases; export only the named `<ComponentName>Props` interface from this file. This file **must export a named interface for props** (e.g., `<ComponentName>Props`), defined within the same file, matching the contract's prop definitions. Class composition must use `composeClasses` (`packages/core/src/utilities/composeClasses/composeClasses.ts`). **Do not import styleMap files in runtime.** Use literal token strings that **match** the styleMap. MUST use template literals (`` `...` ``) for all static or inline className definitions. DO NOT use string concatenation (`+`), arrays of strings, or array joins; DO NOT pass arrays directly to `composeClasses`.
 - `/<ComponentName>.stories.tsx` — Storybook stories covering all public props/variants
 - `/<ComponentName>.test.tsx` (or `__tests__/`) — Jest + RTL tests for render, slots, variants, baseline a11y
 
@@ -42,7 +48,7 @@ All outputs belong under:
    - Must wrap the **Radix Primitive** declared in the contract. **Radix Themes as a base are disallowed.**
    - Must support `asChild` if contract specifies.
    - Props and types must exactly match contract.
-   - Class composition must use `composeClasses` with styleMap variants (`packages/core/src/utilities/composeClasses/composeClasses.ts`).
+   - Class composition must use `composeClasses`. **Runtime must not import styleMaps.** Ensure literal token strings match the styleMap (base/slots/state/variants).
   > Note: This repo does not use `clsx`/`cx`. Always use the local `composeClasses.ts` utility to keep class composition within our type structure.
    - MUST use template literals (`` `...` ``) for all static or inline className definitions. DO NOT use string concatenation (`+`), arrays of strings, or array joins; DO NOT pass arrays directly to `composeClasses`.
    - Accessibility: decorative icons → `aria-hidden="true"`, all interactive elements → accessible names.
@@ -51,6 +57,7 @@ All outputs belong under:
    - Default export: `title: 'Components/<ComponentName>'`
    - Include stories for all styleMap variants.
    - Use Storybook controls for all public props.
+   - Controls are inferred from the component’s TypeScript interface. Do not declare manual argTypes.
 4. **Generate tests**:
    - Use Jest + RTL.
    - Cover: render, slot presence, variant switching, baseline a11y.
@@ -78,5 +85,8 @@ All outputs belong under:
 - PR title prefixed with `🤖` and checklist from `AGENTS/PR_PROTOCOL.md` present
 - Base uses a **Radix Primitive** (no Themes); visuals driven by token classes from the styleMap.
 - Tests follow the unit test policy: one `expect()` per `it()`, organized with `describe()`, table-driven tests allowed when they reduce duplication (one `expect()` per case).
-- ClassNames follow the convention: `composeClasses` plus template literals ONLY; arrays of strings, concatenation, array joins, or passing arrays directly to `composeClasses` are disallowed.
+- ClassNames follow the convention: `composeClasses` plus template literals ONLY; **no styleMap imports in runtime**; literal token strings **match** the styleMap. Arrays of strings, concatenation, array joins, or passing arrays directly to `composeClasses` are disallowed.
 - Props export rule followed: only `<ComponentName>Props` is exported; no prop type aliases are exported.
+- Reviewed against the PR’s base branch (default development); rely on PR → Files changed.
+- Stories rely on inferred controls (no manual argTypes).
+- No styleMap imports in runtime; class tokens used in runtime match the styleMap (composeClasses + template literals only).
