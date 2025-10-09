@@ -22,9 +22,10 @@ Agents must:
   - File paths, names, and placement
   - Contract ↔ styleMap adherence
   - Radix usage & `asChild` behavior
-- Tailwind class usage vs. styleMap
-- Accessibility patterns
-- Storybook stories & test coverage
+  - Tailwind class usage vs. styleMap
+  - Accessibility patterns
+  - Storybook stories & test coverage
+- Review against the PR’s base branch (default development). Use PR → Files changed as the authoritative diff; do not compare against main.
 
 ### 🧭 Blueprint Runtime Policy (review-time)
 - **Blueprints (contract + styleMap) are schema-only** for generation and review.
@@ -56,7 +57,7 @@ Agents must:
 4. **Verify styleMap conformance**:
    - Variants and compound variants: classes exactly match
    - No unused/undefined classes introduced
-   - Class composition must use `composeClasses`. **Do not require styleMap imports in runtime.** Verify that literal token strings in the component **match** the styleMap (base/slots/state/variants).
+   - Class composition must use `composeClasses`. **Do not require styleMap imports in runtime.** Verify that literal token strings in the component match the styleMap (base, slots, state, variants). Structural utilities are allowed when tokens do not exist; flag only when the tokens drift from the styleMap.
    - ClassNames must use `composeClasses`; avoid concatenation (`+`) or array joins; **prefer template literals** for static strings.
    - **Compare base + slots + variants** classes between the **component** and the **styleMap**. Treat a match as compliant even if class lists include utilities.
    - **Utilities allowed:** per token-first policy, structural/optical utilities (e.g., `inline-flex`, `gap-*`, `pt-2`, negative margins) are allowed **when tokens don’t exist**. Do **not** flag utilities as drift if component **and** styleMap use the same ones; flag only when **tokens drift** from the styleMap.
@@ -69,7 +70,8 @@ Agents must:
 6. **Storybook**:
    - Default export must include `title: 'Components/<ComponentName>'` and `component: <ComponentName>`
    - Stories rely on Storybook’s inferred controls from the component’s TypeScript interface. Do not manually add controls; they are auto‑generated.
-   - **Variants-only:** all styleMap **variants** appear as stories; **no** additional stories for non-variant props
+- **Variants-only:** all styleMap **variants** appear as stories; **no** additional stories for non-variant props
+- Exception banner: If the PR body declares a variants-only exception, do not flag non-variant stories in this review.
 7. **Tests**:
    - Jest + RTL
    - Cover: render, slot presence, variant switching, baseline a11y
@@ -114,6 +116,10 @@ Agents must:
 > - Use `composeClasses` (`packages/core/src/utilities/composeClasses/composeClasses.ts`) for conditional composition and styleMap variant/state classes.
 > - Ensure classes come from the styleMap/tokens (no ad-hoc palettes).
 > Note: Do **not** import styleMaps in runtime. Compose with `composeClasses` and literal token strings that **match** the styleMap.
+
+### 🎛️ Manual Storybook controls
+> Stories declare manual argTypes, but controls must be inferred from the component’s TypeScript props.  
+> Please remove custom argTypes and rely on inferred controls.
 
 ### 🧩 Class composition utility misuse
 > Detected `clsx`/`cx` (or ad-hoc string joins) for `className` composition.

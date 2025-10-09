@@ -17,6 +17,7 @@ It complements:
 
 > **Radix Primitive Policy:** Components must wrap **Radix Primitives only** as their `base`.
 > Radix Themes are **disallowed** as a `base`. All visual styling comes from our **styleMap** token classes.
+> Exceptions: When Branch Facts or the contract explicitly specify a native element as the base (e.g., `base: 'button'`), use the native base. Call out the exception in the PR body.
 
 ---
 
@@ -56,6 +57,7 @@ All outputs belong under:
    - Default export: `title: 'Components/<ComponentName>'`
    - Include stories for all styleMap variants.
    - Use Storybook controls for all public props.
+   - Controls are inferred from the component’s TypeScript interface. Do not declare manual argTypes.
 4. **Generate tests**:
    - Use Jest + RTL.
    - Cover: render, slot presence, variant switching, baseline a11y.
@@ -85,3 +87,6 @@ All outputs belong under:
 - Tests follow the unit test policy: one `expect()` per `it()`, organized with `describe()`, table-driven tests allowed when they reduce duplication (one `expect()` per case).
 - ClassNames follow the convention: `composeClasses` plus template literals ONLY; **no styleMap imports in runtime**; literal token strings **match** the styleMap. Arrays of strings, concatenation, array joins, or passing arrays directly to `composeClasses` are disallowed.
 - Props export rule followed: only `<ComponentName>Props` is exported; no prop type aliases are exported.
+- Reviewed against the PR’s base branch (default development); rely on PR → Files changed.
+- Stories rely on inferred controls (no manual argTypes).
+- No styleMap imports in runtime; class tokens used in runtime match the styleMap (composeClasses + template literals only).
