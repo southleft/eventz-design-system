@@ -1304,6 +1304,9 @@
 .max-w-xs {
   max-width: var(--container-xs);
 }
+.min-w-0 {
+  min-width: var(--spacing-0);
+}
 .flex-1 {
   flex: 1;
 }
@@ -1380,9 +1383,6 @@
 .gap-3 {
   gap: var(--spacing-3);
 }
-.gap-4 {
-  gap: var(--spacing-4);
-}
 .gap-6 {
   gap: calc(var(--spacing) * 6);
 }
@@ -1391,6 +1391,11 @@
 }
 .gap-\[4px\] {
   gap: 4px;
+}
+.truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .overflow-auto {
   overflow: auto;
@@ -1772,6 +1777,26 @@
     }
   }
 }
+.group-data-\[is-removable\=false\]\:hidden {
+  &:is(:where(.group)[data-is-removable="false"] *) {
+    display: none;
+  }
+}
+.group-data-\[is-removable\=false\]\:inline-flex {
+  &:is(:where(.group)[data-is-removable="false"] *) {
+    display: inline-flex;
+  }
+}
+.group-data-\[is-removable\=true\]\:hidden {
+  &:is(:where(.group)[data-is-removable="true"] *) {
+    display: none;
+  }
+}
+.group-data-\[is-removable\=true\]\:inline-flex {
+  &:is(:where(.group)[data-is-removable="true"] *) {
+    display: inline-flex;
+  }
+}
 .group-data-\[is-selected\=true\]\:inline-flex {
   &:is(:where(.group)[data-is-selected="true"] *) {
     display: inline-flex;
@@ -2147,16 +2172,6 @@
 .data-\[is-placeholder\=true\]\:bg-color-background-brand {
   &[data-is-placeholder="true"] {
     background-color: var(--color-color-background-brand);
-  }
-}
-.data-\[is-selected\=true\]\:inline-flex {
-  &[data-is-selected="true"] {
-    display: inline-flex;
-  }
-}
-.data-\[is-selected\=true\]\:text-color-content-brand {
-  &[data-is-selected="true"] {
-    color: var(--color-color-content-brand);
   }
 }
 .data-\[state\=active\]\:border-b-color-border-brand {
