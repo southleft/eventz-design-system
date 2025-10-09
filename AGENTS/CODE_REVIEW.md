@@ -22,9 +22,14 @@ Agents must:
   - File paths, names, and placement
   - Contract ↔ styleMap adherence
   - Radix usage & `asChild` behavior
-  - Tailwind class usage vs. styleMap
-  - Accessibility patterns
-  - Storybook stories & test coverage
+- Tailwind class usage vs. styleMap
+- Accessibility patterns
+- Storybook stories & test coverage
+
+### 🧭 Blueprint Runtime Policy (review-time)
+- **Blueprints (contract + styleMap) are schema-only** for generation and review.
+- **Runtime must not import or compose from styleMaps.** Reviewers must verify **token parity** (base/slots/state/variants) between the component’s **literal token strings** and the styleMap arrays.
+- Flag drift when tokens differ; do **not** require importing the styleMap in runtime.
 
 ---
 
@@ -51,10 +56,10 @@ Agents must:
 4. **Verify styleMap conformance**:
    - Variants and compound variants: classes exactly match
    - No unused/undefined classes introduced
-   - Class composition must use `composeClasses` with styleMap variants (`packages/core/src/utilities/composeClasses/composeClasses.ts`)
+   - Class composition must use `composeClasses`. **Do not require styleMap imports in runtime.** Verify that literal token strings in the component **match** the styleMap (base/slots/state/variants).
    - ClassNames must use `composeClasses`; avoid concatenation (`+`) or array joins; **prefer template literals** for static strings.
    - **Compare base + slots + variants** classes between the **component** and the **styleMap**. Treat a match as compliant even if class lists include utilities.
-   - **Utilities allowed:** per token-first policy, structural/optical utilities (e.g., `inline-flex`, `gap-*`, `pt-2`, negative margins) are allowed **when tokens don’t exist**. Do **not** flag utilities as drift if component **and** styleMap use the same ones.
+   - **Utilities allowed:** per token-first policy, structural/optical utilities (e.g., `inline-flex`, `gap-*`, `pt-2`, negative margins) are allowed **when tokens don’t exist**. Do **not** flag utilities as drift if component **and** styleMap use the same ones; flag only when **tokens drift** from the styleMap.
 5. **Accessibility checks**:
    - Decorative icons set `aria-hidden="true"`
    - Labels/slots semantically intact
@@ -100,6 +105,7 @@ Agents must:
 
 ### 🎨 styleMap drift
 > Variant `<variantName>` classes differ from styleMap. Expected: `<expected>`, found: `<actual>`. Update to match `/packages/blueprints/src/components/<ComponentName>/<ComponentName>.styleMap.ts`.
+> This check verifies **token parity** only. It does **not** require importing the styleMap in runtime.
 
 ### 🧵 className composition
 > `className` composition does not follow repo conventions. Detected string concatenation (`a + ' ' + b`) or array joins (`[a, b].join(' ')`).
@@ -107,6 +113,7 @@ Agents must:
 > - Prefer template literals for static/inline class strings.
 > - Use `composeClasses` (`packages/core/src/utilities/composeClasses/composeClasses.ts`) for conditional composition and styleMap variant/state classes.
 > - Ensure classes come from the styleMap/tokens (no ad-hoc palettes).
+> Note: Do **not** import styleMaps in runtime. Compose with `composeClasses` and literal token strings that **match** the styleMap.
 
 ### 🧩 Class composition utility misuse
 > Detected `clsx`/`cx` (or ad-hoc string joins) for `className` composition.
