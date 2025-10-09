@@ -1,12 +1,10 @@
 // packages/core/src/components/MenuItem/MenuItem.stories.tsx
+import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { MenuItem, MenuItemProps } from './MenuItem';
+import { InfoIcon } from '../../icons';
 
-type MenuItemStoryArgs = Omit<MenuItemProps, 'option' | 'supportingText' | 'startIcon'> & {
-  option: string;
-  supportingText?: string;
-  showStartIcon: boolean;
-};
+type MenuItemStoryArgs = MenuItemProps;
 
 const meta: Meta<MenuItemStoryArgs> = {
   title: 'Components/MenuItem',
@@ -19,33 +17,14 @@ const meta: Meta<MenuItemStoryArgs> = {
     imgSrc: '',
     imgAlt: '',
     option: 'Default menu item',
-    supportingText: 'Supporting description',
-    showStartIcon: true
+    supportingText: 'Supporting description'
   },
-  argTypes: {
-    type: {
-      control: { type: 'radio' },
-      options: ['simple', 'complex']
-    },
-    isSelected: { control: 'boolean' },
-    borderBottom: { control: 'boolean' },
-    ariaLabel: { control: 'text' },
-    imgSrc: { control: 'text' },
-    imgAlt: { control: 'text' },
-    option: { control: 'text' },
-    supportingText: { control: 'text' },
-    showStartIcon: { control: 'boolean', name: 'showStartIcon (simple only)' }
-  },
-  render: ({ showStartIcon, option, supportingText, imgSrc, imgAlt, ...args }) => (
+  render: ({ option, supportingText, imgSrc, imgAlt, ...args }) => (
     <MenuItem
       {...args}
       option={option}
       supportingText={args.type === 'complex' ? supportingText : undefined}
-      startIcon={
-        args.type === 'simple' && showStartIcon ? (
-          <span aria-hidden="true">⭐️</span>
-        ) : undefined
-      }
+      startIcon={args.type === 'simple' ? <InfoIcon /> : undefined}
       imgSrc={args.type === 'complex' ? imgSrc || undefined : undefined}
       imgAlt={args.type === 'complex' ? imgAlt || undefined : undefined}
     />
@@ -60,7 +39,6 @@ export const SimpleDefault: Story = {
   args: {
     type: 'simple',
     option: 'Default menu item',
-    showStartIcon: true,
     isSelected: false
   }
 };
@@ -69,8 +47,7 @@ export const SimpleSelected: Story = {
   args: {
     type: 'simple',
     option: 'Selected menu item',
-    isSelected: true,
-    showStartIcon: false
+    isSelected: true
   }
 };
 
@@ -79,9 +56,8 @@ export const ComplexWithImage: Story = {
     type: 'complex',
     option: 'Complex menu item',
     supportingText: 'Additional supporting information',
-    imgSrc: 'https://via.placeholder.com/40',
-    imgAlt: 'Menu item thumbnail',
-    showStartIcon: false
+    imgSrc: 'https://picsum.photos/seed/doxyz/40/40',
+    imgAlt: 'Menu item thumbnail'
   }
 };
 
@@ -91,7 +67,6 @@ export const ComplexPlaceholder: Story = {
     option: 'Placeholder menu item',
     supportingText: 'Supporting copy without image',
     imgSrc: '',
-    imgAlt: '',
-    showStartIcon: false
+    imgAlt: ''
   }
 };

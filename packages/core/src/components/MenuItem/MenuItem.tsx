@@ -18,33 +18,32 @@ export interface MenuItemProps extends Omit<React.ButtonHTMLAttributes<HTMLButto
 }
 
 const baseClasses = `
-  flex flex-nowrap items-center justify-between gap-8 bg-background-none border-none
-  [&:has(:focus-visible)]:ring-2 [&:has(:focus-visible)]:ring-offset-4
-  [&:has(:focus-visible)]:ring-comp-border-focus-ring [&:has(:focus-visible)]:ring-offset-color-background-default
-  data-[border-bottom=true]:border-b data-[border-bottom=true]:border-b-color-border-subtle
+  group flex flex-nowrap items-center gap-8 bg-background-none w-full
+  border-l-0 border-r-0 border-b-0 border-t-0 pb-10 pl-8 pt-8 pr-8 outline-none
+  focus-visible:ring-2 focus-visible:ring-offset-4 focus-visible:ring-comp-border-focus-ring focus-visible:ring-offset-color-background-default
+  data-[border-bottom=true]:border-b data-[border-bottom=true]:border-color-border-subtle
 `;
 
 const optionClasses = `
-  text-sm flex-grow text-color-content-default hover:text-color-content-default-hover
-  data-[is-selected=true]:text-color-content-brand
+  text-sm flex-grow text-color-content-default group-hover:text-color-content-default-hover
+  group-data-[is-selected=true]:text-color-content-brand text-left
 `;
 
 const startIconClasses = `
-  shrink-0 text-color-content-default hover:text-color-content-default-hover
-  data-[is-selected=true]:text-color-content-brand
+  shrink-0 text-color-content-default group-hover:text-color-content-default-hover
+  group-data-[is-selected=true]:text-color-content-brand h-20 w-20
 `;
 
 const supportingTextClasses = `
-  text-color-content-weak hover:text-color-content-weak-hover
-  data-[is-selected=true]:text-color-content-brand
+  text-color-content-weak group-hover:text-color-content-weak-hover text-left
 `;
 
 const imageClasses = `
-  h-40 w-40 rounded-4
+  h-40 w-40 rounded-sm group-hover:opacity-75 data-[is-placeholder=true]:bg-color-background-brand
 `;
 
 const complexSelectedWrapperClasses = `
-  flex flex-col
+  flex flex-col flex-grow gap-1
 `;
 
 const primaryRowClasses = `
@@ -56,7 +55,7 @@ const selectedIconBaseClasses = `
 `;
 
 const selectedIconVisibleClasses = `
-  data-[is-selected=true]:inline-flex
+  group-data-[is-selected=true]:inline-flex
 `;
 
 export const MenuItem = React.forwardRef<HTMLButtonElement, MenuItemProps>(
@@ -127,6 +126,7 @@ export const MenuItem = React.forwardRef<HTMLButtonElement, MenuItemProps>(
               <span
                 className={imageClassName}
                 aria-hidden="true"
+                data-is-placeholder="true"
                 data-testid="menu-item-image-placeholder"
               />
             )}

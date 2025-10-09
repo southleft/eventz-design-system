@@ -27,23 +27,23 @@ export const MenuItemStyleMap = defineStyleMap({
       'text-sm',
       'flex-grow',
       'text-color-content-default',
-      'hover:text-color-content-default-hover',
-      'data-[is-selected=true]:text-color-content-brand'
+      'group-hover:text-color-content-default-hover',
+      'group-data-[is-selected=true]:text-color-content-brand'
     ] as const,
 
     // Leading icon for simple type
     startIcon: [
       'shrink-0',
       'text-color-content-default',
-      'hover:text-color-content-default-hover',
-      'data-[is-selected=true]:text-color-content-brand'
+      'group-hover:text-color-content-default-hover',
+      'group-data-[is-selected=true]:text-color-content-brand'
     ] as const,
 
     // Supporting line for complex type
     supportingText: [
       'text-color-content-weak',
-      'hover:text-color-content-weak-hover',
-      'data-[is-selected=true]:text-color-content-brand'
+      'group-hover:text-color-content-weak-hover',
+      'group-data-[is-selected=true]:text-color-content-brand'
     ] as const,
 
     // Thumbnail for complex type
