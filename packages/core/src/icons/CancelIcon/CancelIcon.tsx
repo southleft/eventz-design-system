@@ -1,0 +1,57 @@
+import * as React from 'react';
+
+export interface CancelIconProps extends React.SVGAttributes<SVGSVGElement> {
+  decorative?: boolean;
+  title?: string;
+  titleId?: string;
+  color?: string;
+}
+
+type CancelIconElement = SVGSVGElement;
+
+export const CancelIcon = React.forwardRef<CancelIconElement, CancelIconProps>(
+  (
+    {
+      decorative = true,
+      width = '20px',
+      height = '20px',
+      title,
+      titleId: providedTitleId,
+      color = 'currentColor',
+      className,
+      'aria-labelledby': ariaLabelledby,
+      ...rest
+    },
+    ref
+  ) => {
+    const generatedTitleId = React.useId();
+    const resolvedTitleId = title ? (providedTitleId ?? generatedTitleId) : undefined;
+
+    const computedAriaHidden = decorative ? 'true' : undefined;
+    const computedRole = decorative ? undefined : 'img';
+    const computedAriaLabelledby =
+      !decorative && title && resolvedTitleId ? resolvedTitleId : ariaLabelledby;
+
+    return (
+      <svg
+        ref={ref}
+        {...rest}
+        className={className}
+        viewBox="0 0 20 20"
+        width={width}
+        height={height}
+        fill={color}
+        aria-hidden={computedAriaHidden}
+        role={computedRole}
+        aria-labelledby={computedAriaLabelledby}
+      >
+        {!decorative && title ? <title id={resolvedTitleId}>{title}</title> : null}
+        <g transform="scale(0.0208333333,0.0208333333) translate(0,960)">
+          <path d="m336-280 144-144 144 144 56-56-144-144 144-144-56-56-144 144-144-144-56 56 144 144-144 144 56 56ZM480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Z" />{' '}
+        </g>
+      </svg>
+    );
+  }
+);
+
+CancelIcon.displayName = 'CancelIcon';
