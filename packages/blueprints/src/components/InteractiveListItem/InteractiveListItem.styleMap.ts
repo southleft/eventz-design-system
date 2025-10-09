@@ -5,6 +5,7 @@ export default defineStyleMap({
     'group',
     'flex',
     'justify-between',
+    'data-[is-removable=true]:items-center',
     'gap-8',
     'w-full',
     'outline-none',
@@ -12,6 +13,11 @@ export default defineStyleMap({
     'pl-8',
     'pt-8',
     'pr-8',
+    'bg-background-none',
+    'border-l-0',
+    'border-r-0',
+    'border-b-0',
+    'border-t-0',
     // focus ring tokens
     'focus-visible:ring-2',
     'focus-visible:ring-offset-4',
@@ -29,8 +35,8 @@ export default defineStyleMap({
       'h-40',
       'w-40',
       'rounded-full',
-      'group-data-[is-removable=true]:inline-flex',
-      'group-data-[is-removable=false]:hidden'
+      'bg-color-background-brand',
+      'shrink-0'
     ].join(' '),
 
     title: [
@@ -49,9 +55,7 @@ export default defineStyleMap({
       'text-left',
       'truncate',
       'whitespace-nowrap',
-      'text-color-content-weak',
-      'group-data-[is-removable=true]:hidden',
-      'group-data-[is-removable=false]:inline-flex'
+      'text-color-content-weak'
     ].join(' '),
 
     highlightText: [
@@ -59,13 +63,11 @@ export default defineStyleMap({
       'text-left',
       'truncate',
       'whitespace-nowrap',
-      'text-color-content-brand',
-      'group-data-[is-removable=true]:hidden',
-      'group-data-[is-removable=false]:inline-flex'
+      'text-color-content-brand'
     ].join(' '),
 
-    nonRemovableWrapper: ['flex', 'flex-col'].join(' '),
+    nonRemovableWrapper: ['flex', 'flex-col', 'min-w-0', 'flex-1'].join(' '),
 
-    trailingIcon: 'shrink-0'
+    trailingIcon: ['shrink-0', 'text-color-content-default', 'h-20', 'w-20'].join(' ')
   }
 });
