@@ -46,6 +46,6 @@ export const MenuItemContract = defineContract({
   // Structural notes for the generator (no visual semantics here)
   hints: {
     notes:
-      'For type="simple", ignore `image` and prefer `startIcon`. For type="complex", ignore `startIcon` and render an internal image using imgSrc/imgAlt (if missing, render a neutral placeholder). For complex items, the image alt should fall back to the `option` prop text when possible, otherwise to `ariaLabel`. Selected icon is internal-only (checkmark), revealed when isSelected=true.'
+      'For type="simple", ignore `image` and prefer `startIcon`. For type="complex", ignore `startIcon` and render an internal image using imgSrc/imgAlt (if missing, render a neutral placeholder). For complex items, the image alt should fall back to the `option` prop text when possible, otherwise to `ariaLabel`. Selected icon is internal-only (checkmark), revealed when isSelected=true. Hover and selected styling cascade from the root using `group` and `group-data-[is-selected=true]` to style child slots.'
   }
 });
