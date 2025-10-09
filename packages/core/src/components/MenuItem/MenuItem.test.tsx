@@ -3,12 +3,7 @@ import { render, screen } from '@testing-library/react';
 import { MenuItem, MenuItemProps } from './MenuItem';
 
 const renderMenuItem = (props: Partial<MenuItemProps> = {}) => {
-  return render(
-    <MenuItem
-      option="Sample option"
-      {...props}
-    />
-  );
+  return render(<MenuItem option="Sample option" {...props} />);
 };
 
 describe('MenuItem', () => {
@@ -19,7 +14,9 @@ describe('MenuItem', () => {
 
   it('uses the option text for the accessible name', () => {
     renderMenuItem();
-    expect(screen.getByRole('button', { name: 'Sample option' })).toHaveAccessibleName('Sample option');
+    expect(screen.getByRole('button', { name: 'Sample option' })).toHaveAccessibleName(
+      'Sample option'
+    );
   });
 
   it('falls back to ariaLabel when option text is not provided', () => {
@@ -39,12 +36,7 @@ describe('MenuItem', () => {
   });
 
   it('does not render an image element for simple type', () => {
-    render(
-      <MenuItem
-        type="simple"
-        option="Simple option"
-      />
-    );
+    render(<MenuItem type="simple" option="Simple option" />);
     expect(screen.queryByRole('img')).toBeNull();
   });
 
@@ -54,7 +46,7 @@ describe('MenuItem', () => {
         type="complex"
         option="Complex option"
         supportingText="Supporting"
-        imgSrc="https://via.placeholder.com/40"
+        imgSrc="https://picsum.photos/seed/doxyz/160/160"
         imgAlt="Complex image"
       />
     );
@@ -62,13 +54,7 @@ describe('MenuItem', () => {
   });
 
   it('renders a placeholder when imgSrc is missing for complex type', () => {
-    render(
-      <MenuItem
-        type="complex"
-        option="Complex option"
-        supportingText="Supporting"
-      />
-    );
+    render(<MenuItem type="complex" option="Complex option" supportingText="Supporting" />);
     expect(screen.getByTestId('menu-item-image-placeholder')).toBeInTheDocument();
   });
 
@@ -86,7 +72,10 @@ describe('MenuItem', () => {
 
   it('sets the selected data attribute when isSelected is true', () => {
     renderMenuItem({ isSelected: true });
-    expect(screen.getByRole('button', { name: 'Sample option' })).toHaveAttribute('data-is-selected', 'true');
+    expect(screen.getByRole('button', { name: 'Sample option' })).toHaveAttribute(
+      'data-is-selected',
+      'true'
+    );
   });
 
   it('renders the internal selected icon for simple type', () => {
@@ -105,7 +94,7 @@ describe('MenuItem', () => {
         type="complex"
         option="Alt from option"
         supportingText="Supporting"
-        imgSrc="https://via.placeholder.com/40"
+        imgSrc="https://picsum.photos/seed/doxyz/160/160"
       />
     );
     expect(screen.getByRole('img', { name: 'Alt from option' })).toBeInTheDocument();
@@ -116,31 +105,31 @@ describe('MenuItem', () => {
       <MenuItem
         type="complex"
         ariaLabel="Alt from ariaLabel"
-        imgSrc="https://via.placeholder.com/40"
+        imgSrc="https://picsum.photos/seed/doxyz/160/160"
       />
     );
     expect(screen.getByRole('img', { name: 'Alt from ariaLabel' })).toBeInTheDocument();
   });
 
   it('omits the alt attribute when imgAlt, option, and ariaLabel are all missing (complex)', () => {
-    render(
-      <MenuItem
-        type="complex"
-        imgSrc="https://via.placeholder.com/40"
-      />
-    );
+    render(<MenuItem type="complex" imgSrc="https://picsum.photos/seed/doxyz/160/160" />);
     const img = screen.getByRole('img');
     expect(img).not.toHaveAttribute('alt');
   });
 
   it('sets the border data attribute when borderBottom is false', () => {
     renderMenuItem({ borderBottom: false });
-    expect(screen.getByRole('button', { name: 'Sample option' })).toHaveAttribute('data-border-bottom', 'false');
+    expect(screen.getByRole('button', { name: 'Sample option' })).toHaveAttribute(
+      'data-border-bottom',
+      'false'
+    );
   });
 
   it('applies the border token classes when borderBottom is true', () => {
     renderMenuItem({ borderBottom: true });
-    expect(screen.getByRole('button', { name: 'Sample option' }).className).toContain('data-[border-bottom=true]:border-b');
+    expect(screen.getByRole('button', { name: 'Sample option' }).className).toContain(
+      'data-[border-bottom=true]:border-b'
+    );
   });
 
   it('retains the border token selector when borderBottom is false (activation via data attr)', () => {
@@ -151,6 +140,8 @@ describe('MenuItem', () => {
 
   it('includes the focus ring token classes on the root element', () => {
     renderMenuItem();
-    expect(screen.getByRole('button', { name: 'Sample option' }).className).toContain('[&:has(:focus-visible)]:ring-comp-border-focus-ring');
+    expect(screen.getByRole('button', { name: 'Sample option' }).className).toContain(
+      'focus-visible:ring-comp-border-focus-ring'
+    );
   });
 });
