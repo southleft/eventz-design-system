@@ -56,7 +56,7 @@ export const ComplexWithImage: Story = {
     type: 'complex',
     option: 'Complex menu item',
     supportingText: 'Additional supporting information',
-    imgSrc: 'https://picsum.photos/seed/doxyz/40/40',
+    imgSrc: 'https://picsum.photos/seed/doxyz/160/160',
     imgAlt: 'Menu item thumbnail'
   }
 };

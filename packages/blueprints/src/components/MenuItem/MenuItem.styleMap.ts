@@ -47,7 +47,7 @@ export const MenuItemStyleMap = defineStyleMap({
     ] as const,
 
     // Thumbnail for complex type
-    image: ['h-40', 'w-40', 'rounded-4'] as const,
+    image: ['h-40', 'w-40', 'rounded-4', 'object-cover'] as const,
 
     // Wrapper that stacks [option + selectedIcon] over [supportingText]
     complexSelectedWrapper: ['flex', 'flex-col'] as const

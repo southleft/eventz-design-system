@@ -39,7 +39,7 @@ const supportingTextClasses = `
 `;
 
 const imageClasses = `
-  h-40 w-40 rounded-sm group-hover:opacity-75 data-[is-placeholder=true]:bg-color-background-brand
+  h-40 w-40 rounded-sm object-cover group-hover:opacity-75 data-[is-placeholder=true]:bg-color-background-brand
 `;
 
 const complexSelectedWrapperClasses = `
