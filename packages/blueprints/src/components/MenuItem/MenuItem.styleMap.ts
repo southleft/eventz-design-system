@@ -54,7 +54,6 @@ export const MenuItemStyleMap = defineStyleMap({
     supportingText: [
       'text-color-content-weak',
       'group-hover:text-color-content-weak-hover',
-      'group-data-[is-selected=true]:text-color-content-brand',
       'text-left'
     ] as const,
 
