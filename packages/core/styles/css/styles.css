@@ -2174,6 +2174,11 @@
     background-color: var(--color-color-background-brand);
   }
 }
+.data-\[is-removable\=true\]\:items-center {
+  &[data-is-removable="true"] {
+    align-items: center;
+  }
+}
 .data-\[state\=active\]\:border-b-color-border-brand {
   &[data-state="active"] {
     border-bottom-color: var(--color-color-border-brand);

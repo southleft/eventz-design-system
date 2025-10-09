@@ -14,76 +14,24 @@ export interface InteractiveListItemProps
 }
 
 const baseClasses = `
-  group
-  flex
-  justify-between
-  gap-8
-  w-full
-  outline-none
-  pb-10
-  pl-8
-  pt-8
-  pr-8
-  focus-visible:ring-2
-  focus-visible:ring-offset-4
-  focus-visible:ring-comp-border-focus-ring
-  focus-visible:ring-offset-color-background-default
-  data-[border-bottom=true]:border-b
-  data-[border-bottom=true]:border-b-color-border-subtle
+  group flex justify-between data-[is-removable=true]:items-center gap-8 w-full outline-none pb-10 pl-8 pt-8 pr-8 bg-background-none border-l-0 border-r-0 border-b-0 border-t-0
+  focus-visible:ring-2 focus-visible:ring-offset-4 focus-visible:ring-comp-border-focus-ring focus-visible:ring-offset-color-background-default
+  data-[border-bottom=true]:border-b data-[border-bottom=true]:border-b-color-border-subtle
 `;
 
-const containerClasses = `
-  flex
-  items-center
-  gap-8
-  w-full
-`;
+const containerClasses = `flex items-center gap-8 w-full`;
 
-const imageClasses = `
-  h-40
-  w-40
-  rounded-full
-  bg-color-background-brand
-  shrink-0
-`;
+const imageClasses = `h-40 w-40 rounded-full bg-color-background-brand shrink-0`;
 
-const titleClasses = `
-  text-base
-  lg:text-lg
-  font-bold
-  text-left
-  truncate
-  whitespace-nowrap
-  text-color-content-default
-  group-hover:text-color-content-default-hover
-`;
+const titleClasses = `text-base lg:text-lg font-bold text-left truncate whitespace-nowrap text-color-content-default group-hover:text-color-content-default-hover`;
 
-const supportingTextClasses = `
-  text-sm
-  text-left
-  truncate
-  whitespace-nowrap
-  text-color-content-weak
-`;
+const supportingTextClasses = `text-sm text-left truncate whitespace-nowrap text-color-content-weak`;
 
-const highlightTextClasses = `
-  text-sm
-  text-left
-  truncate
-  whitespace-nowrap
-  text-color-content-brand
-`;
+const highlightTextClasses = `text-sm text-left truncate whitespace-nowrap text-color-content-brand`;
 
-const nonRemovableWrapperClasses = `
-  flex
-  flex-col
-  min-w-0
-  flex-1
-`;
+const nonRemovableWrapperClasses = `flex flex-col min-w-0 flex-1`;
 
-const trailingIconClasses = `
-  shrink-0
-`;
+const trailingIconClasses = `shrink-0 text-color-content-default h-20 w-20`;
 
 export const InteractiveListItem = React.forwardRef<HTMLButtonElement, InteractiveListItemProps>(
   (
