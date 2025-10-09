@@ -13,6 +13,8 @@ export * from './ExpandableContent';
 export * from './IconButton';
 export * from './InfoPopover';
 export * from './Input';
+export * from './InteractiveListItem';
+export * from './MenuItem';
 export * from './RadioButtonGroup';
 export * from './Tabs';
 export * from './Tag';
