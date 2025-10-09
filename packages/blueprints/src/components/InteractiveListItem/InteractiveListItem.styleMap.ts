@@ -23,13 +23,12 @@ export default defineStyleMap({
   ].join(' '),
 
   slots: {
-    container: 'flex items-center gap-8 w-full',
+    container: ['flex', 'items-center', 'gap-8', 'w-full'].join(' '),
 
     image: [
       'h-40',
       'w-40',
       'rounded-full',
-      // visible only when removable
       'group-data-[is-removable=true]:inline-flex',
       'group-data-[is-removable=false]:hidden'
     ].join(' '),
@@ -51,7 +50,6 @@ export default defineStyleMap({
       'truncate',
       'whitespace-nowrap',
       'text-color-content-weak',
-      // hidden when removable
       'group-data-[is-removable=true]:hidden',
       'group-data-[is-removable=false]:inline-flex'
     ].join(' '),
@@ -62,12 +60,11 @@ export default defineStyleMap({
       'truncate',
       'whitespace-nowrap',
       'text-color-content-brand',
-      // hidden when removable
       'group-data-[is-removable=true]:hidden',
       'group-data-[is-removable=false]:inline-flex'
     ].join(' '),
 
-    nonRemovableWrapper: 'flex flex-col',
+    nonRemovableWrapper: ['flex', 'flex-col'].join(' '),
 
     trailingIcon: 'shrink-0'
   }
