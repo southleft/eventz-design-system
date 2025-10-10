@@ -24,22 +24,21 @@ describe('ToggleGroup', () => {
     render(
       <ToggleGroup ariaLabel="Text alignment" type="single" defaultValue="left" items={baseItems} />
     );
-    expect(screen.getAllByRole('button')).toHaveLength(3);
+    expect(screen.getAllByRole('radio')).toHaveLength(3);
   });
 
   it('derives aria-label from item value when ariaLabel is omitted', () => {
     render(
       <ToggleGroup ariaLabel="Text alignment" type="single" defaultValue="left" items={baseItems} />
     );
-    expect(screen.getByRole('button', { name: 'right' })).toBeInTheDocument();
+    expect(screen.getByRole('radio', { name: 'right' })).toBeInTheDocument();
   });
 
   it('hides the item icon from assistive technology', () => {
     render(
       <ToggleGroup ariaLabel="Text alignment" type="single" defaultValue="left" items={baseItems} />
     );
-    const button = screen.getByRole('button', { name: 'Align left' });
+    const button = screen.getByRole('radio', { name: 'Align left' });
     expect(button.querySelector('[aria-hidden="true"]')).not.toBeNull();
   });
-
 });
