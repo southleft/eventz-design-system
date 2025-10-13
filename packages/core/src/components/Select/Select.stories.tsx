@@ -17,6 +17,7 @@ type Story = StoryObj<SelectProps>;
 
 export const Default: Story = {
   args: {
+    open: true,
     InputProps: {
       placeholder: 'Select an option'
     }

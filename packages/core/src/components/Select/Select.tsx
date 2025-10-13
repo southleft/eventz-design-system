@@ -4,7 +4,7 @@ import { Input, type InputProps } from '../Input';
 import { MenuItem, type MenuItemProps } from '../MenuItem';
 import { KeyboardArrowDownIcon } from '../../icons';
 
-type SelectElement = React.ComponentRef<typeof RadixSelect.Root>;
+type SelectElement = React.ComponentRef<typeof Input>;
 type SelectRootProps = React.ComponentPropsWithoutRef<typeof RadixSelect.Root>;
 
 export interface SelectProps
@@ -76,13 +76,13 @@ export const Select = React.forwardRef<SelectElement, SelectProps>(
       ...InputProps,
       disabled,
       type: 'text',
-      readonly: true
+      readOnly: true,
+      defaultValue: internalValue
     };
 
     return (
       <RadixSelect.Root
         {...restProps}
-        ref={ref}
         value={isControlled ? value : undefined}
         defaultValue={defaultValue}
         onValueChange={handleValueChange}
@@ -92,7 +92,7 @@ export const Select = React.forwardRef<SelectElement, SelectProps>(
         disabled={disabled}
       >
         <RadixSelect.Trigger asChild>
-          <Input {...preparedInputProps} />
+          <Input ref={ref} {...preparedInputProps} />
         </RadixSelect.Trigger>
         {options.length === 0 ? null : (
           <RadixSelect.Portal>

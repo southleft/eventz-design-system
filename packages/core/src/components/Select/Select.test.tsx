@@ -4,7 +4,29 @@ import '@testing-library/jest-dom';
 import * as React from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+
 import { Select, type SelectProps } from './Select';
+
+// JSDOM polyfills for Radix Select (pointer capture & scroll)
+beforeAll(() => {
+  // noop implementations so Radix doesn't crash in JSDOM
+  Object.defineProperty(window.HTMLElement.prototype, 'hasPointerCapture', {
+    value: () => false,
+    configurable: true
+  });
+  Object.defineProperty(window.HTMLElement.prototype, 'setPointerCapture', {
+    value: () => {},
+    configurable: true
+  });
+  Object.defineProperty(window.HTMLElement.prototype, 'releasePointerCapture', {
+    value: () => {},
+    configurable: true
+  });
+  Object.defineProperty(window.HTMLElement.prototype, 'scrollIntoView', {
+    value: () => {},
+    configurable: true
+  });
+});
 
 const baseOptions: NonNullable<SelectProps['options']> = [
   { option: 'Apple' },
@@ -19,10 +41,15 @@ describe('Select', () => {
     expect(trigger).toBeInTheDocument();
   });
 
-  it('does not render any options when the list is empty', async () => {
-    const user = userEvent.setup();
-    render(<Select InputProps={{ placeholder: 'No options' }} options={[]} />);
-    await user.click(screen.getByPlaceholderText('No options'));
+  it('does not render any options when the list is empty', () => {
+    render(
+      <Select
+        open={true}
+        onOpenChange={() => {}}
+        InputProps={{ placeholder: 'No options' }}
+        options={[]}
+      />
+    );
     expect(screen.queryByRole('option')).toBeNull();
   });
 
@@ -33,12 +60,143 @@ describe('Select', () => {
       <Select
         defaultValue="Apple"
         onValueChange={handleValueChange}
+        open={true}
+        onOpenChange={() => {}}
         InputProps={{ placeholder: 'Uncontrolled select' }}
         options={baseOptions}
       />
     );
-    await user.click(screen.getByPlaceholderText('Uncontrolled select'));
-    await user.click(screen.getByRole('option', { name: 'Banana' }));
+    const banana = screen.getByRole('option', { name: 'Banana' });
+    await user.click(banana);
     expect(handleValueChange).toHaveBeenCalledWith('Banana');
+  });
+
+  it('calls onValueChange with the selected option in controlled mode', async () => {
+    const user = userEvent.setup();
+    const handleValueChange = jest.fn();
+    render(
+      <Select
+        value="Apple"
+        onValueChange={handleValueChange}
+        open={true}
+        onOpenChange={() => {}}
+        InputProps={{ placeholder: 'Controlled select' }}
+        options={baseOptions}
+      />
+    );
+    const banana = screen.getByRole('option', { name: 'Banana' });
+    await user.click(banana);
+    expect(handleValueChange).toHaveBeenCalledWith('Banana');
+  });
+
+  it('derives isSelected when not provided (uncontrolled defaultValue)', () => {
+    render(
+      <Select
+        defaultValue="Apple"
+        open={true}
+        onOpenChange={() => {}}
+        InputProps={{ placeholder: 'Derive selected' }}
+        options={[{ option: 'Apple' }, { option: 'Banana' }, { option: 'Cherry' }]}
+      />
+    );
+    const apple = screen.getByRole('option', { name: 'Apple' });
+    expect(apple).toHaveAttribute('data-is-selected', 'true');
+  });
+
+  it('respects explicit isSelected=true override over derived value', () => {
+    render(
+      <Select
+        value="Banana"
+        open={true}
+        onOpenChange={() => {}}
+        InputProps={{ placeholder: 'Override selected true' }}
+        options={[
+          { option: 'Apple', isSelected: true }, // force true even though value is Banana
+          { option: 'Banana' },
+          { option: 'Cherry' }
+        ]}
+      />
+    );
+    const apple = screen.getByRole('option', { name: 'Apple' });
+    expect(apple).toHaveAttribute('data-is-selected', 'true');
+  });
+
+  it('derives isSelected from controlled value when not overridden', () => {
+    render(
+      <Select
+        value="Banana"
+        open={true}
+        onOpenChange={() => {}}
+        InputProps={{ placeholder: 'Derived selected' }}
+        options={[{ option: 'Apple' }, { option: 'Banana' }, { option: 'Cherry' }]}
+      />
+    );
+    const banana = screen.getByRole('option', { name: 'Banana' });
+    expect(banana).toHaveAttribute('data-is-selected', 'true');
+  });
+
+  it('respects explicit isSelected=false override over derived value', () => {
+    render(
+      <Select
+        value="Apple"
+        open={true}
+        onOpenChange={() => {}}
+        InputProps={{ placeholder: 'Override selected false' }}
+        options={[
+          { option: 'Apple', isSelected: false }, // force false even though value is Apple
+          { option: 'Banana' },
+          { option: 'Cherry' }
+        ]}
+      />
+    );
+    const apple = screen.getByRole('option', { name: 'Apple' });
+    expect(apple).not.toHaveAttribute('data-is-selected', 'true');
+  });
+
+  it('updates selection internally without onValueChange: selects Banana', async () => {
+    const user = userEvent.setup();
+    render(
+      <Select
+        defaultValue="Apple"
+        open={true}
+        onOpenChange={() => {}}
+        InputProps={{ placeholder: 'No callback' }}
+        options={[{ option: 'Apple' }, { option: 'Banana' }, { option: 'Cherry' }]}
+      />
+    );
+    await user.click(screen.getByRole('option', { name: 'Banana' }));
+    expect(screen.getByRole('option', { name: 'Banana' })).toHaveAttribute(
+      'data-is-selected',
+      'true'
+    );
+  });
+
+  it('updates selection internally without onValueChange: unselects previous', async () => {
+    const user = userEvent.setup();
+    render(
+      <Select
+        defaultValue="Apple"
+        open={true}
+        onOpenChange={() => {}}
+        InputProps={{ placeholder: 'No callback' }}
+        options={[{ option: 'Apple' }, { option: 'Banana' }, { option: 'Cherry' }]}
+      />
+    );
+    await user.click(screen.getByRole('option', { name: 'Banana' }));
+    expect(screen.getByRole('option', { name: 'Apple' })).not.toHaveAttribute(
+      'data-is-selected',
+      'true'
+    );
+  });
+
+  it('defaults options to empty array when not provided', () => {
+    render(
+      <Select
+        open={true}
+        onOpenChange={() => {}}
+        InputProps={{ placeholder: 'No options default' }}
+      />
+    );
+    expect(screen.queryByRole('option')).toBeNull();
   });
 });
