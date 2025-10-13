@@ -106,7 +106,10 @@ export const Select = React.forwardRef<SelectElement, SelectProps>(
               side="bottom"
               align="start"
               sideOffset={4}
-              style={{ maxHeight: 'var(--radix-select-content-available-height)' }}
+              style={{
+                maxHeight: 'var(--radix-select-content-available-height)',
+                width: 'var(--radix-select-trigger-width)'
+              }}
             >
               <RadixSelect.ScrollUpButton />
               <RadixSelect.Viewport>
