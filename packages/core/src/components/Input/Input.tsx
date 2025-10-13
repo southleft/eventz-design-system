@@ -60,7 +60,7 @@ export interface InputProps extends Omit<NativeInputProps, 'children' | 'classNa
   disabled?: boolean;
 }
 
-type InputElement = HTMLFieldSetElement;
+type InputElement = HTMLInputElement;
 
 export const Input = React.forwardRef<InputElement, InputProps>(
   (
@@ -129,7 +129,6 @@ export const Input = React.forwardRef<InputElement, InputProps>(
     return (
       <fieldset
         id={fieldsetId}
-        ref={ref}
         className={fieldsetClassName}
         disabled={disabled}
         data-disabled={disabled ? 'true' : undefined}
@@ -154,7 +153,7 @@ export const Input = React.forwardRef<InputElement, InputProps>(
               {startIcon}
             </span>
           ) : null}
-          <input {...inputProps} />
+          <input ref={ref} {...inputProps} />
           {endIcon ? (
             <span className={endIconClassName} data-slot="endIcon" aria-hidden="true">
               {endIcon}

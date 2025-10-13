@@ -74,7 +74,9 @@ export const Select = React.forwardRef<SelectElement, SelectProps>(
     const preparedInputProps = {
       ...defaultInputProps,
       ...InputProps,
-      disabled
+      disabled,
+      type: 'text',
+      readonly: true
     };
 
     return (
