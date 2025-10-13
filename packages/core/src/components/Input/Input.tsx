@@ -47,7 +47,7 @@ const invalidStateClasses = `
 
 type NativeInputProps = React.InputHTMLAttributes<HTMLInputElement>;
 
-export interface InputProps extends Omit<NativeInputProps, 'children' | 'className' | 'id'> {
+export interface InputProps extends Omit<NativeInputProps, 'children' | 'id'> {
   label?: string;
   ariaLabel?: string;
   hint?: string;
@@ -64,7 +64,18 @@ type InputElement = HTMLInputElement;
 
 export const Input = React.forwardRef<InputElement, InputProps>(
   (
-    { label, ariaLabel, hint, error, info, startIcon, endIcon, disabled = false, ...inputRest },
+    {
+      label,
+      ariaLabel,
+      hint,
+      error,
+      info,
+      startIcon,
+      endIcon,
+      className,
+      disabled = false,
+      ...inputRest
+    },
     ref
   ) => {
     const trimmedLabel = label?.trim();
@@ -99,7 +110,9 @@ export const Input = React.forwardRef<InputElement, InputProps>(
       ].filter((token): token is string => Boolean(token))
     );
 
-    const fieldsetClassName = collapseWhitespace(composeClasses(baseClasses, invalidStateClasses));
+    const fieldsetClassName = collapseWhitespace(
+      composeClasses(baseClasses, invalidStateClasses, className)
+    );
 
     const legendClassName = collapseWhitespace(
       composeClasses(labelClasses, trimmedLabel ? undefined : 'sr-only')

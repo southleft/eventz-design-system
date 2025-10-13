@@ -3,6 +3,7 @@ import { Select as RadixSelect } from 'radix-ui';
 import { Input, type InputProps } from '../Input';
 import { MenuItem, type MenuItemProps } from '../MenuItem';
 import { KeyboardArrowDownIcon } from '../../icons';
+import { collapseWhitespace, composeClasses } from '../..//utilities';
 
 type SelectElement = React.ComponentRef<typeof Input>;
 type SelectRootProps = React.ComponentPropsWithoutRef<typeof RadixSelect.Root>;
@@ -29,6 +30,8 @@ export interface SelectProps
   InputProps?: InputProps;
   options?: Array<MenuItemProps & { option: string }>;
 }
+
+const inputClasses = `w-full`;
 
 export const Select = React.forwardRef<SelectElement, SelectProps>(
   (
@@ -67,6 +70,8 @@ export const Select = React.forwardRef<SelectElement, SelectProps>(
       }
     };
 
+    const inputClassName = collapseWhitespace(composeClasses(inputClasses));
+
     const defaultInputProps = {
       endIcon: <KeyboardArrowDownIcon aria-hidden="true" />
     };
@@ -76,8 +81,8 @@ export const Select = React.forwardRef<SelectElement, SelectProps>(
       ...InputProps,
       disabled,
       type: 'text',
-      readOnly: true,
-      defaultValue: internalValue
+      defaultValue: internalValue,
+      readOnly: true
     };
 
     return (
@@ -92,18 +97,25 @@ export const Select = React.forwardRef<SelectElement, SelectProps>(
         disabled={disabled}
       >
         <RadixSelect.Trigger asChild>
-          <Input ref={ref} {...preparedInputProps} />
+          <Input className={inputClassName} ref={ref} {...preparedInputProps} />
         </RadixSelect.Trigger>
         {options.length === 0 ? null : (
           <RadixSelect.Portal>
-            <RadixSelect.Content>
+            <RadixSelect.Content
+              position="popper"
+              side="bottom"
+              align="start"
+              sideOffset={4}
+              style={{ maxHeight: 'var(--radix-select-content-available-height)' }}
+            >
+              <RadixSelect.ScrollUpButton />
               <RadixSelect.Viewport>
                 {options.map(optionItem => {
                   const { option, isSelected, ...restOptionProps } = optionItem;
                   const resolvedIsSelected = isSelected ?? currentValue === option;
 
                   return (
-                    <RadixSelect.Item key={option} value={option} asChild>
+                    <RadixSelect.Item key={option} value={option} textValue={option} asChild>
                       <MenuItem
                         {...restOptionProps}
                         option={option}
@@ -113,6 +125,7 @@ export const Select = React.forwardRef<SelectElement, SelectProps>(
                   );
                 })}
               </RadixSelect.Viewport>
+              <RadixSelect.ScrollDownButton />
             </RadixSelect.Content>
           </RadixSelect.Portal>
         )}
