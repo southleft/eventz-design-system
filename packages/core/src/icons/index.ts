@@ -1,3 +1,4 @@
+export * from './AnimatedCircularProgressIcon';
 export * from './ArrowBackIcon';
 export * from './ArrowDropDownIcon';
 export * from './ArrowForwardIcon';
@@ -8,6 +9,7 @@ export * from './CloseIcon';
 export * from './ErrorIcon';
 export * from './InfoIcon';
 export * from './KeyboardArrowDownIcon';
+export * from './ProgressActivityIcon';
 export * from './WarningIcon';
 export * from './ChevronLeftIcon';
 export * from './ChevronRightIcon';

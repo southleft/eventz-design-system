@@ -1,0 +1,60 @@
+import * as React from 'react';
+
+export interface ProgressActivityIconProps extends React.SVGAttributes<SVGSVGElement> {
+  decorative?: boolean;
+  title?: string;
+  titleId?: string;
+  color?: string;
+}
+
+type ProgressActivityIconElement = SVGSVGElement;
+
+export const ProgressActivityIcon = React.forwardRef<
+  ProgressActivityIconElement,
+  ProgressActivityIconProps
+>(
+  (
+    {
+      decorative = true,
+      width = '20px',
+      height = '20px',
+      title,
+      titleId: providedTitleId,
+      color = 'currentColor',
+      className,
+      'aria-labelledby': ariaLabelledby,
+      ...rest
+    },
+    ref
+  ) => {
+    const generatedTitleId = React.useId();
+    const resolvedTitleId = title ? (providedTitleId ?? generatedTitleId) : undefined;
+
+    const computedAriaHidden = decorative ? 'true' : undefined;
+    const computedRole = decorative ? undefined : 'img';
+    const computedAriaLabelledby =
+      !decorative && title && resolvedTitleId ? resolvedTitleId : ariaLabelledby;
+
+    return (
+      <svg
+        ref={ref}
+        {...rest}
+        className={className}
+        viewBox="0 0 20 20"
+        width={width}
+        height={height}
+        fill={color}
+        aria-hidden={computedAriaHidden}
+        role={computedRole}
+        aria-labelledby={computedAriaLabelledby}
+      >
+        {!decorative && title ? <title id={resolvedTitleId}>{title}</title> : null}
+        <g transform="scale(0.0208333333,0.0208333333) translate(0,960)">
+          <path d="M480-62q-86.72 0-162.77-32.82-76.05-32.81-132.82-89.59-56.78-56.77-89.59-132.82Q62-393.28 62-480q0-86.82 32.78-162.66t89.49-132.85q56.72-57.01 132.74-89.75Q393.04-898 479.69-898 505-898 522-881q17 17 17 41.51 0 24.51-17 42T480-780q-124.69 0-212.34 86.99Q180-606.02 180-480.51t87.65 213.01Q355.31-180 479.99-180 606-180 693-267.66q87-87.65 87-212.34 0-25 17.49-42t42-17Q864-539 881-522q17 17 17 42.31 0 86.65-32.8 162.69-32.81 76.04-89.56 132.8-56.76 56.77-132.72 89.48Q566.96-62 480-62Z" />
+        </g>
+      </svg>
+    );
+  }
+);
+
+ProgressActivityIcon.displayName = 'ProgressActivityIcon';
