@@ -37,6 +37,10 @@ export const InputContract = defineContract({
       type: 'slot',
       description: 'Trailing adornment rendered at the end of the input row.'
     },
+    className: {
+      type: 'string',
+      description: 'Consumer provided styles.'
+    },
     value: {
       type: 'string',
       description: 'Controlled value bound to the native input element.'

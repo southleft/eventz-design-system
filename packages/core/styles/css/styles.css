@@ -1421,6 +1421,9 @@
 .\!overflow-x-visible {
   overflow-x: visible !important;
 }
+.overflow-y-auto {
+  overflow-y: auto;
+}
 .\!rounded-full {
   border-radius: calc(infinity * 1px) !important;
 }
