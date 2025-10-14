@@ -55,9 +55,8 @@ export const Select = React.forwardRef<SelectElement, SelectProps>(
     };
 
     const viewportClassName = collapseWhitespace(composeClasses(viewportClasses));
-    const triggerClassName = collapseWhitespace(
-      composeClasses(InputProps!.className, triggerClasses)
-    );
+    const { className: inputClassName, ...restInputProps } = InputProps ?? {};
+    const triggerClassName = collapseWhitespace(composeClasses(triggerClasses, inputClassName));
 
     const defaultInputProps = {
       endIcon: <KeyboardArrowDownIcon aria-hidden="true" />
@@ -65,7 +64,7 @@ export const Select = React.forwardRef<SelectElement, SelectProps>(
 
     const preparedInputProps = {
       ...defaultInputProps,
-      ...InputProps,
+      ...restInputProps,
       disabled,
       type: 'text',
       // Bind the trigger to the resolved selection so it mirrors updates
@@ -83,7 +82,7 @@ export const Select = React.forwardRef<SelectElement, SelectProps>(
         disabled={disabled}
       >
         <RadixSelect.Trigger asChild>
-          <Input ref={ref} className={triggerClassName} {...preparedInputProps} />
+          <Input {...preparedInputProps} ref={ref} className={triggerClassName} />
         </RadixSelect.Trigger>
         {options.length === 0 ? null : (
           <RadixSelect.Portal>

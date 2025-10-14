@@ -37,6 +37,7 @@ export const MenuItemStyleMap = defineStyleMap({
       'text-color-content-default',
       'group-hover:text-color-content-default-hover',
       'group-data-[is-selected=true]:text-color-content-brand',
+      'group-data-[highlighted]:text-color-content-default-hover',
       'text-left'
     ] as const,
 
