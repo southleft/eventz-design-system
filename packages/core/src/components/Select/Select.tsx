@@ -16,7 +16,7 @@ export interface SelectProps
   options?: Array<MenuItemProps & { option: string }>;
 }
 
-const viewportClasses = `border rounded-lg -ml-[7px] !overflow-visible border-color-border-subtle bg-color-background-default`;
+const viewportClasses = `border rounded-lg -ml-[7px] !overflow-x-visible border-color-border-subtle bg-color-background-default`;
 const triggerClasses = `[&_input]:cursor-default`;
 
 export const Select = React.forwardRef<SelectElement, SelectProps>(

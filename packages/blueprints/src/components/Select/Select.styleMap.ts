@@ -1,8 +1,16 @@
 import { defineStyleMap } from '../../utilities';
 
 /**
- * SelectStyleMap — intentionally empty.
- * Select delegates visuals to Input (trigger) and MenuItem (options).
- * This file exists to preserve the standard blueprint shape and may be populated during a future style pass.
+ * SelectStyleMap
+ * Select delegates most visuals to Input (trigger) and MenuItem (options).
+ * We keep minimal container/trigger affordances here to align with Select.tsx.
  */
-export const SelectStyleMap = defineStyleMap({});
+export const SelectStyleMap = defineStyleMap({
+  slots: {
+    /** Applied to RadixSelect.Viewport */
+    viewport:
+      'border rounded-lg -ml-[7px] !overflow-x-visible border-color-border-subtle bg-color-background-default',
+    /** Applied to the Input trigger root so the inner input shows default cursor */
+    trigger: '[&_input]:cursor-default'
+  }
+});
