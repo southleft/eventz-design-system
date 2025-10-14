@@ -20,12 +20,12 @@ export interface MenuItemProps extends Omit<React.ButtonHTMLAttributes<HTMLButto
 const baseClasses = `
   group flex flex-nowrap items-center gap-8 bg-background-none w-full
   border-l-0 border-r-0 border-b-0 border-t-0 pb-10 pl-8 pt-8 pr-8 outline-none
-  focus-visible:ring-2 focus-visible:ring-offset-4 focus-visible:ring-comp-border-focus-ring focus-visible:ring-offset-color-background-default
+  [&:focus-visible:not(:hover)]:ring-2 [&:focus-visible:not(:hover)]:ring-offset-4 [&:focus-visible:not(:hover)]:ring-comp-border-focus-ring [&:focus-visible:not(:hover)]:ring-offset-color-background-default
   data-[border-bottom=true]:border-b data-[border-bottom=true]:border-color-border-subtle
 `;
 
 const optionClasses = `
-  text-sm flex-grow text-color-content-default group-hover:text-color-content-default-hover
+  text-sm flex-grow text-color-content-default group-hover:text-color-content-default-hover group-data-[highlighted]:text-color-content-default-hover
   group-data-[is-selected=true]:text-color-content-brand text-left
 `;
 

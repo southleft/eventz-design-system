@@ -18,10 +18,10 @@ export const MenuItemStyleMap = defineStyleMap({
     'pt-8',
     'pr-8',
     'outline-none',
-    'focus-visible:ring-2',
-    'focus-visible:ring-offset-4',
-    'focus-visible:ring-comp-border-focus-ring',
-    'focus-visible:ring-offset-color-background-default',
+    '[&:focus-visible:not(:hover)]:ring-2',
+    '[&:focus-visible:not(:hover)]:ring-offset-4',
+    '[&:focus-visible:not(:hover)]:ring-comp-border-focus-ring',
+    '[&:focus-visible:not(:hover)]:ring-offset-color-background-default',
     'data-[border-bottom=true]:border-b',
     'data-[border-bottom=true]:border-color-border-subtle'
   ] as const,
@@ -37,6 +37,7 @@ export const MenuItemStyleMap = defineStyleMap({
       'text-color-content-default',
       'group-hover:text-color-content-default-hover',
       'group-data-[is-selected=true]:text-color-content-brand',
+      'group-data-[highlighted]:text-color-content-default-hover',
       'text-left'
     ] as const,
 

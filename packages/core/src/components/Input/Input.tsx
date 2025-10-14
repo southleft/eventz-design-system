@@ -47,7 +47,7 @@ const invalidStateClasses = `
 
 type NativeInputProps = React.InputHTMLAttributes<HTMLInputElement>;
 
-export interface InputProps extends Omit<NativeInputProps, 'children' | 'className' | 'id'> {
+export interface InputProps extends Omit<NativeInputProps, 'children' | 'id'> {
   label?: string;
   ariaLabel?: string;
   hint?: string;
@@ -60,11 +60,22 @@ export interface InputProps extends Omit<NativeInputProps, 'children' | 'classNa
   disabled?: boolean;
 }
 
-type InputElement = HTMLFieldSetElement;
+type InputElement = HTMLInputElement;
 
 export const Input = React.forwardRef<InputElement, InputProps>(
   (
-    { label, ariaLabel, hint, error, info, startIcon, endIcon, disabled = false, ...inputRest },
+    {
+      label,
+      ariaLabel,
+      hint,
+      error,
+      info,
+      startIcon,
+      endIcon,
+      className,
+      disabled = false,
+      ...inputRest
+    },
     ref
   ) => {
     const trimmedLabel = label?.trim();
@@ -99,7 +110,9 @@ export const Input = React.forwardRef<InputElement, InputProps>(
       ].filter((token): token is string => Boolean(token))
     );
 
-    const fieldsetClassName = collapseWhitespace(composeClasses(baseClasses, invalidStateClasses));
+    const fieldsetClassName = collapseWhitespace(
+      composeClasses(baseClasses, invalidStateClasses, className)
+    );
 
     const legendClassName = collapseWhitespace(
       composeClasses(labelClasses, trimmedLabel ? undefined : 'sr-only')
@@ -129,7 +142,6 @@ export const Input = React.forwardRef<InputElement, InputProps>(
     return (
       <fieldset
         id={fieldsetId}
-        ref={ref}
         className={fieldsetClassName}
         disabled={disabled}
         data-disabled={disabled ? 'true' : undefined}
@@ -154,7 +166,7 @@ export const Input = React.forwardRef<InputElement, InputProps>(
               {startIcon}
             </span>
           ) : null}
-          <input {...inputProps} />
+          <input ref={ref} {...inputProps} />
           {endIcon ? (
             <span className={endIconClassName} data-slot="endIcon" aria-hidden="true">
               {endIcon}
