@@ -141,7 +141,7 @@ describe('MenuItem', () => {
   it('includes the focus ring token classes on the root element', () => {
     renderMenuItem();
     expect(screen.getByRole('button', { name: 'Sample option' }).className).toContain(
-      'focus-visible:ring-comp-border-focus-ring'
+      '[&:focus-visible:not(:hover)]:ring-comp-border-focus-ring'
     );
   });
 });
