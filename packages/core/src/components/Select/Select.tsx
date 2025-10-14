@@ -7,31 +7,17 @@ import { collapseWhitespace, composeClasses } from '../..//utilities';
 
 type SelectElement = React.ComponentRef<typeof Input>;
 type SelectRootProps = React.ComponentPropsWithoutRef<typeof RadixSelect.Root>;
+type SelectInputProps = Omit<InputProps, 'startIcon'>;
 
 export interface SelectProps
-  extends Omit<
-    SelectRootProps,
-    | 'value'
-    | 'defaultValue'
-    | 'onValueChange'
-    | 'open'
-    | 'onOpenChange'
-    | 'name'
-    | 'disabled'
-    | 'children'
-  > {
-  value?: string;
-  defaultValue?: string;
-  onValueChange?: (value: string) => void;
-  open?: boolean;
-  onOpenChange?: (open: boolean) => void;
-  name?: string;
+  extends Omit<SelectRootProps, 'dir' | 'required' | 'disabled' | 'children'> {
   disabled?: boolean;
-  InputProps?: InputProps;
+  InputProps?: SelectInputProps;
   options?: Array<MenuItemProps & { option: string }>;
 }
 
-const inputClasses = `w-full`;
+const viewportClasses = `border rounded-lg -ml-[7px] !overflow-visible border-color-border-subtle bg-color-background-default`;
+const triggerClasses = `[&_input]:cursor-default`;
 
 export const Select = React.forwardRef<SelectElement, SelectProps>(
   (
@@ -39,9 +25,7 @@ export const Select = React.forwardRef<SelectElement, SelectProps>(
       value,
       defaultValue,
       onValueChange,
-      open,
       onOpenChange,
-      name,
       disabled = false,
       InputProps,
       options = [],
@@ -70,7 +54,8 @@ export const Select = React.forwardRef<SelectElement, SelectProps>(
       }
     };
 
-    const inputClassName = collapseWhitespace(composeClasses(inputClasses));
+    const viewportClassName = collapseWhitespace(composeClasses(viewportClasses));
+    const triggerClassName = collapseWhitespace(composeClasses(triggerClasses));
 
     const defaultInputProps = {
       endIcon: <KeyboardArrowDownIcon aria-hidden="true" />
@@ -89,15 +74,12 @@ export const Select = React.forwardRef<SelectElement, SelectProps>(
       <RadixSelect.Root
         {...restProps}
         value={isControlled ? value : undefined}
-        defaultValue={defaultValue}
         onValueChange={handleValueChange}
-        open={open}
         onOpenChange={onOpenChange}
-        name={name}
         disabled={disabled}
       >
         <RadixSelect.Trigger asChild>
-          <Input className={inputClassName} ref={ref} {...preparedInputProps} />
+          <Input ref={ref} className={triggerClassName} {...preparedInputProps} />
         </RadixSelect.Trigger>
         {options.length === 0 ? null : (
           <RadixSelect.Portal>
@@ -105,14 +87,15 @@ export const Select = React.forwardRef<SelectElement, SelectProps>(
               position="popper"
               side="bottom"
               align="start"
-              sideOffset={4}
+              sideOffset={6}
+              onCloseAutoFocus={e => e.preventDefault()}
               style={{
                 maxHeight: 'var(--radix-select-content-available-height)',
-                width: 'var(--radix-select-trigger-width)'
+                width: 'calc(var(--radix-select-trigger-width) + 31px)'
               }}
             >
               <RadixSelect.ScrollUpButton />
-              <RadixSelect.Viewport>
+              <RadixSelect.Viewport className={viewportClassName}>
                 {options.map(optionItem => {
                   const { option, isSelected, ...restOptionProps } = optionItem;
                   const resolvedIsSelected = isSelected ?? currentValue === option;

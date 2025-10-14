@@ -1207,6 +1207,9 @@
 .-ml-0\.5 {
   margin-left: calc(var(--spacing-0_5) * -1);
 }
+.-ml-\[7px\] {
+  margin-left: calc(7px * -1);
+}
 .ml-12 {
   margin-left: calc(var(--spacing) * 12);
 }
@@ -1403,6 +1406,9 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+.\!overflow-visible {
+  overflow: visible !important;
+}
 .overflow-auto {
   overflow: auto;
 }
@@ -1479,6 +1485,9 @@
 .border-color-border-inverse {
   border-color: var(--color-color-border-inverse);
 }
+.border-color-border-subtle {
+  border-color: var(--color-color-border-subtle);
+}
 .border-color-content-brand {
   border-color: var(--color-color-content-brand);
 }
@@ -1505,6 +1514,9 @@
 }
 .bg-color-background-brand {
   background-color: var(--color-color-background-brand);
+}
+.bg-color-background-default {
+  background-color: var(--color-color-background-default);
 }
 .bg-color-background-inverted\/50 {
   background-color: var(--color-color-background-inverted);
@@ -1781,6 +1793,11 @@
     @media (hover: hover) {
       opacity: 75%;
     }
+  }
+}
+.group-data-\[highlighted\]\:text-color-content-default-hover {
+  &:is(:where(.group)[data-highlighted] *) {
+    color: var(--color-color-content-default-hover);
   }
 }
 .group-data-\[is-selected\=true\]\:inline-flex {
@@ -2323,6 +2340,33 @@
 .\[\&_img\]\:object-cover {
   & img {
     object-fit: cover;
+  }
+}
+.\[\&_input\]\:cursor-default {
+  & input {
+    cursor: default;
+  }
+}
+.\[\&\:focus-visible\:not\(\:hover\)\]\:ring-2 {
+  &:focus-visible:not(:hover) {
+    --tw-ring-shadow: var(--tw-ring-inset,) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color, currentcolor);
+    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  }
+}
+.\[\&\:focus-visible\:not\(\:hover\)\]\:ring-comp-border-focus-ring {
+  &:focus-visible:not(:hover) {
+    --tw-ring-color: var(--color-comp-border-focus-ring);
+  }
+}
+.\[\&\:focus-visible\:not\(\:hover\)\]\:ring-offset-4 {
+  &:focus-visible:not(:hover) {
+    --tw-ring-offset-width: 4px;
+    --tw-ring-offset-shadow: var(--tw-ring-inset,) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+  }
+}
+.\[\&\:focus-visible\:not\(\:hover\)\]\:ring-offset-color-background-default {
+  &:focus-visible:not(:hover) {
+    --tw-ring-offset-color: var(--color-color-background-default);
   }
 }
 .\[\&\:has\(\:focus-visible\)\]\:ring-2 {

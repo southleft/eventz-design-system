@@ -2,6 +2,7 @@
 import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { Select, type SelectProps } from './Select';
+import { CircleCheckIcon } from '../../icons';
 
 const meta: Meta<SelectProps> = {
   title: 'Components/Select',
@@ -17,13 +18,33 @@ type Story = StoryObj<SelectProps>;
 
 export const Default: Story = {
   args: {
-    open: true,
     InputProps: {
       placeholder: 'Select an option'
     }
   },
   render: args => (
     <Select {...args} options={[{ option: 'Alpha' }, { option: 'Bravo' }, { option: 'Charlie' }]} />
+  )
+};
+
+export const Complicated: Story = {
+  args: {
+    InputProps: {
+      label: 'Choices',
+      placeholder: 'Select an option',
+      info: 'Select an option from the phonetic alphabet.',
+      hint: 'Phonetic alphabet options'
+    }
+  },
+  render: args => (
+    <Select
+      {...args}
+      options={[
+        { option: 'Alpha', startIcon: <CircleCheckIcon /> },
+        { option: 'Bravo', startIcon: <CircleCheckIcon /> },
+        { option: 'Charlie', startIcon: <CircleCheckIcon /> }
+      ]}
+    />
   )
 };
 
