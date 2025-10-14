@@ -55,7 +55,9 @@ export const Select = React.forwardRef<SelectElement, SelectProps>(
     };
 
     const viewportClassName = collapseWhitespace(composeClasses(viewportClasses));
-    const triggerClassName = collapseWhitespace(composeClasses(triggerClasses));
+    const triggerClassName = collapseWhitespace(
+      composeClasses(InputProps!.className, triggerClasses)
+    );
 
     const defaultInputProps = {
       endIcon: <KeyboardArrowDownIcon aria-hidden="true" />
