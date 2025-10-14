@@ -1,0 +1,57 @@
+import * as React from 'react';
+
+export interface UploadIconProps extends React.SVGAttributes<SVGSVGElement> {
+  decorative?: boolean;
+  title?: string;
+  titleId?: string;
+  color?: string;
+}
+
+type UploadIconElement = SVGSVGElement;
+
+export const UploadIcon = React.forwardRef<UploadIconElement, UploadIconProps>(
+  (
+    {
+      decorative = true,
+      width = '20px',
+      height = '20px',
+      title,
+      titleId: providedTitleId,
+      color = 'currentColor',
+      className,
+      'aria-labelledby': ariaLabelledby,
+      ...rest
+    },
+    ref
+  ) => {
+    const generatedTitleId = React.useId();
+    const resolvedTitleId = title ? (providedTitleId ?? generatedTitleId) : undefined;
+
+    const computedAriaHidden = decorative ? 'true' : undefined;
+    const computedRole = decorative ? undefined : 'img';
+    const computedAriaLabelledby =
+      !decorative && title && resolvedTitleId ? resolvedTitleId : ariaLabelledby;
+
+    return (
+      <svg
+        ref={ref}
+        {...rest}
+        className={className}
+        viewBox="0 0 20 20"
+        width={width}
+        height={height}
+        fill={color}
+        aria-hidden={computedAriaHidden}
+        role={computedRole}
+        aria-labelledby={computedAriaLabelledby}
+      >
+        {!decorative && title ? <title id={resolvedTitleId}>{title}</title> : null}
+        <g transform="scale(0.0208333333,0.0208333333) translate(0,960)">
+          <path d="M438.5-338.87v-326.69L335.41-562.24l-58.89-58.41L480-824.13l203.48 203.48-58.89 58.41L521.5-665.56v326.69h-83Zm-171.91 155q-34.5 0-58.61-24.26t-24.11-58.74v-72h83v72h426.26v-72h83v72q0 34.48-24.27 58.74-24.27 24.26-58.77 24.26h-426.5Z" />
+        </g>
+      </svg>
+    );
+  }
+);
+
+UploadIcon.displayName = 'UploadIcon';
