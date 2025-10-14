@@ -1,3 +1,4 @@
+export * from './AnimatedCircularProgressIcon';
 export * from './ArrowBackIcon';
 export * from './ArrowDropDownIcon';
 export * from './ArrowForwardIcon';
