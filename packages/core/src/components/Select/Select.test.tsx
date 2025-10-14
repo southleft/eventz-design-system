@@ -199,4 +199,9 @@ describe('Select', () => {
     );
     expect(screen.queryByRole('option')).toBeNull();
   });
+
+  it('renders without InputProps and exposes the combobox trigger', () => {
+    render(<Select options={baseOptions} />);
+    expect(screen.getByRole('combobox')).toBeInTheDocument();
+  });
 });

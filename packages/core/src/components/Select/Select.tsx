@@ -100,15 +100,27 @@ export const Select = React.forwardRef<SelectElement, SelectProps>(
               <RadixSelect.ScrollUpButton />
               <RadixSelect.Viewport className={viewportClassName}>
                 {options.map(optionItem => {
-                  const { option, isSelected, ...restOptionProps } = optionItem;
+                  const {
+                    option,
+                    isSelected,
+                    disabled: itemDisabled,
+                    ...restOptionProps
+                  } = optionItem;
                   const resolvedIsSelected = isSelected ?? currentValue === option;
 
                   return (
-                    <RadixSelect.Item key={option} value={option} textValue={option} asChild>
+                    <RadixSelect.Item
+                      key={option}
+                      value={option}
+                      textValue={option}
+                      disabled={itemDisabled}
+                      asChild
+                    >
                       <MenuItem
                         {...restOptionProps}
                         option={option}
                         isSelected={resolvedIsSelected}
+                        disabled={itemDisabled}
                       />
                     </RadixSelect.Item>
                   );
