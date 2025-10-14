@@ -4,7 +4,7 @@ import { defineContract } from '../../utilities';
 export const InputContract = defineContract({
   component: 'Input',
   description:
-    'Fieldset-wrapped text input with optional Radix Label, info popover, adornments, and contextual messaging.',
+    "Fieldset-wrapped text input with optional Radix Label, info popover, adornments, and contextual messaging. Forwarded ref is attached to the native input (slot 'value'), not the root fieldset (by design).",
   base: 'fieldset',
 
   props: {
@@ -103,6 +103,10 @@ export const InputContract = defineContract({
   },
 
   rules: [
+    {
+      when: {},
+      hint: "Forwarded ref targets the inner native input element (slot 'value'), not the root fieldset. This is intentional to enable correct focus management and Radix `asChild` integration."
+    },
     {
       when: {},
       hint: 'Provide either label or ariaLabel so the input exposes an accessible name (Radix Label via htmlFor or aria-label fallback).'
