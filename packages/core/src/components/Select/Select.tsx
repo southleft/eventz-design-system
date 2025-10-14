@@ -66,7 +66,8 @@ export const Select = React.forwardRef<SelectElement, SelectProps>(
       ...InputProps,
       disabled,
       type: 'text',
-      defaultValue: internalValue,
+      // Bind the trigger to the resolved selection so it mirrors updates
+      value: currentValue ?? '',
       readOnly: true
     };
 
@@ -74,6 +75,7 @@ export const Select = React.forwardRef<SelectElement, SelectProps>(
       <RadixSelect.Root
         {...restProps}
         value={isControlled ? value : undefined}
+        defaultValue={defaultValue}
         onValueChange={handleValueChange}
         onOpenChange={onOpenChange}
         disabled={disabled}
