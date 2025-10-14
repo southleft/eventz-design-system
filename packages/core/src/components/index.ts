@@ -16,6 +16,7 @@ export * from './Input';
 export * from './InteractiveListItem';
 export * from './MenuItem';
 export * from './RadioButtonGroup';
+export * from './Select';
 export * from './Tabs';
 export * from './Tag';
 export * from './Textarea';
