@@ -215,9 +215,19 @@ export default defineContract({
       hint: 'This component does **not** manage network upload. Enter `uploading` immediately after a file passes the `accept` filter. Transition to `accepted` after local readiness: (a) image preview successfully decodes if the file is an image; or (b) for non-images, immediately after selection. On any local failure, fire `onFileError` and either reset or freeze per `resetOnFail`.'
     },
 
-    // 🔊 Drag announcements (live region location)
+    // 🖼️ Initial value preview handling (explicit)
     {
-      hint: 'Add a visually-hidden live region near the dropzone: <div role="status" aria-live="polite" aria-atomic="true" className="sr-only" />. Write short messages on drag enter/over/leave (e.g., "Drag files over", "Drop now") to announce state changes.'
+      hint: 'If `initialValue` (string URL) is provided, initialize in the `accepted` state and render it in the thumbnail. Do not fire selection/accepted callbacks on mount. If the image fails to load, show the placeholder but remain in accepted until the user removes or changes it.'
+    },
+
+    // 🔊 Drag announcements (live region location + copy)
+    {
+      hint: 'Add a visually-hidden live region near the dropzone: <div role="status" aria-live="polite" aria-atomic="true" className="sr-only" />. Use canonical strings: "Drag files over", "Drop now", "Drag canceled".'
+    },
+
+    // 🖼️ Preview implementation guidance (explicit)
+    {
+      hint: 'For image preview decoding of newly selected files, prefer URL.createObjectURL(file). Create a new Image(), assign src, and use onload (or await img.decode() when available) to mark local readiness → fire onFileAccepted. Use onerror (or decode() rejection) to fire onFileError. Revoke object URL after state transition. Fallback to FileReader only if object URLs are unavailable. When using `initialValue` (URL), set the thumbnail src directly without decoding gate; optionally attach onerror to fall back to the placeholder. Do not emit callbacks on mount.'
     }
   ] as const,
 
@@ -277,7 +287,7 @@ export default defineContract({
       }
     },
 
-    // Canonical messages for callback payloads (used in examples/tests; generator may inline)
+    // Canonical messages for callback payloads — fixed (not consumer-overridable)
     messages: {
       onFileSelected: 'File selected',
       onFileCanceled: 'Upload canceled',
@@ -289,16 +299,8 @@ export default defineContract({
 
     // Format-specific default properties (used when props.imageProperties is undefined)
     defaultImageProperties: {
-      photo: {
-        supports: 'PNG and JPG',
-        maxFilesize: '5MB',
-        maxDimensions: '840px x 840px'
-      },
-      poster: {
-        supports: 'PNG and JPG',
-        maxFilesize: '5MB',
-        maxDimensions: '840px x 1120px'
-      }
+      photo: { supports: 'PNG and JPG', maxFilesize: '5MB', maxDimensions: '840px x 840px' },
+      poster: { supports: 'PNG and JPG', maxFilesize: '5MB', maxDimensions: '840px x 1120px' }
     },
 
     imports: {
