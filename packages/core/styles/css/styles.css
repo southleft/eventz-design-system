@@ -1789,6 +1789,11 @@
   transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
   transition-duration: var(--tw-duration, var(--default-transition-duration));
 }
+.transition-\[max-height\,opacity\,transform\] {
+  transition-property: max-height,opacity,transform;
+  transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
+  transition-duration: var(--tw-duration, var(--default-transition-duration));
+}
 .transition-\[max-height\] {
   transition-property: max-height;
   transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
@@ -1807,6 +1812,10 @@
 .duration-200 {
   --tw-duration: 200ms;
   transition-duration: 200ms;
+}
+.duration-300 {
+  --tw-duration: 300ms;
+  transition-duration: 300ms;
 }
 .ease-in-out {
   --tw-ease: var(--ease-in-out);

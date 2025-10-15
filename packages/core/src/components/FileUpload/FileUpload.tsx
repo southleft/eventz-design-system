@@ -76,6 +76,10 @@ const thumbnailClasses = `
   w-[192px] overflow-hidden rounded-lg [&_img]:object-cover [&_img]:size-full
 `;
 
+const thumbnailWrapperClasses = `
+  overflow-hidden transition-[max-height,opacity,transform] duration-300 ease-in-out
+`;
+
 const primaryActionClasses = `
   group-hover:[&_button]:bg-comp-button-primary-color-background-hover
 `;
@@ -426,6 +430,7 @@ export const FileUpload = React.forwardRef<HTMLDivElement, FileUploadProps>(
     );
     const dropzoneClassName = collapseWhitespace(composeClasses(dropzoneClasses));
     const thumbnailClassName = collapseWhitespace(composeClasses(thumbnailClasses));
+    const thumbnailWrapperClassName = collapseWhitespace(composeClasses(thumbnailWrapperClasses));
     const primaryActionClassName = collapseWhitespace(composeClasses(primaryActionClasses));
     const secondaryActionClassName = collapseWhitespace(composeClasses(secondaryActionClasses));
     const propertiesClassName = collapseWhitespace(composeClasses(propertiesClasses));
@@ -564,22 +569,37 @@ export const FileUpload = React.forwardRef<HTMLDivElement, FileUploadProps>(
           role="button"
           tabIndex={0}
         >
-          {shouldRenderThumbnailFrame ? (
-            <div className={thumbnailClassName}>
-              <AspectRatio.Root ratio={aspectRatio} data-slot="thumbnail">
-                <img
-                  src={
-                    shouldRenderThumbnailFrame && !shouldShowPlaceholder && previewSource
-                      ? previewSource
-                      : (fileThumbnail as string)
-                  }
-                  alt=""
-                  aria-hidden="true"
-                  onError={() => setHasPreviewError(true)}
-                />
-              </AspectRatio.Root>
-            </div>
-          ) : null}
+          <div
+            className={thumbnailWrapperClassName}
+            data-slot="thumbnailWrapper"
+            style={{
+              maxHeight: shouldRenderThumbnailFrame
+                ? imageFormat === 'photo'
+                  ? '192px'
+                  : '144px'
+                : '0px',
+              opacity: shouldRenderThumbnailFrame ? 1 : 0,
+              transform: shouldRenderThumbnailFrame ? 'scale(1)' : 'scale(0.98)'
+            }}
+            aria-hidden="true"
+          >
+            {shouldRenderThumbnailFrame ? (
+              <div className={thumbnailClassName}>
+                <AspectRatio.Root ratio={aspectRatio} data-slot="thumbnail">
+                  <img
+                    src={
+                      shouldRenderThumbnailFrame && !shouldShowPlaceholder && previewSource
+                        ? previewSource
+                        : (fileThumbnail as string)
+                    }
+                    alt=""
+                    aria-hidden="true"
+                    onError={() => setHasPreviewError(true)}
+                  />
+                </AspectRatio.Root>
+              </div>
+            ) : null}
+          </div>
 
           <div className={primaryActionClassName} data-slot="primaryAction">
             <Button
