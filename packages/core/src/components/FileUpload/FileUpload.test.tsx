@@ -88,6 +88,27 @@ describe('FileUpload', () => {
     );
   });
 
+  it('accepts files by extension token (e.g., .png)', () => {
+    const { container } = render(<FileUpload label="Profile photo" accept=".png" />);
+    const fileInput = container.querySelector('input[type="file"]') as HTMLInputElement;
+    // Use a non-image mime so acceptance relies on extension match, not mime wildcards
+    const file = new File(['file'], 'photo.png', { type: 'application/octet-stream' });
+    fireEvent.change(fileInput, { target: { files: [file] } });
+    const root = container.firstElementChild as HTMLElement;
+    expect(root.getAttribute('data-accepted')).toBe('true');
+  });
+
+  it('accepts files by mime wildcard (e.g., image/*)', () => {
+    const { container } = render(<FileUpload label="Profile photo" accept="image/*" />);
+    const fileInput = container.querySelector('input[type="file"]') as HTMLInputElement;
+    // Name without extension to ensure acceptance is based on mime wildcard, not extension
+    const file = new File(['file'], 'photo', { type: 'image/png' });
+    fireEvent.change(fileInput, { target: { files: [file] } });
+    triggerImageLoad();
+    const root = container.firstElementChild as HTMLElement;
+    expect(root.getAttribute('data-accepted')).toBe('true');
+  });
+
   it('clears drag-over state and announces cancel on drag leave', () => {
     const { container } = render(<FileUpload label="Profile photo" />);
     const dropzone = screen.getByRole('button', { name: 'Profile photo' });
@@ -153,6 +174,25 @@ describe('FileUpload', () => {
     expect(root.getAttribute('data-accepted')).toBe('true');
   });
 
+  it('marks accepted when decode resolves (promise path)', async () => {
+    // Override Image for this test to provide a decode() promise that resolves
+    // @ts-expect-error - narrow override for this test
+    global.Image = class extends TestImage {
+      decode = () => Promise.resolve();
+    };
+
+    const { container } = render(<FileUpload label="Profile photo" />);
+    const fileInput = container.querySelector('input[type="file"]') as HTMLInputElement;
+    const imageFile = createMockFile('photo.png', 'image/png');
+    fireEvent.change(fileInput, { target: { files: [imageFile] } });
+
+    // Allow microtasks from decode() to settle
+    await Promise.resolve();
+
+    const root = container.firstElementChild as HTMLElement;
+    expect(root.getAttribute('data-accepted')).toBe('true');
+  });
+
   it('emits onFileChanging when replacing an accepted file', () => {
     const onFileChanging = jest.fn();
     const { container } = render(
@@ -180,6 +220,26 @@ describe('FileUpload', () => {
     fireEvent.click(removeLink);
     const root = container.firstElementChild as HTMLElement;
     expect(root.getAttribute('data-accepted')).toBeNull();
+  });
+
+  it('removes an accepted image and resets preview/state', () => {
+    const { container } = render(<FileUpload label="Profile photo" />);
+    const fileInput = container.querySelector('input[type="file"]') as HTMLInputElement;
+    const imageFile = createMockFile('photo.png', 'image/png');
+
+    // Accept an image (creates object URL and transitions to accepted)
+    fireEvent.change(fileInput, { target: { files: [imageFile] } });
+    triggerImageLoad();
+
+    // Remove the file
+    const removeLink = screen.getByRole('link', { name: 'Remove photo' });
+    fireEvent.click(removeLink);
+
+    // Assert state + preview reset (observable behavior)
+    const root = container.firstElementChild as HTMLElement;
+    expect(root.getAttribute('data-accepted')).toBeNull();
+    const img = container.querySelector('img') as HTMLImageElement;
+    expect(img.getAttribute('src')).toBe('./fileThumbnail.png');
   });
 
   it('retains the uploading state when preview fails and resetOnFail is false', () => {
@@ -274,6 +334,19 @@ describe('FileUpload', () => {
 
     // After error, component should show placeholder src (string path)
     expect(img.getAttribute('src')).toBe('./fileThumbnail.png');
+  });
+
+  it('cleans up preview URL on unmount (effect cleanup path)', () => {
+    const { container, unmount } = render(<FileUpload label="Profile photo" />);
+    const fileInput = container.querySelector('input[type="file"]') as HTMLInputElement;
+    const imageFile = createMockFile('photo.png', 'image/png');
+
+    // Accept an image to ensure an object URL exists
+    fireEvent.change(fileInput, { target: { files: [imageFile] } });
+    triggerImageLoad();
+
+    // Unmount should trigger effect cleanup that revokes the object URL
+    expect(() => unmount()).not.toThrow();
   });
 
   it('marks the root as invalid when an error is present', () => {

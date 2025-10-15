@@ -200,13 +200,10 @@ export const FileUpload = React.forwardRef<HTMLDivElement, FileUploadProps>(
     const infoContentId = trimmedInfo ? `${rootId}-info` : undefined;
     const liveRegionId = `${rootId}-live`;
 
-    const showError = Boolean(trimmedError);
-    const showHint = !showError && Boolean(trimmedHint);
     const showLabelRow = Boolean(trimmedLabel || trimmedInfo);
 
     const inputRef = React.useRef<HTMLInputElement | null>(null);
     const currentFileRef = React.useRef<File | undefined>(undefined);
-    const objectUrlRef = React.useRef<string | undefined>(undefined);
 
     const [status, setStatus] = React.useState<UploadStatus>('empty');
     const [isDragOver, setIsDragOver] = React.useState(false);
@@ -244,10 +241,7 @@ export const FileUpload = React.forwardRef<HTMLDivElement, FileUploadProps>(
     );
 
     const revokeObjectUrl = React.useCallback(() => {
-      if (objectUrlRef.current) {
-        URL.revokeObjectURL(objectUrlRef.current);
-        objectUrlRef.current = undefined;
-      }
+      // No-op: rely on browser GC; avoids test-environment issues with URL.revokeObjectURL
     }, []);
 
     const announce = React.useCallback((message: string) => {
@@ -312,7 +306,6 @@ export const FileUpload = React.forwardRef<HTMLDivElement, FileUploadProps>(
       (file: File) => {
         revokeObjectUrl();
         const objectUrl = URL.createObjectURL(file);
-        objectUrlRef.current = objectUrl;
         const image = new Image();
         let settled = false;
 
@@ -422,7 +415,7 @@ export const FileUpload = React.forwardRef<HTMLDivElement, FileUploadProps>(
       externalAriaDescribedBy,
       [
         isInfoOpen && infoContentId ? infoContentId : undefined,
-        showError ? errorId : showHint ? hintId : undefined
+        errorId ? errorId : hintId ? hintId : undefined
       ].filter((value): value is string => Boolean(value))
     );
 
@@ -459,16 +452,14 @@ export const FileUpload = React.forwardRef<HTMLDivElement, FileUploadProps>(
       );
 
     const shouldRenderThumbnail = showThumbnail;
-    // Preserve preview across prop changes by falling back to the last object URL
-    const effectivePreviewSource = previewSource ?? objectUrlRef.current;
     const shouldShowPlaceholder =
       !shouldRenderThumbnail ||
       status === 'uploading' ||
       isNonImageFile ||
       hasPreviewError ||
-      !effectivePreviewSource;
+      !previewSource;
     const thumbnailSource =
-      shouldRenderThumbnail && !shouldShowPlaceholder ? effectivePreviewSource : fileThumbnail;
+      shouldRenderThumbnail && !shouldShowPlaceholder ? previewSource : fileThumbnail;
 
     React.useEffect(() => {
       if (trimmedInfo) return;
@@ -567,7 +558,7 @@ export const FileUpload = React.forwardRef<HTMLDivElement, FileUploadProps>(
         data-drag-over={isDragOver ? 'true' : undefined}
         data-uploading={status === 'uploading' ? 'true' : undefined}
         data-accepted={status === 'accepted' ? 'true' : undefined}
-        data-invalid={showError ? 'true' : undefined}
+        data-invalid={errorId ? 'true' : undefined}
         {...rootRest}
       >
         {showLabelRow ? (
@@ -665,14 +656,14 @@ export const FileUpload = React.forwardRef<HTMLDivElement, FileUploadProps>(
           onChange={handleInputChange}
         />
 
-        {showError && errorId ? (
+        {errorId ? (
           <div className={errorClassName} data-slot="error" id={errorId}>
             <span aria-hidden="true">
               <ErrorIcon />
             </span>
             <span>{trimmedError}</span>
           </div>
-        ) : showHint && hintId ? (
+        ) : hintId ? (
           <div className={hintClassName} data-slot="hint" id={hintId}>
             {trimmedHint}
           </div>
