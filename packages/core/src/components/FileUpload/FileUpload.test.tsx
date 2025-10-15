@@ -70,9 +70,63 @@ describe('FileUpload', () => {
     expect(screen.getByRole('button', { name: 'Profile photo' })).toBeInTheDocument();
   });
 
+  it('renders the label text inside the labelRow when label is provided', () => {
+    render(<FileUpload label="Profile photo" />);
+    const labelRow = document.querySelector('[data-slot="labelRow"]') as HTMLElement;
+    expect(labelRow).toBeInTheDocument();
+    expect(labelRow.textContent).toContain('Profile photo');
+  });
+
   it('omits the hint slot when error text is provided', () => {
     render(<FileUpload label="Profile photo" hint="Helpful hint" error="Upload failed." />);
     expect(document.querySelector('[data-slot="hint"]')).toBeNull();
+  });
+
+  it('renders the hint slot when provided and no error', () => {
+    render(<FileUpload label="Profile photo" hint="Helpful hint" />);
+    const hintEl = document.querySelector('[data-slot="hint"]');
+    expect(hintEl).toBeInTheDocument();
+  });
+
+  it('uses ariaLabel text in labelRow when only info is present (sr-only)', () => {
+    render(<FileUpload ariaLabel="Upload file" info="About uploading files" />);
+    const labelRow = document.querySelector('[data-slot="labelRow"]') as HTMLElement;
+    expect(labelRow).toBeInTheDocument();
+    expect(labelRow.className).toContain('sr-only');
+    expect(labelRow.textContent).toContain('Upload file');
+  });
+
+  it('includes the info content id in aria-describedby when the InfoPopover is open', () => {
+    render(<FileUpload label="Profile photo" info="About uploading files" />);
+    const dropzone = screen.getByRole('button', { name: 'Profile photo' });
+
+    // Initially, info is closed; aria-describedby should not include the info id
+    const initialDescribedBy = dropzone.getAttribute('aria-describedby') || '';
+    expect(initialDescribedBy).not.toMatch(/-info$/);
+
+    // Open the InfoPopover via its trigger
+    const infoTrigger = screen.getByRole('button', { name: 'Profile photo info' });
+    fireEvent.click(infoTrigger);
+
+    // The content should render with an id that ends with "-info"
+    const infoContent = document.querySelector('[id$="-info"]');
+    expect(infoContent).toBeInTheDocument();
+
+    // aria-describedby should now include the info content id
+    const describedBy = dropzone.getAttribute('aria-describedby') || '';
+    expect(describedBy.split(/\s+/)).toContain(infoContent!.id);
+  });
+
+  it('renders labelRow with info only when no label/ariaLabel (empty text prefix)', () => {
+    render(<FileUpload info="About uploading files" />);
+    const labelRow = document.querySelector('[data-slot="labelRow"]') as HTMLElement;
+    expect(labelRow).toBeInTheDocument();
+    // With no label present, labelRow should be visually hidden (sr-only),
+    // and the visible content comes from the InfoPopover (info prop).
+    expect(labelRow.className).toContain('sr-only');
+    expect((labelRow.textContent ?? '').trim()).toBe('');
+    const infoTrigger = screen.getByRole('button', { name: 'File upload info' });
+    expect(infoTrigger).toBeInTheDocument();
   });
 
   it('rejects files that do not satisfy the accept filter', () => {
@@ -86,6 +140,18 @@ describe('FileUpload', () => {
     expect(onFileError).toHaveBeenCalledWith(
       expect.objectContaining({ message: 'Upload failed', file: invalidFile })
     );
+  });
+
+  it('accepts any file when accept is empty (acceptTokens.length === 0)', () => {
+    const { container } = render(<FileUpload label="Any file" accept="" />);
+    const fileInput = container.querySelector('input[type="file"]') as HTMLInputElement;
+
+    // Use a non-image type to ensure we hit the non-image accepted branch
+    const file = new File(['file'], 'notes.txt', { type: 'text/plain' });
+    fireEvent.change(fileInput, { target: { files: [file] } });
+
+    const root = container.firstElementChild as HTMLElement;
+    expect(root.getAttribute('data-accepted')).toBe('true');
   });
 
   it('accepts files by extension token (e.g., .png)', () => {
@@ -141,6 +207,68 @@ describe('FileUpload', () => {
     expect(live.textContent?.trim()).toBe('Drop now');
   });
 
+  it('forces a live region re-announce when the same message repeats (adds trailing space)', () => {
+    render(<FileUpload label="Profile photo" />);
+    const dropzone = screen.getByRole('button', { name: 'Profile photo' });
+
+    // First dragOver announces "Drop now"
+    fireEvent.dragOver(dropzone, { dataTransfer: { types: ['Files'], dropEffect: 'none' } });
+    const live1 = screen.getByRole('status');
+    expect(live1.textContent).toBe('Drop now');
+
+    // Second dragOver should produce the same message but with a trailing space
+    fireEvent.dragOver(dropzone, { dataTransfer: { types: ['Files'], dropEffect: 'none' } });
+    const live2 = screen.getByRole('status');
+    expect(live2.textContent).toBe('Drop now ');
+  });
+
+  it('processes dropped files via dataTransfer and accepts valid images', () => {
+    const { container } = render(<FileUpload label="Profile photo" />);
+    const dropzone = screen.getByRole('button', { name: 'Profile photo' });
+    const imageFile = new File(['file'], 'photo.png', { type: 'image/png' });
+
+    // Perform a real drop with dataTransfer.files; component should read files and process
+    fireEvent.drop(dropzone, { dataTransfer: { files: [imageFile] } });
+    // Complete preview decode to transition to accepted
+    triggerImageLoad();
+
+    const root = container.firstElementChild as HTMLElement;
+    expect(root.getAttribute('data-accepted')).toBe('true');
+  });
+
+  it('clears drag-over and announces cancel on drop while processing files', () => {
+    const { container } = render(<FileUpload label="Profile photo" />);
+    const dropzone = screen.getByRole('button', { name: 'Profile photo' });
+
+    // Enter drag-over first to ensure we see it clear on drop
+    fireEvent.dragEnter(dropzone, { dataTransfer: { types: ['Files'] } });
+
+    const imageFile = new File(['file'], 'photo.png', { type: 'image/png' });
+    fireEvent.drop(dropzone, { dataTransfer: { files: [imageFile], types: ['Files'] } });
+
+    // Handler should clear drag-over and announce cancel as part of the drop path
+    const root = container.firstElementChild as HTMLElement;
+    expect(root.getAttribute('data-drag-over')).toBeNull();
+
+    const live = screen.getByRole('status');
+    expect(live.textContent?.trim()).toBe('Drag canceled');
+  });
+
+  it('ignores drop when no files are provided', () => {
+    const { container } = render(<FileUpload label="Profile photo" />);
+    const dropzone = screen.getByRole('button', { name: 'Profile photo' });
+
+    // Enter drag-over then drop with empty files
+    fireEvent.dragEnter(dropzone, { dataTransfer: { types: ['Files'] } });
+    fireEvent.drop(dropzone, { dataTransfer: { files: [], types: ['Files'] } });
+
+    const root = container.firstElementChild as HTMLElement;
+    // Remains in empty state and clears drag-over
+    expect(root.getAttribute('data-accepted')).toBeNull();
+    expect(root.getAttribute('data-uploading')).toBeNull();
+    expect(root.getAttribute('data-drag-over')).toBeNull();
+  });
+
   it('enters the uploading state after an image is selected', () => {
     const { container } = render(<FileUpload label="Profile photo" />);
     const fileInput = container.querySelector('input[type="file"]') as HTMLInputElement;
@@ -148,6 +276,36 @@ describe('FileUpload', () => {
     fireEvent.change(fileInput, { target: { files: [imageFile] } });
     const root = container.firstElementChild as HTMLElement;
     expect(root.getAttribute('data-uploading')).toBe('true');
+  });
+
+  it('resets the native file input value after processing a file', () => {
+    const { container } = render(<FileUpload label="Profile photo" />);
+    const fileInput = container.querySelector('input[type="file"]') as HTMLInputElement;
+    const imageFile = new File(['file'], 'photo.png', { type: 'image/png' });
+
+    // Simulate a selection; component should process first file then clear the input value
+    fireEvent.change(fileInput, { target: { files: [imageFile] } });
+    expect(fileInput.value).toBe('');
+  });
+
+  it('ignores change when no files and still clears the native input value', () => {
+    const { container } = render(<FileUpload label="Profile photo" />);
+    const fileInput = container.querySelector('input[type="file"]') as HTMLInputElement;
+
+    // JSDOM disallows setting a non-empty value on <input type="file">; simulate empty change directly
+    fireEvent.change(fileInput, { target: { files: null } });
+
+    // Remains in empty state; input value cleared by handler
+    const root = container.firstElementChild as HTMLElement;
+    expect(root.getAttribute('data-accepted')).toBeNull();
+    expect(root.getAttribute('data-uploading')).toBeNull();
+    expect(fileInput.value).toBe('');
+  });
+
+  it('does not render a thumbnail frame when showThumbnail is false', () => {
+    render(<FileUpload label="Profile photo" showThumbnail={false} />);
+    const thumbnail = document.querySelector('[data-slot="thumbnail"]');
+    expect(thumbnail).toBeNull();
   });
 
   it('cancels the upload and returns to the empty state', () => {
@@ -172,6 +330,26 @@ describe('FileUpload', () => {
     triggerImageLoad();
     const root = container.firstElementChild as HTMLElement;
     expect(root.getAttribute('data-accepted')).toBe('true');
+  });
+
+  it('ignores subsequent image load events after settling', () => {
+    const onFileAccepted = jest.fn();
+    const { container } = render(
+      <FileUpload label="Profile photo" onFileAccepted={onFileAccepted} />
+    );
+    const fileInput = container.querySelector('input[type="file"]') as HTMLInputElement;
+    const imageFile = new File(['file'], 'photo.png', { type: 'image/png' });
+
+    fireEvent.change(fileInput, { target: { files: [imageFile] } });
+
+    // First load settles to accepted
+    triggerImageLoad();
+    // Subsequent load events should be ignored by the settled guard
+    triggerImageLoad();
+
+    const root = container.firstElementChild as HTMLElement;
+    expect(root.getAttribute('data-accepted')).toBe('true');
+    expect(onFileAccepted).toHaveBeenCalledTimes(1);
   });
 
   it('marks accepted when decode resolves (promise path)', async () => {
@@ -222,6 +400,30 @@ describe('FileUpload', () => {
     expect(root.getAttribute('data-accepted')).toBeNull();
   });
 
+  it('emits onFileRemoved when clicking the secondary action in accepted state', () => {
+    const onFileRemoved = jest.fn();
+    const { container } = render(
+      <FileUpload
+        label="Upload document"
+        accept="application/pdf"
+        fileNoun="document"
+        onFileRemoved={onFileRemoved}
+      />
+    );
+    const fileInput = container.querySelector('input[type="file"]') as HTMLInputElement;
+    const pdfFile = new File(['file'], 'policy.pdf', { type: 'application/pdf' });
+
+    // Enter accepted state for a non-image file
+    fireEvent.change(fileInput, { target: { files: [pdfFile] } });
+
+    const removeLink = screen.getByRole('link', { name: 'Remove document' });
+    fireEvent.click(removeLink);
+
+    expect(onFileRemoved).toHaveBeenCalledWith(
+      expect.objectContaining({ message: 'File removed', file: pdfFile })
+    );
+  });
+
   it('removes an accepted image and resets preview/state', () => {
     const { container } = render(<FileUpload label="Profile photo" />);
     const fileInput = container.querySelector('input[type="file"]') as HTMLInputElement;
@@ -250,6 +452,23 @@ describe('FileUpload', () => {
     triggerImageError();
     const root = container.firstElementChild as HTMLElement;
     expect(root.getAttribute('data-uploading')).toBe('true');
+  });
+
+  it('ignores subsequent image error events after settling (failure path)', () => {
+    const onFileError = jest.fn();
+    const { container } = render(<FileUpload label="Profile photo" onFileError={onFileError} />);
+    const fileInput = container.querySelector('input[type="file"]') as HTMLInputElement;
+    const imageFile = new File(['file'], 'photo.png', { type: 'image/png' });
+
+    fireEvent.change(fileInput, { target: { files: [imageFile] } });
+    // First error settles failure path
+    triggerImageError();
+    // Subsequent errors should be ignored by the settled guard
+    triggerImageError();
+
+    const root = container.firstElementChild as HTMLElement;
+    expect(root.getAttribute('data-uploading')).toBe('true'); // remains uploading (resetOnFail default is false)
+    expect(onFileError).toHaveBeenCalledTimes(1);
   });
 
   it('resets to the empty state when preview fails and resetOnFail is true', () => {
@@ -286,6 +505,32 @@ describe('FileUpload', () => {
     clickSpy.mockRestore();
   });
 
+  it('does not open the file dialog for non-activation keys', () => {
+    const { container } = render(<FileUpload ariaLabel="Upload file" />);
+    const dropzone = screen.getByRole('button', { name: 'Upload file' });
+    const fileInput = container.querySelector('input[type="file"]') as HTMLInputElement;
+    const clickSpy = jest.spyOn(fileInput, 'click').mockImplementation(() => {});
+
+    // Non-activation keys should NOT trigger the file dialog
+    fireEvent.keyDown(dropzone, { key: 'Escape' });
+    fireEvent.keyDown(dropzone, { key: 'Tab' });
+
+    expect(clickSpy).toHaveBeenCalledTimes(0);
+    clickSpy.mockRestore();
+  });
+
+  it('opens the file dialog when clicking the dropzone', () => {
+    const { container } = render(<FileUpload ariaLabel="Upload file" />);
+    const dropzone = screen.getByRole('button', { name: 'Upload file' });
+    const fileInput = container.querySelector('input[type="file"]') as HTMLInputElement;
+    const clickSpy = jest.spyOn(fileInput, 'click').mockImplementation(() => {});
+
+    fireEvent.click(dropzone);
+
+    expect(clickSpy).toHaveBeenCalledTimes(1);
+    clickSpy.mockRestore();
+  });
+
   it('opens the file dialog when clicking the primary action button', () => {
     const { container } = render(<FileUpload ariaLabel="Upload file" />);
     const fileInput = container.querySelector('input[type="file"]') as HTMLInputElement;
@@ -299,6 +544,24 @@ describe('FileUpload', () => {
     fireEvent.click(primaryButton);
     expect(clickSpy).toHaveBeenCalledTimes(1);
     clickSpy.mockRestore();
+  });
+
+  it('does not bubble click from primary action to the dropzone', () => {
+    const { container } = render(<FileUpload ariaLabel="Upload file" />);
+    const fileInput = container.querySelector('input[type="file"]') as HTMLInputElement;
+
+    const primaryButton = document.querySelector(
+      '[data-slot="primaryAction"] button'
+    ) as HTMLButtonElement;
+    expect(primaryButton).toBeInTheDocument();
+
+    const inputClickSpy = jest.spyOn(fileInput, 'click').mockImplementation(() => {});
+
+    fireEvent.click(primaryButton);
+
+    expect(inputClickSpy).toHaveBeenCalledTimes(1);
+
+    inputClickSpy.mockRestore();
   });
 
   it('does not open the file dialog when uploading and the primary action is clicked', () => {
@@ -315,6 +578,22 @@ describe('FileUpload', () => {
     ) as HTMLButtonElement;
     expect(primaryButton).toBeDisabled(); // disabled while uploading
     fireEvent.click(primaryButton);
+    expect(clickSpy).toHaveBeenCalledTimes(0);
+    clickSpy.mockRestore();
+  });
+
+  it('does not open the file dialog when clicking the dropzone during uploading', () => {
+    const { container } = render(<FileUpload label="Profile photo" />);
+    const dropzone = screen.getByRole('button', { name: 'Profile photo' });
+    const fileInput = container.querySelector('input[type="file"]') as HTMLInputElement;
+    const clickSpy = jest.spyOn(fileInput, 'click').mockImplementation(() => {});
+
+    // Enter uploading state (before decode completes)
+    const imageFile = new File(['file'], 'photo.png', { type: 'image/png' });
+    fireEvent.change(fileInput, { target: { files: [imageFile] } });
+
+    fireEvent.click(dropzone);
+
     expect(clickSpy).toHaveBeenCalledTimes(0);
     clickSpy.mockRestore();
   });
@@ -368,9 +647,34 @@ describe('FileUpload', () => {
     expect(screen.getByText('Supports: PNG and JPG')).toBeInTheDocument();
   });
 
+  it('renders default photo max filesize and max dimensions', () => {
+    render(<FileUpload label="Profile photo" />);
+    expect(screen.getByText('Max filesize: 5MB')).toBeInTheDocument();
+    expect(screen.getByText('Max dimensions: 840px x 840px')).toBeInTheDocument();
+  });
+
   it('renders poster defaults when imageFormat is poster', () => {
     render(<FileUpload label="Poster" imageFormat="poster" />);
     expect(screen.getByText('Max dimensions: 840px x 1120px')).toBeInTheDocument();
+  });
+
+  it('renders all poster default properties', () => {
+    render(<FileUpload label="Poster" imageFormat="poster" />);
+    expect(screen.getByText('Supports: PNG and JPG')).toBeInTheDocument();
+    expect(screen.getByText('Max filesize: 5MB')).toBeInTheDocument();
+    expect(screen.getByText('Max dimensions: 840px x 1120px')).toBeInTheDocument();
+  });
+
+  it('uses custom imageProperties when provided', () => {
+    render(
+      <FileUpload
+        label="Custom"
+        imageProperties={{ supports: 'SVG', maxFilesize: '2MB', maxDimensions: '200px x 200px' }}
+      />
+    );
+    expect(screen.getByText('Supports: SVG')).toBeInTheDocument();
+    expect(screen.getByText('Max filesize: 2MB')).toBeInTheDocument();
+    expect(screen.getByText('Max dimensions: 200px x 200px')).toBeInTheDocument();
   });
 
   it('accepts an initialValue on mount and marks as accepted', () => {

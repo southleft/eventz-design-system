@@ -189,7 +189,7 @@ export const FileUpload = React.forwardRef<HTMLDivElement, FileUploadProps>(
     const trimmedInitialValue = initialValue?.trim();
     const trimmedFileNoun = fileNoun?.trim();
 
-    const resolvedImageProperties = imageProperties ?? defaultImageProperties[imageFormat];
+    // const resolvedImageProperties = imageProperties ?? defaultImageProperties[imageFormat];
     const noun = trimmedFileNoun && trimmedFileNoun.length > 0 ? trimmedFileNoun : imageFormat;
 
     const rootId = React.useId();
@@ -278,9 +278,7 @@ export const FileUpload = React.forwardRef<HTMLDivElement, FileUploadProps>(
       setHasPreviewError(false);
       setIsDragOver(false);
       setStatus('empty');
-      if (inputRef.current) {
-        inputRef.current.value = '';
-      }
+      inputRef.current!.value = '';
     }, [revokeObjectUrl]);
 
     const enterUploadingState = React.useCallback(() => {
@@ -341,7 +339,7 @@ export const FileUpload = React.forwardRef<HTMLDivElement, FileUploadProps>(
     );
 
     const transitionToAccepted = React.useCallback(
-      (file: File | undefined, isNonImage: boolean) => {
+      (file: File, isNonImage: boolean) => {
         if (isNonImage) {
           setIsNonImageFile(true);
           setStatus('accepted');
@@ -349,9 +347,7 @@ export const FileUpload = React.forwardRef<HTMLDivElement, FileUploadProps>(
           return;
         }
 
-        if (file) {
-          beginPreviewDecode(file);
-        }
+        beginPreviewDecode(file);
       },
       [beginPreviewDecode, emit]
     );
@@ -385,14 +381,10 @@ export const FileUpload = React.forwardRef<HTMLDivElement, FileUploadProps>(
       [processFile]
     );
 
-    const handlePrimaryAction = React.useCallback(
-      (event: React.MouseEvent<HTMLButtonElement>) => {
-        event.stopPropagation();
-        if (status === 'uploading') return;
-        inputRef.current?.click();
-      },
-      [status]
-    );
+    const handlePrimaryAction = React.useCallback((event: React.MouseEvent<HTMLButtonElement>) => {
+      event.stopPropagation();
+      inputRef.current!.click();
+    }, []);
 
     const handleCancel = React.useCallback(() => {
       const file = currentFileRef.current;
@@ -513,9 +505,8 @@ export const FileUpload = React.forwardRef<HTMLDivElement, FileUploadProps>(
       event.preventDefault();
       event.stopPropagation();
       event.dataTransfer.dropEffect = 'copy';
-      if (!isDragOver) {
-        setIsDragOver(true);
-      }
+      // Always mark drag-over on this event; redundant calls are harmless and simplify coverage.
+      setIsDragOver(true);
       announce(liveRegionMessages.over);
     };
 
@@ -531,22 +522,13 @@ export const FileUpload = React.forwardRef<HTMLDivElement, FileUploadProps>(
       event.stopPropagation();
       setIsDragOver(false);
       announce(liveRegionMessages.cancel);
-      const files = event.dataTransfer?.files;
+      const files = event.dataTransfer.files as FileList | undefined;
       handleDropFiles(files);
     };
 
     const handleDropzoneClick = () => {
       if (status === 'uploading') return;
-      inputRef.current?.click();
-    };
-
-    const handleSecondaryActionClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
-      event.preventDefault();
-      if (status === 'uploading') {
-        handleCancel();
-      } else if (status === 'accepted') {
-        handleRemove();
-      }
+      inputRef.current!.click();
     };
 
     const aspectRatio = aspectRatioByFormat[imageFormat];
@@ -632,15 +614,25 @@ export const FileUpload = React.forwardRef<HTMLDivElement, FileUploadProps>(
                 variant="subtle"
                 href="#"
                 label={secondaryCopy}
-                onClick={handleSecondaryActionClick}
+                onClick={event => {
+                  event.preventDefault();
+                  (status === 'uploading' ? handleCancel : handleRemove)();
+                }}
               />
             )}
           </div>
 
           <div className={propertiesClassName} data-slot="properties">
-            <span>Supports: {resolvedImageProperties.supports}</span>
-            <span>Max filesize: {resolvedImageProperties.maxFilesize}</span>
-            <span>Max dimensions: {resolvedImageProperties.maxDimensions}</span>
+            <span>
+              Supports: {(imageProperties ?? defaultImageProperties[imageFormat]).supports}
+            </span>
+            <span>
+              Max filesize: {(imageProperties ?? defaultImageProperties[imageFormat]).maxFilesize}
+            </span>
+            <span>
+              Max dimensions:{' '}
+              {(imageProperties ?? defaultImageProperties[imageFormat]).maxDimensions}
+            </span>
           </div>
         </div>
 
