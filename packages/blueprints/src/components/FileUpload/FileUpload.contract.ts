@@ -43,7 +43,7 @@ export default defineContract({
     imageProperties: {
       type: 'object',
       description:
-        'Display-only capability hints rendered in the `properties` slot. These strings are fixed and do not change with state.',
+        'Display-only capability hints rendered in the `properties` slot. These strings are fixed and do not change with state. If omitted, defaults are derived from `imageFormat` (see rules).',
       shape: {
         supports: { type: 'string' },
         maxFilesize: { type: 'string' },
@@ -174,14 +174,14 @@ export default defineContract({
       hint: 'During uploading, treat preview decode failure, read/stream error, abort, or timeout as failure: fire onFileError with message. If resetOnFail=true → reset to empty; else remain frozen in uploading/error until user clicks Cancel (then emit onFileCanceled).'
     },
 
-    // Properties slot composition (fixed across states)
+    // Properties slot composition and defaults
     {
-      hint: 'Render the `properties` slot as a flex row. Inside, render three <span> children: "Supports: {imageProperties.supports}", "Max filesize: {imageProperties.maxFilesize}", "Max dimensions: {imageProperties.maxDimensions}". Always visible and unchanged in all states.'
+      hint: 'Render the `properties` slot as a flex row of three <span>s: "Supports: {imageProperties.supports}", "Max filesize: {imageProperties.maxFilesize}", "Max dimensions: {imageProperties.maxDimensions}". If `imageProperties` is **undefined**, compute defaults by `imageFormat`: photo → supports "PNG and JPG", maxFilesize "5MB", maxDimensions "840px x 840px"; poster → supports "PNG and JPG", maxFilesize "5MB", maxDimensions "840px x 1120px". Always visible.'
     },
 
     // Placeholder thumbnail behavior (single asset)
     {
-      hint: 'Use a single placeholder image for the thumbnail frame during uploading, on non-image files when showThumbnail=true, and on preview failure. Import it next to the component as `import fileThumbnail from "./fileThumbnail.png"`. Render it inside AspectRatio; sizing is handled by AspectRatio.'
+      hint: 'Use a single placeholder image for the thumbnail frame. Render an <img src={fileThumbnail} alt="" aria-hidden="true" /> inside AspectRatio. Show the placeholder during uploading, on non-image files (when showThumbnail=true), and on preview failure. For non-image files, keep showing the placeholder even in accepted state when showThumbnail=true.'
     },
 
     // Label + InfoPopover composition (mirrors Input)
@@ -208,6 +208,16 @@ export default defineContract({
     // Hidden input wiring (forward native props)
     {
       hint: 'Create a visually-hidden <input type="file"> with id from useId(). Forward native input attributes (at least: name, required, form) and the `accept` prop. Programmatically trigger input.click() from the dropzone and from the primary action.'
+    },
+
+    // 🔁 Uploading exit criteria (explicit)
+    {
+      hint: 'This component does **not** manage network upload. Enter `uploading` immediately after a file passes the `accept` filter. Transition to `accepted` after local readiness: (a) image preview successfully decodes if the file is an image; or (b) for non-images, immediately after selection. On any local failure, fire `onFileError` and either reset or freeze per `resetOnFail`.'
+    },
+
+    // 🔊 Drag announcements (live region location)
+    {
+      hint: 'Add a visually-hidden live region near the dropzone: <div role="status" aria-live="polite" aria-atomic="true" className="sr-only" />. Write short messages on drag enter/over/leave (e.g., "Drag files over", "Drop now") to announce state changes.'
     }
   ] as const,
 
@@ -221,7 +231,7 @@ export default defineContract({
       { name: 'Input.styleMap', path: 'packages/blueprints/src/components/Input/Input.styleMap.ts' }
     ],
 
-    a11y: 'Dropzone is focusable (render as <button> for native keyboard support). Space/Enter keys activate the file dialog. Announce drag state with aria-live="polite". Thumbnails are decorative; accessible name comes from label/ariaLabel; errors/hints are associated via aria-describedby.',
+    a11y: 'Dropzone is focusable (render as <button> for native keyboard support). Space/Enter keys activate the file dialog. Announce drag state with a hidden live region. Thumbnails are decorative; accessible name comes from label/ariaLabel; errors/hints are associated via aria-describedby.',
 
     uiCopy: {
       empty: { primary: 'Select {NOUN}', secondary: 'Or drop to upload' },
@@ -264,6 +274,30 @@ export default defineContract({
         import: 'fileThumbnail',
         from: './fileThumbnail.png',
         usedInStates: ['uploading', 'nonImage', 'previewError']
+      }
+    },
+
+    // Canonical messages for callback payloads (used in examples/tests; generator may inline)
+    messages: {
+      onFileSelected: 'File selected',
+      onFileCanceled: 'Upload canceled',
+      onFileAccepted: 'File ready',
+      onFileChanging: 'Changing file',
+      onFileError: 'Upload failed',
+      onFileRemoved: 'File removed'
+    },
+
+    // Format-specific default properties (used when props.imageProperties is undefined)
+    defaultImageProperties: {
+      photo: {
+        supports: 'PNG and JPG',
+        maxFilesize: '5MB',
+        maxDimensions: '840px x 840px'
+      },
+      poster: {
+        supports: 'PNG and JPG',
+        maxFilesize: '5MB',
+        maxDimensions: '840px x 1120px'
       }
     },
 
