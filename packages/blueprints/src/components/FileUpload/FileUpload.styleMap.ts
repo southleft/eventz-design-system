@@ -2,107 +2,104 @@
 import { defineStyleMap } from '../../utilities';
 
 export default defineStyleMap({
-  // Root/base classes — token-first where possible
-  base: [
-    'relative',
-    'w-full',
-    'rounded-md',
-    'border',
-    'bg-surface',
-    'text-foreground',
-    'outline-none',
-    'transition-colors',
-    'focus-within:ring-2',
-    'focus-within:ring-offset-2'
-    // Prefer token ring color once mapped in theme:
-    // 'focus-within:ring-comp-fileupload-focus-color-ring'
-  ] as const,
+  // Surrounding chrome matches Input (label/hint/error handled like Input)
+  base: ['inline-flex', 'border-none', 'flex-col', 'gap-1'] as const,
 
-  // Slot-level classes
   slots: {
-    container: [] as const,
+    // Label row (InfoPopover inline), mirrors Input
+    labelRow: [
+      'inline-flex',
+      'gap-1',
+      'text-color-content-default',
+      'text-xs',
+      'uppercase'
+    ] as const,
 
-    // Label row (label + optional InfoPopover)
-    labelRow: ['mb-2', 'flex', 'items-start', 'gap-2'] as const,
-
-    // Interactive dropzone (rendered as <button>)
+    // DROPZONE — focusable button element; acts as a "group" so children can react on group-hover
     dropzone: [
       'relative',
-      'flex',
+      'group', // ← enables group-hover propagation to child controls
+      'inline-flex',
       'w-full',
+      'flex-col',
       'items-center',
       'justify-center',
-      'rounded-md',
+      'gap-4',
+      'w-570',
+      'rounded-lg',
       'border',
-      'border-dashed',
-      'bg-muted/30',
-      'px-4',
-      'py-8',
-      'text-center',
+      'pt-8',
+      'pl-4',
+      'pr-4',
+      'pb-6',
       'cursor-pointer',
-      'select-none',
-      'focus-visible:outline-none',
+      'transition-colors',
+      // Base tokens (match Input families)
+      'bg-comp-form-color-background-default',
+      'border-comp-form-color-border-default',
+      // Hover (when the dropzone itself is hovered)
+      'hover:bg-comp-form-color-background-hover',
+      'hover:border-comp-form-color-hover',
+      // Focus ring (the dropzone receives focus directly)
       'focus-visible:ring-2',
-      'focus-visible:ring-offset-2',
-      'hover:bg-muted/40',
-      'data-[drag-over=true]:bg-accent/20',
-      'data-[drag-over=true]:border-accent'
+      'focus-visible:ring-offset-4',
+      'focus-visible:ring-comp-border-focus-ring',
+      'focus-visible:ring-offset-color-background-default'
     ] as const,
 
-    // Thumbnail host (AspectRatio wrapper is inside)
-    thumbnail: ['mt-3', 'overflow-hidden', 'rounded-md', 'bg-muted/20', 'border'] as const,
+    // Thumbnail host (AspectRatio handles sizing)
+    thumbnail: ['overflow-hidden', 'rounded-lg'] as const,
 
-    // Absolute overlay for progress spinner
-    progress: [
-      'absolute',
-      'inset-0',
+    // Primary action container (Button sits here). Also encourage group-hover for minimal merges.
+    primaryAction: ['group-hover:[&_*]:bg-comp-button-primary-color-background-hover'] as const,
+
+    // Secondary action container (TextLink or styled text).
+    secondaryAction: ['group-hover:[&_*]:text-color-content-weak-hover'] as const,
+
+    // Properties row — fixed across states; spans are flex children
+    properties: [
       'flex',
-      'items-center',
-      'justify-center',
-      'pointer-events-none'
-    ] as const,
-
-    // Filename / status copy
-    status: ['mt-2', 'text-sm', 'text-foreground/80'] as const,
-
-    // Primary action button container
-    primaryAction: ['mt-3'] as const,
-
-    // Secondary action (text link)
-    secondaryAction: [
-      'mt-2',
+      'gap-4',
+      'pt-6',
+      'border-t',
+      'border-color-border-subtle',
       'text-sm',
-      'underline',
-      'underline-offset-2',
-      'text-foreground/70',
-      'hover:text-foreground'
+      'text-color-content-weak',
+      'group-hover:text-color-content-weak-hover',
+      'group-hover:border-color-border-subtle-hover'
     ] as const,
 
-    // Display-only capability strings
-    properties: ['mt-3', 'text-xs', 'text-foreground/70', 'leading-snug'] as const,
-
-    // Hint / error message region (consumer-driven)
-    message: ['mt-2', 'text-sm'] as const
+    // Message area split like Input: runtime conditionally renders ONE of these
+    hint: ['text-color-content-subtle', 'text-xs'] as const,
+    error: [
+      'text-color-content-utility-danger-subtle',
+      'text-xs',
+      'mt-1',
+      'inline-flex',
+      'gap-2',
+      'pl-1',
+      'items-center'
+    ] as const
   },
 
-  // No visual variants — visuals are driven by state + tokens
   variants: {},
 
-  // State flags toggled via data-*
   state: {
-    dragOver: [] as const, // handled inline on dropzone via data attribute
-    uploading: ['data-[uploading=true]:cursor-progress'] as const,
-    accepted: [] as const,
-    error: ['data-[error=true]:ring-2', 'data-[error=true]:ring-destructive'] as const,
-
-    // Axis-as-state: image format controls min-heights and aspect ratio variable
-    imageFormatPhoto: [
-      'data-[image-format=photo]:[--fileupload-ar:1/1]',
-      'data-[image-format=photo]:[--fileupload-min-h:theme(spacing.40)]' // ~160px
+    // invalid state mirrors Input's pattern — turn the dropzone border red
+    invalid: [
+      'data-[invalid=true]:[&_[data-slot=dropzone]]:border-comp-form-color-border-utility-danger'
     ] as const,
-    imageFormatPoster: [
-      'data-[image-format=poster]:[--fileupload-ar:3/4]',
-      'data-[image-format=poster]:[--fileupload-min-h:theme(spacing.56)]' // ~224px
-    ] as const
+
+    // Drag-over accent — restyles dropzone while dragging files over
+    dragOver: [
+      'data-[drag-over=true]:[&_[data-slot=dropzone]]:bg-comp-form-color-background-hover',
+      'data-[drag-over=true]:[&_[data-slot=dropzone]]:border-comp-form-color-hover'
+    ] as const,
+
+    // Uploading may change cursor or overlay treatment (keep minimal for now)
+    uploading: ['data-[uploading=true]:[&_[data-slot=dropzone]]:cursor-progress'] as const,
+
+    // Accepted has no special chrome here (thumbnail & actions convey state)
+    accepted: [] as const
   }
 });

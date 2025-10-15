@@ -6,7 +6,6 @@ export default defineContract({
   description:
     'Single-file upload control with drag-and-drop and click-to-browse. Uncontrolled internal state machine with callbacks for key transitions. Thumbnail frame via Radix AspectRatio.',
 
-  // Composite base; internal layout uses div/AspectRatio.
   base: 'div',
 
   props: {
@@ -16,19 +15,16 @@ export default defineContract({
       default: 'photo',
       description: 'Controls thumbnail AspectRatio and related layout.'
     },
-
     accept: {
       type: 'string',
       default: 'image/png,image/jpeg',
       description: 'Comma-separated MIME types/extensions allowed (native input.accept).'
     },
-
     showThumbnail: {
       type: 'boolean',
       default: true,
       description: 'When true, render the thumbnail frame; if the asset is an image, preview it.'
     },
-
     label: { type: 'string', description: 'Visible label above the control.' },
     ariaLabel: {
       type: 'string',
@@ -112,30 +108,35 @@ export default defineContract({
   slots: [
     'labelRow',
     'dropzone',
+    // Children rendered INSIDE the dropzone, in this exact order:
     'thumbnail',
-    'progress',
-    'status',
     'primaryAction',
     'secondaryAction',
     'properties',
-    'message'
+    // Message area mirrors Input; runtime conditionally renders ONE of these:
+    'hint',
+    'error'
   ] as const,
 
-  // Layout hint (structure only; classes finalized in styleMap)
+  // Layout hint: dropzone is a flex column container; its children are nested here
   layout: {
     type: 'container',
     tag: 'div',
     className: ['relative', 'w-full', 'outline-none'],
     children: [
       { slot: 'labelRow', tag: 'div' },
-      { slot: 'dropzone', tag: 'button' }, // native focus + Enter/Space
-      { slot: 'thumbnail', tag: 'div' },
-      { slot: 'progress', tag: 'div' },
-      { slot: 'status', tag: 'div' },
-      { slot: 'primaryAction', tag: 'div' },
-      { slot: 'secondaryAction', tag: 'div' },
-      { slot: 'properties', tag: 'div' },
-      { slot: 'message', tag: 'div' }
+      {
+        slot: 'dropzone',
+        tag: 'button', // native focus + Enter/Space
+        children: [
+          { slot: 'thumbnail', tag: 'div' },
+          { slot: 'primaryAction', tag: 'div' },
+          { slot: 'secondaryAction', tag: 'div' },
+          { slot: 'properties', tag: 'div' }
+        ]
+      },
+      { slot: 'hint', tag: 'div' },
+      { slot: 'error', tag: 'div' }
     ]
   },
 
@@ -148,9 +149,14 @@ export default defineContract({
     },
     { hint: 'Single file only; do not set input[multiple].' },
 
-    // State model & flags (drives show/hide, icon swaps, and copy)
+    // Dropzone content order (canonical)
     {
-      hint: 'Internal state model: empty → uploading → accepted; uploading → (canceled|error) → empty; accepted → (changing) → uploading. Reflect states via data attributes: data-drag-over, data-uploading, data-accepted, data-error.'
+      hint: 'Inside the dropzone (flex column), render slots in this order: thumbnail → primaryAction → secondaryAction → properties.'
+    },
+
+    // State model & flags
+    {
+      hint: 'Internal state model: empty → uploading → accepted; uploading → (canceled|error) → empty; accepted → (changing) → uploading. Reflect states via data attributes: data-drag-over, data-uploading, data-accepted, and data-invalid (for error styling).'
     },
 
     // {NOUN} resolution for visible strings
@@ -178,50 +184,51 @@ export default defineContract({
       hint: 'Use a single placeholder image for the thumbnail frame during uploading, on non-image files when showThumbnail=true, and on preview failure. Import it next to the component as `import fileThumbnail from "./fileThumbnail.png"`. Render it inside AspectRatio; sizing is handled by AspectRatio.'
     },
 
-    // ── Label + InfoPopover composition (mirrors Input’s pattern)
+    // Label + InfoPopover composition (mirrors Input)
     {
       when: { info: (v: unknown) => typeof v === 'string' && v.trim().length > 0 },
-      hint: 'Render the InfoPopover trigger inline with the label inside the `labelRow` slot (e.g., label text followed by an inline info trigger).'
+      hint: 'Render the InfoPopover trigger inline with the label inside the `labelRow` slot.'
     },
 
-    // ── Message slot semantics (mirrors Input’s message precedence + a11y wiring)
+    // Message area (mirrors Input runtime) — conditional rendering, no data-* switching
     {
-      hint: 'The `message` slot is used for either hint or error. When both exist, render **error** instead of hint. Prepend an `ErrorIcon` to the error copy. Merge the rendered message id (and the InfoPopover content id if open) into `aria-describedby` on the dropzone button.'
+      hint: 'Render either the `error` slot or the `hint` slot (never both). When error text exists, render the `error` slot and prepend an `ErrorIcon`; otherwise, if hint text exists, render the `hint` slot.'
     },
 
-    // ── Dropzone details (native button best practices)
+    // A11y wiring — mirror Input’s aria-describedby behavior
+    {
+      hint: 'Compute `aria-describedby` for the dropzone button like Input: merge the open InfoPopover content id (if any) with the id of the rendered message node (error OR hint).'
+    },
+
+    // Dropzone details (native button best practices)
     {
       hint: 'Render the dropzone as <button type="button">. Prevent default on dragenter/dragover/drop to avoid browser navigation. Handle Space/Enter to open the file dialog. Maintain focus ring on keyboard focus.'
     },
 
-    // ── Hidden input wiring (forward native props)
+    // Hidden input wiring (forward native props)
     {
-      hint: 'Create a visually-hidden <input type="file"> with id from useId(). Forward native input attributes (at least: name, required, form) and the `accept` prop. Programmatically trigger input.click() from dropzone/button and from the primary action.'
-    },
-
-    // ── Status copy suggestion
-    {
-      hint: 'In the `status` slot, show the current filename and a humanized size (e.g., 1.4 MB) when available.'
+      hint: 'Create a visually-hidden <input type="file"> with id from useId(). Forward native input attributes (at least: name, required, form) and the `accept` prop. Programmatically trigger input.click() from the dropzone and from the primary action.'
     }
   ] as const,
 
   styleMap: true,
 
   hints: {
-    radixAdapter: {
-      uses: ['AspectRatio'] as const
-    },
+    radixAdapter: { uses: ['AspectRatio'] as const },
 
-    a11y: 'Dropzone is focusable (render as <button> for native keyboard support). Space/Enter keys activate the file dialog. Announce drag state with aria-live="polite". Thumbnails are decorative; filename is textual in status.',
+    references: [
+      { name: 'Input.runtime', path: 'packages/core/src/components/Input/Input.tsx' },
+      { name: 'Input.styleMap', path: 'packages/blueprints/src/components/Input/Input.styleMap.ts' }
+    ],
 
-    // UI copy per state (generator templating with {NOUN})
+    a11y: 'Dropzone is focusable (render as <button> for native keyboard support). Space/Enter keys activate the file dialog. Announce drag state with aria-live="polite". Thumbnails are decorative; accessible name comes from label/ariaLabel; errors/hints are associated via aria-describedby.',
+
     uiCopy: {
       empty: { primary: 'Select {NOUN}', secondary: 'Or drop to upload' },
       uploading: { primary: 'Uploading…', secondary: 'Cancel upload' },
       accepted: { primary: 'Change {NOUN}', secondary: 'Remove {NOUN}' }
     },
 
-    // Primary action wiring (Button)
     primaryAction: {
       component: 'Button',
       variant: 'primary',
@@ -229,7 +236,6 @@ export default defineContract({
       startIconSource: 'icons.primary'
     },
 
-    // Secondary action wiring (TextLink or styled text)
     secondaryAction: {
       component: 'TextLink',
       variant: 'subtle',
@@ -241,7 +247,6 @@ export default defineContract({
       labelSource: 'uiCopy.secondary'
     },
 
-    // Primary icon per state (passed to Button as startIcon)
     icons: {
       primary: {
         empty: 'FileUploadIcon',
@@ -250,16 +255,10 @@ export default defineContract({
       }
     },
 
-    // Flags the runtime should toggle and the styleMap will consume
-    stateFlags: ['dragOver', 'uploading', 'accepted', 'error'],
+    stateFlags: ['dragOver', 'uploading', 'accepted', 'invalid'],
 
-    // AspectRatio guidance
-    aspectRatio: {
-      photo: '1/1',
-      poster: '3/4'
-    },
+    aspectRatio: { photo: '1/1', poster: '3/4' },
 
-    // Asset guidance for placeholder image
     assets: {
       placeholder: {
         import: 'fileThumbnail',
@@ -268,7 +267,6 @@ export default defineContract({
       }
     },
 
-    // ── Imports inventory (to aid the generator; module resolution may use project aliases)
     imports: {
       primitives: [{ name: 'AspectRatio' }],
       components: [{ name: 'Button' }, { name: 'TextLink' }, { name: 'InfoPopover' }],
