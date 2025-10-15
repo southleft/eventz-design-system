@@ -1305,6 +1305,12 @@
 .w-600 {
   width: calc(var(--spacing) * 600);
 }
+.w-\[192px\] {
+  width: 192px;
+}
+.w-\[850px\] {
+  width: 850px;
+}
 .w-full {
   width: 100%;
 }
@@ -1637,6 +1643,9 @@
 .pt-16 {
   padding-top: calc(var(--spacing) * 16);
 }
+.pt-32 {
+  padding-top: calc(var(--spacing) * 32);
+}
 .pr-1 {
   padding-right: var(--spacing-1);
 }
@@ -1660,6 +1669,9 @@
 }
 .pb-12 {
   padding-bottom: calc(var(--spacing) * 12);
+}
+.pb-24 {
+  padding-bottom: calc(var(--spacing) * 24);
 }
 .pl-1 {
   padding-left: var(--spacing-1);
@@ -1807,6 +1819,13 @@
 .select-none {
   -webkit-user-select: none;
   user-select: none;
+}
+.group-hover\:bg-comp-button-primary-color-background-hover {
+  &:is(:where(.group):hover *) {
+    @media (hover: hover) {
+      background-color: var(--color-comp-button-primary-color-background-hover);
+    }
+  }
 }
 .group-hover\:text-color-content-default-hover {
   &:is(:where(.group):hover *) {
@@ -2386,6 +2405,21 @@
     & [data-slot=textarea] {
       border-color: var(--color-comp-form-color-border-utility-danger);
     }
+  }
+}
+.group-hover\:\[\&_button\]\:bg-comp-button-primary-color-background-hover {
+  &:is(:where(.group):hover *) {
+    @media (hover: hover) {
+      & button {
+        background-color: var(--color-comp-button-primary-color-background-hover);
+      }
+    }
+  }
+}
+.\[\&_img\]\:size-full {
+  & img {
+    width: 100%;
+    height: 100%;
   }
 }
 .\[\&_img\]\:h-24 {

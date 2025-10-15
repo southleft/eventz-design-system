@@ -8,8 +8,7 @@ import { InfoPopover } from '../InfoPopover';
 import { composeClasses } from '../../utilities/composeClasses/composeClasses';
 import { collapseWhitespace } from '../../utilities/collapseWhitespace/collapseWhitespace';
 import { mergeDescribedBy } from '../../utilities/mergeDescribedBy/mergeDescribedBy';
-
-const fileThumbnail = './fileThumbnail.png';
+import fileThumbnail from './fileThumbnail.png';
 
 type UploadStatus = 'empty' | 'uploading' | 'accepted';
 
@@ -67,22 +66,22 @@ const labelRowClasses = `
 `;
 
 const dropzoneClasses = `
-  relative group inline-flex w-full flex-col items-center justify-center gap-4 w-570 rounded-lg border pt-8 pl-4 pr-4 pb-6 cursor-pointer transition-colors
+  relative group inline-flex w-full flex-col items-center justify-center gap-4 w-570 rounded-lg border pt-32 pl-4 pr-4 pb-24 transition-colors
   bg-comp-form-color-background-default border-comp-form-color-border-default
   hover:bg-comp-form-color-background-hover hover:border-comp-form-color-hover
   focus-visible:ring-2 focus-visible:ring-offset-4 focus-visible:ring-comp-border-focus-ring focus-visible:ring-offset-color-background-default
 `;
 
 const thumbnailClasses = `
-  overflow-hidden rounded-lg
+  w-[192px] overflow-hidden rounded-lg [&_img]:object-cover [&_img]:size-full
 `;
 
 const primaryActionClasses = `
-  group-hover:[&_*]:bg-comp-button-primary-color-background-hover
+  group-hover:[&_button]:bg-comp-button-primary-color-background-hover
 `;
 
 const secondaryActionClasses = `
-  group-hover:[&_*]:text-color-content-weak-hover
+  group-hover:[&_*]:text-color-content-weak-hover text-color-content-weak cursor-default select-none
 `;
 
 const propertiesClasses = `
@@ -450,8 +449,6 @@ export const FileUpload = React.forwardRef<HTMLDivElement, FileUploadProps>(
       isNonImageFile ||
       hasPreviewError ||
       !previewSource;
-    const thumbnailSource =
-      shouldRenderThumbnail && !shouldShowPlaceholder ? previewSource : fileThumbnail;
 
     React.useEffect(() => {
       if (trimmedInfo) return;
@@ -526,11 +523,6 @@ export const FileUpload = React.forwardRef<HTMLDivElement, FileUploadProps>(
       handleDropFiles(files);
     };
 
-    const handleDropzoneClick = () => {
-      if (status === 'uploading') return;
-      inputRef.current!.click();
-    };
-
     const aspectRatio = aspectRatioByFormat[imageFormat];
 
     return (
@@ -562,7 +554,6 @@ export const FileUpload = React.forwardRef<HTMLDivElement, FileUploadProps>(
           id={dropzoneId}
           className={dropzoneClassName}
           data-slot="dropzone"
-          onClick={handleDropzoneClick}
           onDragEnter={handleDragEnter}
           onDragOver={handleDragOver}
           onDragLeave={handleDragLeave}
@@ -572,26 +563,22 @@ export const FileUpload = React.forwardRef<HTMLDivElement, FileUploadProps>(
           aria-describedby={dropzoneAriaDescribedBy}
           role="button"
           tabIndex={0}
-          onKeyDown={event => {
-            if (event.key === 'Enter' || event.key === ' ') {
-              event.preventDefault();
-              handleDropzoneClick();
-            }
-          }}
         >
           {shouldRenderThumbnail ? (
-            <AspectRatio.Root
-              ratio={aspectRatio}
-              className={thumbnailClassName}
-              data-slot="thumbnail"
-            >
-              <img
-                src={thumbnailSource}
-                alt=""
-                aria-hidden="true"
-                onError={() => setHasPreviewError(true)}
-              />
-            </AspectRatio.Root>
+            <div className={thumbnailClassName}>
+              <AspectRatio.Root ratio={aspectRatio} data-slot="thumbnail">
+                <img
+                  src={
+                    shouldRenderThumbnail && !shouldShowPlaceholder && previewSource
+                      ? previewSource
+                      : (fileThumbnail as string)
+                  }
+                  alt=""
+                  aria-hidden="true"
+                  onError={() => setHasPreviewError(true)}
+                />
+              </AspectRatio.Root>
+            </div>
           ) : null}
 
           <div className={primaryActionClassName} data-slot="primaryAction">
