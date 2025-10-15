@@ -442,9 +442,9 @@ export const FileUpload = React.forwardRef<HTMLDivElement, FileUploadProps>(
         <FileUploadIcon aria-hidden="true" />
       );
 
-    const shouldRenderThumbnail = showThumbnail;
+    const shouldRenderThumbnailFrame = showThumbnail && status !== 'empty';
     const shouldShowPlaceholder =
-      !shouldRenderThumbnail ||
+      !shouldRenderThumbnailFrame ||
       status === 'uploading' ||
       isNonImageFile ||
       hasPreviewError ||
@@ -564,12 +564,12 @@ export const FileUpload = React.forwardRef<HTMLDivElement, FileUploadProps>(
           role="button"
           tabIndex={0}
         >
-          {shouldRenderThumbnail ? (
+          {shouldRenderThumbnailFrame ? (
             <div className={thumbnailClassName}>
               <AspectRatio.Root ratio={aspectRatio} data-slot="thumbnail">
                 <img
                   src={
-                    shouldRenderThumbnail && !shouldShowPlaceholder && previewSource
+                    shouldRenderThumbnailFrame && !shouldShowPlaceholder && previewSource
                       ? previewSource
                       : (fileThumbnail as string)
                   }

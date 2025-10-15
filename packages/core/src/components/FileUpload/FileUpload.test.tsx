@@ -309,6 +309,12 @@ describe('FileUpload', () => {
     expect(thumbnail).toBeNull();
   });
 
+  it('does not render a thumbnail frame in empty state even when showThumbnail is true', () => {
+    render(<FileUpload label="Profile photo" showThumbnail />);
+    const thumbnail = document.querySelector('[data-slot="thumbnail"]');
+    expect(thumbnail).toBeNull();
+  });
+
   it('cancels the upload and returns to the empty state', () => {
     const onFileCanceled = jest.fn();
     const { container } = render(
