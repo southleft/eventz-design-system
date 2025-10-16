@@ -28,36 +28,27 @@ export default defineStyleMap({
       'w-570',
       'rounded-lg',
       'border',
-      'pt-8',
+      'pt-32',
       'pl-4',
       'pr-4',
-      'pb-6',
+      'pb-24',
       'transition-colors',
       // Base tokens (match Input families)
       'bg-comp-form-color-background-default',
       'border-comp-form-color-border-default',
       // Hover (when the dropzone itself is hovered)
       'hover:bg-comp-form-color-background-hover',
-      'hover:border-comp-form-color-hover',
-      // Focus ring (the dropzone receives focus directly)
-      'focus-visible:ring-2',
-      'focus-visible:ring-offset-4',
-      'focus-visible:ring-comp-border-focus-ring',
-      'focus-visible:ring-offset-color-background-default',
-      'focus-within:ring-2',
-      'focus-within:ring-offset-4',
-      'focus-within:ring-comp-border-focus-ring',
-      'focus-within:ring-offset-color-background-default'
+      'hover:border-comp-form-color-hover'
     ] as const,
 
     // Thumbnail host (AspectRatio handles sizing)
-    thumbnail: ['overflow-hidden', 'rounded-lg'] as const,
+    thumbnail: ['w-[192px]', 'overflow-hidden', 'rounded-lg', '[&_img]:object-cover', '[&_img]:size-full'] as const,
 
     // Primary action container (Button sits here). Also encourage group-hover for minimal merges.
-    primaryAction: ['group-hover:[&_*]:bg-comp-button-primary-color-background-hover'] as const,
+    primaryAction: ['group-hover:[&_button]:bg-comp-button-primary-color-background-hover'] as const,
 
     // Secondary action container (TextLink or styled text).
-    secondaryAction: ['group-hover:[&_*]:text-color-content-weak-hover'] as const,
+    secondaryAction: ['group-hover:[&_*]:text-color-content-weak-hover', 'text-color-content-weak', 'cursor-default', 'select-none'] as const,
 
     // Properties row — fixed across states; spans are flex children
     properties: [
