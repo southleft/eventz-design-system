@@ -82,36 +82,61 @@ describe('MenuItem', () => {
     expect(screen.getByTestId('menu-item-image-placeholder')).toBeInTheDocument();
   });
 
-  it('renders the media icon when provided for complex type', () => {
-    render(
-      <MenuItem
-        type="complex"
-        option="Complex option"
-        supportingText="Supporting"
-        mediaIcon={<span data-testid="media-icon" />}
-      />
-    );
+  describe('complex media icon support', () => {
+    const renderWithMediaIcon = () =>
+      render(
+        <MenuItem
+          type="complex"
+          option="Complex option"
+          supportingText="Supporting"
+          mediaIcon={<span data-testid="media-icon" />}
+        />
+      );
 
-    const mediaIcon = screen.getByTestId('menu-item-media-icon');
-    expect(mediaIcon).toBeInTheDocument();
-    expect(screen.getByTestId('media-icon')).toBeInTheDocument();
-    expect(mediaIcon.className).toContain('text-color-content-brand');
-    expect(screen.queryByTestId('menu-item-image-placeholder')).toBeNull();
+    it('renders the media icon slot when provided', () => {
+      renderWithMediaIcon();
+      expect(screen.getByTestId('menu-item-media-icon')).toBeInTheDocument();
+    });
+
+    it('renders the supplied icon inside the media slot', () => {
+      renderWithMediaIcon();
+      expect(screen.getByTestId('media-icon')).toBeInTheDocument();
+    });
+
+    it('applies brand styling classes to the media icon container', () => {
+      renderWithMediaIcon();
+      expect(screen.getByTestId('menu-item-media-icon').className).toContain(
+        'text-color-content-brand'
+      );
+    });
+
+    it('does not render the placeholder when media icon is present', () => {
+      renderWithMediaIcon();
+      expect(screen.queryByTestId('menu-item-image-placeholder')).toBeNull();
+    });
   });
 
-  it('prefers imgSrc over mediaIcon when both are provided', () => {
-    render(
-      <MenuItem
-        type="complex"
-        option="Complex option"
-        supportingText="Supporting"
-        imgSrc="https://picsum.photos/seed/doxyz/160/160"
-        mediaIcon={<span data-testid="media-icon" />}
-      />
-    );
+  describe('complex media icon precedence', () => {
+    const renderWithImageAndIcon = () =>
+      render(
+        <MenuItem
+          type="complex"
+          option="Complex option"
+          supportingText="Supporting"
+          imgSrc="https://picsum.photos/seed/doxyz/160/160"
+          mediaIcon={<span data-testid="media-icon" />}
+        />
+      );
 
-    expect(screen.getByRole('img')).toBeInTheDocument();
-    expect(screen.queryByTestId('menu-item-media-icon')).toBeNull();
+    it('renders the image when both imgSrc and mediaIcon are provided', () => {
+      renderWithImageAndIcon();
+      expect(screen.getByRole('img')).toBeInTheDocument();
+    });
+
+    it('omits the media icon when imgSrc is provided', () => {
+      renderWithImageAndIcon();
+      expect(screen.queryByTestId('menu-item-media-icon')).toBeNull();
+    });
   });
 
   it('ignores startIcon for complex type', () => {
