@@ -14,6 +14,7 @@ const meta: Meta<MenuItemStoryArgs> = {
     isSelected: false,
     borderBottom: true,
     ariaLabel: '',
+    href: '',
     imgSrc: '',
     imgAlt: '',
     option: 'Default menu item',
@@ -27,6 +28,7 @@ const meta: Meta<MenuItemStoryArgs> = {
       startIcon={args.type === 'simple' ? <InfoIcon /> : undefined}
       imgSrc={args.type === 'complex' ? imgSrc || undefined : undefined}
       imgAlt={args.type === 'complex' ? imgAlt || undefined : undefined}
+      href={args.href || undefined}
     />
   )
 };
@@ -48,6 +50,14 @@ export const SimpleSelected: Story = {
     type: 'simple',
     option: 'Selected menu item',
     isSelected: true
+  }
+};
+
+export const SimpleLink: Story = {
+  args: {
+    type: 'simple',
+    option: 'Menu item link',
+    href: 'https://example.com'
   }
 };
 

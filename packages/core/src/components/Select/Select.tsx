@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Select as RadixSelect } from 'radix-ui';
 import { Input, type InputProps } from '../Input';
-import { MenuItem, type MenuItemProps } from '../MenuItem';
+import { MenuItem, type MenuItemComponentProps, type MenuItemProps } from '../MenuItem';
 import { KeyboardArrowDownIcon } from '../../icons';
 import { collapseWhitespace, composeClasses } from '../..//utilities';
 
@@ -117,7 +117,7 @@ export const Select = React.forwardRef<SelectElement, SelectProps>(
                       asChild
                     >
                       <MenuItem
-                        {...restOptionProps}
+                        {...(restOptionProps as MenuItemComponentProps)}
                         option={option}
                         isSelected={resolvedIsSelected}
                         disabled={itemDisabled}

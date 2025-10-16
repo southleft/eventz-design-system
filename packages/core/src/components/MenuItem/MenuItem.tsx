@@ -5,7 +5,7 @@ import { CheckIcon } from '../../icons';
 
 type MenuItemType = 'simple' | 'complex';
 
-export interface MenuItemProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'type'> {
+type MenuItemBaseProps = {
   type?: MenuItemType;
   isSelected?: boolean;
   borderBottom?: boolean;
@@ -15,6 +15,26 @@ export interface MenuItemProps extends Omit<React.ButtonHTMLAttributes<HTMLButto
   supportingText?: string;
   imgSrc?: string;
   imgAlt?: string;
+};
+
+type ButtonAttributes = Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'type'>;
+type AnchorAttributes = Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'type'>;
+
+type MenuItemButtonProps = MenuItemBaseProps &
+  ButtonAttributes & {
+    href?: undefined;
+  };
+
+type MenuItemLinkProps = MenuItemBaseProps &
+  AnchorAttributes & {
+    href: string;
+    disabled?: boolean;
+  };
+
+export type MenuItemComponentProps = MenuItemButtonProps | MenuItemLinkProps;
+
+export interface MenuItemProps extends MenuItemBaseProps, ButtonAttributes {
+  href?: string;
 }
 
 const baseClasses = `
@@ -58,7 +78,10 @@ const selectedIconVisibleClasses = `
   group-data-[is-selected=true]:inline-flex
 `;
 
-export const MenuItem = React.forwardRef<HTMLButtonElement, MenuItemProps>(
+export const MenuItem = React.forwardRef<
+  HTMLButtonElement | HTMLAnchorElement,
+  MenuItemComponentProps
+>(
   (
     {
       type = 'simple',
@@ -71,6 +94,7 @@ export const MenuItem = React.forwardRef<HTMLButtonElement, MenuItemProps>(
       imgSrc,
       imgAlt,
       className = '',
+      href,
       ...rest
     },
     ref
@@ -94,16 +118,17 @@ export const MenuItem = React.forwardRef<HTMLButtonElement, MenuItemProps>(
         ? imgAlt?.trim() || option?.trim() || ariaLabel?.trim() || undefined
         : undefined;
 
-    return (
-      <button
-        {...rest}
-        ref={ref}
-        type="button"
-        className={baseClassName}
-        data-is-selected={isSelected}
-        data-border-bottom={borderBottom}
-        aria-label={ariaLabel?.trim() || undefined}
-      >
+    const ariaLabelValue = ariaLabel?.trim() || undefined;
+
+    const commonProps = {
+      className: baseClassName,
+      'data-is-selected': isSelected ? 'true' : 'false',
+      'data-border-bottom': borderBottom ? 'true' : 'false',
+      'aria-label': ariaLabelValue
+    };
+
+    const content = (
+      <>
         {type === 'simple' ? (
           <>
             {startIcon ? (
@@ -145,6 +170,32 @@ export const MenuItem = React.forwardRef<HTMLButtonElement, MenuItemProps>(
             </span>
           </>
         )}
+      </>
+    );
+
+    if (href) {
+      const { disabled: anchorDisabled, ...anchorAttributes } = rest as MenuItemLinkProps;
+      return (
+        <a
+          {...(anchorAttributes as AnchorAttributes)}
+          {...commonProps}
+          aria-disabled={anchorDisabled ? 'true' : undefined}
+          href={href}
+          ref={ref as React.Ref<HTMLAnchorElement>}
+        >
+          {content}
+        </a>
+      );
+    }
+
+    return (
+      <button
+        {...(rest as ButtonAttributes)}
+        {...commonProps}
+        ref={ref as React.Ref<HTMLButtonElement>}
+        type="button"
+      >
+        {content}
       </button>
     );
   }
