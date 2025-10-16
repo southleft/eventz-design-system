@@ -31,7 +31,11 @@ type MenuItemLinkProps = MenuItemBaseProps &
     disabled?: boolean;
   };
 
-export type MenuItemProps = MenuItemButtonProps | MenuItemLinkProps;
+export type MenuItemComponentProps = MenuItemButtonProps | MenuItemLinkProps;
+
+export interface MenuItemProps extends MenuItemBaseProps, ButtonAttributes {
+  href?: string;
+}
 
 const baseClasses = `
   group flex flex-nowrap items-center gap-8 bg-background-none w-full
@@ -74,7 +78,10 @@ const selectedIconVisibleClasses = `
   group-data-[is-selected=true]:inline-flex
 `;
 
-export const MenuItem = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, MenuItemProps>(
+export const MenuItem = React.forwardRef<
+  HTMLButtonElement | HTMLAnchorElement,
+  MenuItemComponentProps
+>(
   (
     {
       type = 'simple',

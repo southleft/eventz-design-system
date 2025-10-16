@@ -1,7 +1,7 @@
 // packages/core/src/components/MenuItem/MenuItem.test.tsx
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
-import { MenuItem, MenuItemProps } from './MenuItem';
+import { MenuItem, MenuItemComponentProps, MenuItemProps } from './MenuItem';
 
 const renderMenuItem = (props: Partial<MenuItemProps> = {}) => {
   const defaultProps: MenuItemProps = {
@@ -11,7 +11,7 @@ const renderMenuItem = (props: Partial<MenuItemProps> = {}) => {
     borderBottom: true
   };
 
-  const mergedProps = { ...defaultProps, ...props } as MenuItemProps;
+  const mergedProps = { ...defaultProps, ...props } as MenuItemComponentProps;
 
   return render(<MenuItem {...mergedProps} />);
 };
