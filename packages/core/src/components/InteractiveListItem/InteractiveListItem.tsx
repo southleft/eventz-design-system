@@ -2,8 +2,7 @@ import * as React from 'react';
 import { composeClasses, collapseWhitespace } from '../../utilities';
 import { CancelIcon, ChevronRightIcon } from '../../icons';
 
-export interface InteractiveListItemProps
-  extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'type'> {
+type InteractiveListItemBaseProps = {
   title: string;
   supportingText?: string;
   highlightText?: string;
@@ -11,7 +10,19 @@ export interface InteractiveListItemProps
   imgAlt?: string;
   isRemovable?: boolean;
   borderBottom?: boolean;
-}
+};
+
+type InteractiveListItemButtonProps = InteractiveListItemBaseProps &
+  Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'type'> & {
+    href?: undefined;
+  };
+
+type InteractiveListItemLinkProps = InteractiveListItemBaseProps &
+  Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'type'> & {
+    href: string;
+  };
+
+export type InteractiveListItemProps = InteractiveListItemButtonProps | InteractiveListItemLinkProps;
 
 const baseClasses = `
   group flex justify-between data-[is-removable=true]:items-center gap-8 w-full outline-none pb-10 pl-8 pt-8 pr-8 bg-background-none border-l-0 border-r-0 border-b-0 border-t-0
@@ -33,7 +44,10 @@ const nonRemovableWrapperClasses = `flex flex-col min-w-0 flex-1`;
 
 const trailingIconClasses = `shrink-0 text-color-content-default h-20 w-20`;
 
-export const InteractiveListItem = React.forwardRef<HTMLButtonElement, InteractiveListItemProps>(
+export const InteractiveListItem = React.forwardRef<
+  HTMLButtonElement | HTMLAnchorElement,
+  InteractiveListItemProps
+>(
   (
     {
       title,
@@ -44,6 +58,7 @@ export const InteractiveListItem = React.forwardRef<HTMLButtonElement, Interacti
       isRemovable = false,
       borderBottom = true,
       className,
+      href,
       ...rest
     },
     ref
@@ -59,15 +74,14 @@ export const InteractiveListItem = React.forwardRef<HTMLButtonElement, Interacti
     const highlightTextClassName = collapseWhitespace(composeClasses(highlightTextClasses));
     const trailingIconClassName = collapseWhitespace(composeClasses(trailingIconClasses));
 
-    return (
-      <button
-        {...rest}
-        ref={ref}
-        type="button"
-        className={baseClassName}
-        data-is-removable={isRemovable ? 'true' : undefined}
-        data-border-bottom={borderBottom ? 'true' : undefined}
-      >
+    const commonProps = {
+      className: baseClassName,
+      'data-is-removable': isRemovable ? 'true' : undefined,
+      'data-border-bottom': borderBottom ? 'true' : undefined
+    };
+
+    const content = (
+      <>
         <span className={containerClassName}>
           {isRemovable ? (
             imgSrc ? (
@@ -87,12 +101,33 @@ export const InteractiveListItem = React.forwardRef<HTMLButtonElement, Interacti
           </span>
         </span>
         <span className={trailingIconClassName}>
-          {isRemovable ? (
-            <CancelIcon aria-hidden="true" />
-          ) : (
-            <ChevronRightIcon aria-hidden="true" />
-          )}
+          {isRemovable ? <CancelIcon aria-hidden="true" /> : <ChevronRightIcon aria-hidden="true" />}
         </span>
+      </>
+    );
+
+    if (href) {
+      const anchorAttributes = rest as Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'type'>;
+      return (
+        <a
+          {...anchorAttributes}
+          {...commonProps}
+          href={href}
+          ref={ref as React.Ref<HTMLAnchorElement>}
+        >
+          {content}
+        </a>
+      );
+    }
+
+    return (
+      <button
+        {...(rest as Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'type'>)}
+        {...commonProps}
+        ref={ref as React.Ref<HTMLButtonElement>}
+        type="button"
+      >
+        {content}
       </button>
     );
   }

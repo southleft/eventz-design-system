@@ -1,3 +1,4 @@
+import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { InteractiveListItem, InteractiveListItemProps } from './InteractiveListItem';
@@ -10,6 +11,7 @@ const renderInteractiveListItem = (props: Partial<InteractiveListItemProps> = {}
     imgSrc: 'https://placehold.co/80x80',
     borderBottom: true,
     isRemovable: false,
+    href: undefined,
     ...props
   };
 
@@ -20,6 +22,14 @@ describe('InteractiveListItem', () => {
   it('renders the title as the button label', () => {
     renderInteractiveListItem();
     expect(screen.getByRole('button', { name: /Account settings/ })).toBeInTheDocument();
+  });
+
+  it('renders as a link when href is provided', () => {
+    renderInteractiveListItem({ href: '/settings' });
+    expect(screen.getByRole('link', { name: /Account settings/ })).toHaveAttribute(
+      'href',
+      '/settings'
+    );
   });
 
   it('applies default props when omitted', () => {

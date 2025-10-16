@@ -27,3 +27,11 @@ export const Removable: Story = {
     isRemovable: true
   }
 };
+
+export const AsLink: Story = {
+  args: {
+    title: 'Manage account security',
+    highlightText: 'Requires authentication',
+    href: '#'
+  }
+};
