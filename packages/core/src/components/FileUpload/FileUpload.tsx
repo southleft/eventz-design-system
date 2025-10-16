@@ -70,6 +70,9 @@ const dropzoneClasses = `
   bg-comp-form-color-background-default border-comp-form-color-border-default
   hover:bg-comp-form-color-background-hover hover:border-comp-form-color-hover
   focus-visible:ring-2 focus-visible:ring-offset-4 focus-visible:ring-comp-border-focus-ring focus-visible:ring-offset-color-background-default
+`;
+
+const focusWithinRingClasses = `
   focus-within:ring-2 focus-within:ring-offset-4 focus-within:ring-comp-border-focus-ring focus-within:ring-offset-color-background-default
 `;
 
@@ -212,6 +215,7 @@ export const FileUpload = React.forwardRef<HTMLDivElement, FileUploadProps>(
     const [previewSource, setPreviewSource] = React.useState<string | undefined>();
     const [hasPreviewError, setHasPreviewError] = React.useState(false);
     const [isNonImageFile, setIsNonImageFile] = React.useState(false);
+    const [withinRingEnabled, setWithinRingEnabled] = React.useState(false);
 
     const acceptTokens = React.useMemo(
       () =>
@@ -425,7 +429,9 @@ export const FileUpload = React.forwardRef<HTMLDivElement, FileUploadProps>(
     const labelRowClassName = collapseWhitespace(
       composeClasses(labelRowClasses, !trimmedLabel ? 'sr-only' : undefined)
     );
-    const dropzoneClassName = collapseWhitespace(composeClasses(dropzoneClasses));
+    const dropzoneClassName = collapseWhitespace(
+      composeClasses(dropzoneClasses, withinRingEnabled ? focusWithinRingClasses : undefined)
+    );
     const thumbnailClassName = collapseWhitespace(composeClasses(thumbnailClasses));
     const primaryActionClassName = collapseWhitespace(composeClasses(primaryActionClasses));
     const secondaryActionClassName = collapseWhitespace(composeClasses(secondaryActionClasses));
@@ -559,6 +565,8 @@ export const FileUpload = React.forwardRef<HTMLDivElement, FileUploadProps>(
           onDragOver={handleDragOver}
           onDragLeave={handleDragLeave}
           onDrop={handleDrop}
+          onKeyDownCapture={() => setWithinRingEnabled(true)}
+          onMouseDownCapture={() => setWithinRingEnabled(false)}
           aria-labelledby={trimmedLabel ? labelId : undefined}
           aria-label={dropzoneAriaLabel}
           aria-describedby={dropzoneAriaDescribedBy}

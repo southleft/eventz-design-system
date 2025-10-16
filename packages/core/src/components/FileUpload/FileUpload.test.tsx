@@ -493,8 +493,10 @@ describe('FileUpload', () => {
     const user = userEvent.setup();
     render(<FileUpload ariaLabel="Upload file" />);
     const dropzone = screen.getByRole('group', { name: 'Upload file' });
-    // The container carries both focus-visible and focus-within ring tokens.
+    // Static classes include focus-visible tokens; focus-within tokens are enabled by keyboard modality.
     expect(dropzone.className).toContain('focus-visible:ring-2');
+    expect(dropzone.className).not.toContain('focus-within:ring-2');
+    fireEvent.keyDown(dropzone, { key: 'Tab' });
     expect(dropzone.className).toContain('focus-within:ring-2');
     // Tabbing should place focus on the primary action; :focus-within will visually ring the group in the browser.
     await user.tab();
@@ -502,6 +504,19 @@ describe('FileUpload', () => {
       '[data-slot="primaryAction"] button'
     ) as HTMLButtonElement;
     expect(primaryButton).toHaveFocus();
+  });
+
+  it('disables the focus-within ring on pointer modality (mouse down)', () => {
+    render(<FileUpload ariaLabel="Upload file" />);
+    const dropzone = screen.getByRole('group', { name: 'Upload file' });
+
+    // Enable keyboard modality first
+    fireEvent.keyDown(dropzone, { key: 'Tab' });
+    expect(dropzone.className).toContain('focus-within:ring-2');
+
+    // Mouse interaction should disable the within ring
+    fireEvent.mouseDown(dropzone);
+    expect(dropzone.className).not.toContain('focus-within:ring-2');
   });
 
   it('opens the file dialog when pressing Enter/Space on the dropzone', () => {
