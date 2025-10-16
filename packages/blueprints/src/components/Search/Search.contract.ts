@@ -26,7 +26,8 @@ export const SearchContract = defineContract({
           label: { type: 'string', required: true }, // → MenuItem.option
           description: { type: 'string' }, // → MenuItem.supportingText
           href: { type: 'string' }, // → MenuItem.href (renders <a>)
-          icon: { type: 'slot' } // → MenuItem.mediaIcon (visual node)
+          icon: { type: 'slot' }, // → MenuItem.mediaIcon (visual node) (override)
+          type: { type: 'string' } // -> venue | article | event | artist | guide | undefined
         }
       }
     },
@@ -126,6 +127,9 @@ export const SearchContract = defineContract({
     },
     {
       hint: 'onResultSelect receives the exact object from results[i] without transformation.'
+    },
+    {
+      hint: 'type prop corrosponds to the default icon, mapped as follows: venue - StadiumIcon, article - NewsmodeIcon, event - EventIcon, artist - ArtistIcon, guide - MapIcon, undefined - EventIcon. if icon is provided as a prop, it takes priority and overrides all.'
     }
   ],
 
@@ -143,7 +147,19 @@ export const SearchContract = defineContract({
       { from: '../MenuItem', names: ['MenuItem'] },
 
       // Icons (default + override surface + loading)
-      { from: '../../icons', names: ['SearchIcon', 'CloseIcon', 'AnimatedCircularProgressIcon'] }
+      {
+        from: '../../icons',
+        names: [
+          'SearchIcon',
+          'CloseIcon',
+          'AnimatedCircularProgressIcon',
+          'StadiumIcon',
+          'NewsmodeIcon',
+          'MapIcon',
+          'EventIcon',
+          'ArtistIcon'
+        ]
+      }
     ],
 
     radixAdapter: { uses: ['Popover'] as const },
