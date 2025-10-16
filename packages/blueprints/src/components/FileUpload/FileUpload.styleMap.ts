@@ -15,7 +15,7 @@ export default defineStyleMap({
       'uppercase'
     ] as const,
 
-    // DROPZONE — focusable button element; acts as a "group" so children can react on group-hover
+    // DROPZONE — non-focusable group container; children react via group-hover
     dropzone: [
       'relative',
       'group', // ← enables group-hover propagation to child controls
@@ -32,7 +32,6 @@ export default defineStyleMap({
       'pl-4',
       'pr-4',
       'pb-6',
-      'cursor-pointer',
       'transition-colors',
       // Base tokens (match Input families)
       'bg-comp-form-color-background-default',
@@ -44,7 +43,11 @@ export default defineStyleMap({
       'focus-visible:ring-2',
       'focus-visible:ring-offset-4',
       'focus-visible:ring-comp-border-focus-ring',
-      'focus-visible:ring-offset-color-background-default'
+      'focus-visible:ring-offset-color-background-default',
+      'focus-within:ring-2',
+      'focus-within:ring-offset-4',
+      'focus-within:ring-comp-border-focus-ring',
+      'focus-within:ring-offset-color-background-default'
     ] as const,
 
     // Thumbnail host (AspectRatio handles sizing)

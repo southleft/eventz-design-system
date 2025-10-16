@@ -127,7 +127,7 @@ export default defineContract({
       { slot: 'labelRow', tag: 'div' },
       {
         slot: 'dropzone',
-        tag: 'button', // native focus + Enter/Space
+        tag: 'div', // non-focusable group; keyboard activation lives on child controls
         children: [
           { slot: 'thumbnail', tag: 'div' },
           { slot: 'primaryAction', tag: 'div' },
@@ -145,7 +145,7 @@ export default defineContract({
       hint: 'Use Radix AspectRatio internally for the thumbnail frame; keep icons decorative (aria-hidden=true).'
     },
     {
-      hint: 'Implement drag-and-drop on the dropzone; Space/Enter should trigger the native file dialog.'
+      hint: 'Implement drag-and-drop on the dropzone container. Keyboard activation is handled by the primary action button; the dropzone itself is not an activator.'
     },
     { hint: 'Single file only; do not set input[multiple].' },
 
@@ -197,17 +197,17 @@ export default defineContract({
 
     // A11y wiring — mirror Input’s aria-describedby behavior
     {
-      hint: 'Compute `aria-describedby` for the dropzone button like Input: merge the open InfoPopover content id (if any) with the id of the rendered message node (error OR hint).'
+      hint: 'Compute `aria-describedby` for the dropzone group like Input: merge the open InfoPopover content id (if any) with the id of the rendered message node (error OR hint). The accessible name comes from label/ariaLabel on the group.'
     },
 
     // Dropzone details (native button best practices)
     {
-      hint: 'Render the dropzone as <button type="button">. Prevent default on dragenter/dragover/drop to avoid browser navigation. Handle Space/Enter to open the file dialog. Maintain focus ring on keyboard focus.'
+      hint: 'Render the dropzone container as a non-focusable group (<div role="group">). Maintain the visual focus ring on the container via :focus-within; only child controls (e.g., primary/secondary actions) are focusable.'
     },
 
     // Hidden input wiring (forward native props)
     {
-      hint: 'Create a visually-hidden <input type="file"> with id from useId(). Forward native input attributes (at least: name, required, form) and the `accept` prop. Programmatically trigger input.click() from the dropzone and from the primary action.'
+      hint: 'Create a visually-hidden <input type="file"> with id from useId(). Forward native input attributes (at least: name, required, form) and the `accept` prop. Programmatically trigger input.click() from the primary action button only (not from the dropzone).'
     },
 
     // 🔁 Uploading exit criteria (explicit)
@@ -241,7 +241,7 @@ export default defineContract({
       { name: 'Input.styleMap', path: 'packages/blueprints/src/components/Input/Input.styleMap.ts' }
     ],
 
-    a11y: 'Dropzone is focusable (render as <button> for native keyboard support). Space/Enter keys activate the file dialog. Announce drag state with a hidden live region. Thumbnails are decorative; accessible name comes from label/ariaLabel; errors/hints are associated via aria-describedby.',
+    a11y: 'Dropzone is a non-focusable group (<div role="group">). Primary/secondary actions are the only focusable elements; :focus-within on the container provides the visual focus ring. Announce drag state with a hidden live region. Thumbnails are decorative; accessible name comes from label/ariaLabel; errors/hints are associated via aria-describedby on the group.',
 
     uiCopy: {
       empty: { primary: 'Select {NOUN}', secondary: 'Or drop to upload' },
