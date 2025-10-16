@@ -397,8 +397,11 @@ describe('FileUpload', () => {
       });
 
       const root = container.firstElementChild as HTMLElement;
-      expect(root.getAttribute('data-accepted')).toBe('true');
-      expect(setTimeoutSpy).toHaveBeenCalled();
+      const result = {
+        accepted: root.getAttribute('data-accepted'),
+        usedFallback: setTimeoutSpy.mock.calls.length > 0
+      };
+      expect(result).toEqual({ accepted: 'true', usedFallback: true });
     } finally {
       setTimeoutSpy.mockRestore();
       jest.useRealTimers();
