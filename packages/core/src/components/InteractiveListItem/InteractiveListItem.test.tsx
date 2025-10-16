@@ -4,18 +4,17 @@ import userEvent from '@testing-library/user-event';
 import { InteractiveListItem, InteractiveListItemProps } from './InteractiveListItem';
 
 const renderInteractiveListItem = (props: Partial<InteractiveListItemProps> = {}) => {
-  const defaultProps: InteractiveListItemProps = {
+  const defaultProps = {
     title: 'Account settings',
     supportingText: 'Manage your account preferences',
     highlightText: 'Updated 2 days ago',
     imgSrc: 'https://placehold.co/80x80',
     borderBottom: true,
     isRemovable: false,
-    href: undefined,
     ...props
   };
 
-  return render(<InteractiveListItem {...defaultProps} />);
+  return render(<InteractiveListItem {...(defaultProps as InteractiveListItemProps)} />);
 };
 
 describe('InteractiveListItem', () => {
