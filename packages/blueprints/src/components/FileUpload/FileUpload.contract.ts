@@ -319,7 +319,7 @@ export default defineContract({
       primitives: [{ name: 'AspectRatio' }],
       components: [{ name: 'Button' }, { name: 'TextLink' }, { name: 'InfoPopover' }],
       icons: [
-        { name: 'FileUploadIcon' },
+        { name: 'UploadIcon' },
         { name: 'AnimatedCircularProgressIcon' },
         { name: 'ErrorIcon' }
       ],
