@@ -7,7 +7,13 @@ export default defineStyleMap({
 
   slots: {
     // Label row (InfoPopover inline), mirrors Input
-    labelRow: ['inline-flex', 'gap-1', 'text-color-content-default', 'text-xs', 'uppercase'] as const,
+    labelRow: [
+      'inline-flex',
+      'gap-1',
+      'text-color-content-default',
+      'text-xs',
+      'uppercase'
+    ] as const,
 
     // DROPZONE — non-focusable group container; children react via group-hover
     dropzone: [
@@ -38,16 +44,34 @@ export default defineStyleMap({
       'focus-visible:ring-comp-border-focus-ring',
       'focus-visible:ring-offset-color-background-default',
       // focus-within:* ring is applied conditionally at runtime (keyboard modality)
+      // conditional focus-within:* ring classes are applied as 'focusWithinRingClasses'
+      'focus-within:ring-2',
+      'focus-within:ring-offset-4',
+      'focus-within:ring-comp-border-focus-ring',
+      'focus-within:ring-offset-color-background-default'
     ] as const,
 
     // Thumbnail host (AspectRatio handles sizing)
-    thumbnail: ['w-[192px]', 'overflow-hidden', 'rounded-lg', '[&_img]:object-cover', '[&_img]:size-full'] as const,
+    thumbnail: [
+      'w-[192px]',
+      'overflow-hidden',
+      'rounded-lg',
+      '[&_img]:object-cover',
+      '[&_img]:size-full'
+    ] as const,
 
     // Primary action container (Button sits here). Also encourage group-hover for minimal merges.
-    primaryAction: ['group-hover:[&_button]:bg-comp-button-primary-color-background-hover'] as const,
+    primaryAction: [
+      'group-hover:[&_button]:bg-comp-button-primary-color-background-hover'
+    ] as const,
 
     // Secondary action container (TextLink or styled text).
-    secondaryAction: ['group-hover:[&_*]:text-color-content-weak-hover', 'text-color-content-weak', 'cursor-default', 'select-none'] as const,
+    secondaryAction: [
+      'group-hover:[&_*]:text-color-content-weak-hover',
+      'text-color-content-weak',
+      'cursor-default',
+      'select-none'
+    ] as const,
 
     // Properties row — fixed across states; spans are flex children
     properties: [
