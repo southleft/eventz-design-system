@@ -447,8 +447,9 @@ describe('FileUpload', () => {
     // Assert state + preview reset (observable behavior)
     const root = container.firstElementChild as HTMLElement;
     expect(root.getAttribute('data-accepted')).toBeNull();
-    const img = container.querySelector('img') as HTMLImageElement;
-    expect(img.getAttribute('src') || '').toContain('fileThumbnail.png');
+    // In empty state, the thumbnail frame is not rendered
+    const thumbnail = document.querySelector('[data-slot="thumbnail"]');
+    expect(thumbnail).toBeNull();
   });
 
   it('retains the uploading state when preview fails and resetOnFail is false', () => {
@@ -704,9 +705,9 @@ describe('FileUpload', () => {
     const updatedRoot = container.firstElementChild as HTMLElement;
     expect(updatedRoot.getAttribute('data-accepted')).toBeNull();
 
-    // Thumbnail should revert to placeholder
-    const img = container.querySelector('img') as HTMLImageElement;
-    expect(img.getAttribute('src') || '').toContain('fileThumbnail.png');
+    // In empty state, the thumbnail frame is not rendered
+    const thumbnail = document.querySelector('[data-slot="thumbnail"]');
+    expect(thumbnail).toBeNull();
   });
 
   it('does not override an accepted file when initialValue changes', () => {

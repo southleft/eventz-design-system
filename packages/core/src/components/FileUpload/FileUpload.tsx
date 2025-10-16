@@ -633,6 +633,8 @@ export const FileUpload = React.forwardRef<HTMLDivElement, FileUploadProps>(
           required={required}
           form={form}
           onChange={handleInputChange}
+          aria-labelledby={trimmedLabel ? labelId : undefined}
+          aria-label={dropzoneAriaLabel}
         />
 
         {errorId ? (
