@@ -1,7 +1,11 @@
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { InteractiveListItem, InteractiveListItemProps } from './InteractiveListItem';
+import {
+  InteractiveListItem,
+  InteractiveListItemComponentProps,
+  InteractiveListItemProps
+} from './InteractiveListItem';
 
 const renderInteractiveListItem = (props: Partial<InteractiveListItemProps> = {}) => {
   const defaultProps = {
@@ -14,7 +18,9 @@ const renderInteractiveListItem = (props: Partial<InteractiveListItemProps> = {}
     ...props
   };
 
-  return render(<InteractiveListItem {...(defaultProps as InteractiveListItemProps)} />);
+  return render(
+    <InteractiveListItem {...(defaultProps as InteractiveListItemComponentProps)} />
+  );
 };
 
 describe('InteractiveListItem', () => {

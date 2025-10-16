@@ -12,17 +12,26 @@ type InteractiveListItemBaseProps = {
   borderBottom?: boolean;
 };
 
+type ButtonAttributes = Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'type'>;
+type AnchorAttributes = Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'type'>;
+
 type InteractiveListItemButtonProps = InteractiveListItemBaseProps &
-  Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'type'> & {
+  ButtonAttributes & {
     href?: undefined;
   };
 
 type InteractiveListItemLinkProps = InteractiveListItemBaseProps &
-  Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'type'> & {
+  AnchorAttributes & {
     href: string;
   };
 
-export type InteractiveListItemProps = InteractiveListItemButtonProps | InteractiveListItemLinkProps;
+export type InteractiveListItemComponentProps =
+  | InteractiveListItemButtonProps
+  | InteractiveListItemLinkProps;
+
+export interface InteractiveListItemProps extends InteractiveListItemBaseProps {
+  href?: string;
+}
 
 const baseClasses = `
   group flex justify-between data-[is-removable=true]:items-center gap-8 w-full outline-none pb-10 pl-8 pt-8 pr-8 bg-background-none border-l-0 border-r-0 border-b-0 border-t-0
@@ -46,7 +55,7 @@ const trailingIconClasses = `shrink-0 text-color-content-default h-20 w-20`;
 
 export const InteractiveListItem = React.forwardRef<
   HTMLButtonElement | HTMLAnchorElement,
-  InteractiveListItemProps
+  InteractiveListItemComponentProps
 >(
   (
     {
