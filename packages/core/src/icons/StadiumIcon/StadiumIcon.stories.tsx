@@ -1,0 +1,25 @@
+import type { Meta, StoryObj } from '@storybook/react';
+import { StadiumIcon, StadiumIconProps } from './StadiumIcon';
+
+const meta: Meta<StadiumIconProps> = {
+  title: 'Icons/StadiumIcon',
+  component: StadiumIcon,
+  args: {
+    decorative: true,
+    color: 'currentColor'
+  }
+};
+
+export default meta;
+
+type Story = StoryObj<StadiumIconProps>;
+
+export const Default: Story = {};
+
+export const NonDecorative: Story = {
+  args: {
+    decorative: false,
+    title: 'Dismiss notification',
+    titleId: 'close-icon-title'
+  }
+};
