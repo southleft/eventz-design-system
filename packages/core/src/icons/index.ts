@@ -10,6 +10,7 @@ export * from './ErrorIcon';
 export * from './InfoIcon';
 export * from './KeyboardArrowDownIcon';
 export * from './ProgressActivityIcon';
+export * from './SearchIcon';
 export * from './UploadIcon';
 export * from './WarningIcon';
 export * from './ChevronLeftIcon';

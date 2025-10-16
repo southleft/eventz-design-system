@@ -1,0 +1,25 @@
+import type { Meta, StoryObj } from '@storybook/react';
+import { SearchIcon, SearchIconProps } from './SearchIcon';
+
+const meta: Meta<SearchIconProps> = {
+  title: 'Icons/SearchIcon',
+  component: SearchIcon,
+  args: {
+    decorative: true,
+    color: 'currentColor'
+  }
+};
+
+export default meta;
+
+type Story = StoryObj<SearchIconProps>;
+
+export const Default: Story = {};
+
+export const NonDecorative: Story = {
+  args: {
+    decorative: false,
+    title: 'Dismiss notification',
+    titleId: 'close-icon-title'
+  }
+};
