@@ -41,6 +41,7 @@ Generate all of the following inside `{{destination}}`:
 3. `{{componentName}}.stories.tsx`
    - Default export: `title: 'Components/{{componentName}}'`, `component: {{componentName}}`.
    - Include at least one named story (e.g., `Default`) and expose controls for all public props.
+   - **Do not declare `argTypes` at the default export or at any story.** Controls must be inferred from the component’s TypeScript props interface.
    - Use placeholders (emoji/inline SVG) for icon/slot demos.
 
 ## Rules
@@ -49,6 +50,7 @@ Generate all of the following inside `{{destination}}`:
 - Classes and variants must match the styleMap exactly.
 - Do not add props, slots, or classes not defined by these sources.
 - Apply Tailwind classes using `composeClasses`; MUST use template literals for all static or inline className definitions; DO NOT use string concatenation (`+`), arrays of strings, or array joins; DO NOT pass arrays directly to `composeClasses`.
+- **Stories must not include `argTypes` (neither on default export nor per-story).** If a control is needed, ensure it is typed in the component’s props so Storybook infers it automatically.
 - Honor `layout` (including child container and slot order) exactly.
 - Support Radix `asChild` using `Slot` when declared.
 - Follow existing project patterns for typing, file layout, and naming.
@@ -59,6 +61,7 @@ Generate all of the following inside `{{destination}}`:
 - Decorative icons must have `aria-hidden="true"`.
 - Interactive elements must have accessible names (`aria-label`, `aria-labelledby`, or visible text).
 - Prefer role-based queries in tests where applicable.
+- **Storybook policy:** No `argTypes` declarations; rely on inferred controls. The reviewer will flag any occurrence as a violation.
 
 ## Output Summary (return these keys)
 - `componentPath`, `storiesPath`, `testsPath`
