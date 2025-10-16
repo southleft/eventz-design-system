@@ -281,9 +281,9 @@ export default defineContract({
 
     icons: {
       primary: {
-        empty: 'FileUploadIcon',
+        empty: 'UploadIcon',
         uploading: 'AnimatedCircularProgressIcon',
-        accepted: 'FileUploadIcon'
+        accepted: 'UploadIcon'
       }
     },
 
