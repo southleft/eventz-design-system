@@ -82,6 +82,38 @@ describe('MenuItem', () => {
     expect(screen.getByTestId('menu-item-image-placeholder')).toBeInTheDocument();
   });
 
+  it('renders the media icon when provided for complex type', () => {
+    render(
+      <MenuItem
+        type="complex"
+        option="Complex option"
+        supportingText="Supporting"
+        mediaIcon={<span data-testid="media-icon" />}
+      />
+    );
+
+    const mediaIcon = screen.getByTestId('menu-item-media-icon');
+    expect(mediaIcon).toBeInTheDocument();
+    expect(screen.getByTestId('media-icon')).toBeInTheDocument();
+    expect(mediaIcon.className).toContain('text-color-content-brand');
+    expect(screen.queryByTestId('menu-item-image-placeholder')).toBeNull();
+  });
+
+  it('prefers imgSrc over mediaIcon when both are provided', () => {
+    render(
+      <MenuItem
+        type="complex"
+        option="Complex option"
+        supportingText="Supporting"
+        imgSrc="https://picsum.photos/seed/doxyz/160/160"
+        mediaIcon={<span data-testid="media-icon" />}
+      />
+    );
+
+    expect(screen.getByRole('img')).toBeInTheDocument();
+    expect(screen.queryByTestId('menu-item-media-icon')).toBeNull();
+  });
+
   it('ignores startIcon for complex type', () => {
     render(
       <MenuItem
