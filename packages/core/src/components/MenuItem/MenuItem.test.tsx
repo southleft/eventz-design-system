@@ -1,15 +1,39 @@
 // packages/core/src/components/MenuItem/MenuItem.test.tsx
+import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import { MenuItem, MenuItemProps } from './MenuItem';
 
 const renderMenuItem = (props: Partial<MenuItemProps> = {}) => {
-  return render(<MenuItem option="Sample option" {...props} />);
+  const defaultProps: MenuItemProps = {
+    type: 'simple',
+    option: 'Sample option',
+    isSelected: false,
+    borderBottom: true
+  };
+
+  const mergedProps = { ...defaultProps, ...props } as MenuItemProps;
+
+  return render(<MenuItem {...mergedProps} />);
 };
 
 describe('MenuItem', () => {
   it('renders a button with the provided option text', () => {
     renderMenuItem();
     expect(screen.getByRole('button', { name: 'Sample option' })).toBeInTheDocument();
+  });
+
+  it('renders a link when href is provided', () => {
+    renderMenuItem({ href: '/account' });
+    expect(screen.getByRole('link', { name: 'Sample option' })).toHaveAttribute(
+      'href',
+      '/account'
+    );
+  });
+
+  it('marks link variants as aria-disabled when disabled', () => {
+    renderMenuItem({ href: '/account', disabled: true });
+    const link = screen.getByRole('link', { name: 'Sample option' });
+    expect(link).toHaveAttribute('aria-disabled', 'true');
   });
 
   it('uses the option text for the accessible name', () => {

@@ -28,7 +28,12 @@ export const MenuItemContract = defineContract({
 
     // Optional convenience props when no `image` slot is provided (component may render an <img /> internally)
     imgSrc: { type: 'string' },
-    imgAlt: { type: 'string' }
+    imgAlt: { type: 'string' },
+
+    href: {
+      type: 'string',
+      description: 'Optional destination URL. When provided, render as an <a> element.'
+    }
   },
 
   // Slots in render order (generator composes these exactly; truthiness controls spacing)
@@ -47,5 +52,11 @@ export const MenuItemContract = defineContract({
   hints: {
     notes:
       'For type="simple", ignore `image` and prefer `startIcon`. For type="complex", ignore `startIcon` and render an internal image using imgSrc/imgAlt (if missing, render a neutral placeholder). For complex items, the image alt should fall back to the `option` prop text when possible, otherwise to `ariaLabel`. Selected icon is internal-only (checkmark), revealed when isSelected=true. Hover and selected styling cascade from the root using `group` and `group-data-[is-selected=true]` to style child slots.'
-  }
+  },
+
+  rules: [
+    {
+      hint: 'Render a semantic <a> element when `href` is provided; otherwise use <button type="button">.'
+    }
+  ]
 });
