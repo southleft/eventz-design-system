@@ -81,6 +81,15 @@ export const MenuItemStyleMap = defineStyleMap({
   // Extra state keys (present for parity; slot arrays already include data-qualified color shifts)
   state: {
     isSelected: [] as const,
-    borderBottom: [] as const
+    borderBottom: [] as const,
+    hasMediaIcon: [
+      'text-color-content-brand',
+      'group-hover:text-color-content-brand-hover',
+      'bg-color-background-weak',
+      'group-hover:bg-color-background-weak-hover',
+      'flex',
+      'items-center',
+      'justify-center'
+    ] as const
   }
 });
