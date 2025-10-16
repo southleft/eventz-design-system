@@ -10,6 +10,7 @@ export * from './Control';
 export * from './DatePicker';
 export * from './Dialog';
 export * from './ExpandableContent';
+export * from './FileUpload';
 export * from './IconButton';
 export * from './InfoPopover';
 export * from './Input';

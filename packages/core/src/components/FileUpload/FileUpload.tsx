@@ -596,7 +596,7 @@ export const FileUpload = React.forwardRef<HTMLDivElement, FileUploadProps>(
                   src={
                     shouldRenderThumbnailFrame && !shouldShowPlaceholder && previewSource
                       ? previewSource
-                      : (fileThumbnail as string)
+                      : fileThumbnail
                   }
                   alt=""
                   aria-hidden="true"
