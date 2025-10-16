@@ -60,6 +60,8 @@ describe('FileUpload', () => {
     // @ts-expect-error - override global constructor for tests
     global.Image = TestImage;
     jest.resetAllMocks();
+    (URL.createObjectURL as jest.Mock).mockReturnValue('blob:mock-preview');
+    (URL.revokeObjectURL as jest.Mock).mockImplementation(() => {});
   });
 
   afterAll(() => {
@@ -686,6 +688,7 @@ describe('FileUpload', () => {
   it('cleans up preview URL on unmount (effect cleanup path)', () => {
     const { container, unmount } = render(<FileUpload label="Profile photo" />);
     const fileInput = container.querySelector('input[type="file"]') as HTMLInputElement;
+    const spy = jest.spyOn(URL, 'revokeObjectURL').mockImplementation(() => {});
     const imageFile = createMockFile('photo.png', 'image/png');
 
     // Accept an image to ensure an object URL exists
@@ -693,7 +696,9 @@ describe('FileUpload', () => {
     triggerImageLoad();
 
     // Unmount should trigger effect cleanup that revokes the object URL
-    expect(() => unmount()).not.toThrow();
+    unmount();
+    expect(spy).toHaveBeenCalledTimes(1);
+    spy.mockRestore();
   });
 
   it('marks the root as invalid when an error is present', () => {

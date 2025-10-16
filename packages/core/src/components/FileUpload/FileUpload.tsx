@@ -265,14 +265,8 @@ export const FileUpload = React.forwardRef<HTMLDivElement, FileUploadProps>(
     const revokeObjectUrl = React.useCallback(() => {
       const url = currentBlobUrlRef.current;
       if (!url) return;
-
-      try {
-        URL.revokeObjectURL(url);
-      } catch {
-        // ignore — some environments throw if the URL is already revoked or never created
-      } finally {
-        currentBlobUrlRef.current = null;
-      }
+      URL.revokeObjectURL(url);
+      currentBlobUrlRef.current = null;
     }, []);
 
     const announce = React.useCallback((message: string) => {
