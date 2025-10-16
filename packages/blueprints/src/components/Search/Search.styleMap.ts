@@ -29,7 +29,7 @@ export const SearchStyleMap = defineStyleMap({
       'text-color-content-weak'
     ] as const,
 
-    viewAllRow: [] as const // to be defined during implementation
+    viewAllRow: ['inline-flex', 'w-full', 'content-right'] as const // to be defined during implementation
   },
 
   state: {
