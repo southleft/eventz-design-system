@@ -6,6 +6,7 @@ export const SearchStyleMap = defineStyleMap({
   slots: {
     input: [] as const,
 
+    // Popover content wrapper
     results: [
       'inline-flex',
       'flex-col',
@@ -15,12 +16,10 @@ export const SearchStyleMap = defineStyleMap({
       'border',
       'border-color-border-subtle',
       'bg-color-background-default',
-      'content-center',
-      'data-[is-loading=true]:h-48',
-      'data-[no-results=true]:h-48',
-      'data-[no-results=true]:items-center'
+      'content-center'
     ] as const,
 
+    // Shared status area (loading spinner OR no-results message)
     status: [
       'inline-block',
       'w-full',
@@ -29,13 +28,18 @@ export const SearchStyleMap = defineStyleMap({
       'text-color-content-weak'
     ] as const,
 
-    viewAllRow: ['inline-flex', 'w-full', 'content-right'] as const // to be defined during implementation
+    // Container for the "View all…" Button (variant="secondary")
+    viewAllRow: ['inline-flex', 'w-full', 'justify-end'] as const
   },
 
+  // Option A: move data-attribute selectors into state,
+  // leaving the results slot clean and predictable.
   state: {
-    loading: [] as const,
-    hasResults: [] as const,
-    empty: [] as const,
+    // Applied on the same element that receives the `results` slot classes
+    isLoading: ['data-[is-loading=true]:h-48'] as const,
+    noResults: ['data-[no-results=true]:h-48', 'data-[no-results=true]:items-center'] as const,
+
+    // Reserved flags for runtime wiring (no class tokens needed yet)
     focused: [] as const,
     open: [] as const
   }

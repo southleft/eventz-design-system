@@ -23,9 +23,10 @@ export const SearchContract = defineContract({
         type: 'object',
         shape: {
           id: { type: 'string', required: true },
-          label: { type: 'string', required: true },
-          description: { type: 'string' },
-          href: { type: 'string' }
+          label: { type: 'string', required: true }, // → MenuItem.option
+          description: { type: 'string' }, // → MenuItem.supportingText
+          href: { type: 'string' }, // → MenuItem.href (renders <a>)
+          icon: { type: 'slot' } // → MenuItem.mediaIcon (visual node)
         }
       }
     },
@@ -74,11 +75,31 @@ export const SearchContract = defineContract({
 
   rules: [
     {
-      hint: 'Popover opens when the input is focused and one of the following is true: loading is true, results exist, or noResultsMessage is present.'
+      hint: 'Input.startIcon defaults to <SearchIcon /> unless overridden via InputProps.startIcon. Pass directly; do not wrap with Slot.'
     },
     {
-      hint: 'The viewAllRow slot renders a Button component using variant "secondary". Its label is set to the value of viewAllLabel (default: "View all listings matching {searchTerm}"). When clicked, it calls onViewAllClick with the current search term.'
-    }
+      hint: 'Results, status, and viewAllRow render inside <Popover.Content>. The root <div> contains the Input and the Popover (no Trigger) as siblings.'
+    },
+    { hint: 'Render results with <MenuItem type="complex" ...>.' },
+    {
+      hint: 'Each item in `results` renders as <MenuItem type="complex" option={result.label} supportingText={result.description} href={result.href} mediaIcon={result.icon} />. Also call onResultSelect(result) when an item is activated (click/Enter).'
+    },
+    {
+      hint: 'Render viewAllRow only when results.length > 0; place it after all MenuItem results. Use <Button variant="secondary" label={viewAllLabel} /> and call onViewAllClick(term) on click.'
+    },
+    {
+      hint: 'Popover opens when the input is focused and (loading || results.length > 0 || noResultsMessage). There is no Popover.Trigger.'
+    },
+    {
+      hint: 'When Popover is open, pass a clickable <button> as InputProps.endIcon containing `closeIcon` (or default CloseIcon). When closed, render the consumer’s InputProps.endIcon.'
+    },
+    {
+      hint: 'Fire onSearchTermChange(term) on every keystroke. Debounce and fetching are consumer-managed.'
+    },
+    {
+      hint: 'Apply aria-live="polite" to the status slot container to announce loading/empty changes.'
+    },
+    { hint: 'onResultSelect receives the exact object from results[i] without transformation.' }
   ],
 
   styleMap: true,
@@ -92,7 +113,7 @@ export const SearchContract = defineContract({
       // Sibling/core components
       { from: '../Input', names: ['Input'] },
       { from: '../Button', names: ['Button'] },
-      { from: '../InteractiveListItem', names: ['InteractiveListItem'] },
+      { from: '../MenuItem', names: ['MenuItem'] },
 
       // Icons (default + override surface + loading)
       { from: '../../icons', names: ['SearchIcon', 'CloseIcon', 'AnimatedCircularProgressIcon'] }
@@ -102,6 +123,6 @@ export const SearchContract = defineContract({
     radixAdapter: { uses: ['Popover'] as const },
 
     // A11y guidance for the generator:
-    a11y: 'Input must have a visible label or aria-label. Popover content (results slot) may use role="listbox" and aria-live="polite" to announce status or results changes.'
+    a11y: 'Ensure the Input has a visible label or aria-label. Use role="list" on the results container and role="listitem" for entries when they render as links. Put aria-live="polite" on the status slot.'
   }
 });
