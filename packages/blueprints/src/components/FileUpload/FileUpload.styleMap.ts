@@ -38,7 +38,11 @@ export default defineStyleMap({
       'border-comp-form-color-border-default',
       // Hover (when the dropzone itself is hovered)
       'hover:bg-comp-form-color-background-hover',
-      'hover:border-comp-form-color-hover'
+      'hover:border-comp-form-color-hover',
+      'focus-visible:ring-2',
+      'focus-visible:ring-offset-4',
+      'focus-visible:ring-comp-border-focus-ring',
+      'focus-visible:ring-offset-color-background-default'
     ] as const,
 
     // Thumbnail host (AspectRatio handles sizing)

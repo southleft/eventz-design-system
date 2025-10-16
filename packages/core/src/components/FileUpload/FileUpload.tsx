@@ -207,6 +207,7 @@ export const FileUpload = React.forwardRef<HTMLDivElement, FileUploadProps>(
 
     const inputRef = React.useRef<HTMLInputElement | null>(null);
     const currentFileRef = React.useRef<File | undefined>(undefined);
+    const currentBlobUrlRef = React.useRef<string | null>(null);
 
     const [status, setStatus] = React.useState<UploadStatus>('empty');
     const [isDragOver, setIsDragOver] = React.useState(false);
@@ -262,7 +263,16 @@ export const FileUpload = React.forwardRef<HTMLDivElement, FileUploadProps>(
     );
 
     const revokeObjectUrl = React.useCallback(() => {
-      // No-op: rely on browser GC; avoids test-environment issues with URL.revokeObjectURL
+      const url = currentBlobUrlRef.current;
+      if (!url) return;
+
+      try {
+        URL.revokeObjectURL(url);
+      } catch {
+        // ignore — some environments throw if the URL is already revoked or never created
+      } finally {
+        currentBlobUrlRef.current = null;
+      }
     }, []);
 
     const announce = React.useCallback((message: string) => {
@@ -325,6 +335,7 @@ export const FileUpload = React.forwardRef<HTMLDivElement, FileUploadProps>(
       (file: File) => {
         revokeObjectUrl();
         const objectUrl = URL.createObjectURL(file);
+        currentBlobUrlRef.current = objectUrl;
         const image = new Image();
         let settled = false;
 
