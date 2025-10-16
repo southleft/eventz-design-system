@@ -99,6 +99,12 @@ export const SearchContract = defineContract({
     {
       hint: 'Apply aria-live="polite" to the status slot container to announce loading/empty changes.'
     },
+    {
+      hint: 'Apply data-is-loading / data-no-results to the element that receives the results slot classes (i.e., the Popover.Content root).'
+    },
+    {
+      hint: 'Also handle Escape on the input: pressing Escape clears the term (and closes the Popover). The close button’s <button type="button" aria-label="Clear search"> is still rendered for mouse/keyboard users'
+    },
     { hint: 'onResultSelect receives the exact object from results[i] without transformation.' }
   ],
 
