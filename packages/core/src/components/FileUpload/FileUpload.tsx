@@ -336,12 +336,19 @@ export const FileUpload = React.forwardRef<HTMLDivElement, FileUploadProps>(
         const finalizeSuccess = () => {
           if (settled) return;
           settled = true;
-          flushSync(() => {
-            setPreviewSource(objectUrl);
-            setHasPreviewError(false);
+          // Phase 1: make preview available while staying in `uploading` so placeholder can render
+          setPreviewSource(objectUrl);
+          setHasPreviewError(false);
+
+          // Phase 2: accept on the next frame (fallback to setTimeout if unavailable)
+          const schedule =
+            typeof window !== 'undefined' && typeof window.requestAnimationFrame === 'function'
+              ? (callback: () => void) => window.requestAnimationFrame(() => callback())
+              : (callback: () => void) => setTimeout(callback, 0);
+          schedule(() => {
             setStatus('accepted');
+            emit('onFileAccepted', file);
           });
-          emit('onFileAccepted', file);
         };
 
         const finalizeFailure = () => {
@@ -471,13 +478,18 @@ export const FileUpload = React.forwardRef<HTMLDivElement, FileUploadProps>(
         <FileUploadIcon aria-hidden="true" />
       );
 
-    const shouldRenderThumbnailFrame = showThumbnail && status !== 'empty';
-    const shouldShowPlaceholder =
-      !shouldRenderThumbnailFrame ||
-      status === 'uploading' ||
-      isNonImageFile ||
-      hasPreviewError ||
-      !previewSource;
+    // Render the thumbnail frame for uploading & accepted (never in empty)
+    const shouldRenderThumbnailFrame =
+      showThumbnail && (status === 'uploading' || status === 'accepted');
+
+    // During uploading we always show the placeholder. In accepted, show placeholder for non-images,
+    // preview errors, or when we don't yet have a previewSource.
+    const thumbnailSrc =
+      status === 'uploading'
+        ? fileThumbnail
+        : isNonImageFile || hasPreviewError || !previewSource
+          ? fileThumbnail
+          : previewSource;
 
     React.useEffect(() => {
       if (trimmedInfo) return;
@@ -598,11 +610,7 @@ export const FileUpload = React.forwardRef<HTMLDivElement, FileUploadProps>(
             <div className={thumbnailClassName} data-slot="thumbnail">
               <AspectRatio.Root ratio={aspectRatio}>
                 <img
-                  src={
-                    shouldRenderThumbnailFrame && !shouldShowPlaceholder && previewSource
-                      ? previewSource
-                      : fileThumbnail
-                  }
+                  src={thumbnailSrc}
                   alt=""
                   aria-hidden="true"
                   onError={() => setHasPreviewError(true)}
