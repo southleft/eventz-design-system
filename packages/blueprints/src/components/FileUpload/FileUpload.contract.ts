@@ -69,6 +69,18 @@ export default defineContract({
       description:
         'Copy override for CTA nouns. When provided, always overrides; otherwise use `photo`/`poster` from imageFormat.'
     },
+    name: {
+      type: 'string',
+      description: 'Forwarded to the hidden input for form submission.'
+    },
+    required: {
+      type: 'boolean',
+      description: 'Forwarded to the hidden input to participate in native form validation.'
+    },
+    form: {
+      type: 'string',
+      description: 'Forwarded to the hidden input to associate with an external form.'
+    },
 
     // Callbacks (runtime payload: { file?: File, message: string })
     onFileSelected: {

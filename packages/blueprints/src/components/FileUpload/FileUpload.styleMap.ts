@@ -12,7 +12,8 @@ export default defineStyleMap({
       'gap-1',
       'text-color-content-default',
       'text-xs',
-      'uppercase'
+      'uppercase',
+      'sr-only'
     ] as const,
 
     // DROPZONE — non-focusable group container; children react via group-hover
@@ -42,7 +43,11 @@ export default defineStyleMap({
       'focus-visible:ring-2',
       'focus-visible:ring-offset-4',
       'focus-visible:ring-comp-border-focus-ring',
-      'focus-visible:ring-offset-color-background-default'
+      'focus-visible:ring-offset-color-background-default',
+      'focus-within:ring-2',
+      'focus-within:ring-offset-4',
+      'focus-within:ring-comp-border-focus-ring',
+      'focus-within:ring-offset-color-background-default'
     ] as const,
 
     // Thumbnail host (AspectRatio handles sizing)
