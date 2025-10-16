@@ -11,6 +11,8 @@ export * from './ErrorIcon';
 export * from './EventIcon';
 export * from './InfoIcon';
 export * from './KeyboardArrowDownIcon';
+export * from './MapIcon';
+export * from './MoreHorizIcon';
 export * from './NewsmodeIcon';
 export * from './ProgressActivityIcon';
 export * from './SearchIcon';
