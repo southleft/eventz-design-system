@@ -7,6 +7,7 @@ export * from './CheckIcon';
 export * from './CircleCheckIcon';
 export * from './CloseIcon';
 export * from './ErrorIcon';
+export * from './EventIcon';
 export * from './InfoIcon';
 export * from './KeyboardArrowDownIcon';
 export * from './NewsmodeIcon';

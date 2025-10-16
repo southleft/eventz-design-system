@@ -1,0 +1,57 @@
+import * as React from 'react';
+
+export interface EventIconProps extends React.SVGAttributes<SVGSVGElement> {
+  decorative?: boolean;
+  title?: string;
+  titleId?: string;
+  color?: string;
+}
+
+type EventIconElement = SVGSVGElement;
+
+export const EventIcon = React.forwardRef<EventIconElement, EventIconProps>(
+  (
+    {
+      decorative = true,
+      width = '20px',
+      height = '20px',
+      title,
+      titleId: providedTitleId,
+      color = 'currentColor',
+      className,
+      'aria-labelledby': ariaLabelledby,
+      ...rest
+    },
+    ref
+  ) => {
+    const generatedTitleId = React.useId();
+    const resolvedTitleId = title ? (providedTitleId ?? generatedTitleId) : undefined;
+
+    const computedAriaHidden = decorative ? 'true' : undefined;
+    const computedRole = decorative ? undefined : 'img';
+    const computedAriaLabelledby =
+      !decorative && title && resolvedTitleId ? resolvedTitleId : ariaLabelledby;
+
+    return (
+      <svg
+        ref={ref}
+        {...rest}
+        className={className}
+        viewBox="0 0 20 20"
+        width={width}
+        height={height}
+        fill={color}
+        aria-hidden={computedAriaHidden}
+        role={computedRole}
+        aria-labelledby={computedAriaLabelledby}
+      >
+        {!decorative && title ? <title id={resolvedTitleId}>{title}</title> : null}
+        <g transform="scale(0.0208333333,0.0208333333) translate(0,960)">
+          <path d="M576.23-240Q536-240 508-267.77q-28-27.78-28-68Q480-376 507.77-404q27.78-28 68-28Q616-432 644-404.23q28 27.78 28 68Q672-296 644.23-268q-27.78 28-68 28ZM218.87-87.87q-34.48 0-58.74-24.61-24.26-24.61-24.26-58.39v-522.26q0-33.78 24.26-58.39t58.74-24.61H288v-96h77.5v96h229v-96H672v96h69.13q34.48 0 58.74 24.61 24.26 24.61 24.26 58.39v522.26q0 33.78-24.26 58.39t-58.74 24.61H218.87Zm0-83h522.26V-528H218.87v357.13Zm0-429.13h522.26v-93.13H218.87V-600Zm0 0v-93.13V-600Z" />
+        </g>
+      </svg>
+    );
+  }
+);
+
+EventIcon.displayName = 'EventIcon';
