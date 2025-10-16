@@ -217,6 +217,23 @@ export const FileUpload = React.forwardRef<HTMLDivElement, FileUploadProps>(
     const [isNonImageFile, setIsNonImageFile] = React.useState(false);
     const [withinRingEnabled, setWithinRingEnabled] = React.useState(false);
 
+    // Global modality detection: enable focus-within ring on first Tab, disable on pointer
+    React.useEffect(() => {
+      const enableKeyboard = () => setWithinRingEnabled(true);
+      const disableForPointer = () => setWithinRingEnabled(false);
+
+      // Capture-phase listeners so we run before focus changes
+      window.addEventListener('keydown', enableKeyboard, true);
+      window.addEventListener('mousedown', disableForPointer, true);
+      window.addEventListener('pointerdown', disableForPointer, true);
+
+      return () => {
+        window.removeEventListener('keydown', enableKeyboard, true);
+        window.removeEventListener('mousedown', disableForPointer, true);
+        window.removeEventListener('pointerdown', disableForPointer, true);
+      };
+    }, []);
+
     const acceptTokens = React.useMemo(
       () =>
         accept
