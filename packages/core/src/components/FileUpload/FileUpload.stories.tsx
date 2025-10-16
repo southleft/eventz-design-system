@@ -12,14 +12,6 @@ const meta: Meta<FileUploadProps> = {
     accept: 'image/png,image/jpeg',
     showThumbnail: true,
     resetOnFail: false
-  },
-  argTypes: {
-    onFileSelected: { action: 'file selected' },
-    onFileCanceled: { action: 'file canceled' },
-    onFileAccepted: { action: 'file accepted' },
-    onFileChanging: { action: 'file changing' },
-    onFileError: { action: 'file error' },
-    onFileRemoved: { action: 'file removed' }
   }
 };
 
