@@ -2,6 +2,7 @@ export * from './AnimatedCircularProgressIcon';
 export * from './ArrowBackIcon';
 export * from './ArrowDropDownIcon';
 export * from './ArrowForwardIcon';
+export * from './ArtistIcon';
 export * from './CancelIcon';
 export * from './CheckIcon';
 export * from './CircleCheckIcon';
