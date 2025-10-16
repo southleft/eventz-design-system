@@ -595,8 +595,8 @@ export const FileUpload = React.forwardRef<HTMLDivElement, FileUploadProps>(
           role="group"
         >
           {shouldRenderThumbnailFrame ? (
-            <div className={thumbnailClassName}>
-              <AspectRatio.Root ratio={aspectRatio} data-slot="thumbnail">
+            <div className={thumbnailClassName} data-slot="thumbnail">
+              <AspectRatio.Root ratio={aspectRatio}>
                 <img
                   src={
                     shouldRenderThumbnailFrame && !shouldShowPlaceholder && previewSource
