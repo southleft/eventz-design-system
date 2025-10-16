@@ -68,7 +68,7 @@ describe('FileUpload', () => {
 
   it('renders the dropzone button with the provided label', () => {
     render(<FileUpload label="Profile photo" />);
-    expect(screen.getByRole('button', { name: 'Profile photo' })).toBeInTheDocument();
+    expect(screen.getByRole('group', { name: 'Profile photo' })).toBeInTheDocument();
   });
 
   it('renders the label text inside the labelRow when label is provided', () => {
@@ -99,7 +99,7 @@ describe('FileUpload', () => {
 
   it('includes the info content id in aria-describedby when the InfoPopover is open', () => {
     render(<FileUpload label="Profile photo" info="About uploading files" />);
-    const dropzone = screen.getByRole('button', { name: 'Profile photo' });
+    const dropzone = screen.getByRole('group', { name: 'Profile photo' });
 
     // Initially, info is closed; aria-describedby should not include the info id
     const initialDescribedBy = dropzone.getAttribute('aria-describedby') || '';
@@ -133,7 +133,7 @@ describe('FileUpload', () => {
   it('rejects files that do not satisfy the accept filter', () => {
     const onFileError = jest.fn();
     render(<FileUpload label="Profile photo" onFileError={onFileError} />);
-    const dropzone = screen.getByRole('button', { name: 'Profile photo' });
+    const dropzone = screen.getByRole('group', { name: 'Profile photo' });
     const invalidFile = createMockFile('notes.txt', 'text/plain');
     fireEvent.drop(dropzone, {
       dataTransfer: { files: [invalidFile] }
@@ -178,7 +178,7 @@ describe('FileUpload', () => {
 
   it('clears drag-over state and announces cancel on drag leave', () => {
     const { container } = render(<FileUpload label="Profile photo" />);
-    const dropzone = screen.getByRole('button', { name: 'Profile photo' });
+    const dropzone = screen.getByRole('group', { name: 'Profile photo' });
     const root = container.firstElementChild as HTMLElement;
 
     // Enter drag to set the state
@@ -195,7 +195,7 @@ describe('FileUpload', () => {
 
   it('sets dropEffect to copy and announces "Drop now" on drag over', () => {
     const { container } = render(<FileUpload label="Profile photo" />);
-    const dropzone = screen.getByRole('button', { name: 'Profile photo' });
+    const dropzone = screen.getByRole('group', { name: 'Profile photo' });
     const root = container.firstElementChild as HTMLElement;
 
     const dataTransfer = { dropEffect: 'none', types: ['Files'] };
@@ -210,7 +210,7 @@ describe('FileUpload', () => {
 
   it('forces a live region re-announce when the same message repeats (adds trailing space)', () => {
     render(<FileUpload label="Profile photo" />);
-    const dropzone = screen.getByRole('button', { name: 'Profile photo' });
+    const dropzone = screen.getByRole('group', { name: 'Profile photo' });
 
     // First dragOver announces "Drop now"
     fireEvent.dragOver(dropzone, { dataTransfer: { types: ['Files'], dropEffect: 'none' } });
@@ -225,7 +225,7 @@ describe('FileUpload', () => {
 
   it('processes dropped files via dataTransfer and accepts valid images', () => {
     const { container } = render(<FileUpload label="Profile photo" />);
-    const dropzone = screen.getByRole('button', { name: 'Profile photo' });
+    const dropzone = screen.getByRole('group', { name: 'Profile photo' });
     const imageFile = new File(['file'], 'photo.png', { type: 'image/png' });
 
     // Perform a real drop with dataTransfer.files; component should read files and process
@@ -239,7 +239,7 @@ describe('FileUpload', () => {
 
   it('clears drag-over and announces cancel on drop while processing files', () => {
     const { container } = render(<FileUpload label="Profile photo" />);
-    const dropzone = screen.getByRole('button', { name: 'Profile photo' });
+    const dropzone = screen.getByRole('group', { name: 'Profile photo' });
 
     // Enter drag-over first to ensure we see it clear on drop
     fireEvent.dragEnter(dropzone, { dataTransfer: { types: ['Files'] } });
@@ -257,7 +257,7 @@ describe('FileUpload', () => {
 
   it('ignores drop when no files are provided', () => {
     const { container } = render(<FileUpload label="Profile photo" />);
-    const dropzone = screen.getByRole('button', { name: 'Profile photo' });
+    const dropzone = screen.getByRole('group', { name: 'Profile photo' });
 
     // Enter drag-over then drop with empty files
     fireEvent.dragEnter(dropzone, { dataTransfer: { types: ['Files'] } });
@@ -492,14 +492,21 @@ describe('FileUpload', () => {
   it('retains the focus-visible ring classes on the dropzone', async () => {
     const user = userEvent.setup();
     render(<FileUpload ariaLabel="Upload file" />);
-    await user.tab();
-    const dropzone = screen.getByRole('button', { name: 'Upload file' });
+    const dropzone = screen.getByRole('group', { name: 'Upload file' });
+    // The container carries both focus-visible and focus-within ring tokens.
     expect(dropzone.className).toContain('focus-visible:ring-2');
+    expect(dropzone.className).toContain('focus-within:ring-2');
+    // Tabbing should place focus on the primary action; :focus-within will visually ring the group in the browser.
+    await user.tab();
+    const primaryButton = document.querySelector(
+      '[data-slot="primaryAction"] button'
+    ) as HTMLButtonElement;
+    expect(primaryButton).toHaveFocus();
   });
 
   it('opens the file dialog when pressing Enter/Space on the dropzone', () => {
     const { container } = render(<FileUpload ariaLabel="Upload file" />);
-    const dropzone = screen.getByRole('button', { name: 'Upload file' });
+    const dropzone = screen.getByRole('group', { name: 'Upload file' });
     const fileInput = container.querySelector('input[type="file"]') as HTMLInputElement;
 
     const clickSpy = jest.spyOn(fileInput, 'click').mockImplementation(() => {});
@@ -515,7 +522,7 @@ describe('FileUpload', () => {
 
   it('does not open the file dialog for non-activation keys', () => {
     const { container } = render(<FileUpload ariaLabel="Upload file" />);
-    const dropzone = screen.getByRole('button', { name: 'Upload file' });
+    const dropzone = screen.getByRole('group', { name: 'Upload file' });
     const fileInput = container.querySelector('input[type="file"]') as HTMLInputElement;
     const clickSpy = jest.spyOn(fileInput, 'click').mockImplementation(() => {});
 
@@ -529,7 +536,7 @@ describe('FileUpload', () => {
 
   it('opens the file dialog when clicking the dropzone', () => {
     const { container } = render(<FileUpload ariaLabel="Upload file" />);
-    const dropzone = screen.getByRole('button', { name: 'Upload file' });
+    const dropzone = screen.getByRole('group', { name: 'Upload file' });
     const fileInput = container.querySelector('input[type="file"]') as HTMLInputElement;
     const clickSpy = jest.spyOn(fileInput, 'click').mockImplementation(() => {});
 
@@ -592,7 +599,7 @@ describe('FileUpload', () => {
 
   it('does not open the file dialog when clicking the dropzone during uploading', () => {
     const { container } = render(<FileUpload label="Profile photo" />);
-    const dropzone = screen.getByRole('button', { name: 'Profile photo' });
+    const dropzone = screen.getByRole('group', { name: 'Profile photo' });
     const fileInput = container.querySelector('input[type="file"]') as HTMLInputElement;
     const clickSpy = jest.spyOn(fileInput, 'click').mockImplementation(() => {});
 
