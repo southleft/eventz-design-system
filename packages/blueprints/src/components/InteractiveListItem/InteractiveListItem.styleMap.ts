@@ -1,6 +1,7 @@
 import { defineStyleMap } from '../../utilities/defineStyleMap';
 
 export default defineStyleMap({
+  // Shared root tokens for both button and anchor renders.
   base: [
     'group',
     'flex',
