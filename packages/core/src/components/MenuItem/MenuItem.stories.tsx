@@ -2,7 +2,7 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { MenuItem, MenuItemProps } from './MenuItem';
-import { InfoIcon } from '../../icons';
+import { CloseIcon, InfoIcon } from '../../icons';
 
 type MenuItemStoryArgs = MenuItemProps;
 
@@ -17,10 +17,11 @@ const meta: Meta<MenuItemStoryArgs> = {
     href: '',
     imgSrc: '',
     imgAlt: '',
+    mediaIcon: undefined,
     option: 'Default menu item',
     supportingText: 'Supporting description'
   },
-  render: ({ option, supportingText, imgSrc, imgAlt, ...args }) => (
+  render: ({ option, supportingText, imgSrc, imgAlt, mediaIcon, ...args }) => (
     <MenuItem
       {...args}
       option={option}
@@ -28,6 +29,7 @@ const meta: Meta<MenuItemStoryArgs> = {
       startIcon={args.type === 'simple' ? <InfoIcon /> : undefined}
       imgSrc={args.type === 'complex' ? imgSrc || undefined : undefined}
       imgAlt={args.type === 'complex' ? imgAlt || undefined : undefined}
+      mediaIcon={args.type === 'complex' ? mediaIcon : undefined}
       href={args.href || undefined}
     />
   )
@@ -78,5 +80,14 @@ export const ComplexPlaceholder: Story = {
     supportingText: 'Supporting copy without image',
     imgSrc: '',
     imgAlt: ''
+  }
+};
+
+export const ComplexWithMediaIcon: Story = {
+  args: {
+    type: 'complex',
+    option: 'Media icon menu item',
+    supportingText: 'Icon rendered in media slot',
+    mediaIcon: <CloseIcon />
   }
 };

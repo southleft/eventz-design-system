@@ -15,6 +15,7 @@ type MenuItemBaseProps = {
   supportingText?: string;
   imgSrc?: string;
   imgAlt?: string;
+  mediaIcon?: React.ReactNode;
 };
 
 type ButtonAttributes = Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'type'>;
@@ -62,6 +63,11 @@ const imageClasses = `
   h-40 w-40 rounded-sm object-cover group-hover:opacity-75 data-[is-placeholder=true]:bg-color-background-brand
 `;
 
+const mediaIconClasses = `
+  text-color-content-brand group-hover:text-color-content-brand-hover bg-color-background-weak
+  group-hover:bg-color-background-weak-hover flex items-center justify-center
+`;
+
 const complexSelectedWrapperClasses = `
   flex flex-col flex-grow gap-1
 `;
@@ -93,6 +99,7 @@ export const MenuItem = React.forwardRef<
       supportingText,
       imgSrc,
       imgAlt,
+      mediaIcon,
       className = '',
       href,
       ...rest
@@ -105,6 +112,7 @@ export const MenuItem = React.forwardRef<
     const startIconClassName = collapseWhitespace(composeClasses(startIconClasses));
     const supportingTextClassName = collapseWhitespace(composeClasses(supportingTextClasses));
     const imageClassName = collapseWhitespace(composeClasses(imageClasses));
+    const mediaIconClassName = collapseWhitespace(composeClasses(imageClasses, mediaIconClasses));
     const complexSelectedWrapperClassName = collapseWhitespace(
       composeClasses(complexSelectedWrapperClasses)
     );
@@ -147,6 +155,14 @@ export const MenuItem = React.forwardRef<
           <>
             {imgSrc ? (
               <img className={imageClassName} src={imgSrc} alt={resolvedImgAlt} />
+            ) : mediaIcon ? (
+              <span
+                className={mediaIconClassName}
+                aria-hidden="true"
+                data-testid="menu-item-media-icon"
+              >
+                {mediaIcon}
+              </span>
             ) : (
               <span
                 className={imageClassName}

@@ -1541,6 +1541,9 @@
     background-color: color-mix(in oklab, var(--color-color-background-inverted) 50%, transparent);
   }
 }
+.bg-color-background-weak {
+  background-color: var(--color-color-background-weak);
+}
 .bg-color-content-brand {
   background-color: var(--color-color-content-brand);
 }
@@ -1813,6 +1816,20 @@
 .select-none {
   -webkit-user-select: none;
   user-select: none;
+}
+.group-hover\:bg-color-background-weak-hover {
+  &:is(:where(.group):hover *) {
+    @media (hover: hover) {
+      background-color: var(--color-color-background-weak-hover);
+    }
+  }
+}
+.group-hover\:text-color-content-brand-hover {
+  &:is(:where(.group):hover *) {
+    @media (hover: hover) {
+      color: var(--color-color-content-brand-hover);
+    }
+  }
 }
 .group-hover\:text-color-content-default-hover {
   &:is(:where(.group):hover *) {
