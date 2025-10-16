@@ -343,7 +343,10 @@ export const FileUpload = React.forwardRef<HTMLDivElement, FileUploadProps>(
           // Phase 2: accept on the next frame (fallback to setTimeout if unavailable)
           const schedule =
             typeof window !== 'undefined' && typeof window.requestAnimationFrame === 'function'
-              ? (callback: () => void) => window.requestAnimationFrame(() => callback())
+              ? (callback: () => void) =>
+                  window.requestAnimationFrame(() => {
+                    setTimeout(callback, 0);
+                  })
               : (callback: () => void) => setTimeout(callback, 0);
           schedule(() => {
             setStatus('accepted');
