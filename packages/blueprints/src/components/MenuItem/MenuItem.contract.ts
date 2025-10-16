@@ -29,6 +29,11 @@ export const MenuItemContract = defineContract({
     // Optional convenience props when no `image` slot is provided (component may render an <img /> internally)
     imgSrc: { type: 'string' },
     imgAlt: { type: 'string' },
+    mediaIcon: {
+      type: 'slot',
+      description:
+        'Optional icon rendered in the media thumbnail slot for type="complex" when no imgSrc is provided.'
+    },
 
     href: {
       type: 'string',
@@ -39,7 +44,7 @@ export const MenuItemContract = defineContract({
   // Slots in render order (generator composes these exactly; truthiness controls spacing)
   slots: [
     'startIcon', // simple only
-    'image', // complex only; rendered internally from imgSrc/imgAlt (not a public slot)
+    'image', // complex only; rendered internally from imgSrc/imgAlt or mediaIcon (not a public slot)
     'complexSelectedWrapper', // structural wrapper; stacks rows
     'option', // visible label text/content
     'supportingText' // complex only
@@ -51,7 +56,7 @@ export const MenuItemContract = defineContract({
   // Structural notes for the generator (no visual semantics here)
   hints: {
     notes:
-      'For type="simple", ignore `image` and prefer `startIcon`. For type="complex", ignore `startIcon` and render an internal image using imgSrc/imgAlt (if missing, render a neutral placeholder). For complex items, the image alt should fall back to the `option` prop text when possible, otherwise to `ariaLabel`. Selected icon is internal-only (checkmark), revealed when isSelected=true. Hover and selected styling cascade from the root using `group` and `group-data-[is-selected=true]` to style child slots.'
+      'For type="simple", ignore `image` and prefer `startIcon`. For type="complex", ignore `startIcon` and render an internal media thumbnail: if imgSrc is provided render <img />, otherwise if mediaIcon is provided render the icon inside the thumbnail span, otherwise render a neutral placeholder. If both imgSrc and mediaIcon are present the image wins. For complex items, the image alt should fall back to the `option` prop text when possible, otherwise to `ariaLabel`. Selected icon is internal-only (checkmark), revealed when isSelected=true. Hover and selected styling cascade from the root using `group` and `group-data-[is-selected=true]` to style child slots.'
   },
 
   rules: [
