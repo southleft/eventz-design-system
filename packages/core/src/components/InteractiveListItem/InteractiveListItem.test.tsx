@@ -1,9 +1,14 @@
+import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { InteractiveListItem, InteractiveListItemProps } from './InteractiveListItem';
+import {
+  InteractiveListItem,
+  InteractiveListItemComponentProps,
+  InteractiveListItemProps
+} from './InteractiveListItem';
 
 const renderInteractiveListItem = (props: Partial<InteractiveListItemProps> = {}) => {
-  const defaultProps: InteractiveListItemProps = {
+  const defaultProps = {
     title: 'Account settings',
     supportingText: 'Manage your account preferences',
     highlightText: 'Updated 2 days ago',
@@ -13,13 +18,23 @@ const renderInteractiveListItem = (props: Partial<InteractiveListItemProps> = {}
     ...props
   };
 
-  return render(<InteractiveListItem {...defaultProps} />);
+  return render(
+    <InteractiveListItem {...(defaultProps as InteractiveListItemComponentProps)} />
+  );
 };
 
 describe('InteractiveListItem', () => {
   it('renders the title as the button label', () => {
     renderInteractiveListItem();
     expect(screen.getByRole('button', { name: /Account settings/ })).toBeInTheDocument();
+  });
+
+  it('renders as a link when href is provided', () => {
+    renderInteractiveListItem({ href: '/settings' });
+    expect(screen.getByRole('link', { name: /Account settings/ })).toHaveAttribute(
+      'href',
+      '/settings'
+    );
   });
 
   it('applies default props when omitted', () => {
