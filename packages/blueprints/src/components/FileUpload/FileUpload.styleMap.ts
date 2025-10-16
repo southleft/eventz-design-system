@@ -7,14 +7,7 @@ export default defineStyleMap({
 
   slots: {
     // Label row (InfoPopover inline), mirrors Input
-    labelRow: [
-      'inline-flex',
-      'gap-1',
-      'text-color-content-default',
-      'text-xs',
-      'uppercase',
-      'sr-only'
-    ] as const,
+    labelRow: ['inline-flex', 'gap-1', 'text-color-content-default', 'text-xs', 'uppercase'] as const,
 
     // DROPZONE — non-focusable group container; children react via group-hover
     dropzone: [
@@ -44,10 +37,7 @@ export default defineStyleMap({
       'focus-visible:ring-offset-4',
       'focus-visible:ring-comp-border-focus-ring',
       'focus-visible:ring-offset-color-background-default',
-      'focus-within:ring-2',
-      'focus-within:ring-offset-4',
-      'focus-within:ring-comp-border-focus-ring',
-      'focus-within:ring-offset-color-background-default'
+      // focus-within:* ring is applied conditionally at runtime (keyboard modality)
     ] as const,
 
     // Thumbnail host (AspectRatio handles sizing)
