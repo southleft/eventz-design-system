@@ -1,4 +1,4 @@
-<file name=0 path=/Users/tonym/Documents/Github/doxyz/AGENTS/GENERATION.md># 🏗️ Component Generation Guidelines for Agents
+# 🏗️ Component Generation Guidelines for Agents
 
 <!-- @agents:paths:start -->
 ### 📍 Canonical paths
@@ -34,8 +34,7 @@ See **Canonical paths** above for contract and styleMap locations.
 ## 📦 Outputs
 Generated components must include all of the following:
 - `/<ComponentName>.tsx` — React component implementing the contract + styleMap. Do not export prop type aliases; export only the named `<ComponentName>Props` interface from this file. This file **must export a named interface for props** (e.g., `<ComponentName>Props`), defined within the same file, matching the contract's prop definitions. Class composition must use `composeClasses` (`packages/core/src/utilities/composeClasses/composeClasses.ts`). **Do not import styleMap files in runtime.** Use literal token strings that **match** the styleMap. MUST use template literals (`` `...` ``) for all static or inline className definitions. DO NOT use string concatenation (`+`), arrays of strings, or array joins; DO NOT pass arrays directly to `composeClasses`.
-- `/<ComponentName>.stories.tsx` — Storybook stories covering all public props
-  - **Stories MUST NOT declare `argTypes`.** Rely on inferred controls based on the exported props interface.
+- `/<ComponentName>.stories.tsx` — Storybook stories covering all public props/variants
 - `/<ComponentName>.test.tsx` (or `__tests__/`) — Jest + RTL tests for render, slots, variants, baseline a11y
 
 All outputs belong under:
@@ -58,7 +57,7 @@ All outputs belong under:
    - Default export: `title: 'Components/<ComponentName>'`
    - Include stories for all styleMap variants.
    - Use Storybook controls for all public props.
-   - Controls are inferred from the component’s TypeScript interface. **Do not declare `argTypes` anywhere** (no default export `argTypes`, no per-story `argTypes`). Adding `argTypes` is a protocol violation and will cause PR rejection.
+   - Controls are inferred from the component’s TypeScript interface. Do not declare manual argTypes.
 4. **Generate tests**:
    - Use Jest + RTL.
    - Cover: render, slot presence, variant switching, baseline a11y.
@@ -89,6 +88,5 @@ All outputs belong under:
 - ClassNames follow the convention: `composeClasses` plus template literals ONLY; **no styleMap imports in runtime**; literal token strings **match** the styleMap. Arrays of strings, concatenation, array joins, or passing arrays directly to `composeClasses` are disallowed.
 - Props export rule followed: only `<ComponentName>Props` is exported; no prop type aliases are exported.
 - Reviewed against the PR’s base branch (default development); rely on PR → Files changed.
-- Stories rely on inferred controls. **No `argTypes` declarations of any kind.**
+- Stories rely on inferred controls (no manual argTypes).
 - No styleMap imports in runtime; class tokens used in runtime match the styleMap (composeClasses + template literals only).
-</file>

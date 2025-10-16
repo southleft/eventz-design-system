@@ -74,8 +74,7 @@ describe('FileUpload', () => {
   it('renders the label text inside the labelRow when label is provided', () => {
     render(<FileUpload label="Profile photo" />);
     const labelRow = document.querySelector('[data-slot="labelRow"]') as HTMLElement;
-    expect(labelRow).toBeInTheDocument();
-    expect(labelRow.textContent).toContain('Profile photo');
+    expect((labelRow?.textContent ?? '').includes('Profile photo')).toBe(true);
   });
 
   it('omits the hint slot when error text is provided', () => {
@@ -92,9 +91,11 @@ describe('FileUpload', () => {
   it('uses ariaLabel text in labelRow when only info is present (sr-only)', () => {
     render(<FileUpload ariaLabel="Upload file" info="About uploading files" />);
     const labelRow = document.querySelector('[data-slot="labelRow"]') as HTMLElement;
-    expect(labelRow).toBeInTheDocument();
-    expect(labelRow.className).toContain('sr-only');
-    expect(labelRow.textContent).toContain('Upload file');
+    expect({
+      exists: Boolean(labelRow),
+      hasSrOnly: labelRow?.className.includes('sr-only') ?? false,
+      textMatches: (labelRow?.textContent ?? '').includes('Upload file')
+    }).toEqual({ exists: true, hasSrOnly: true, textMatches: true });
   });
 
   it('includes the info content id in aria-describedby when the InfoPopover is open', () => {
@@ -103,7 +104,6 @@ describe('FileUpload', () => {
 
     // Initially, info is closed; aria-describedby should not include the info id
     const initialDescribedBy = dropzone.getAttribute('aria-describedby') || '';
-    expect(initialDescribedBy).not.toMatch(/-info$/);
 
     // Open the InfoPopover via its trigger
     const infoTrigger = screen.getByRole('button', { name: 'Profile photo info' });
@@ -111,23 +111,32 @@ describe('FileUpload', () => {
 
     // The content should render with an id that ends with "-info"
     const infoContent = document.querySelector('[id$="-info"]');
-    expect(infoContent).toBeInTheDocument();
 
     // aria-describedby should now include the info content id
     const describedBy = dropzone.getAttribute('aria-describedby') || '';
-    expect(describedBy.split(/\s+/)).toContain(infoContent!.id);
+    const infoId = infoContent?.id ?? '';
+    expect({
+      initialHasInfo: /-info\b/.test(initialDescribedBy),
+      infoExists: Boolean(infoContent),
+      finalHasInfo: infoId ? describedBy.split(/\s+/).includes(infoId) : false
+    }).toEqual({ initialHasInfo: false, infoExists: true, finalHasInfo: true });
   });
 
   it('renders labelRow with info only when no label/ariaLabel (empty text prefix)', () => {
     render(<FileUpload info="About uploading files" />);
     const labelRow = document.querySelector('[data-slot="labelRow"]') as HTMLElement;
-    expect(labelRow).toBeInTheDocument();
-    // With no label present, labelRow should be visually hidden (sr-only),
-    // and the visible content comes from the InfoPopover (info prop).
-    expect(labelRow.className).toContain('sr-only');
-    expect((labelRow.textContent ?? '').trim()).toBe('');
     const infoTrigger = screen.getByRole('button', { name: 'File upload info' });
-    expect(infoTrigger).toBeInTheDocument();
+    expect({
+      exists: Boolean(labelRow),
+      hasSrOnly: labelRow?.className.includes('sr-only') ?? false,
+      emptyPrefix: ((labelRow?.textContent ?? '').trim().length === 0),
+      infoTriggerPresent: Boolean(infoTrigger)
+    }).toEqual({
+      exists: true,
+      hasSrOnly: true,
+      emptyPrefix: true,
+      infoTriggerPresent: true
+    });
   });
 
   it('rejects files that do not satisfy the accept filter', () => {
@@ -183,14 +192,16 @@ describe('FileUpload', () => {
 
     // Enter drag to set the state
     fireEvent.dragEnter(dropzone, { dataTransfer: { types: ['Files'] } });
-    expect(root.getAttribute('data-drag-over')).toBe('true');
+    const duringDrag = root.getAttribute('data-drag-over');
 
     // Leave drag to clear the state and announce cancel
     fireEvent.dragLeave(dropzone);
-    expect(root.getAttribute('data-drag-over')).toBeNull();
-
     const live = screen.getByRole('status');
-    expect(live.textContent?.trim()).toBe('Drag canceled');
+    expect({
+      duringDrag,
+      afterDrag: root.getAttribute('data-drag-over'),
+      liveMessage: live.textContent?.trim()
+    }).toEqual({ duringDrag: 'true', afterDrag: null, liveMessage: 'Drag canceled' });
   });
 
   it('sets dropEffect to copy and announces "Drop now" on drag over', () => {
@@ -201,11 +212,12 @@ describe('FileUpload', () => {
     const dataTransfer = { dropEffect: 'none', types: ['Files'] };
     fireEvent.dragOver(dropzone, { dataTransfer });
 
-    expect(root.getAttribute('data-drag-over')).toBe('true');
-    expect(dataTransfer.dropEffect).toBe('copy');
-
     const live = screen.getByRole('status');
-    expect(live.textContent?.trim()).toBe('Drop now');
+    expect({
+      dragOver: root.getAttribute('data-drag-over'),
+      dropEffect: dataTransfer.dropEffect,
+      liveMessage: live.textContent?.trim()
+    }).toEqual({ dragOver: 'true', dropEffect: 'copy', liveMessage: 'Drop now' });
   });
 
   it('forces a live region re-announce when the same message repeats (adds trailing space)', () => {
@@ -214,13 +226,11 @@ describe('FileUpload', () => {
 
     // First dragOver announces "Drop now"
     fireEvent.dragOver(dropzone, { dataTransfer: { types: ['Files'], dropEffect: 'none' } });
-    const live1 = screen.getByRole('status');
-    expect(live1.textContent).toBe('Drop now');
-
+    const firstMessage = screen.getByRole('status').textContent;
     // Second dragOver should produce the same message but with a trailing space
     fireEvent.dragOver(dropzone, { dataTransfer: { types: ['Files'], dropEffect: 'none' } });
-    const live2 = screen.getByRole('status');
-    expect(live2.textContent).toBe('Drop now ');
+    const secondMessage = screen.getByRole('status').textContent;
+    expect([firstMessage, secondMessage]).toEqual(['Drop now', 'Drop now ']);
   });
 
   it('processes dropped files via dataTransfer and accepts valid images', () => {
@@ -249,10 +259,11 @@ describe('FileUpload', () => {
 
     // Handler should clear drag-over and announce cancel as part of the drop path
     const root = container.firstElementChild as HTMLElement;
-    expect(root.getAttribute('data-drag-over')).toBeNull();
-
     const live = screen.getByRole('status');
-    expect(live.textContent?.trim()).toBe('Drag canceled');
+    expect({
+      dragOver: root.getAttribute('data-drag-over'),
+      liveMessage: live.textContent?.trim()
+    }).toEqual({ dragOver: null, liveMessage: 'Drag canceled' });
   });
 
   it('ignores drop when no files are provided', () => {
@@ -265,9 +276,11 @@ describe('FileUpload', () => {
 
     const root = container.firstElementChild as HTMLElement;
     // Remains in empty state and clears drag-over
-    expect(root.getAttribute('data-accepted')).toBeNull();
-    expect(root.getAttribute('data-uploading')).toBeNull();
-    expect(root.getAttribute('data-drag-over')).toBeNull();
+    expect({
+      accepted: root.getAttribute('data-accepted'),
+      uploading: root.getAttribute('data-uploading'),
+      dragOver: root.getAttribute('data-drag-over')
+    }).toEqual({ accepted: null, uploading: null, dragOver: null });
   });
 
   it('enters the uploading state after an image is selected', () => {
@@ -298,9 +311,11 @@ describe('FileUpload', () => {
 
     // Remains in empty state; input value cleared by handler
     const root = container.firstElementChild as HTMLElement;
-    expect(root.getAttribute('data-accepted')).toBeNull();
-    expect(root.getAttribute('data-uploading')).toBeNull();
-    expect(fileInput.value).toBe('');
+    expect({
+      accepted: root.getAttribute('data-accepted'),
+      uploading: root.getAttribute('data-uploading'),
+      inputValue: fileInput.value
+    }).toEqual({ accepted: null, uploading: null, inputValue: '' });
   });
 
   it('does not render a thumbnail frame when showThumbnail is false', () => {
@@ -355,8 +370,10 @@ describe('FileUpload', () => {
     triggerImageLoad();
 
     const root = container.firstElementChild as HTMLElement;
-    expect(root.getAttribute('data-accepted')).toBe('true');
-    expect(onFileAccepted).toHaveBeenCalledTimes(1);
+    expect({
+      accepted: root.getAttribute('data-accepted'),
+      acceptedCalls: onFileAccepted.mock.calls.length
+    }).toEqual({ accepted: 'true', acceptedCalls: 1 });
   });
 
   it('marks accepted when decode resolves (promise path)', async () => {
@@ -446,10 +463,11 @@ describe('FileUpload', () => {
 
     // Assert state + preview reset (observable behavior)
     const root = container.firstElementChild as HTMLElement;
-    expect(root.getAttribute('data-accepted')).toBeNull();
-    // In empty state, the thumbnail frame is not rendered
     const thumbnail = document.querySelector('[data-slot="thumbnail"]');
-    expect(thumbnail).toBeNull();
+    expect({
+      accepted: root.getAttribute('data-accepted'),
+      hasThumbnail: Boolean(thumbnail)
+    }).toEqual({ accepted: null, hasThumbnail: false });
   });
 
   it('retains the uploading state when preview fails and resetOnFail is false', () => {
@@ -475,8 +493,10 @@ describe('FileUpload', () => {
     triggerImageError();
 
     const root = container.firstElementChild as HTMLElement;
-    expect(root.getAttribute('data-uploading')).toBe('true'); // remains uploading (resetOnFail default is false)
-    expect(onFileError).toHaveBeenCalledTimes(1);
+    expect({
+      uploading: root.getAttribute('data-uploading'),
+      errorCalls: onFileError.mock.calls.length
+    }).toEqual({ uploading: 'true', errorCalls: 1 });
   });
 
   it('resets to the empty state when preview fails and resetOnFail is true', () => {
@@ -494,16 +514,25 @@ describe('FileUpload', () => {
     render(<FileUpload ariaLabel="Upload file" />);
     const dropzone = screen.getByRole('group', { name: 'Upload file' });
     // Static classes include focus-visible tokens; focus-within tokens are enabled by keyboard modality.
-    expect(dropzone.className).toContain('focus-visible:ring-2');
-    expect(dropzone.className).not.toContain('focus-within:ring-2');
+    const initialClasses = dropzone.className;
     fireEvent.keyDown(dropzone, { key: 'Tab' });
-    expect(dropzone.className).toContain('focus-within:ring-2');
+    const afterKeyDown = dropzone.className;
     // Tabbing should place focus on the primary action; :focus-within will visually ring the group in the browser.
     await user.tab();
     const primaryButton = document.querySelector(
       '[data-slot="primaryAction"] button'
     ) as HTMLButtonElement;
-    expect(primaryButton).toHaveFocus();
+    expect({
+      hasFocusVisible: initialClasses.includes('focus-visible:ring-2'),
+      initialFocusWithin: initialClasses.includes('focus-within:ring-2'),
+      afterKeyDownFocusWithin: afterKeyDown.includes('focus-within:ring-2'),
+      primaryHasFocus: document.activeElement === primaryButton
+    }).toEqual({
+      hasFocusVisible: true,
+      initialFocusWithin: false,
+      afterKeyDownFocusWithin: true,
+      primaryHasFocus: true
+    });
   });
 
   it('disables the focus-within ring on pointer modality (mouse down)', () => {
@@ -512,11 +541,14 @@ describe('FileUpload', () => {
 
     // Enable keyboard modality first
     fireEvent.keyDown(dropzone, { key: 'Tab' });
-    expect(dropzone.className).toContain('focus-within:ring-2');
+    const afterKeyDown = dropzone.className.includes('focus-within:ring-2');
 
     // Mouse interaction should disable the within ring
     fireEvent.mouseDown(dropzone);
-    expect(dropzone.className).not.toContain('focus-within:ring-2');
+    expect({
+      afterKeyDown,
+      afterMouseDown: dropzone.className.includes('focus-within:ring-2')
+    }).toEqual({ afterKeyDown: true, afterMouseDown: false });
   });
 
   it('opens the file dialog when pressing Enter/Space on the dropzone', () => {
@@ -569,10 +601,12 @@ describe('FileUpload', () => {
     const primaryButton = document.querySelector(
       '[data-slot="primaryAction"] button'
     ) as HTMLButtonElement;
-    expect(primaryButton).toBeInTheDocument();
 
     fireEvent.click(primaryButton);
-    expect(clickSpy).toHaveBeenCalledTimes(1);
+    expect({
+      buttonPresent: Boolean(primaryButton),
+      clickCount: clickSpy.mock.calls.length
+    }).toEqual({ buttonPresent: true, clickCount: 1 });
     clickSpy.mockRestore();
   });
 
@@ -583,13 +617,15 @@ describe('FileUpload', () => {
     const primaryButton = document.querySelector(
       '[data-slot="primaryAction"] button'
     ) as HTMLButtonElement;
-    expect(primaryButton).toBeInTheDocument();
 
     const inputClickSpy = jest.spyOn(fileInput, 'click').mockImplementation(() => {});
 
     fireEvent.click(primaryButton);
 
-    expect(inputClickSpy).toHaveBeenCalledTimes(1);
+    expect({
+      buttonPresent: Boolean(primaryButton),
+      clickCount: inputClickSpy.mock.calls.length
+    }).toEqual({ buttonPresent: true, clickCount: 1 });
 
     inputClickSpy.mockRestore();
   });
@@ -606,9 +642,11 @@ describe('FileUpload', () => {
     const primaryButton = document.querySelector(
       '[data-slot="primaryAction"] button'
     ) as HTMLButtonElement;
-    expect(primaryButton).toBeDisabled(); // disabled while uploading
     fireEvent.click(primaryButton);
-    expect(clickSpy).toHaveBeenCalledTimes(0);
+    expect({
+      disabled: primaryButton?.disabled ?? false,
+      clickCount: clickSpy.mock.calls.length
+    }).toEqual({ disabled: true, clickCount: 0 });
     clickSpy.mockRestore();
   });
 
@@ -679,8 +717,10 @@ describe('FileUpload', () => {
 
   it('renders default photo max filesize and max dimensions', () => {
     render(<FileUpload label="Profile photo" />);
-    expect(screen.getByText('Max filesize: 5MB')).toBeInTheDocument();
-    expect(screen.getByText('Max dimensions: 840px x 840px')).toBeInTheDocument();
+    const presence = ['Max filesize: 5MB', 'Max dimensions: 840px x 840px'].map(text =>
+      Boolean(screen.queryByText(text))
+    );
+    expect(presence).toEqual([true, true]);
   });
 
   it('renders poster defaults when imageFormat is poster', () => {
@@ -690,9 +730,12 @@ describe('FileUpload', () => {
 
   it('renders all poster default properties', () => {
     render(<FileUpload label="Poster" imageFormat="poster" />);
-    expect(screen.getByText('Supports: PNG and JPG')).toBeInTheDocument();
-    expect(screen.getByText('Max filesize: 5MB')).toBeInTheDocument();
-    expect(screen.getByText('Max dimensions: 840px x 1120px')).toBeInTheDocument();
+    const presence = [
+      'Supports: PNG and JPG',
+      'Max filesize: 5MB',
+      'Max dimensions: 840px x 1120px'
+    ].map(text => Boolean(screen.queryByText(text)));
+    expect(presence).toEqual([true, true, true]);
   });
 
   it('uses custom imageProperties when provided', () => {
@@ -702,9 +745,10 @@ describe('FileUpload', () => {
         imageProperties={{ supports: 'SVG', maxFilesize: '2MB', maxDimensions: '200px x 200px' }}
       />
     );
-    expect(screen.getByText('Supports: SVG')).toBeInTheDocument();
-    expect(screen.getByText('Max filesize: 2MB')).toBeInTheDocument();
-    expect(screen.getByText('Max dimensions: 200px x 200px')).toBeInTheDocument();
+    const presence = ['Supports: SVG', 'Max filesize: 2MB', 'Max dimensions: 200px x 200px'].map(
+      text => Boolean(screen.queryByText(text))
+    );
+    expect(presence).toEqual([true, true, true]);
   });
 
   it('accepts an initialValue on mount and marks as accepted', () => {
@@ -720,16 +764,16 @@ describe('FileUpload', () => {
       <FileUpload label="Profile photo" initialValue="https://example.com/avatar.jpg" />
     );
     const root = container.firstElementChild as HTMLElement;
-    expect(root.getAttribute('data-accepted')).toBe('true');
 
     // Remove the initialValue; since no file is present, the effect should reset to empty
     rerender(<FileUpload label="Profile photo" />);
     const updatedRoot = container.firstElementChild as HTMLElement;
-    expect(updatedRoot.getAttribute('data-accepted')).toBeNull();
-
-    // In empty state, the thumbnail frame is not rendered
     const thumbnail = document.querySelector('[data-slot="thumbnail"]');
-    expect(thumbnail).toBeNull();
+    expect({
+      initialAccepted: root.getAttribute('data-accepted'),
+      finalAccepted: updatedRoot.getAttribute('data-accepted'),
+      hasThumbnail: Boolean(thumbnail)
+    }).toEqual({ initialAccepted: 'true', finalAccepted: null, hasThumbnail: false });
   });
 
   it('does not override an accepted file when initialValue changes', () => {
