@@ -1,4 +1,3 @@
-// packages/core/src/components/Search/Search.tsx
 import * as React from 'react';
 import { Popover } from 'radix-ui';
 import {
@@ -113,13 +112,7 @@ export const Search = React.forwardRef<HTMLDivElement, SearchProps>(
     const isControlled = value !== undefined;
     const [uncontrolledValue, setUncontrolledValue] = React.useState<string>(defaultValue ?? '');
 
-    React.useEffect(() => {
-      if (!isControlled) {
-        setUncontrolledValue(defaultValue ?? '');
-      }
-    }, [defaultValue, isControlled]);
-
-    const searchTerm = isControlled ? (value ?? '') : uncontrolledValue;
+    const searchTerm = value ?? uncontrolledValue;
     const trimmedSearchTerm = searchTerm.trim();
     const trimmedNoResultsMessage = noResultsMessage?.trim() ?? '';
     const hasNoResultsMessage = trimmedNoResultsMessage.length > 0;
@@ -153,10 +146,10 @@ export const Search = React.forwardRef<HTMLDivElement, SearchProps>(
       onBlur: inputOnBlur,
       onChange: inputOnChange,
       onKeyDown: inputOnKeyDown,
+      type: inputType = 'search',
       ...restInputProps
     } = inputPropsOverride ?? {};
 
-    const inputType = restInputProps?.type ?? 'search';
     const baseClassName = collapseWhitespace(composeClasses(baseClasses, className));
     const resultsClassName = collapseWhitespace(
       composeClasses(resultsClasses, resultsStateClasses)
@@ -167,11 +160,10 @@ export const Search = React.forwardRef<HTMLDivElement, SearchProps>(
     const handleInputFocus = React.useCallback(
       (event: React.FocusEvent<HTMLInputElement>) => {
         setIsFocused(true);
-        if (suppressNextFocusOpenRef.current) {
-          suppressNextFocusOpenRef.current = false;
-        } else {
+        if (!suppressNextFocusOpenRef.current) {
           setIsPopoverOpen(true);
         }
+        suppressNextFocusOpenRef.current = false;
         inputOnFocus?.(event);
       },
       [inputOnFocus]
@@ -179,8 +171,8 @@ export const Search = React.forwardRef<HTMLDivElement, SearchProps>(
 
     const handleInputBlur = React.useCallback(
       (event: React.FocusEvent<HTMLInputElement>) => {
-        const nextFocus = event.relatedTarget as Node | null;
-        if (nextFocus && popoverContentRef.current?.contains(nextFocus)) {
+        const nextEl = event.relatedTarget as HTMLElement | null;
+        if (nextEl!.closest('[data-popover-content="true"]')) {
           return;
         }
 
@@ -208,23 +200,19 @@ export const Search = React.forwardRef<HTMLDivElement, SearchProps>(
     );
 
     const focusInput = React.useCallback(() => {
-      requestAnimationFrame(() => {
-        suppressNextFocusOpenRef.current = true;
-        inputRef.current?.focus();
-      });
+      inputRef.current!.focus();
     }, []);
 
     const clearSearch = React.useCallback(() => {
-      if (!isControlled) {
-        setUncontrolledValue('');
-      }
+      // Reset the internal uncontrolled value (safe in controlled mode; the prop drives the input)
+      setUncontrolledValue('');
 
       setIsFocused(false);
       setIsPopoverOpen(false);
       suppressNextFocusOpenRef.current = true;
       onSearchTermChange('');
       focusInput();
-    }, [focusInput, isControlled, onSearchTermChange]);
+    }, [focusInput, onSearchTermChange]);
 
     const handleKeyDown = React.useCallback(
       (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -267,21 +255,10 @@ export const Search = React.forwardRef<HTMLDivElement, SearchProps>(
     );
 
     const handleViewAllClick = React.useCallback(() => {
-      onViewAllClick?.(searchTerm);
+      onViewAllClick!(searchTerm);
       setIsFocused(false);
       setIsPopoverOpen(false);
-      suppressNextFocusOpenRef.current = true;
-      focusInput();
-    }, [focusInput, onViewAllClick, searchTerm]);
-
-    const preventFocusLoss = React.useCallback((event: React.PointerEvent<HTMLDivElement>) => {
-      const target = event.target as HTMLElement | null;
-      if (target?.closest('a[href], [data-slot="status"]')) {
-        return;
-      }
-
-      event.preventDefault();
-    }, []);
+    }, [onViewAllClick, searchTerm]);
 
     const statusContent = loading ? (
       <AnimatedCircularProgressIcon aria-hidden="true" />
@@ -289,10 +266,7 @@ export const Search = React.forwardRef<HTMLDivElement, SearchProps>(
       trimmedNoResultsMessage
     ) : null;
 
-    const renderedViewAllLabel = (viewAllLabel ?? defaultViewAllLabel).replace(
-      '{searchTerm}',
-      searchTerm
-    );
+    const renderedViewAllLabel = viewAllLabel.replace('{searchTerm}', searchTerm);
 
     const defaultStartIcon = inputStartIcon ?? <SearchIcon aria-hidden="true" />;
 
@@ -357,11 +331,7 @@ export const Search = React.forwardRef<HTMLDivElement, SearchProps>(
               data-no-results={shouldShowEmptyMessage ? 'true' : undefined}
               data-focused={isFocused ? 'true' : undefined}
               data-open={popoverOpen ? 'true' : undefined}
-              onPointerDown={preventFocusLoss}
-              onFocusOutside={event => event.preventDefault()}
-              onOpenAutoFocus={event => {
-                event.preventDefault();
-              }}
+              data-popover-content="true"
             >
               {showResults ? results.map(result => renderMenuItem(result)) : null}
 
