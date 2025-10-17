@@ -110,3 +110,23 @@ export const InputOverrides: Story = {
     placeholder: 'Search destinations…'
   }
 };
+
+// Ensure the input auto-focuses for all stories so the popover state is visible in Canvas
+const _stories = [
+  typeof Default !== 'undefined' ? Default : undefined,
+  typeof Loading !== 'undefined' ? Loading : undefined,
+  typeof NoResults !== 'undefined' ? NoResults : undefined,
+  typeof Results !== 'undefined' ? Results : undefined,
+  typeof CloseIconOverride !== 'undefined' ? CloseIconOverride : undefined,
+  typeof InputOverrides !== 'undefined' ? InputOverrides : undefined
+].filter(Boolean) as Array<{ args?: any }>;
+
+for (const s of _stories) {
+  s.args = {
+    ...s.args,
+    InputProps: {
+      ...(s.args?.InputProps ?? {}),
+      autoFocus: true
+    }
+  };
+}

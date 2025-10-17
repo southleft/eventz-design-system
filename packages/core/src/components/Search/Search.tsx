@@ -127,6 +127,8 @@ export const Search = React.forwardRef<HTMLDivElement, SearchProps>(
     const hasSearchTerm = trimmedSearchTerm.length > 0;
     const shouldShowEmptyMessage = hasSearchTerm && !loading && !hasResults && hasNoResultsMessage;
     const shouldShowStatus = loading || shouldShowEmptyMessage;
+    const showResults = !loading && hasResults;
+    const showViewAll = showResults && Boolean(onViewAllClick);
 
     const [isFocused, setIsFocused] = React.useState(false);
     const [isPopoverOpen, setIsPopoverOpen] = React.useState(false);
@@ -154,6 +156,7 @@ export const Search = React.forwardRef<HTMLDivElement, SearchProps>(
       ...restInputProps
     } = inputPropsOverride ?? {};
 
+    const inputType = restInputProps?.type ?? 'search';
     const baseClassName = collapseWhitespace(composeClasses(baseClasses, className));
     const resultsClassName = collapseWhitespace(
       composeClasses(resultsClasses, resultsStateClasses)
@@ -273,7 +276,7 @@ export const Search = React.forwardRef<HTMLDivElement, SearchProps>(
 
     const preventFocusLoss = React.useCallback((event: React.PointerEvent<HTMLDivElement>) => {
       const target = event.target as HTMLElement | null;
-      if (target?.closest('a[href]')) {
+      if (target?.closest('a[href], [data-slot="status"]')) {
         return;
       }
 
@@ -310,17 +313,6 @@ export const Search = React.forwardRef<HTMLDivElement, SearchProps>(
 
     const renderMenuItem = (result: SearchResult): React.ReactNode => {
       const mediaIcon = result.icon ?? getDefaultIconForType(result.type);
-      const isLink = Boolean(result.href);
-      const handleMouseDown = isLink
-        ? undefined
-        : (event: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => {
-            event.preventDefault();
-          };
-      const handlePointerDown = isLink
-        ? undefined
-        : (event: React.PointerEvent<HTMLButtonElement | HTMLAnchorElement>) => {
-            event.preventDefault();
-          };
 
       return (
         <MenuItem
@@ -332,8 +324,6 @@ export const Search = React.forwardRef<HTMLDivElement, SearchProps>(
           href={result.href}
           role="listitem"
           onClick={() => handleResultActivation(result)}
-          onMouseDown={handleMouseDown}
-          onPointerDown={handlePointerDown}
         />
       );
     };
@@ -345,6 +335,7 @@ export const Search = React.forwardRef<HTMLDivElement, SearchProps>(
           ref={inputRef}
           value={searchTerm}
           placeholder={placeholder}
+          type={inputType}
           onFocus={handleInputFocus}
           onBlur={handleInputBlur}
           onChange={handleSearchTermChange}
@@ -372,15 +363,15 @@ export const Search = React.forwardRef<HTMLDivElement, SearchProps>(
                 event.preventDefault();
               }}
             >
+              {showResults ? results.map(result => renderMenuItem(result)) : null}
+
               {shouldShowStatus ? (
-                <div className={statusClassName} aria-live="polite">
+                <div className={statusClassName} aria-live="polite" data-slot="status">
                   {statusContent}
                 </div>
               ) : null}
 
-              {results.map(result => renderMenuItem(result))}
-
-              {hasResults && onViewAllClick ? (
+              {showViewAll ? (
                 <div className={viewAllRowClassName}>
                   <Button variant="secondary" onClick={handleViewAllClick}>
                     {renderedViewAllLabel}
