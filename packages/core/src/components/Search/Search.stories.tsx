@@ -111,17 +111,15 @@ export const InputOverrides: Story = {
   }
 };
 
-// Ensure the input auto-focuses for all stories so the popover state is visible in Canvas
-const _stories = [
-  typeof Default !== 'undefined' ? Default : undefined,
+// Auto-focus only the stories that should start with the popover open
+// (Loading, No Results, and Results). Other stories should not auto-focus.
+const _storiesNeedingFocus = [
   typeof Loading !== 'undefined' ? Loading : undefined,
   typeof NoResults !== 'undefined' ? NoResults : undefined,
-  typeof Results !== 'undefined' ? Results : undefined,
-  typeof CloseIconOverride !== 'undefined' ? CloseIconOverride : undefined,
-  typeof InputOverrides !== 'undefined' ? InputOverrides : undefined
-].filter(Boolean) as Array<{ args?: any }>;
+  typeof Results !== 'undefined' ? Results : undefined
+].filter(Boolean) as Array<{ args?: Partial<SearchProps> }>;
 
-for (const s of _stories) {
+for (const s of _storiesNeedingFocus) {
   s.args = {
     ...s.args,
     InputProps: {
