@@ -264,11 +264,7 @@ export const Search = React.forwardRef<HTMLDivElement, SearchProps>(
     );
 
     const handleViewAllClick = React.useCallback(() => {
-      if (!onViewAllClick) {
-        return;
-      }
-
-      onViewAllClick(searchTerm);
+      onViewAllClick?.(searchTerm);
       setIsFocused(false);
       setIsPopoverOpen(false);
       suppressNextFocusOpenRef.current = true;
@@ -320,9 +316,9 @@ export const Search = React.forwardRef<HTMLDivElement, SearchProps>(
         : (event: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => {
             event.preventDefault();
           };
-      const handleTouchStart = isLink
+      const handlePointerDown = isLink
         ? undefined
-        : (event: React.TouchEvent<HTMLButtonElement | HTMLAnchorElement>) => {
+        : (event: React.PointerEvent<HTMLButtonElement | HTMLAnchorElement>) => {
             event.preventDefault();
           };
 
@@ -337,7 +333,7 @@ export const Search = React.forwardRef<HTMLDivElement, SearchProps>(
           role="listitem"
           onClick={() => handleResultActivation(result)}
           onMouseDown={handleMouseDown}
-          onTouchStart={handleTouchStart}
+          onPointerDown={handlePointerDown}
         />
       );
     };
