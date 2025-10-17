@@ -130,6 +130,15 @@ export const SearchContract = defineContract({
     },
     {
       hint: 'type prop corrosponds to the default icon, mapped as follows: venue - StadiumIcon, article - NewsmodeIcon, event - EventIcon, artist - ArtistIcon, guide - MapIcon, undefined - EventIcon. if icon is provided as a prop, it takes priority and overrides all.'
+    },
+    {
+      hint: 'Result type union: "venue" | "article" | "event" | "artist" | "guide". If type is missing or unrecognized, use EventIcon. If result.icon is provided, it overrides type-based defaults.'
+    },
+    {
+      hint: 'Centralize icon mapping in runtime: const defaultIcons = { venue: <StadiumIcon/>, article: <NewsmodeIcon/>, event: <EventIcon/>, artist: <ArtistIcon/>, guide: <MapIcon/> } as const; const mediaIcon = result.icon ?? defaultIcons[result.type ?? "event"] ?? <EventIcon/>;'
+    },
+    {
+      hint: 'Search generation assumes MenuItem supports a `mediaIcon` prop. Ensure MenuItem is updated accordingly before integrating Search at runtime.'
     }
   ],
 
