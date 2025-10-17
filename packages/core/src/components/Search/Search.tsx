@@ -35,6 +35,10 @@ const viewAllRowClasses = `
   inline-flex w-full justify-end
 `;
 
+const closeIconClasses = `
+inline-flex h-20 w-20 items-center justify-center rounded-full border-0 bg-background-none text-color-content-default hover:bg-color-background-default-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-comp-border-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-color-background-default
+`;
+
 type SearchResultType = 'venue' | 'article' | 'event' | 'artist' | 'guide';
 
 type SearchBaseAttributes = Omit<React.HTMLAttributes<HTMLDivElement>, 'children' | 'results'>;
@@ -156,6 +160,7 @@ export const Search = React.forwardRef<HTMLDivElement, SearchProps>(
     );
     const statusClassName = collapseWhitespace(composeClasses(statusClasses));
     const viewAllRowClassName = collapseWhitespace(composeClasses(viewAllRowClasses));
+    const closeIconClassName = collapseWhitespace(composeClasses(closeIconClasses));
 
     const handleInputFocus = React.useCallback(
       (event: React.FocusEvent<HTMLInputElement>) => {
@@ -274,12 +279,16 @@ export const Search = React.forwardRef<HTMLDivElement, SearchProps>(
 
     const endIconContent = shouldRenderClearButton ? (
       <button
+        className={closeIconClassName}
         type="button"
         aria-label="Clear search"
         onClick={handleClearClick}
-        className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-color-border-subtle bg-background-none text-color-content-default hover:bg-color-background-default-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-comp-border-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-color-background-default"
       >
-        {(closeIcon ?? <CloseIcon aria-hidden="true" />) as React.ReactNode}
+        {
+          (closeIcon ?? (
+            <CloseIcon className="text-color-content-default" aria-hidden="true" />
+          )) as React.ReactNode
+        }
       </button>
     ) : (
       inputEndIcon
@@ -332,6 +341,7 @@ export const Search = React.forwardRef<HTMLDivElement, SearchProps>(
               data-focused={isFocused ? 'true' : undefined}
               data-open={popoverOpen ? 'true' : undefined}
               data-popover-content="true"
+              onOpenAutoFocus={event => event.preventDefault()}
             >
               {showResults ? results.map(result => renderMenuItem(result)) : null}
 
