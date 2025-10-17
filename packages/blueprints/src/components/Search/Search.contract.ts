@@ -139,6 +139,18 @@ export const SearchContract = defineContract({
     },
     {
       hint: 'Search generation assumes MenuItem supports a `mediaIcon` prop. Ensure MenuItem is updated accordingly before integrating Search at runtime.'
+    },
+    {
+      hint: 'While `loading` is true, do **not** render MenuItem results or the viewAllRow. The status slot (spinner) replaces all list content until loading completes. This prevents stale results from appearing under a new fetch cycle.'
+    },
+    {
+      hint: 'When `loading` transitions from false → true, hide any previously rendered results immediately. Render results only when `loading` is false and results.length > 0.'
+    },
+    {
+      hint: 'Popover open conditions remain as defined: the popover opens when the input is focused **and** one of (`loading`, `results.length > 0`, or `noResultsMessage`). It does **not** open solely based on input length. To achieve “open while typing,” consumers may set `loading=true` as they start fetching.'
+    },
+    {
+      hint: 'Results shown must reflect the latest search term. When a new term is typed and loading=true, hide prior results until the new data arrives to avoid displaying stale items.'
     }
   ],
 
