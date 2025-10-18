@@ -15,12 +15,10 @@ import { Input, InputProps } from '../Input';
 import { Button } from '../Button';
 import { MenuItem } from '../MenuItem';
 
-const baseClasses = `
-  flex flex-col gap-1 border-0
-`;
+const inputClasses = `min-w-480`;
 
 const resultsClasses = `
-  inline-flex flex-col gap-2 p-4 rounded-sm border border-color-border-subtle bg-color-background-default content-center
+  inline-flex flex-col gap-2 p-4 rounded-sm border border-color-border-subtle bg-color-background-default content-center -ml-[31px] mt-6
 `;
 
 const resultsStateClasses = `
@@ -93,226 +91,219 @@ function getDefaultIconForType(type?: SearchResult['type']): React.ReactNode {
   }
 }
 
-export const Search = React.forwardRef<HTMLDivElement, SearchProps>(
-  (
-    {
-      value,
-      defaultValue,
-      onSearchTermChange,
-      results,
-      onResultSelect,
-      onViewAllClick,
-      placeholder = 'Search…',
-      loading = false,
-      noResultsMessage,
-      InputProps: inputPropsOverride,
-      closeIcon,
-      viewAllLabel = defaultViewAllLabel,
-      className,
-      ...rest
-    },
-    ref
-  ) => {
-    const isControlled = value !== undefined;
-    const [uncontrolledValue, setUncontrolledValue] = React.useState<string>(defaultValue ?? '');
+export const Search = ({
+  value,
+  defaultValue,
+  onSearchTermChange,
+  results,
+  onResultSelect,
+  onViewAllClick,
+  placeholder = 'Search…',
+  loading = false,
+  noResultsMessage,
+  InputProps: inputPropsOverride,
+  closeIcon,
+  viewAllLabel = defaultViewAllLabel
+}: SearchProps) => {
+  const isControlled = value !== undefined;
+  const [uncontrolledValue, setUncontrolledValue] = React.useState<string>(defaultValue ?? '');
 
-    const searchTerm = value ?? uncontrolledValue;
-    const trimmedSearchTerm = searchTerm.trim();
-    const trimmedNoResultsMessage = noResultsMessage?.trim() ?? '';
-    const hasNoResultsMessage = trimmedNoResultsMessage.length > 0;
-    const hasResults = results.length > 0;
-    const hasSearchTerm = trimmedSearchTerm.length > 0;
-    const shouldShowEmptyMessage = hasSearchTerm && !loading && !hasResults && hasNoResultsMessage;
-    const shouldShowStatus = loading || shouldShowEmptyMessage;
-    const showResults = !loading && hasResults;
-    const showViewAll = showResults && Boolean(onViewAllClick);
+  const searchTerm = value ?? uncontrolledValue;
+  const trimmedSearchTerm = searchTerm.trim();
+  const trimmedNoResultsMessage = noResultsMessage?.trim() ?? '';
+  const hasNoResultsMessage = trimmedNoResultsMessage.length > 0;
+  const hasResults = results.length > 0;
+  const hasSearchTerm = trimmedSearchTerm.length > 0;
+  const shouldShowEmptyMessage = hasSearchTerm && !loading && !hasResults && hasNoResultsMessage;
+  const shouldShowStatus = loading || shouldShowEmptyMessage;
+  const showResults = !loading && hasResults;
+  const showViewAll = showResults && Boolean(onViewAllClick);
 
-    const [isFocused, setIsFocused] = React.useState(false);
-    const [isPopoverOpen, setIsPopoverOpen] = React.useState(false);
+  const [isFocused, setIsFocused] = React.useState(false);
+  const [isPopoverOpen, setIsPopoverOpen] = React.useState(false);
 
-    const inputRef = React.useRef<HTMLInputElement | null>(null);
-    const popoverContentRef = React.useRef<HTMLDivElement | null>(null);
-    const suppressNextFocusOpenRef = React.useRef(false);
+  const inputRef = React.useRef<HTMLInputElement | null>(null);
+  const popoverContentRef = React.useRef<HTMLDivElement | null>(null);
+  const suppressNextFocusOpenRef = React.useRef(false);
 
-    const hasOpenReason = loading || hasResults || shouldShowEmptyMessage;
-    const popoverOpen = isPopoverOpen && hasOpenReason;
+  const hasOpenReason = loading || hasResults || shouldShowEmptyMessage;
+  const popoverOpen = isPopoverOpen && hasOpenReason;
 
-    React.useEffect(() => {
-      if (!hasOpenReason) {
-        setIsPopoverOpen(false);
-      }
-    }, [hasOpenReason]);
+  React.useEffect(() => {
+    if (!hasOpenReason) {
+      setIsPopoverOpen(false);
+    }
+  }, [hasOpenReason]);
 
-    const {
-      startIcon: inputStartIcon,
-      endIcon: inputEndIcon,
-      onFocus: inputOnFocus,
-      onBlur: inputOnBlur,
-      onChange: inputOnChange,
-      onKeyDown: inputOnKeyDown,
-      type: inputType = 'search',
-      ...restInputProps
-    } = inputPropsOverride ?? {};
+  const {
+    startIcon: inputStartIcon,
+    endIcon: inputEndIcon,
+    onFocus: inputOnFocus,
+    onBlur: inputOnBlur,
+    onChange: inputOnChange,
+    onKeyDown: inputOnKeyDown,
+    type: inputType = 'search',
+    ...restInputProps
+  } = inputPropsOverride ?? {};
 
-    const baseClassName = collapseWhitespace(composeClasses(baseClasses, className));
-    const resultsClassName = collapseWhitespace(
-      composeClasses(resultsClasses, resultsStateClasses)
-    );
-    const statusClassName = collapseWhitespace(composeClasses(statusClasses));
-    const viewAllRowClassName = collapseWhitespace(composeClasses(viewAllRowClasses));
-    const closeIconClassName = collapseWhitespace(composeClasses(closeIconClasses));
+  const inputClassName = collapseWhitespace(composeClasses(inputClasses));
+  const resultsClassName = collapseWhitespace(composeClasses(resultsClasses, resultsStateClasses));
+  const statusClassName = collapseWhitespace(composeClasses(statusClasses));
+  const viewAllRowClassName = collapseWhitespace(composeClasses(viewAllRowClasses));
+  const closeIconClassName = collapseWhitespace(composeClasses(closeIconClasses));
 
-    const handleInputFocus = React.useCallback(
-      (event: React.FocusEvent<HTMLInputElement>) => {
-        setIsFocused(true);
-        if (!suppressNextFocusOpenRef.current) {
-          setIsPopoverOpen(true);
-        }
-        suppressNextFocusOpenRef.current = false;
-        inputOnFocus?.(event);
-      },
-      [inputOnFocus]
-    );
-
-    const handleInputBlur = React.useCallback(
-      (event: React.FocusEvent<HTMLInputElement>) => {
-        const nextEl = event.relatedTarget as HTMLElement | null;
-        if (nextEl!.closest('[data-popover-content="true"]')) {
-          return;
-        }
-
-        setIsFocused(false);
-        setIsPopoverOpen(false);
-        inputOnBlur?.(event);
-      },
-      [inputOnBlur]
-    );
-
-    const handleSearchTermChange = React.useCallback(
-      (event: React.ChangeEvent<HTMLInputElement>) => {
-        const nextValue = event.target.value;
-
-        if (!isControlled) {
-          setUncontrolledValue(nextValue);
-        }
-
-        suppressNextFocusOpenRef.current = false;
+  const handleInputFocus = React.useCallback(
+    (event: React.FocusEvent<HTMLInputElement>) => {
+      setIsFocused(true);
+      if (!suppressNextFocusOpenRef.current) {
         setIsPopoverOpen(true);
-        onSearchTermChange(nextValue);
-        inputOnChange?.(event);
-      },
-      [inputOnChange, isControlled, onSearchTermChange]
-    );
+      }
+      suppressNextFocusOpenRef.current = false;
+      inputOnFocus?.(event);
+    },
+    [inputOnFocus]
+  );
 
-    const focusInput = React.useCallback(() => {
-      inputRef.current!.focus();
-    }, []);
-
-    const clearSearch = React.useCallback(() => {
-      // Reset the internal uncontrolled value (safe in controlled mode; the prop drives the input)
-      setUncontrolledValue('');
+  const handleInputBlur = React.useCallback(
+    (event: React.FocusEvent<HTMLInputElement>) => {
+      const nextEl = event.relatedTarget as HTMLElement | null;
+      if (nextEl!.closest('[data-popover-content="true"]')) {
+        return;
+      }
 
       setIsFocused(false);
       setIsPopoverOpen(false);
-      suppressNextFocusOpenRef.current = true;
-      onSearchTermChange('');
-      focusInput();
-    }, [focusInput, onSearchTermChange]);
+      inputOnBlur?.(event);
+    },
+    [inputOnBlur]
+  );
 
-    const handleKeyDown = React.useCallback(
-      (event: React.KeyboardEvent<HTMLInputElement>) => {
-        inputOnKeyDown?.(event);
-        if (event.defaultPrevented) {
-          return;
-        }
+  const handleSearchTermChange = React.useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      const nextValue = event.target.value;
 
-        if (event.key === 'Escape') {
-          event.preventDefault();
-          clearSearch();
-        }
-      },
-      [clearSearch, inputOnKeyDown]
-    );
+      if (!isControlled) {
+        setUncontrolledValue(nextValue);
+      }
 
-    const handleClearClick = React.useCallback(
-      (event: React.MouseEvent<HTMLButtonElement>) => {
+      suppressNextFocusOpenRef.current = false;
+      setIsPopoverOpen(true);
+      onSearchTermChange(nextValue);
+      inputOnChange?.(event);
+    },
+    [inputOnChange, isControlled, onSearchTermChange]
+  );
+
+  const focusInput = React.useCallback(() => {
+    inputRef.current!.focus();
+  }, []);
+
+  const clearSearch = React.useCallback(() => {
+    // Reset the internal uncontrolled value (safe in controlled mode; the prop drives the input)
+    setUncontrolledValue('');
+
+    setIsFocused(false);
+    setIsPopoverOpen(false);
+    suppressNextFocusOpenRef.current = true;
+    onSearchTermChange('');
+    focusInput();
+  }, [focusInput, onSearchTermChange]);
+
+  const handleKeyDown = React.useCallback(
+    (event: React.KeyboardEvent<HTMLInputElement>) => {
+      inputOnKeyDown?.(event);
+      if (event.defaultPrevented) {
+        return;
+      }
+
+      if (event.key === 'Escape') {
         event.preventDefault();
         clearSearch();
-      },
-      [clearSearch]
-    );
+      }
+    },
+    [clearSearch, inputOnKeyDown]
+  );
 
-    const handleResultActivation = React.useCallback(
-      (result: SearchResult) => {
-        onResultSelect(result);
-        setIsPopoverOpen(false);
-        suppressNextFocusOpenRef.current = true;
+  const handleClearClick = React.useCallback(
+    (event: React.MouseEvent<HTMLButtonElement>) => {
+      event.preventDefault();
+      clearSearch();
+    },
+    [clearSearch]
+  );
 
-        if (result.href) {
-          setIsFocused(false);
-          return;
-        }
-
-        setIsFocused(false);
-        focusInput();
-      },
-      [focusInput, onResultSelect]
-    );
-
-    const handleViewAllClick = React.useCallback(() => {
-      onViewAllClick!(searchTerm);
-      setIsFocused(false);
+  const handleResultActivation = React.useCallback(
+    (result: SearchResult) => {
+      onResultSelect(result);
       setIsPopoverOpen(false);
-    }, [onViewAllClick, searchTerm]);
+      suppressNextFocusOpenRef.current = true;
 
-    const statusContent = loading ? (
-      <AnimatedCircularProgressIcon aria-hidden="true" />
-    ) : shouldShowEmptyMessage ? (
-      trimmedNoResultsMessage
-    ) : null;
+      if (result.href) {
+        setIsFocused(false);
+        return;
+      }
 
-    const renderedViewAllLabel = viewAllLabel.replace('{searchTerm}', searchTerm);
+      setIsFocused(false);
+      focusInput();
+    },
+    [focusInput, onResultSelect]
+  );
 
-    const defaultStartIcon = inputStartIcon ?? <SearchIcon aria-hidden="true" />;
+  const handleViewAllClick = React.useCallback(() => {
+    onViewAllClick!(searchTerm);
+    setIsFocused(false);
+    setIsPopoverOpen(false);
+  }, [onViewAllClick, searchTerm]);
 
-    const shouldRenderClearButton = searchTerm.length > 0;
+  const statusContent = loading ? (
+    <AnimatedCircularProgressIcon aria-hidden="true" />
+  ) : shouldShowEmptyMessage ? (
+    trimmedNoResultsMessage
+  ) : null;
 
-    const endIconContent = shouldRenderClearButton ? (
-      <button
-        className={closeIconClassName}
-        type="button"
-        aria-label="Clear search"
-        onClick={handleClearClick}
-      >
-        {
-          (closeIcon ?? (
-            <CloseIcon className="text-color-content-default" aria-hidden="true" />
-          )) as React.ReactNode
-        }
-      </button>
-    ) : (
-      inputEndIcon
-    );
+  const renderedViewAllLabel = viewAllLabel.replace('{searchTerm}', searchTerm);
 
-    const renderMenuItem = (result: SearchResult): React.ReactNode => {
-      const mediaIcon = result.icon ?? getDefaultIconForType(result.type);
+  const defaultStartIcon = inputStartIcon ?? <SearchIcon aria-hidden="true" />;
 
-      return (
-        <MenuItem
-          key={result.id}
-          type="complex"
-          option={result.label}
-          supportingText={result.description}
-          mediaIcon={mediaIcon}
-          href={result.href}
-          role="listitem"
-          onClick={() => handleResultActivation(result)}
-        />
-      );
-    };
+  const shouldRenderClearButton = searchTerm.length > 0;
+
+  const endIconContent = shouldRenderClearButton ? (
+    <button
+      className={closeIconClassName}
+      type="button"
+      aria-label="Clear search"
+      onClick={handleClearClick}
+    >
+      {
+        (closeIcon ?? (
+          <CloseIcon className="text-color-content-default" aria-hidden="true" />
+        )) as React.ReactNode
+      }
+    </button>
+  ) : (
+    inputEndIcon
+  );
+
+  const renderMenuItem = (result: SearchResult): React.ReactNode => {
+    const mediaIcon = result.icon ?? getDefaultIconForType(result.type);
 
     return (
-      <div ref={ref} className={baseClassName} {...rest}>
+      <MenuItem
+        key={result.id}
+        type="complex"
+        option={result.label}
+        supportingText={result.description}
+        mediaIcon={mediaIcon}
+        href={result.href}
+        role="listitem"
+        onClick={() => handleResultActivation(result)}
+      />
+    );
+  };
+
+  return (
+    <Popover.Root open={popoverOpen}>
+      <Popover.Anchor asChild className={inputClassName}>
         <Input
           {...restInputProps}
           ref={inputRef}
@@ -326,44 +317,41 @@ export const Search = React.forwardRef<HTMLDivElement, SearchProps>(
           startIcon={defaultStartIcon}
           endIcon={endIconContent}
         />
+      </Popover.Anchor>
+      <Popover.Portal>
+        <Popover.Content
+          ref={popoverContentRef}
+          className={resultsClassName}
+          sideOffset={8}
+          align="start"
+          role="list"
+          data-is-loading={loading ? 'true' : undefined}
+          data-no-results={shouldShowEmptyMessage ? 'true' : undefined}
+          data-focused={isFocused ? 'true' : undefined}
+          data-open={popoverOpen ? 'true' : undefined}
+          data-popover-content="true"
+          onOpenAutoFocus={event => event.preventDefault()}
+          style={{ minWidth: 'calc(var(--radix-popper-anchor-width) + var(--portal-extra-width))' }}
+        >
+          {showResults ? results.map(result => renderMenuItem(result)) : null}
 
-        <Popover.Root open={popoverOpen}>
-          <Popover.Anchor />
-          <Popover.Portal>
-            <Popover.Content
-              ref={popoverContentRef}
-              className={resultsClassName}
-              sideOffset={8}
-              align="start"
-              role="list"
-              data-is-loading={loading ? 'true' : undefined}
-              data-no-results={shouldShowEmptyMessage ? 'true' : undefined}
-              data-focused={isFocused ? 'true' : undefined}
-              data-open={popoverOpen ? 'true' : undefined}
-              data-popover-content="true"
-              onOpenAutoFocus={event => event.preventDefault()}
-            >
-              {showResults ? results.map(result => renderMenuItem(result)) : null}
+          {shouldShowStatus ? (
+            <div className={statusClassName} aria-live="polite" data-slot="status">
+              {statusContent}
+            </div>
+          ) : null}
 
-              {shouldShowStatus ? (
-                <div className={statusClassName} aria-live="polite" data-slot="status">
-                  {statusContent}
-                </div>
-              ) : null}
-
-              {showViewAll ? (
-                <div className={viewAllRowClassName}>
-                  <Button variant="secondary" onClick={handleViewAllClick}>
-                    {renderedViewAllLabel}
-                  </Button>
-                </div>
-              ) : null}
-            </Popover.Content>
-          </Popover.Portal>
-        </Popover.Root>
-      </div>
-    );
-  }
-);
+          {showViewAll ? (
+            <div className={viewAllRowClassName}>
+              <Button variant="secondary" onClick={handleViewAllClick}>
+                {renderedViewAllLabel}
+              </Button>
+            </div>
+          ) : null}
+        </Popover.Content>
+      </Popover.Portal>
+    </Popover.Root>
+  );
+};
 
 Search.displayName = 'Search';

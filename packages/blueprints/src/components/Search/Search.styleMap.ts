@@ -7,17 +7,20 @@ export const SearchStyleMap = defineStyleMap({
     input: [] as const,
 
     // Popover content wrapper
-    results: [
-      'inline-flex',
-      'flex-col',
-      'gap-2',
-      'p-4',
-      'rounded-sm',
-      'border',
-      'border-color-border-subtle',
-      'bg-color-background-default',
-      'content-center'
-    ] as const,
+  results: [
+    'inline-flex',
+    'flex-col',
+    'gap-2',
+    'p-4',
+    'rounded-sm',
+    'border',
+    'border-color-border-subtle',
+    'bg-color-background-default',
+    'content-center',
+    'min-w-[var(--radix-popover-trigger-width)]',
+    'max-w-[var(--radix-popover-content-available-width)]',
+    'box-border'
+  ] as const,
 
     // Shared status area (loading spinner OR no-results message)
     status: [
