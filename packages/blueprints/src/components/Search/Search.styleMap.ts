@@ -1,26 +1,26 @@
 import { defineStyleMap } from '../../utilities';
 
 export const SearchStyleMap = defineStyleMap({
-  base: ['flex', 'flex-col', 'gap-1', 'border-0'] as const,
+  base: [] as const,
 
   slots: {
-    input: [] as const,
+    anchor: ['min-w-480'] as const,
 
     // Popover content wrapper
-  results: [
-    'inline-flex',
-    'flex-col',
-    'gap-2',
-    'p-4',
-    'rounded-sm',
-    'border',
-    'border-color-border-subtle',
-    'bg-color-background-default',
-    'content-center',
-    'min-w-[var(--radix-popover-trigger-width)]',
-    'max-w-[var(--radix-popover-content-available-width)]',
-    'box-border'
-  ] as const,
+    results: [
+      'inline-flex',
+      'flex-col',
+      'justify-center',
+      'p-4',
+      'rounded-sm',
+      'border',
+      'overflow-hidden',
+      'border-color-border-subtle',
+      'bg-color-background-default',
+      'content-center',
+      '-ml-[31px]',
+      'mt-6'
+    ] as const,
 
     // Shared status area (loading spinner OR no-results message)
     status: [
@@ -32,17 +32,32 @@ export const SearchStyleMap = defineStyleMap({
     ] as const,
 
     // Container for the "View all…" Button (variant="secondary")
-    viewAllRow: ['inline-flex', 'w-full', 'justify-end'] as const
+    viewAllRow: ['inline-flex', 'w-full', 'justify-end'] as const,
+
+    // Clear button injected as Input endIcon while the search term is present
+    clearButton: [
+      'inline-flex',
+      'h-20',
+      'w-20',
+      'items-center',
+      'justify-center',
+      'rounded-full',
+      'border-0',
+      'bg-background-none',
+      'text-color-content-default',
+      'hover:bg-color-background-default-hover',
+      'focus-visible:outline-none',
+      'focus-visible:ring-2',
+      'focus-visible:ring-comp-border-focus-ring',
+      'focus-visible:ring-offset-2',
+      'focus-visible:ring-offset-color-background-default'
+    ] as const
   },
 
-  // Option A: move data-attribute selectors into state,
-  // leaving the results slot clean and predictable.
+  // State selectors map to Popover.Content data attributes
   state: {
-    // Applied on the same element that receives the `results` slot classes
     isLoading: ['data-[is-loading=true]:h-48'] as const,
     noResults: ['data-[no-results=true]:h-48', 'data-[no-results=true]:items-center'] as const,
-
-    // Reserved flags for runtime wiring (no class tokens needed yet)
     focused: [] as const,
     open: [] as const
   }

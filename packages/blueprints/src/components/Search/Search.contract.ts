@@ -4,7 +4,7 @@ export const SearchContract = defineContract({
   component: 'Search',
   description:
     'Search input with async results dropdown, optional empty state, and loading indicator.',
-  base: 'div',
+  base: 'Popover',
 
   props: {
     value: { type: 'string' },
@@ -49,12 +49,27 @@ export const SearchContract = defineContract({
 
     noResultsMessage: { type: 'string' },
 
-    InputProps: { type: 'object' },
+    InputProps: {
+      type: 'object',
+      description:
+        'Passthrough props for the inner Input. Accepts InputProps minus value/defaultValue/startIcon/endIcon; startIcon/endIcon may be overridden here.',
+      shape: {
+        startIcon: {
+          type: 'slot',
+          description: 'Optional override for the leading icon inside the Input trigger.'
+        },
+        endIcon: {
+          type: 'slot',
+          description:
+            'Optional trailing adornment. Replaced by the built-in clear button while the search term is non-empty.'
+        }
+      }
+    },
 
     closeIcon: {
       type: 'slot',
       description:
-        'Optional override for the default close icon shown in the input when the popover is open. The icon is rendered inside a button, passed as the Input’s endIcon. If not provided, a default CloseIcon is used.'
+        'Optional override for the default close icon rendered inside the clear button while the search term is non-empty. The icon sits inside a button passed through Input.endIcon. If not provided, a default CloseIcon is used.'
     },
 
     viewAllLabel: {
@@ -65,18 +80,19 @@ export const SearchContract = defineContract({
     }
   },
 
-  // ✅ Nest status + viewAllRow **inside** the results container (Popover.Content)
+  slots: ['anchor', 'results', 'status', 'viewAllRow', 'clearButton'] as const,
+
+  // ✅ Anchor contains the Input trigger; results/status/viewAllRow live inside Popover.Content
   layout: {
     type: 'container',
-    tag: 'div',
-    className: 'flex flex-col gap-1 border-0',
+    tag: 'Popover.Root',
     children: [
-      { slot: 'input' },
+      { slot: 'anchor' },
       {
         // Popover.Content root gets the `results` slot classes
         slot: 'results',
         type: 'container',
-        tag: 'div',
+        tag: 'Popover.Content',
         children: [
           // Spinner OR empty message lives here
           { slot: 'status' },
@@ -93,7 +109,10 @@ export const SearchContract = defineContract({
       hint: 'Input.startIcon defaults to <SearchIcon /> unless overridden via InputProps.startIcon. Pass directly; do not wrap with Slot.'
     },
     {
-      hint: 'Results, status, and viewAllRow render inside <Popover.Content>. The root <div> contains the Input and the Popover (no Trigger) as siblings.'
+      hint: 'Render the Input inside <Popover.Anchor asChild className={styleMap.slots.anchor}>. The Popover has no explicit Trigger component.'
+    },
+    {
+      hint: 'Apply `styleMap.slots.clearButton` to the inline <button type="button" aria-label="Clear search"> that replaces InputProps.endIcon while the search term is non-empty. On activation, clear the term, close the Popover, and restore focus to the input.'
     },
     {
       hint: 'Render results with <MenuItem type="complex" ...>.'
@@ -102,7 +121,7 @@ export const SearchContract = defineContract({
       hint: 'Each item in `results` renders as <MenuItem type="complex" option={result.label} supportingText={result.description} href={result.href} mediaIcon={result.icon} />. Also call onResultSelect(result) when an item is activated (click/Enter).'
     },
     {
-      hint: 'Render viewAllRow only when results.length > 0; place it after all MenuItem results. Use <Button variant="secondary" label={viewAllLabelInterpolated} /> and call onViewAllClick(term) on click.'
+      hint: 'Render viewAllRow only when results.length > 0 and onViewAllClick is provided; place it after all MenuItem results. Use <Button variant="secondary" label={viewAllLabelInterpolated} /> and call onViewAllClick(term) on click.'
     },
     {
       hint: 'Interpolate viewAllLabel by replacing the substring "{searchTerm}" with the current input value: const viewAllLabelInterpolated = (viewAllLabel ?? "View all listings matching {searchTerm}").replace("{searchTerm}", term).'
@@ -111,16 +130,19 @@ export const SearchContract = defineContract({
       hint: 'Popover opens when the input is focused and (loading || results.length > 0 || noResultsMessage). There is no Popover.Trigger.'
     },
     {
-      hint: 'When Popover is open, pass a clickable <button type="button" aria-label="Clear search"> as InputProps.endIcon containing `closeIcon` (or default CloseIcon). On click: (1) call onSearchTermChange("") to clear, (2) close the Popover, and (3) restore focus to the input.'
+      hint: 'Fire onSearchTermChange(term) on every keystroke. Debounce and fetching are consumer-managed.'
     },
     {
-      hint: 'Fire onSearchTermChange(term) on every keystroke. Debounce and fetching are consumer-managed.'
+      hint: 'Mirror controlled/uncontrolled patterns: derive searchTerm from value ?? internal state, and pass it to <Input value={searchTerm} type={InputProps.type ?? "search"} />.'
     },
     {
       hint: 'Apply aria-live="polite" to the status slot container to announce loading/empty changes.'
     },
     {
-      hint: 'Apply data-is-loading / data-no-results to the element that receives the results slot classes (i.e., the Popover.Content root).'
+      hint: 'Apply data-is-loading / data-no-results / data-focused / data-open attributes to the Popover.Content element that receives the results slot classes.'
+    },
+    {
+      hint: 'Render Popover.Content inside <Popover.Portal> with sideOffset={8}, align="start", role="list", and data-popover-content="true". Mirror the inline width sync: style={{ minWidth: "calc(var(--radix-popper-anchor-width) + var(--portal-extra-width))" }}.'
     },
     {
       hint: 'Also handle Escape on the input: pressing Escape clears the term and closes the Popover; return focus to the input.'
@@ -147,7 +169,7 @@ export const SearchContract = defineContract({
       hint: 'When `loading` transitions from false → true, hide any previously rendered results immediately. Render results only when `loading` is false and results.length > 0.'
     },
     {
-      hint: 'Popover open conditions remain as defined: the popover opens when the input is focused **and** one of (`loading`, `results.length > 0`, or `noResultsMessage`). It does **not** open solely based on input length. To achieve “open while typing,” consumers may set `loading=true` as they start fetching.'
+      hint: 'Maintain Popover open state internally: focus sets open=true unless suppressed, but Popover closes itself when no loading/results/empty message exists. Consumers manage fetch timing to keep the surface open while new data loads.'
     },
     {
       hint: 'Results shown must reflect the latest search term. When a new term is typed and loading=true, hide prior results until the new data arrives to avoid displaying stale items.'

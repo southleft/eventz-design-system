@@ -4,7 +4,7 @@ export const MenuItemContract = defineContract({
   component: 'MenuItem',
   description:
     'Internal menu item for dropdown/select menus; supports simple or complex layouts with optional supporting text.',
-  // Per Branch Facts, this component intentionally uses a native element for the root.
+  // Root defaults to <button>; href swaps to <a>.
   base: 'button',
 
   props: {
@@ -44,9 +44,12 @@ export const MenuItemContract = defineContract({
   // Slots in render order (generator composes these exactly; truthiness controls spacing)
   slots: [
     'startIcon', // simple only
-    'image', // complex only; rendered internally from imgSrc/imgAlt or mediaIcon (not a public slot)
+    'media', // complex only base thumbnail (img/span placeholder)
+    'mediaIcon', // complex only icon-filled thumbnail
     'complexSelectedWrapper', // structural wrapper; stacks rows
+    'primaryRow', // flex row housing option + selected icon
     'option', // visible label text/content
+    'selectedIcon', // internal checkmark
     'supportingText' // complex only
   ] as const,
 
@@ -56,12 +59,21 @@ export const MenuItemContract = defineContract({
   // Structural notes for the generator (no visual semantics here)
   hints: {
     notes:
-      'For type="simple", ignore `image` and prefer `startIcon`. For type="complex", ignore `startIcon` and render an internal media thumbnail: if imgSrc is provided render <img />, otherwise if mediaIcon is provided render the icon inside the thumbnail span, otherwise render a neutral placeholder. If both imgSrc and mediaIcon are present the image wins. For complex items, the image alt should fall back to the `option` prop text when possible, otherwise to `ariaLabel`. Selected icon is internal-only (checkmark), revealed when isSelected=true. Hover and selected styling cascade from the root using `group` and `group-data-[is-selected=true]` to style child slots.'
+      'For type="simple", ignore the media slots and prefer `startIcon`. For type="complex", ignore `startIcon` and render a media thumbnail: if imgSrc is provided render <img className={styleMap.slots.media} />, otherwise if mediaIcon is provided render <span className={styleMap.slots.mediaIcon}>{mediaIcon}</span>, otherwise render <span className={styleMap.slots.media} data-is-placeholder="true" />. When rendering <img>, default its alt text to imgAlt ?? option ?? ariaLabel ?? undefined. Selected icon is an internal <CheckIcon /> element that uses styleMap.slots.selectedIcon, revealed when isSelected=true. Hover and selected styling cascade from the root using group + data attributes.'
   },
 
   rules: [
     {
-      hint: 'Render a semantic <a> element when `href` is provided; otherwise use <button type="button">.'
+      validate: props =>
+        typeof (props as any).option === 'undefined' ||
+        ((props as any).option !== undefined && String((props as any).option).trim().length > 0),
+      message: '`option` should be a non-empty string when provided.'
+    },
+    {
+      hint: 'Render a semantic <a> element when `href` is provided (keeping disabled via aria-disabled); otherwise use <button type="button">.'
+    },
+    {
+      hint: 'Mirror `className` onto the root element and include styleMap.base along with data attributes `data-border-bottom` and `data-is-selected`.'
     }
   ]
 });
