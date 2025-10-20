@@ -18,7 +18,8 @@ import { MenuItem } from '../MenuItem';
 const inputClasses = `min-w-480`;
 
 const resultsClasses = `
-  inline-flex flex-col gap-2 p-4 rounded-sm border border-color-border-subtle bg-color-background-default content-center -ml-[31px] mt-6
+  inline-flex flex-col justify-center p-4 rounded-sm border overflow-hidden
+  border-color-border-subtle bg-color-background-default content-center -ml-[31px] mt-6
 `;
 
 const resultsStateClasses = `
@@ -292,6 +293,7 @@ export const Search = ({
         key={result.id}
         type="complex"
         option={result.label}
+        borderBottom={false}
         supportingText={result.description}
         mediaIcon={mediaIcon}
         href={result.href}
