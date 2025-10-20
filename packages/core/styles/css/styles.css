@@ -125,6 +125,7 @@
   --color-comp-form-color-background-default: var(--dt-comp-form-color-background-default);
   --color-comp-form-color-border-default: var(--dt-comp-form-color-border-default);
   --color-comp-form-color-border-utility-danger: var(--dt-comp-form-color-border-utility-danger);
+  --portal-extra-width: 31px;
   --font-font-family-primary: var(--dt-font-family-primary);
   --shadow-shadows-shadow-6: var(--dt-shadows-shadow-6);
   --spacing-0: 0px;
@@ -1190,6 +1191,9 @@
 .mt-1 {
   margin-top: var(--spacing-1);
 }
+.mt-6 {
+  margin-top: calc(var(--spacing) * 6);
+}
 .mt-\[2px\] {
   margin-top: 2px;
 }
@@ -1210,6 +1214,9 @@
 }
 .-ml-\[7px\] {
   margin-left: calc(7px * -1);
+}
+.-ml-\[31px\] {
+  margin-left: calc(31px * -1);
 }
 .ml-12 {
   margin-left: calc(var(--spacing) * 12);
@@ -1323,6 +1330,9 @@
 .min-w-0 {
   min-width: var(--spacing-0);
 }
+.min-w-480 {
+  min-width: calc(var(--spacing) * 480);
+}
 .flex-1 {
   flex: 1;
 }
@@ -1374,6 +1384,9 @@
 }
 .place-items-center {
   place-items: center;
+}
+.content-center {
+  align-content: center;
 }
 .items-center {
   align-items: center;
@@ -1458,6 +1471,10 @@
 .border {
   border-style: var(--tw-border-style);
   border-width: 1px;
+}
+.border-0 {
+  border-style: var(--tw-border-style);
+  border-width: 0px;
 }
 .border-1 {
   border-style: var(--tw-border-style);
@@ -1681,6 +1698,9 @@
 }
 .pl-16 {
   padding-left: calc(var(--spacing) * 16);
+}
+.text-center {
+  text-align: center;
 }
 .text-left {
   text-align: left;
@@ -2045,6 +2065,12 @@
     --tw-ring-offset-color: var(--color-color-background-default);
   }
 }
+.focus-visible\:outline-none {
+  &:focus-visible {
+    --tw-outline-style: none;
+    outline-style: none;
+  }
+}
 .active\:bg-comp-button-color-background-active {
   &:active {
     background-color: var(--color-comp-button-color-background-active);
@@ -2280,6 +2306,11 @@
     }
   }
 }
+.data-\[is-loading\=true\]\:h-48 {
+  &[data-is-loading="true"] {
+    height: calc(var(--spacing) * 48);
+  }
+}
 .data-\[is-placeholder\=true\]\:bg-color-background-brand {
   &[data-is-placeholder="true"] {
     background-color: var(--color-color-background-brand);
@@ -2287,6 +2318,16 @@
 }
 .data-\[is-removable\=true\]\:items-center {
   &[data-is-removable="true"] {
+    align-items: center;
+  }
+}
+.data-\[no-results\=true\]\:h-48 {
+  &[data-no-results="true"] {
+    height: calc(var(--spacing) * 48);
+  }
+}
+.data-\[no-results\=true\]\:items-center {
+  &[data-no-results="true"] {
     align-items: center;
   }
 }

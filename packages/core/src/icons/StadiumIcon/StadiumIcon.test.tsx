@@ -1,0 +1,31 @@
+import { render, screen } from '@testing-library/react';
+import { StadiumIcon } from './StadiumIcon';
+
+describe('StadiumIcon', () => {
+  it('defaults to decorative and sets aria-hidden="true"', () => {
+    render(<StadiumIcon data-testid="icon" />);
+    expect(screen.getByTestId('icon')).toHaveAttribute('aria-hidden', 'true');
+  });
+
+  it('renders non-decorative icons with title as role="img" and aria-labelledby', () => {
+    render(<StadiumIcon decorative={false} title="Dismiss" titleId="close-icon" />);
+    const svg = screen.getByRole('img', { name: 'Dismiss' });
+    expect(svg).toHaveAttribute('aria-labelledby', 'close-icon');
+  });
+
+  it('applies the color prop to the fill attribute', () => {
+    render(<StadiumIcon data-testid="icon" color="#123456" />);
+    expect(screen.getByTestId('icon')).toHaveAttribute('fill', '#123456');
+  });
+
+  it('merges className onto the svg element', () => {
+    render(<StadiumIcon data-testid="icon" className="custom-class" />);
+    expect(screen.getByTestId('icon')).toHaveClass('custom-class');
+  });
+
+  it('generates a title id when non-decorative with title and no titleId', () => {
+    render(<StadiumIcon decorative={false} title="Dismiss" />);
+    const img = screen.getByRole('img', { name: 'Dismiss' });
+    expect(img).toHaveAttribute('aria-labelledby');
+  });
+});

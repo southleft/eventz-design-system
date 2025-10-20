@@ -94,7 +94,7 @@ export const Select = React.forwardRef<SelectElement, SelectProps>(
               onCloseAutoFocus={e => e.preventDefault()}
               style={{
                 maxHeight: 'var(--radix-select-content-available-height)',
-                width: 'calc(var(--radix-select-trigger-width) + 31px)'
+                width: 'calc(var(--radix-select-trigger-width) + var(--portal-extra-width))'
               }}
             >
               <RadixSelect.ScrollUpButton />

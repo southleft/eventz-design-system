@@ -1,0 +1,57 @@
+import * as React from 'react';
+
+export interface MapIconProps extends React.SVGAttributes<SVGSVGElement> {
+  decorative?: boolean;
+  title?: string;
+  titleId?: string;
+  color?: string;
+}
+
+type MapIconElement = SVGSVGElement;
+
+export const MapIcon = React.forwardRef<MapIconElement, MapIconProps>(
+  (
+    {
+      decorative = true,
+      width = '20px',
+      height = '20px',
+      title,
+      titleId: providedTitleId,
+      color = 'currentColor',
+      className,
+      'aria-labelledby': ariaLabelledby,
+      ...rest
+    },
+    ref
+  ) => {
+    const generatedTitleId = React.useId();
+    const resolvedTitleId = title ? (providedTitleId ?? generatedTitleId) : undefined;
+
+    const computedAriaHidden = decorative ? 'true' : undefined;
+    const computedRole = decorative ? undefined : 'img';
+    const computedAriaLabelledby =
+      !decorative && title && resolvedTitleId ? resolvedTitleId : ariaLabelledby;
+
+    return (
+      <svg
+        ref={ref}
+        {...rest}
+        className={className}
+        viewBox="0 0 20 20"
+        width={width}
+        height={height}
+        fill={color}
+        aria-hidden={computedAriaHidden}
+        role={computedRole}
+        aria-labelledby={computedAriaLabelledby}
+      >
+        {!decorative && title ? <title id={resolvedTitleId}>{title}</title> : null}
+        <g transform="scale(0.0208333333,0.0208333333) translate(0,960)">
+          <path d="m600-135.63-240-72-150.13 50.28q-26.83 9.44-50.41-6.83-23.59-16.28-23.59-46.82v-498q0-18.63 11.05-33.28 11.06-14.65 27.45-20.37L360-824.37l240 72 150.13-50.28q26.83-11.44 50.41 5.83 23.59 17.28 23.59 47.82v498q0 18.63-10.55 33.78-10.56 15.15-27.95 19.87L600-135.63Zm-36-97.72v-443.3l-168-50v443.3l168 50Zm72-2 105.13-34.8V-711.7L636-676.65v441.3ZM218.87-248.3 324-283.35v-441.3l-105.13 34.8v441.55ZM636-676.65v441.3-441.3Zm-312-48v441.3-441.3Z" />
+        </g>
+      </svg>
+    );
+  }
+);
+
+MapIcon.displayName = 'MapIcon';

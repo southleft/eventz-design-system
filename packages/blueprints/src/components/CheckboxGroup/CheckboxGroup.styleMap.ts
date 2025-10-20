@@ -23,7 +23,7 @@ export const CheckboxGroupStyleMap = defineStyleMap({
       'mt-1',
       'inline-flex',
       'gap-2',
-      'pl-1'
+      'items-center'
       // Leading error icon is decorative; sizing remains a runtime concern.
     ] as const
   },

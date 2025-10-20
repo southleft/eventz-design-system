@@ -49,7 +49,7 @@ export const RadioButtonGroupStyleMap = defineStyleMap({
       'inline-flex',
       'items-start',
       'gap-2',
-      'pl-1'
+      'items-center'
     ] as const
   },
 

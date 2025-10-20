@@ -20,7 +20,7 @@ export const InputStyleMap = defineStyleMap({
       'mt-1',
       'inline-flex',
       'gap-2',
-      'pl-1'
+      'items-center'
     ] as const,
     input: [
       'inline-flex',

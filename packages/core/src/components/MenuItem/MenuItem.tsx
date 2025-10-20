@@ -39,7 +39,7 @@ export interface MenuItemProps extends MenuItemBaseProps, ButtonAttributes {
 }
 
 const baseClasses = `
-  group flex flex-nowrap items-center gap-8 bg-background-none w-full
+  group flex flex-nowrap items-center gap-8 bg-background-none
   border-l-0 border-r-0 border-b-0 border-t-0 pb-10 pl-8 pt-8 pr-8 outline-none
   [&:focus-visible:not(:hover)]:ring-2 [&:focus-visible:not(:hover)]:ring-offset-4 [&:focus-visible:not(:hover)]:ring-comp-border-focus-ring [&:focus-visible:not(:hover)]:ring-offset-color-background-default
   data-[border-bottom=true]:border-b data-[border-bottom=true]:border-color-border-subtle

@@ -144,6 +144,9 @@
   --color-comp-form-color-border-default: var(--dt-comp-form-color-border-default);
   --color-comp-form-color-border-utility-danger: var(--dt-comp-form-color-border-utility-danger);
 
+  /* Portal extra width for Radix content portal when used with Input */
+  --portal-extra-width: 31px;
+
   /* Fonts */
   --font-font-family-primary: var(--dt-font-family-primary);
 

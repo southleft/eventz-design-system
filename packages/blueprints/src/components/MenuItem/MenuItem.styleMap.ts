@@ -8,7 +8,6 @@ export const MenuItemStyleMap = defineStyleMap({
     'items-center',
     'gap-8',
     'bg-background-none',
-    'w-full',
     'border-l-0',
     'border-r-0',
     'border-b-0',
@@ -27,17 +26,14 @@ export const MenuItemStyleMap = defineStyleMap({
   ] as const,
 
   slots: {
-    // Root container (kept for parity with other components; usually empty because `base` holds shared tokens)
-    container: [] as const,
-
     // Main label
     option: [
       'text-sm',
       'flex-grow',
       'text-color-content-default',
       'group-hover:text-color-content-default-hover',
-      'group-data-[is-selected=true]:text-color-content-brand',
       'group-data-[highlighted]:text-color-content-default-hover',
+      'group-data-[is-selected=true]:text-color-content-brand',
       'text-left'
     ] as const,
 
@@ -58,8 +54,8 @@ export const MenuItemStyleMap = defineStyleMap({
       'text-left'
     ] as const,
 
-    // Thumbnail for complex type
-    image: [
+    // Thumbnail for complex type (img or placeholder)
+    media: [
       'h-40',
       'w-40',
       'rounded-sm',
@@ -68,21 +64,13 @@ export const MenuItemStyleMap = defineStyleMap({
       'data-[is-placeholder=true]:bg-color-background-brand'
     ] as const,
 
-    // Wrapper that stacks [option + selectedIcon] over [supportingText]
-    complexSelectedWrapper: ['flex', 'flex-col', 'flex-grow', 'gap-1'] as const
-  },
-
-  // Structural axis mirrors `props.type`; no additional classes at this time.
-  variants: {
-    simple: [] as const,
-    complex: [] as const
-  },
-
-  // Extra state keys (present for parity; slot arrays already include data-qualified color shifts)
-  state: {
-    isSelected: [] as const,
-    borderBottom: [] as const,
-    hasMediaIcon: [
+    // Thumbnail when rendering an icon instead of an image
+    mediaIcon: [
+      'h-40',
+      'w-40',
+      'rounded-sm',
+      'object-cover',
+      'group-hover:opacity-75',
       'text-color-content-brand',
       'group-hover:text-color-content-brand-hover',
       'bg-color-background-weak',
@@ -90,6 +78,23 @@ export const MenuItemStyleMap = defineStyleMap({
       'flex',
       'items-center',
       'justify-center'
+    ] as const,
+
+    // Wrapper that stacks [option + selectedIcon] over [supportingText]
+    complexSelectedWrapper: ['flex', 'flex-col', 'flex-grow', 'gap-1'] as const,
+
+    primaryRow: ['flex', 'items-center', 'justify-between', 'gap-8'] as const,
+
+    selectedIcon: [
+      '_selectedIcon',
+      'hidden',
+      'shrink-0',
+      'text-color-content-brand',
+      'group-data-[is-selected=true]:inline-flex'
     ] as const
+  },
+
+  state: {
+    isSelected: [] as const
   }
 });

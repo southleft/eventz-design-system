@@ -1,18 +1,5 @@
 // packages/blueprints/src/components/CheckboxGroup/CheckboxGroup.contract.ts
 import { defineContract } from '../../utilities';
-import type { PropDef } from '../../utilities/defineContract/types';
-
-const choicesProp = {
-  type: 'array',
-  required: true,
-  description:
-    'Checkbox options rendered inside the group. Each item should provide a label and optional value/id.'
-} as unknown as PropDef;
-
-const onCheckedChangeProp = {
-  type: 'function',
-  description: 'Called after any checkbox toggles with the full array of selected values.'
-} as unknown as PropDef;
 
 export const CheckboxGroupContract = defineContract({
   component: 'CheckboxGroup',
@@ -47,8 +34,25 @@ export const CheckboxGroupContract = defineContract({
       type: 'string',
       description: 'Form field name applied to each checkbox input for submission.'
     },
-    choices: choicesProp,
-    onCheckedChange: onCheckedChangeProp
+    choices: {
+      type: 'array',
+      required: true,
+      description:
+        'Checkbox options rendered inside the group. Each item should provide a label and optional value/id.',
+      of: {
+        type: 'object',
+        shape: {
+          label: { type: 'string', required: true },
+          value: { type: 'string' },
+          id: { type: 'string' }
+        }
+      }
+    },
+    onCheckedChange: {
+      type: 'callback',
+      args: ['values: string[]'],
+      description: 'Called after any checkbox toggles with the full array of selected values.'
+    }
   },
 
   /**
