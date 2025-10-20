@@ -1,18 +1,5 @@
 // packages/blueprints/src/components/RadioButtonGroup/RadioButtonGroup.contract.ts
 import { defineContract } from '../../utilities';
-import type { PropDef } from '../../utilities/defineContract/types';
-
-const choicesProp = {
-  type: 'array',
-  required: true,
-  description:
-    'Radio button definitions. Each item provides a unique value and optional label, disabled, and hint text.'
-} as unknown as PropDef;
-
-const onValueChangeProp = {
-  type: 'function',
-  description: 'Called when the selected value changes; receives the next value as a string.'
-} as unknown as PropDef;
 
 export const RadioButtonGroupContract = defineContract({
   component: 'RadioButtonGroup',
@@ -29,12 +16,31 @@ export const RadioButtonGroupContract = defineContract({
       type: 'string',
       description: 'Initial selected value for uncontrolled usage.'
     },
-    onValueChange: onValueChangeProp,
+    onValueChange: {
+      type: 'callback',
+      args: ['value: string'],
+      description: 'Called when the selected value changes; receives the next value as a string.'
+    },
     name: {
       type: 'string',
       description: 'Applied to radio group items for form submission when provided.'
     },
-    choices: choicesProp,
+    choices: {
+      type: 'array',
+      required: true,
+      description:
+        'Radio button definitions. Each item provides a unique value and optional label, disabled, and hint text.',
+      of: {
+        type: 'object',
+        shape: {
+          label: { type: 'string' },
+          value: { type: 'string', required: true },
+          id: { type: 'string' },
+          disabled: { type: 'boolean' },
+          hint: { type: 'string' }
+        }
+      }
+    },
     label: {
       type: 'string',
       description: 'Visible legend text describing the radio group.'
