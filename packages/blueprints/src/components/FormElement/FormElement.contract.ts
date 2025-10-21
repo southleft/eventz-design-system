@@ -49,15 +49,7 @@ export const FormElementContract = defineContract({
    * label (+ info trigger) → infoContent → row → value → messaging.
    * Children from the consumer are placed into the `value` slot in both modes.
    */
-  slots: [
-    'label',
-    'infoTrigger',
-    'infoContent',
-    'row',
-    'value',
-    'hint',
-    'error'
-  ] as const,
+  slots: ['label', 'infoTrigger', 'infoContent', 'row', 'value', 'hint', 'error'] as const,
 
   layout: {
     type: 'container',
@@ -72,9 +64,7 @@ export const FormElementContract = defineContract({
       {
         slot: 'row',
         tag: 'div',
-        children: [
-          { slot: 'value', tag: 'input' }
-        ]
+        children: [{ slot: 'value', tag: 'div' }]
       },
       {
         type: 'container',
@@ -109,7 +99,6 @@ export const FormElementContract = defineContract({
   styleMap: true,
 
   hints: {
-    a11y:
-      'Preserve keyboard focus ring; decorative icons are aria-hidden. Merge aria-describedby from rendered messaging (error preferred over hint; include info content id when open). Set data-disabled and data-invalid on the root to drive styleMap state selectors.'
+    a11y: 'Preserve keyboard focus ring; decorative icons are aria-hidden. Merge aria-describedby from rendered messaging (error preferred over hint; include info content id when open). Set data-disabled and data-invalid on the root to drive styleMap state selectors.'
   }
 });
