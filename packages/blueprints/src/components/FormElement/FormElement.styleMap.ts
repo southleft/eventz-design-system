@@ -13,7 +13,9 @@ export const FormElementStyleMap = defineStyleMap({
 
   slots: {
     label: ['inline-flex', 'gap-1', 'text-color-content-default', 'text-xs', 'uppercase'] as const,
+
     hint: ['text-color-content-subtle', 'text-xs'] as const,
+
     error: [
       'text-color-content-utility-danger-subtle',
       'text-xs',
@@ -24,7 +26,7 @@ export const FormElementStyleMap = defineStyleMap({
     ] as const,
 
     /**
-     * Row chrome for the control. Mirrors Input but generalized, and supports chip wrapping.
+     * Row chrome for the control. Mirrors Input but generalized.
      * Focus ring remains on the row via :has(:focus-visible).
      */
     row: [
@@ -47,27 +49,6 @@ export const FormElementStyleMap = defineStyleMap({
       '[&:has(:focus-visible)]:ring-offset-color-background-default'
     ] as const,
 
-    startIcon: [
-      'shrink-0',
-      '[&>svg]:size-4',
-      'py-(--spacing-1_5)',
-      'inline-flex',
-      'text-color-content-default'
-    ] as const,
-
-    /**
-     * Prefix region for chips/badges. Allows wrapping and vertical scroll when clamped by runtime.
-     * Runtime may set a max-height on this region based on `maxRows`.
-     */
-    prefix: [
-      'inline-flex',
-      'flex-wrap',
-      'items-center',
-      'gap-1',
-      'py-(--spacing-1_5)',
-      'overflow-y-auto'
-    ] as const,
-
     value: [
       'grow',
       'bg-transparent',
@@ -78,20 +59,7 @@ export const FormElementStyleMap = defineStyleMap({
       'py-(--spacing-1_5)',
       'min-w-0',
       'focus:placeholder:opacity-0'
-    ] as const,
-
-    endIcon: [
-      'shrink-0',
-      '[&>svg]:size-4',
-      'py-(--spacing-1_5)',
-      'inline-flex',
-      'text-color-content-default'
-    ] as const,
-
-    /**
-     * Optional trailing affordance area after endIcon.
-     */
-    suffix: ['inline-flex', 'items-center', 'gap-1', 'py-(--spacing-1_5)'] as const
+    ] as const
   },
 
   variants: {},

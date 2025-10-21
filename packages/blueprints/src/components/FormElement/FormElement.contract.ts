@@ -4,7 +4,7 @@ import { defineContract } from '../../utilities';
 export const FormElementContract = defineContract({
   component: 'FormElement',
   description:
-    'Shared fieldset shell for form controls: label + info, row chrome with focus ring, optional adornments (start/end), optional prefix/suffix regions, and contextual messaging. Child control renders via Slot when asChild is true.',
+    'Shared fieldset shell for form controls: label + info, row chrome with focus ring, and contextual messaging. Child control renders via Slot when asChild is true. Children are always rendered into the `value` slot; `asChild` only changes how props are passed to that child.',
   base: 'fieldset',
 
   props: {
@@ -23,21 +23,6 @@ export const FormElementContract = defineContract({
     /** Supplemental information exposed via an inline info trigger + popover. */
     info: { type: 'string', description: 'Supplemental info shown via an inline popover.' },
 
-    /** Leading adornment rendered at the start of the row (decorative). */
-    startIcon: { type: 'slot', description: 'Leading adornment inside the row.' },
-
-    /**
-     * Prefix region rendered inside the row before the value slot.
-     * Used by composite controls (e.g., Combobox) to render chips/badges.
-     */
-    prefix: { type: 'slot', description: 'Inline region before the value (chips, badges, etc.).' },
-
-    /** Trailing adornment rendered at the end of the row (decorative). */
-    endIcon: { type: 'slot', description: 'Trailing adornment inside the row.' },
-
-    /** Optional trailing region for custom affordances (clear button, toggles). */
-    suffix: { type: 'slot', description: 'Trailing region after endIcon for custom affordances.' },
-
     /** Consumer-provided className merged after composed classes. */
     className: { type: 'string', description: 'Optional consumer className merged last.' },
 
@@ -46,16 +31,6 @@ export const FormElementContract = defineContract({
       type: 'boolean',
       default: false,
       description: 'Disables the fieldset and child control.'
-    },
-
-    /**
-     * Maximum visual rows for the row content before internal scrolling engages for the prefix region.
-     * The generator may translate this into a data-attribute/class that clamps height.
-     */
-    maxRows: {
-      type: 'number',
-      default: 2,
-      description: 'Cap row growth before internal scroll (default 2).'
     },
 
     /**
@@ -71,18 +46,15 @@ export const FormElementContract = defineContract({
 
   /**
    * Slot order mirrors the rendered structure:
-   * label (+ info trigger) → infoContent → row → adornments/prefix/value/suffix → messaging.
+   * label (+ info trigger) → infoContent → row → value → messaging.
+   * Children from the consumer are placed into the `value` slot in both modes.
    */
   slots: [
     'label',
     'infoTrigger',
     'infoContent',
     'row',
-    'startIcon',
-    'prefix',
     'value',
-    'endIcon',
-    'suffix',
     'hint',
     'error'
   ] as const,
@@ -93,19 +65,15 @@ export const FormElementContract = defineContract({
     children: [
       {
         slot: 'label',
-        tag: 'label',
-        children: [{ slot: 'infoTrigger', tag: 'button' }]
+        tag: 'Label.Root',
+        children: [{ slot: 'infoTrigger' }] // element type owned by InfoPopover
       },
       { slot: 'infoContent', tag: 'div' },
       {
         slot: 'row',
         tag: 'div',
         children: [
-          { slot: 'startIcon', tag: 'span' },
-          { slot: 'prefix', tag: 'div' },
-          { slot: 'value', tag: 'input' },
-          { slot: 'endIcon', tag: 'span' },
-          { slot: 'suffix', tag: 'div' }
+          { slot: 'value', tag: 'input' }
         ]
       },
       {
@@ -130,13 +98,18 @@ export const FormElementContract = defineContract({
     },
     {
       when: {},
-      hint: 'Row layout supports wrapping for prefix content (chips). Generators may clamp height based on maxRows and make only the prefix region scroll when exceeded.'
+      hint: 'Label primitive: Render the label slot using Radix Label (Label.Root) from the aggregator import, and link it to the slotted control via htmlFor/id.'
+    },
+    {
+      when: {},
+      hint: 'Children & asChild: Always render consumer children inside the value slot. When asChild=true, render the value via Radix Slot and inject id/aria-describedby/disabled/className into the child. When asChild=false, render a neutral container element for the value slot and do not inject these props; consumers are responsible for wiring their child control.'
     }
   ],
 
   styleMap: true,
 
   hints: {
-    a11y: 'Preserve keyboard focus ring; decorative icons are aria-hidden. Use button with aria-label on chip dismiss affordances.'
+    a11y:
+      'Preserve keyboard focus ring; decorative icons are aria-hidden. Merge aria-describedby from rendered messaging (error preferred over hint; include info content id when open). Set data-disabled and data-invalid on the root to drive styleMap state selectors.'
   }
 });
