@@ -50,7 +50,7 @@ export const FormElementStyleMap = defineStyleMap({
       '[&:has(:focus-visible)]:ring-offset-color-background-default'
     ] as const,
 
-    value: ['grow', 'min-w-0'] as const
+    value: [] as const
   },
 
   variants: {},
