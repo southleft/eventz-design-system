@@ -41,6 +41,60 @@ export const ComboboxStyleMap = defineStyleMap({
       'focus-visible:ring-offset-color-background-default',
       'transition-opacity',
       'opacity-0'
+    ] as const,
+
+    /** Container for selected chips inline before the input. */
+    chips: ['flex', 'flex-wrap', 'items-center', 'gap-1', 'py-0.5'] as const,
+
+    /** Individual chip pill. */
+    chip: [
+      'inline-flex',
+      'items-center',
+      'gap-1',
+      'rounded-xs',
+      'border',
+      'border-color-border-subtle',
+      'bg-color-background-default-subtle',
+      'text-color-content-default',
+      'text-xs',
+      'font-medium',
+      'leading-[18px]',
+      'px-2',
+      'h-24',
+      'transition-colors',
+      'hover:bg-color-background-default-hover',
+      'focus-visible:outline-none',
+      'focus-visible:ring-2',
+      'focus-visible:ring-comp-border-focus-ring',
+      'focus-visible:ring-offset-[-4px]'
+    ] as const,
+
+    /** Dismiss button inside the chip (icon-only). */
+    chipDismiss: [
+      'inline-flex',
+      'items-center',
+      'justify-center',
+      'rounded-full',
+      'h-16',
+      'w-16',
+      'shrink-0',
+      'hover:bg-color-background-default-hover',
+      'focus-visible:ring-2',
+      'focus-visible:ring-comp-border-focus-ring',
+      'focus-visible:ring-offset-2',
+      'focus-visible:ring-offset-color-background-default'
+    ] as const,
+
+    /** Inner text input inside the field (combobox query). */
+    input: [
+      'min-w-0',
+      'flex-1',
+      'bg-transparent',
+      'outline-none',
+      'border-0',
+      'text-color-content-default',
+      'placeholder:text-color-content-subtle',
+      'focus:placeholder:opacity-0'
     ] as const
   },
 

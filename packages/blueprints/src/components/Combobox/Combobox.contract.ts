@@ -116,7 +116,7 @@ export const ComboboxContract = defineContract({
   },
 
   // Internal composition hints (no public slots): panel and list are internal but listed for style parity.
-  slots: ['panel', 'list', 'empty'] as const,
+  slots: ['panel', 'list', 'empty', 'chips', 'chip', 'chipDismiss', 'input'] as const,
 
   layout: {
     type: 'container',
@@ -141,7 +141,19 @@ export const ComboboxContract = defineContract({
       hint: 'Selection is multi-select only. Toggle selection by clicking items or chip dismiss; update chips accordingly.'
     },
     {
+      hint: 'Chips: When selectedIds.length > 0, render a chip for each selected id. Each chip label is the matching item.option. Chips render inline before the input inside the field content area.'
+    },
+    {
+      hint: 'Chip dismiss: Each chip includes a button with a CloseIcon (decorative, aria-hidden="true"). The button must be focusable and have aria-label="Remove {option}". Clicking it removes only that id from selectedIds and fires onSelectionChange(updatedIds). It must not change the popover open state.'
+    },
+    {
       hint: 'When showEndIcon is true, render a clear-all button (data-role="clear-all") at the end of the field. Clicking it must remove all selections and fire onSelectionChange([]). It must not change popover open state. Disable or no-op when disabled=true or when there are no selections.'
+    },
+    {
+      hint: 'Value control: Render a native <input type="text"> inside the FormElement value region. Bind its value to `query`/`defaultQuery`, and call `onQueryChange(next)` on user edits. Disable the input when `disabled` is true.'
+    },
+    {
+      hint: 'Backspace behavior: When the input is empty and the user presses Backspace, remove the last selected chip (if any) and fire onSelectionChange(updatedIds). Do not change popover open state.'
     }
   ],
 
