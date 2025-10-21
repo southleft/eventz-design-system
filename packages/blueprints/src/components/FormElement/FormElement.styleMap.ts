@@ -41,6 +41,7 @@ export const FormElementStyleMap = defineStyleMap({
       'border',
       'border-comp-form-color-border-default',
       'text-sm',
+      'text-color-content-default',
       'hover:bg-comp-form-color-background-hover',
       'hover:border-comp-form-color-hover',
       'py-(--spacing-1_5)',

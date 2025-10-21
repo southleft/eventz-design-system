@@ -9,7 +9,7 @@ const meta = {
     docs: {
       description: {
         component:
-          'Shell-only wrapper. In non-Slot mode (asChild=false), the value slot renders a neutral wrapper and the child is not auto-wired with id/aria; use asChild=true to have FormElement pass id/aria/disabled/className into your control via Radix Slot.'
+          'Shell-only wrapper. In non-Slot mode (asChild=false), the value slot renders a neutral wrapper and the child is not auto-wired with id/aria; use asChild=true to have FormElement pass id/aria/disabled into your control via Radix Slot.'
       }
     }
   }
