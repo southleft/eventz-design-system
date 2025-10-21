@@ -121,7 +121,7 @@ export const ComboboxStyleMap = defineStyleMap({
     ] as const,
     hasSelection: [
       'data-[has-selection=true]:[&_button[data-role=clear-all]]:opacity-100',
-      'data-[has-selection=true]:[&_ [data-slot=clearAll]]:opacity-100'
+      'data-[has-selection=true]:[&_[data-slot=clearAll]]:opacity-100'
     ] as const
   }
 });

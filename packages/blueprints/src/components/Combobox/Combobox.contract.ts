@@ -186,16 +186,13 @@ export const ComboboxContract = defineContract({
       hint: 'List rows: define a local const menuItemClasses = \'w-full\'. Compose a const menuItemClassName using collapseWhitespace(menuItemClasses) and composeClasses, then pass menuItemClassName to each MenuItem’s className. Use literal tokens that match the styleMap.menuItem slot; do not inline \'w-full\' directly on the component.'
     },
     {
-      hint: 'Render a native <input type="text"> inside the field content area (FormElement value region). Bind only accessibility and placeholder: apply the `placeholder` prop to the input’s placeholder attribute. Do not implement filtering behavior in phase one.'
-    },
-    {
-      hint: 'Placeholder visibility: show the placeholder when the input is empty; hide it naturally when the user has typed text. Chips may be present; placeholder behavior is independent of chip presence and does not trigger filtering.'
-    },
-    {
-      hint: 'Input (phase one): Render a native <input type="text" readOnly> inside the FormElement value region. It acts as the focus anchor and popover opener (no typing or filtering).'
+      hint: 'Input (phase one): Render a native <input type="text" readOnly> inside the FormElement value region. It acts as the focus anchor and popover opener. Bind only accessibility and placeholder; do not implement filtering or typing in phase one.'
     },
     {
       hint: 'Input a11y: set aria-readonly="true", aria-haspopup="listbox", bind aria-expanded to open, and set aria-controls to the panel id when the popover content is mounted.'
+    },
+    {
+      hint: 'Input a11y ids: generate a stable id for the popover content (e.g., with useId) and set aria-controls on the input to that id when the panel is mounted.'
     },
     {
       hint: 'Placeholder passthrough: When selectedIds.length === 0, pass the placeholder prop value to the input’s placeholder attribute. When selectedIds.length > 0, omit the placeholder attribute entirely (do not use CSS to hide it).'
@@ -211,6 +208,9 @@ export const ComboboxContract = defineContract({
     },
     {
       hint: 'Content order for wrapping: startIcon (if present) → chips container → readOnly input → end icon (if enabled). The input participates in the wrapping flow and moves to the next line when space is exhausted. End icon renders after the last chip when selections exist.'
+    },
+    {
+      hint: 'MenuItem props: forward only the allowed subset from items[] (id used for selection; option/supportingText/startIcon/imgSrc/imgAlt/mediaIcon/ariaLabel). Do not forward href or any anchor-related attributes.'
     }
   ],
 
