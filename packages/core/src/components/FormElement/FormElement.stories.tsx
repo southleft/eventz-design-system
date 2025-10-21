@@ -21,10 +21,15 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    label: 'Email',
-    info: 'We use this to send important account updates.',
-    hint: 'Use your work email address.',
-    asChild: true,
-    children: <input type="email" placeholder="name@example.com" />
+    label: 'Form shell',
+    info: 'This component provides label, info, focus ring, and messaging. Your control renders as children.',
+    hint: 'Use asChild=true to have FormElement pass id/aria/disabled into your control.',
+    asChild: false,
+    children: (
+      <p>
+        Place your focusable control here. In Slot mode (asChild=true), FormElement wires id/aria/disabled
+        into your child; styling the control remains the consumer’s responsibility.
+      </p>
+    )
   }
 };

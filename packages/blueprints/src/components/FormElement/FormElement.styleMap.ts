@@ -43,23 +43,14 @@ export const FormElementStyleMap = defineStyleMap({
       'text-sm',
       'hover:bg-comp-form-color-background-hover',
       'hover:border-comp-form-color-hover',
+      'py-(--spacing-1_5)',
       '[&:has(:focus-visible)]:ring-2',
       '[&:has(:focus-visible)]:ring-offset-4',
       '[&:has(:focus-visible)]:ring-comp-border-focus-ring',
       '[&:has(:focus-visible)]:ring-offset-color-background-default'
     ] as const,
 
-    value: [
-      'grow',
-      'bg-transparent',
-      'outline-none',
-      'text-color-content-default',
-      'placeholder-color-content-weak',
-      'border-none',
-      'py-(--spacing-1_5)',
-      'min-w-0',
-      'focus:placeholder:opacity-0'
-    ] as const
+    value: ['grow', 'min-w-0'] as const
   },
 
   variants: {},

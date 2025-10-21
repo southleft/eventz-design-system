@@ -4,7 +4,7 @@ import { defineContract } from '../../utilities';
 export const FormElementContract = defineContract({
   component: 'FormElement',
   description:
-    'Shared fieldset shell for form controls: label + info, row chrome with focus ring, and contextual messaging. Child control renders via Slot when asChild is true. Children are always rendered into the `value` slot; `asChild` only changes how props are passed to that child.',
+    'Shared fieldset shell for form controls: label + info, row chrome with focus ring, and contextual messaging. Child control renders via Slot when asChild is true. Children are always rendered into the `value` slot; `asChild` only changes how id/aria/disabled are passed to that child.',
   base: 'fieldset',
 
   props: {
@@ -34,7 +34,7 @@ export const FormElementContract = defineContract({
     },
 
     /**
-     * When true, render the value via Radix Slot so id/aria/disabled/className pass through to the child control.
+     * When true, render the value via Radix Slot so id/aria/disabled pass through to the child control.
      * Consumers must ensure the child ultimately renders a focusable element.
      */
     asChild: {
@@ -80,7 +80,7 @@ export const FormElementContract = defineContract({
   rules: [
     {
       when: {},
-      hint: "When 'asChild' is true, inject id/disabled/aria-describedby/className into the slotted child via Radix Slot. Ensure the child renders a focusable element so the row's :has(:focus-visible) ring engages."
+      hint: "When 'asChild' is true, inject id/disabled/aria-describedby into the slotted child via Radix Slot. Ensure the child renders a focusable element so the row's :has(:focus-visible) ring engages."
     },
     {
       when: {},
@@ -92,11 +92,15 @@ export const FormElementContract = defineContract({
     },
     {
       when: {},
-      hint: 'Children & asChild: Always render consumer children inside the value slot. When asChild=true, render the value via Radix Slot and inject id/aria-describedby/disabled/className into the child. When asChild=false, render a neutral container element for the value slot and do not inject these props; consumers are responsible for wiring their child control.'
+      hint: 'Children & asChild: Always render consumer children inside the value slot. When asChild=true, render the value via Radix Slot and inject id/aria-describedby/disabled into the child. When asChild=false, render a neutral container element for the value slot and do not inject these props; consumers are responsible for wiring their child control.'
     },
     {
       when: {},
       hint: 'Error slot: Prepend the system error icon (same icon used by Input) before the error text. The icon is decorative and must have aria-hidden="true".'
+    },
+    {
+      when: {},
+      hint: 'Value slot is structural only; row owns chrome and vertical rhythm. Do not inject visual styling into the child.'
     }
   ],
 

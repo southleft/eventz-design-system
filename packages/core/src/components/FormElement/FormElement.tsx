@@ -11,9 +11,9 @@ type FieldsetProps = React.ComponentPropsWithoutRef<'fieldset'>;
 /**
  * Shell-only wrapper that provides consistent label/info rendering, row chrome with focus ring,
  * and contextual messaging. Set `asChild=true` to let FormElement inject `id`, `aria-describedby`,
- * `aria-label` (when needed), `disabled`, and `className` into your control via Radix Slot. When
- * `asChild` remains false, the component renders a neutral `<div data-slot="value">` and does not
- * wire the consumer’s child; you are responsible for linking any accessible labels or descriptions.
+ * and `aria-label` (when needed) plus `disabled` into your control via Radix Slot. When `asChild`
+ * remains false, the component renders a neutral `<div data-slot="value">` and does not wire the
+ * consumer’s child; you are responsible for linking any accessible labels or descriptions.
  */
 export interface FormElementProps extends Omit<FieldsetProps, 'children' | 'disabled'> {
   label?: string;
@@ -38,15 +38,10 @@ const labelClasses = `
 const rowClasses = `
   inline-flex items-start gap-2 gap-y-1 rounded-lg px-(--spacing-1_5)
   bg-comp-form-color-background-default border border-comp-form-color-border-default text-sm
-  hover:bg-comp-form-color-background-hover hover:border-comp-form-color-hover
+  hover:bg-comp-form-color-background-hover hover:border-comp-form-color-hover py-(--spacing-1_5)
   [&:has(:focus-visible)]:ring-2 [&:has(:focus-visible)]:ring-offset-4
   [&:has(:focus-visible)]:ring-comp-border-focus-ring
   [&:has(:focus-visible)]:ring-offset-color-background-default
-`;
-
-const valueClasses = `
-  grow bg-transparent outline-none text-color-content-default placeholder-color-content-weak
-  border-none py-(--spacing-1_5) min-w-0 focus:placeholder:opacity-0
 `;
 
 const hintClasses = `
@@ -68,9 +63,9 @@ const invalidStateClasses = `
 /**
  * FormElement arranges label + info content, a focus-ringed row, and hint/error messaging.
  * When `asChild=true`, it renders the value slot via Radix Slot to pass control attributes
- * (`id`, `aria-describedby`, `aria-label`, `disabled`, `className`) to the child. With
- * `asChild=false`, FormElement renders a neutral wrapper (no attribute injection) and the
- * consumer must wire their control manually.
+ * (`id`, `aria-describedby`, `aria-label`, `disabled`) to the child. With `asChild=false`,
+ * FormElement renders a neutral wrapper (no attribute injection) and the consumer must wire
+ * their control manually.
  */
 export const FormElement = React.forwardRef<HTMLFieldSetElement, FormElementProps>(
   (
@@ -128,7 +123,6 @@ export const FormElement = React.forwardRef<HTMLFieldSetElement, FormElementProp
       composeClasses(labelClasses, trimmedLabel ? undefined : 'sr-only')
     );
     const rowClassName = collapseWhitespace(composeClasses(rowClasses));
-    const valueClassName = collapseWhitespace(composeClasses(valueClasses));
     const hintClassName = collapseWhitespace(composeClasses(hintClasses));
     const errorClassName = collapseWhitespace(composeClasses(errorClasses));
 
@@ -140,7 +134,6 @@ export const FormElement = React.forwardRef<HTMLFieldSetElement, FormElementProp
     const Comp: React.ElementType = asChild ? Slot.Root : 'div';
 
     const valueProps = {
-      className: valueClassName,
       'data-slot': 'value',
       ...(asChild
         ? {
