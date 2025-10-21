@@ -32,6 +32,12 @@ export const ComboboxContract = defineContract({
       description: 'Optional override icon for the clear-all button. Defaults to CloseIcon when not provided.'
     },
 
+    /** Placeholder text for the internal input element. */
+    placeholder: {
+      type: 'string',
+      description: 'Optional placeholder text displayed when no chips or user input are present.'
+    },
+
     /** Data for the list; maps to MenuItem minus href. */
     items: {
       type: 'array',
@@ -58,8 +64,7 @@ export const ComboboxContract = defineContract({
     /** Apply a divider below each MenuItem row (uniform, forwarded to MenuItem). */
     menuItemBorderBottom: {
       type: 'boolean',
-      default: false,
-      description: 'When true, render a divider under every item row.'
+      description: 'Optional uniform divider under every item row (forwarded to MenuItem). Defaults depend on menuItemType (see rules).'
     },
 
     /** Controlled/uncontrolled selection. */
@@ -113,15 +118,20 @@ export const ComboboxContract = defineContract({
   },
 
   // Internal composition hints (no public slots): panel and list are internal but listed for style parity.
-  slots: ['panel', 'list', 'empty', 'chips', 'chip', 'chipDismiss', 'startIcon'] as const,
+  slots: ['anchor', 'panel', 'list', 'empty', 'chips', 'chip', 'chipDismiss', 'startIcon', 'menuItem'] as const,
 
   layout: {
     type: 'container',
-    tag: 'div',
-    className: 'relative inline-block w-full',
+    tag: 'Popover.Root',
     children: [
-      // Field shell is implemented via FormElement; not represented here.
-      { slot: 'panel', tag: 'div', children: [{ slot: 'list', tag: 'ul' }] }
+      // Field shell is implemented via FormElement; Popover.Anchor wraps it via asChild.
+      { slot: 'anchor' },
+      {
+        slot: 'panel',
+        type: 'container',
+        tag: 'Popover.Content',
+        children: [{ slot: 'list', tag: 'ul' }]
+      }
     ]
   },
 
@@ -148,6 +158,32 @@ export const ComboboxContract = defineContract({
     },
     {
       hint: 'When startIcon is provided, render it before chips and input in the field content area. When not provided, do not reserve space.'
+    },
+    {
+      when: { menuItemType: 'simple' },
+      hint: 'Default resolution: When menuItemType is "simple" and menuItemBorderBottom is not provided, treat menuItemBorderBottom as true.'
+    },
+    {
+      when: { menuItemType: 'complex' },
+      hint: 'Default resolution: When menuItemType is "complex" and menuItemBorderBottom is not provided, treat menuItemBorderBottom as false.'
+    },
+    {
+      hint: 'Use <Popover.Anchor asChild> to wrap the field shell (FormElement region). Do not use Popover.Trigger. The component controls open/close via props/state.'
+    },
+    {
+      hint: 'Open state: derive from open ?? internal state (defaultOpen). Set open=true on field focus or click (unless disabled). Do not open when disabled=true.'
+    },
+    {
+      hint: 'Close state: set open=false on outside click, on Escape key from the field or panel, and when the component loses focus contextually (standard Popover behavior).' 
+    },
+    {
+      hint: 'Selection behavior: selecting or deselecting items or chips must not close the Popover (multi-select UX).'
+    },
+    {
+      hint: 'Clear-all behavior: clicking the end icon (when showEndIcon) clears selections only and must not change open state.'
+    },
+    {
+      hint: 'List rows: define a local const menuItemClasses = \'w-full\'. Compose a const menuItemClassName using collapseWhitespace(menuItemClasses) and composeClasses, then pass menuItemClassName to each MenuItem’s className. Use literal tokens that match the styleMap.menuItem slot; do not inline \'w-full\' directly on the component.'
     }
   ],
 

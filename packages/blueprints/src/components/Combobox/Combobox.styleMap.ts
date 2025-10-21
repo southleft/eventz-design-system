@@ -94,6 +94,9 @@ export const ComboboxStyleMap = defineStyleMap({
       'text-color-content-default'
     ] as const,
 
+    /** Per-row MenuItem class tokens (full-width). */
+    menuItem: ['w-full'] as const,
+
     /** Inner text input inside the field (combobox query). */
     input: [
       'min-w-0',
