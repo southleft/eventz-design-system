@@ -118,7 +118,7 @@ export const ComboboxContract = defineContract({
   },
 
   // Internal composition hints (no public slots): panel and list are internal but listed for style parity.
-  slots: ['anchor', 'panel', 'list', 'empty', 'chips', 'chip', 'chipDismiss', 'startIcon', 'menuItem'] as const,
+  slots: ['anchor', 'panel', 'list', 'empty', 'chips', 'chip', 'chipDismiss', 'startIcon', 'menuItem', 'input'] as const,
 
   layout: {
     type: 'container',
@@ -184,6 +184,33 @@ export const ComboboxContract = defineContract({
     },
     {
       hint: 'List rows: define a local const menuItemClasses = \'w-full\'. Compose a const menuItemClassName using collapseWhitespace(menuItemClasses) and composeClasses, then pass menuItemClassName to each MenuItem’s className. Use literal tokens that match the styleMap.menuItem slot; do not inline \'w-full\' directly on the component.'
+    },
+    {
+      hint: 'Render a native <input type="text"> inside the field content area (FormElement value region). Bind only accessibility and placeholder: apply the `placeholder` prop to the input’s placeholder attribute. Do not implement filtering behavior in phase one.'
+    },
+    {
+      hint: 'Placeholder visibility: show the placeholder when the input is empty; hide it naturally when the user has typed text. Chips may be present; placeholder behavior is independent of chip presence and does not trigger filtering.'
+    },
+    {
+      hint: 'Input (phase one): Render a native <input type="text" readOnly> inside the FormElement value region. It acts as the focus anchor and popover opener (no typing or filtering).'
+    },
+    {
+      hint: 'Input a11y: set aria-readonly="true", aria-haspopup="listbox", bind aria-expanded to open, and set aria-controls to the panel id when the popover content is mounted.'
+    },
+    {
+      hint: 'Placeholder passthrough: When selectedIds.length === 0, pass the placeholder prop value to the input’s placeholder attribute. When selectedIds.length > 0, omit the placeholder attribute entirely (do not use CSS to hide it).'
+    },
+    {
+      hint: 'End icon placement: When showEndIcon is true and selectedIds.length === 0, render the clear-all button at the end of the input line. When selectedIds.length > 0, render the clear-all button immediately after the last chip (visually following chips even if this places it beyond the input).'
+    },
+    {
+      hint: 'Open behavior: Clicking or focusing the read-only input sets open=true (unless disabled). Close on outside click or Escape. Selection add/remove does not change open state.'
+    },
+    {
+      hint: 'Wrapping: Allow chips to wrap inside the chips container. The FormElement row grows in height to accommodate wrapped lines. Do not implement chip scrolling or max-row clamping in phase one.'
+    },
+    {
+      hint: 'Content order for wrapping: startIcon (if present) → chips container → readOnly input → end icon (if enabled). The input participates in the wrapping flow and moves to the next line when space is exhausted. End icon renders after the last chip when selections exist.'
     }
   ],
 

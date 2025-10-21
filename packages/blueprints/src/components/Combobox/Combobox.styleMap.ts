@@ -4,6 +4,9 @@ export const ComboboxStyleMap = defineStyleMap({
   base: ['relative', 'inline-block', 'w-full'] as const,
 
   slots: {
+    /** Anchor wrapper used with Popover.Anchor asChild (no visual tokens). */
+    anchor: [] as const,
+
     /** Popover panel wrapping the list; width matches field; tokenized background/border. */
     panel: [
       'mt-1',
