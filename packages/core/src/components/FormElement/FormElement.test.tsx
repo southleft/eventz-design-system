@@ -144,9 +144,8 @@ describe('FormElement', () => {
 
     const control = screen.getByRole('textbox');
     const hint = screen.getByText('Helpful hint');
-    const label = screen.getByText('Email');
 
-    return { control, hint, label };
+    return { control, hint };
   };
 
   describe('slot attribute injection in Slot mode', () => {
@@ -162,10 +161,13 @@ describe('FormElement', () => {
       expect(control.getAttribute('aria-describedby')).toBe(hint.id);
     });
 
-    it('references the label in aria-labelledby', () => {
-      const { control, label } = renderSlotFormElement();
+    it('links the label to the control via htmlFor/id', () => {
+      renderSlotFormElement();
 
-      expect(control.getAttribute('aria-labelledby')).toBe(label.id);
+      const controlFromLabel = screen.getByLabelText('Email');
+      const controlByRole = screen.getByRole('textbox');
+
+      expect(controlFromLabel).toBe(controlByRole);
     });
   });
 

@@ -43,7 +43,6 @@ export const FormElementStyleMap = defineStyleMap({
       'text-sm',
       'hover:bg-comp-form-color-background-hover',
       'hover:border-comp-form-color-hover',
-      'flex-wrap',
       '[&:has(:focus-visible)]:ring-2',
       '[&:has(:focus-visible)]:ring-offset-4',
       '[&:has(:focus-visible)]:ring-comp-border-focus-ring',

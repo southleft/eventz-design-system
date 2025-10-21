@@ -8,6 +8,13 @@ import { InfoPopover } from '../InfoPopover';
 
 type FieldsetProps = React.ComponentPropsWithoutRef<'fieldset'>;
 
+/**
+ * Shell-only wrapper that provides consistent label/info rendering, row chrome with focus ring,
+ * and contextual messaging. Set `asChild=true` to let FormElement inject `id`, `aria-describedby`,
+ * `aria-label` (when needed), `disabled`, and `className` into your control via Radix Slot. When
+ * `asChild` remains false, the component renders a neutral `<div data-slot="value">` and does not
+ * wire the consumer’s child; you are responsible for linking any accessible labels or descriptions.
+ */
 export interface FormElementProps extends Omit<FieldsetProps, 'children' | 'disabled'> {
   label?: string;
   ariaLabel?: string;
@@ -31,7 +38,7 @@ const labelClasses = `
 const rowClasses = `
   inline-flex items-start gap-2 gap-y-1 rounded-lg px-(--spacing-1_5)
   bg-comp-form-color-background-default border border-comp-form-color-border-default text-sm
-  hover:bg-comp-form-color-background-hover hover:border-comp-form-color-hover flex-wrap
+  hover:bg-comp-form-color-background-hover hover:border-comp-form-color-hover
   [&:has(:focus-visible)]:ring-2 [&:has(:focus-visible)]:ring-offset-4
   [&:has(:focus-visible)]:ring-comp-border-focus-ring
   [&:has(:focus-visible)]:ring-offset-color-background-default
@@ -58,6 +65,13 @@ const invalidStateClasses = `
   data-[invalid=true]:[&_[data-slot=row]]:border-comp-form-color-border-utility-danger
 `;
 
+/**
+ * FormElement arranges label + info content, a focus-ringed row, and hint/error messaging.
+ * When `asChild=true`, it renders the value slot via Radix Slot to pass control attributes
+ * (`id`, `aria-describedby`, `aria-label`, `disabled`, `className`) to the child. With
+ * `asChild=false`, FormElement renders a neutral wrapper (no attribute injection) and the
+ * consumer must wire their control manually.
+ */
 export const FormElement = React.forwardRef<HTMLFieldSetElement, FormElementProps>(
   (
     {
@@ -99,8 +113,6 @@ export const FormElement = React.forwardRef<HTMLFieldSetElement, FormElementProp
       }
     }, [trimmedInfo]);
 
-    const { 'aria-describedby': fieldsetAriaDescribedBy, ...fieldsetRest } = rest;
-
     const describedBy = mergeDescribedBy(
       undefined,
       [
@@ -108,8 +120,6 @@ export const FormElement = React.forwardRef<HTMLFieldSetElement, FormElementProp
         isInfoOpen && infoContentId ? infoContentId : undefined
       ].filter((token): token is string => Boolean(token))
     );
-
-    const fieldsetDescribedBy = mergeDescribedBy(fieldsetAriaDescribedBy, describedBy);
 
     const fieldsetClassName = collapseWhitespace(
       composeClasses(baseClasses, disabledStateClasses, invalidStateClasses, className)
@@ -135,7 +145,6 @@ export const FormElement = React.forwardRef<HTMLFieldSetElement, FormElementProp
       ...(asChild
         ? {
             id: controlId,
-            'aria-labelledby': trimmedLabel ? labelId : undefined,
             'aria-label': trimmedLabel ? undefined : trimmedAriaLabel,
             'aria-describedby': describedBy,
             'aria-invalid': showError ? true : undefined,
@@ -146,11 +155,10 @@ export const FormElement = React.forwardRef<HTMLFieldSetElement, FormElementProp
 
     return (
       <fieldset
-        {...fieldsetRest}
+        {...rest}
         id={fieldsetId}
         ref={ref}
         className={fieldsetClassName}
-        aria-describedby={fieldsetDescribedBy}
         disabled={disabled}
         data-disabled={disabled ? 'true' : undefined}
         data-invalid={showError ? 'true' : undefined}
