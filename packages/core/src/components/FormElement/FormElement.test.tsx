@@ -197,4 +197,42 @@ describe('FormElement', () => {
 
     expect(icon.getAttribute('aria-hidden')).toBe('true');
   });
+
+  it('respects a provided id prop when generating internal element ids', () => {
+    render(
+      <FormElement id="account-field" label="Account email">
+        <input type="email" />
+      </FormElement>
+    );
+
+    const fieldset = screen.getByRole('group');
+    const label = screen.getByText('Account email');
+
+    expect({ fieldsetId: fieldset.id, labelId: label.id }).toEqual({
+      fieldsetId: 'account-field',
+      labelId: 'account-field-label'
+    });
+  });
+
+  it('derives the info trigger label from ariaLabel when no visible label is provided', () => {
+    render(
+      <FormElement ariaLabel="Hidden field" info="More details" asChild>
+        <input type="text" />
+      </FormElement>
+    );
+
+    const infoButton = screen.getByRole('button', { name: 'Hidden field info' });
+
+    expect(infoButton).toBeInTheDocument();
+  });
+
+  it('omits the info trigger when neither label nor ariaLabel are provided', () => {
+    render(
+      <FormElement info="Hidden details">
+        <input type="text" />
+      </FormElement>
+    );
+
+    expect(screen.queryByRole('button')).toBeNull();
+  });
 });
