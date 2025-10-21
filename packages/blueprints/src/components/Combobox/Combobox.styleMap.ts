@@ -85,6 +85,15 @@ export const ComboboxStyleMap = defineStyleMap({
       'focus-visible:ring-offset-color-background-default'
     ] as const,
 
+    /** Leading icon inside the field (optional; no reserved space when absent). */
+    startIcon: [
+      'shrink-0',
+      '[&>svg]:size-4',
+      'py-(--spacing-1_5)',
+      'inline-flex',
+      'text-color-content-default'
+    ] as const,
+
     /** Inner text input inside the field (combobox query). */
     input: [
       'min-w-0',

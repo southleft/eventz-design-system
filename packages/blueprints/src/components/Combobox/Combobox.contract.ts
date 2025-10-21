@@ -15,6 +15,12 @@ export const ComboboxContract = defineContract({
       description: 'Uniform MenuItem presentation for all items in the list.'
     },
 
+    startIcon: {
+      type: 'slot',
+      description:
+        'Optional leading icon rendered at the start of the field; behaves like Input startIcon (no reserved space when absent).'
+    },
+
     showEndIcon: {
       type: 'boolean',
       default: false,
@@ -82,15 +88,6 @@ export const ComboboxContract = defineContract({
       description: 'Fires when popover open state changes.'
     },
 
-    /** Query state for filtering. */
-    query: { type: 'string', description: 'Controlled filter text.' },
-    defaultQuery: { type: 'string', default: '', description: 'Uncontrolled initial filter text.' },
-    onQueryChange: {
-      type: 'callback',
-      args: ['query: string'],
-      description: 'Fires when query text changes.'
-    },
-
     /** Disabled: keeps field inert and popover closed. */
     disabled: {
       type: 'boolean',
@@ -116,7 +113,7 @@ export const ComboboxContract = defineContract({
   },
 
   // Internal composition hints (no public slots): panel and list are internal but listed for style parity.
-  slots: ['panel', 'list', 'empty', 'chips', 'chip', 'chipDismiss', 'input'] as const,
+  slots: ['panel', 'list', 'empty', 'chips', 'chip', 'chipDismiss', 'startIcon'] as const,
 
   layout: {
     type: 'container',
@@ -150,10 +147,7 @@ export const ComboboxContract = defineContract({
       hint: 'When showEndIcon is true, render a clear-all button (data-role="clear-all") at the end of the field. Clicking it must remove all selections and fire onSelectionChange([]). It must not change popover open state. Disable or no-op when disabled=true or when there are no selections.'
     },
     {
-      hint: 'Value control: Render a native <input type="text"> inside the FormElement value region. Bind its value to `query`/`defaultQuery`, and call `onQueryChange(next)` on user edits. Disable the input when `disabled` is true.'
-    },
-    {
-      hint: 'Backspace behavior: When the input is empty and the user presses Backspace, remove the last selected chip (if any) and fire onSelectionChange(updatedIds). Do not change popover open state.'
+      hint: 'When startIcon is provided, render it before chips and input in the field content area. When not provided, do not reserve space.'
     }
   ],
 
