@@ -93,6 +93,10 @@ export const FormElementContract = defineContract({
     {
       when: {},
       hint: 'Children & asChild: Always render consumer children inside the value slot. When asChild=true, render the value via Radix Slot and inject id/aria-describedby/disabled/className into the child. When asChild=false, render a neutral container element for the value slot and do not inject these props; consumers are responsible for wiring their child control.'
+    },
+    {
+      when: {},
+      hint: 'Error slot: Prepend the system error icon (same icon used by Input) before the error text. The icon is decorative and must have aria-hidden="true".'
     }
   ],
 

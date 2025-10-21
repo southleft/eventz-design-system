@@ -1,0 +1,198 @@
+import * as React from 'react';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { FormElement } from './FormElement';
+
+describe('FormElement', () => {
+  it('renders the provided label', () => {
+    render(
+      <FormElement label="Email">
+        <input type="email" />
+      </FormElement>
+    );
+
+    expect(screen.getByText('Email')).toBeInTheDocument();
+  });
+
+  it('applies aria-label to the slotted child when label is omitted', () => {
+    render(
+      <FormElement ariaLabel="Hidden email" asChild>
+        <input type="email" />
+      </FormElement>
+    );
+
+    expect(screen.getByRole('textbox')).toHaveAttribute('aria-label', 'Hidden email');
+  });
+
+  describe('aria-describedby merging', () => {
+    it('references the hint when no error is present', () => {
+      render(
+        <FormElement label="Email" hint="Helpful hint" asChild>
+          <input type="email" />
+        </FormElement>
+      );
+
+      const hint = screen.getByText('Helpful hint');
+      const control = screen.getByRole('textbox');
+      const tokens = new Set((control.getAttribute('aria-describedby') ?? '').split(' ').filter(Boolean));
+
+      expect(tokens.has(hint.id)).toBe(true);
+    });
+
+    it('replaces the hint with the error id when an error is provided', () => {
+      render(
+        <FormElement label="Email" hint="Helpful hint" error="Invalid email" asChild>
+          <input type="email" />
+        </FormElement>
+      );
+
+      const control = screen.getByRole('textbox');
+      const error = screen.getByText('Invalid email');
+
+      expect(control.getAttribute('aria-describedby')).toBe(error.id);
+    });
+
+    it('appends the info content id when the popover is opened', async () => {
+      const user = userEvent.setup();
+
+      render(
+        <FormElement label="Email" hint="Helpful hint" info="Additional info" asChild>
+          <input type="email" />
+        </FormElement>
+      );
+
+      await user.click(screen.getByRole('button', { name: 'Email info' }));
+
+      const control = screen.getByRole('textbox');
+      const hint = screen.getByText('Helpful hint');
+      const infoContent = await screen.findByText('Additional info');
+      const tokens = new Set((control.getAttribute('aria-describedby') ?? '').split(' ').filter(Boolean));
+
+      expect(tokens).toEqual(new Set([hint.id, infoContent.id]));
+    });
+  });
+
+  it('retains the focus ring classes on the row after keyboard focus', async () => {
+    const user = userEvent.setup();
+
+    render(
+      <FormElement label="Email" asChild>
+        <input type="email" />
+      </FormElement>
+    );
+
+    await user.tab();
+
+    const control = screen.getByRole('textbox');
+    const row = screen.getByRole('group').querySelector('[data-slot="row"]');
+
+    if (!row) {
+      throw new Error('Row slot not found');
+    }
+
+    expect({
+      active: document.activeElement,
+      hasFocusRingClass: row.className.includes('[&:has(:focus-visible)]:ring-2')
+    }).toEqual({
+      active: control,
+      hasFocusRingClass: true
+    });
+  });
+
+  it('marks the fieldset as disabled and forwards disabled to the slotted child', () => {
+    render(
+      <FormElement label="Email" asChild disabled>
+        <input type="email" />
+      </FormElement>
+    );
+
+    const fieldset = screen.getByRole('group');
+    const control = screen.getByRole('textbox');
+
+    expect({
+      fieldset: fieldset.getAttribute('data-disabled'),
+      child: control.hasAttribute('disabled')
+    }).toEqual({ fieldset: 'true', child: true });
+  });
+
+  it('omits injected control attributes when rendered without asChild', () => {
+    render(
+      <FormElement label="Email" hint="Helpful hint">
+        <input type="email" />
+      </FormElement>
+    );
+
+    const value = screen.getByRole('group').querySelector('[data-slot="value"]');
+
+    if (!value) {
+      throw new Error('Value slot not found');
+    }
+
+    expect({
+      id: value.getAttribute('id'),
+      describedBy: value.getAttribute('aria-describedby'),
+      ariaLabel: value.getAttribute('aria-label')
+    }).toEqual({ id: null, describedBy: null, ariaLabel: null });
+  });
+
+  const renderSlotFormElement = () => {
+    render(
+      <FormElement label="Email" hint="Helpful hint" asChild>
+        <input type="email" />
+      </FormElement>
+    );
+
+    const control = screen.getByRole('textbox');
+    const hint = screen.getByText('Helpful hint');
+    const label = screen.getByText('Email');
+
+    return { control, hint, label };
+  };
+
+  describe('slot attribute injection in Slot mode', () => {
+    it('assigns a generated id to the slotted control', () => {
+      const { control } = renderSlotFormElement();
+
+      expect(control.getAttribute('id')?.endsWith('control')).toBe(true);
+    });
+
+    it('references the hint in aria-describedby', () => {
+      const { control, hint } = renderSlotFormElement();
+
+      expect(control.getAttribute('aria-describedby')).toBe(hint.id);
+    });
+
+    it('references the label in aria-labelledby', () => {
+      const { control, label } = renderSlotFormElement();
+
+      expect(control.getAttribute('aria-labelledby')).toBe(label.id);
+    });
+  });
+
+  it('suppresses the hint when an error is provided', () => {
+    render(
+      <FormElement label="Email" hint="Helpful hint" error="Invalid email">
+        <input type="email" />
+      </FormElement>
+    );
+
+    expect(screen.queryByText('Helpful hint')).toBeNull();
+  });
+
+  it('renders a decorative error icon before the error text', () => {
+    render(
+      <FormElement label="Email" error="Invalid email">
+        <input type="email" />
+      </FormElement>
+    );
+
+    const errorContainer = screen.getByRole('alert');
+    const icon = errorContainer.querySelector('svg');
+
+    if (!icon) {
+      throw new Error('Expected error icon to be rendered inside the error slot');
+    }
+
+    expect(icon.getAttribute('aria-hidden')).toBe('true');
+  });
+});

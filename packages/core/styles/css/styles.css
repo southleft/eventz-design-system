@@ -1382,6 +1382,9 @@
 .flex-nowrap {
   flex-wrap: nowrap;
 }
+.flex-wrap {
+  flex-wrap: wrap;
+}
 .place-items-center {
   place-items: center;
 }
@@ -1426,6 +1429,9 @@
 }
 .gap-\[4px\] {
   gap: 4px;
+}
+.gap-y-1 {
+  row-gap: var(--spacing-1);
 }
 .truncate {
   overflow: hidden;
@@ -2143,6 +2149,16 @@
     border-bottom-color: var(--color-color-border-subtle);
   }
 }
+.data-\[disabled\=true\]\:pointer-events-none {
+  &[data-disabled="true"] {
+    pointer-events: none;
+  }
+}
+.data-\[disabled\=true\]\:opacity-50 {
+  &[data-disabled="true"] {
+    opacity: 50%;
+  }
+}
 .data-\[interactive\=false\]\:cursor-default {
   &[data-interactive="false"] {
     cursor: default;
@@ -2454,6 +2470,13 @@
 .data-\[invalid\=true\]\:\[\&_\[data-slot\=input\]\]\:border-comp-form-color-border-utility-danger {
   &[data-invalid="true"] {
     & [data-slot=input] {
+      border-color: var(--color-comp-form-color-border-utility-danger);
+    }
+  }
+}
+.data-\[invalid\=true\]\:\[\&_\[data-slot\=row\]\]\:border-comp-form-color-border-utility-danger {
+  &[data-invalid="true"] {
+    & [data-slot=row] {
       border-color: var(--color-comp-form-color-border-utility-danger);
     }
   }

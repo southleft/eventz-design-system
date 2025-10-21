@@ -16,6 +16,7 @@ export const FormElementStyleMap = defineStyleMap({
 
     hint: ['text-color-content-subtle', 'text-xs'] as const,
 
+    // Error message displays the system error icon followed by message text; icon matches Input and is aria-hidden.
     error: [
       'text-color-content-utility-danger-subtle',
       'text-xs',
