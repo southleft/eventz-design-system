@@ -421,7 +421,7 @@ export const Combobox = React.forwardRef<HTMLInputElement, ComboboxProps>(
         data-disabled={disabled ? 'true' : undefined}
         data-has-selection={hasSelection ? 'true' : undefined}
       >
-        <Popover.Root open={internalOpen} onOpenChange={setInternalOpen}>
+        <Popover.Root open={internalOpen}>
           <Popover.Anchor asChild>
             <div data-slot="anchor">
               <FormElement {...(formElementProps ?? {})} disabled={disabled} asChild>
@@ -496,7 +496,6 @@ export const Combobox = React.forwardRef<HTMLInputElement, ComboboxProps>(
                       }}
                       onClick={() => {
                         handleToggleSelection(item.id);
-                        inputRef.current?.focus();
                       }}
                     />
                   );
