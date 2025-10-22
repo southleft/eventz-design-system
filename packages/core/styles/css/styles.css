@@ -1161,6 +1161,9 @@
 .z-20 {
   z-index: 20;
 }
+.z-50 {
+  z-index: 50;
+}
 .container {
   width: 100%;
   @media (width >= 40rem) {
@@ -1285,8 +1288,14 @@
 .h-\[min\(650px\,calc\(100vh-40px\)\)\] {
   height: min(650px, calc(100vh - 40px));
 }
+.max-h-60 {
+  max-height: calc(var(--spacing) * 60);
+}
 .min-h-0 {
   min-height: var(--spacing-0);
+}
+.w-16 {
+  width: calc(var(--spacing) * 16);
 }
 .w-20 {
   width: calc(var(--spacing) * 20);
@@ -1612,6 +1621,9 @@
 .object-cover {
   object-fit: cover;
 }
+.p-1 {
+  padding: var(--spacing-1);
+}
 .p-3 {
   padding: var(--spacing-3);
 }
@@ -1630,6 +1642,9 @@
 .px-1\.5 {
   padding-inline: var(--spacing-1_5);
 }
+.px-2 {
+  padding-inline: var(--spacing-2);
+}
 .px-4 {
   padding-inline: var(--spacing-4);
 }
@@ -1641,6 +1656,9 @@
 }
 .py-0\.5 {
   padding-block: var(--spacing-0_5);
+}
+.py-1\.5 {
+  padding-block: var(--spacing-1_5);
 }
 .py-8 {
   padding-block: calc(var(--spacing) * 8);
@@ -1729,6 +1747,10 @@
 .text-\[10px\] {
   font-size: 10px;
 }
+.leading-\[18px\] {
+  --tw-leading: 18px;
+  line-height: 18px;
+}
 .leading-tight {
   --tw-leading: var(--leading-tight);
   line-height: var(--leading-tight);
@@ -1782,8 +1804,15 @@
     color: var(--color-color-content-weak);
   }
 }
+.opacity-0 {
+  opacity: 0%;
+}
 .opacity-50 {
   opacity: 50%;
+}
+.shadow {
+  --tw-shadow: 0 1px 3px 0 var(--tw-shadow-color, rgb(0 0 0 / 0.1)), 0 1px 2px -1px var(--tw-shadow-color, rgb(0 0 0 / 0.1));
+  box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
 }
 .shadow-\(--shadow-shadows-shadow-6\) {
   --tw-shadow: var(--shadow-shadows-shadow-6);
@@ -1819,6 +1848,11 @@
 }
 .transition-colors {
   transition-property: color, background-color, border-color, outline-color, text-decoration-color, fill, stroke, --tw-gradient-from, --tw-gradient-via, --tw-gradient-to;
+  transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
+  transition-duration: var(--tw-duration, var(--default-transition-duration));
+}
+.transition-opacity {
+  transition-property: opacity;
   transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
   transition-duration: var(--tw-duration, var(--default-transition-duration));
 }
@@ -1901,6 +1935,11 @@
 .group-data-\[state\=open\]\:rotate-180 {
   &:is(:where(.group)[data-state="open"] *) {
     rotate: 180deg;
+  }
+}
+.placeholder\:text-color-content-subtle {
+  &::placeholder {
+    color: var(--color-color-content-subtle);
   }
 }
 .first\:rounded-l-sm {
@@ -2063,6 +2102,12 @@
 .focus-visible\:ring-offset-4 {
   &:focus-visible {
     --tw-ring-offset-width: 4px;
+    --tw-ring-offset-shadow: var(--tw-ring-inset,) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+  }
+}
+.focus-visible\:ring-offset-\[-4px\] {
+  &:focus-visible {
+    --tw-ring-offset-width: -4px;
     --tw-ring-offset-shadow: var(--tw-ring-inset,) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
   }
 }
@@ -2347,6 +2392,16 @@
     align-items: center;
   }
 }
+.data-\[open\=false\]\:hidden {
+  &[data-open="false"] {
+    display: none;
+  }
+}
+.data-\[open\=true\]\:block {
+  &[data-open="true"] {
+    display: block;
+  }
+}
 .data-\[state\=active\]\:border-b-color-border-brand {
   &[data-state="active"] {
     border-bottom-color: var(--color-color-border-brand);
@@ -2453,6 +2508,13 @@
     }
   }
 }
+.data-\[has-selection\=true\]\:\[\&_\[data-slot\=clearAll\]\]\:opacity-100 {
+  &[data-has-selection="true"] {
+    & [data-slot=clearAll] {
+      opacity: 100%;
+    }
+  }
+}
 .data-\[invalid\=true\]\:\[\&_\[data-slot\=dropzone\]\]\:border-comp-form-color-border-utility-danger {
   &[data-invalid="true"] {
     & [data-slot=dropzone] {
@@ -2494,6 +2556,13 @@
       & button {
         background-color: var(--color-comp-button-primary-color-background-hover);
       }
+    }
+  }
+}
+.data-\[has-selection\=true\]\:\[\&_button\[data-role\=clear-all\]\]\:opacity-100 {
+  &[data-has-selection="true"] {
+    & button[data-role=clear-all] {
+      opacity: 100%;
     }
   }
 }
