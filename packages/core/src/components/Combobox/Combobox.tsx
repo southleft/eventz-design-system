@@ -204,9 +204,7 @@ export const Combobox = React.forwardRef<HTMLInputElement, ComboboxProps>(
       selectedIds: selectedIdsProp,
       defaultSelectedIds = [],
       onSelectionChange,
-      open: openProp,
       defaultOpen = false,
-      onOpenChange,
       disabled = false,
       FormElementProps: formElementProps
     },
@@ -254,37 +252,9 @@ export const Combobox = React.forwardRef<HTMLInputElement, ComboboxProps>(
 
     const hasSelection = selectedItems.length > 0;
 
-    const isOpenControlled = openProp !== undefined;
-    const [internalOpen, setInternalOpen] = React.useState<boolean>(defaultOpen);
-
-    React.useEffect(() => {
-      if (!isOpenControlled) {
-        setInternalOpen(defaultOpen);
-      }
-    }, [defaultOpen, isOpenControlled]);
-
-    const effectiveOpen = isOpenControlled ? Boolean(openProp) : internalOpen;
-
-    const updateOpenState = React.useCallback(
-      (next: boolean) => {
-        if (!isOpenControlled) {
-          setInternalOpen(next);
-        }
-        onOpenChange?.(next);
-      },
-      [isOpenControlled, onOpenChange]
-    );
-
-    React.useEffect(() => {
-      if (disabled && effectiveOpen) {
-        updateOpenState(false);
-      }
-    }, [disabled, effectiveOpen, updateOpenState]);
+    const [internalOpen, setInternalOpen] = React.useState(defaultOpen);
 
     const inputRef = React.useRef<HTMLInputElement | null>(null);
-    const itemRefs = React.useRef<Array<HTMLButtonElement | HTMLAnchorElement | null>>([]);
-    const anchorRef = React.useRef<HTMLDivElement | null>(null);
-    const contentRef = React.useRef<HTMLDivElement | null>(null);
 
     const handleInputRef = React.useCallback(
       (node: HTMLInputElement | null) => {
@@ -344,207 +314,32 @@ export const Combobox = React.forwardRef<HTMLInputElement, ComboboxProps>(
       if (disabled) {
         return;
       }
-      updateOpenState(true);
-    }, [disabled, updateOpenState]);
+      setInternalOpen(prev => (prev ? prev : true));
+    }, [disabled]);
 
     const requestClose = React.useCallback(() => {
-      updateOpenState(false);
-    }, [updateOpenState]);
-    React.useEffect(() => {
-      if (!effectiveOpen) return;
-
-      function handleDocPointerDown(event: PointerEvent) {
-        const target = event.target as Node | null;
-        const anchorEl = anchorRef.current;
-        const contentEl = contentRef.current;
-        if (!target) return;
-
-        const clickedInsideAnchor = !!(anchorEl && anchorEl.contains(target));
-        const clickedInsideContent = !!(contentEl && contentEl.contains(target));
-
-        if (!clickedInsideAnchor && !clickedInsideContent) {
-          requestClose();
-        }
-      }
-
-      document.addEventListener('pointerdown', handleDocPointerDown, true);
-      return () => {
-        document.removeEventListener('pointerdown', handleDocPointerDown, true);
-      };
-    }, [effectiveOpen, requestClose]);
-
-    const handleRootOpenChange = React.useCallback(
-      (nextOpen: boolean) => {
-        if (disabled && nextOpen) {
-          return;
-        }
-        updateOpenState(nextOpen);
-      },
-      [disabled, updateOpenState]
-    );
+      setInternalOpen(prev => (prev ? false : prev));
+    }, []);
 
     const listboxBaseId = React.useId();
     const listboxId = `${listboxBaseId}-listbox`;
 
-    const [activeIndex, setActiveIndex] = React.useState<number>(-1);
-
-    React.useEffect(() => {
-      if (!effectiveOpen) {
-        setActiveIndex(-1);
-        return;
-      }
-
-      if (items.length === 0) {
-        setActiveIndex(-1);
-        return;
-      }
-
-      setActiveIndex(prev => {
-        if (prev >= 0 && prev < items.length) {
-          return prev;
-        }
-        const firstSelectedIndex = items.findIndex(item => selectedIdsSet.has(item.id));
-        if (firstSelectedIndex >= 0) {
-          return firstSelectedIndex;
-        }
-        return 0;
-      });
-    }, [effectiveOpen, items, selectedIdsSet]);
-
-    React.useEffect(() => {
-      if (activeIndex >= items.length) {
-        setActiveIndex(items.length === 0 ? -1 : items.length - 1);
-      }
-    }, [activeIndex, items.length]);
-
-    React.useEffect(() => {
-      if (!effectiveOpen) {
-        return;
-      }
-      if (activeIndex < 0) {
-        return;
-      }
-      const node = itemRefs.current[activeIndex];
-      if (node) {
-        node.scrollIntoView({ block: 'nearest' });
-      }
-    }, [activeIndex, effectiveOpen]);
-
-    const handleInputKeyDown = React.useCallback(
-      (event: React.KeyboardEvent<HTMLInputElement>) => {
-        if (disabled) {
-          return;
-        }
-
-        const totalItems = items.length;
-
-        if (event.key === 'ArrowDown') {
-          event.preventDefault();
-          if (!effectiveOpen) {
-            requestOpen();
-            if (totalItems > 0) {
-              setActiveIndex(prev => (prev >= 0 ? prev : 0));
-            }
-            return;
-          }
-          if (totalItems > 0) {
-            setActiveIndex(prev => {
-              const next = prev < 0 ? 0 : (prev + 1) % totalItems;
-              return next;
-            });
-          }
-          return;
-        }
-
-        if (event.key === 'ArrowUp') {
-          event.preventDefault();
-          if (!effectiveOpen) {
-            requestOpen();
-            if (totalItems > 0) {
-              setActiveIndex(totalItems - 1);
-            }
-            return;
-          }
-          if (totalItems > 0) {
-            setActiveIndex(prev => {
-              if (prev < 0) {
-                return totalItems - 1;
-              }
-              const next = prev - 1 < 0 ? totalItems - 1 : prev - 1;
-              return next;
-            });
-          }
-          return;
-        }
-
-        if (event.key === 'Enter' || event.key === ' ') {
-          event.preventDefault();
-          if (!effectiveOpen) {
-            requestOpen();
-            return;
-          }
-          if (activeIndex >= 0 && activeIndex < items.length) {
-            const item = items[activeIndex];
-            handleToggleSelection(item.id);
-          }
-          return;
-        }
-
-        if (event.key === 'Backspace') {
-          if (selectedItems.length > 0) {
-            event.preventDefault();
-            const last = selectedItems[selectedItems.length - 1];
-            handleRemoveSelection(last.id);
-          }
-          return;
-        }
-
-        if (event.key === 'Escape') {
-          if (effectiveOpen) {
-            event.preventDefault();
-            requestClose();
-            inputRef.current?.focus();
-          }
-          return;
-        }
-      },
-      [
-        activeIndex,
-        disabled,
-        effectiveOpen,
-        handleRemoveSelection,
-        handleToggleSelection,
-        items,
-        selectedItems,
-        requestClose,
-        requestOpen
-      ]
-    );
 
     const inputPlaceholder = hasSelection ? undefined : placeholder;
-    const activeOptionId =
-      effectiveOpen && activeIndex >= 0 && activeIndex < items.length
-        ? `${listboxId}-option-${items[activeIndex].id}`
-        : undefined;
 
     const inputProps: React.InputHTMLAttributes<HTMLInputElement> = {
       type: 'text',
       role: 'combobox',
-      'aria-expanded': effectiveOpen,
+      'aria-expanded': internalOpen,
       'aria-haspopup': 'listbox',
       'aria-autocomplete': 'none',
       'aria-controls': listboxId,
-      'aria-activedescendant': activeOptionId,
       readOnly: true,
       value: '',
       placeholder: inputPlaceholder,
-      onFocus: () => {
-        requestOpen();
-      },
       onClick: () => {
         requestOpen();
-      },
-      onKeyDown: handleInputKeyDown
+      }
     };
 
     const menuItemClasses = `w-full`;
@@ -619,7 +414,6 @@ export const Combobox = React.forwardRef<HTMLInputElement, ComboboxProps>(
         ? ((endIcon ?? <CloseIcon aria-hidden="true" />) as React.ReactNode)
         : null;
 
-    itemRefs.current.length = items.length;
 
     return (
       <div
@@ -627,9 +421,9 @@ export const Combobox = React.forwardRef<HTMLInputElement, ComboboxProps>(
         data-disabled={disabled ? 'true' : undefined}
         data-has-selection={hasSelection ? 'true' : undefined}
       >
-        <Popover.Root open={effectiveOpen} onOpenChange={handleRootOpenChange}>
+        <Popover.Root open={internalOpen} onOpenChange={setInternalOpen}>
           <Popover.Anchor asChild>
-            <div data-slot="anchor" ref={anchorRef}>
+            <div data-slot="anchor">
               <FormElement {...(formElementProps ?? {})} disabled={disabled} asChild>
                 <ComboboxField
                   startIcon={startIcon}
@@ -650,13 +444,12 @@ export const Combobox = React.forwardRef<HTMLInputElement, ComboboxProps>(
           <Popover.Portal>
             <Popover.Content
               forceMount
-              ref={contentRef}
               id={listboxId}
               role="listbox"
               aria-multiselectable="true"
               className={panelClassName}
               data-slot="panel"
-              data-open={effectiveOpen ? 'true' : 'false'}
+              data-open={internalOpen ? 'true' : 'false'}
               side="bottom"
               align="start"
               sideOffset={4}
@@ -667,18 +460,7 @@ export const Combobox = React.forwardRef<HTMLInputElement, ComboboxProps>(
                 event.preventDefault();
                 inputRef.current?.focus();
               }}
-              onEscapeKeyDown={event => {
-                event.preventDefault();
-                requestClose();
-                inputRef.current?.focus();
-              }}
               onPointerDownOutside={() => {
-                requestClose();
-              }}
-              onFocusOutside={() => {
-                requestClose();
-              }}
-              onInteractOutside={() => {
                 requestClose();
               }}
             >
@@ -687,23 +469,17 @@ export const Combobox = React.forwardRef<HTMLInputElement, ComboboxProps>(
                   No options available
                 </div>
               ) : (
-                items.map((item, index) => {
+                items.map(item => {
                   const optionId = `${listboxId}-option-${item.id}`;
                   const isSelected = selectedIdsSet.has(item.id);
-                  const isActive = index === activeIndex;
                   return (
                     <MenuItem
                       key={item.id}
-                      ref={element => {
-                        itemRefs.current[index] = element;
-                      }}
                       id={optionId}
                       data-slot="menuItem"
                       className={menuItemClassName}
                       role="option"
                       aria-selected={isSelected}
-                      data-highlighted={isActive ? 'true' : undefined}
-                      tabIndex={-1}
                       option={item.option}
                       supportingText={item.supportingText}
                       startIcon={item.startIcon}
@@ -720,7 +496,6 @@ export const Combobox = React.forwardRef<HTMLInputElement, ComboboxProps>(
                       }}
                       onClick={() => {
                         handleToggleSelection(item.id);
-                        setActiveIndex(index);
                         inputRef.current?.focus();
                       }}
                     />

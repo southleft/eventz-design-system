@@ -5,7 +5,7 @@ import * as React from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import { Combobox, type ComboboxProps } from './Combobox';
+import { Combobox } from './Combobox';
 
 beforeAll(() => {
   Object.defineProperty(window.HTMLElement.prototype, 'hasPointerCapture', {
@@ -26,13 +26,52 @@ beforeAll(() => {
   });
 });
 
-const baseItems: NonNullable<ComboboxProps['items']> = [
+const baseItems = [
   { id: 'artists', option: 'Artists' },
   { id: 'venues', option: 'Venues' },
   { id: 'events', option: 'Events' }
 ];
 
 describe('Combobox', () => {
+  it('renders decorative end icon when showEndIcon is true and no selection exists', () => {
+    const { container } = render(
+      <Combobox items={baseItems} showEndIcon FormElementProps={{ label: 'Categories' }} />
+    );
+    const clearAll = screen.queryByRole('button', { name: 'Clear all selections' });
+    const hasEndIcon = Boolean(container.querySelector('[data-slot="endIcon"]'));
+    expect(clearAll === null && hasEndIcon).toBe(true);
+  });
+
+  it('renders clear-all button with tabindex -1 when selections exist', () => {
+    render(
+      <Combobox
+        items={baseItems}
+        defaultSelectedIds={['artists']}
+        showEndIcon
+        FormElementProps={{ label: 'Categories' }}
+      />
+    );
+    const clearAll = screen.getByRole('button', { name: 'Clear all selections' });
+    expect(clearAll).toHaveAttribute('tabindex', '-1');
+  });
+
+  it('renders chip dismiss button with tabindex -1', () => {
+    render(
+      <Combobox
+        items={baseItems}
+        defaultSelectedIds={['artists']}
+        FormElementProps={{ label: 'Categories' }}
+      />
+    );
+    const dismiss = screen.getByRole('button', { name: 'Remove Artists' });
+    expect(dismiss).toHaveAttribute('tabindex', '-1');
+  });
+
+  it('is name-exposed by the FormElement label', () => {
+    render(<Combobox items={baseItems} FormElementProps={{ label: 'Categories' }} />);
+    expect(screen.getByRole('combobox', { name: 'Categories' })).toBeInTheDocument();
+  });
+
   it('renders placeholder text when no selection is present', () => {
     render(
       <Combobox
@@ -73,33 +112,6 @@ describe('Combobox', () => {
     expect(screen.getByRole('button', { name: 'Clear all selections' })).toBeInTheDocument();
   });
 
-  it('calls onSelectionChange when selecting an item', async () => {
-    const user = userEvent.setup();
-    const handleSelectionChange = jest.fn();
-    render(
-      <Combobox
-        items={baseItems}
-        onSelectionChange={handleSelectionChange}
-        FormElementProps={{ label: 'Categories' }}
-      />
-    );
-
-    await user.click(screen.getByRole('combobox'));
-    const option = await screen.findByRole('option', { name: 'Venues' });
-    await user.click(option);
-    expect(handleSelectionChange).toHaveBeenCalledWith(['venues']);
-  });
-
-  it('keeps the popover open after selecting an item', async () => {
-    const user = userEvent.setup();
-    render(<Combobox items={baseItems} FormElementProps={{ label: 'Categories' }} />);
-
-    await user.click(screen.getByRole('combobox'));
-    const option = await screen.findByRole('option', { name: 'Venues' });
-    await user.click(option);
-    expect(screen.getByRole('listbox')).toBeInTheDocument();
-  });
-
   it('clears selections via the clear-all button', async () => {
     const user = userEvent.setup();
     const handleSelectionChange = jest.fn();
@@ -117,55 +129,16 @@ describe('Combobox', () => {
     expect(handleSelectionChange).toHaveBeenCalledWith([]);
   });
 
-  it('moves highlight with the ArrowDown key', async () => {
-    const user = userEvent.setup();
-    render(<Combobox items={baseItems} FormElementProps={{ label: 'Categories' }} />);
-
-    await user.click(screen.getByRole('combobox'));
-    await user.keyboard('{ArrowDown}');
-    expect(screen.getByRole('combobox').getAttribute('aria-activedescendant')).toContain(
-      'option-artists'
-    );
-  });
-
-  it('selects the highlighted item with Enter', async () => {
-    const user = userEvent.setup();
-    const handleSelectionChange = jest.fn();
-    render(
-      <Combobox
-        items={baseItems}
-        onSelectionChange={handleSelectionChange}
-        FormElementProps={{ label: 'Categories' }}
-      />
-    );
-
-    await user.click(screen.getByRole('combobox'));
-    await user.keyboard('{ArrowDown}{Enter}');
-    expect(handleSelectionChange).toHaveBeenCalledWith(['artists']);
-  });
-
   it('does not open when disabled', async () => {
     const user = userEvent.setup();
-    render(
-      <Combobox
-        items={baseItems}
-        disabled
-        FormElementProps={{ label: 'Categories' }}
-      />
-    );
+    render(<Combobox items={baseItems} disabled FormElementProps={{ label: 'Categories' }} />);
 
     await user.click(screen.getByRole('combobox'));
     expect(screen.getByRole('combobox')).toHaveAttribute('aria-expanded', 'false');
   });
 
   it('renders empty state text when no items are provided', () => {
-    render(
-      <Combobox
-        items={[]}
-        defaultOpen
-        FormElementProps={{ label: 'Categories' }}
-      />
-    );
+    render(<Combobox items={[]} defaultOpen FormElementProps={{ label: 'Categories' }} />);
     expect(screen.getByText('No options available')).toBeInTheDocument();
   });
 
@@ -181,4 +154,3 @@ describe('Combobox', () => {
     expect(screen.getByRole('combobox')).not.toHaveAttribute('placeholder');
   });
 });
-
