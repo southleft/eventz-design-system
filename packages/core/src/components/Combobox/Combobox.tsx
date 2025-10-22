@@ -202,7 +202,7 @@ export const Combobox = React.forwardRef<HTMLInputElement, ComboboxProps>(
       items: itemsProp,
       menuItemBorderBottom,
       selectedIds: selectedIdsProp,
-      defaultSelectedIds = [],
+      defaultSelectedIds: defaultSelectedIdsProp,
       onSelectionChange,
       defaultOpen = false,
       disabled = false,
@@ -211,10 +211,7 @@ export const Combobox = React.forwardRef<HTMLInputElement, ComboboxProps>(
     forwardedRef
   ) => {
     const items = React.useMemo(() => itemsProp ?? [], [itemsProp]);
-    const memoizedDefaultSelectedIds = React.useMemo(
-      () => defaultSelectedIds ?? [],
-      [defaultSelectedIds]
-    );
+    const initialSelectedRef = React.useRef<string[]>(defaultSelectedIdsProp ?? []);
     const memoizedControlledSelectedIds = React.useMemo(
       () => selectedIdsProp ?? [],
       [selectedIdsProp]
@@ -222,14 +219,8 @@ export const Combobox = React.forwardRef<HTMLInputElement, ComboboxProps>(
 
     const isSelectionControlled = selectedIdsProp !== undefined;
     const [internalSelectedIds, setInternalSelectedIds] = React.useState<string[]>(
-      memoizedDefaultSelectedIds
+      initialSelectedRef.current
     );
-
-    React.useEffect(() => {
-      if (!isSelectionControlled) {
-        setInternalSelectedIds(memoizedDefaultSelectedIds);
-      }
-    }, [memoizedDefaultSelectedIds, isSelectionControlled]);
 
     const selectedIds = isSelectionControlled ? memoizedControlledSelectedIds : internalSelectedIds;
     const selectedIdsSet = React.useMemo(() => new Set(selectedIds), [selectedIds]);

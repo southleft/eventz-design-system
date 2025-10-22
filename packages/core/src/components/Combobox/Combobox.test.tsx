@@ -153,4 +153,28 @@ describe('Combobox', () => {
     );
     expect(screen.getByRole('combobox')).not.toHaveAttribute('placeholder');
   });
+
+  it('prevents default on option mousedown (no blur intent)', async () => {
+    render(<Combobox items={baseItems} defaultOpen FormElementProps={{ label: 'Categories' }} />);
+    const option = await screen.findByRole('option', { name: 'Artists' });
+    const e = new MouseEvent('mousedown', { bubbles: true, cancelable: true });
+    option.dispatchEvent(e);
+    expect(e.defaultPrevented).toBe(true);
+  });
+
+  it('calls onSelectionChange when clicking an option (selects Artists)', async () => {
+    const user = userEvent.setup();
+    const handleSelectionChange = jest.fn<void, [string[]]>();
+    render(
+      <Combobox
+        items={baseItems}
+        defaultOpen
+        onSelectionChange={handleSelectionChange}
+        FormElementProps={{ label: 'Categories' }}
+      />
+    );
+    const option = await screen.findByRole('option', { name: 'Artists' });
+    await user.click(option);
+    expect(handleSelectionChange).toHaveBeenCalledWith(['artists']);
+  });
 });
