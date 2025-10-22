@@ -151,7 +151,6 @@ const ComboboxField = React.forwardRef<HTMLDivElement, ComboboxFieldProps>(
           ref={inputRef}
           className={inputClassName}
           data-slot="input"
-          aria-readonly="true"
         />
       </div>
     );
@@ -453,20 +452,32 @@ export const Combobox = React.forwardRef<HTMLInputElement, ComboboxProps>(
           return;
         }
 
+        if (event.key === 'Backspace') {
+          if (selectedItems.length > 0) {
+            event.preventDefault();
+            const last = selectedItems[selectedItems.length - 1];
+            handleRemoveSelection(last.id);
+          }
+          return;
+        }
+
         if (event.key === 'Escape') {
           if (effectiveOpen) {
             event.preventDefault();
             requestClose();
             inputRef.current?.focus();
           }
+          return;
         }
       },
       [
         activeIndex,
         disabled,
         effectiveOpen,
+        handleRemoveSelection,
         handleToggleSelection,
         items,
+        selectedItems,
         requestClose,
         requestOpen
       ]
@@ -477,14 +488,14 @@ export const Combobox = React.forwardRef<HTMLInputElement, ComboboxProps>(
       effectiveOpen && activeIndex >= 0 && activeIndex < items.length
         ? `${listboxId}-option-${items[activeIndex].id}`
         : undefined;
-    const ariaControlsValue = effectiveOpen ? listboxId : undefined;
 
     const inputProps: React.InputHTMLAttributes<HTMLInputElement> = {
       type: 'text',
       role: 'combobox',
       'aria-expanded': effectiveOpen,
       'aria-haspopup': 'listbox',
-      'aria-controls': ariaControlsValue,
+      'aria-autocomplete': 'none',
+      'aria-controls': listboxId,
       'aria-activedescendant': activeOptionId,
       readOnly: true,
       value: '',
@@ -547,6 +558,7 @@ export const Combobox = React.forwardRef<HTMLInputElement, ComboboxProps>(
             className={chipDismissClassName}
             data-slot="chipDismiss"
             aria-label={`Remove ${optionLabel}`}
+            tabIndex={-1}
             onMouseDown={event => {
               event.preventDefault();
             }}
@@ -611,6 +623,12 @@ export const Combobox = React.forwardRef<HTMLInputElement, ComboboxProps>(
                 requestClose();
                 inputRef.current?.focus();
               }}
+              onPointerDownOutside={() => {
+                requestClose();
+              }}
+              onFocusOutside={() => {
+                requestClose();
+              }}
             >
               {items.length === 0 ? (
                 <div className={emptyClassName} data-slot="empty" role="presentation">
@@ -631,7 +649,7 @@ export const Combobox = React.forwardRef<HTMLInputElement, ComboboxProps>(
                       data-slot="menuItem"
                       className={menuItemClassName}
                       role="option"
-                      aria-selected={isSelected ? 'true' : 'false'}
+                      aria-selected={isSelected}
                       data-highlighted={isActive ? 'true' : undefined}
                       tabIndex={-1}
                       option={item.option}
@@ -645,15 +663,6 @@ export const Combobox = React.forwardRef<HTMLInputElement, ComboboxProps>(
                       borderBottom={resolvedBorderBottom}
                       isSelected={isSelected}
                       disabled={disabled}
-                      onMouseEnter={() => {
-                        setActiveIndex(index);
-                      }}
-                      onMouseMove={() => {
-                        setActiveIndex(index);
-                      }}
-                      onFocus={() => {
-                        setActiveIndex(index);
-                      }}
                       onMouseDown={event => {
                         event.preventDefault();
                       }}
