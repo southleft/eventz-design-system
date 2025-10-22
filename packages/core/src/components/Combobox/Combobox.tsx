@@ -269,6 +269,8 @@ export const Combobox = React.forwardRef<HTMLInputElement, ComboboxProps>(
 
     const inputRef = React.useRef<HTMLInputElement | null>(null);
     const itemRefs = React.useRef<Array<HTMLButtonElement | HTMLAnchorElement | null>>([]);
+    const anchorRef = React.useRef<HTMLDivElement | null>(null);
+    const contentRef = React.useRef<HTMLDivElement | null>(null);
 
     const handleInputRef = React.useCallback(
       (node: HTMLInputElement | null) => {
@@ -334,6 +336,28 @@ export const Combobox = React.forwardRef<HTMLInputElement, ComboboxProps>(
     const requestClose = React.useCallback(() => {
       updateOpenState(false);
     }, [updateOpenState]);
+    React.useEffect(() => {
+      if (!effectiveOpen) return;
+
+      function handleDocPointerDown(event: PointerEvent) {
+        const target = event.target as Node | null;
+        const anchorEl = anchorRef.current;
+        const contentEl = contentRef.current;
+        if (!target) return;
+
+        const clickedInsideAnchor = !!(anchorEl && anchorEl.contains(target));
+        const clickedInsideContent = !!(contentEl && contentEl.contains(target));
+
+        if (!clickedInsideAnchor && !clickedInsideContent) {
+          requestClose();
+        }
+      }
+
+      document.addEventListener('pointerdown', handleDocPointerDown, true);
+      return () => {
+        document.removeEventListener('pointerdown', handleDocPointerDown, true);
+      };
+    }, [effectiveOpen, requestClose]);
 
     const handleRootOpenChange = React.useCallback(
       (nextOpen: boolean) => {
@@ -500,9 +524,6 @@ export const Combobox = React.forwardRef<HTMLInputElement, ComboboxProps>(
       readOnly: true,
       value: '',
       placeholder: inputPlaceholder,
-      onFocus: () => {
-        requestOpen();
-      },
       onClick: () => {
         requestOpen();
       },
@@ -535,6 +556,7 @@ export const Combobox = React.forwardRef<HTMLInputElement, ComboboxProps>(
           data-slot="clearAll"
           data-role="clear-all"
           aria-label="Clear all selections"
+          tabIndex={-1}
           onMouseDown={event => {
             event.preventDefault();
           }}
@@ -584,7 +606,7 @@ export const Combobox = React.forwardRef<HTMLInputElement, ComboboxProps>(
       >
         <Popover.Root open={effectiveOpen} onOpenChange={handleRootOpenChange}>
           <Popover.Anchor asChild>
-            <div data-slot="anchor">
+            <div data-slot="anchor" ref={anchorRef}>
               <FormElement {...(formElementProps ?? {})} disabled={disabled} asChild>
                 <ComboboxField
                   startIcon={startIcon}
@@ -602,6 +624,8 @@ export const Combobox = React.forwardRef<HTMLInputElement, ComboboxProps>(
           </Popover.Anchor>
           <Popover.Portal>
             <Popover.Content
+              forceMount
+              ref={contentRef}
               id={listboxId}
               role="listbox"
               aria-multiselectable="true"
@@ -627,6 +651,9 @@ export const Combobox = React.forwardRef<HTMLInputElement, ComboboxProps>(
                 requestClose();
               }}
               onFocusOutside={() => {
+                requestClose();
+              }}
+              onInteractOutside={() => {
                 requestClose();
               }}
             >

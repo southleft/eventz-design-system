@@ -1288,9 +1288,6 @@
 .h-\[min\(650px\,calc\(100vh-40px\)\)\] {
   height: min(650px, calc(100vh - 40px));
 }
-.max-h-60 {
-  max-height: calc(var(--spacing) * 60);
-}
 .min-h-0 {
   min-height: var(--spacing-0);
 }
