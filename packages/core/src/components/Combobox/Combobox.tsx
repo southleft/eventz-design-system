@@ -50,9 +50,14 @@ const startIconClasses = `
   shrink-0 [&>svg]:size-4 py-(--spacing-1_5) inline-flex text-color-content-default
 `;
 
+const endIconClasses = `
+  shrink-0 [&>svg]:size-4 py-(--spacing-1_5) inline-flex text-color-content-default
+`;
+
 const inputClasses = `
   min-w-0 flex-1 bg-transparent outline-none border-0 text-color-content-default
   placeholder:text-color-content-subtle focus:placeholder:opacity-0
+  caret-transparent select-none
 `;
 
 const fieldWrapperClasses = `
@@ -90,10 +95,12 @@ type FormElementPassthroughProps = Omit<FormElementProps, 'children'>;
 type ComboboxFieldProps = Omit<React.HTMLAttributes<HTMLDivElement>, 'children'> & {
   disabled?: boolean;
   startIcon?: React.ReactNode;
+  endIcon?: React.ReactNode;
   chips: React.ReactNode;
   clearAll?: React.ReactNode;
   chipsClassName: string;
   startIconClassName: string;
+  endIconClassName: string;
   inputClassName: string;
   inputProps: React.InputHTMLAttributes<HTMLInputElement>;
   inputRef: (node: HTMLInputElement | null) => void;
@@ -103,10 +110,12 @@ const ComboboxField = React.forwardRef<HTMLDivElement, ComboboxFieldProps>(
   (
     {
       startIcon,
+      endIcon,
       chips,
       clearAll,
       chipsClassName,
       startIconClassName,
+      endIconClassName,
       inputClassName,
       inputProps,
       inputRef,
@@ -152,6 +161,11 @@ const ComboboxField = React.forwardRef<HTMLDivElement, ComboboxFieldProps>(
           className={inputClassName}
           data-slot="input"
         />
+        {endIcon ? (
+          <span className={endIconClassName} data-slot="endIcon" aria-hidden="true">
+            {endIcon}
+          </span>
+        ) : null}
       </div>
     );
   }
@@ -524,6 +538,9 @@ export const Combobox = React.forwardRef<HTMLInputElement, ComboboxProps>(
       readOnly: true,
       value: '',
       placeholder: inputPlaceholder,
+      onFocus: () => {
+        requestOpen();
+      },
       onClick: () => {
         requestOpen();
       },
@@ -543,6 +560,7 @@ export const Combobox = React.forwardRef<HTMLInputElement, ComboboxProps>(
     const chipClassName = collapseWhitespace(composeClasses(chipClasses));
     const chipDismissClassName = collapseWhitespace(composeClasses(chipDismissClasses));
     const startIconClassName = collapseWhitespace(composeClasses(startIconClasses));
+    const endIconClassName = collapseWhitespace(composeClasses(endIconClasses));
     const inputClassName = collapseWhitespace(composeClasses(inputClasses));
 
     const resolvedBorderBottom =
@@ -596,6 +614,11 @@ export const Combobox = React.forwardRef<HTMLInputElement, ComboboxProps>(
       );
     });
 
+    const endIconSpan =
+      showEndIcon && !hasSelection
+        ? ((endIcon ?? <CloseIcon aria-hidden="true" />) as React.ReactNode)
+        : null;
+
     itemRefs.current.length = items.length;
 
     return (
@@ -614,6 +637,8 @@ export const Combobox = React.forwardRef<HTMLInputElement, ComboboxProps>(
                   clearAll={clearAllButton}
                   chipsClassName={chipsClassName}
                   startIconClassName={startIconClassName}
+                  endIcon={endIconSpan}
+                  endIconClassName={endIconClassName}
                   inputClassName={inputClassName}
                   inputProps={inputProps}
                   inputRef={handleInputRef}

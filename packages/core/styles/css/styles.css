@@ -1801,6 +1801,9 @@
     color: var(--color-color-content-weak);
   }
 }
+.caret-transparent {
+  caret-color: transparent;
+}
 .opacity-0 {
   opacity: 0%;
 }
