@@ -15,10 +15,6 @@ const panelClasses = `
   border-comp-combobox-popover-color-border-default shadow p-1 z-50
 `;
 
-const listClasses = `
-  max-h-60 overflow-auto py-0.5
-`;
-
 const emptyClasses = `
   text-color-content-subtle text-xs px-2 py-1.5
 `;
@@ -128,9 +124,7 @@ const ComboboxField = React.forwardRef<HTMLDivElement, ComboboxFieldProps>(
       ...restSlotProps
     } = rest;
 
-    const wrapperClassName = collapseWhitespace(
-      composeClasses(fieldWrapperClasses, className)
-    );
+    const wrapperClassName = collapseWhitespace(composeClasses(fieldWrapperClasses, className));
 
     const resolvedInputProps: React.InputHTMLAttributes<HTMLInputElement> = {
       ...inputProps,
@@ -467,7 +461,15 @@ export const Combobox = React.forwardRef<HTMLInputElement, ComboboxProps>(
           }
         }
       },
-      [activeIndex, disabled, effectiveOpen, handleToggleSelection, items, requestClose, requestOpen]
+      [
+        activeIndex,
+        disabled,
+        effectiveOpen,
+        handleToggleSelection,
+        items,
+        requestClose,
+        requestOpen
+      ]
     );
 
     const inputPlaceholder = hasSelection ? undefined : placeholder;
@@ -503,7 +505,6 @@ export const Combobox = React.forwardRef<HTMLInputElement, ComboboxProps>(
       composeClasses(baseClasses, disabledStateClasses, hasSelectionStateClasses)
     );
     const panelClassName = collapseWhitespace(composeClasses(panelClasses, openStateClasses));
-    const listClassName = collapseWhitespace(composeClasses(listClasses));
     const emptyClassName = collapseWhitespace(composeClasses(emptyClasses));
     const clearAllClassName = collapseWhitespace(composeClasses(clearAllClasses));
     const chipsClassName = collapseWhitespace(composeClasses(chipsContainerClasses));
@@ -513,9 +514,7 @@ export const Combobox = React.forwardRef<HTMLInputElement, ComboboxProps>(
     const inputClassName = collapseWhitespace(composeClasses(inputClasses));
 
     const resolvedBorderBottom =
-      menuItemBorderBottom !== undefined
-        ? menuItemBorderBottom
-        : menuItemType === 'simple';
+      menuItemBorderBottom !== undefined ? menuItemBorderBottom : menuItemType === 'simple';
 
     const clearAllButton =
       showEndIcon && hasSelection ? (
@@ -574,11 +573,7 @@ export const Combobox = React.forwardRef<HTMLInputElement, ComboboxProps>(
         <Popover.Root open={effectiveOpen} onOpenChange={handleRootOpenChange}>
           <Popover.Anchor asChild>
             <div data-slot="anchor">
-              <FormElement
-                {...(formElementProps ?? {})}
-                disabled={disabled}
-                asChild
-              >
+              <FormElement {...(formElementProps ?? {})} disabled={disabled} asChild>
                 <ComboboxField
                   startIcon={startIcon}
                   chips={chipsMarkup}
@@ -595,6 +590,9 @@ export const Combobox = React.forwardRef<HTMLInputElement, ComboboxProps>(
           </Popover.Anchor>
           <Popover.Portal>
             <Popover.Content
+              id={listboxId}
+              role="listbox"
+              aria-multiselectable="true"
               className={panelClassName}
               data-slot="panel"
               data-open={effectiveOpen ? 'true' : 'false'}
@@ -614,69 +612,60 @@ export const Combobox = React.forwardRef<HTMLInputElement, ComboboxProps>(
                 inputRef.current?.focus();
               }}
             >
-              <ul
-                id={listboxId}
-                className={listClassName}
-                data-slot="list"
-                role="listbox"
-                aria-multiselectable="true"
-              >
-                {items.length === 0 ? (
-                  <li className={emptyClassName} data-slot="empty" role="presentation">
-                    No options available
-                  </li>
-                ) : (
-                  items.map((item, index) => {
-                    const optionId = `${listboxId}-option-${item.id}`;
-                    const isSelected = selectedIdsSet.has(item.id);
-                    const isActive = index === activeIndex;
-                    return (
-                      <li key={item.id} role="presentation">
-                        <MenuItem
-                          ref={element => {
-                            itemRefs.current[index] = element;
-                          }}
-                          id={optionId}
-                          data-slot="menuItem"
-                          className={menuItemClassName}
-                          role="option"
-                          aria-selected={isSelected ? 'true' : 'false'}
-                          data-highlighted={isActive ? 'true' : undefined}
-                          tabIndex={-1}
-                          option={item.option}
-                          supportingText={item.supportingText}
-                          startIcon={item.startIcon}
-                          imgSrc={item.imgSrc}
-                          imgAlt={item.imgAlt}
-                          mediaIcon={item.mediaIcon}
-                          ariaLabel={item.ariaLabel}
-                          type={menuItemType}
-                          borderBottom={resolvedBorderBottom}
-                          isSelected={isSelected}
-                          disabled={disabled}
-                          onMouseEnter={() => {
-                            setActiveIndex(index);
-                          }}
-                          onMouseMove={() => {
-                            setActiveIndex(index);
-                          }}
-                          onFocus={() => {
-                            setActiveIndex(index);
-                          }}
-                          onMouseDown={event => {
-                            event.preventDefault();
-                          }}
-                          onClick={() => {
-                            handleToggleSelection(item.id);
-                            setActiveIndex(index);
-                            inputRef.current?.focus();
-                          }}
-                        />
-                      </li>
-                    );
-                  })
-                )}
-              </ul>
+              {items.length === 0 ? (
+                <div className={emptyClassName} data-slot="empty" role="presentation">
+                  No options available
+                </div>
+              ) : (
+                items.map((item, index) => {
+                  const optionId = `${listboxId}-option-${item.id}`;
+                  const isSelected = selectedIdsSet.has(item.id);
+                  const isActive = index === activeIndex;
+                  return (
+                    <MenuItem
+                      key={item.id}
+                      ref={element => {
+                        itemRefs.current[index] = element;
+                      }}
+                      id={optionId}
+                      data-slot="menuItem"
+                      className={menuItemClassName}
+                      role="option"
+                      aria-selected={isSelected ? 'true' : 'false'}
+                      data-highlighted={isActive ? 'true' : undefined}
+                      tabIndex={-1}
+                      option={item.option}
+                      supportingText={item.supportingText}
+                      startIcon={item.startIcon}
+                      imgSrc={item.imgSrc}
+                      imgAlt={item.imgAlt}
+                      mediaIcon={item.mediaIcon}
+                      ariaLabel={item.ariaLabel}
+                      type={menuItemType}
+                      borderBottom={resolvedBorderBottom}
+                      isSelected={isSelected}
+                      disabled={disabled}
+                      onMouseEnter={() => {
+                        setActiveIndex(index);
+                      }}
+                      onMouseMove={() => {
+                        setActiveIndex(index);
+                      }}
+                      onFocus={() => {
+                        setActiveIndex(index);
+                      }}
+                      onMouseDown={event => {
+                        event.preventDefault();
+                      }}
+                      onClick={() => {
+                        handleToggleSelection(item.id);
+                        setActiveIndex(index);
+                        inputRef.current?.focus();
+                      }}
+                    />
+                  );
+                })
+              )}
             </Popover.Content>
           </Popover.Portal>
         </Popover.Root>
