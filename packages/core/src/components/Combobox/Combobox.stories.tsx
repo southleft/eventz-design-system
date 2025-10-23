@@ -2,21 +2,14 @@
 import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { Combobox, type ComboboxProps } from './Combobox';
-import {
-  ArtistIcon,
-  CloseIcon,
-  EventIcon,
-  MapIcon,
-  SearchIcon,
-  StadiumIcon
-} from '../../icons';
+import { ArtistIcon, EventIcon, MapIcon, NewsmodeIcon, SearchIcon, StadiumIcon } from '../../icons';
 
 const simpleItems = [
-  { id: 'artists', option: 'Artists' },
-  { id: 'venues', option: 'Venues' },
-  { id: 'events', option: 'Events' },
-  { id: 'guides', option: 'Guides' },
-  { id: 'news', option: 'News' }
+  { id: 'artists', option: 'Artists', startIcon: <ArtistIcon /> },
+  { id: 'venues', option: 'Venues', startIcon: <StadiumIcon /> },
+  { id: 'events', option: 'Events', startIcon: <EventIcon /> },
+  { id: 'guides', option: 'Guides', startIcon: <MapIcon /> },
+  { id: 'news', option: 'News', startIcon: <NewsmodeIcon /> }
 ];
 
 const complexItems = [
@@ -49,7 +42,6 @@ const meta: Meta<ComboboxProps> = {
       hint: 'Select any categories to filter your results.'
     },
     items: simpleItems,
-    showEndIcon: true,
     defaultSelectedIds: ['artists', 'venues']
   }
 };
@@ -63,6 +55,14 @@ export const Default: Story = {};
 export const WithStartIcon: Story = {
   args: {
     startIcon: <SearchIcon aria-hidden="true" />,
+    placeholder: 'Search collections…',
+    defaultSelectedIds: ['artists']
+  }
+};
+
+export const WithEndIcon: Story = {
+  args: {
+    showEndIcon: true,
     placeholder: 'Search collections…',
     defaultSelectedIds: ['artists']
   }
@@ -84,7 +84,7 @@ export const ComplexItems: Story = {
 
 export const CustomEndIcon: Story = {
   args: {
-    endIcon: <CloseIcon aria-hidden="true" />,
+    endIcon: <ArtistIcon aria-hidden="true" />,
     items: simpleItems,
     defaultSelectedIds: ['events', 'guides'],
     FormElementProps: {
@@ -98,26 +98,5 @@ export const Disabled: Story = {
   args: {
     disabled: true,
     defaultSelectedIds: ['venues', 'events']
-  }
-};
-
-export const Controlled: Story = {
-  render: props => {
-    const [value, setValue] = React.useState<string[]>(['news']);
-    const { defaultSelectedIds, FormElementProps, ...rest } = props;
-
-    return (
-      <Combobox
-        {...rest}
-        selectedIds={value}
-        onSelectionChange={setValue}
-        items={simpleItems}
-        FormElementProps={{
-          label: 'Controlled selection',
-          hint: 'State for chips is managed by the story.'
-        }}
-        showEndIcon
-      />
-    );
   }
 };

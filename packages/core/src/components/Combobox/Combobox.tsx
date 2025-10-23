@@ -22,8 +22,7 @@ const emptyClasses = `
 `;
 
 const clearAllClasses = `
-  inline-flex items-center justify-center rounded-full h-20 w-20 border-0
-  bg-background-none text-color-content-default hover:bg-color-background-default-hover
+  inline-flex items-center justify-center rounded-full border-0 bg-background-none text-color-content-default
   focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-comp-border-focus-ring
   focus-visible:ring-offset-2 focus-visible:ring-offset-color-background-default transition-opacity
   opacity-0
@@ -34,26 +33,26 @@ const chipsContainerClasses = `
 `;
 
 const chipClasses = `
-  inline-flex items-center gap-1 rounded-xs border border-color-border-subtle
-  bg-color-background-default-subtle text-color-content-default text-xs font-medium leading-[18px]
-  px-2 h-24 transition-colors hover:bg-color-background-default-hover
+  inline-flex items-center gap-1 rounded-xs border-0 text-xs font-medium leading-[18px]
+  bg-color-background-brand hover:bg-color-background-brand-hover text-color-content-inverse
+  px-2 h-22 transition-colors group
   focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-comp-border-focus-ring
   focus-visible:ring-offset-[-4px]
 `;
 
 const chipDismissClasses = `
-  inline-flex items-center justify-center rounded-full h-16 w-16 shrink-0
-  hover:bg-color-background-default-hover focus-visible:ring-2
-  focus-visible:ring-comp-border-focus-ring focus-visible:ring-offset-2
+  inline-flex items-center justify-center rounded-full h-20 w-20 shrink-0 border-0
+  bg-color-background-brand group-hover:bg-color-background-brand-hover text-color-content-inverse
+  focus-visible:ring-2 focus-visible:ring-comp-border-focus-ring focus-visible:ring-offset-2
   focus-visible:ring-offset-color-background-default
 `;
 
 const startIconClasses = `
-  shrink-0 [&>svg]:size-4 py-(--spacing-1_5) inline-flex text-color-content-default
+  shrink-0 py-(--spacing-1_5) inline-flex text-color-content-default
 `;
 
 const endIconClasses = `
-  shrink-0 [&>svg]:size-4 py-(--spacing-1_5) inline-flex text-color-content-default
+  shrink-0 py-(--spacing-1_5) inline-flex text-color-content-default
 `;
 
 const inputClasses = `
@@ -210,7 +209,9 @@ export function Combobox({
   selectedIds: selectedIdsProp,
   defaultSelectedIds: defaultSelectedIdsProp,
   onSelectionChange,
+  open: openProp,
   defaultOpen = false,
+  onOpenChange,
   disabled = false,
   FormElementProps: formElementProps
 }: ComboboxProps) {
@@ -245,11 +246,23 @@ export function Combobox({
 
   const [internalOpen, setInternalOpen] = React.useState(defaultOpen);
 
+  const isOpenControlled = openProp !== undefined;
+  const open = isOpenControlled ? openProp : internalOpen;
+
   const inputRef = React.useRef<HTMLInputElement | null>(null);
+  const ignoreNextFocusOutsideRef = React.useRef(false);
+  const prevOpenRef = React.useRef(false);
 
   const handleInputRef = React.useCallback((node: HTMLInputElement | null) => {
     inputRef.current = node;
   }, []);
+
+  React.useEffect(() => {
+    if (!prevOpenRef.current && open) {
+      ignoreNextFocusOutsideRef.current = true;
+    }
+    prevOpenRef.current = open;
+  }, [open]);
 
   const updateSelection = React.useCallback(
     (nextSelected: string[]) => {
@@ -287,12 +300,20 @@ export function Combobox({
   }, [updateSelection]);
 
   const requestOpen = React.useCallback(() => {
-    setInternalOpen(true);
-  }, []);
+    if (isOpenControlled) {
+      onOpenChange?.(true);
+    } else {
+      setInternalOpen(true);
+    }
+  }, [isOpenControlled, onOpenChange]);
 
   const requestClose = React.useCallback(() => {
-    setInternalOpen(false);
-  }, []);
+    if (isOpenControlled) {
+      onOpenChange?.(false);
+    } else {
+      setInternalOpen(false);
+    }
+  }, [isOpenControlled, onOpenChange]);
 
   const listboxBaseId = React.useId();
   const listboxId = `${listboxBaseId}-listbox`;
@@ -302,7 +323,7 @@ export function Combobox({
   const inputProps: React.InputHTMLAttributes<HTMLInputElement> = {
     type: 'text',
     role: 'combobox',
-    'aria-expanded': internalOpen,
+    'aria-expanded': open,
     'aria-haspopup': 'listbox',
     'aria-autocomplete': 'none',
     'aria-controls': listboxId,
@@ -390,7 +411,7 @@ export function Combobox({
       data-disabled={disabled ? 'true' : undefined}
       data-has-selection={hasSelection ? 'true' : undefined}
     >
-      <Popover.Root open={internalOpen}>
+      <Popover.Root open={open} defaultOpen={defaultOpen}>
         <Popover.Anchor asChild>
           <div data-slot="anchor">
             <FormElement {...formElementProps} disabled={disabled} asChild>
@@ -418,7 +439,7 @@ export function Combobox({
             aria-multiselectable="true"
             className={panelClassName}
             data-slot="panel"
-            data-open={internalOpen ? 'true' : 'false'}
+            data-open={open ? 'true' : 'false'}
             side="bottom"
             align="start"
             sideOffset={4}
@@ -430,6 +451,13 @@ export function Combobox({
               inputRef.current?.focus();
             }}
             onPointerDownOutside={() => requestClose()}
+            onFocusOutside={() => {
+              if (ignoreNextFocusOutsideRef.current) {
+                ignoreNextFocusOutsideRef.current = false;
+                return;
+              }
+              requestClose();
+            }}
           >
             {items.length === 0 ? (
               <div className={emptyClassName} data-slot="empty" role="presentation">

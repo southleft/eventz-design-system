@@ -123,6 +123,7 @@
     --dt-comp-button-primary-color-content-active
   );
   --color-comp-form-color-background-default: var(--dt-comp-form-color-background-default);
+  --color-comp-form-color-background-hover: var(--dt-comp-form-color-background-hover);
   --color-comp-form-color-border-default: var(--dt-comp-form-color-border-default);
   --color-comp-form-color-border-utility-danger: var(--dt-comp-form-color-border-utility-danger);
   --portal-extra-width: 31px;
@@ -1270,6 +1271,9 @@
 .h-20 {
   height: calc(var(--spacing) * 20);
 }
+.h-22 {
+  height: calc(var(--spacing) * 22);
+}
 .h-24 {
   height: calc(var(--spacing) * 24);
 }
@@ -1290,9 +1294,6 @@
 }
 .min-h-0 {
   min-height: var(--spacing-0);
-}
-.w-16 {
-  width: calc(var(--spacing) * 16);
 }
 .w-20 {
   width: calc(var(--spacing) * 20);
@@ -1877,6 +1878,13 @@
   -webkit-user-select: none;
   user-select: none;
 }
+.group-hover\:bg-color-background-brand-hover {
+  &:is(:where(.group):hover *) {
+    @media (hover: hover) {
+      background-color: var(--color-color-background-brand-hover);
+    }
+  }
+}
 .group-hover\:bg-color-background-weak-hover {
   &:is(:where(.group):hover *) {
     @media (hover: hover) {
@@ -1983,6 +1991,13 @@
     }
   }
 }
+.hover\:bg-color-background-brand-hover {
+  &:hover {
+    @media (hover: hover) {
+      background-color: var(--color-color-background-brand-hover);
+    }
+  }
+}
 .hover\:bg-comp-button-color-background-default-blur-hover {
   &:hover {
     @media (hover: hover) {
@@ -2015,6 +2030,13 @@
   &:hover {
     @media (hover: hover) {
       background-color: var(--color-comp-button-primary-color-background-hover);
+    }
+  }
+}
+.hover\:bg-comp-form-color-background-hover {
+  &:hover {
+    @media (hover: hover) {
+      background-color: var(--color-comp-form-color-background-hover);
     }
   }
 }
@@ -2512,6 +2534,13 @@
   &[data-has-selection="true"] {
     & [data-slot=clearAll] {
       opacity: 100%;
+    }
+  }
+}
+.data-\[drag-over\=true\]\:\[\&_\[data-slot\=dropzone\]\]\:bg-comp-form-color-background-hover {
+  &[data-drag-over="true"] {
+    & [data-slot=dropzone] {
+      background-color: var(--color-comp-form-color-background-hover);
     }
   }
 }
