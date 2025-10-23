@@ -1,3 +1,5 @@
+'use client';
+
 import * as React from 'react';
 import { Popover } from 'radix-ui';
 import { composeClasses } from '../../utilities/composeClasses/composeClasses';
@@ -91,6 +93,8 @@ interface ComboboxOption {
 }
 
 type FormElementPassthroughProps = Omit<FormElementProps, 'children'>;
+
+const EMPTY_ITEMS: ComboboxOption[] = [];
 
 export function resolveClearedSelection(disabled: boolean, hasSelection: boolean): boolean {
   return !disabled && hasSelection;
@@ -210,19 +214,15 @@ export function Combobox({
   disabled = false,
   FormElementProps: formElementProps
 }: ComboboxProps) {
-  const items = React.useMemo(() => itemsProp ?? [], [itemsProp]);
+  const items = itemsProp ?? EMPTY_ITEMS;
   const initialSelectedRef = React.useRef<string[]>(defaultSelectedIdsProp ?? []);
-  const memoizedControlledSelectedIds = React.useMemo(
-    () => selectedIdsProp ?? [],
-    [selectedIdsProp]
-  );
 
   const isSelectionControlled = selectedIdsProp !== undefined;
   const [internalSelectedIds, setInternalSelectedIds] = React.useState<string[]>(
     initialSelectedRef.current
   );
 
-  const selectedIds = isSelectionControlled ? memoizedControlledSelectedIds : internalSelectedIds;
+  const selectedIds = isSelectionControlled ? selectedIdsProp : internalSelectedIds;
   const selectedIdsSet = React.useMemo(() => new Set(selectedIds), [selectedIds]);
 
   const itemsById = React.useMemo(() => {
@@ -256,7 +256,7 @@ export function Combobox({
       if (!isSelectionControlled) {
         setInternalSelectedIds(nextSelected);
       }
-      onSelectionChange?.(nextSelected);
+      onSelectionChange!(nextSelected);
     },
     [isSelectionControlled, onSelectionChange]
   );
