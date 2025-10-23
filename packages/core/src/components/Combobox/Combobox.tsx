@@ -92,6 +92,10 @@ interface ComboboxOption {
 
 type FormElementPassthroughProps = Omit<FormElementProps, 'children'>;
 
+export function resolveClearedSelection(disabled: boolean, hasSelection: boolean): boolean {
+  return !disabled && hasSelection;
+}
+
 type ComboboxFieldProps = Omit<React.HTMLAttributes<HTMLDivElement>, 'children'> & {
   disabled?: boolean;
   startIcon?: React.ReactNode;
@@ -191,313 +195,284 @@ export interface ComboboxProps {
   FormElementProps?: FormElementPassthroughProps;
 }
 
-export const Combobox = React.forwardRef<HTMLInputElement, ComboboxProps>(
-  (
-    {
-      menuItemType = 'simple',
-      startIcon,
-      showEndIcon = false,
-      endIcon,
-      placeholder,
-      items: itemsProp,
-      menuItemBorderBottom,
-      selectedIds: selectedIdsProp,
-      defaultSelectedIds: defaultSelectedIdsProp,
-      onSelectionChange,
-      defaultOpen = false,
-      disabled = false,
-      FormElementProps: formElementProps
+export function Combobox({
+  menuItemType = 'simple',
+  startIcon,
+  showEndIcon = false,
+  endIcon,
+  placeholder,
+  items: itemsProp,
+  menuItemBorderBottom,
+  selectedIds: selectedIdsProp,
+  defaultSelectedIds: defaultSelectedIdsProp,
+  onSelectionChange,
+  defaultOpen = false,
+  disabled = false,
+  FormElementProps: formElementProps
+}: ComboboxProps) {
+  const items = React.useMemo(() => itemsProp ?? [], [itemsProp]);
+  const initialSelectedRef = React.useRef<string[]>(defaultSelectedIdsProp ?? []);
+  const memoizedControlledSelectedIds = React.useMemo(
+    () => selectedIdsProp ?? [],
+    [selectedIdsProp]
+  );
+
+  const isSelectionControlled = selectedIdsProp !== undefined;
+  const [internalSelectedIds, setInternalSelectedIds] = React.useState<string[]>(
+    initialSelectedRef.current
+  );
+
+  const selectedIds = isSelectionControlled ? memoizedControlledSelectedIds : internalSelectedIds;
+  const selectedIdsSet = React.useMemo(() => new Set(selectedIds), [selectedIds]);
+
+  const itemsById = React.useMemo(() => {
+    const map = new Map<string, ComboboxOption>();
+    for (const item of items) {
+      map.set(item.id, item);
+    }
+    return map;
+  }, [items]);
+
+  const selectedItems = React.useMemo(
+    () =>
+      selectedIds
+        .map(id => itemsById.get(id))
+        .filter((item): item is ComboboxOption => Boolean(item)),
+    [itemsById, selectedIds]
+  );
+
+  const hasSelection = selectedItems.length > 0;
+
+  const [internalOpen, setInternalOpen] = React.useState(defaultOpen);
+
+  const inputRef = React.useRef<HTMLInputElement | null>(null);
+
+  const handleInputRef = React.useCallback((node: HTMLInputElement | null) => {
+    inputRef.current = node;
+  }, []);
+
+  const updateSelection = React.useCallback(
+    (nextSelected: string[]) => {
+      if (!isSelectionControlled) {
+        setInternalSelectedIds(nextSelected);
+      }
+      onSelectionChange?.(nextSelected);
     },
-    forwardedRef
-  ) => {
-    const items = React.useMemo(() => itemsProp ?? [], [itemsProp]);
-    const initialSelectedRef = React.useRef<string[]>(defaultSelectedIdsProp ?? []);
-    const memoizedControlledSelectedIds = React.useMemo(
-      () => selectedIdsProp ?? [],
-      [selectedIdsProp]
-    );
+    [isSelectionControlled, onSelectionChange]
+  );
 
-    const isSelectionControlled = selectedIdsProp !== undefined;
-    const [internalSelectedIds, setInternalSelectedIds] = React.useState<string[]>(
-      initialSelectedRef.current
-    );
+  const handleToggleSelection = React.useCallback(
+    (id: string) => {
+      const nextSelected = selectedIdsSet.has(id)
+        ? selectedIds.filter(existingId => existingId !== id)
+        : [...selectedIds, id];
 
-    const selectedIds = isSelectionControlled ? memoizedControlledSelectedIds : internalSelectedIds;
-    const selectedIdsSet = React.useMemo(() => new Set(selectedIds), [selectedIds]);
+      updateSelection(nextSelected);
+    },
+    [selectedIds, selectedIdsSet, updateSelection]
+  );
 
-    const itemsById = React.useMemo(() => {
-      const map = new Map<string, ComboboxOption>();
-      for (const item of items) {
-        map.set(item.id, item);
-      }
-      return map;
-    }, [items]);
+  const handleRemoveSelection = React.useCallback(
+    (id: string) => {
+      // Always compute the next selection by filtering out the id.
+      // If the id is not present, this yields the same array contents.
+      const next = selectedIds.filter(existingId => existingId !== id);
+      updateSelection(next);
+    },
+    [selectedIds, updateSelection]
+  );
 
-    const selectedItems = React.useMemo(
-      () =>
-        selectedIds
-          .map(id => itemsById.get(id))
-          .filter((item): item is ComboboxOption => Boolean(item)),
-      [itemsById, selectedIds]
-    );
+  const handleClearAll = React.useCallback(() => {
+    updateSelection([]);
+  }, [updateSelection]);
 
-    const hasSelection = selectedItems.length > 0;
+  const requestOpen = React.useCallback(() => {
+    setInternalOpen(true);
+  }, []);
 
-    const [internalOpen, setInternalOpen] = React.useState(defaultOpen);
+  const requestClose = React.useCallback(() => {
+    setInternalOpen(false);
+  }, []);
 
-    const inputRef = React.useRef<HTMLInputElement | null>(null);
+  const listboxBaseId = React.useId();
+  const listboxId = `${listboxBaseId}-listbox`;
 
-    const handleInputRef = React.useCallback(
-      (node: HTMLInputElement | null) => {
-        inputRef.current = node;
-        if (typeof forwardedRef === 'function') {
-          forwardedRef(node);
-        } else if (forwardedRef) {
-          forwardedRef.current = node;
-        }
-      },
-      [forwardedRef]
-    );
+  const inputPlaceholder = hasSelection ? undefined : placeholder;
 
-    const updateSelection = React.useCallback(
-      (nextSelected: string[]) => {
-        if (!isSelectionControlled) {
-          setInternalSelectedIds(nextSelected);
-        }
-        onSelectionChange?.(nextSelected);
-      },
-      [isSelectionControlled, onSelectionChange]
-    );
+  const inputProps: React.InputHTMLAttributes<HTMLInputElement> = {
+    type: 'text',
+    role: 'combobox',
+    'aria-expanded': internalOpen,
+    'aria-haspopup': 'listbox',
+    'aria-autocomplete': 'none',
+    'aria-controls': listboxId,
+    readOnly: true,
+    value: '',
+    placeholder: inputPlaceholder,
+    onClick: () => {
+      requestOpen();
+    }
+  };
 
-    const handleToggleSelection = React.useCallback(
-      (id: string) => {
-        if (disabled) {
-          return;
-        }
+  const menuItemClasses = `w-full`;
+  const menuItemClassName = collapseWhitespace(composeClasses(menuItemClasses));
 
-        const nextSelected = selectedIdsSet.has(id)
-          ? selectedIds.filter(existingId => existingId !== id)
-          : [...selectedIds, id];
+  const rootClassName = collapseWhitespace(
+    composeClasses(baseClasses, disabledStateClasses, hasSelectionStateClasses)
+  );
+  const panelClassName = collapseWhitespace(composeClasses(panelClasses, openStateClasses));
+  const emptyClassName = collapseWhitespace(composeClasses(emptyClasses));
+  const clearAllClassName = collapseWhitespace(composeClasses(clearAllClasses));
+  const chipsClassName = collapseWhitespace(composeClasses(chipsContainerClasses));
+  const chipClassName = collapseWhitespace(composeClasses(chipClasses));
+  const chipDismissClassName = collapseWhitespace(composeClasses(chipDismissClasses));
+  const startIconClassName = collapseWhitespace(composeClasses(startIconClasses));
+  const endIconClassName = collapseWhitespace(composeClasses(endIconClasses));
+  const inputClassName = collapseWhitespace(composeClasses(inputClasses));
 
-        updateSelection(nextSelected);
-      },
-      [disabled, selectedIds, selectedIdsSet, updateSelection]
-    );
+  const resolvedBorderBottom =
+    menuItemBorderBottom !== undefined ? menuItemBorderBottom : menuItemType === 'simple';
 
-    const handleRemoveSelection = React.useCallback(
-      (id: string) => {
-        if (disabled || !selectedIdsSet.has(id)) {
-          return;
-        }
-        updateSelection(selectedIds.filter(existingId => existingId !== id));
-      },
-      [disabled, selectedIds, selectedIdsSet, updateSelection]
-    );
+  const resolvedEndIcon = endIcon ?? <CloseIcon aria-hidden="true" />;
+  const endIconSpan = showEndIcon && !hasSelection ? resolvedEndIcon : null;
 
-    const handleClearAll = React.useCallback(() => {
-      if (disabled || !hasSelection) {
-        return;
-      }
-      updateSelection([]);
-    }, [disabled, hasSelection, updateSelection]);
+  const clearAllButton =
+    showEndIcon && hasSelection ? (
+      <button
+        type="button"
+        className={clearAllClassName}
+        data-slot="clearAll"
+        data-role="clear-all"
+        aria-label="Clear all selections"
+        tabIndex={-1}
+        onMouseDown={event => {
+          event.preventDefault();
+        }}
+        onClick={() => {
+          handleClearAll();
+          inputRef.current!.focus();
+        }}
+        disabled={disabled}
+      >
+        {resolvedEndIcon}
+      </button>
+    ) : null;
 
-    const requestOpen = React.useCallback(() => {
-      if (disabled) {
-        return;
-      }
-      setInternalOpen(prev => (prev ? prev : true));
-    }, [disabled]);
-
-    const requestClose = React.useCallback(() => {
-      setInternalOpen(prev => (prev ? false : prev));
-    }, []);
-
-    const listboxBaseId = React.useId();
-    const listboxId = `${listboxBaseId}-listbox`;
-
-
-    const inputPlaceholder = hasSelection ? undefined : placeholder;
-
-    const inputProps: React.InputHTMLAttributes<HTMLInputElement> = {
-      type: 'text',
-      role: 'combobox',
-      'aria-expanded': internalOpen,
-      'aria-haspopup': 'listbox',
-      'aria-autocomplete': 'none',
-      'aria-controls': listboxId,
-      readOnly: true,
-      value: '',
-      placeholder: inputPlaceholder,
-      onClick: () => {
-        requestOpen();
-      }
-    };
-
-    const menuItemClasses = `w-full`;
-    const menuItemClassName = collapseWhitespace(composeClasses(menuItemClasses));
-
-    const rootClassName = collapseWhitespace(
-      composeClasses(baseClasses, disabledStateClasses, hasSelectionStateClasses)
-    );
-    const panelClassName = collapseWhitespace(composeClasses(panelClasses, openStateClasses));
-    const emptyClassName = collapseWhitespace(composeClasses(emptyClasses));
-    const clearAllClassName = collapseWhitespace(composeClasses(clearAllClasses));
-    const chipsClassName = collapseWhitespace(composeClasses(chipsContainerClasses));
-    const chipClassName = collapseWhitespace(composeClasses(chipClasses));
-    const chipDismissClassName = collapseWhitespace(composeClasses(chipDismissClasses));
-    const startIconClassName = collapseWhitespace(composeClasses(startIconClasses));
-    const endIconClassName = collapseWhitespace(composeClasses(endIconClasses));
-    const inputClassName = collapseWhitespace(composeClasses(inputClasses));
-
-    const resolvedBorderBottom =
-      menuItemBorderBottom !== undefined ? menuItemBorderBottom : menuItemType === 'simple';
-
-    const clearAllButton =
-      showEndIcon && hasSelection ? (
+  const chipsMarkup = selectedItems.map(item => {
+    const optionLabel = item.option;
+    return (
+      <span key={item.id} className={chipClassName} data-slot="chip">
+        <span>{optionLabel}</span>
         <button
           type="button"
-          className={clearAllClassName}
-          data-slot="clearAll"
-          data-role="clear-all"
-          aria-label="Clear all selections"
+          className={chipDismissClassName}
+          data-slot="chipDismiss"
+          aria-label={`Remove ${optionLabel}`}
           tabIndex={-1}
           onMouseDown={event => {
             event.preventDefault();
           }}
           onClick={() => {
-            handleClearAll();
-            inputRef.current?.focus();
+            handleRemoveSelection(item.id);
+            inputRef.current!.focus();
           }}
           disabled={disabled}
         >
-          {(endIcon ?? <CloseIcon aria-hidden="true" />) as React.ReactNode}
+          <CloseIcon aria-hidden="true" />
         </button>
-      ) : null;
+      </span>
+    );
+  });
 
-    const chipsMarkup = selectedItems.map(item => {
-      const optionLabel = item.option;
-      return (
-        <span key={item.id} className={chipClassName} data-slot="chip">
-          <span>{optionLabel}</span>
-          <button
-            type="button"
-            className={chipDismissClassName}
-            data-slot="chipDismiss"
-            aria-label={`Remove ${optionLabel}`}
-            tabIndex={-1}
-            onMouseDown={event => {
+  return (
+    <div
+      className={rootClassName}
+      data-disabled={disabled ? 'true' : undefined}
+      data-has-selection={hasSelection ? 'true' : undefined}
+    >
+      <Popover.Root open={internalOpen}>
+        <Popover.Anchor asChild>
+          <div data-slot="anchor">
+            <FormElement {...formElementProps} disabled={disabled} asChild>
+              <ComboboxField
+                startIcon={startIcon}
+                chips={chipsMarkup}
+                clearAll={clearAllButton}
+                chipsClassName={chipsClassName}
+                startIconClassName={startIconClassName}
+                endIcon={endIconSpan}
+                endIconClassName={endIconClassName}
+                inputClassName={inputClassName}
+                inputProps={inputProps}
+                inputRef={handleInputRef}
+                data-disabled={disabled ? 'true' : undefined}
+              />
+            </FormElement>
+          </div>
+        </Popover.Anchor>
+        <Popover.Portal>
+          <Popover.Content
+            forceMount
+            id={listboxId}
+            role="listbox"
+            aria-multiselectable="true"
+            className={panelClassName}
+            data-slot="panel"
+            data-open={internalOpen ? 'true' : 'false'}
+            side="bottom"
+            align="start"
+            sideOffset={4}
+            onOpenAutoFocus={event => {
               event.preventDefault();
             }}
-            onClick={() => {
-              handleRemoveSelection(item.id);
+            onCloseAutoFocus={event => {
+              event.preventDefault();
               inputRef.current?.focus();
             }}
-            disabled={disabled}
+            onPointerDownOutside={() => requestClose()}
           >
-            <CloseIcon aria-hidden="true" />
-          </button>
-        </span>
-      );
-    });
-
-    const endIconSpan =
-      showEndIcon && !hasSelection
-        ? ((endIcon ?? <CloseIcon aria-hidden="true" />) as React.ReactNode)
-        : null;
-
-
-    return (
-      <div
-        className={rootClassName}
-        data-disabled={disabled ? 'true' : undefined}
-        data-has-selection={hasSelection ? 'true' : undefined}
-      >
-        <Popover.Root open={internalOpen}>
-          <Popover.Anchor asChild>
-            <div data-slot="anchor">
-              <FormElement {...(formElementProps ?? {})} disabled={disabled} asChild>
-                <ComboboxField
-                  startIcon={startIcon}
-                  chips={chipsMarkup}
-                  clearAll={clearAllButton}
-                  chipsClassName={chipsClassName}
-                  startIconClassName={startIconClassName}
-                  endIcon={endIconSpan}
-                  endIconClassName={endIconClassName}
-                  inputClassName={inputClassName}
-                  inputProps={inputProps}
-                  inputRef={handleInputRef}
-                  data-disabled={disabled ? 'true' : undefined}
-                />
-              </FormElement>
-            </div>
-          </Popover.Anchor>
-          <Popover.Portal>
-            <Popover.Content
-              forceMount
-              id={listboxId}
-              role="listbox"
-              aria-multiselectable="true"
-              className={panelClassName}
-              data-slot="panel"
-              data-open={internalOpen ? 'true' : 'false'}
-              side="bottom"
-              align="start"
-              sideOffset={4}
-              onOpenAutoFocus={event => {
-                event.preventDefault();
-              }}
-              onCloseAutoFocus={event => {
-                event.preventDefault();
-                inputRef.current?.focus();
-              }}
-              onPointerDownOutside={() => {
-                requestClose();
-              }}
-            >
-              {items.length === 0 ? (
-                <div className={emptyClassName} data-slot="empty" role="presentation">
-                  No options available
-                </div>
-              ) : (
-                items.map(item => {
-                  const optionId = `${listboxId}-option-${item.id}`;
-                  const isSelected = selectedIdsSet.has(item.id);
-                  return (
-                    <MenuItem
-                      key={item.id}
-                      id={optionId}
-                      data-slot="menuItem"
-                      className={menuItemClassName}
-                      role="option"
-                      aria-selected={isSelected}
-                      option={item.option}
-                      supportingText={item.supportingText}
-                      startIcon={item.startIcon}
-                      imgSrc={item.imgSrc}
-                      imgAlt={item.imgAlt}
-                      mediaIcon={item.mediaIcon}
-                      ariaLabel={item.ariaLabel}
-                      type={menuItemType}
-                      borderBottom={resolvedBorderBottom}
-                      isSelected={isSelected}
-                      disabled={disabled}
-                      onMouseDown={event => {
-                        event.preventDefault();
-                      }}
-                      onClick={() => {
-                        handleToggleSelection(item.id);
-                      }}
-                    />
-                  );
-                })
-              )}
-            </Popover.Content>
-          </Popover.Portal>
-        </Popover.Root>
-      </div>
-    );
-  }
-);
+            {items.length === 0 ? (
+              <div className={emptyClassName} data-slot="empty" role="presentation">
+                No options available
+              </div>
+            ) : (
+              items.map(item => {
+                const optionId = `${listboxId}-option-${item.id}`;
+                const isSelected = selectedIdsSet.has(item.id);
+                return (
+                  <MenuItem
+                    key={item.id}
+                    id={optionId}
+                    data-slot="menuItem"
+                    className={menuItemClassName}
+                    role="option"
+                    aria-selected={isSelected}
+                    option={item.option}
+                    supportingText={item.supportingText}
+                    startIcon={item.startIcon}
+                    imgSrc={item.imgSrc}
+                    imgAlt={item.imgAlt}
+                    mediaIcon={item.mediaIcon}
+                    ariaLabel={item.ariaLabel}
+                    type={menuItemType}
+                    borderBottom={resolvedBorderBottom}
+                    isSelected={isSelected}
+                    disabled={disabled}
+                    onMouseDown={event => {
+                      event.preventDefault();
+                    }}
+                    onClick={() => {
+                      handleToggleSelection(item.id);
+                    }}
+                  />
+                );
+              })
+            )}
+          </Popover.Content>
+        </Popover.Portal>
+      </Popover.Root>
+    </div>
+  );
+}
 
 Combobox.displayName = 'Combobox';
