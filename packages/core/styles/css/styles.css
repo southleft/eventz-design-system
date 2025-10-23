@@ -1132,6 +1132,9 @@
   white-space: nowrap;
   border-width: 0;
 }
+.\!relative {
+  position: relative !important;
+}
 .absolute {
   position: absolute;
 }
@@ -1189,6 +1192,9 @@
 .-mt-8 {
   margin-top: calc(var(--spacing) * -8);
 }
+.-mt-\[30px\] {
+  margin-top: calc(30px * -1);
+}
 .mt-0\.5 {
   margin-top: var(--spacing-0_5);
 }
@@ -1200,6 +1206,9 @@
 }
 .mt-\[2px\] {
   margin-top: 2px;
+}
+.mt-\[45px\] {
+  margin-top: 45px;
 }
 .mt-auto {
   margin-top: auto;
@@ -1224,6 +1233,9 @@
 }
 .ml-12 {
   margin-left: calc(var(--spacing) * 12);
+}
+.ml-\[14px\] {
+  margin-left: 14px;
 }
 .box-border {
   box-sizing: border-box;
@@ -1321,6 +1333,9 @@
 }
 .w-\[192px\] {
   width: 192px;
+}
+.w-\[var\(--radix-popper-anchor-width\)\] {
+  width: var(--radix-popper-anchor-width);
 }
 .w-full {
   width: 100%;

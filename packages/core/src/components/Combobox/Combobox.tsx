@@ -12,9 +12,12 @@ const baseClasses = `
   relative inline-block w-full
 `;
 
+const anchorClasses = `relative inline-block`;
+
 const panelClasses = `
-  mt-1 w-full rounded-md border bg-comp-combobox-popover-color-background-default
-  border-comp-combobox-popover-color-border-default shadow p-1 z-50
+  rounded-md border border-color-border-subtle z-50 overflow-hidden ml-[14px] -mt-[30px]
+  border-color-border-subtle bg-color-background-default content-center
+
 `;
 
 const emptyClasses = `
@@ -350,6 +353,7 @@ export function Combobox({
   const startIconClassName = collapseWhitespace(composeClasses(startIconClasses));
   const endIconClassName = collapseWhitespace(composeClasses(endIconClasses));
   const inputClassName = collapseWhitespace(composeClasses(inputClasses));
+  const anchorClassName = collapseWhitespace(composeClasses(anchorClasses));
 
   const resolvedBorderBottom =
     menuItemBorderBottom !== undefined ? menuItemBorderBottom : menuItemType === 'simple';
@@ -413,7 +417,7 @@ export function Combobox({
     >
       <Popover.Root open={open} defaultOpen={defaultOpen}>
         <Popover.Anchor asChild>
-          <div data-slot="anchor">
+          <div className={anchorClassName} data-slot="anchor">
             <FormElement {...formElementProps} disabled={disabled} asChild>
               <ComboboxField
                 startIcon={startIcon}
@@ -438,6 +442,9 @@ export function Combobox({
             role="listbox"
             aria-multiselectable="true"
             className={panelClassName}
+            style={{
+              width: 'calc(var(--radix-popper-anchor-width) - var(--portal-extra-width))'
+            }}
             data-slot="panel"
             data-open={open ? 'true' : 'false'}
             side="bottom"
@@ -448,7 +455,6 @@ export function Combobox({
             }}
             onCloseAutoFocus={event => {
               event.preventDefault();
-              inputRef.current?.focus();
             }}
             onPointerDownOutside={() => requestClose()}
             onFocusOutside={() => {
