@@ -1,3 +1,5 @@
+'use client';
+
 // packages/core/src/components/ExpandableContent/ExpandableContent.tsx
 import * as React from 'react';
 import { KeyboardArrowDownIcon } from '../../icons';
