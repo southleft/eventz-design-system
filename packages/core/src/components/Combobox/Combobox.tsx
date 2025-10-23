@@ -15,7 +15,7 @@ const baseClasses = `
 const anchorClasses = `relative inline-block`;
 
 const panelClasses = `
-  rounded-md border border-color-border-subtle z-50 overflow-hidden ml-[14px] -mt-[30px]
+  rounded-md border border-color-border-subtle z-50 overflow-hidden ml-[14px] -mt-[28px]
   border-color-border-subtle bg-color-background-default content-center
 
 `;

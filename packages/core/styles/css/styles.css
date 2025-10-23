@@ -1192,6 +1192,9 @@
 .-mt-8 {
   margin-top: calc(var(--spacing) * -8);
 }
+.-mt-\[28px\] {
+  margin-top: calc(28px * -1);
+}
 .-mt-\[30px\] {
   margin-top: calc(30px * -1);
 }
