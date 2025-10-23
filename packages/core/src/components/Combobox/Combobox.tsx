@@ -226,7 +226,12 @@ export function Combobox({
     initialSelectedRef.current
   );
 
-  const selectedIds = isSelectionControlled ? selectedIdsProp : internalSelectedIds;
+  const selectedIds = React.useMemo<string[]>(() => {
+    if (isSelectionControlled && selectedIdsProp) {
+      return selectedIdsProp;
+    }
+    return internalSelectedIds;
+  }, [isSelectionControlled, selectedIdsProp, internalSelectedIds]);
   const selectedIdsSet = React.useMemo(() => new Set(selectedIds), [selectedIds]);
 
   const itemsById = React.useMemo(() => {
@@ -272,7 +277,9 @@ export function Combobox({
       if (!isSelectionControlled) {
         setInternalSelectedIds(nextSelected);
       }
-      onSelectionChange!(nextSelected);
+      if (onSelectionChange) {
+        onSelectionChange(nextSelected);
+      }
     },
     [isSelectionControlled, onSelectionChange]
   );
@@ -305,17 +312,17 @@ export function Combobox({
   const requestOpen = React.useCallback(() => {
     if (isOpenControlled) {
       onOpenChange?.(true);
-    } else {
-      setInternalOpen(true);
+      return;
     }
+    setInternalOpen(true);
   }, [isOpenControlled, onOpenChange]);
 
   const requestClose = React.useCallback(() => {
     if (isOpenControlled) {
-      onOpenChange?.(false);
-    } else {
-      setInternalOpen(false);
+      onOpenChange!(false);
+      return;
     }
+    setInternalOpen(false);
   }, [isOpenControlled, onOpenChange]);
 
   const listboxBaseId = React.useId();
