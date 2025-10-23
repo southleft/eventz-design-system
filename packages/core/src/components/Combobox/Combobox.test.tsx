@@ -471,6 +471,84 @@ describe('Combobox', () => {
     expect(artists).toHaveAttribute('aria-selected', 'true');
   });
 
+  it('toggles the panel with Space and Enter, and closes with Escape', async () => {
+    const user = userEvent.setup();
+    render(<Combobox items={baseItems} FormElementProps={{ label: 'Categories' }} />);
+
+    const input = screen.getByRole('combobox');
+
+    act(() => {
+      input.focus();
+    });
+
+    await user.keyboard(' ');
+    const afterSpaceOpen = input.getAttribute('aria-expanded');
+
+    await user.keyboard(' ');
+    const afterSpaceClose = input.getAttribute('aria-expanded');
+
+    await user.keyboard('{Enter}');
+    const afterEnterOpen = input.getAttribute('aria-expanded');
+
+    await user.keyboard('{Escape}');
+    const afterEscapeClose = input.getAttribute('aria-expanded');
+    const focused = document.activeElement;
+
+    expect({
+      states: [afterSpaceOpen, afterSpaceClose, afterEnterOpen, afterEscapeClose],
+      focused
+    }).toEqual({
+      states: ['true', 'false', 'true', 'false'],
+      focused: input
+    });
+  });
+
+  it('keeps focus on the input when Escape is pressed while closed', () => {
+    render(<Combobox items={baseItems} FormElementProps={{ label: 'Categories' }} />);
+
+    const input = screen.getByRole('combobox');
+
+    act(() => {
+      input.focus();
+    });
+
+    fireEvent.keyDown(input, { key: 'Escape' });
+
+    expect({
+      expanded: input.getAttribute('aria-expanded'),
+      focused: document.activeElement
+    }).toEqual({
+      expanded: 'false',
+      focused: input
+    });
+  });
+
+  it('ignores keyboard toggles when disabled', () => {
+    const handleOpenChange = jest.fn<void, [boolean]>();
+
+    render(
+      <Combobox
+        items={baseItems}
+        disabled
+        onOpenChange={handleOpenChange}
+        FormElementProps={{ label: 'Categories' }}
+      />
+    );
+
+    const input = screen.getByRole('combobox');
+
+    fireEvent.keyDown(input, { key: ' ' });
+    fireEvent.keyDown(input, { key: 'Enter' });
+    fireEvent.keyDown(input, { key: 'Escape' });
+
+    const summary = {
+      calls: handleOpenChange.mock.calls,
+      expanded: input.getAttribute('aria-expanded')
+    };
+
+    expect(summary).toEqual({ calls: [], expanded: 'false' });
+  });
+
   it('keeps the combobox open when controlled without an onOpenChange handler on focus-out', async () => {
     function ControlledCombobox() {
       const [open] = React.useState(true);
@@ -585,6 +663,34 @@ describe('Combobox', () => {
         lastCall: [false],
         expanded: 'false'
       });
+    });
+  });
+
+  it('ignores unrelated keys on the input', () => {
+    const handleOpenChange = jest.fn<void, [boolean]>();
+
+    render(
+      <Combobox
+        items={baseItems}
+        onOpenChange={handleOpenChange}
+        FormElementProps={{ label: 'Categories' }}
+      />
+    );
+
+    const input = screen.getByRole('combobox');
+
+    act(() => {
+      input.focus();
+    });
+
+    fireEvent.keyDown(input, { key: 'ArrowDown' });
+
+    expect({
+      expanded: input.getAttribute('aria-expanded'),
+      calls: handleOpenChange.mock.calls
+    }).toEqual({
+      expanded: 'false',
+      calls: []
     });
   });
 

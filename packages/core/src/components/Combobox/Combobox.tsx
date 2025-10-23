@@ -342,6 +342,32 @@ export function Combobox({
     placeholder: inputPlaceholder,
     onClick: () => {
       requestOpen();
+    },
+    onKeyDown: e => {
+      if (disabled) return;
+
+      switch (e.key) {
+        case ' ': // Space
+        case 'Enter': {
+          e.preventDefault();
+          if (open) {
+            requestClose();
+          } else {
+            requestOpen();
+          }
+          return;
+        }
+        case 'Escape': {
+          e.preventDefault();
+          if (open) {
+            requestClose();
+          }
+          inputRef.current!.focus();
+          return;
+        }
+        default:
+          return;
+      }
     }
   };
 
