@@ -1,3 +1,5 @@
+'use client';
+
 // packages/core/src/components/Button/Button.tsx
 import * as React from 'react';
 import { Slot } from 'radix-ui';

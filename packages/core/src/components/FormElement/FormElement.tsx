@@ -1,3 +1,5 @@
+'use client';
+
 import * as React from 'react';
 import { Label, Slot } from 'radix-ui';
 import { ErrorIcon } from '../../icons';

@@ -1,3 +1,5 @@
+'use client';
+
 import * as React from 'react';
 import { Select as RadixSelect } from 'radix-ui';
 import { Input, type InputProps } from '../Input';

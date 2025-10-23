@@ -1,3 +1,5 @@
+'use client';
+
 import * as React from 'react';
 import { createRoot, Root } from 'react-dom/client';
 import { DateRangePicker, DateRangePickerProps } from 'rsuite';

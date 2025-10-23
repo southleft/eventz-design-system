@@ -1,3 +1,5 @@
+'use client';
+
 import * as React from 'react';
 import { Dialog as RadixDialog } from 'radix-ui';
 import { IconButton } from '../IconButton';
