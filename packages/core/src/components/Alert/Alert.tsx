@@ -1,3 +1,5 @@
+'use client';
+
 // packages/core/src/components/Alert/Alert.tsx
 import * as React from 'react';
 import { collapseWhitespace, composeClasses } from '../../utilities';

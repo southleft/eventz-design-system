@@ -1,3 +1,5 @@
+'use client';
+
 import * as React from 'react';
 import { ErrorIcon } from '../../icons';
 import { composeClasses } from '../../utilities/composeClasses/composeClasses';

@@ -1,3 +1,5 @@
+'use client';
+
 // packages/core/src/components/RadioButtonGroup/RadioButtonGroup.tsx
 import * as React from 'react';
 import { Label, RadioGroup } from 'radix-ui';

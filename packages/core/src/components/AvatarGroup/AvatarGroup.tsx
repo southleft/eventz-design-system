@@ -1,3 +1,5 @@
+'use client';
+
 import * as React from 'react';
 import { Avatar } from 'radix-ui';
 import { collapseWhitespace, composeClasses } from '../../utilities';

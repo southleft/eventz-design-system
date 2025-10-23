@@ -1,3 +1,5 @@
+'use client';
+
 // packages/core/src/components/Checkbox/Checkbox.tsx
 import * as React from 'react';
 import { Checkbox as RadixCheckbox } from 'radix-ui';
