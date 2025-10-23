@@ -3,8 +3,8 @@ import { defineContract } from '../../utilities';
 export const ComboboxContract = defineContract({
   component: 'Combobox',
   description:
-    'Multi-select text-combo with chips and a suggestion panel. Field chrome, label/info, focus ring, and messaging come from FormElement; the results panel uses Radix Popover; rows render with MenuItem. Single-select is out of scope (use Select).',
-  base: 'Popover', // Radix Primitive used for the results panel
+    'Multi-select text combo with chips, clear-all affordance, and a suggestion panel. The outer field shell comes from FormElement; results render inside a Radix Popover anchored to the field; list rows use MenuItem.',
+  base: 'div',
 
   props: {
     /** Uniform MenuItem type for the whole list. */
@@ -97,7 +97,7 @@ export const ComboboxContract = defineContract({
     disabled: {
       type: 'boolean',
       default: false,
-      description: 'When true, field is inert and popover must not open.'
+      description: 'When true, field is inert and the popover never opens.'
     },
 
     /** Pass-through to the FormElement shell. */
@@ -117,20 +117,31 @@ export const ComboboxContract = defineContract({
     }
   },
 
-  // Internal composition hints (no public slots): panel and list are internal but listed for style parity.
-  slots: ['anchor', 'panel', 'list', 'empty', 'chips', 'chip', 'chipDismiss', 'startIcon', 'menuItem', 'input'] as const,
+  slots: [
+    'anchor',
+    'panel',
+    'empty',
+    'chips',
+    'chip',
+    'chipDismiss',
+    'clearAll',
+    'startIcon',
+    'endIcon',
+    'menuItem',
+    'input'
+  ] as const,
 
   layout: {
     type: 'container',
-    tag: 'Popover.Root',
+    tag: 'div',
     children: [
-      // Field shell is implemented via FormElement; Popover.Anchor wraps it via asChild.
-      { slot: 'anchor' },
       {
-        slot: 'panel',
         type: 'container',
-        tag: 'Popover.Content',
-        children: [{ slot: 'list', tag: 'ul' }]
+        tag: 'Popover.Root',
+        children: [
+          { slot: 'anchor' }, // rendered via Popover.Anchor asChild around FormElement field
+          { slot: 'panel' } // Popover.Content containing the option list
+        ]
       }
     ]
   },
@@ -160,6 +171,9 @@ export const ComboboxContract = defineContract({
       hint: 'When startIcon is provided, render it before chips and input in the field content area. When not provided, do not reserve space.'
     },
     {
+      hint: 'When endIcon is provided and showEndIcon && !hasSelection, render it in the endIcon slot for visual parity; otherwise default to CloseIcon.'
+    },
+    {
       when: { menuItemType: 'simple' },
       hint: 'Default resolution: When menuItemType is "simple" and menuItemBorderBottom is not provided, treat menuItemBorderBottom as true.'
     },
@@ -171,31 +185,19 @@ export const ComboboxContract = defineContract({
       hint: 'Use <Popover.Anchor asChild> to wrap the field shell (FormElement region). Do not use Popover.Trigger. The component controls open/close via props/state.'
     },
     {
-      hint: 'Open state: derive from open ?? internal state (defaultOpen). Set open=true on field focus or click (unless disabled). Do not open when disabled=true.'
+      hint: 'Open state: derive from open ?? internal state (defaultOpen). Set open=true on field click or via keyboard toggles (unless disabled). Do not open when disabled=true.'
     },
     {
-      hint: 'Close state: set open=false on outside click, on Escape key from the field or panel, and when the component loses focus contextually (standard Popover behavior).' 
+      hint: 'Close state: set open=false on outside click, on Escape from the input, and when the component loses focus contextually (standard Popover behavior).'
+    },
+    {
+      hint: 'Keyboard: on the input, Space/Enter toggle open/close, Escape always closes (if open) and returns focus to the input. Ignore other keys.'
     },
     {
       hint: 'Selection behavior: selecting or deselecting items or chips must not close the Popover (multi-select UX).'
     },
     {
       hint: 'Clear-all behavior: clicking the end icon (when showEndIcon) clears selections only and must not change open state.'
-    },
-    {
-      hint: 'List rows: define a local const menuItemClasses = \'w-full\'. Compose a const menuItemClassName using collapseWhitespace(menuItemClasses) and composeClasses, then pass menuItemClassName to each MenuItem’s className. Use literal tokens that match the styleMap.menuItem slot; do not inline \'w-full\' directly on the component.'
-    },
-    {
-      hint: 'Input (phase one): Render a native <input type="text" readOnly> inside the FormElement value region. It acts as the focus anchor and popover opener. Bind only accessibility and placeholder; do not implement filtering or typing in phase one.'
-    },
-    {
-      hint: 'Input a11y: set aria-readonly="true", aria-haspopup="listbox", bind aria-expanded to open, and set aria-controls to the panel id when the popover content is mounted.'
-    },
-    {
-      hint: 'Input a11y ids: generate a stable id for the popover content (e.g., with useId) and set aria-controls on the input to that id when the panel is mounted.'
-    },
-    {
-      hint: 'Placeholder passthrough: When selectedIds.length === 0, pass the placeholder prop value to the input’s placeholder attribute. When selectedIds.length > 0, omit the placeholder attribute entirely (do not use CSS to hide it).'
     },
     {
       hint: 'End icon placement: When showEndIcon is true and selectedIds.length === 0, render the clear-all button at the end of the input line. When selectedIds.length > 0, render the clear-all button immediately after the last chip (visually following chips even if this places it beyond the input).'

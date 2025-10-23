@@ -4,26 +4,20 @@ export const ComboboxStyleMap = defineStyleMap({
   base: ['relative', 'inline-block', 'w-full'] as const,
 
   slots: {
-    /** Anchor wrapper used with Popover.Anchor asChild (no visual tokens). */
-    anchor: [] as const,
+    anchor: ['relative', 'inline-block'] as const,
 
-    /** Popover panel wrapping the list; width matches field; tokenized background/border. */
     panel: [
-      'mt-1',
-      'w-full',
       'rounded-md',
       'border',
-      'bg-comp-combobox-popover-color-background-default',
-      'border-comp-combobox-popover-color-border-default',
-      'shadow',
-      'p-1',
-      'z-50'
+      'border-color-border-subtle',
+      'z-50',
+      'overflow-hidden',
+      'ml-[14px]',
+      '-mt-[28px]',
+      'bg-color-background-default',
+      'content-center'
     ] as const,
 
-    /** Scroll container for options. */
-    list: ['max-h-60', 'overflow-auto', 'py-0.5'] as const,
-
-    /** Empty-state row styling (when no matches). */
     empty: ['text-color-content-subtle', 'text-xs', 'px-2', 'py-1.5'] as const,
 
     clearAll: [
@@ -31,12 +25,9 @@ export const ComboboxStyleMap = defineStyleMap({
       'items-center',
       'justify-center',
       'rounded-full',
-      'h-20',
-      'w-20',
       'border-0',
       'bg-background-none',
       'text-color-content-default',
-      'hover:bg-color-background-default-hover',
       'focus-visible:outline-none',
       'focus-visible:ring-2',
       'focus-visible:ring-comp-border-focus-ring',
@@ -46,61 +37,64 @@ export const ComboboxStyleMap = defineStyleMap({
       'opacity-0'
     ] as const,
 
-    /** Container for selected chips inline before the input. */
     chips: ['flex', 'flex-wrap', 'items-center', 'gap-1', 'py-0.5'] as const,
 
-    /** Individual chip pill. */
     chip: [
       'inline-flex',
       'items-center',
       'gap-1',
       'rounded-xs',
-      'border',
-      'border-color-border-subtle',
-      'bg-color-background-default-subtle',
-      'text-color-content-default',
+      'border-0',
       'text-xs',
       'font-medium',
       'leading-[18px]',
+      'bg-color-background-brand',
+      'hover:bg-color-background-brand-hover',
+      'text-color-content-inverse',
       'px-2',
-      'h-24',
+      'h-22',
       'transition-colors',
-      'hover:bg-color-background-default-hover',
+      'group',
       'focus-visible:outline-none',
       'focus-visible:ring-2',
       'focus-visible:ring-comp-border-focus-ring',
       'focus-visible:ring-offset-[-4px]'
     ] as const,
 
-    /** Dismiss button inside the chip (icon-only). */
     chipDismiss: [
       'inline-flex',
       'items-center',
       'justify-center',
       'rounded-full',
-      'h-16',
-      'w-16',
+      'h-20',
+      'w-20',
       'shrink-0',
-      'hover:bg-color-background-default-hover',
+      'border-0',
+      'bg-color-background-brand',
+      'group-hover:bg-color-background-brand-hover',
+      'text-color-content-inverse',
       'focus-visible:ring-2',
       'focus-visible:ring-comp-border-focus-ring',
       'focus-visible:ring-offset-2',
       'focus-visible:ring-offset-color-background-default'
     ] as const,
 
-    /** Leading icon inside the field (optional; no reserved space when absent). */
     startIcon: [
       'shrink-0',
-      '[&>svg]:size-4',
       'py-(--spacing-1_5)',
       'inline-flex',
       'text-color-content-default'
     ] as const,
 
-    /** Per-row MenuItem class tokens (full-width). */
+    endIcon: [
+      'shrink-0',
+      'py-(--spacing-1_5)',
+      'inline-flex',
+      'text-color-content-default'
+    ] as const,
+
     menuItem: ['w-full'] as const,
 
-    /** Inner text input inside the field (combobox query). */
     input: [
       'min-w-0',
       'flex-1',
@@ -109,7 +103,9 @@ export const ComboboxStyleMap = defineStyleMap({
       'border-0',
       'text-color-content-default',
       'placeholder:text-color-content-subtle',
-      'focus:placeholder:opacity-0'
+      'focus:placeholder:opacity-0',
+      'caret-transparent',
+      'select-none'
     ] as const
   },
 
