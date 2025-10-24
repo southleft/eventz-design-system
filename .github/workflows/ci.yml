@@ -18,5 +18,5 @@ jobs:
       - run: pnpm -w type-check
       - run: pnpm agents:verify
       - run: pnpm -w test
-      - run: pnpm --filter @doxyz/core build
-      - run: pnpm --filter @doxyz/core exec npm pack --dry-run
+      - run: pnpm --filter @doxyz-ui/core build
+      - run: pnpm --filter @doxyz-ui/core exec npm pack --dry-run

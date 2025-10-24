@@ -1,16 +1,16 @@
-# 🤖 AGENTS.md – @doxyz/core
+# 🤖 AGENTS.md – @doxyz-ui/core
 
-This file defines how AI agents interact with the `@doxyz/core` package, which houses the core component library and Tailwind configuration used by the MCP server.
+This file defines how AI agents interact with the `@doxyz-ui/core` package, which houses the core component library and Tailwind configuration used by the MCP server.
 
 ---
 
 ## 📦 Package Purpose
 
-`@doxyz/core` contains:
+`@doxyz-ui/core` contains:
 
 - Primitives and foundational UI components (e.g., Button, Dialog)
 - Tailwind configuration and token mappings
-- Generated components created from blueprints in `@doxyz/blueprints`
+- Generated components created from blueprints in `@doxyz-ui/blueprints`
 
 ---
 
@@ -19,7 +19,7 @@ This file defines how AI agents interact with the `@doxyz/core` package, which h
 Agents working in this package must:
 
 - Generate components **only** via the MCP pipeline (`generate_component('Dialog')`)
-- Read contracts and style maps from `@doxyz/blueprints`
+- Read contracts and style maps from `@doxyz-ui/blueprints`
 - Write generated code to `src/components/`
 - Avoid overwriting existing hand-written components
 - Use local relative imports when referencing other core components (e.g., `../Button`)
@@ -49,7 +49,7 @@ Agents working in this package must:
 
 When submitting a PR with generated components:
 
-1. **Title must include `✨ Generate:` prefix**  
+1. **Title must include `✨ Generate:` prefix**
    Example: `✨ Generate: Add Dialog component from blueprint`
 
 2. **PR description must confirm:**
@@ -69,4 +69,3 @@ When submitting a PR with generated components:
 - Check that classnames align with token mappings
 - Verify that contracts haven’t drifted since last generation
 - Consider locking versions if importing externally from this package
-
