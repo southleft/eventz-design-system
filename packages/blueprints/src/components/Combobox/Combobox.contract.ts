@@ -162,7 +162,7 @@ export const ComboboxContract = defineContract({
       hint: 'Chips: When selectedIds.length > 0, render a chip for each selected id. Each chip label is the matching item.option. Chips render inline before the input inside the field content area.'
     },
     {
-      hint: 'Chip dismiss: Each chip includes a button with a CloseIcon (decorative, aria-hidden="true"). The button must be focusable and have aria-label="Remove {option}". Clicking it removes only that id from selectedIds and fires onSelectionChange(updatedIds). It must not change the popover open state.'
+      hint: 'Chip dismiss: Each chip includes a button with a CloseIcon (decorative, aria-hidden="true"). The button must be focusable (click/programmatic), not necessarily tabbable in phase one, and have aria-label="Remove {option}". Clicking it removes only that id from selectedIds and fires onSelectionChange(updatedIds). It must not change the popover open state.'
     },
     {
       hint: 'When showEndIcon is true, render a clear-all button (data-role="clear-all") at the end of the field. Clicking it must remove all selections and fire onSelectionChange([]). It must not change popover open state. Disable or no-op when disabled=true or when there are no selections.'
@@ -191,6 +191,9 @@ export const ComboboxContract = defineContract({
       hint: 'Close state: set open=false on outside click, on Escape from the input, and when the component loses focus contextually (standard Popover behavior).'
     },
     {
+      hint: 'Anchor clicks while open: Clicking the anchor/input while the popover is open is a no-op (does not close).'
+    },
+    {
       hint: 'Keyboard: on the input, Space/Enter toggle open/close, Escape always closes (if open) and returns focus to the input. Ignore other keys.'
     },
     {
@@ -203,7 +206,7 @@ export const ComboboxContract = defineContract({
       hint: 'End icon placement: When showEndIcon is true and selectedIds.length === 0, render the clear-all button at the end of the input line. When selectedIds.length > 0, render the clear-all button immediately after the last chip (visually following chips even if this places it beyond the input).'
     },
     {
-      hint: 'Open behavior: Clicking or focusing the read-only input sets open=true (unless disabled). Close on outside click or Escape. Selection add/remove does not change open state.'
+      hint: 'Open behavior: Clicking the read-only input or pressing Space/Enter toggles open (unless disabled). Close on outside click or Escape. Selection add/remove does not change open state.'
     },
     {
       hint: 'Wrapping: Allow chips to wrap inside the chips container. The FormElement row grows in height to accommodate wrapped lines. Do not implement chip scrolling or max-row clamping in phase one.'
