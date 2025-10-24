@@ -4,121 +4,56 @@ import { defineContract } from '../../utilities';
 export const InputContract = defineContract({
   component: 'Input',
   description:
-    "Fieldset-wrapped text input with optional Radix Label, info popover, adornments, and contextual messaging. Forwarded ref is attached to the native input (slot 'value'), not the root fieldset (by design).",
-  base: 'fieldset',
+    'A text input control rendered within FormElement. FormElement handles field chrome (label, hint, error, info, required, a11y). Input renders only the interactive control row.',
+  base: 'div',
 
   props: {
-    label: {
-      type: 'string',
+    startIcon: { type: 'slot', description: 'Optional leading icon.' },
+    endIcon: { type: 'slot', description: 'Optional trailing icon or button.' },
+    placeholder: { type: 'string', description: 'Native placeholder text.' },
+    type: { type: 'string', default: 'text', description: 'HTML input type.' },
+    value: { type: 'string', description: 'Controlled value.' },
+    defaultValue: { type: 'string', description: 'Initial value for uncontrolled usage.' },
+    disabled: { type: 'boolean', default: false, description: 'Disables the input control.' },
+    className: { type: 'string', description: 'Consumer-provided className.' },
+
+    FormElementProps: {
+      type: 'object',
       description:
-        'Visible label text rendered with Radix Label and associated to the input via htmlFor.'
-    },
-    ariaLabel: {
-      type: 'string',
-      description: 'Accessible name announced when label is omitted.'
-    },
-    hint: {
-      type: 'string',
-      description: 'Helper text displayed below the input when no error is present.'
-    },
-    error: {
-      type: 'string',
-      description: 'Error message that replaces the hint and receives priority when provided.'
-    },
-    info: {
-      type: 'string',
-      description: 'Supplemental information surfaced through an inline info trigger and popover.'
-    },
-    startIcon: {
-      type: 'slot',
-      description: 'Leading adornment rendered at the start of the input row.'
-    },
-    endIcon: {
-      type: 'slot',
-      description: 'Trailing adornment rendered at the end of the input row.'
-    },
-    className: {
-      type: 'string',
-      description: 'Consumer provided styles.'
-    },
-    value: {
-      type: 'string',
-      description: 'Controlled value bound to the native input element.'
-    },
-    defaultValue: {
-      type: 'string',
-      description: 'Uncontrolled default value passed to the native input element.'
-    },
-    disabled: {
-      type: 'boolean',
-      default: false,
-      description: 'Disables the fieldset contents and applies disabled styling.'
+        'Props forwarded to FormElement, which provides field chrome and accessibility wiring.',
+      shape: {
+        label: { type: 'string' },
+        ariaLabel: { type: 'string' },
+        hint: { type: 'string' },
+        error: { type: 'string' },
+        info: { type: 'string' },
+        required: { type: 'boolean' },
+        disabled: { type: 'boolean' },
+        readOnly: { type: 'boolean' },
+        asChild: { type: 'boolean' }
+      }
     }
   },
 
-  /**
-   * Slot order mirrors the rendered structure inside the fieldset:
-   * legend (label + info trigger) → popover content → input row → adornments → value → messaging.
-   */
-  slots: [
-    'label',
-    'infoTrigger',
-    'infoContent',
-    'input',
-    'startIcon',
-    'value',
-    'endIcon',
-    'hint',
-    'error'
-  ] as const,
+  slots: ['startIcon', 'input', 'endIcon'],
 
   layout: {
     type: 'container',
-    tag: 'fieldset',
+    tag: 'div',
     children: [
-      {
-        slot: 'label',
-        tag: 'label',
-        children: [{ slot: 'infoTrigger', tag: 'button' }]
-      },
-      { slot: 'infoContent', tag: 'div' },
-      {
-        slot: 'input',
-        tag: 'div',
-        children: [
-          { slot: 'startIcon', tag: 'span' },
-          { slot: 'value', tag: 'input' },
-          { slot: 'endIcon', tag: 'span' }
-        ]
-      },
-      {
-        type: 'container',
-        tag: 'div',
-        children: [
-          { slot: 'hint', tag: 'div' },
-          { slot: 'error', tag: 'div' }
-        ]
-      }
+      { slot: 'startIcon', tag: 'span' },
+      { slot: 'input', tag: 'input' },
+      { slot: 'endIcon', tag: 'span' }
     ]
   },
 
   rules: [
     {
-      when: {},
-      hint: "Forwarded ref targets the inner native input element (slot 'value'), not the root fieldset. This is intentional to enable correct focus management and Radix `asChild` integration."
+      hint: 'FormElement provides label, hint, error, and accessible description. Input must not render these.'
     },
-    {
-      when: {},
-      hint: 'Provide either label or ariaLabel so the input exposes an accessible name (Radix Label via htmlFor or aria-label fallback).'
-    },
-    {
-      when: { info: (value: unknown) => typeof value === 'string' && value.trim().length > 0 },
-      hint: 'Render the info trigger inline with the label text and pair infoContent with a popover.'
-    },
-    {
-      when: {},
-      hint: 'When both hint and error exist, render error instead of hint, and merge the rendered message id (and info content id if open) into aria-describedby on the input.'
-    }
+    { hint: 'id, aria-*, and disabled are injected by FormElement and forwarded to the <input>.' },
+    { hint: 'When FormElement has an error, the Input row may reflect an invalid visual state via the styleMap "invalid" state.' },
+    { when: { disabled: true }, hint: 'Control becomes inert; visual disabled state applied.' }
   ],
 
   styleMap: true
