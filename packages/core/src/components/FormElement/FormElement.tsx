@@ -38,7 +38,7 @@ const labelClasses = `
 `;
 
 const rowClasses = `
-  inline-flex items-start gap-2 gap-y-1 rounded-lg px-(--spacing-1_5) text-color-content-default
+  inline-flex items-start gap-2 gap-y-1 rounded-lg text-color-content-default
   bg-comp-form-color-background-default border border-comp-form-color-border-default text-sm
   hover:bg-comp-form-color-background-hover hover:border-comp-form-color-hover
   [&:has(:focus-visible)]:ring-2 [&:has(:focus-visible)]:ring-offset-4

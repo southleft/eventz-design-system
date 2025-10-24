@@ -134,6 +134,7 @@
   --spacing-1: calc(var(--dt-spacing-1) * 1px);
   --spacing-1_5: calc(var(--dt-spacing-1-5) * 1px);
   --spacing-2: calc(var(--dt-spacing-2) * 1px);
+  --spacing-2_5: calc(var(--dt-spacing-2-5) * 1px);
   --spacing-3: calc(var(--dt-spacing-3) * 1px);
   --spacing-4: calc(var(--dt-spacing-4) * 1px);
 }
@@ -1570,6 +1571,9 @@
 .px-\(--spacing-1_5\) {
   padding-inline: var(--spacing-1_5);
 }
+.px-\(--spacing-2_5\) {
+  padding-inline: var(--spacing-2_5);
+}
 .px-1\.5 {
   padding-inline: var(--spacing-1_5);
 }
@@ -1582,8 +1586,14 @@
 .px-10 {
   padding-inline: calc(var(--spacing) * 10);
 }
+.py-\(--spacing-1\) {
+  padding-block: var(--spacing-1);
+}
 .py-\(--spacing-1_5\) {
   padding-block: var(--spacing-1_5);
+}
+.py-\(--spacing-1_25\) {
+  padding-block: var(--spacing-1_25);
 }
 .py-0\.5 {
   padding-block: var(--spacing-0_5);

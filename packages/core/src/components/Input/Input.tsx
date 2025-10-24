@@ -5,10 +5,12 @@ import { composeClasses } from '../../utilities/composeClasses/composeClasses';
 import { collapseWhitespace } from '../../utilities/collapseWhitespace/collapseWhitespace';
 import { FormElement, type FormElementProps } from '../FormElement';
 
-const inputRowClasses = ``;
+const inputRowClasses = `
+  inline-flex items-center gap-2 py-(--spacing-1_5) px-(--spacing-2_5)
+`;
 
 const startIconClasses = `
-  shrink-0 [&>svg]:size-4 py-(--spacing-1_5) inline-flex text-color-content-default
+  inline-flex items-center gap-2 shrink-0 [&>svg]:size-4 py-(--spacing-1_5) inline-flex text-color-content-default
 `;
 
 const inputClasses = `
@@ -24,13 +26,10 @@ const invalidStateClasses = `
 `;
 
 type NativeInputProps = React.InputHTMLAttributes<HTMLInputElement>;
-type FormElementWithoutChildren = Omit<FormElementProps, 'children'>;
-type WrapperProps = Omit<
-  FormElementProps,
-  'children' | 'className' | 'asChild' | keyof NativeInputProps
->;
-
-type InputFieldInputProps = NativeInputProps & {
+type WrapperProps = Omit<FormElementProps, 'children' | 'asChild' | 'className' | 'id'> &
+  Pick<NativeInputProps, 'required' | 'readOnly'>;
+type WrapperOnlyProps = Omit<WrapperProps, keyof NativeInputProps>;
+type ForwardedInputProps = NativeInputProps & {
   ref?: React.Ref<HTMLInputElement>;
 };
 
@@ -41,7 +40,7 @@ type InputFieldProps = Omit<React.HTMLAttributes<HTMLDivElement>, 'children'> & 
   startIconClassName: string;
   inputClassName: string;
   endIconClassName: string;
-  inputProps: InputFieldInputProps;
+  inputProps: ForwardedInputProps;
 };
 
 const InputField = React.forwardRef<HTMLDivElement, InputFieldProps>(
@@ -64,7 +63,7 @@ const InputField = React.forwardRef<HTMLDivElement, InputFieldProps>(
       ['aria-label']: ariaLabel,
       ['aria-describedby']: ariaDescribedBy,
       ['aria-invalid']: ariaInvalid,
-      ...restSlotProps
+      ...slotContainerProps
     } = rest;
 
     const wrapperClassName = collapseWhitespace(composeClasses(inputRowClasses, className));
@@ -72,14 +71,14 @@ const InputField = React.forwardRef<HTMLDivElement, InputFieldProps>(
     const { ref: inputRef, ...restInputProps } = inputProps;
 
     const {
-      ['aria-label']: consumerAriaLabel,
-      ['aria-describedby']: consumerAriaDescribedBy,
-      ['aria-invalid']: consumerAriaInvalid,
+      ['aria-label']: inputAriaLabel,
+      ['aria-describedby']: inputAriaDescribedBy,
+      ['aria-invalid']: inputAriaInvalid,
       ...otherInputProps
     } = restInputProps;
 
     const describedBy =
-      [ariaDescribedBy, consumerAriaDescribedBy]
+      [ariaDescribedBy, inputAriaDescribedBy]
         .filter((value): value is string => Boolean(value))
         .join(' ') || undefined;
 
@@ -87,14 +86,14 @@ const InputField = React.forwardRef<HTMLDivElement, InputFieldProps>(
       ...otherInputProps,
       id,
       disabled,
-      'aria-label': ariaLabel ?? consumerAriaLabel,
+      'aria-label': ariaLabel ?? inputAriaLabel,
       'aria-describedby': describedBy,
-      'aria-invalid': ariaInvalid ?? consumerAriaInvalid
+      'aria-invalid': ariaInvalid ?? inputAriaInvalid
     };
 
     return (
       <div
-        {...restSlotProps}
+        {...slotContainerProps}
         ref={ref}
         className={wrapperClassName}
         data-slot="input"
@@ -119,30 +118,44 @@ const InputField = React.forwardRef<HTMLDivElement, InputFieldProps>(
 
 InputField.displayName = 'InputField';
 
-export interface InputProps
-  extends Omit<WrapperProps, 'id'>,
-    Omit<NativeInputProps, 'children' | 'id'> {
+export interface InputProps extends WrapperOnlyProps, Omit<NativeInputProps, 'children' | 'id'> {
   startIcon?: React.ReactNode;
   endIcon?: React.ReactNode;
   className?: string;
 }
 
 export const Input = React.forwardRef<HTMLInputElement, InputProps>(function Input(props, ref) {
-  const { startIcon, endIcon, className, disabled = false, ...rest } = props;
+  const { startIcon, endIcon, className, ...restProps } = props;
 
-  const { label, ariaLabel, hint, error, info, ...nativeRest } = rest;
-
-  const formElementProps: FormElementWithoutChildren = {
+  const {
     label,
     ariaLabel,
     hint,
     error,
     info,
+    required,
+    readOnly,
+    disabled: disabledProp,
+    ...nativeInputRest
+  } = restProps;
+
+  const disabled = disabledProp ?? false;
+
+  const formElementProps: WrapperProps = {
+    label,
+    ariaLabel,
+    hint,
+    error,
+    info,
+    required,
+    readOnly,
     disabled
   };
 
   const nativeInputProps: NativeInputProps = {
-    ...nativeRest,
+    ...nativeInputRest,
+    required,
+    readOnly,
     disabled
   };
 
@@ -153,7 +166,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(function Inp
   const inputClassName = collapseWhitespace(composeClasses(inputClasses));
   const endIconClassName = collapseWhitespace(composeClasses(endIconClasses));
 
-  const inputPropsWithRef: InputFieldInputProps = {
+  const inputPropsWithRef: ForwardedInputProps = {
     ...nativeInputProps,
     ref
   };
