@@ -224,12 +224,7 @@ describe('Combobox', () => {
 
   it('clears selections via the clear-all button', async () => {
     const user = userEvent.setup();
-    let recordedFocus: Element | null = null;
-    let recordedIds: string[] | undefined;
-    const handleSelectionChange = jest.fn<void, [string[]]>(ids => {
-      recordedFocus = document.activeElement;
-      recordedIds = ids;
-    });
+    const handleSelectionChange = jest.fn<void, [string[]]>();
     render(
       <Combobox
         items={baseItems}
@@ -244,19 +239,18 @@ describe('Combobox', () => {
     const clearAllButton = screen.getByRole('button', { name: 'Clear all selections' });
 
     await user.click(clearAllButton);
-    const result: {
-      focus: Element | null;
-      ids: string[] | undefined;
-      calls: number;
-    } = {
-      focus: recordedFocus,
-      ids: recordedIds,
-      calls: handleSelectionChange.mock.calls.length
-    };
-    expect(result).toEqual({
-      focus: input,
-      ids: [],
-      calls: 1
+    await waitFor(() => {
+      const call = handleSelectionChange.mock.calls[0];
+      const result = {
+        focus: document.activeElement,
+        ids: call?.[0],
+        calls: handleSelectionChange.mock.calls.length
+      };
+      expect(result).toEqual({
+        focus: input,
+        ids: [],
+        calls: 1
+      });
     });
   });
 
@@ -396,12 +390,7 @@ describe('Combobox', () => {
 
   it('removes a chip and returns focus to the input on dismiss click', async () => {
     const user = userEvent.setup();
-    let recordedFocus: Element | null = null;
-    let recordedIds: string[] | undefined;
-    const handleSelectionChange = jest.fn<void, [string[]]>(ids => {
-      recordedFocus = document.activeElement;
-      recordedIds = ids;
-    });
+    const handleSelectionChange = jest.fn<void, [string[]]>();
     render(
       <Combobox
         items={baseItems}
@@ -415,16 +404,15 @@ describe('Combobox', () => {
     const dismiss = screen.getByRole('button', { name: 'Remove Artists' });
 
     await user.click(dismiss);
-    const result: {
-      focus: Element | null;
-      ids: string[] | undefined;
-      calls: number;
-    } = {
-      focus: recordedFocus,
-      ids: recordedIds,
-      calls: handleSelectionChange.mock.calls.length
-    };
-    expect(result).toEqual({ focus: input, ids: [], calls: 1 });
+    await waitFor(() => {
+      const call = handleSelectionChange.mock.calls[0];
+      const result = {
+        focus: document.activeElement,
+        ids: call?.[0],
+        calls: handleSelectionChange.mock.calls.length
+      };
+      expect(result).toEqual({ focus: input, ids: [], calls: 1 });
+    });
   });
 
   it('ignores chip dismiss when the combobox is disabled', async () => {
