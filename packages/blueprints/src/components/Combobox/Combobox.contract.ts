@@ -165,13 +165,13 @@ export const ComboboxContract = defineContract({
       hint: 'Chip dismiss: Each chip includes a button with a CloseIcon (decorative, aria-hidden="true"). The button must be focusable (click/programmatic), not necessarily tabbable in phase one, and have aria-label="Remove {option}". Clicking it removes only that id from selectedIds and fires onSelectionChange(updatedIds). It must not change the popover open state.'
     },
     {
-      hint: 'When showEndIcon is true, render a clear-all button (data-role="clear-all") at the end of the field. Clicking it must remove all selections and fire onSelectionChange([]). It must not change popover open state. Disable or no-op when disabled=true or when there are no selections.'
+      hint: 'When showEndIcon is true and there is at least one selection, render a clear-all button (data-role="clear-all") immediately after the chips. Clicking it must remove all selections and fire onSelectionChange([]). It must not change popover open state. When disabled=true, the button is disabled.'
     },
     {
       hint: 'When startIcon is provided, render it before chips and input in the field content area. When not provided, do not reserve space.'
     },
     {
-      hint: 'When endIcon is provided and showEndIcon && !hasSelection, render it in the endIcon slot for visual parity; otherwise default to CloseIcon.'
+      hint: 'When showEndIcon is true and there are no selections, render the provided endIcon (or CloseIcon fallback) in the endIcon slot for the input. When selections exist, the decorative end icon is replaced by the clear-all button.'
     },
     {
       when: { menuItemType: 'simple' },

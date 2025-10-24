@@ -53,9 +53,9 @@ describe('Combobox', () => {
         FormElementProps={{ label: 'Categories' }}
       />
     );
-    const slot = container.querySelector('[data-slot="startIcon"]');
-    expect(slot).toBeTruthy();
-    expect(screen.getByTestId('start-icon')).toBeInTheDocument();
+    const hasSlot = Boolean(container.querySelector('[data-slot="startIcon"]'));
+    screen.getByTestId('start-icon');
+    expect(hasSlot).toBe(true);
   });
 
   it('omits end icon when selections exist even if showEndIcon is true', () => {
@@ -239,8 +239,14 @@ describe('Combobox', () => {
     const clearAllButton = screen.getByRole('button', { name: 'Clear all selections' });
 
     await user.click(clearAllButton);
-    expect(handleSelectionChange).toHaveBeenCalledWith([]);
-    expect(document.activeElement).toBe(input);
+    const summary = {
+      calls: handleSelectionChange.mock.calls,
+      focused: document.activeElement
+    };
+    expect(summary).toEqual({
+      calls: [[[]]],
+      focused: input
+    });
   });
 
   it('prevents default on clear-all mouse down', () => {
@@ -262,12 +268,15 @@ describe('Combobox', () => {
     render(<Combobox items={baseItems} disabled FormElementProps={{ label: 'Categories' }} />);
 
     const input = screen.getByRole('combobox');
-    expect(input).toBeDisabled();
-    if (input instanceof HTMLInputElement) {
-      input.disabled = false;
-      fireEvent.click(input);
-    }
-    expect(input).toHaveAttribute('aria-expanded', 'false');
+    const element = input as HTMLInputElement;
+    const initialDisabled = element.disabled;
+    element.disabled = false;
+    fireEvent.click(element);
+    const summary = {
+      initialDisabled,
+      expanded: element.getAttribute('aria-expanded')
+    };
+    expect(summary).toEqual({ initialDisabled: true, expanded: 'false' });
   });
 
   it('renders empty state text when no items are provided', () => {
@@ -331,13 +340,19 @@ describe('Combobox', () => {
 
     const input = screen.getByRole('combobox');
     await user.click(input);
-    expect(screen.getByRole('option', { name: 'Artists' })).toBeInTheDocument();
+    screen.getByRole('option', { name: 'Artists' });
 
     const outsideButton = screen.getByText('Outside');
     await user.click(outsideButton);
 
-    expect(input).toHaveAttribute('aria-expanded', 'false');
-    expect(screen.queryByRole('option', { name: 'Artists' })).toBeNull();
+    const summary = {
+      expanded: input.getAttribute('aria-expanded'),
+      hasArtistsOption: Boolean(screen.queryByRole('option', { name: 'Artists' }))
+    };
+    expect(summary).toEqual({
+      expanded: 'false',
+      hasArtistsOption: false
+    });
   });
 
   it('does not attempt to open when already open (click input is a no-op)', async () => {
@@ -345,11 +360,13 @@ describe('Combobox', () => {
     render(<Combobox items={baseItems} defaultOpen FormElementProps={{ label: 'Categories' }} />);
     const input = screen.getByRole('combobox');
 
-    expect(input).toHaveAttribute('aria-expanded', 'true');
+    const beforeClick = input.getAttribute('aria-expanded');
 
     await user.click(input);
 
-    expect(input).toHaveAttribute('aria-expanded', 'true');
+    const afterClick = input.getAttribute('aria-expanded');
+
+    expect([beforeClick, afterClick]).toEqual(['true', 'true']);
   });
 
   it('prevents default on chip dismiss mouse down', () => {
@@ -383,8 +400,11 @@ describe('Combobox', () => {
 
     await user.click(dismiss);
 
-    expect(handleSelectionChange).toHaveBeenCalledWith([]);
-    expect(document.activeElement).toBe(input);
+    const summary = {
+      calls: handleSelectionChange.mock.calls,
+      focused: document.activeElement
+    };
+    expect(summary).toEqual({ calls: [[[]]], focused: input });
   });
 
   it('ignores chip dismiss when the combobox is disabled', async () => {
@@ -399,13 +419,16 @@ describe('Combobox', () => {
       />
     );
 
-    const dismiss = screen.getByRole('button', { name: 'Remove Artists' });
-    expect(dismiss).toBeDisabled();
+    const dismiss = screen.getByRole('button', { name: 'Remove Artists' }) as HTMLButtonElement;
     const user = userEvent.setup({ pointerEventsCheck: 0 });
     await user.click(dismiss);
 
-    expect(handleSelectionChange).not.toHaveBeenCalled();
-    expect(screen.getByRole('button', { name: 'Remove Artists' })).toBeInTheDocument();
+    screen.getByRole('button', { name: 'Remove Artists' });
+    const summary = {
+      disabled: dismiss.disabled,
+      calls: handleSelectionChange.mock.calls
+    };
+    expect(summary).toEqual({ disabled: true, calls: [] });
   });
 
   it('ignores clear-all when disabled', async () => {
@@ -421,13 +444,16 @@ describe('Combobox', () => {
       />
     );
 
-    const clearAll = screen.getByRole('button', { name: 'Clear all selections' });
-    expect(clearAll).toBeDisabled();
+    const clearAll = screen.getByRole('button', { name: 'Clear all selections' }) as HTMLButtonElement;
     const user = userEvent.setup({ pointerEventsCheck: 0 });
     await user.click(clearAll);
 
-    expect(handleSelectionChange).not.toHaveBeenCalled();
-    expect(screen.getByRole('button', { name: 'Clear all selections' })).toBeInTheDocument();
+    screen.getByRole('button', { name: 'Clear all selections' });
+    const summary = {
+      disabled: clearAll.disabled,
+      calls: handleSelectionChange.mock.calls
+    };
+    expect(summary).toEqual({ disabled: true, calls: [] });
   });
 
   it('deselects an already-selected option when clicked', async () => {
@@ -601,16 +627,18 @@ describe('Combobox', () => {
     );
 
     const options = await screen.findAllByRole('option');
-    for (const option of options) {
-      expect(option).toHaveAttribute('data-border-bottom', 'false');
-    }
+    const attributes = options.map(option => option.getAttribute('data-border-bottom'));
+    expect(attributes).toEqual(Array(options.length).fill('false'));
   });
 
   describe('helper functions', () => {
     it('resolveClearedSelection requires enabled state and selection', () => {
-      expect(resolveClearedSelection(false, true)).toBe(true);
-      expect(resolveClearedSelection(true, true)).toBe(false);
-      expect(resolveClearedSelection(false, false)).toBe(false);
+      const outcomes = [
+        resolveClearedSelection(false, true),
+        resolveClearedSelection(true, true),
+        resolveClearedSelection(false, false)
+      ];
+      expect(outcomes).toEqual([true, false, false]);
     });
   });
 
