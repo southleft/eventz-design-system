@@ -224,7 +224,12 @@ describe('Combobox', () => {
 
   it('clears selections via the clear-all button', async () => {
     const user = userEvent.setup();
-    const handleSelectionChange = jest.fn();
+    let recordedFocus: Element | null = null;
+    let recordedIds: string[] | undefined;
+    const handleSelectionChange = jest.fn<void, [string[]]>(ids => {
+      recordedFocus = document.activeElement;
+      recordedIds = ids;
+    });
     render(
       <Combobox
         items={baseItems}
@@ -239,13 +244,19 @@ describe('Combobox', () => {
     const clearAllButton = screen.getByRole('button', { name: 'Clear all selections' });
 
     await user.click(clearAllButton);
-    const summary = {
-      calls: handleSelectionChange.mock.calls,
-      focused: document.activeElement
+    const result: {
+      focus: Element | null;
+      ids: string[] | undefined;
+      calls: number;
+    } = {
+      focus: recordedFocus,
+      ids: recordedIds,
+      calls: handleSelectionChange.mock.calls.length
     };
-    expect(summary).toEqual({
-      calls: [[[]]],
-      focused: input
+    expect(result).toEqual({
+      focus: input,
+      ids: [],
+      calls: 1
     });
   });
 
@@ -385,7 +396,12 @@ describe('Combobox', () => {
 
   it('removes a chip and returns focus to the input on dismiss click', async () => {
     const user = userEvent.setup();
-    const handleSelectionChange = jest.fn<void, [string[]]>();
+    let recordedFocus: Element | null = null;
+    let recordedIds: string[] | undefined;
+    const handleSelectionChange = jest.fn<void, [string[]]>(ids => {
+      recordedFocus = document.activeElement;
+      recordedIds = ids;
+    });
     render(
       <Combobox
         items={baseItems}
@@ -399,12 +415,16 @@ describe('Combobox', () => {
     const dismiss = screen.getByRole('button', { name: 'Remove Artists' });
 
     await user.click(dismiss);
-
-    const summary = {
-      calls: handleSelectionChange.mock.calls,
-      focused: document.activeElement
+    const result: {
+      focus: Element | null;
+      ids: string[] | undefined;
+      calls: number;
+    } = {
+      focus: recordedFocus,
+      ids: recordedIds,
+      calls: handleSelectionChange.mock.calls.length
     };
-    expect(summary).toEqual({ calls: [[[]]], focused: input });
+    expect(result).toEqual({ focus: input, ids: [], calls: 1 });
   });
 
   it('ignores chip dismiss when the combobox is disabled', async () => {
@@ -419,16 +439,13 @@ describe('Combobox', () => {
       />
     );
 
-    const dismiss = screen.getByRole('button', { name: 'Remove Artists' }) as HTMLButtonElement;
+    const dismiss = screen.getByRole<HTMLButtonElement>('button', { name: 'Remove Artists' });
     const user = userEvent.setup({ pointerEventsCheck: 0 });
     await user.click(dismiss);
 
     screen.getByRole('button', { name: 'Remove Artists' });
-    const summary = {
-      disabled: dismiss.disabled,
-      calls: handleSelectionChange.mock.calls
-    };
-    expect(summary).toEqual({ disabled: true, calls: [] });
+    const actual: [boolean, number] = [dismiss.disabled, handleSelectionChange.mock.calls.length];
+    expect(actual).toEqual([true, 0]);
   });
 
   it('ignores clear-all when disabled', async () => {
@@ -444,16 +461,13 @@ describe('Combobox', () => {
       />
     );
 
-    const clearAll = screen.getByRole('button', { name: 'Clear all selections' }) as HTMLButtonElement;
+    const clearAll = screen.getByRole<HTMLButtonElement>('button', { name: 'Clear all selections' });
     const user = userEvent.setup({ pointerEventsCheck: 0 });
     await user.click(clearAll);
 
     screen.getByRole('button', { name: 'Clear all selections' });
-    const summary = {
-      disabled: clearAll.disabled,
-      calls: handleSelectionChange.mock.calls
-    };
-    expect(summary).toEqual({ disabled: true, calls: [] });
+    const actual: [boolean, number] = [clearAll.disabled, handleSelectionChange.mock.calls.length];
+    expect(actual).toEqual([true, 0]);
   });
 
   it('deselects an already-selected option when clicked', async () => {
