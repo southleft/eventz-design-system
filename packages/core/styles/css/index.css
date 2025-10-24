@@ -141,6 +141,7 @@
 
   /* Forms */
   --color-comp-form-color-background-default: var(--dt-comp-form-color-background-default);
+  --color-comp-form-color-background-hover: var(--dt-comp-form-color-background-hover);
   --color-comp-form-color-border-default: var(--dt-comp-form-color-border-default);
   --color-comp-form-color-border-utility-danger: var(--dt-comp-form-color-border-utility-danger);
 
