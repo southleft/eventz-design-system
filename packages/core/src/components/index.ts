@@ -6,6 +6,7 @@ export * from './Breadcrumbs';
 export * from './Button';
 export * from './Checkbox';
 export * from './CheckboxGroup';
+export * from './Combobox';
 export * from './Control';
 export * from './DatePicker';
 export * from './Dialog';
