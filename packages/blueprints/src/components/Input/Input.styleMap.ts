@@ -4,15 +4,48 @@ import { defineStyleMap } from '../../utilities';
 export const InputStyleMap = defineStyleMap({
   component: 'Input',
   description:
-    'Control-only row (startIcon → input → endIcon). Field chrome (label/hint/error) is provided by FormElement.',
-  base: 'relative flex items-center rounded-md transition-colors focus-within:ring-token',
-  state: {
-    disabled: 'opacity-50 cursor-not-allowed',
-    invalid: 'border-border-error text-content-error'
-  },
+    'Control-only row (startIcon → input → endIcon). FormElement wraps this row to supply label, messaging, focus ring, etc.',
+
+  base: [
+    'inline-flex',
+    'items-center',
+    'gap-2',
+    'py-(--spacing-1_5)',
+    'px-(--spacing-2_5)'
+  ] as const,
+
   slots: {
-    startIcon: 'mr-2 shrink-0 [&>svg]:size-4',
-    input: 'flex-1 bg-transparent outline-none',
-    endIcon: 'ml-2 shrink-0 [&>svg]:size-4'
+    startIcon: [
+      'inline-flex',
+      'items-center',
+      'gap-2',
+      'shrink-0',
+      '[&>svg]:size-4',
+      'py-(--spacing-1_5)',
+      'text-color-content-default'
+    ] as const,
+    input: [
+      'grow',
+      'bg-transparent',
+      'outline-none',
+      'text-color-content-default',
+      'placeholder-color-content-weak',
+      'border-none',
+      'py-(--spacing-1_5)',
+      'focus:placeholder:opacity-0'
+    ] as const,
+    endIcon: [
+      'shrink-0',
+      '[&>svg]:size-4',
+      'py-(--spacing-1_5)',
+      'inline-flex',
+      'text-color-content-default'
+    ] as const
+  },
+
+  state: {
+    invalid: [
+      'data-[invalid=true]:[&_[data-slot=input]]:border-comp-form-color-border-utility-danger'
+    ] as const
   }
 });

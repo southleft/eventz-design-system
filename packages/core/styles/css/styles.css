@@ -29,6 +29,7 @@
   --radius-sm: calc(var(--dt-border-radius-4) * 1px);
   --radius-md: calc(var(--dt-border-radius-6) * 1px);
   --radius-lg: calc(var(--dt-border-radius-8) * 1px);
+  --radius-3xl: calc(var(--dt-border-radius-24) * 1px);
   --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
   --animate-spin: spin 1s linear infinite;
   --default-transition-duration: 150ms;
@@ -1399,6 +1400,9 @@
 }
 .rounded {
   border-radius: 0.25rem;
+}
+.rounded-3xl {
+  border-radius: var(--radius-3xl);
 }
 .rounded-\[inherit\] {
   border-radius: inherit;

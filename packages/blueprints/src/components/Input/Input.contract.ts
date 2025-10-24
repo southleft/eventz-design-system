@@ -4,35 +4,42 @@ import { defineContract } from '../../utilities';
 export const InputContract = defineContract({
   component: 'Input',
   description:
-    'A text input control rendered within FormElement. FormElement handles field chrome (label, hint, error, info, required, a11y). Input renders only the interactive control row.',
+    'Control-only input row that lives inside FormElement. FormElement owns the field chrome (label, info/hint/error messaging, focus ring) while Input renders the interactive control (startIcon → input → endIcon).',
   base: 'div',
 
   props: {
-    startIcon: { type: 'slot', description: 'Optional leading icon.' },
-    endIcon: { type: 'slot', description: 'Optional trailing icon or button.' },
+    startIcon: { type: 'slot', description: 'Optional leading icon rendered before the input.' },
+    endIcon: { type: 'slot', description: 'Optional trailing icon rendered after the input.' },
+    className: { type: 'string', description: 'Additional classes for the control row container.' },
     placeholder: { type: 'string', description: 'Native placeholder text.' },
     type: { type: 'string', default: 'text', description: 'HTML input type.' },
-    value: { type: 'string', description: 'Controlled value.' },
+    value: { type: 'string', description: 'Controlled value for the native input.' },
     defaultValue: { type: 'string', description: 'Initial value for uncontrolled usage.' },
-    disabled: { type: 'boolean', default: false, description: 'Disables the input control.' },
-    className: { type: 'string', description: 'Consumer-provided className.' },
-
-    FormElementProps: {
-      type: 'object',
-      description:
-        'Props forwarded to FormElement, which provides field chrome and accessibility wiring.',
-      shape: {
-        label: { type: 'string' },
-        ariaLabel: { type: 'string' },
-        hint: { type: 'string' },
-        error: { type: 'string' },
-        info: { type: 'string' },
-        required: { type: 'boolean' },
-        disabled: { type: 'boolean' },
-        readOnly: { type: 'boolean' },
-        asChild: { type: 'boolean' }
-      }
-    }
+    name: { type: 'string', description: 'Native input name attribute.' },
+    required: {
+      type: 'boolean',
+      description: 'Marks the field as required; forwarded to FormElement and the native input.'
+    },
+    readOnly: {
+      type: 'boolean',
+      description: 'Marks the native input as read-only (still focusable).'
+    },
+    disabled: {
+      type: 'boolean',
+      default: false,
+      description: 'Disables the fieldset + native input.'
+    },
+    label: {
+      type: 'string',
+      description: 'Visible label handled by FormElement (Input must not render its own label).'
+    },
+    ariaLabel: {
+      type: 'string',
+      description: 'Accessible name forwarded to FormElement when no visible label is provided.'
+    },
+    hint: { type: 'string', description: 'Helper text rendered by FormElement.' },
+    error: { type: 'string', description: 'Error text rendered by FormElement.' },
+    info: { type: 'string', description: 'Info popover content rendered by FormElement.' }
   },
 
   slots: ['startIcon', 'input', 'endIcon'],
@@ -49,11 +56,20 @@ export const InputContract = defineContract({
 
   rules: [
     {
-      hint: 'FormElement provides label, hint, error, and accessible description. Input must not render these.'
+      hint: 'Render <FormElement {...wrapperProps} asChild> and place the control row inside so FormElement handles label, messaging, and focus ring styles.'
     },
-    { hint: 'id, aria-*, and disabled are injected by FormElement and forwarded to the <input>.' },
-    { hint: 'When FormElement has an error, the Input row may reflect an invalid visual state via the styleMap "invalid" state.' },
-    { when: { disabled: true }, hint: 'Control becomes inert; visual disabled state applied.' }
+    {
+      hint: 'The internal InputField must forward the Slot-injected id/aria-* props and disabled flag to the native <input> while merging any consumer-provided aria attributes.'
+    },
+    {
+      hint: 'Only render the control row: startIcon (optional) → <input> → endIcon. Both icon wrappers must be <span aria-hidden="true"> containers.'
+    },
+    {
+      hint: 'Do not render label, hint, error, or info markup here—those live entirely within FormElement.'
+    },
+    {
+      hint: 'Use the styleMap slots for the control row container and icon wrappers so focus + invalid styles come from tokens.'
+    }
   ],
 
   styleMap: true
