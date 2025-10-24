@@ -69,7 +69,7 @@ const inputClasses = `
 `;
 
 const fieldWrapperClasses = `
-  flex flex-wrap items-center gap-1 w-full
+  flex flex-wrap items-center gap-1 w-full  py-(--spacing-1_5)
 `;
 
 const openStateClasses = `
