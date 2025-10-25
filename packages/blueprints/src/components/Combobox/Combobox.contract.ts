@@ -121,6 +121,7 @@ export const ComboboxContract = defineContract({
     'anchor',
     'panel',
     'empty',
+    'value',
     'chips',
     'chip',
     'chipDismiss',
@@ -160,6 +161,9 @@ export const ComboboxContract = defineContract({
     },
     {
       hint: 'Chips: When selectedIds.length > 0, render a chip for each selected id. Each chip label is the matching item.option. Chips render inline before the input inside the field content area.'
+    },
+    {
+      hint: 'Value slot (ComboboxField root) is a flex/wrap container with padding tokens (py-(--spacing-1) / px-(--spacing-2_5)) so chips/input align within the FormElement row. Keep all inline content inside this slot.'
     },
     {
       hint: 'Chip dismiss: Each chip includes a button with a CloseIcon (decorative, aria-hidden="true"). The button must be focusable (click/programmatic), not necessarily tabbable in phase one, and have aria-label="Remove {option}". Clicking it removes only that id from selectedIds and fires onSelectionChange(updatedIds). It must not change the popover open state.'
