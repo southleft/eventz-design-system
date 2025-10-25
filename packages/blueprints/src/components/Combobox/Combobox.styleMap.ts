@@ -20,6 +20,16 @@ export const ComboboxStyleMap = defineStyleMap({
 
     empty: ['text-color-content-subtle', 'text-xs', 'px-2', 'py-1.5'] as const,
 
+    value: [
+      'flex',
+      'flex-wrap',
+      'items-center',
+      'gap-1',
+      'w-full',
+      'py-(--spacing-1)',
+      'px-(--spacing-2_5)'
+    ] as const,
+
     clearAll: [
       'inline-flex',
       'items-center',
@@ -79,19 +89,9 @@ export const ComboboxStyleMap = defineStyleMap({
       'focus-visible:ring-offset-color-background-default'
     ] as const,
 
-    startIcon: [
-      'shrink-0',
-      'py-(--spacing-1_5)',
-      'inline-flex',
-      'text-color-content-default'
-    ] as const,
+    startIcon: ['shrink-0', 'py-(--spacing-1_5)', 'inline-flex', 'text-color-content-default'] as const,
 
-    endIcon: [
-      'shrink-0',
-      'py-(--spacing-1_5)',
-      'inline-flex',
-      'text-color-content-default'
-    ] as const,
+    endIcon: ['shrink-0', 'py-(--spacing-1_5)', 'inline-flex', 'text-color-content-default'] as const,
 
     menuItem: ['w-full'] as const,
 
