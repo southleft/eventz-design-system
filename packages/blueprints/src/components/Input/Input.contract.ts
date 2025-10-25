@@ -5,7 +5,7 @@ export const InputContract = defineContract({
   component: 'Input',
   description:
     'Control-only input row that lives inside FormElement. FormElement owns the field chrome (label, info/hint/error messaging, focus ring) while Input renders the interactive control (startIcon → input → endIcon).',
-  base: 'div',
+  base: 'FormElement',
 
   props: {
     startIcon: { type: 'slot', description: 'Optional leading icon rendered before the input.' },
