@@ -44,7 +44,8 @@ describe('ContentCard', () => {
     const hasFocusRingToken = base.className.includes(
       'data-[is-focusable=true]:focus-visible:ring-2'
     );
-    expect(attributesApplied && hasFocusRingToken).toBe(true);
+    const isActive = document.activeElement === base;
+    expect(attributesApplied && hasFocusRingToken && isActive).toBe(true);
   });
 
   it('renders media with the expected image attributes when imgSrc is provided', () => {
@@ -68,6 +69,12 @@ describe('ContentCard', () => {
     expect(media).toBeNull();
   });
 
+  it('omits the media slot when imgSrc is whitespace-only', () => {
+    const { container } = renderContentCard({ imgSrc: '   ', imgAlt: 'ignored' });
+    const media = container.querySelector('[data-slot="media"]');
+    expect(media).toBeNull();
+  });
+
   it('renders the badge overlay when media and badge are provided', () => {
     const { container } = renderContentCard({
       imgSrc: '/media.jpg',
@@ -80,6 +87,28 @@ describe('ContentCard', () => {
     expect(isRendered).toBe(true);
   });
 
+  it('omits the badge overlay when badge is whitespace-only', () => {
+    const { container } = renderContentCard({
+      imgSrc: '/media.jpg',
+      imgAlt: 'Aurora',
+      badge: '   '
+    });
+    const badgeNode = container.querySelector('[data-slot="badge"]');
+    expect(badgeNode).toBeNull();
+  });
+
+  it('nests the badge overlay inside the media slot when present', () => {
+    const { container } = renderContentCard({
+      imgSrc: '/media.jpg',
+      imgAlt: 'Aurora over mountains',
+      badge: 'Featured'
+    });
+    const media = container.querySelector('[data-slot="media"]');
+    const badge = container.querySelector('[data-slot="badge"]');
+    const nested = Boolean(media) && Boolean(badge) && (media as Element).contains(badge as Node);
+    expect(nested).toBe(true);
+  });
+
   it('renders a meta badge for each label when labels are provided', () => {
     const labelSet: NonNullable<ContentCardProps['labels']> = [
       { label: 'Adventure' },
@@ -87,15 +116,38 @@ describe('ContentCard', () => {
     ];
     const { container } = renderContentCard({ labels: labelSet });
     const meta = container.querySelector('[data-slot="meta"]');
-    const renderedCount = meta ? meta.querySelectorAll('span').length > 0 : false;
-    const badgeCountMatches = (meta?.textContent ?? '').includes('Adventure') && (meta?.textContent ?? '').includes('Photography');
-    expect(Boolean(meta) && renderedCount && badgeCountMatches).toBe(true);
+    const badgesByText =
+      Boolean(meta) &&
+      Boolean(screen.getByText('Adventure')) &&
+      Boolean(screen.getByText('Photography'));
+    expect(badgesByText).toBe(true);
   });
 
   it('omits the meta slot when labels are undefined or empty', () => {
     const { container } = renderContentCard({ labels: [] });
     const meta = container.querySelector('[data-slot="meta"]');
     expect(meta).toBeNull();
+  });
+
+  it('omits the meta slot when labels is undefined', () => {
+    const { container } = renderContentCard({ labels: undefined });
+    const meta = container.querySelector('[data-slot="meta"]');
+    expect(meta).toBeNull();
+  });
+
+  it('merges consumer className onto the base element', () => {
+    const { container } = renderContentCard({ className: 'custom-flag' });
+    const base = container.querySelector('[data-slot="base"]');
+    const hasCustom = base?.className.includes('custom-flag') ?? false;
+    expect(hasCustom).toBe(true);
+  });
+
+  it('omits subtitle and description when they are whitespace-only', () => {
+    const { container } = renderContentCard({ subtitle: '   ', description: '  ' });
+    const subtitleNode = container.querySelector('[data-slot="subtitle"]');
+    const descriptionNode = container.querySelector('[data-slot="description"]');
+    const bothOmitted = subtitleNode === null && descriptionNode === null;
+    expect(bothOmitted).toBe(true);
   });
 
   it('leaves aria-label undefined when ariaLabel is not provided', () => {
@@ -106,11 +158,17 @@ describe('ContentCard', () => {
   });
 
   it('respects the accessible name override when ariaLabel is provided', () => {
-    const { container } = renderContentCard({ ariaLabel: 'Custom card label' });
-    const base = container.querySelector('[data-slot="base"]');
-    const ariaApplied = base?.getAttribute('aria-label') === 'Custom card label';
-    const titleVisible = Boolean(screen.getByText('Exploring the northern lights'));
-    expect(ariaApplied && titleVisible).toBe(true);
+    renderContentCard({ focusable: true, ariaLabel: 'Custom card label' });
+    const named = screen.getByRole('group', { name: 'Custom card label' });
+    const titleVisible = screen.getByText('Exploring the northern lights');
+    expect(Boolean(named) && Boolean(titleVisible)).toBe(true);
+  });
+
+  it('does not set aria-label when ariaLabel is provided but focusable is false', () => {
+    const { container } = renderContentCard({ focusable: false, ariaLabel: 'Should not apply' });
+    const base = container.querySelector('[data-slot="base"]') as HTMLElement;
+    const hasAria = base.hasAttribute('aria-label');
+    expect(hasAria).toBe(false);
   });
 
   describe('layout variants', () => {

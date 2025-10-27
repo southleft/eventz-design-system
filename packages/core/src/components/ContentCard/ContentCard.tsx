@@ -5,6 +5,11 @@ import { collapseWhitespace, composeClasses } from '../../utilities';
 
 type Layout = 'vertical' | 'horizontal' | 'post';
 
+type ContentCardLabel = {
+  icon?: React.ReactNode;
+  label: string;
+};
+
 type ContentCardOwnProps = {
   layout?: Layout;
   focusable?: boolean;
@@ -14,10 +19,7 @@ type ContentCardOwnProps = {
   imgSrc?: string;
   imgAlt?: string;
   badge?: string;
-  labels?: ReadonlyArray<{
-    icon?: React.ReactNode;
-    label: string;
-  }>;
+  labels?: ReadonlyArray<ContentCardLabel>;
   ariaLabel?: string;
 };
 
@@ -26,81 +28,47 @@ export interface ContentCardProps
     ContentCardOwnProps {}
 
 const baseClasses = `
-  outline-none
-  rounded-md
-  border-0
-  data-[is-focusable=true]:focus-visible:ring-2
-  data-[is-focusable=true]:focus-visible:ring-offset-2
-  data-[is-focusable=true]:focus-visible:ring-comp-border-focus-ring
-  data-[is-focusable=true]:focus-visible:ring-offset-color-background-default
+  outline-none rounded-md border-0
+  data-[is-focusable=true]:focus-visible:ring-2 data-[is-focusable=true]:focus-visible:ring-offset-2
+  data-[is-focusable=true]:focus-visible:ring-comp-border-focus-ring data-[is-focusable=true]:focus-visible:ring-offset-color-background-default
 `;
 
 const mediaClasses = `
-  relative
-  w-full
-  overflow-hidden
-  rounded-sm
-  border-0
-  [&>img]:w-full
-  [&>img]:h-full
-  [&>img]:object-cover
+  relative w-full overflow-hidden rounded-sm border-0
+  [&>img]:w-full [&>img]:h-full [&>img]:object-cover
 `;
 
 const badgeClasses = `
-  absolute
-  top-2
-  left-2
+  absolute top-2 left-2
 `;
 
 const subtitleClasses = `
-  text-xs
-  text-color-content-subtle
+  text-xs text-color-content-subtle
 `;
 
 const titleClasses = `
-  text-color-content-default
-  text-lg
+  text-color-content-default text-lg
 `;
 
 const descriptionClasses = `
-  text-color-content-weak
-  text-sm
+  text-color-content-weak text-sm
 `;
 
 const metaClasses = `
-  mt-2
-  flex
-  flex-wrap
-  gap-2
-  items-center
+  mt-2 flex flex-wrap gap-2 items-center
 `;
 
 const layoutVariantClasses: Record<Layout, string> = {
   vertical: `
-    flex
-    flex-col
-    items-start
-    text-left
-    p-4
-    gap-3
-    sm:p-6
-    sm:gap-4
+    flex flex-col items-start text-left p-4 gap-3
+    sm:p-6 sm:gap-4
   `,
   horizontal: `
-    grid
-    grid-cols-[168px_1fr]
-    gap-4
-    items-start
-    p-4
+    grid grid-cols-[168px_1fr] gap-4 items-start p-4
     sm:p-6
   `,
   post: `
-    flex
-    flex-col
-    items-start
-    text-left
-    p-0
-    gap-2
+    flex flex-col items-start text-left p-0 gap-2
     sm:gap-3
   `
 };
@@ -123,11 +91,12 @@ export const ContentCard = React.forwardRef<HTMLDivElement, ContentCardProps>(
     },
     ref
   ) => {
-    const hasMedia = Boolean(imgSrc);
-    const hasBadge = hasMedia && Boolean(badge);
-    const labelsList = labels ?? [];
-    const hasSubtitle = Boolean(subtitle);
-    const hasDescription = Boolean(description);
+    const isNonEmpty = (v?: string): v is string => typeof v === 'string' && v.trim() !== '';
+    const hasMedia = isNonEmpty(imgSrc);
+    const hasBadge = hasMedia && isNonEmpty(badge);
+    const labelsList: ReadonlyArray<ContentCardLabel> = Array.isArray(labels) ? labels : [];
+    const hasSubtitle = isNonEmpty(subtitle);
+    const hasDescription = isNonEmpty(description);
     const hasMeta = labelsList.length > 0;
 
     const baseClassName = collapseWhitespace(
@@ -148,7 +117,7 @@ export const ContentCard = React.forwardRef<HTMLDivElement, ContentCardProps>(
         tabIndex={focusable ? 0 : undefined}
         role={focusable ? 'group' : undefined}
         data-is-focusable={focusable ? 'true' : undefined}
-        aria-label={ariaLabel ?? undefined}
+        aria-label={focusable && isNonEmpty(ariaLabel) ? ariaLabel : undefined}
         {...rest}
       >
         {hasMedia && (
@@ -156,7 +125,7 @@ export const ContentCard = React.forwardRef<HTMLDivElement, ContentCardProps>(
             <img src={imgSrc} alt={imgAlt} loading="lazy" decoding="async" />
             {hasBadge && (
               <div className={badgeClassName} data-slot="badge">
-                <Badge label={badge} />
+                <Badge variant="brand" label={badge} />
               </div>
             )}
           </div>
@@ -181,7 +150,7 @@ export const ContentCard = React.forwardRef<HTMLDivElement, ContentCardProps>(
         {hasMeta && (
           <div className={metaClassName} data-slot="meta">
             {labelsList.map(({ icon, label }, index) => (
-              <Badge key={`${label}-${index}`} icon={icon} label={label} />
+              <Badge key={`${label}-${index}`} variant="brand" icon={icon} label={label} />
             ))}
           </div>
         )}

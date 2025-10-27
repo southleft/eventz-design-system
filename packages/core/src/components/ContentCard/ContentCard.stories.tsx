@@ -13,7 +13,7 @@ const meta: Meta<ContentCardProps> = {
     subtitle: 'Optional subtitle',
     description: 'Additional description copy providing supporting detail.',
     imgSrc: 'https://via.placeholder.com/400x240',
-    imgAlt: 'Decorative placeholder',
+    imgAlt: '',
     badge: 'Featured',
     labels: [
       {
@@ -39,7 +39,7 @@ export const Default: Story = {
     subtitle: 'Optional subtitle',
     description: 'Additional description copy providing supporting detail.',
     imgSrc: 'https://via.placeholder.com/400x240',
-    imgAlt: 'Decorative placeholder',
+    imgAlt: '',
     badge: 'Featured',
     labels: [
       {
