@@ -38,7 +38,10 @@ const mediaVariantClasses = {
     relative overflow-hidden rounded-sm border-0
     [&>img]:w-168 [&>img]:h-168 [&>img]:object-cover [&>img]:group-hover:opacity-30
   `,
-  horizontal: ``,
+  horizontal: `
+    relative overflow-hidden rounded-sm border-0 row-span-4
+    [&>img]:w-104 [&>img]:h-104 [&>img]:object-cover [&>img]:group-hover:opacity-30
+  `,
   post: `
     relative overflow-hidden rounded-sm border-0
     [&>img]:w-288 [&>img]:h-288 [&>img]:object-cover [&>img]:group-hover:opacity-30
@@ -78,8 +81,7 @@ const layoutVariantClasses: Record<Layout, string> = {
     flex flex-col items-start text-left w-168 p-2
   `,
   horizontal: `
-    grid grid-cols-[168px_1fr] gap-4 items-start p-4
-    sm:p-6
+    grid grid-cols-[112px_1fr] items-start p-2 w-340
   `,
   post: `
     flex flex-col items-start text-left w-288 p-2

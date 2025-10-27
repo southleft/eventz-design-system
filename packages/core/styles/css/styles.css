@@ -1103,6 +1103,12 @@
 .z-50 {
   z-index: 50;
 }
+.row-span-3 {
+  grid-row: span 3 / span 3;
+}
+.row-span-4 {
+  grid-row: span 4 / span 4;
+}
 .container {
   width: 100%;
   @media (width >= 40rem) {
@@ -1263,6 +1269,9 @@
 .w-288 {
   width: calc(var(--spacing) * 288);
 }
+.w-340 {
+  width: calc(var(--spacing) * 340);
+}
 .w-390 {
   width: calc(var(--spacing) * 390);
 }
@@ -1332,6 +1341,12 @@
 }
 .list-none {
   list-style-type: none;
+}
+.grid-cols-\[104px_1fr\] {
+  grid-template-columns: 104px 1fr;
+}
+.grid-cols-\[112px_1fr\] {
+  grid-template-columns: 112px 1fr;
 }
 .grid-cols-\[168px_1fr\] {
   grid-template-columns: 168px 1fr;
@@ -2730,6 +2745,16 @@
     }
   }
 }
+.\[\&\>img\]\:h-80 {
+  &>img {
+    height: calc(var(--spacing) * 80);
+  }
+}
+.\[\&\>img\]\:h-104 {
+  &>img {
+    height: calc(var(--spacing) * 104);
+  }
+}
 .\[\&\>img\]\:h-168 {
   &>img {
     height: calc(var(--spacing) * 168);
@@ -2738,6 +2763,16 @@
 .\[\&\>img\]\:h-288 {
   &>img {
     height: calc(var(--spacing) * 288);
+  }
+}
+.\[\&\>img\]\:w-80 {
+  &>img {
+    width: calc(var(--spacing) * 80);
+  }
+}
+.\[\&\>img\]\:w-104 {
+  &>img {
+    width: calc(var(--spacing) * 104);
   }
 }
 .\[\&\>img\]\:w-168 {
