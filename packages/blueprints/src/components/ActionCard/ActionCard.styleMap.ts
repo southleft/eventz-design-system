@@ -2,7 +2,7 @@ import { defineStyleMap } from '../../utilities';
 
 /**
  * StyleMap for ActionCard (vertical, centered).
- * Token classes are placeholders following our token naming — adjust mapping in @theme if needed.
+ * Tokens are placeholders you’ll sync from Figma.
  */
 export default defineStyleMap({
   base: [
@@ -10,7 +10,18 @@ export default defineStyleMap({
     'border-0',
     'rounded-md',
     'group',
-    // focus ring (color by token; thickness/offset via utilities)
+
+    // vertical stack + centered content (moved from removed `container` slot)
+    'flex',
+    'flex-col',
+    'items-center',
+    'text-center',
+    'p-4',
+    'gap-3',
+    'sm:p-6',
+    'sm:gap-4',
+
+    // focus ring via data-attr
     'data-[is-focusable=true]:focus-visible:ring-2',
     'data-[is-focusable=true]:focus-visible:ring-offset-2',
     'data-[is-focusable=true]:focus-visible:ring-comp-border-focus-ring',
@@ -18,18 +29,6 @@ export default defineStyleMap({
   ] as const,
 
   slots: {
-    // root spacing; vertical stack; center-aligned content
-    container: [
-      'flex',
-      'flex-col',
-      'items-center',
-      'text-center',
-      'p-4',
-      'gap-3',
-      'sm:p-6',
-      'sm:gap-4'
-    ] as const,
-
     // media block: constrained size, clipped radius
     media: ['w-full', 'overflow-hidden', 'rounded-sm', 'border-0', 'aspect-video'] as const,
 
