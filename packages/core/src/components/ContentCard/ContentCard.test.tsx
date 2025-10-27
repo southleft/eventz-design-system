@@ -116,11 +116,12 @@ describe('ContentCard', () => {
     ];
     const { container } = renderContentCard({ labels: labelSet });
     const meta = container.querySelector('[data-slot="meta"]');
-    const badgesByText =
-      Boolean(meta) &&
+    const items = Array.from(container.querySelectorAll('[data-meta-item]'));
+    const textPresent =
       Boolean(screen.getByText('Adventure')) &&
       Boolean(screen.getByText('Photography'));
-    expect(badgesByText).toBe(true);
+    const countMatches = items.length === labelSet.length;
+    expect(textPresent && countMatches && Boolean(meta)).toBe(true);
   });
 
   it('omits the meta slot when labels are undefined or empty', () => {

@@ -34,8 +34,8 @@ const baseClasses = `
 `;
 
 const mediaClasses = `
-  relative w-full overflow-hidden rounded-sm border-0
-  [&>img]:w-full [&>img]:h-full [&>img]:object-cover
+  relative overflow-hidden rounded-sm border-0
+  [&>img]:w-288 [&>img]:h-288 [&>img]:object-cover
 `;
 
 const badgeClasses = `
@@ -47,7 +47,7 @@ const subtitleClasses = `
 `;
 
 const titleClasses = `
-  text-color-content-default text-lg
+  text-color-content-default text-base sm:text-lg
 `;
 
 const descriptionClasses = `
@@ -56,6 +56,14 @@ const descriptionClasses = `
 
 const metaClasses = `
   mt-2 flex flex-wrap gap-2 items-center
+`;
+
+const metaItemClasses = `
+  inline-flex gap-1 text-xs text-color-content-subtle
+`;
+
+const metaIconClasses = `
+  shrink-0 [&>svg]:size-[13px]
 `;
 
 const layoutVariantClasses: Record<Layout, string> = {
@@ -68,8 +76,7 @@ const layoutVariantClasses: Record<Layout, string> = {
     sm:p-6
   `,
   post: `
-    flex flex-col items-start text-left p-0 gap-2
-    sm:gap-3
+    flex flex-col items-start text-left w-288 p-2
   `
 };
 
@@ -108,6 +115,8 @@ export const ContentCard = React.forwardRef<HTMLDivElement, ContentCardProps>(
     const titleClassName = collapseWhitespace(composeClasses(titleClasses));
     const descriptionClassName = collapseWhitespace(composeClasses(descriptionClasses));
     const metaClassName = collapseWhitespace(composeClasses(metaClasses));
+    const metaItemClassName = collapseWhitespace(composeClasses(metaItemClasses));
+    const metaIconClassName = collapseWhitespace(composeClasses(metaIconClasses));
 
     return (
       <div
@@ -150,7 +159,14 @@ export const ContentCard = React.forwardRef<HTMLDivElement, ContentCardProps>(
         {hasMeta && (
           <div className={metaClassName} data-slot="meta">
             {labelsList.map(({ icon, label }, index) => (
-              <Badge key={`${label}-${index}`} variant="brand" icon={icon} label={label} />
+              <span key={`${label}-${index}`} className={metaItemClassName} data-meta-item>
+                {icon ? (
+                  <span aria-hidden="true" className={metaIconClassName}>
+                    {icon}
+                  </span>
+                ) : null}
+                <span>{label}</span>
+              </span>
             ))}
           </div>
         )}

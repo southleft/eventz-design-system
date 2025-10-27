@@ -2,6 +2,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import * as React from 'react';
 import { ContentCard, ContentCardProps } from './ContentCard';
+import { EventIcon } from '../../icons';
 
 const meta: Meta<ContentCardProps> = {
   title: 'Components/ContentCard',
@@ -11,17 +12,17 @@ const meta: Meta<ContentCardProps> = {
     focusable: false,
     title: 'Content card title',
     subtitle: 'Optional subtitle',
-    description: 'Additional description copy providing supporting detail.',
-    imgSrc: 'https://via.placeholder.com/400x240',
+    imgSrc: 'https://picsum.photos/seed/doxyz/400/400',
     imgAlt: '',
     badge: 'Featured',
     labels: [
       {
         label: 'Marketing',
-        icon: <span aria-hidden="true">★</span>
+        icon: <EventIcon />
       },
       {
-        label: 'Strategy'
+        label: 'Strategy',
+        icon: <EventIcon />
       }
     ],
     ariaLabel: undefined
@@ -38,16 +39,17 @@ export const Default: Story = {
     focusable: false,
     subtitle: 'Optional subtitle',
     description: 'Additional description copy providing supporting detail.',
-    imgSrc: 'https://via.placeholder.com/400x240',
+    imgSrc: 'https://picsum.photos/seed/doxyz/400/400',
     imgAlt: '',
     badge: 'Featured',
     labels: [
       {
         label: 'Marketing',
-        icon: <span aria-hidden="true">★</span>
+        icon: <EventIcon />
       },
       {
-        label: 'Strategy'
+        label: 'Strategy',
+        icon: <EventIcon />
       }
     ],
     ariaLabel: undefined

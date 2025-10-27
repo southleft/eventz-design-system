@@ -1257,6 +1257,9 @@
 .w-40 {
   width: calc(var(--spacing) * 40);
 }
+.w-288 {
+  width: calc(var(--spacing) * 288);
+}
 .w-390 {
   width: calc(var(--spacing) * 390);
 }
@@ -1574,6 +1577,9 @@
 }
 .p-0 {
   padding: var(--spacing-0);
+}
+.p-2 {
+  padding: var(--spacing-2);
 }
 .p-3 {
   padding: var(--spacing-3);
@@ -2484,11 +2490,6 @@
     }
   }
 }
-.sm\:gap-3 {
-  @media (width >= 40rem) {
-    gap: var(--spacing-3);
-  }
-}
 .sm\:gap-4 {
   @media (width >= 40rem) {
     gap: var(--spacing-4);
@@ -2497,6 +2498,18 @@
 .sm\:p-6 {
   @media (width >= 40rem) {
     padding: calc(var(--spacing) * 6);
+  }
+}
+.sm\:text-base {
+  @media (width >= 40rem) {
+    font-size: var(--text-base);
+    line-height: var(--tw-leading, var(--text-base--line-height));
+  }
+}
+.sm\:text-lg {
+  @media (width >= 40rem) {
+    font-size: var(--text-lg);
+    line-height: var(--tw-leading, var(--text-lg--line-height));
   }
 }
 .lg\:-mr-18 {
@@ -2700,14 +2713,14 @@
     }
   }
 }
-.\[\&\>img\]\:h-full {
+.\[\&\>img\]\:h-288 {
   &>img {
-    height: 100%;
+    height: calc(var(--spacing) * 288);
   }
 }
-.\[\&\>img\]\:w-full {
+.\[\&\>img\]\:w-288 {
   &>img {
-    width: 100%;
+    width: calc(var(--spacing) * 288);
   }
 }
 .\[\&\>img\]\:object-cover {
@@ -2731,6 +2744,12 @@
   &>svg {
     width: calc(var(--spacing) * 20);
     height: calc(var(--spacing) * 20);
+  }
+}
+.\[\&\>svg\]\:size-\[13px\] {
+  &>svg {
+    width: 13px;
+    height: 13px;
   }
 }
 @layer base {
