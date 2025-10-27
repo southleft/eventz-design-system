@@ -1079,11 +1079,17 @@
 .top-1\/2 {
   top: calc(1/2 * 100%);
 }
+.top-2 {
+  top: var(--spacing-2);
+}
 .-right-20 {
   right: calc(var(--spacing) * -20);
 }
 .-left-20 {
   left: calc(var(--spacing) * -20);
+}
+.left-2 {
+  left: var(--spacing-2);
 }
 .z-0 {
   z-index: 0;
@@ -1129,6 +1135,9 @@
 }
 .mt-1 {
   margin-top: var(--spacing-1);
+}
+.mt-2 {
+  margin-top: var(--spacing-2);
 }
 .mt-6 {
   margin-top: calc(var(--spacing) * 6);
@@ -1317,6 +1326,9 @@
 }
 .list-none {
   list-style-type: none;
+}
+.grid-cols-\[168px_1fr\] {
+  grid-template-columns: 168px 1fr;
 }
 .flex-col {
   flex-direction: column;
@@ -1560,6 +1572,9 @@
 .object-cover {
   object-fit: cover;
 }
+.p-0 {
+  padding: var(--spacing-0);
+}
 .p-3 {
   padding: var(--spacing-3);
 }
@@ -1677,6 +1692,10 @@
 .text-base {
   font-size: var(--text-base);
   line-height: var(--tw-leading, var(--text-base--line-height));
+}
+.text-lg {
+  font-size: var(--text-lg);
+  line-height: var(--tw-leading, var(--text-lg--line-height));
 }
 .text-sm {
   font-size: var(--text-sm);
@@ -2329,6 +2348,36 @@
     }
   }
 }
+.data-\[is-focusable\=true\]\:focus-visible\:ring-2 {
+  &[data-is-focusable="true"] {
+    &:focus-visible {
+      --tw-ring-shadow: var(--tw-ring-inset,) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color, currentcolor);
+      box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+    }
+  }
+}
+.data-\[is-focusable\=true\]\:focus-visible\:ring-comp-border-focus-ring {
+  &[data-is-focusable="true"] {
+    &:focus-visible {
+      --tw-ring-color: var(--color-comp-border-focus-ring);
+    }
+  }
+}
+.data-\[is-focusable\=true\]\:focus-visible\:ring-offset-2 {
+  &[data-is-focusable="true"] {
+    &:focus-visible {
+      --tw-ring-offset-width: 2px;
+      --tw-ring-offset-shadow: var(--tw-ring-inset,) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+    }
+  }
+}
+.data-\[is-focusable\=true\]\:focus-visible\:ring-offset-color-background-default {
+  &[data-is-focusable="true"] {
+    &:focus-visible {
+      --tw-ring-offset-color: var(--color-color-background-default);
+    }
+  }
+}
 .data-\[is-loading\=true\]\:h-48 {
   &[data-is-loading="true"] {
     height: calc(var(--spacing) * 48);
@@ -2433,6 +2482,21 @@
     &:active {
       background-color: var(--color-comp-button-primary-color-background-active);
     }
+  }
+}
+.sm\:gap-3 {
+  @media (width >= 40rem) {
+    gap: var(--spacing-3);
+  }
+}
+.sm\:gap-4 {
+  @media (width >= 40rem) {
+    gap: var(--spacing-4);
+  }
+}
+.sm\:p-6 {
+  @media (width >= 40rem) {
+    padding: calc(var(--spacing) * 6);
   }
 }
 .lg\:-mr-18 {
@@ -2634,6 +2698,21 @@
     &>button {
       rotate: 180deg;
     }
+  }
+}
+.\[\&\>img\]\:h-full {
+  &>img {
+    height: 100%;
+  }
+}
+.\[\&\>img\]\:w-full {
+  &>img {
+    width: 100%;
+  }
+}
+.\[\&\>img\]\:object-cover {
+  &>img {
+    object-fit: cover;
   }
 }
 .\[\&\>svg\]\:size-4 {
