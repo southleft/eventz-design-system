@@ -28,30 +28,37 @@ export interface ContentCardProps
     ContentCardOwnProps {}
 
 const baseClasses = `
-  outline-none rounded-md border-0
+  outline-none rounded-md border-0 group bg-background-none hover:bg-color-background-default
   data-[is-focusable=true]:focus-visible:ring-2 data-[is-focusable=true]:focus-visible:ring-offset-2
   data-[is-focusable=true]:focus-visible:ring-comp-border-focus-ring data-[is-focusable=true]:focus-visible:ring-offset-color-background-default
 `;
 
-const mediaClasses = `
-  relative overflow-hidden rounded-sm border-0
-  [&>img]:w-288 [&>img]:h-288 [&>img]:object-cover
-`;
+const mediaVariantClasses = {
+  vertical: `
+    relative overflow-hidden rounded-sm border-0
+    [&>img]:w-168 [&>img]:h-168 [&>img]:object-cover [&>img]:group-hover:opacity-30
+  `,
+  horizontal: ``,
+  post: `
+    relative overflow-hidden rounded-sm border-0
+    [&>img]:w-288 [&>img]:h-288 [&>img]:object-cover [&>img]:group-hover:opacity-30
+  `
+};
 
 const badgeClasses = `
   absolute top-2 left-2
 `;
 
 const subtitleClasses = `
-  text-xs text-color-content-subtle
+  text-xs text-color-content-subtle group-hover:text-color-content-subtle-hover
 `;
 
 const titleClasses = `
-  text-color-content-default text-base sm:text-lg
+  text-color-content-default group-hover:text-color-content-default-hover text-base sm:text-lg
 `;
 
 const descriptionClasses = `
-  text-color-content-weak text-sm
+  text-color-content-weak group-hover:text-color-content-weak-hover text-sm
 `;
 
 const metaClasses = `
@@ -59,7 +66,7 @@ const metaClasses = `
 `;
 
 const metaItemClasses = `
-  inline-flex gap-1 text-xs text-color-content-subtle
+  inline-flex gap-1 text-xs text-color-content-weak group-hover:text-color-content-weak-hover
 `;
 
 const metaIconClasses = `
@@ -68,8 +75,7 @@ const metaIconClasses = `
 
 const layoutVariantClasses: Record<Layout, string> = {
   vertical: `
-    flex flex-col items-start text-left p-4 gap-3
-    sm:p-6 sm:gap-4
+    flex flex-col items-start text-left w-168 p-2
   `,
   horizontal: `
     grid grid-cols-[168px_1fr] gap-4 items-start p-4
@@ -109,7 +115,7 @@ export const ContentCard = React.forwardRef<HTMLDivElement, ContentCardProps>(
     const baseClassName = collapseWhitespace(
       composeClasses(baseClasses, layoutVariantClasses[layout], className)
     );
-    const mediaClassName = collapseWhitespace(composeClasses(mediaClasses));
+    const mediaClassName = collapseWhitespace(composeClasses(mediaVariantClasses[layout]));
     const badgeClassName = collapseWhitespace(composeClasses(badgeClasses));
     const subtitleClassName = collapseWhitespace(composeClasses(subtitleClasses));
     const titleClassName = collapseWhitespace(composeClasses(titleClasses));

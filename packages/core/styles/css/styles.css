@@ -1257,6 +1257,9 @@
 .w-40 {
   width: calc(var(--spacing) * 40);
 }
+.w-168 {
+  width: calc(var(--spacing) * 168);
+}
 .w-288 {
   width: calc(var(--spacing) * 288);
 }
@@ -1850,6 +1853,13 @@
     }
   }
 }
+.group-hover\:bg-color-background-default {
+  &:is(:where(.group):hover *) {
+    @media (hover: hover) {
+      background-color: var(--color-color-background-default);
+    }
+  }
+}
 .group-hover\:bg-color-background-weak-hover {
   &:is(:where(.group):hover *) {
     @media (hover: hover) {
@@ -1960,6 +1970,13 @@
   &:hover {
     @media (hover: hover) {
       background-color: var(--color-color-background-brand-hover);
+    }
+  }
+}
+.hover\:bg-color-background-default {
+  &:hover {
+    @media (hover: hover) {
+      background-color: var(--color-color-background-default);
     }
   }
 }
@@ -2713,9 +2730,19 @@
     }
   }
 }
+.\[\&\>img\]\:h-168 {
+  &>img {
+    height: calc(var(--spacing) * 168);
+  }
+}
 .\[\&\>img\]\:h-288 {
   &>img {
     height: calc(var(--spacing) * 288);
+  }
+}
+.\[\&\>img\]\:w-168 {
+  &>img {
+    width: calc(var(--spacing) * 168);
   }
 }
 .\[\&\>img\]\:w-288 {
@@ -2726,6 +2753,15 @@
 .\[\&\>img\]\:object-cover {
   &>img {
     object-fit: cover;
+  }
+}
+.\[\&\>img\]\:group-hover\:opacity-30 {
+  &>img {
+    &:is(:where(.group):hover *) {
+      @media (hover: hover) {
+        opacity: 30%;
+      }
+    }
   }
 }
 .\[\&\>svg\]\:size-4 {
