@@ -28,6 +28,7 @@ export const Default: Story = {
 export const Image: Story = {
   args: {
     imgSrc: 'https://picsum.photos/seed/action-card/640/360',
-    imgAlt: 'Abstract gradient background'
+    imgAlt: 'Abstract gradient background',
+    badge: 'Featured'
   }
 };

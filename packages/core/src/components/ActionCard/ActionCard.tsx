@@ -1,5 +1,6 @@
 // packages/core/src/components/ActionCard/ActionCard.tsx
 import * as React from 'react';
+import { Badge } from '../Badge';
 import { collapseWhitespace, composeClasses } from '../../utilities';
 
 type NativeDivProps = Omit<React.HTMLAttributes<HTMLDivElement>, 'title'>;
@@ -12,6 +13,7 @@ type ActionCardOwnProps = {
   imgSrc?: string;
   imgAlt?: string;
   ariaLabel?: string;
+  badge?: string;
   action: React.ReactNode;
 };
 
@@ -28,6 +30,10 @@ const baseClasses = `
 const mediaClasses = `
   relative overflow-hidden rounded-sm border-0 mb-8
   [&>img]:w-168 [&>img]:h-168 [&>img]:object-cover [&>img]:group-hover:opacity-30
+`;
+
+const badgeClasses = `
+  absolute top-2 left-2
 `;
 
 const subtitleClasses = `
@@ -57,6 +63,7 @@ export const ActionCard = React.forwardRef<HTMLDivElement, ActionCardProps>(
       imgAlt,
       ariaLabel,
       action,
+      badge,
       className,
       ...rest
     },
@@ -67,9 +74,11 @@ export const ActionCard = React.forwardRef<HTMLDivElement, ActionCardProps>(
     const hasSubtitle = isNonEmpty(subtitle);
     const hasDescription = isNonEmpty(description);
     const hasMedia = isNonEmpty(imgSrc);
+    const hasBadge = hasMedia && isNonEmpty(badge);
 
     const baseClassName = collapseWhitespace(composeClasses(baseClasses, className));
     const mediaClassName = collapseWhitespace(composeClasses(mediaClasses));
+    const badgeClassName = collapseWhitespace(composeClasses(badgeClasses));
     const subtitleClassName = collapseWhitespace(composeClasses(subtitleClasses));
     const titleClassName = collapseWhitespace(composeClasses(titleClasses));
     const descriptionClassName = collapseWhitespace(composeClasses(descriptionClasses));
@@ -89,6 +98,11 @@ export const ActionCard = React.forwardRef<HTMLDivElement, ActionCardProps>(
         {hasMedia ? (
           <div className={mediaClassName} data-slot="media">
             <img src={imgSrc} alt={imgAlt} loading="lazy" decoding="async" />
+            {hasBadge && (
+              <div className={badgeClassName} data-slot="badge">
+                <Badge variant="brand" label={badge} />
+              </div>
+            )}
           </div>
         ) : null}
 
