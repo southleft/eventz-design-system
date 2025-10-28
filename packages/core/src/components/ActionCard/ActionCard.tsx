@@ -18,15 +18,15 @@ type ActionCardOwnProps = {
 export interface ActionCardProps extends NativeDivProps, ActionCardOwnProps {}
 
 const baseClasses = `
-  outline-none border-0 rounded-md group flex flex-col items-center text-center p-2
-  sm:p-6 sm:gap-4 data-[is-focusable=true]:[&:has(:focus-visible)]:ring-2 w-168
+  outline-none border-0 rounded-md group flex flex-col gap-1 items-center text-center p-2
+  data-[is-focusable=true]:[&:has(:focus-visible)]:ring-2 w-82 [&:has(img)]:w-168
   data-[is-focusable=true]:[&:has(:focus-visible)]:ring-offset-2
   data-[is-focusable=true]:[&:has(:focus-visible)]:ring-comp-border-focus-ring
   data-[is-focusable=true]:[&:has(:focus-visible)]:ring-offset-color-background-default
 `;
 
 const mediaClasses = `
-  relative overflow-hidden rounded-sm border-0
+  relative overflow-hidden rounded-sm border-0 mb-8
   [&>img]:w-168 [&>img]:h-168 [&>img]:object-cover [&>img]:group-hover:opacity-30
 `;
 
@@ -35,7 +35,7 @@ const subtitleClasses = `
 `;
 
 const titleClasses = `
-  inline-flex justify-between items-center w-full text-color-content-default group-hover:text-color-content-default-hover text-base sm:text-lg
+  text-color-content-default group-hover:text-color-content-default-hover text-base sm:text-lg
 `;
 
 const descriptionClasses = `

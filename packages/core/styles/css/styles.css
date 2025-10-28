@@ -1160,6 +1160,9 @@
 .-mr-12 {
   margin-right: calc(var(--spacing) * -12);
 }
+.mb-8 {
+  margin-bottom: calc(var(--spacing) * 8);
+}
 .mb-auto {
   margin-bottom: auto;
 }
@@ -1266,6 +1269,9 @@
 .w-40 {
   width: calc(var(--spacing) * 40);
 }
+.w-82 {
+  width: calc(var(--spacing) * 82);
+}
 .w-168 {
   width: calc(var(--spacing) * 168);
 }
@@ -1289,6 +1295,9 @@
 }
 .w-full {
   width: 100%;
+}
+.max-w-168 {
+  max-width: calc(var(--spacing) * 168);
 }
 .max-w-1300 {
   max-width: calc(var(--spacing) * 1300);
@@ -2752,6 +2761,16 @@
 .\[\&\:has\(\:is\(\[disabled\]\)\)\]\:opacity-50 {
   &:has(:is([disabled])) {
     opacity: 50%;
+  }
+}
+.\[\&\:has\(img\)\]\:w-168 {
+  &:has(img) {
+    width: calc(var(--spacing) * 168);
+  }
+}
+.\[\&\:has\(img\)\]\:max-w-168 {
+  &:has(img) {
+    max-width: calc(var(--spacing) * 168);
   }
 }
 .\[\&\>button\]\:transition-transform {

@@ -9,13 +9,11 @@ const meta: Meta<ActionCardProps> = {
   component: ActionCard,
   args: {
     focusable: false,
-    title: 'Upgrade your workspace',
+    title: 'Join now',
     subtitle: 'Get the most out of DoXYZ',
-    description: "Unlock premium features to accelerate your team's workflow.",
-    imgSrc: 'https://picsum.photos/seed/action-card/640/360',
-    imgAlt: 'Abstract gradient background',
+    description: 'Unlock premium features.',
     ariaLabel: undefined,
-    action: <Button variant="primary">Choose plan</Button>
+    action: <Button variant="primary">Follow</Button>
   }
 };
 
@@ -24,10 +22,11 @@ export default meta;
 type Story = StoryObj<ActionCardProps>;
 
 export const Default: Story = {
+  args: {}
+};
+
+export const Image: Story = {
   args: {
-    subtitle: 'Get the most out of DoXYZ',
-    description: "Unlock premium features to accelerate your team's workflow.",
-    focusable: false,
     imgSrc: 'https://picsum.photos/seed/action-card/640/360',
     imgAlt: 'Abstract gradient background'
   }
