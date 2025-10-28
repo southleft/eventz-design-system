@@ -165,11 +165,11 @@ describe('ContentCard', () => {
     expect(Boolean(named) && Boolean(titleVisible)).toBe(true);
   });
 
-  it('sets aria-label when ariaLabel is provided but focusable is false', () => {
-    const { container } = renderContentCard({ focusable: false, ariaLabel: 'Should not apply' });
+  it('does not set aria-label when ariaLabel is provided but focusable and href are absent', () => {
+    const { container } = renderContentCard({ ariaLabel: 'Should not apply' });
     const base = container.querySelector('[data-slot="base"]') as HTMLElement;
     const hasAria = base.hasAttribute('aria-label');
-    expect(hasAria).toBe(true);
+    expect(hasAria).toBe(false);
   });
 
   it('renders as a link and shows arrow icon when href is provided', () => {

@@ -143,7 +143,7 @@ export const ContentCard = React.forwardRef<HTMLDivElement | HTMLAnchorElement, 
       className: baseClassName,
       'data-slot': 'base',
       'data-is-focusable': focusable || isLink ? 'true' : undefined,
-      'aria-label': isNonEmpty(ariaLabel) ? ariaLabel : undefined
+      'aria-label': (focusable || isLink) && isNonEmpty(ariaLabel) ? ariaLabel : undefined
     };
 
     const cardContent = (
