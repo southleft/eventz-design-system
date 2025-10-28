@@ -12,11 +12,14 @@ export const ButtonStyleMap = defineStyleMap({
     'transition-colors',
     'whitespace-nowrap',
     // typography
-    'font-font-weight-medium',
+    'font-medium',
     'text-sm',
     // focus ring (token)
-    'focus-visible:ring',
+    'focus-visible:ring-2',
+    'focus-visible:ring-offset-2',
     'focus-visible:ring-comp-border-focus-ring',
+    'focus-visible:ring-offset-color-background-default',
+    'outline-none',
     // disabled
     'disabled:opacity-50',
     'disabled:pointer-events-none',
@@ -31,9 +34,9 @@ export const ButtonStyleMap = defineStyleMap({
 
   // Slots used by the runtime component (no container wrapper)
   slots: {
-    startIcon: ['shrink-0', '-ml-0.5'] as const,
+    startIcon: ['shrink-0', '-ml-0.5', 'pt-1'] as const,
     label: [] as const,
-    endIcon: ['shrink-0', '-mr-0.5'] as const
+    endIcon: ['shrink-0', '-mr-0.5', 'pt-1'] as const
   },
 
   // Variants match Button.tsx exactly
@@ -73,6 +76,7 @@ export const ButtonStyleMap = defineStyleMap({
 
   // Semantic state hooks the runtime can toggle (kept minimal)
   state: {
-    loading: ['cursor-wait', 'data-[loading=true]:opacity-100'] as const
+    loading: ['pointer-events-none', 'opacity-50'] as const,
+    disabled: ['pointer-events-none', 'opacity-50'] as const
   }
 });

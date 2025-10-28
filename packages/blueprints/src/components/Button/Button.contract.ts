@@ -24,7 +24,7 @@ export const ButtonContract = defineContract({
     loading: {
       type: 'boolean',
       default: false,
-      description: 'Shows loading state; disables interaction'
+      description: 'Shows loading state; disables interaction and sets aria-busy'
     },
     disabled: { type: 'boolean', default: false, description: 'Disables the button' },
 
@@ -42,9 +42,9 @@ export const ButtonContract = defineContract({
     tag: 'button',
     className: 'flex items-center justify-center gap-2',
     children: [
-      { slot: 'startIcon', tag: 'span', className: 'shrink-0 -ml-0.5' },
+      { slot: 'startIcon', tag: 'span', className: 'shrink-0 -ml-0.5 pt-1' },
       { slot: 'label', tag: 'span' },
-      { slot: 'endIcon', tag: 'span', className: 'shrink-0 -mr-0.5' }
+      { slot: 'endIcon', tag: 'span', className: 'shrink-0 -mr-0.5 pt-1' }
     ]
   },
 
@@ -60,6 +60,9 @@ export const ButtonContract = defineContract({
       when: { loading: true },
       imply: { disabled: true },
       hint: 'Loading forces disabled and sets aria-busy'
+    },
+    {
+      hint: 'Apply pointer-events-none and opacity-50 when disabled or loading to mirror runtime class merging.'
     }
   ],
   styleMap: true,
@@ -67,12 +70,8 @@ export const ButtonContract = defineContract({
   // Optional adapter hints for Radix props (used only if generator supports it)
   hints: {
     radixAdapter: {
-      variantMap: {
-        primary: { variant: 'solid', color: 'blue' },
-        secondary: { variant: 'soft', color: 'gray' },
-        bare: { variant: 'ghost', color: 'gray' },
-        knockout: { variant: 'outline', color: 'blue' }
-      }
-    }
+      uses: ['Slot']
+    },
+    a11y: 'Set aria-busy when loading and aria-disabled/disabled when interaction is blocked.'
   }
 });
