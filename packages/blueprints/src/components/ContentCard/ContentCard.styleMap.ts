@@ -44,18 +44,22 @@ export default defineStyleMap({
       'text-color-content-default',
       'group-hover:text-color-content-default-hover',
       'text-base',
-      'sm:text-lg',
-      '[&_span[aria-hidden=true]]:ml-1',
-      '[&_span[aria-hidden=true]]:shrink-0',
-      '[&_span[aria-hidden=true]>svg]:size-[20px]',
-      '[&_span[aria-hidden=true]]:invisible',
-      'group-hover:[&_span[aria-hidden=true]]:visible',
-      'group-hover:[&_span[aria-hidden=true]]:text-color-content-brand'
+      'sm:text-lg'
+    ] as const,
+    titleIcon: [
+      'ml-1',
+      'shrink-0',
+      '[&>svg]:size-[20px]',
+      'invisible',
+      'group-hover:visible',
+      'group-hover:text-color-content-brand'
     ] as const,
     description: ['text-color-content-weak', 'group-hover:text-color-content-weak-hover', 'text-sm'] as const,
 
     // Meta badges row
-    meta: ['mt-2', 'flex', 'flex-wrap', 'gap-2', 'items-center'] as const
+    meta: ['mt-2', 'flex', 'flex-wrap', 'gap-2', 'items-center'] as const,
+    metaItem: ['inline-flex', 'items-center', 'gap-1', 'text-xs', 'text-color-content-subtle', 'group-hover:text-color-content-subtle-hover'] as const,
+    metaIcon: ['shrink-0', '[&>svg]:size-3'] as const
   },
 
   // Flat variant map: keys = contract enum options
@@ -66,9 +70,20 @@ export default defineStyleMap({
       'items-start',
       'text-left',
       'w-168',
-      'p-2'
+      'p-2',
+      '[&_[data-slot=media]>img]:w-168',
+      '[&_[data-slot=media]>img]:h-168'
     ],
-    horizontal: ['grid', 'grid-cols-[112px_1fr]', 'items-start', 'p-2', 'w-340'],
+    horizontal: [
+      'grid',
+      'grid-cols-[112px_1fr]',
+      'items-start',
+      'p-2',
+      'w-340',
+      '[&_[data-slot=media]]:row-span-4',
+      '[&_[data-slot=media]>img]:w-104',
+      '[&_[data-slot=media]>img]:h-104'
+    ],
     post: [
       // Post-style: generous vertical rhythm, headline-forward
       'flex',
@@ -76,7 +91,9 @@ export default defineStyleMap({
       'items-start',
       'text-left',
       'w-288',
-      'p-2'
+      'p-2',
+      '[&_[data-slot=media]>img]:w-288',
+      '[&_[data-slot=media]>img]:h-288'
     ]
   } as const,
 

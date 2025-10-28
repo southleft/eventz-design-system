@@ -3,7 +3,7 @@ import { defineContract } from '../../utilities';
 export default defineContract({
   component: 'ContentCard',
   description:
-    'Content-only card for displaying media and text. Supports vertical, horizontal, and post layouts. Optional link treatment adds an arrow cue in the title. Meta labels render as inline badges.',
+    'Content-only card for displaying media and text. Supports vertical, horizontal, and post layouts. Optional link treatment adds a decorative title arrow. Meta labels render as inline badges.',
   base: 'div',
 
   props: {
@@ -35,7 +35,7 @@ export default defineContract({
       description: 'Optional small badge rendered over the media.'
     },
 
-    // Labels become badges in the `meta` slot.
+    // Labels become inline badges in the `meta` slot.
     labels: {
       type: 'array',
       of: {
@@ -64,25 +64,33 @@ export default defineContract({
   },
 
   // Rendered parts in order.
-  slots: ['base', 'media', 'badge', 'subtitle', 'title', 'description', 'meta'] as const,
+  slots: [
+    'base',
+    'media',
+    'badge',
+    'subtitle',
+    'title',
+    'titleIcon',
+    'description',
+    'meta',
+    'metaItem',
+    'metaIcon'
+  ] as const,
 
   // Structural hint only (no classes here).
   layout: {
     type: 'container',
     tag: 'div',
     children: [
-      {
-        // Media container; when imgSrc exists, place <img> inside; otherwise omit entirely.
-        slot: 'media',
-        tag: 'div',
-        // Badge overlays inside media (omit if no `badge` or no `media`).
-        children: [{ slot: 'badge', tag: 'div' }]
-      },
+      { slot: 'media', tag: 'div', children: [{ slot: 'badge', tag: 'div' }] },
       { slot: 'subtitle', tag: 'div' },
-      { slot: 'title', tag: 'div' },
+      { slot: 'title', tag: 'div', children: [{ slot: 'titleIcon', tag: 'span' }] },
       { slot: 'description', tag: 'div' },
-      // Meta badges row (omit if no labels)
-      { slot: 'meta', tag: 'div' }
+      {
+        slot: 'meta',
+        tag: 'div',
+        children: [{ slot: 'metaItem', tag: 'span', children: [{ slot: 'metaIcon', tag: 'span' }] }]
+      }
     ]
   },
 
@@ -92,46 +100,54 @@ export default defineContract({
       when: {
         href: (value: unknown) => typeof value !== 'string' || value.trim().length === 0
       },
-      hint: "When 'focusable' is true (and 'href' is not set), keep the root <div>, set tabIndex=0, role='group', and data-is-focusable='true'. Use the trimmed 'title' as the accessible name unless 'ariaLabel' is provided."
+      hint: "Render the base as a plain <div> when 'href' is empty or absent. When 'href' is a non-empty string, render the root as <a href={href}> instead of a div."
     },
     {
       when: { href: (value: unknown) => typeof value === 'string' && value.trim().length > 0 },
-      hint: "When 'href' is provided, render the root as <a href={href}>. Do not set role='group' or tabIndex. Always set data-is-focusable='true' on the base and append an aria-hidden <ForwardArrowIcon /> immediately after the title text, using the token combo ml-1 shrink-0 [&>svg]:size-[20px] invisible group-hover:visible group-hover:text-color-content-brand."
+      hint: "In link mode, always set data-is-focusable='true' on the base but omit tabIndex and role attributes. Append an aria-hidden forward arrow icon inside the 'title' slot (rendered in the 'titleIcon' slot) using the token combo ml-1 shrink-0 [&>svg]:size-[20px] invisible group-hover:visible group-hover:text-color-content-brand."
+    },
+    {
+      when: {
+        href: (value: unknown) => typeof value !== 'string' || value.trim().length === 0
+      },
+      hint: "When not in link mode, set data-is-focusable='true' only when 'focusable' is true. In that case also set tabIndex=0 and role='group' on the base."
     },
     {
       when: {},
-      hint: "When 'imgSrc' is provided, render an <img src={imgSrc} alt={imgAlt} loading='lazy' decoding='async' /> inside the 'media' slot. When absent, omit the 'media' (and 'badge') slots entirely."
+      hint: "Apply aria-label only when the base is focusable (either via 'focusable' or link mode) and 'ariaLabel' is a non-empty string. The visible 'title' text always renders."
     },
     {
       when: {},
-      hint: "When 'badge' is provided and media is present, render a design-system <Badge variant='brand'>{badge}</Badge> inside the 'badge' slot, positioned as an overlay by the styleMap."
+      hint: "Render the 'media' slot only when 'imgSrc' is a non-empty string. Inside, render <img src={imgSrc} alt={imgAlt} loading='lazy' decoding='async' />. When no media, omit both 'media' and 'badge' slots."
     },
     {
       when: {},
-      hint: "Render the 'meta' slot only when 'labels' is a non-empty array. Inside it, map labels to <span data-meta-item> rows (inline-flex, text tokens) with an optional aria-hidden icon span followed by the label text. Do not wrap them in the core Badge component."
+      hint: "Render the 'badge' slot only when both media and 'badge' content exist, using the design-system Badge with variant='brand'."
     },
     {
       when: {},
-      hint: "Always render the visible 'title' slot. 'ariaLabel' overrides only the accessible name; it must not hide the title. Ensure non-link cards omit the arrow icon."
+      hint: "Render the 'meta' slot only when 'labels' is a non-empty array. Each entry renders a 'metaItem' span with optional 'metaIcon' (aria-hidden) followed by the label text—no core Badge component."
     },
     {
       when: { layout: 'vertical' },
-      hint: "Vertical layout: apply base tokens flex/column plus w-168 and p-2. In the media slot, keep the overlay badge and size <img> to 168px square (w-168, h-168)."
+      hint: "Vertical layout tokens: base uses flex-col w-168 p-2; the media slot keeps the badge overlay and sizes the <img> to w-168 h-168."
     },
     {
       when: { layout: 'horizontal' },
-      hint: "Horizontal layout: switch the base to a 112px/1fr grid with w-340 and p-2. Set the media slot to row-span-4 and size the <img> to 104px square (w-104, h-104)."
+      hint: "Horizontal layout tokens: base becomes a grid with grid-cols-[112px_1fr] w-340 p-2. The media slot spans the grid rows (row-span-4) and sizes the <img> to w-104 h-104."
     },
     {
       when: { layout: 'post' },
-      hint: "Post layout: base stays flex/column with w-288 and p-2. Size the media image to 288px square (w-288, h-288)."
+      hint: "Post layout tokens: base stays flex-col with w-288 p-2; the media slot sizes the <img> to w-288 h-288."
     },
     {
       when: {},
-      hint: 'This component is display-only: do not render actions or additional interactive affordances beyond the optional href. Layout order is strictly media → badge (overlay) → subtitle → title → description → meta.'
+      hint: 'Layout order: media (optional) → subtitle (optional) → title (always) with nested titleIcon (link only) → description (optional) → meta (optional).'
     }
   ] as const,
 
   styleMap: true,
-  hints: {}
+  hints: {
+    titleArrow: 'Link mode adds a decorative forward arrow inside the title using the titleIcon slot.'
+  }
 });
