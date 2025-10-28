@@ -65,6 +65,10 @@ export default defineContract({
     },
     {
       when: {},
+      hint: "The base relies on :has(:focus-visible) selectors from the styleMap; the required focusable 'action' node drives the focus-visible state for the card. Do not reintroduce data attributes or alternate focus tokens."
+    },
+    {
+      when: {},
       hint: "Trim string props; omit subtitle, description, badge, and media when their values are empty or whitespace-only."
     },
     {
