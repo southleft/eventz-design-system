@@ -67,7 +67,7 @@ const titleClasses = `
 `;
 
 const titleIconClasses = `
-  ml-1 shrink-0 [&>svg]:size-[2opx] invisible group-hover:visible group-hover:text-color-content-brand
+  ml-1 shrink-0 [&>svg]:size-[20px] invisible group-hover:visible group-hover:text-color-content-brand
 `;
 
 const descriptionClasses = `

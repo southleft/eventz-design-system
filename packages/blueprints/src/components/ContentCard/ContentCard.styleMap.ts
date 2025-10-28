@@ -9,6 +9,9 @@ export default defineStyleMap({
     'outline-none',
     'rounded-md',
     'border-0',
+    'group',
+    'bg-background-none',
+    'hover:bg-color-background-default',
 
     // focus ring via data-attr when focusable
     'data-[is-focusable=true]:focus-visible:ring-2',
@@ -21,22 +24,35 @@ export default defineStyleMap({
   slots: {
     media: [
       'relative',
-      'w-full',
       'overflow-hidden',
       'rounded-sm',
       'border-0',
       // img normalization
-      '[&>img]:w-full',
-      '[&>img]:h-full',
-      '[&>img]:object-cover'
+      '[&>img]:object-cover',
+      '[&>img]:group-hover:opacity-30'
     ] as const,
 
     // Badge overlays within media
     badge: ['absolute', 'top-2', 'left-2'] as const,
 
-    subtitle: ['text-xs', 'text-color-content-subtle'] as const,
-    title: ['text-color-content-default', 'text-lg'] as const,
-    description: ['text-color-content-weak', 'text-sm'] as const,
+    subtitle: ['text-xs', 'text-color-content-subtle', 'group-hover:text-color-content-subtle-hover'] as const,
+    title: [
+      'inline-flex',
+      'justify-between',
+      'items-center',
+      'w-full',
+      'text-color-content-default',
+      'group-hover:text-color-content-default-hover',
+      'text-base',
+      'sm:text-lg',
+      '[&_span[aria-hidden=true]]:ml-1',
+      '[&_span[aria-hidden=true]]:shrink-0',
+      '[&_span[aria-hidden=true]>svg]:size-[20px]',
+      '[&_span[aria-hidden=true]]:invisible',
+      'group-hover:[&_span[aria-hidden=true]]:visible',
+      'group-hover:[&_span[aria-hidden=true]]:text-color-content-brand'
+    ] as const,
+    description: ['text-color-content-weak', 'group-hover:text-color-content-weak-hover', 'text-sm'] as const,
 
     // Meta badges row
     meta: ['mt-2', 'flex', 'flex-wrap', 'gap-2', 'items-center'] as const
@@ -49,21 +65,18 @@ export default defineStyleMap({
       'flex-col',
       'items-start',
       'text-left',
-      'p-4',
-      'gap-3',
-      'sm:p-6',
-      'sm:gap-4'
+      'w-168',
+      'p-2'
     ],
-    horizontal: ['grid', 'grid-cols-[168px_1fr]', 'gap-4', 'items-start', 'p-4', 'sm:p-6'],
+    horizontal: ['grid', 'grid-cols-[112px_1fr]', 'items-start', 'p-2', 'w-340'],
     post: [
       // Post-style: generous vertical rhythm, headline-forward
       'flex',
       'flex-col',
       'items-start',
       'text-left',
-      'p-0',
-      'gap-2',
-      'sm:gap-3'
+      'w-288',
+      'p-2'
     ]
   } as const,
 

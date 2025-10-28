@@ -3,7 +3,7 @@ import { defineContract } from '../../utilities';
 export default defineContract({
   component: 'ContentCard',
   description:
-    'Content-only card for displaying media and text. Supports vertical, horizontal, and post layouts. No actions; meta labels render as badges.',
+    'Content-only card for displaying media and text. Supports vertical, horizontal, and post layouts. Optional link treatment adds an arrow cue in the title. Meta labels render as inline badges.',
   base: 'div',
 
   props: {
@@ -54,6 +54,12 @@ export default defineContract({
     ariaLabel: {
       type: 'string',
       description: 'Accessible name override; does not suppress the visible title.'
+    },
+
+    href: {
+      type: 'string',
+      description:
+        'Optional URL that turns the card into a link. When present, render the root as <a> and append a forward arrow icon inside the title.'
     }
   },
 
@@ -83,8 +89,14 @@ export default defineContract({
   // Generator guidance only (no runtime guards/validation).
   rules: [
     {
-      when: {},
-      hint: "When 'focusable' is true, set tabIndex=0, role='group', and data-is-focusable='true' on the base; use 'title' as the accessible name unless 'ariaLabel' is provided (which sets aria-label on the base)."
+      when: {
+        href: (value: unknown) => typeof value !== 'string' || value.trim().length === 0
+      },
+      hint: "When 'focusable' is true (and 'href' is not set), keep the root <div>, set tabIndex=0, role='group', and data-is-focusable='true'. Use the trimmed 'title' as the accessible name unless 'ariaLabel' is provided."
+    },
+    {
+      when: { href: (value: unknown) => typeof value === 'string' && value.trim().length > 0 },
+      hint: "When 'href' is provided, render the root as <a href={href}>. Do not set role='group' or tabIndex. Always set data-is-focusable='true' on the base and append an aria-hidden <ForwardArrowIcon /> immediately after the title text, using the token combo ml-1 shrink-0 [&>svg]:size-[20px] invisible group-hover:visible group-hover:text-color-content-brand."
     },
     {
       when: {},
@@ -92,19 +104,31 @@ export default defineContract({
     },
     {
       when: {},
-      hint: "When 'badge' is provided and media is present, render a design-system <Badge>{badge}</Badge> inside the 'badge' slot, positioned as an overlay by the styleMap."
+      hint: "When 'badge' is provided and media is present, render a design-system <Badge variant='brand'>{badge}</Badge> inside the 'badge' slot, positioned as an overlay by the styleMap."
     },
     {
       when: {},
-      hint: "Render the 'meta' slot only when 'labels' is a non-empty array. For each item, render a design-system <Badge> with its label and optional icon. Do not introduce extra wrappers beyond the 'meta' slot container."
+      hint: "Render the 'meta' slot only when 'labels' is a non-empty array. Inside it, map labels to <span data-meta-item> rows (inline-flex, text tokens) with an optional aria-hidden icon span followed by the label text. Do not wrap them in the core Badge component."
     },
     {
       when: {},
-      hint: "Always render the visible 'title' slot. 'ariaLabel' overrides only the accessible name; it must not hide the title."
+      hint: "Always render the visible 'title' slot. 'ariaLabel' overrides only the accessible name; it must not hide the title. Ensure non-link cards omit the arrow icon."
+    },
+    {
+      when: { layout: 'vertical' },
+      hint: "Vertical layout: apply base tokens flex/column plus w-168 and p-2. In the media slot, keep the overlay badge and size <img> to 168px square (w-168, h-168)."
+    },
+    {
+      when: { layout: 'horizontal' },
+      hint: "Horizontal layout: switch the base to a 112px/1fr grid with w-340 and p-2. Set the media slot to row-span-4 and size the <img> to 104px square (w-104, h-104)."
+    },
+    {
+      when: { layout: 'post' },
+      hint: "Post layout: base stays flex/column with w-288 and p-2. Size the media image to 288px square (w-288, h-288)."
     },
     {
       when: {},
-      hint: 'This component is display-only: do not render actions, links, or dividers; the stack is strictly media → badge (overlay) → subtitle → title → description → meta.'
+      hint: 'This component is display-only: do not render actions or additional interactive affordances beyond the optional href. Layout order is strictly media → badge (overlay) → subtitle → title → description → meta.'
     }
   ] as const,
 
