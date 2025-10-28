@@ -14,6 +14,8 @@ export * from './KeyboardArrowDownIcon';
 export * from './MapIcon';
 export * from './MoreHorizIcon';
 export * from './NewsmodeIcon';
+export * from './PauseIcon';
+export * from './PlayIcon';
 export * from './ProgressActivityIcon';
 export * from './SearchIcon';
 export * from './StadiumIcon';
