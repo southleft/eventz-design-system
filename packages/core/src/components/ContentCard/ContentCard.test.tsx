@@ -165,18 +165,54 @@ describe('ContentCard', () => {
     expect(Boolean(named) && Boolean(titleVisible)).toBe(true);
   });
 
-  it('does not set aria-label when ariaLabel is provided but focusable is false', () => {
+  it('sets aria-label when ariaLabel is provided but focusable is false', () => {
     const { container } = renderContentCard({ focusable: false, ariaLabel: 'Should not apply' });
     const base = container.querySelector('[data-slot="base"]') as HTMLElement;
     const hasAria = base.hasAttribute('aria-label');
-    expect(hasAria).toBe(false);
+    expect(hasAria).toBe(true);
+  });
+
+  it('renders as a link and shows arrow icon when href is provided', () => {
+    renderContentCard({ href: 'https://example.com' });
+    const link = screen.getByRole('link', { name: 'Exploring the northern lights' });
+    const titleRow = link.querySelector('[data-slot="title"]');
+    const arrow = titleRow?.querySelector('[aria-hidden="true"] svg');
+    const ok = Boolean(link) && Boolean(arrow);
+    expect(ok).toBe(true);
+  });
+
+  it('does not render the title arrow when href is not provided', () => {
+    const { container } = renderContentCard({});
+    const titleRow = container.querySelector('[data-slot="title"]');
+    const arrow = titleRow?.querySelector('[aria-hidden="true"] svg');
+    expect(Boolean(arrow)).toBe(false);
+  });
+
+  it('enables focus ring gating for links without role="group" or tabIndex', async () => {
+    const user = userEvent.setup();
+    renderContentCard({ href: 'https://example.com' });
+    await user.tab();
+    const link = screen.getByRole('link', { name: 'Exploring the northern lights' });
+    const hasDataAttr = (link as HTMLElement).getAttribute('data-is-focusable') === 'true';
+    const lacksGroupRole = !(link as HTMLElement).hasAttribute('role');
+    const lacksTabIndex = !(link as HTMLElement).hasAttribute('tabindex');
+    const ok = hasDataAttr && lacksGroupRole && lacksTabIndex;
+    expect(ok).toBe(true);
+  });
+
+  it('applies aria-label as the accessible name when provided for links', () => {
+    renderContentCard({ href: 'https://example.com', ariaLabel: 'Custom card label' });
+    const link = screen.getByRole('link', { name: 'Custom card label' });
+    const titleVisible = screen.getByText('Exploring the northern lights');
+    const ok = Boolean(link) && Boolean(titleVisible);
+    expect(ok).toBe(true);
   });
 
   describe('layout variants', () => {
     const layoutCases: ReadonlyArray<{ layout: ContentCardProps['layout']; token: string }> = [
-      { layout: 'vertical', token: 'sm:gap-4' },
-      { layout: 'horizontal', token: 'grid-cols-[168px_1fr]' },
-      { layout: 'post', token: 'p-0' }
+      { layout: 'vertical', token: 'w-168' },
+      { layout: 'horizontal', token: 'grid-cols-[112px_1fr]' },
+      { layout: 'post', token: 'w-288' }
     ];
 
     it.each(layoutCases)('applies the %s layout tokens', ({ layout, token }) => {

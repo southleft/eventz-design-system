@@ -1,6 +1,7 @@
 // packages/core/src/components/ContentCard/ContentCard.tsx
 import * as React from 'react';
 import { Badge } from '../Badge';
+import { ArrowForwardIcon } from '../../icons';
 import { collapseWhitespace, composeClasses } from '../../utilities';
 
 type Layout = 'vertical' | 'horizontal' | 'post';
@@ -21,11 +22,16 @@ type ContentCardOwnProps = {
   badge?: string;
   labels?: ReadonlyArray<ContentCardLabel>;
   ariaLabel?: string;
+  href?: string;
 };
 
-export interface ContentCardProps
-  extends Omit<React.HTMLAttributes<HTMLDivElement>, 'children' | 'title'>,
-    ContentCardOwnProps {}
+type NativeDivProps = Omit<React.HTMLAttributes<HTMLDivElement>, 'children' | 'title'>;
+type AnchorLinkProps = Pick<
+  React.AnchorHTMLAttributes<HTMLAnchorElement>,
+  'target' | 'rel' | 'download' | 'hrefLang' | 'ping' | 'referrerPolicy'
+>;
+
+export interface ContentCardProps extends NativeDivProps, AnchorLinkProps, ContentCardOwnProps {}
 
 const baseClasses = `
   outline-none rounded-md border-0 group bg-background-none hover:bg-color-background-default
@@ -57,7 +63,11 @@ const subtitleClasses = `
 `;
 
 const titleClasses = `
-  text-color-content-default group-hover:text-color-content-default-hover text-base sm:text-lg
+  inline-flex justify-between items-center w-full text-color-content-default group-hover:text-color-content-default-hover text-base sm:text-lg
+`;
+
+const titleIconClasses = `
+  ml-1 shrink-0 [&>svg]:size-[2opx] invisible group-hover:visible group-hover:text-color-content-brand
 `;
 
 const descriptionClasses = `
@@ -69,11 +79,11 @@ const metaClasses = `
 `;
 
 const metaItemClasses = `
-  inline-flex gap-1 text-xs text-color-content-weak group-hover:text-color-content-weak-hover
+  inline-flex items-center gap-1 text-xs text-color-content-subtle group-hover:text-color-content-subtle-hover
 `;
 
 const metaIconClasses = `
-  shrink-0 [&>svg]:size-[13px]
+  shrink-0 [&>svg]:size-3
 `;
 
 const layoutVariantClasses: Record<Layout, string> = {
@@ -88,7 +98,7 @@ const layoutVariantClasses: Record<Layout, string> = {
   `
 };
 
-export const ContentCard = React.forwardRef<HTMLDivElement, ContentCardProps>(
+export const ContentCard = React.forwardRef<HTMLDivElement | HTMLAnchorElement, ContentCardProps>(
   (
     {
       layout = 'vertical',
@@ -101,6 +111,7 @@ export const ContentCard = React.forwardRef<HTMLDivElement, ContentCardProps>(
       badge,
       labels,
       ariaLabel,
+      href,
       className,
       ...rest
     },
@@ -113,6 +124,7 @@ export const ContentCard = React.forwardRef<HTMLDivElement, ContentCardProps>(
     const hasSubtitle = isNonEmpty(subtitle);
     const hasDescription = isNonEmpty(description);
     const hasMeta = labelsList.length > 0;
+    const isLink = isNonEmpty(href);
 
     const baseClassName = collapseWhitespace(
       composeClasses(baseClasses, layoutVariantClasses[layout], className)
@@ -122,21 +134,20 @@ export const ContentCard = React.forwardRef<HTMLDivElement, ContentCardProps>(
     const subtitleClassName = collapseWhitespace(composeClasses(subtitleClasses));
     const titleClassName = collapseWhitespace(composeClasses(titleClasses));
     const descriptionClassName = collapseWhitespace(composeClasses(descriptionClasses));
+    const titleIconClassName = collapseWhitespace(composeClasses(titleIconClasses));
     const metaClassName = collapseWhitespace(composeClasses(metaClasses));
     const metaItemClassName = collapseWhitespace(composeClasses(metaItemClasses));
     const metaIconClassName = collapseWhitespace(composeClasses(metaIconClasses));
 
-    return (
-      <div
-        ref={ref}
-        className={baseClassName}
-        data-slot="base"
-        tabIndex={focusable ? 0 : undefined}
-        role={focusable ? 'group' : undefined}
-        data-is-focusable={focusable ? 'true' : undefined}
-        aria-label={focusable && isNonEmpty(ariaLabel) ? ariaLabel : undefined}
-        {...rest}
-      >
+    const baseElementProps = {
+      className: baseClassName,
+      'data-slot': 'base',
+      'data-is-focusable': focusable || isLink ? 'true' : undefined,
+      'aria-label': isNonEmpty(ariaLabel) ? ariaLabel : undefined
+    };
+
+    const cardContent = (
+      <>
         {hasMedia && (
           <div className={mediaClassName} data-slot="media">
             <img src={imgSrc} alt={imgAlt} loading="lazy" decoding="async" />
@@ -155,7 +166,12 @@ export const ContentCard = React.forwardRef<HTMLDivElement, ContentCardProps>(
         )}
 
         <div className={titleClassName} data-slot="title">
-          {title}
+          <span>{title}</span>
+          {isLink ? (
+            <span aria-hidden="true" className={titleIconClassName}>
+              <ArrowForwardIcon />
+            </span>
+          ) : null}
         </div>
 
         {hasDescription && (
@@ -178,6 +194,34 @@ export const ContentCard = React.forwardRef<HTMLDivElement, ContentCardProps>(
             ))}
           </div>
         )}
+      </>
+    );
+
+    if (isLink) {
+      const anchorAttributes = rest as AnchorLinkProps;
+      return (
+        <a
+          {...anchorAttributes}
+          {...baseElementProps}
+          ref={ref as React.Ref<HTMLAnchorElement>}
+          href={href}
+        >
+          {cardContent}
+        </a>
+      );
+    }
+
+    const divAttributes = rest as NativeDivProps;
+
+    return (
+      <div
+        {...divAttributes}
+        {...baseElementProps}
+        ref={ref as React.Ref<HTMLDivElement>}
+        tabIndex={focusable ? 0 : undefined}
+        role={focusable ? 'group' : undefined}
+      >
+        {cardContent}
       </div>
     );
   }

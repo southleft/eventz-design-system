@@ -25,7 +25,8 @@ const meta: Meta<ContentCardProps> = {
         icon: <EventIcon />
       }
     ],
-    ariaLabel: undefined
+    ariaLabel: undefined,
+    href: ''
   }
 };
 
@@ -53,5 +54,29 @@ export const Default: Story = {
       }
     ],
     ariaLabel: undefined
+  }
+};
+
+export const Link: Story = {
+  args: {
+    layout: 'vertical',
+    focusable: false,
+    subtitle: 'Optional subtitle',
+    description: 'Additional description copy providing supporting detail.',
+    imgSrc: 'https://picsum.photos/seed/doxyz/400/400',
+    imgAlt: '',
+    badge: 'Featured',
+    labels: [
+      {
+        label: 'Marketing',
+        icon: <EventIcon />
+      },
+      {
+        label: 'Strategy',
+        icon: <EventIcon />
+      }
+    ],
+    ariaLabel: undefined,
+    href: 'https://example.com'
   }
 };
