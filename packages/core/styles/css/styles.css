@@ -1357,6 +1357,9 @@
 .grid-cols-\[112px_1fr\] {
   grid-template-columns: 112px 1fr;
 }
+.grid-rows-\[112px_1fr\] {
+  grid-template-rows: 112px 1fr;
+}
 .flex-col {
   flex-direction: column;
 }
@@ -2771,6 +2774,11 @@
 .\[\&\:has\(img\)\]\:max-w-168 {
   &:has(img) {
     max-width: calc(var(--spacing) * 168);
+  }
+}
+.\[\&\:has\(img\)\]\:grid-cols-\[112px_1fr\] {
+  &:has(img) {
+    grid-template-columns: 112px 1fr;
   }
 }
 .\[\&\>button\]\:transition-transform {

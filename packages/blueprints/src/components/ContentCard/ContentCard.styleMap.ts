@@ -35,7 +35,11 @@ export default defineStyleMap({
     // Badge overlays within media
     badge: ['absolute', 'top-2', 'left-2'] as const,
 
-    subtitle: ['text-xs', 'text-color-content-subtle', 'group-hover:text-color-content-subtle-hover'] as const,
+    subtitle: [
+      'text-xs',
+      'text-color-content-subtle',
+      'group-hover:text-color-content-subtle-hover'
+    ] as const,
     title: [
       'inline-flex',
       'justify-between',
@@ -54,11 +58,22 @@ export default defineStyleMap({
       'group-hover:visible',
       'group-hover:text-color-content-brand'
     ] as const,
-    description: ['text-color-content-weak', 'group-hover:text-color-content-weak-hover', 'text-sm'] as const,
+    description: [
+      'text-color-content-weak',
+      'group-hover:text-color-content-weak-hover',
+      'text-sm'
+    ] as const,
 
     // Meta badges row
     meta: ['mt-2', 'flex', 'flex-wrap', 'gap-2', 'items-center'] as const,
-    metaItem: ['inline-flex', 'items-center', 'gap-1', 'text-xs', 'text-color-content-subtle', 'group-hover:text-color-content-subtle-hover'] as const,
+    metaItem: [
+      'inline-flex',
+      'items-center',
+      'gap-1',
+      'text-xs',
+      'text-color-content-subtle',
+      'group-hover:text-color-content-subtle-hover'
+    ] as const,
     metaIcon: ['shrink-0', '[&>svg]:size-3'] as const
   },
 
@@ -76,7 +91,7 @@ export default defineStyleMap({
     ],
     horizontal: [
       'grid',
-      'grid-cols-[112px_1fr]',
+      '[&:has(img)]:grid-cols-[112px_1fr]',
       'items-start',
       'p-2',
       'w-340',
