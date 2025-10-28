@@ -6,6 +6,7 @@ export default defineStyleMap({
 
   // Fixed horizontal scaffolding (parity with ContentCard: horizontal)
   base: [
+    'relative',
     'outline-none',
     'rounded-md',
     'border-0',

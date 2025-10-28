@@ -4,7 +4,7 @@ import { defineContract } from '../../utilities';
 export default defineContract({
   component: 'MediaCard',
   description:
-    'Display card for media content with an optional image and a required overlay control. Non-navigational; fixed horizontal layout.',
+    'Server-rendered display card for media content with an optional image and a required overlay control slot. Non-navigational; fixed horizontal layout. The generator must NOT import any control component.',
 
   // Server component container
   base: 'div',
@@ -51,7 +51,8 @@ export default defineContract({
     control: {
       type: 'slot',
       required: true,
-      description: 'Required overlay control (e.g., &lt;MediaControl /&gt;).'
+      description:
+        'Required overlay **slot** for a consumer-provided control (e.g., a play/pause button). Generator must render this slot as-is and must NOT import or instantiate any control component.'
     }
   },
 
@@ -63,7 +64,7 @@ export default defineContract({
     'meta', // container for labels[]
     'metaItem', // each label item
     'metaIcon', // optional decorative icon within a metaItem
-    'control' // overlay bubble (play/pause)
+    'control' // overlay bubble (play/pause), passed via slot
   ] as const,
 
   // Structural guidance (no classes here).
@@ -86,10 +87,11 @@ export default defineContract({
   styleMap: true,
 
   rules: [
-    // Required control
+    // Required control slot (do not import components)
     {
       validate: props => props['control'] != null,
-      message: 'MediaCard requires a `control` slot (e.g., <MediaControl />).'
+      message:
+        'MediaCard requires a `control` slot. The generator must not import a control component.'
     },
 
     // imgAlt required iff imgSrc provided
@@ -140,13 +142,20 @@ export default defineContract({
     },
     { hint: 'Icons inside `labels` are decorative by default and should be aria-hidden="true".' },
 
+    // Server-only constraint
+    {
+      hint: 'MediaCard must remain a **server component**: no hooks, no event handlers, no "use client". The `control` slot is where client interactivity lives.'
+    },
+
     // Non-focusable container
     {
-      hint: 'The card root is not focusable or interactive; only the provided `control` handles interactivity.'
+      hint: 'The card root is not focusable or interactive; only the provided `control` slot handles interactivity.'
     }
   ],
 
   hints: {
-    a11y: 'Non-interactive container; ensure a non-empty accessible name from visible `title` or `ariaLabel`. Decorative icons should be hidden from assistive tech.'
+    a11y: 'Non-interactive container; ensure a non-empty accessible name from visible `title` or `ariaLabel`. Decorative icons should be hidden from assistive tech.',
+    server:
+      'Generator must not import client components. Render the `control` **slot** exactly as provided by the consumer.'
   }
 });
