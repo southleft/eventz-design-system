@@ -1,4 +1,5 @@
 export * from './Accordion';
+export * from './ActionCard';
 export * from './Alert';
 export * from './AvatarGroup';
 export * from './Badge';

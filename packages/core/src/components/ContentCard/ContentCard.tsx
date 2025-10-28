@@ -91,7 +91,7 @@ const layoutVariantClasses: Record<Layout, string> = {
     flex flex-col items-start text-left w-168 p-2
   `,
   horizontal: `
-    grid grid-cols-[112px_1fr] items-start p-2 w-340
+    grid [&:has(img)]:grid-cols-[112px_1fr] items-start p-2 w-340
   `,
   post: `
     flex flex-col items-start text-left w-288 p-2

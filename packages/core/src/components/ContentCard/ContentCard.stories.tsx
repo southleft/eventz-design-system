@@ -12,9 +12,6 @@ const meta: Meta<ContentCardProps> = {
     focusable: false,
     title: 'Content card title',
     subtitle: 'Optional subtitle',
-    imgSrc: 'https://picsum.photos/seed/doxyz/400/400',
-    imgAlt: '',
-    badge: 'Featured',
     labels: [
       {
         label: 'Marketing',
@@ -66,6 +63,27 @@ export const Link: Story = {
     imgSrc: 'https://picsum.photos/seed/doxyz/400/400',
     imgAlt: '',
     badge: 'Featured',
+    labels: [
+      {
+        label: 'Marketing',
+        icon: <EventIcon />
+      },
+      {
+        label: 'Strategy',
+        icon: <EventIcon />
+      }
+    ],
+    ariaLabel: undefined,
+    href: 'https://example.com'
+  }
+};
+
+export const Plain: Story = {
+  args: {
+    layout: 'vertical',
+    focusable: false,
+    subtitle: 'Optional subtitle',
+    description: 'Additional description copy providing supporting detail.',
     labels: [
       {
         label: 'Marketing',

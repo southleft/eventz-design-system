@@ -7,8 +7,6 @@ export default defineContract({
   base: 'div',
 
   props: {
-    focusable: { type: 'boolean', default: false },
-
     title: {
       type: 'string',
       required: true,
@@ -28,6 +26,11 @@ export default defineContract({
       description: 'Accessible name override when you need a different name than the visible title.'
     },
 
+    badge: {
+      type: 'string',
+      description: 'Optional badge label rendered over media when both media and badge text are provided.'
+    },
+
     // Replaces ButtonProps — allows a client Button or a plain <a>.
     action: {
       type: 'slot',
@@ -37,13 +40,17 @@ export default defineContract({
   },
 
   // Rendered parts in order (layout drives structure; content comes from props).
-  slots: ['base', 'media', 'subtitle', 'title', 'description', 'actions'] as const,
+  slots: ['base', 'media', 'badge', 'subtitle', 'title', 'description', 'actions'] as const,
 
   layout: {
     type: 'container',
     tag: 'div',
     children: [
-      { slot: 'media', tag: 'div' },
+      {
+        slot: 'media',
+        tag: 'div',
+        children: [{ slot: 'badge', tag: 'div' }]
+      },
       { slot: 'subtitle', tag: 'div' },
       { slot: 'title', tag: 'div' },
       { slot: 'description', tag: 'div' },
@@ -54,11 +61,15 @@ export default defineContract({
   rules: [
     {
       when: {},
-      hint: "When 'focusable' is true, set tabIndex=0 and role='group' on the base; use 'title' for the accessible name (or 'ariaLabel' override)."
+      hint: "Set tabIndex=0 and role='group' on the base; use the visible 'title' as the accessible name unless 'ariaLabel' overrides it."
     },
     {
       when: {},
-      hint: "When 'focusable' is true, also apply data-is-focusable='true' to the base so styleMap selectors (e.g., data-[is-focusable=true]:focus-visible:...) activate on the correct element."
+      hint: "The base relies on :has(:focus-visible) selectors from the styleMap; the required focusable 'action' node drives the focus-visible state for the card. Do not reintroduce data attributes or alternate focus tokens."
+    },
+    {
+      when: {},
+      hint: "Trim string props; omit subtitle, description, badge, and media when their values are empty or whitespace-only."
     },
     {
       when: {},
@@ -82,7 +93,11 @@ export default defineContract({
     },
     {
       when: {},
-      hint: "Do not render any 'meta' or divider elements in this composition; the stack is strictly media → subtitle → title → description → actions."
+      hint: "When both media and badge text are present, render the badge inside the media slot using the design-system <Badge variant='brand' label={badge} />."
+    },
+    {
+      when: {},
+      hint: "Do not render any 'meta' or divider elements in this composition; the stack is strictly media → badge → subtitle → title → description → actions (with badge nested inside media)."
     }
   ] as const,
 

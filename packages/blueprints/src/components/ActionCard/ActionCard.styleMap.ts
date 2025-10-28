@@ -10,34 +10,45 @@ export default defineStyleMap({
     'border-0',
     'rounded-md',
     'group',
-
-    // vertical stack + centered content (moved from removed `container` slot)
     'flex',
     'flex-col',
+    'gap-1',
     'items-center',
     'text-center',
-    'p-4',
-    'gap-3',
-    'sm:p-6',
-    'sm:gap-4',
-
-    // focus ring via data-attr
-    'data-[is-focusable=true]:focus-visible:ring-2',
-    'data-[is-focusable=true]:focus-visible:ring-offset-2',
-    'data-[is-focusable=true]:focus-visible:ring-comp-border-focus-ring',
-    'data-[is-focusable=true]:focus-visible:ring-offset-color-background-default'
+    'p-2',
+    'w-82',
+    '[&:has(img)]:w-168',
+    '[&:has(:focus-visible)]:ring-2',
+    '[&:has(:focus-visible)]:ring-offset-2',
+    '[&:has(:focus-visible)]:ring-comp-border-focus-ring',
+    '[&:has(:focus-visible)]:ring-offset-color-background-default'
   ] as const,
 
   slots: {
-    // media block: constrained size, clipped radius
-    media: ['w-full', 'overflow-hidden', 'rounded-sm', 'border-0', 'aspect-video'] as const,
-
-    // subtitle/title/description typography tokens
-    subtitle: ['text-xs', 'text-color-content-subtle'] as const,
-    title: ['text-color-content-default', 'text-lg'] as const,
-    description: ['text-color-content-weak', 'text-sm'] as const,
-
-    // footer actions: own block spacing; centered
+    media: [
+      'relative',
+      'overflow-hidden',
+      'rounded-sm',
+      'border-0',
+      'mb-8',
+      '[&>img]:w-168',
+      '[&>img]:h-168',
+      '[&>img]:object-cover',
+      '[&>img]:group-hover:opacity-30'
+    ] as const,
+    badge: ['absolute', 'top-2', 'left-2'] as const,
+    subtitle: ['text-xs', 'text-color-content-subtle', 'group-hover:text-color-content-subtle-hover'] as const,
+    title: [
+      'text-color-content-default',
+      'group-hover:text-color-content-default-hover',
+      'text-base',
+      'sm:text-lg'
+    ] as const,
+    description: [
+      'text-color-content-weak',
+      'group-hover:text-color-content-weak-hover',
+      'text-sm'
+    ] as const,
     actions: ['mt-2', 'sm:mt-3'] as const
   }
 });
