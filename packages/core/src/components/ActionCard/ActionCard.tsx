@@ -6,7 +6,6 @@ import { collapseWhitespace, composeClasses } from '../../utilities';
 type NativeDivProps = Omit<React.HTMLAttributes<HTMLDivElement>, 'title'>;
 
 type ActionCardOwnProps = {
-  focusable?: boolean;
   title: string;
   subtitle?: string;
   description?: string;
@@ -21,10 +20,10 @@ export interface ActionCardProps extends NativeDivProps, ActionCardOwnProps {}
 
 const baseClasses = `
   outline-none border-0 rounded-md group flex flex-col gap-1 items-center text-center p-2
-  data-[is-focusable=true]:[&:has(:focus-visible)]:ring-2 w-82 [&:has(img)]:w-168
-  data-[is-focusable=true]:[&:has(:focus-visible)]:ring-offset-2
-  data-[is-focusable=true]:[&:has(:focus-visible)]:ring-comp-border-focus-ring
-  data-[is-focusable=true]:[&:has(:focus-visible)]:ring-offset-color-background-default
+  [&:has(:focus-visible)]:ring-2 w-82 [&:has(img)]:w-168
+  [&:has(:focus-visible)]:ring-offset-2
+  [&:has(:focus-visible)]:ring-comp-border-focus-ring
+  [&:has(:focus-visible)]:ring-offset-color-background-default
 `;
 
 const mediaClasses = `
@@ -54,19 +53,7 @@ const actionsClasses = `
 
 export const ActionCard = React.forwardRef<HTMLDivElement, ActionCardProps>(
   (
-    {
-      focusable = false,
-      title,
-      subtitle,
-      description,
-      imgSrc,
-      imgAlt,
-      ariaLabel,
-      action,
-      badge,
-      className,
-      ...rest
-    },
+    { title, subtitle, description, imgSrc, imgAlt, ariaLabel, action, badge, className, ...rest },
     ref
   ) => {
     const isNonEmpty = (value?: string): value is string =>
@@ -90,9 +77,8 @@ export const ActionCard = React.forwardRef<HTMLDivElement, ActionCardProps>(
         ref={ref}
         className={baseClassName}
         data-slot="base"
-        data-is-focusable={focusable ? 'true' : undefined}
-        tabIndex={focusable ? 0 : undefined}
-        role={focusable ? 'group' : undefined}
+        tabIndex={0}
+        role="group"
         aria-label={isNonEmpty(ariaLabel) ? ariaLabel : undefined}
       >
         {hasMedia ? (

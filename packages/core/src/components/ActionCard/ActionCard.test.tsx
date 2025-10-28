@@ -36,18 +36,14 @@ describe('ActionCard', () => {
     expect(passes).toBe(true);
   });
 
-  it('applies focusable attributes and focus ring token when focusable is true', async () => {
+  it('applies focus ring', async () => {
     const user = userEvent.setup();
-    const { container } = renderActionCard({ focusable: true });
+    const { container } = renderActionCard();
     await user.tab();
     const base = container.querySelector('[data-slot="base"]') as HTMLElement;
     const attributesApplied =
-      base.getAttribute('tabindex') === '0' &&
-      base.getAttribute('role') === 'group' &&
-      base.getAttribute('data-is-focusable') === 'true';
-    const hasFocusRingToken = base.className.includes(
-      'data-[is-focusable=true]:focus-visible:ring-2'
-    );
+      base.getAttribute('tabindex') === '0' && base.getAttribute('role') === 'group';
+    const hasFocusRingToken = base.className.includes('[&:has(:focus-visible)]:ring-2');
     const isFocused = document.activeElement === base;
     expect(attributesApplied && hasFocusRingToken && isFocused).toBe(true);
   });
@@ -73,8 +69,36 @@ describe('ActionCard', () => {
     expect(media).toBeNull();
   });
 
+  it('renders the badge within the media slot when badge text accompanies media', () => {
+    const { container } = renderActionCard({
+      imgSrc: 'https://example.com/media.png',
+      imgAlt: 'Abstract card art',
+      badge: 'Featured'
+    });
+    const media = container.querySelector('[data-slot="media"]');
+    const badge = container.querySelector('[data-slot="badge"]');
+    const rendered =
+      Boolean(media?.contains(badge ?? null)) && (badge?.textContent ?? '').includes('Featured');
+    expect(rendered).toBe(true);
+  });
+
+  it('omits the badge slot when badge text is absent even if media is present', () => {
+    const { container } = renderActionCard({
+      imgSrc: 'https://example.com/media.png',
+      imgAlt: 'Abstract card art'
+    });
+    const badge = container.querySelector('[data-slot="badge"]');
+    expect(badge).toBeNull();
+  });
+
   it('leaves aria-label unset by default', () => {
     const { container } = renderActionCard();
+    const base = container.querySelector('[data-slot="base"]') as HTMLElement;
+    expect(base.hasAttribute('aria-label')).toBe(false);
+  });
+
+  it('omits aria-label when provided value is whitespace-only', () => {
+    const { container } = renderActionCard({ ariaLabel: '   ' });
     const base = container.querySelector('[data-slot="base"]') as HTMLElement;
     expect(base.hasAttribute('aria-label')).toBe(false);
   });
@@ -91,9 +115,8 @@ describe('ActionCard', () => {
     const { container } = renderActionCard();
     const base = container.querySelector('[data-slot="base"]');
     const actions = container.querySelector('[data-slot="actions"]');
-    const baseHasToken = base?.className.includes('flex') ?? false;
+    const baseHasToken = base?.className.includes('group') ?? false;
     const actionsHasToken = actions?.className.includes('mt-2') ?? false;
     expect(baseHasToken && actionsHasToken).toBe(true);
   });
 });
-
