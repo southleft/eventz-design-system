@@ -47,7 +47,6 @@ export const MediaControl = React.forwardRef<HTMLButtonElement, MediaControlProp
     const [uncontrolledState, setUncontrolledState] =
       React.useState<MediaControlState>(defaultState);
 
-    /* c8 ignore next -- fallback is unreachable: uncontrolledState is always seeded by defaultState='paused' */
     const effectiveState: MediaControlState = isControlled ? stateProp : uncontrolledState;
     const isPlaying = effectiveState === 'playing';
 

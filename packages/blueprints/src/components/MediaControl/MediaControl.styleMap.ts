@@ -23,8 +23,7 @@ export default defineStyleMap({
   // State hooks. Generators/runtime can toggle these based on the component's state.
   // Apply brand content color to the icon ONLY when playing.
   state: {
-    // Scope the color to the inner icon slot without affecting container text color:
-    // Target the icon component itself.
+    // Note: runtime applies this class directly to the icon element when playing (no descendant selector).
     playing: ['text-color-content-brand'],
     paused: []
   }

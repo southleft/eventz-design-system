@@ -100,10 +100,10 @@ export default defineContract({
       hint: 'Icon-only control: accessible name comes from ariaLabelPlay/ariaLabelPause depending on current state.'
     },
     {
-      hint: 'When state is playing, tint the icon with brand content color per tokens.'
+      hint: 'When state is playing, apply the brand content color class directly to the rendered icon element.'
     },
     {
-      hint: 'Generator hook: render the icon wrapper element with data-slot="_icon" so the styleMap state selector can target it.'
+      hint: 'Generator hook: render the icon wrapper element with data-slot="_icon" for testing and future hooks; tint is applied directly to the icon element (no descendant selector required).'
     },
     {
       hint: 'Glyph imports are explicit: use PlayIcon when paused and PauseIcon when playing, sourced from the design-system icon set.'
