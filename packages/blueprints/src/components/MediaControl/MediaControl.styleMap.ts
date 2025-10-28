@@ -24,8 +24,8 @@ export default defineStyleMap({
   // Apply brand content color to the icon ONLY when playing.
   state: {
     // Scope the color to the inner icon slot without affecting container text color:
-    // Target a descendant with the `_icon` slot class.
-    playing: ['[&_[data-slot=\\"_icon\\"]]:text-color-content-brand'],
+    // Target the icon component itself.
+    playing: ['text-color-content-brand'],
     paused: []
   }
 });
