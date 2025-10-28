@@ -6,12 +6,7 @@ import userEvent from '@testing-library/user-event';
 import { ContentCard, type ContentCardProps } from './ContentCard';
 
 const renderContentCard = (props?: Partial<ContentCardProps>) => {
-  return render(
-    <ContentCard
-      title="Exploring the northern lights"
-      {...props}
-    />
-  );
+  return render(<ContentCard title="Exploring the northern lights" {...props} />);
 };
 
 describe('ContentCard', () => {
@@ -118,8 +113,7 @@ describe('ContentCard', () => {
     const meta = container.querySelector('[data-slot="meta"]');
     const items = Array.from(container.querySelectorAll('[data-meta-item]'));
     const textPresent =
-      Boolean(screen.getByText('Adventure')) &&
-      Boolean(screen.getByText('Photography'));
+      Boolean(screen.getByText('Adventure')) && Boolean(screen.getByText('Photography'));
     const countMatches = items.length === labelSet.length;
     expect(textPresent && countMatches && Boolean(meta)).toBe(true);
   });
@@ -193,9 +187,9 @@ describe('ContentCard', () => {
     renderContentCard({ href: 'https://example.com' });
     await user.tab();
     const link = screen.getByRole('link', { name: 'Exploring the northern lights' });
-    const hasDataAttr = (link as HTMLElement).getAttribute('data-is-focusable') === 'true';
-    const lacksGroupRole = !(link as HTMLElement).hasAttribute('role');
-    const lacksTabIndex = !(link as HTMLElement).hasAttribute('tabindex');
+    const hasDataAttr = link.getAttribute('data-is-focusable') === 'true';
+    const lacksGroupRole = !link.hasAttribute('role');
+    const lacksTabIndex = !link.hasAttribute('tabindex');
     const ok = hasDataAttr && lacksGroupRole && lacksTabIndex;
     expect(ok).toBe(true);
   });
