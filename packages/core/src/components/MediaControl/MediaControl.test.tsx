@@ -12,6 +12,30 @@ const getIconEl = (): HTMLElement | null =>
 
 const renderMediaControl = (props?: Partial<MediaControlProps>) => render(<MediaControl {...props} />);
 
+const setupPreventDefaultScenario = async () => {
+  const calls: string[] = [];
+  const user = userEvent.setup();
+  renderMediaControl({
+    onClick: event => event.preventDefault(),
+    onStateChange: next => {
+      calls.push(`state:${next}`);
+    },
+    onPlay: () => {
+      calls.push('play');
+    },
+    onPause: () => {
+      calls.push('pause');
+    }
+  });
+  const button = screen.getByRole('button');
+  const beforeIcon = getIconEl()?.getAttribute('data-icon') ?? null;
+
+  await user.click(button);
+
+  const afterIcon = getIconEl()?.getAttribute('data-icon') ?? null;
+  return { beforeIcon, afterIcon, calls };
+};
+
 describe('MediaControl', () => {
   it('renders a button with the icon slot', () => {
     renderMediaControl();
@@ -82,29 +106,16 @@ describe('MediaControl', () => {
     expect(calls).toEqual(['state:playing', 'play', 'state:paused', 'pause']);
   });
 
-  it('does not toggle or emit callbacks when onClick prevents default', async () => {
-    const calls: string[] = [];
-    const user = userEvent.setup();
-    renderMediaControl({
-      onClick: event => event.preventDefault(),
-      onStateChange: next => {
-        calls.push(`state:${next}`);
-      },
-      onPlay: () => {
-        calls.push('play');
-      },
-      onPause: () => {
-        calls.push('pause');
-      }
+  describe('when onClick prevents default', () => {
+    it('does not toggle the icon state', async () => {
+      const { beforeIcon, afterIcon } = await setupPreventDefaultScenario();
+      expect(afterIcon).toBe(beforeIcon);
     });
-    const button = screen.getByRole('button');
-    const before = getIconEl()?.getAttribute('data-icon') ?? null;
 
-    await user.click(button);
-
-    const after = getIconEl()?.getAttribute('data-icon') ?? null;
-    expect(after).toBe(before);
-    expect(calls).toEqual([]);
+    it('does not emit callbacks', async () => {
+      const { calls } = await setupPreventDefaultScenario();
+      expect(calls).toEqual([]);
+    });
   });
 
   it('does not toggle visuals when controlled without external state change', async () => {
@@ -142,13 +153,20 @@ describe('MediaControl', () => {
     expect(labels).toEqual(['Play media', 'Pause media']);
   });
 
-  it('toggles via keyboard Space key (uncontrolled)', async () => {
+  it('receives focus after keyboard tab navigation', async () => {
     const user = userEvent.setup();
     renderMediaControl();
 
     await user.tab();
     const button = screen.getByRole('button');
     expect(button).toHaveFocus();
+  });
+
+  it('toggles via keyboard Space key (uncontrolled)', async () => {
+    const user = userEvent.setup();
+    renderMediaControl();
+
+    await user.tab();
     const iconStates: Array<string | null> = [];
     await user.keyboard('[Space]');
     iconStates.push(getIconEl()?.getAttribute('data-icon') ?? null);
@@ -163,13 +181,19 @@ describe('MediaControl', () => {
     expect(button.getAttribute('data-state')).toBe('paused');
   });
 
-  it('exposes data-state from controlled prop', () => {
-    const { rerender } = renderMediaControl({ state: 'paused' });
-    let button = screen.getByRole('button');
-    expect(button.getAttribute('data-state')).toBe('paused');
-    rerender(<MediaControl state="playing" />);
-    button = screen.getByRole('button');
-    expect(button.getAttribute('data-state')).toBe('playing');
+  describe('controlled state', () => {
+    it('exposes data-state from provided prop', () => {
+      renderMediaControl({ state: 'paused' });
+      const button = screen.getByRole('button');
+      expect(button.getAttribute('data-state')).toBe('paused');
+    });
+
+    it('updates data-state when the prop changes', () => {
+      const { rerender } = renderMediaControl({ state: 'paused' });
+      rerender(<MediaControl state="playing" />);
+      const button = screen.getByRole('button');
+      expect(button.getAttribute('data-state')).toBe('playing');
+    });
   });
 
   it('adds the playing tint class when state is playing', () => {
