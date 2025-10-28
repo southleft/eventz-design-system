@@ -7,6 +7,7 @@ export * from './Button';
 export * from './Checkbox';
 export * from './CheckboxGroup';
 export * from './Combobox';
+export * from './ContentCard';
 export * from './Control';
 export * from './DatePicker';
 export * from './Dialog';
