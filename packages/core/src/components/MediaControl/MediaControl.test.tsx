@@ -5,7 +5,7 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MediaControl, type MediaControlProps } from './MediaControl';
 
-const playingTintClass = '[&_[data-slot="_icon"]]:text-color-content-brand';
+const playingTintClass = 'text-color-content-brand';
 
 const getIconEl = (): HTMLElement | null =>
   document.querySelector('[data-slot="_icon"]');
@@ -174,14 +174,16 @@ describe('MediaControl', () => {
 
   it('adds the playing tint class when state is playing', () => {
     renderMediaControl({ state: 'playing' });
-    const button = screen.getByRole('button');
-    expect(button.className.includes(playingTintClass)).toBe(true);
+    const iconSvg = getIconEl()?.querySelector('svg');
+    const hasTint = iconSvg?.classList.contains(playingTintClass) ?? false;
+    expect(hasTint).toBe(true);
   });
 
   it('omits the playing tint class when paused', () => {
     renderMediaControl();
-    const button = screen.getByRole('button');
-    expect(button.className.includes(playingTintClass)).toBe(false);
+    const iconSvg = getIconEl()?.querySelector('svg');
+    const hasTint = iconSvg?.classList.contains(playingTintClass) ?? false;
+    expect(hasTint).toBe(false);
   });
 
   it('shows the focus-visible ring after keyboard focus', async () => {
