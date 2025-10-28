@@ -1296,9 +1296,6 @@
 .w-full {
   width: 100%;
 }
-.max-w-168 {
-  max-width: calc(var(--spacing) * 168);
-}
 .max-w-1300 {
   max-width: calc(var(--spacing) * 1300);
 }
@@ -1356,9 +1353,6 @@
 }
 .grid-cols-\[112px_1fr\] {
   grid-template-columns: 112px 1fr;
-}
-.grid-rows-\[112px_1fr\] {
-  grid-template-rows: 112px 1fr;
 }
 .flex-col {
   flex-direction: column;
@@ -1722,10 +1716,6 @@
 .text-base {
   font-size: var(--text-base);
   line-height: var(--tw-leading, var(--text-base--line-height));
-}
-.text-lg {
-  font-size: var(--text-lg);
-  line-height: var(--tw-leading, var(--text-lg--line-height));
 }
 .text-sm {
   font-size: var(--text-sm);
@@ -2540,16 +2530,6 @@
     margin-top: var(--spacing-3);
   }
 }
-.sm\:gap-4 {
-  @media (width >= 40rem) {
-    gap: var(--spacing-4);
-  }
-}
-.sm\:p-6 {
-  @media (width >= 40rem) {
-    padding: calc(var(--spacing) * 6);
-  }
-}
 .sm\:text-lg {
   @media (width >= 40rem) {
     font-size: var(--text-lg);
@@ -2737,36 +2717,6 @@
     --tw-ring-offset-color: var(--color-color-background-default);
   }
 }
-.data-\[is-focusable\=true\]\:\[\&\:has\(\:focus-visible\)\]\:ring-2 {
-  &[data-is-focusable="true"] {
-    &:has(:focus-visible) {
-      --tw-ring-shadow: var(--tw-ring-inset,) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color, currentcolor);
-      box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
-    }
-  }
-}
-.data-\[is-focusable\=true\]\:\[\&\:has\(\:focus-visible\)\]\:ring-comp-border-focus-ring {
-  &[data-is-focusable="true"] {
-    &:has(:focus-visible) {
-      --tw-ring-color: var(--color-comp-border-focus-ring);
-    }
-  }
-}
-.data-\[is-focusable\=true\]\:\[\&\:has\(\:focus-visible\)\]\:ring-offset-2 {
-  &[data-is-focusable="true"] {
-    &:has(:focus-visible) {
-      --tw-ring-offset-width: 2px;
-      --tw-ring-offset-shadow: var(--tw-ring-inset,) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
-    }
-  }
-}
-.data-\[is-focusable\=true\]\:\[\&\:has\(\:focus-visible\)\]\:ring-offset-color-background-default {
-  &[data-is-focusable="true"] {
-    &:has(:focus-visible) {
-      --tw-ring-offset-color: var(--color-color-background-default);
-    }
-  }
-}
 .\[\&\:has\(\:is\(\[disabled\]\)\)\]\:opacity-50 {
   &:has(:is([disabled])) {
     opacity: 50%;
@@ -2775,11 +2725,6 @@
 .\[\&\:has\(img\)\]\:w-168 {
   &:has(img) {
     width: calc(var(--spacing) * 168);
-  }
-}
-.\[\&\:has\(img\)\]\:max-w-168 {
-  &:has(img) {
-    max-width: calc(var(--spacing) * 168);
   }
 }
 .\[\&\:has\(img\)\]\:grid-cols-\[112px_1fr\] {
