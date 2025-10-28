@@ -18,27 +18,28 @@ type ActionCardOwnProps = {
 export interface ActionCardProps extends NativeDivProps, ActionCardOwnProps {}
 
 const baseClasses = `
-  outline-none border-0 rounded-md group flex flex-col items-center text-center p-4 gap-3
-  sm:p-6 sm:gap-4 data-[is-focusable=true]:focus-visible:ring-2
-  data-[is-focusable=true]:focus-visible:ring-offset-2
-  data-[is-focusable=true]:focus-visible:ring-comp-border-focus-ring
-  data-[is-focusable=true]:focus-visible:ring-offset-color-background-default
+  outline-none border-0 rounded-md group flex flex-col items-center text-center p-2
+  sm:p-6 sm:gap-4 data-[is-focusable=true]:[&:has(:focus-visible)]:ring-2 w-168
+  data-[is-focusable=true]:[&:has(:focus-visible)]:ring-offset-2
+  data-[is-focusable=true]:[&:has(:focus-visible)]:ring-comp-border-focus-ring
+  data-[is-focusable=true]:[&:has(:focus-visible)]:ring-offset-color-background-default
 `;
 
 const mediaClasses = `
-  w-full overflow-hidden rounded-sm border-0 aspect-video
+  relative overflow-hidden rounded-sm border-0
+  [&>img]:w-168 [&>img]:h-168 [&>img]:object-cover [&>img]:group-hover:opacity-30
 `;
 
 const subtitleClasses = `
-  text-xs text-color-content-subtle
+  text-xs text-color-content-subtle group-hover:text-color-content-subtle-hover
 `;
 
 const titleClasses = `
-  text-color-content-default text-lg
+  inline-flex justify-between items-center w-full text-color-content-default group-hover:text-color-content-default-hover text-base sm:text-lg
 `;
 
 const descriptionClasses = `
-  text-color-content-weak text-sm
+  text-color-content-weak group-hover:text-color-content-weak-hover text-sm
 `;
 
 const actionsClasses = `
@@ -116,4 +117,3 @@ export const ActionCard = React.forwardRef<HTMLDivElement, ActionCardProps>(
 );
 
 ActionCard.displayName = 'ActionCard';
-
