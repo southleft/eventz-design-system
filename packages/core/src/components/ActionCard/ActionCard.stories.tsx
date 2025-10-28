@@ -8,7 +8,6 @@ const meta: Meta<ActionCardProps> = {
   title: 'Components/ActionCard',
   component: ActionCard,
   args: {
-    focusable: false,
     title: 'Join now',
     subtitle: 'Get the most out of DoXYZ',
     description: 'Unlock premium features.',
