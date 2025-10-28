@@ -1,4 +1,3 @@
-
 // packages/blueprints/src/components/MediaControl/MediaControl.styleMap.ts
 import { defineStyleMap } from '../../utilities';
 
@@ -26,7 +25,7 @@ export default defineStyleMap({
   state: {
     // Scope the color to the inner icon slot without affecting container text color:
     // Target a descendant with the `_icon` slot class.
-    playing: ['[&_.\\_icon]:text-color-content-brand'],
+    playing: ['[&_[data-slot=\\"_icon\\"]]:text-color-content-brand'],
     paused: []
   }
 });

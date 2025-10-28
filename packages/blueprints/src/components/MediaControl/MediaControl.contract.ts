@@ -1,10 +1,10 @@
-
 // packages/blueprints/src/components/MediaControl/MediaControl.contract.ts
 import { defineContract } from '../../utilities';
 
 export default defineContract({
   component: 'MediaControl',
-  description: 'Icon-only play/pause control built on top of Control. Used in MediaCard and MediaPlayer.',
+  description:
+    'Icon-only play/pause control built on top of Control. Used in MediaCard and MediaPlayer.',
 
   // Per project guidance, this wraps our internal Control component (which renders a native button).
   base: 'Control',
@@ -77,24 +77,36 @@ export default defineContract({
 
   rules: [
     {
-      validate: (props) => {
+      validate: props => {
         // Determine effective state (controlled or default)
         const s = (props['state'] as string) ?? (props['defaultState'] as string) ?? 'paused';
         if (s === 'playing') {
-          const label = String((props['ariaLabelPause'] ?? 'Pause media')).trim();
+          const label = String(props['ariaLabelPause'] ?? 'Pause media').trim();
           return label.length > 0;
         } else {
-          const label = String((props['ariaLabelPlay'] ?? 'Play media')).trim();
+          const label = String(props['ariaLabelPlay'] ?? 'Play media').trim();
           return label.length > 0;
         }
       },
       message: 'Computed aria-label must be non-empty for the current state.'
     },
     {
+      hint: 'Event order on activation: onStateChange(next) fires first, then onPlay() or onPause() (exactly one).'
+    },
+    {
+      hint: 'Icons: render PlayIcon when state is paused; render PauseIcon when state is playing. Icons come from the design-system icon set.'
+    },
+    {
       hint: 'Icon-only control: accessible name comes from ariaLabelPlay/ariaLabelPause depending on current state.'
     },
     {
       hint: 'When state is playing, tint the icon with brand content color per tokens.'
+    },
+    {
+      hint: 'Generator hook: render the icon wrapper element with data-slot="_icon" so the styleMap state selector can target it.'
+    },
+    {
+      hint: 'Glyph imports are explicit: use PlayIcon when paused and PauseIcon when playing, sourced from the design-system icon set.'
     }
   ],
 
