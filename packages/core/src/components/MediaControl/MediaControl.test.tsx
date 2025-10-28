@@ -82,6 +82,31 @@ describe('MediaControl', () => {
     expect(calls).toEqual(['state:playing', 'play', 'state:paused', 'pause']);
   });
 
+  it('does not toggle or emit callbacks when onClick prevents default', async () => {
+    const calls: string[] = [];
+    const user = userEvent.setup();
+    renderMediaControl({
+      onClick: event => event.preventDefault(),
+      onStateChange: next => {
+        calls.push(`state:${next}`);
+      },
+      onPlay: () => {
+        calls.push('play');
+      },
+      onPause: () => {
+        calls.push('pause');
+      }
+    });
+    const button = screen.getByRole('button');
+    const before = getIconEl()?.getAttribute('data-icon') ?? null;
+
+    await user.click(button);
+
+    const after = getIconEl()?.getAttribute('data-icon') ?? null;
+    expect(after).toBe(before);
+    expect(calls).toEqual([]);
+  });
+
   it('does not toggle visuals when controlled without external state change', async () => {
     const user = userEvent.setup();
     renderMediaControl({ state: 'paused', onStateChange: () => {} });
@@ -130,6 +155,21 @@ describe('MediaControl', () => {
     await user.keyboard('[Space]');
     iconStates.push(getIconEl()?.getAttribute('data-icon') ?? null);
     expect(iconStates).toEqual(['pause', 'play']);
+  });
+
+  it('exposes data-state="paused" by default (uncontrolled)', () => {
+    renderMediaControl();
+    const button = screen.getByRole('button');
+    expect(button.getAttribute('data-state')).toBe('paused');
+  });
+
+  it('exposes data-state from controlled prop', () => {
+    const { rerender } = renderMediaControl({ state: 'paused' });
+    let button = screen.getByRole('button');
+    expect(button.getAttribute('data-state')).toBe('paused');
+    rerender(<MediaControl state="playing" />);
+    button = screen.getByRole('button');
+    expect(button.getAttribute('data-state')).toBe('playing');
   });
 
   it('adds the playing tint class when state is playing', () => {

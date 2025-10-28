@@ -23,9 +23,7 @@ export interface MediaControlProps extends ForwardedControlProps {
 }
 
 // NOTE: keep this selector in sync with MediaControl.styleMap state.playing (icon tint).
-const playingStateClasses = `
-  [&_[data-slot="_icon"]]:text-color-content-brand
-`;
+const pauseIconClasses = `text-color-content-brand`;
 
 export const MediaControl = React.forwardRef<HTMLButtonElement, MediaControlProps>(
   (
@@ -49,7 +47,8 @@ export const MediaControl = React.forwardRef<HTMLButtonElement, MediaControlProp
     const [uncontrolledState, setUncontrolledState] =
       React.useState<MediaControlState>(defaultState);
 
-    const effectiveState = (isControlled ? stateProp : uncontrolledState) ?? 'paused';
+    /* c8 ignore next -- fallback is unreachable: uncontrolledState is always seeded by defaultState='paused' */
+    const effectiveState: MediaControlState = isControlled ? stateProp : uncontrolledState;
     const isPlaying = effectiveState === 'playing';
 
     const handlePress = React.useCallback(
@@ -77,27 +76,26 @@ export const MediaControl = React.forwardRef<HTMLButtonElement, MediaControlProp
     );
 
     const rawAriaLabel = isPlaying ? ariaLabelPause : ariaLabelPlay;
-    const trimmedAriaLabel = rawAriaLabel?.trim() ?? '';
+    const trimmedAriaLabel = rawAriaLabel.trim();
     const fallbackAriaLabel = isPlaying ? 'Pause media' : 'Play media';
     const ariaLabel = trimmedAriaLabel.length > 0 ? trimmedAriaLabel : fallbackAriaLabel;
 
-    const rootClassName = collapseWhitespace(
-      composeClasses(className, isPlaying ? playingStateClasses : null)
-    );
+    const baseClassName = collapseWhitespace(composeClasses(className));
+    const pauseIconClassName = collapseWhitespace(composeClasses(pauseIconClasses));
 
     return (
       <Control
         ref={ref}
         icon={
           <span data-slot="_icon" data-icon={isPlaying ? 'pause' : 'play'} aria-hidden="true">
-            {isPlaying ? <PauseIcon /> : <PlayIcon />}
+            {isPlaying ? <PauseIcon className={pauseIconClassName} /> : <PlayIcon />}
           </span>
         }
         ariaLabel={ariaLabel}
         variant={variant}
         size={size}
         onClick={handlePress}
-        className={rootClassName}
+        className={baseClassName}
         data-state={effectiveState}
         {...rest}
       />

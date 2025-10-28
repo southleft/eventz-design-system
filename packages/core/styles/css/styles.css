@@ -2571,6 +2571,11 @@
     }
   }
 }
+.\[\&_\[data-icon\=\"pause\"\]\]\:text-color-content-brand {
+  & [data-icon="pause"] {
+    color: var(--color-color-content-brand);
+  }
+}
 .\[\&_\[data-slot\=\"_icon\"\]\]\:text-color-content-brand {
   & [data-slot=" icon"] {
     color: var(--color-color-content-brand);
