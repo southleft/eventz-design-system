@@ -22,6 +22,7 @@ export interface MediaControlProps extends ForwardedControlProps {
   size?: ControlProps['size'];
 }
 
+// NOTE: keep this selector in sync with MediaControl.styleMap state.playing (icon tint).
 const playingStateClasses = `
   [&_[data-slot="_icon"]]:text-color-content-brand
 `;
@@ -88,7 +89,7 @@ export const MediaControl = React.forwardRef<HTMLButtonElement, MediaControlProp
       <Control
         ref={ref}
         icon={
-          <span data-slot="_icon" aria-hidden="true">
+          <span data-slot="_icon" data-icon={isPlaying ? 'pause' : 'play'} aria-hidden="true">
             {isPlaying ? <PauseIcon /> : <PlayIcon />}
           </span>
         }

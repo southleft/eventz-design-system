@@ -13,6 +13,14 @@ const meta: Meta<MediaControlProps> = {
     onStateChange: fn(),
     onPlay: fn(),
     onPause: fn()
+  },
+  parameters: {
+    docs: {
+      description: {
+        component:
+          'Icon-only play/pause control built on Control. The playing state tints the icon with the brand token. `Default` shows controlled usage; `Uncontrolled` exposes onStateChange for Storybook Actions.'
+      }
+    }
   }
 };
 
@@ -35,4 +43,10 @@ const MediaControlDemo: React.FC<MediaControlProps> = args => {
 
 export const Default: Story = {
   render: args => <MediaControlDemo {...args} />
+};
+
+export const Uncontrolled: Story = {
+  render: args => (
+    <MediaControl defaultState="paused" onStateChange={args.onStateChange} {...args} />
+  )
 };

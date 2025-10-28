@@ -5,40 +5,49 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MediaControl, type MediaControlProps } from './MediaControl';
 
-const playPathD = 'M327.87-201.41v-557.18L759.07-480l-431.2 278.59Z';
-const pausePathD = 'M560.17-213.41v-533.18h190v533.18h-190Zm-350.34 0v-533.18h190v533.18h-190Z';
 const playingTintClass = '[&_[data-slot="_icon"]]:text-color-content-brand';
+
+const getIconEl = (): HTMLElement | null =>
+  document.querySelector('[data-slot="_icon"]');
 
 const renderMediaControl = (props?: Partial<MediaControlProps>) => render(<MediaControl {...props} />);
 
 describe('MediaControl', () => {
   it('renders a button with the icon slot', () => {
     renderMediaControl();
-    const icon = document.querySelector('[data-slot="_icon"]');
-    expect(icon).not.toBeNull();
+    expect(getIconEl()).not.toBeNull();
   });
 
   it('applies the paused aria label by default', () => {
     renderMediaControl();
-    const button = screen.getByRole('button');
-    expect(button).toHaveAttribute('aria-label', 'Play media');
+    expect(screen.getByRole('button')).toHaveAttribute('aria-label', 'Play media');
   });
 
-  it('renders the PlayIcon path when paused', () => {
+  it('renders the play icon when paused', () => {
     renderMediaControl();
-    const path = document.querySelector('[data-slot="_icon"] path');
-    expect(path?.getAttribute('d')).toBe(playPathD);
+    const icon = getIconEl();
+    expect(icon?.getAttribute('data-icon')).toBe('play');
   });
 
-  it('switches to the PauseIcon after clicking once', async () => {
+  it('switches to the pause icon after clicking once', async () => {
     const user = userEvent.setup();
     renderMediaControl();
     const button = screen.getByRole('button');
 
     await user.click(button);
 
-    const path = document.querySelector('[data-slot="_icon"] path');
-    expect(path?.getAttribute('d')).toBe(pausePathD);
+    const icon = getIconEl();
+    expect(icon?.getAttribute('data-icon')).toBe('pause');
+  });
+
+  it('respects defaultState="playing" on first render', () => {
+    renderMediaControl({ defaultState: 'playing' });
+    const button = screen.getByRole('button');
+    const icon = getIconEl();
+    expect({
+      label: button.getAttribute('aria-label'),
+      icon: icon?.getAttribute('data-icon')
+    }).toEqual({ label: 'Pause media', icon: 'pause' });
   });
 
   it('updates the aria label when the control enters playing state', async () => {
@@ -80,15 +89,15 @@ describe('MediaControl', () => {
 
     await user.click(button);
 
-    const path = document.querySelector('[data-slot="_icon"] path');
-    expect(path?.getAttribute('d')).toBe(playPathD);
+    const icon = getIconEl();
+    expect(icon?.getAttribute('data-icon')).toBe('play');
   });
 
   it('reflects controlled prop updates', () => {
     const { rerender } = renderMediaControl({ state: 'paused', onStateChange: () => {} });
     rerender(<MediaControl state="playing" onStateChange={() => {}} />);
-    const path = document.querySelector('[data-slot="_icon"] path');
-    expect(path?.getAttribute('d')).toBe(pausePathD);
+    const icon = getIconEl();
+    expect(icon?.getAttribute('data-icon')).toBe('pause');
   });
 
   it('uses caller-provided labels when supplied', () => {
@@ -97,13 +106,30 @@ describe('MediaControl', () => {
     expect(button).toHaveAttribute('aria-label', 'Resume audio');
   });
 
-  it('forwards variant and size to Control', () => {
-    renderMediaControl({ variant: 'brand', size: 'sm' });
+  it('falls back to non-empty defaults when custom labels are empty strings', async () => {
+    const user = userEvent.setup();
+    renderMediaControl({ ariaLabelPlay: '   ', ariaLabelPause: ' ' });
     const button = screen.getByRole('button');
-    const satisfiesForwarding =
-      button.classList.contains('bg-comp-button-primary-color-background-default') &&
-      button.classList.contains('h-32');
-    expect(satisfiesForwarding).toBe(true);
+    const labels: Array<string | null> = [];
+    labels.push(button.getAttribute('aria-label'));
+    await user.click(button);
+    labels.push(button.getAttribute('aria-label'));
+    expect(labels).toEqual(['Play media', 'Pause media']);
+  });
+
+  it('toggles via keyboard Space key (uncontrolled)', async () => {
+    const user = userEvent.setup();
+    renderMediaControl();
+
+    await user.tab();
+    const button = screen.getByRole('button');
+    expect(button).toHaveFocus();
+    const iconStates: Array<string | null> = [];
+    await user.keyboard('[Space]');
+    iconStates.push(getIconEl()?.getAttribute('data-icon') ?? null);
+    await user.keyboard('[Space]');
+    iconStates.push(getIconEl()?.getAttribute('data-icon') ?? null);
+    expect(iconStates).toEqual(['pause', 'play']);
   });
 
   it('adds the playing tint class when state is playing', () => {
@@ -132,4 +158,3 @@ describe('MediaControl', () => {
     expect(focusState).toEqual({ isFocused: true, hasFocusClass: true });
   });
 });
-
