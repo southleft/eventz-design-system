@@ -4,7 +4,7 @@ import { defineContract } from '../../utilities';
 export default defineContract({
   component: 'MediaCard',
   description:
-    'Display card for media content with an optional image and a required overlay control. Non-navigational; horizontal layout only.',
+    'Display card for media content with an optional image and a required overlay control. Non-navigational; fixed horizontal layout.',
 
   // Server component container
   base: 'div',
@@ -24,18 +24,18 @@ export default defineContract({
         shape: {
           icon: {
             type: 'slot',
-            description: 'Optional decorative icon for a label item (render aria-hidden).'
+            description: 'Optional decorative icon for a meta label (render aria-hidden).'
           },
-          label: { type: 'string' }
+          label: { type: 'string', required: true }
         }
       },
       description:
-        'Rendered as the meta row; each item displays a short label with an optional decorative icon.'
+        'Rendered in the meta row; each item displays a short label with an optional decorative icon.'
     },
 
     imgSrc: {
       type: 'string',
-      description: 'Optional picture source.'
+      description: 'Optional image source URL.'
     },
 
     imgAlt: {
@@ -55,14 +55,33 @@ export default defineContract({
     }
   },
 
-  // Slot order and presence rules (no arbitrary children)
+  // Rendered parts in order; no arbitrary children.
   slots: [
     'media', // wraps <img>; omit entirely when no imgSrc
     'subtitle',
     'title',
-    'meta', // renders from labels[]
-    'control' // overlay bubble
+    'meta', // container for labels[]
+    'metaItem', // each label item
+    'metaIcon', // optional decorative icon within a metaItem
+    'control' // overlay bubble (play/pause)
   ] as const,
+
+  // Structural guidance (no classes here).
+  layout: {
+    type: 'container',
+    tag: 'div',
+    children: [
+      { slot: 'media', tag: 'div' },
+      { slot: 'subtitle', tag: 'div' },
+      { slot: 'title', tag: 'div' },
+      {
+        slot: 'meta',
+        tag: 'div',
+        children: [{ slot: 'metaItem', tag: 'span', children: [{ slot: 'metaIcon', tag: 'span' }] }]
+      },
+      { slot: 'control', tag: 'div' }
+    ]
+  },
 
   styleMap: true,
 
@@ -98,15 +117,17 @@ export default defineContract({
     },
 
     // Composition / omissions
-    { hint: 'This card is display-only. Do not add actions, links, or dividers.' },
+    { hint: 'Display-only container. Do not add actions, links, or dividers.' },
     { hint: 'Omit the `media` slot entirely when `imgSrc` is not provided.' },
     { hint: 'Render the `meta` slot only when `labels` is a non-empty array.' },
 
-    // Layout & order
+    // Layout & sizing (fixed to horizontal)
     {
       hint: 'Horizontal layout only. Two-column composition: media (left, fixed size) → content stack (right).'
     },
-    { hint: 'Content stack order is strictly: subtitle → title → meta.' },
+    {
+      hint: 'Horizontal layout tokens: grid with [&:has(img)]:grid-cols-[112px_1fr], items-start, p-2, w-340. Media spans rows; image sized to w-104 h-104.'
+    },
 
     // Image guidance
     {
