@@ -25,7 +25,10 @@ export interface ButtonProps
 
 const baseClasses = `
   inline-flex select-none items-center justify-center font-medium text-sm transition-colors border-1
-  disabled:opacity-50 disabled:pointer-events-none whitespace-nowrap focus-visible:ring-comp-border-focus-ring focus-visible:ring
+  disabled:opacity-50 disabled:pointer-events-none whitespace-nowrap
+  focus-visible:ring-2 focus-visible:ring-offset-2 outline-none
+  focus-visible:ring-comp-border-focus-ring focus-visible:ring-offset-color-background-default
+
 `;
 
 const containerClasses = 'h-24 px-4 gap-2 rounded-md';
