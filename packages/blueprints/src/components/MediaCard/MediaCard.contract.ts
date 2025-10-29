@@ -14,6 +14,7 @@ export default defineContract({
 
     title: {
       type: 'string',
+      required: true,
       description: 'Visible heading; preferred accessible name.'
     },
 
@@ -41,11 +42,6 @@ export default defineContract({
     imgAlt: {
       type: 'string',
       description: 'Required iff imgSrc is provided. Use empty string when the image is decorative.'
-    },
-
-    ariaLabel: {
-      type: 'string',
-      description: 'Accessible-name override used only when no visible title is present.'
     },
 
     control: {
@@ -106,18 +102,6 @@ export default defineContract({
       message: '`imgAlt` is required when `imgSrc` is provided (use "" if decorative).'
     },
 
-    // a11y: ariaLabel required when no visible title
-    {
-      validate: props => {
-        const t = props['title'];
-        const hasTitle = typeof t === 'string' && t.trim().length > 0;
-        if (hasTitle) return true;
-        const a = props['ariaLabel'];
-        return typeof a === 'string' && a.trim().length > 0;
-      },
-      message: 'Provide `ariaLabel` when no `title` is present so the card has an accessible name.'
-    },
-
     // Composition / omissions
     { hint: 'Display-only container. Do not add actions, links, or dividers.' },
     { hint: 'Omit the `media` slot entirely when `imgSrc` is not provided.' },
@@ -137,9 +121,7 @@ export default defineContract({
     },
 
     // A11y guidance
-    {
-      hint: 'If `title` exists, it serves as the accessible name; `ariaLabel` is only a fallback/override when title is not provided.'
-    },
+    { hint: '`title` supplies the accessible name; do not add alternative name props.' },
     { hint: 'Icons inside `labels` are decorative by default and should be aria-hidden="true".' },
 
     // Server-only constraint
@@ -154,7 +136,8 @@ export default defineContract({
   ],
 
   hints: {
-    a11y: 'Non-interactive container; ensure a non-empty accessible name from visible `title` or `ariaLabel`. Decorative icons should be hidden from assistive tech.',
+    a11y:
+      'Non-interactive container; keep the accessible name aligned with the visible `title`. Decorative icons should be hidden from assistive tech.',
     server:
       'Generator must not import client components. Render the `control` **slot** exactly as provided by the consumer.'
   }

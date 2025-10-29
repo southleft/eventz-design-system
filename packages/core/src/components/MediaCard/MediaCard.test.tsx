@@ -1,0 +1,107 @@
+// packages/core/src/components/MediaCard/MediaCard.test.tsx
+import '@testing-library/jest-dom';
+import * as React from 'react';
+import { render, screen } from '@testing-library/react';
+import { MediaCard, type MediaCardProps } from './MediaCard';
+
+const renderMediaCard = (props?: Partial<MediaCardProps>) => {
+  return render(
+    <MediaCard
+      title="Featured album"
+      control={<button type="button">Play</button>}
+      {...props}
+    />
+  );
+};
+
+describe('MediaCard', () => {
+  it('renders the base structure with minimal props', () => {
+    const { container } = renderMediaCard();
+    const base = container.querySelector('[data-slot="base"]');
+    const title = container.querySelector('[data-slot="title"]');
+    const control = container.querySelector('[data-slot="control"]');
+    const media = container.querySelector('[data-slot="media"]');
+    const meta = container.querySelector('[data-slot="meta"]');
+    const rendered =
+      Boolean(base) && Boolean(title) && Boolean(control) && media === null && meta === null;
+    expect(rendered).toBe(true);
+  });
+
+  it('renders media with an img element when imgSrc is provided', () => {
+    const { container } = renderMediaCard({
+      imgSrc: '/poster.png',
+      imgAlt: 'Album cover'
+    });
+    const media = container.querySelector('[data-slot="media"]');
+    const image = media?.querySelector('img');
+    const hasImage =
+      Boolean(media) &&
+      Boolean(image) &&
+      image?.getAttribute('src') === '/poster.png' &&
+      image?.getAttribute('alt') === 'Album cover' &&
+      image?.getAttribute('loading') === 'lazy' &&
+      image?.getAttribute('decoding') === 'async';
+    expect(hasImage).toBe(true);
+  });
+
+  it('omits the media slot when imgSrc is not provided', () => {
+    const { container } = renderMediaCard({ imgSrc: undefined });
+    const media = container.querySelector('[data-slot="media"]');
+    expect(media).toBeNull();
+  });
+
+  it('renders meta items for each label', () => {
+    const labelSet: NonNullable<MediaCardProps['labels']> = [
+      { label: 'Design' },
+      { label: 'Research', icon: <span aria-hidden="true">★</span> }
+    ];
+    const { container } = renderMediaCard({ labels: labelSet });
+    const meta = container.querySelector('[data-slot="meta"]');
+    const items = container.querySelectorAll('[data-slot="metaItem"]');
+    const textPresent = labelSet.every(({ label }) => Boolean(screen.queryByText(label)));
+    const rendered = Boolean(meta) && items.length === labelSet.length && textPresent;
+    expect(rendered).toBe(true);
+  });
+
+  it('omits the meta slot when labels are empty', () => {
+    const { container } = renderMediaCard({ labels: [] });
+    const meta = container.querySelector('[data-slot="meta"]');
+    expect(meta).toBeNull();
+  });
+
+  it("dev a11y fallback: renders alt='' when imgSrc is provided but imgAlt is missing", () => {
+    const { container } = renderMediaCard({
+      imgSrc: '/poster.png',
+      imgAlt: undefined
+    });
+    const image = container.querySelector('[data-slot="media"] img');
+    const hasFallbackAlt = image?.getAttribute('alt') === '';
+    expect(hasFallbackAlt).toBe(true);
+  });
+
+  it('omits control wrapper when control is falsy', () => {
+    const { container } = renderMediaCard({
+      control: undefined as unknown as React.ReactNode
+    });
+    const control = container.querySelector('[data-slot="control"]');
+    expect(control).toBeNull();
+  });
+
+  it('renders the control slot with overlay positioning tokens', () => {
+    const { container } = renderMediaCard();
+    const control = container.querySelector('[data-slot="control"]');
+    const className = control?.className ?? '';
+    const hasTokens =
+      className.includes('absolute') && className.includes('top-2') && className.includes('right-2');
+    expect(hasTokens).toBe(true);
+  });
+
+  it('applies grid layout tokens on the base element', () => {
+    const { container } = renderMediaCard();
+    const base = container.querySelector('[data-slot="base"]');
+    const className = base?.className ?? '';
+    const tokensApplied =
+      className.includes('grid') && className.includes('[&:has(img)]:grid-cols-[112px_1fr]');
+    expect(tokensApplied).toBe(true);
+  });
+});
