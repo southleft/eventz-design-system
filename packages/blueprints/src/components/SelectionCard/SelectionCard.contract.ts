@@ -39,16 +39,9 @@ export const SelectionCardContract = defineContract({
   layout: {
     type: 'container',
     tag: 'div',
-    className: [
-      'w-[240px]',
-      'inline-flex flex-col items-center justify-start',
-      'gap-4 py-8 px-6',
-      'rounded-lg bg-color-background-default',
-      'cursor-pointer select-none outline-none'
-    ],
     children: [
-      { slot: 'icon', tag: 'div', className: ['size-12 shrink-0'] },
-      { slot: 'label', tag: 'div', className: ['w-full text-center truncate'] }
+      { slot: 'icon', tag: 'div' },
+      { slot: 'label', tag: 'div' }
     ]
   },
 
@@ -62,7 +55,10 @@ export const SelectionCardContract = defineContract({
       message: 'icon slot is required for SelectionCard'
     },
     {
-      hint: 'Render root with role="checkbox", tabIndex=0, and aria-checked={isSelected}. Icon content should be aria-hidden="true".'
+      hint: 'Render root with role="checkbox", tabIndex=0, aria-checked={isSelected}, and data-selected={isSelected || undefined}. Icon wrapper must set aria-hidden="true".'
+    },
+    {
+      hint: 'Normalize ariaLabel by trimming; omit aria-label when empty so the visible label remains the accessible name.'
     }
   ] as const,
 
