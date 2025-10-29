@@ -124,7 +124,7 @@ export default defineContract({
 
     // A11y guidance
     { hint: '`title` supplies the accessible name; do not add alternative name props.' },
-    { hint: 'Guard against blank strings: treat whitespace-only `title`, `subtitle`, and labels as absent when rendering.' },
+    { hint: 'Guard against blank strings: treat whitespace-only `title` and `subtitle` as absent when rendering.' },
     {
       hint:
         'Apply width modifiers on the `title` slot: w-286 when there is no media, w-200 sm:w-180 when media is present. Nest title text in a span with truncate helpers.'
