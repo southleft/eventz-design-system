@@ -1230,6 +1230,10 @@
   width: var(--spacing-4);
   height: var(--spacing-4);
 }
+.size-12 {
+  width: calc(var(--spacing) * 12);
+  height: calc(var(--spacing) * 12);
+}
 .size-20 {
   width: calc(var(--spacing) * 20);
   height: calc(var(--spacing) * 20);
@@ -1312,6 +1316,9 @@
 }
 .w-\[192px\] {
   width: 192px;
+}
+.w-\[240px\] {
+  width: 240px;
 }
 .w-full {
   width: 100%;
@@ -1406,6 +1413,9 @@
 }
 .justify-end {
   justify-content: flex-end;
+}
+.justify-start {
+  justify-content: flex-start;
 }
 .gap-1 {
   gap: var(--spacing-1);
@@ -1525,6 +1535,9 @@
 .border-none {
   --tw-border-style: none;
   border-style: none;
+}
+.border-color-border-brand {
+  border-color: var(--color-color-border-brand);
 }
 .border-color-border-inverse {
   border-color: var(--color-color-border-inverse);
@@ -1651,6 +1664,9 @@
 }
 .px-4 {
   padding-inline: var(--spacing-4);
+}
+.px-6 {
+  padding-inline: calc(var(--spacing) * 6);
 }
 .px-10 {
   padding-inline: calc(var(--spacing) * 10);
@@ -1967,6 +1983,11 @@
 }
 .group-data-\[is-selected\=true\]\:text-color-content-brand {
   &:is(:where(.group)[data-is-selected="true"] *) {
+    color: var(--color-color-content-brand);
+  }
+}
+.group-data-\[selected\=true\]\:text-color-content-brand {
+  &:is(:where(.group)[data-selected="true"] *) {
     color: var(--color-color-content-brand);
   }
 }
@@ -2915,6 +2936,12 @@
   &>svg {
     width: var(--spacing-4);
     height: var(--spacing-4);
+  }
+}
+.\[\&\>svg\]\:size-12 {
+  &>svg {
+    width: calc(var(--spacing) * 12);
+    height: calc(var(--spacing) * 12);
   }
 }
 .\[\&\>svg\]\:size-16 {
