@@ -6,11 +6,7 @@ import { MediaCard, type MediaCardProps } from './MediaCard';
 
 const renderMediaCard = (props?: Partial<MediaCardProps>) => {
   return render(
-    <MediaCard
-      title="Featured album"
-      control={<button type="button">Play</button>}
-      {...props}
-    />
+    <MediaCard title="Featured album" control={<button type="button">Play</button>} {...props} />
   );
 };
 
@@ -48,6 +44,20 @@ describe('MediaCard', () => {
     const { container } = renderMediaCard({ imgSrc: undefined });
     const media = container.querySelector('[data-slot="media"]');
     expect(media).toBeNull();
+  });
+
+  it('renders the subtitle slot when subtitle is provided', () => {
+    const subtitleText = 'Episode 7 · 52 min';
+    const { container } = renderMediaCard({ subtitle: subtitleText });
+    const subtitle = container.querySelector('[data-slot="subtitle"]');
+    const textMatches = subtitle?.textContent === subtitleText;
+    expect(Boolean(subtitle) && textMatches).toBe(true);
+  });
+
+  it('omits the title slot when title is an empty string', () => {
+    const { container } = renderMediaCard({ title: '' });
+    const title = container.querySelector('[data-slot="title"]');
+    expect(title).toBeNull();
   });
 
   it('renders meta items for each label', () => {
@@ -92,7 +102,9 @@ describe('MediaCard', () => {
     const control = container.querySelector('[data-slot="control"]');
     const className = control?.className ?? '';
     const hasTokens =
-      className.includes('absolute') && className.includes('top-2') && className.includes('right-2');
+      className.includes('absolute') &&
+      className.includes('top-2') &&
+      className.includes('right-2');
     expect(hasTokens).toBe(true);
   });
 
