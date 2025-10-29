@@ -119,6 +119,30 @@ describe('Countdown', () => {
     errorSpy.mockRestore();
   });
 
+  it('does not log in production for invalid ISO input', () => {
+    jest.useFakeTimers();
+    const now = new Date('2025-01-01T00:00:00Z');
+    jest.setSystemTime(now);
+
+    const previousEnv = process.env.NODE_ENV;
+    process.env.NODE_ENV = 'production';
+
+    const errorSpy = jest.spyOn(console, 'error').mockImplementation(() => undefined);
+    const view = render(<Countdown until="not-a-date" />);
+
+    act(() => {
+      jest.advanceTimersByTime(0);
+    });
+
+    expect(errorSpy).not.toHaveBeenCalled();
+
+    view.unmount();
+    errorSpy.mockRestore();
+    process.env.NODE_ENV = previousEnv;
+    jest.clearAllTimers();
+    jest.useRealTimers();
+  });
+
   it('uses until as dateTime when not provided', () => {
     jest.useFakeTimers();
     const now = new Date('2025-01-01T00:00:00Z');
@@ -195,6 +219,25 @@ describe('Countdown', () => {
     expect(timer).toHaveClass('custom-class');
 
     view.unmount();
+    jest.clearAllTimers();
+    jest.useRealTimers();
+  });
+
+  it('renders 00:00 when Date.now is non-finite (defensive guard)', () => {
+    jest.useFakeTimers();
+    const until = new Date(Date.now() + minuteMs).toISOString();
+    const nowSpy = jest.spyOn(Date, 'now').mockReturnValue(Number.NaN as never);
+    const view = render(<Countdown until={until} />);
+
+    act(() => {
+      jest.advanceTimersByTime(0);
+    });
+
+    const text = (screen.getByRole('timer').textContent ?? '').trim();
+    expect(text).toBe('00:00');
+
+    view.unmount();
+    nowSpy.mockRestore();
     jest.clearAllTimers();
     jest.useRealTimers();
   });

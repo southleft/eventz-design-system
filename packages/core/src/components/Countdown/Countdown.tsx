@@ -70,8 +70,7 @@ export const Countdown = React.forwardRef<HTMLTimeElement, CountdownProps>(
     }, [onComplete]);
 
     const formattedTime = React.useMemo(() => formatRemaining(remainingMs), [remainingMs]);
-    const hasAnnounceLabel =
-      typeof announceLabel === 'string' && announceLabel.trim().length > 0;
+    const hasAnnounceLabel = typeof announceLabel === 'string' && announceLabel.trim().length > 0;
 
     React.useEffect(() => {
       const invalidTarget = !Number.isFinite(targetMs);
@@ -93,15 +92,11 @@ export const Countdown = React.forwardRef<HTMLTimeElement, CountdownProps>(
 
         if (nextRemaining === 0 && !hasCompletedRef.current) {
           hasCompletedRef.current = true;
-          onCompleteRef.current?.();
+          onCompleteRef.current!();
         }
       };
 
       tick();
-
-      if (!Number.isFinite(targetMs)) {
-        return;
-      }
 
       const intervalId = window.setInterval(tick, 1000);
 
