@@ -113,7 +113,9 @@ export const MediaCard = React.forwardRef<HTMLDivElement, MediaCardProps>(
 
         {hasTitle ? (
           <div className={titleWrapperClassName} data-slot="title">
-            <span className={titleTextClassName}>{title}</span>
+            <span className={titleTextClassName} data-slot="titleText">
+              {title}
+            </span>
           </div>
         ) : null}
 

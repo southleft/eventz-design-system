@@ -57,6 +57,7 @@ export default defineContract({
     'media', // wraps <img>; omit entirely when no imgSrc
     'subtitle',
     'title',
+    'titleText',
     'meta', // container for labels[]
     'metaItem', // each label item
     'metaIcon', // optional decorative icon within a metaItem
@@ -70,7 +71,11 @@ export default defineContract({
     children: [
       { slot: 'media', tag: 'div' },
       { slot: 'subtitle', tag: 'div' },
-      { slot: 'title', tag: 'div' },
+      {
+        slot: 'title',
+        tag: 'div',
+        children: [{ slot: 'titleText', tag: 'span' }]
+      },
       {
         slot: 'meta',
         tag: 'div',

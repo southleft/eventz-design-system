@@ -61,17 +61,20 @@ export default defineStyleMap({
       'min-w-0',
       'w-286',
       'w-200',
-      'sm:w-180',
-      '[&>span]:block',
-      '[&>span]:text-color-content-default',
-      '[&>span]:group-hover:text-color-content-default-hover',
-      '[&>span]:text-base',
-      '[&>span]:sm:text-lg',
-      '[&>span]:flex-1',
-      '[&>span]:min-w-0',
-      '[&>span]:truncate',
-      '[&>span]:mb-8',
-      '[&>span]:sm:mb-12'
+      'sm:w-180'
+    ],
+
+    titleText: [
+      'block',
+      'text-color-content-default',
+      'group-hover:text-color-content-default-hover',
+      'text-base',
+      'sm:text-lg',
+      'flex-1',
+      'min-w-0',
+      'truncate',
+      'mb-8',
+      'sm:mb-12'
     ],
 
     meta: ['mt-1', 'flex', 'flex-wrap', 'gap-2', 'items-center', 'min-w-0', 'w-full'],
