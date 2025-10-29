@@ -1301,6 +1301,9 @@
 .w-168 {
   width: calc(var(--spacing) * 168);
 }
+.w-200 {
+  width: calc(var(--spacing) * 200);
+}
 .w-288 {
   width: calc(var(--spacing) * 288);
 }
@@ -2589,9 +2592,19 @@
     margin-top: calc(var(--spacing) * 6);
   }
 }
+.sm\:mt-12 {
+  @media (width >= 40rem) {
+    margin-top: calc(var(--spacing) * 12);
+  }
+}
 .sm\:mb-12 {
   @media (width >= 40rem) {
     margin-bottom: calc(var(--spacing) * 12);
+  }
+}
+.sm\:w-180 {
+  @media (width >= 40rem) {
+    width: calc(var(--spacing) * 180);
   }
 }
 .sm\:w-340 {

@@ -20,7 +20,7 @@ export interface MediaCardProps extends NativeDivProps {
 
 const baseClasses = `
   relative outline-none rounded-md border-0 group bg-background-none hover:bg-color-background-default
-  grid [&:has(img)]:grid-cols-[92px_1fr] sm:[&:has(img)]:grid-cols-[112px_1fr] items-start p-2 max-w-340 sm:w-340
+  grid [&:has(img)]:grid-cols-[92px_1fr] sm:[&:has(img)]:grid-cols-[112px_1fr] items-start p-2 w-340
   [&_[data-slot=media]]:row-span-4
   [&:has(:focus-visible)]:ring-offset-2 [&:has(:focus-visible)]:ring-2
   [&:has(:focus-visible)]:ring-comp-border-focus-ring
@@ -34,12 +34,12 @@ const mediaClasses = `
 `;
 
 const subtitleClasses = `
-  text-xs mt-1 sm:mt-1 sm:mt-6 text-color-content-subtle group-hover:text-color-content-subtle-hover
+  text-xs mt-1 sm:mt-12 sm:mt-6 text-color-content-subtle group-hover:text-color-content-subtle-hover
   min-w-0 w-full
 `;
 
 const titleWrapperClasses = `
-  inline-flex justify-between items-center w-120 min-w-0 mt-1
+  inline-flex justify-between items-center w-200 sm:w-180 min-w-0 mt-1
 `;
 
 const titleTextClasses = `
