@@ -19,6 +19,7 @@ export * from './IconButton';
 export * from './InfoPopover';
 export * from './Input';
 export * from './InteractiveListItem';
+export * from './MediaCard';
 export * from './MediaControl';
 export * from './MenuItem';
 export * from './RadioButtonGroup';
