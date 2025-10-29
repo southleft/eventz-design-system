@@ -20,25 +20,37 @@ export interface MediaCardProps extends NativeDivProps {
 
 const baseClasses = `
   relative outline-none rounded-md border-0 group bg-background-none hover:bg-color-background-default
-  grid [&:has(img)]:grid-cols-[112px_1fr] items-start p-2 w-340
-  [&_[data-slot=media]]:row-span-4 [&_[data-slot=media]>img]:w-104 [&_[data-slot=media]>img]:h-104
+  grid [&:has(img)]:grid-cols-[92px_1fr] sm:[&:has(img)]:grid-cols-[112px_1fr] items-start p-2 max-w-340 sm:w-340
+  [&_[data-slot=media]]:row-span-4
+  [&:has(:focus-visible)]:ring-offset-2 [&:has(:focus-visible)]:ring-2
+  [&:has(:focus-visible)]:ring-comp-border-focus-ring
+  [&:has(:focus-visible)]:ring-offset-color-background-default
 `;
 
 const mediaClasses = `
-  relative overflow-hidden rounded-sm border-0 shrink-0 [&>img]:object-cover
+  relative overflow-hidden rounded-sm border-0 shrink-0
+  [&>img]:w-80 [&>img]:h-80 sm:[&>img]:w-104 sm:[&>img]:h-104
+  [&>img]:object-cover [&>img]:group-hover:opacity-30
 `;
 
 const subtitleClasses = `
-  text-xs text-color-content-subtle group-hover:text-color-content-subtle-hover
+  text-xs mt-1 sm:mt-1 sm:mt-6 text-color-content-subtle group-hover:text-color-content-subtle-hover
+  min-w-0 w-full
 `;
 
-const titleClasses = `
-  inline-flex justify-between items-center w-full text-color-content-default
+const titleWrapperClasses = `
+  inline-flex justify-between items-center w-120 min-w-0 mt-1
+`;
+
+const titleTextClasses = `
+  block text-color-content-default
   group-hover:text-color-content-default-hover text-base sm:text-lg
+  flex-1 min-w-0 truncate mb-8 sm:mb-12
 `;
 
 const metaClasses = `
-  mt-2 flex flex-wrap gap-2 items-center
+  mt-1 flex flex-wrap gap-2 items-center
+  min-w-0 w-full
 `;
 
 const metaItemClasses = `
@@ -50,14 +62,11 @@ const metaIconClasses = `
 `;
 
 const controlClasses = `
-  absolute right-2 top-2 inline-grid place-items-center rounded-full backdrop-blur-sm bg-color-background-soft/60 p-1.5
+  absolute right-2 top-20 sm:top-32 inline-grid place-items-center rounded-full backdrop-blur-sm bg-color-background-soft/60 p-1.5
 `;
 
 export const MediaCard = React.forwardRef<HTMLDivElement, MediaCardProps>(
-  (
-    { subtitle, title, labels, imgSrc, imgAlt, control, className, ...rest },
-    ref
-  ) => {
+  ({ subtitle, title, labels, imgSrc, imgAlt, control, className, ...rest }, ref) => {
     const isNonEmpty = (value?: string): value is string =>
       typeof value === 'string' && value.trim().length > 0;
 
@@ -71,19 +80,15 @@ export const MediaCard = React.forwardRef<HTMLDivElement, MediaCardProps>(
     const baseClassName = collapseWhitespace(composeClasses(baseClasses, className));
     const mediaClassName = collapseWhitespace(composeClasses(mediaClasses));
     const subtitleClassName = collapseWhitespace(composeClasses(subtitleClasses));
-    const titleClassName = collapseWhitespace(composeClasses(titleClasses));
+    const titleWrapperClassName = collapseWhitespace(composeClasses(titleWrapperClasses));
+    const titleTextClassName = collapseWhitespace(composeClasses(titleTextClasses));
     const metaClassName = collapseWhitespace(composeClasses(metaClasses));
     const metaItemClassName = collapseWhitespace(composeClasses(metaItemClasses));
     const metaIconClassName = collapseWhitespace(composeClasses(metaIconClasses));
     const controlClassName = collapseWhitespace(composeClasses(controlClasses));
 
     return (
-      <div
-        {...rest}
-        ref={ref}
-        className={baseClassName}
-        data-slot="base"
-      >
+      <div {...rest} ref={ref} className={baseClassName} data-slot="base">
         {hasMedia ? (
           <div className={mediaClassName} data-slot="media">
             <img src={imgSrc} alt={imageAlt} loading="lazy" decoding="async" />
@@ -97,8 +102,8 @@ export const MediaCard = React.forwardRef<HTMLDivElement, MediaCardProps>(
         ) : null}
 
         {hasTitle ? (
-          <div className={titleClassName} data-slot="title">
-            {title}
+          <div className={titleWrapperClassName} data-slot="title">
+            <span className={titleTextClassName}>{title}</span>
           </div>
         ) : null}
 

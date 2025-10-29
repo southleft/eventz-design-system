@@ -66,6 +66,7 @@
   --color-color-content-default-hover: var(--dt-color-content-default-hover);
   --color-color-content-inverse: var(--dt-color-content-inverse);
   --color-color-content-subtle: var(--dt-color-content-subtle);
+  --color-color-content-subtle-hover: var(--dt-color-content-subtle-hover);
   --color-color-content-utility-danger-strong: var(--dt-color-content-utility-danger-strong);
   --color-color-content-utility-danger-subtle: var(--dt-color-content-utility-danger-subtle);
   --color-color-content-utility-info-strong: var(--dt-color-content-utility-info-strong);
@@ -1086,6 +1087,12 @@
 .top-2 {
   top: var(--spacing-2);
 }
+.top-20 {
+  top: calc(var(--spacing) * 20);
+}
+.top-32 {
+  top: calc(var(--spacing) * 32);
+}
 .-right-20 {
   right: calc(var(--spacing) * -20);
 }
@@ -1140,6 +1147,9 @@
 .-mt-\[28px\] {
   margin-top: calc(28px * -1);
 }
+.mt-0 {
+  margin-top: var(--spacing-0);
+}
 .mt-0\.5 {
   margin-top: var(--spacing-0_5);
 }
@@ -1149,8 +1159,14 @@
 .mt-2 {
   margin-top: var(--spacing-2);
 }
+.mt-4 {
+  margin-top: var(--spacing-4);
+}
 .mt-6 {
   margin-top: calc(var(--spacing) * 6);
+}
+.mt-8 {
+  margin-top: calc(var(--spacing) * 8);
 }
 .mt-\[2px\] {
   margin-top: 2px;
@@ -1279,6 +1295,9 @@
 .w-82 {
   width: calc(var(--spacing) * 82);
 }
+.w-120 {
+  width: calc(var(--spacing) * 120);
+}
 .w-168 {
   width: calc(var(--spacing) * 168);
 }
@@ -1302,6 +1321,9 @@
 }
 .w-full {
   width: 100%;
+}
+.max-w-340 {
+  max-width: calc(var(--spacing) * 340);
 }
 .max-w-1300 {
   max-width: calc(var(--spacing) * 1300);
@@ -1911,6 +1933,13 @@
   &:is(:where(.group):hover *) {
     @media (hover: hover) {
       color: var(--color-color-content-default-hover);
+    }
+  }
+}
+.group-hover\:text-color-content-subtle-hover {
+  &:is(:where(.group):hover *) {
+    @media (hover: hover) {
+      color: var(--color-color-content-subtle-hover);
     }
   }
 }
@@ -2540,9 +2569,34 @@
     }
   }
 }
+.sm\:top-32 {
+  @media (width >= 40rem) {
+    top: calc(var(--spacing) * 32);
+  }
+}
+.sm\:mt-1 {
+  @media (width >= 40rem) {
+    margin-top: var(--spacing-1);
+  }
+}
 .sm\:mt-3 {
   @media (width >= 40rem) {
     margin-top: var(--spacing-3);
+  }
+}
+.sm\:mt-6 {
+  @media (width >= 40rem) {
+    margin-top: calc(var(--spacing) * 6);
+  }
+}
+.sm\:mb-12 {
+  @media (width >= 40rem) {
+    margin-bottom: calc(var(--spacing) * 12);
+  }
+}
+.sm\:w-340 {
+  @media (width >= 40rem) {
+    width: calc(var(--spacing) * 340);
   }
 }
 .sm\:text-lg {
@@ -2624,16 +2678,6 @@
 .\[\&_\[data-slot\=media\]\]\:row-span-4 {
   & [data-slot=media] {
     grid-row: span 4 / span 4;
-  }
-}
-.\[\&_\[data-slot\=media\]\>img\]\:h-104 {
-  & [data-slot=media]>img {
-    height: calc(var(--spacing) * 104);
-  }
-}
-.\[\&_\[data-slot\=media\]\>img\]\:w-104 {
-  & [data-slot=media]>img {
-    width: calc(var(--spacing) * 104);
   }
 }
 .data-\[invalid\=true\]\:\[\&_\[data-slot\=row\]\]\:border-comp-form-color-border-utility-danger {
@@ -2757,9 +2801,21 @@
     width: calc(var(--spacing) * 168);
   }
 }
+.\[\&\:has\(img\)\]\:grid-cols-\[92px_1fr\] {
+  &:has(img) {
+    grid-template-columns: 92px 1fr;
+  }
+}
 .\[\&\:has\(img\)\]\:grid-cols-\[112px_1fr\] {
   &:has(img) {
     grid-template-columns: 112px 1fr;
+  }
+}
+.sm\:\[\&\:has\(img\)\]\:grid-cols-\[112px_1fr\] {
+  @media (width >= 40rem) {
+    &:has(img) {
+      grid-template-columns: 112px 1fr;
+    }
   }
 }
 .\[\&\>button\]\:transition-transform {
@@ -2783,6 +2839,11 @@
     }
   }
 }
+.\[\&\>img\]\:h-80 {
+  &>img {
+    height: calc(var(--spacing) * 80);
+  }
+}
 .\[\&\>img\]\:h-104 {
   &>img {
     height: calc(var(--spacing) * 104);
@@ -2796,6 +2857,11 @@
 .\[\&\>img\]\:h-288 {
   &>img {
     height: calc(var(--spacing) * 288);
+  }
+}
+.\[\&\>img\]\:w-80 {
+  &>img {
+    width: calc(var(--spacing) * 80);
   }
 }
 .\[\&\>img\]\:w-104 {
@@ -2824,6 +2890,20 @@
       @media (hover: hover) {
         opacity: 30%;
       }
+    }
+  }
+}
+.sm\:\[\&\>img\]\:h-104 {
+  @media (width >= 40rem) {
+    &>img {
+      height: calc(var(--spacing) * 104);
+    }
+  }
+}
+.sm\:\[\&\>img\]\:w-104 {
+  @media (width >= 40rem) {
+    &>img {
+      width: calc(var(--spacing) * 104);
     }
   }
 }

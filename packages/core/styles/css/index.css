@@ -68,6 +68,7 @@
   --color-color-content-default-hover: var(--dt-color-content-default-hover);
   --color-color-content-inverse: var(--dt-color-content-inverse);
   --color-color-content-subtle: var(--dt-color-content-subtle);
+  --color-color-content-subtle-hover: var(--dt-color-content-subtle-hover);
   --color-color-content-utility-danger-strong: var(--dt-color-content-utility-danger-strong);
   --color-color-content-utility-danger-subtle: var(--dt-color-content-utility-danger-subtle);
   --color-color-content-utility-info-strong: var(--dt-color-content-utility-info-strong);

@@ -20,10 +20,7 @@ const meta: Meta<MediaCardProps> = {
         label: 'Research',
         icon: <EventIcon />
       }
-    ],
-    imgSrc: 'https://picsum.photos/seed/doxyz-media/400/400',
-    imgAlt: 'Podcast artwork',
-    control: <MediaControl ariaLabelPlay="Play media" ariaLabelPause="Pause media" />
+    ]
   }
 };
 
@@ -47,6 +44,24 @@ export const Default: Story = {
     ],
     imgSrc: 'https://picsum.photos/seed/doxyz-media/400/400',
     imgAlt: 'Podcast artwork',
+    control: <MediaControl ariaLabelPlay="Play media" ariaLabelPause="Pause media" />
+  }
+};
+
+export const NoImage: Story = {
+  args: {
+    subtitle: 'Episode 5 · 48 min',
+    title: 'The Design Systems Podcast',
+    labels: [
+      {
+        label: 'Design',
+        icon: <EventIcon />
+      },
+      {
+        label: 'Research',
+        icon: <EventIcon />
+      }
+    ],
     control: <MediaControl ariaLabelPlay="Play media" ariaLabelPause="Pause media" />
   }
 };
