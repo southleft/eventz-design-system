@@ -92,7 +92,9 @@ export const Countdown = React.forwardRef<HTMLTimeElement, CountdownProps>(
 
         if (nextRemaining === 0 && !hasCompletedRef.current) {
           hasCompletedRef.current = true;
-          onCompleteRef.current!();
+          if (onCompleteRef.current) {
+            onCompleteRef.current();
+          }
         }
       };
 

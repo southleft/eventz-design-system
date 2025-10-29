@@ -19,7 +19,9 @@ export const CountdownStyleMap = defineStyleMap({
 
   // Variants must mirror the contract's enum options
   variants: {
-    default: ['bg-color-background-brand'] as const,
-    expiring: ['bg-color-background-utility-danger'] as const
+    variant: {
+      default: ['bg-color-background-brand'] as const,
+      expiring: ['bg-color-background-utility-danger'] as const
+    }
   }
 });

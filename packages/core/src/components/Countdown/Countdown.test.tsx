@@ -346,6 +346,27 @@ describe('Countdown', () => {
     jest.useRealTimers();
   });
 
+  it('reaches completion without onComplete handler', () => {
+    jest.useFakeTimers();
+    const now = new Date('2025-01-01T00:00:00Z');
+    jest.setSystemTime(now);
+
+    const until = new Date(now.getTime() + 2 * 1000).toISOString();
+    const view = render(<Countdown until={until} />);
+
+    const advanceToZero = () => {
+      act(() => {
+        jest.advanceTimersByTime(2 * 1000);
+      });
+    };
+
+    expect(advanceToZero).not.toThrow();
+
+    view.unmount();
+    jest.clearAllTimers();
+    jest.useRealTimers();
+  });
+
   it('renders equivalent output for matching ISO offsets', () => {
     jest.useFakeTimers();
     const now = new Date('2025-01-01T00:00:00Z');

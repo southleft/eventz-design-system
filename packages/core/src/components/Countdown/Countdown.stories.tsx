@@ -19,9 +19,14 @@ export const Default: Story = {
   args: {}
 };
 
+export const Expiring: Story = {
+  args: {
+    variant: 'expiring'
+  }
+};
+
 export const LongDuration: Story = {
   args: {
     until: new Date(Date.now() + 2 * 60 * 60 * 1000 + 15 * 60 * 1000).toISOString()
   }
 };
-
