@@ -2,14 +2,13 @@ import { defineStyleMap } from '../../utilities';
 
 export const CountdownStyleMap = defineStyleMap({
   base: [
-    // Layout/typography
+    // Layout/typography per design spec
     'inline-flex',
     'items-center',
     'justify-center',
     'whitespace-nowrap',
     'text-3xl',
-    'text-color-content-inverse',
-    'w-856'
+    'text-color-content-inverse'
   ] as const,
 
   slots: {
@@ -20,12 +19,5 @@ export const CountdownStyleMap = defineStyleMap({
   variants: {
     default: ['bg-color-background-brand'] as const,
     expiring: ['bg-color-background-utility-danger'] as const
-  },
-
-  // Extra state class hooks the runtime can toggle based on derived conditions
-  state: {
-    running: [] as const,
-    complete: [] as const,
-    urgent: [] as const
   }
 });
