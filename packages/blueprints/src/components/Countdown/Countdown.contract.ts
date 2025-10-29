@@ -54,6 +54,16 @@ export const CountdownContract = defineContract({
     },
     {
       hint: 'Render fixed-width segments with leading zeros. Use MM:SS when < 1 hour; HH:MM:SS when ≥ 1 hour.'
+    },
+    {
+      hint: 'On mount, compute remaining time immediately so past targets render 00:00 and fire onComplete once.'
+    },
+    {
+      hint: 'Store onComplete in a ref to avoid re-registering effects on handler identity changes and guard against multiple invocations.'
+    },
+    {
+      hint:
+        'If until parses to NaN, render 00:00, skip scheduling timers, and in development log [Countdown] until must be ISO-8601 with timezone (Z or ±HH:MM).'
     }
   ],
 
@@ -61,7 +71,7 @@ export const CountdownContract = defineContract({
 
   // Adapter/A11y hints (informational only)
   hints: {
-    a11y: 'Use role="timer" with aria-live="polite" and aria-atomic="true". If announceLabel is provided, prepend it for SR-only.'
-    // runtime: 'client' // Optional hint; uncomment if you want agents to assume client-only.
+    a11y: 'Use role="timer" with aria-live="polite" and aria-atomic="true". If announceLabel is provided, prepend it for SR-only.',
+    runtime: 'client'
   }
 });

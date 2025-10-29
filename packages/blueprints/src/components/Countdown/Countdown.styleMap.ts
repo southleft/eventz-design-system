@@ -7,6 +7,8 @@ export const CountdownStyleMap = defineStyleMap({
     'items-center',
     'justify-center',
     'whitespace-nowrap',
+    'w-full',
+    'p-2',
     'text-3xl',
     'text-color-content-inverse'
   ] as const,
