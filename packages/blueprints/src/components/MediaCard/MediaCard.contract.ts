@@ -112,17 +112,25 @@ export default defineContract({
       hint: 'Horizontal layout only. Two-column composition: media (left, fixed size) → content stack (right).'
     },
     {
-      hint: 'Horizontal layout tokens: grid with [&:has(img)]:grid-cols-[112px_1fr], items-start, p-2, w-340. Media spans rows; image sized to w-104 h-104.'
+      hint:
+        'Horizontal layout tokens: grid with [&:has(img)]:grid-cols-[92px_1fr] and sm:[&:has(img)]:grid-cols-[112px_1fr], items-start, p-2, w-340. Base also hosts focus-ring proxy selectors via &:has(:focus-visible).'
     },
 
     // Image guidance
     {
-      hint: 'When rendering media, use <img src={imgSrc} alt={imgAlt} loading="lazy" decoding="async" /> and object-cover.'
+      hint:
+        'When rendering media, use <img src={imgSrc} alt={resolvedAlt} loading="lazy" decoding="async" />, where resolvedAlt falls back to "" when `imgAlt` is missing. Apply object-cover plus responsive sizing (w-80/h-80 → sm:w-104/sm:h-104) and the hover opacity token.'
     },
 
     // A11y guidance
     { hint: '`title` supplies the accessible name; do not add alternative name props.' },
+    { hint: 'Guard against blank strings: treat whitespace-only `title`, `subtitle`, and labels as absent when rendering.' },
+    {
+      hint:
+        'Apply width modifiers on the `title` slot: w-286 when there is no media, w-200 sm:w-180 when media is present. Nest title text in a span with truncate helpers.'
+    },
     { hint: 'Icons inside `labels` are decorative by default and should be aria-hidden="true".' },
+    { hint: 'Render the control overlay only when the `control` slot yields content; skip the wrapper if the slot is empty.' },
 
     // Server-only constraint
     {
@@ -137,7 +145,7 @@ export default defineContract({
 
   hints: {
     a11y:
-      'Non-interactive container; keep the accessible name aligned with the visible `title`. Decorative icons should be hidden from assistive tech.',
+      'Non-interactive container; keep the accessible name aligned with the visible `title`. Decorative icons should be hidden from assistive tech. Fallback to alt="" when `imgSrc` is present but `imgAlt` is unspecified.',
     server:
       'Generator must not import client components. Render the `control` **slot** exactly as provided by the consumer.'
   }
