@@ -17,9 +17,9 @@ export interface SelectionCardProps extends NativeDivProps {
 
 const baseClasses = `
   w-[240px] inline-flex flex-col items-center justify-start
-  gap-4 py-8 px-6 rounded-lg bg-color-background-default
-  cursor-pointer select-none outline-none focus-visible:ring-2 focus-visible:ring-comp-focus-color-ring focus-visible:ring-offset-2
-  group text-color-content-default
+  gap-4 py-8 px-6 rounded-lg bg-color-background-default py-32 px-24 focus-visible:ring-offset-color-background-default
+  cursor-pointer select-none outline-none focus-visible:ring-2 focus-visible:ring-comp-border-focus-ring focus-visible:ring-offset-2
+  group text-color-content-default hover:text-color-content-default-hover
 `;
 
 const selectedStateClasses = `
@@ -28,13 +28,13 @@ const selectedStateClasses = `
 `;
 
 const iconClasses = `
-  size-12 shrink-0
-  [&>svg]:size-12 [&>svg]:aria-hidden-true
+  size-48 shrink-0 text-base
+  [&>svg]:size-48
 `;
 
 const labelClasses = `
   w-full text-center truncate
-  group-hover:text-color-content-default-hover group-data-[selected=true]:text-color-content-brand
+  group-data-[selected=true]:text-color-content-brand
 `;
 
 export const SelectionCard = React.forwardRef<HTMLDivElement, SelectionCardProps>(

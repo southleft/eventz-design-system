@@ -1238,6 +1238,10 @@
   width: calc(var(--spacing) * 20);
   height: calc(var(--spacing) * 20);
 }
+.size-48 {
+  width: calc(var(--spacing) * 48);
+  height: calc(var(--spacing) * 48);
+}
 .size-full {
   width: 100%;
   height: 100%;
@@ -1671,6 +1675,9 @@
 .px-10 {
   padding-inline: calc(var(--spacing) * 10);
 }
+.px-24 {
+  padding-inline: calc(var(--spacing) * 24);
+}
 .py-\(--spacing-1\) {
   padding-block: var(--spacing-1);
 }
@@ -1685,6 +1692,9 @@
 }
 .py-8 {
   padding-block: calc(var(--spacing) * 8);
+}
+.py-32 {
+  padding-block: calc(var(--spacing) * 32);
 }
 .pt-0 {
   padding-top: var(--spacing-0);
@@ -2954,6 +2964,12 @@
   &>svg {
     width: calc(var(--spacing) * 20);
     height: calc(var(--spacing) * 20);
+  }
+}
+.\[\&\>svg\]\:size-48 {
+  &>svg {
+    width: calc(var(--spacing) * 48);
+    height: calc(var(--spacing) * 48);
   }
 }
 .\[\&\>svg\]\:size-\[20px\] {

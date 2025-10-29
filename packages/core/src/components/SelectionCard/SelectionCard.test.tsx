@@ -3,15 +3,10 @@ import '@testing-library/jest-dom';
 import * as React from 'react';
 import { render, screen } from '@testing-library/react';
 import { SelectionCard, type SelectionCardProps } from './SelectionCard';
-
-const TestIcon = () => (
-  <svg viewBox="0 0 24 24" aria-hidden="true">
-    <path d="M4 12L10 18L20 6" stroke="currentColor" strokeWidth="2" fill="none" />
-  </svg>
-);
+import { EventIcon } from '../../icons';
 
 const renderSelectionCard = (props?: Partial<SelectionCardProps>) => {
-  return render(<SelectionCard label="Project One" icon={<TestIcon />} {...props} />);
+  return render(<SelectionCard label="Project One" icon={<EventIcon decorative />} {...props} />);
 };
 
 describe('SelectionCard', () => {
@@ -83,5 +78,48 @@ describe('SelectionCard', () => {
     const root = container.firstElementChild as HTMLElement;
     const hasInlineHandlers = root.getAttributeNames().some(attribute => attribute.startsWith('on'));
     expect(hasInlineHandlers).toBe(false);
+  });
+
+  it('normalizes ariaLabel: ignores whitespace-only and applies non-empty values', () => {
+    const { container, rerender } = renderSelectionCard({ ariaLabel: '   ' });
+    const root = container.firstElementChild as HTMLElement;
+    const initialState = root.hasAttribute('aria-label');
+    rerender(
+      <SelectionCard label="Project One" icon={<EventIcon decorative />} ariaLabel="  Custom Name  " />
+    );
+    const updatedState = (container.firstElementChild as HTMLElement).getAttribute('aria-label') ===
+      'Custom Name';
+    const result = initialState === false && updatedState;
+    expect(result).toBe(true);
+  });
+
+  it('omits data-selected attribute when not selected', () => {
+    const { container } = renderSelectionCard({ isSelected: false });
+    const root = container.firstElementChild as HTMLElement;
+    const hasAttribute = root.hasAttribute('data-selected');
+    expect(hasAttribute).toBe(false);
+  });
+
+  it('forwards ref to the root div element', () => {
+    const ref = React.createRef<HTMLDivElement>();
+    render(<SelectionCard ref={ref} label="Project One" icon={<EventIcon decorative />} />);
+    const forwarded =
+      ref.current instanceof HTMLDivElement && ref.current.getAttribute('role') === 'checkbox';
+    expect(forwarded).toBe(true);
+  });
+
+  it('applies truncate class to the label wrapper for single-line ellipsis', () => {
+    const { container } = renderSelectionCard();
+    const root = container.firstElementChild as HTMLElement;
+    const labelWrapper = root.children[1] as HTMLElement;
+    const hasTruncate = labelWrapper.className.includes('truncate');
+    expect(hasTruncate).toBe(true);
+  });
+
+  it('merges incoming className with composed base classes on the root', () => {
+    const { container } = renderSelectionCard({ className: 'custom-class' });
+    const root = container.firstElementChild as HTMLElement;
+    const merged = root.className.includes('inline-flex') && root.className.includes('custom-class');
+    expect(merged).toBe(true);
   });
 });
