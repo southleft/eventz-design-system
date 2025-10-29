@@ -66,7 +66,7 @@ const metaIconClasses = `
 `;
 
 const controlClasses = `
-  absolute right-2 top-20 sm:top-32 inline-grid place-items-center rounded-full backdrop-blur-sm bg-color-background-soft/60 p-1.5
+  absolute right-2 top-20 sm:top-32 inline-grid place-items-center rounded-full backdrop-blur-sm p-1.5
 `;
 
 export const MediaCard = React.forwardRef<HTMLDivElement, MediaCardProps>(

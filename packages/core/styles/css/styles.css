@@ -1283,14 +1283,8 @@
 .w-82 {
   width: calc(var(--spacing) * 82);
 }
-.w-120 {
-  width: calc(var(--spacing) * 120);
-}
 .w-168 {
   width: calc(var(--spacing) * 168);
-}
-.w-180 {
-  width: calc(var(--spacing) * 180);
 }
 .w-200 {
   width: calc(var(--spacing) * 200);

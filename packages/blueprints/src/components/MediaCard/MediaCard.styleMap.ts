@@ -97,7 +97,6 @@ export default defineStyleMap({
       'place-items-center',
       'rounded-full',
       'backdrop-blur-sm',
-      'bg-color-background-soft/60',
       'p-1.5'
     ]
   },
