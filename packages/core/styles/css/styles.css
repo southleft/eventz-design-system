@@ -54,6 +54,7 @@
   --color-color-background-default: var(--dt-color-background-default);
   --color-color-background-inverted: var(--dt-color-background-inverted);
   --color-color-background-subtle-hover: var(--dt-color-background-subtle-hover);
+  --color-color-background-utility-danger: var(--dt-color-background-utility-danger);
   --color-color-background-weak: var(--dt-color-background-weak);
   --color-color-background-weak-hover: var(--dt-color-background-weak-hover);
   --color-color-border-brand: var(--dt-color-border-brand);
@@ -1566,6 +1567,9 @@
   @supports (color: color-mix(in lab, red, red)) {
     background-color: color-mix(in oklab, var(--color-color-background-inverted) 50%, transparent);
   }
+}
+.bg-color-background-utility-danger {
+  background-color: var(--color-color-background-utility-danger);
 }
 .bg-color-background-weak {
   background-color: var(--color-color-background-weak);

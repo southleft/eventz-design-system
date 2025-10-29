@@ -17,7 +17,7 @@ export interface CountdownProps
     CountdownOwnProps {}
 
 const baseClasses = `
-  inline-flex items-center justify-center whitespace-nowrap text-3xl text-color-content-inverse
+  inline-flex items-center justify-center whitespace-nowrap w-full p-2 text-3xl text-color-content-inverse
 `;
 
 const variantClasses: Record<CountdownVariant, string> = {
