@@ -39,8 +39,12 @@ const subtitleClasses = `
 `;
 
 const titleWrapperClasses = `
-  inline-flex justify-between items-center w-200 sm:w-180 min-w-0 mt-1
+  inline-flex justify-between items-center mt-1 min-w-0
 `;
+
+const titleWrapperNoImageClasses = `w-286`;
+
+const titleWrapperHasImageClasses = `w-200 sm:w-180`;
 
 const titleTextClasses = `
   block text-color-content-default
@@ -77,10 +81,16 @@ export const MediaCard = React.forwardRef<HTMLDivElement, MediaCardProps>(
     const hasMeta = labelsList.length > 0;
     const imageAlt = typeof imgAlt === 'string' ? imgAlt : '';
 
+    const extendedTitleWrapperClasses = hasMedia
+      ? titleWrapperHasImageClasses
+      : titleWrapperNoImageClasses;
+
     const baseClassName = collapseWhitespace(composeClasses(baseClasses, className));
     const mediaClassName = collapseWhitespace(composeClasses(mediaClasses));
     const subtitleClassName = collapseWhitespace(composeClasses(subtitleClasses));
-    const titleWrapperClassName = collapseWhitespace(composeClasses(titleWrapperClasses));
+    const titleWrapperClassName = collapseWhitespace(
+      composeClasses(titleWrapperClasses, extendedTitleWrapperClasses)
+    );
     const titleTextClassName = collapseWhitespace(composeClasses(titleTextClasses));
     const metaClassName = collapseWhitespace(composeClasses(metaClasses));
     const metaItemClassName = collapseWhitespace(composeClasses(metaItemClasses));
