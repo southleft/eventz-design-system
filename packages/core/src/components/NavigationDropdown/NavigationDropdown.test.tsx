@@ -13,6 +13,18 @@ describe('NavigationDropdown', () => {
     expect(screen.getByRole('button', { name: 'Menu' })).toBeInTheDocument();
   });
 
+  it('uses triggerAriaLabel when provided, trimming surrounding whitespace', () => {
+    render(<NavigationDropdown items={minimalItems} triggerAriaLabel={'  Open navigation  '} />);
+
+    expect(screen.getByRole('button', { name: 'Open navigation' })).toBeInTheDocument();
+  });
+
+  it('falls back to "Menu" when triggerAriaLabel is whitespace-only', () => {
+    render(<NavigationDropdown items={minimalItems} triggerAriaLabel={'   '} />);
+
+    expect(screen.getByRole('button', { name: 'Menu' })).toBeInTheDocument();
+  });
+
   it('renders the open icon while the popover is closed', () => {
     render(
       <NavigationDropdown
