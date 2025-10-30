@@ -44,7 +44,7 @@ describe('SelectionCard', () => {
     const root = container.firstElementChild as HTMLElement;
     const hasFocusTokens =
       root.className.includes('focus-visible:ring-2') &&
-      root.className.includes('focus-visible:ring-comp-focus-color-ring') &&
+      root.className.includes('focus-visible:ring-comp-border-focus-ring') &&
       root.className.includes('focus-visible:ring-offset-2');
     expect(hasFocusTokens).toBe(true);
   });
@@ -76,7 +76,9 @@ describe('SelectionCard', () => {
   it('does not attach inline event handler attributes by default', () => {
     const { container } = renderSelectionCard();
     const root = container.firstElementChild as HTMLElement;
-    const hasInlineHandlers = root.getAttributeNames().some(attribute => attribute.startsWith('on'));
+    const hasInlineHandlers = root
+      .getAttributeNames()
+      .some(attribute => attribute.startsWith('on'));
     expect(hasInlineHandlers).toBe(false);
   });
 
@@ -85,10 +87,14 @@ describe('SelectionCard', () => {
     const root = container.firstElementChild as HTMLElement;
     const initialState = root.hasAttribute('aria-label');
     rerender(
-      <SelectionCard label="Project One" icon={<EventIcon decorative />} ariaLabel="  Custom Name  " />
+      <SelectionCard
+        label="Project One"
+        icon={<EventIcon decorative />}
+        ariaLabel="  Custom Name  "
+      />
     );
-    const updatedState = (container.firstElementChild as HTMLElement).getAttribute('aria-label') ===
-      'Custom Name';
+    const updatedState =
+      (container.firstElementChild as HTMLElement).getAttribute('aria-label') === 'Custom Name';
     const result = initialState === false && updatedState;
     expect(result).toBe(true);
   });
@@ -119,7 +125,8 @@ describe('SelectionCard', () => {
   it('merges incoming className with composed base classes on the root', () => {
     const { container } = renderSelectionCard({ className: 'custom-class' });
     const root = container.firstElementChild as HTMLElement;
-    const merged = root.className.includes('inline-flex') && root.className.includes('custom-class');
+    const merged =
+      root.className.includes('inline-flex') && root.className.includes('custom-class');
     expect(merged).toBe(true);
   });
 });
