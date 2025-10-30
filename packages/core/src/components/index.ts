@@ -23,6 +23,7 @@ export * from './InteractiveListItem';
 export * from './MediaCard';
 export * from './MediaControl';
 export * from './MenuItem';
+export * from './NavigationDropdown';
 export * from './RadioButtonGroup';
 export * from './Search';
 export * from './Select';
