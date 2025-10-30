@@ -25,11 +25,12 @@ const containerClasses = `
   flex
   items-center
   justify-between
-  w-full
   h-68
   lg:h-88
+  px-16
+  lg:px-112
   bg-color-background-none
-  has-[[data-slot=mobileNavigation] [data-state=open]]:bg-background-modal-dark
+  has-[[data-slot=mobileNavigation]_[data-state=open]]:bg-background-modal-dark
   transition-colors
 `;
 
@@ -49,8 +50,6 @@ const logoClasses = `
 `;
 
 const listClasses = `
-  hidden
-  md:flex
   items-center
   min-w-0
   gap-4
@@ -61,12 +60,18 @@ const itemClasses = `
   inline-flex
 `;
 
+const listWhenMobileNavClasses = `
+  hidden
+  md:flex
+`;
+
+const listWhenNoMobileNavClasses = `
+  flex
+`;
+
 const mobileNavigationClasses = `
   inline-block
   shrink-0
-  order-last
-  md:order-none
-  ml-auto
   md:hidden
 `;
 
@@ -102,7 +107,12 @@ export const NavigationBar = React.forwardRef<NavigationBarElement, NavigationBa
     );
     const primaryClassName = collapseWhitespace(composeClasses(primaryClasses));
     const logoClassName = collapseWhitespace(composeClasses(logoClasses));
-    const listClassName = collapseWhitespace(composeClasses(listClasses));
+    const listClassName = collapseWhitespace(
+      composeClasses(
+        mobileNavigation ? listWhenMobileNavClasses : listWhenNoMobileNavClasses,
+        listClasses
+      )
+    );
     const itemClassName = collapseWhitespace(composeClasses(itemClasses));
     const mobileNavigationClassName = collapseWhitespace(composeClasses(mobileNavigationClasses));
     const secondaryNavigationClassName = collapseWhitespace(
@@ -118,6 +128,12 @@ export const NavigationBar = React.forwardRef<NavigationBarElement, NavigationBa
         data-slot="container"
       >
         <div className={primaryClassName} data-slot="primary">
+          {mobileNavigation ? (
+            <div className={mobileNavigationClassName} data-slot="mobileNavigation">
+              {mobileNavigation}
+            </div>
+          ) : null}
+
           {logo ? (
             <div className={logoClassName} data-slot="logo">
               {logo}
@@ -140,12 +156,6 @@ export const NavigationBar = React.forwardRef<NavigationBarElement, NavigationBa
               );
             })}
           </ul>
-
-          {mobileNavigation ? (
-            <div className={mobileNavigationClassName} data-slot="mobileNavigation">
-              {mobileNavigation}
-            </div>
-          ) : null}
         </div>
 
         <div className={secondaryNavigationClassName} data-slot="secondaryNavigation">

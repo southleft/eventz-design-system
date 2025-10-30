@@ -62,7 +62,24 @@ describe('NavigationBar', () => {
     );
 
     expect(screen.getByRole('navigation', { name: 'Responsive nav' }).className).toContain(
-      'has-[[data-slot=mobileNavigation] [data-state=open]]:bg-background-modal-dark'
+      'has-[[data-slot=mobileNavigation]_[data-state=open]]:bg-background-modal-dark'
     );
+  });
+  it('renders the logo when provided', () => {
+    render(
+      <NavigationBar
+        ariaLabel="Logo nav"
+        items={baseItems}
+        logo={<span data-testid="brand">Brand</span>}
+      />
+    );
+
+    expect(screen.getByTestId('brand')).toBeInTheDocument();
+  });
+
+  it('does not render the logo when omitted', () => {
+    render(<NavigationBar ariaLabel="No logo" items={baseItems} />);
+
+    expect(screen.queryByTestId('brand')).not.toBeInTheDocument();
   });
 });
