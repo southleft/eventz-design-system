@@ -65,6 +65,7 @@ export const NavigationBarContract = defineContract({
       mapping: { label: 'label', href: 'href', current: 'aria-current' },
       currentValue: 'page'
     },
+    containerSlots: { primary: 0 },
 
     /** Layout note for implementers */
     layoutNote:

@@ -38,6 +38,10 @@ export const NavigationBarStyleMap = defineStyleMap({
     secondaryNavigation: ['min-w-0'] as const
   },
 
+  layout: {
+    fixed: ['fixed', 'inset-x-0', 'top-0', 'z-50'] as const
+  },
+
   // No variants in v1.
   state: {
     // No component-level states; per-link `current` is handled via `aria-current` on the TextLink.
