@@ -99,7 +99,7 @@ export const NavigationDropdownContract = defineContract({
     itemRenderer: {
       component: 'MenuItem',
       defaults: { type: 'simple', isSelected: false, borderBottom: false },
-      mapping: { label: 'text', href: 'href', ariaLabel: 'ariaLabel' }
+      mapping: { label: 'option', href: 'href', ariaLabel: 'ariaLabel' }
     }
   }
 });

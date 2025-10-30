@@ -15,19 +15,19 @@ export const NavigationDropdownStyleMap = defineStyleMap({
     // Popover content panel
     panel: [
       'z-50',
+      'py-4',
       'bg-background-modal-dark',
-      'w-full',
-      'fixed',
-      'inset-x-0',
-      'bottom-0',
-      'top-[var(--nav-offset)]'
+      'w-screen',
+      'h-screen',
+      'top-[var(--nav-offset)]',
+      'overflow-y-auto'
     ] as const,
 
     // Vertical list container for MenuItem rows
     list: [] as const,
 
     // Row wrapper around each MenuItem host (keep lightweight)
-    item: ['w-full'] as const
+    item: ['mx-4'] as const
   },
 
   // No variants in v1.
