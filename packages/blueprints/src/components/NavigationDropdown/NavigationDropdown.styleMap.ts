@@ -16,7 +16,7 @@ export const NavigationDropdownStyleMap = defineStyleMap({
     panel: [
       'z-50',
       'py-4',
-      'bg-background-modal-dark',
+      'bg-background-none',
       'w-screen',
       'h-screen',
       'top-[var(--nav-offset)]',

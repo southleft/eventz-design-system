@@ -93,7 +93,7 @@ describe('NavigationDropdown', () => {
     const panel = await screen.findByTestId('navigation-dropdown-panel');
 
     expect(panel.className).toContain(
-      'z-50 py-4 bg-background-modal-dark w-screen h-screen top-[var(--nav-offset)] overflow-y-auto'
+      'z-50 py-4 bg-background-none w-screen h-screen top-[var(--nav-offset)] overflow-y-auto'
     );
   });
 });

@@ -11,7 +11,7 @@ import { MenuItem } from '../MenuItem';
 const panelClasses = `
   z-50
   py-4
-  bg-background-modal-dark
+  bg-background-none
   w-screen
   h-screen
   top-[var(--nav-offset)]
@@ -77,7 +77,13 @@ export const NavigationDropdown = React.forwardRef<HTMLDivElement, NavigationDro
     );
 
     return (
-      <div ref={ref} className={rootClassName} data-slot="base" {...rest}>
+      <div
+        ref={ref}
+        className={rootClassName}
+        data-slot="base"
+        {...(isOpen ? { 'data-is-open': 'true' } : {})}
+        {...rest}
+      >
         <Popover.Root onOpenChange={setIsOpen}>
           <Popover.Trigger asChild>
             <IconButton

@@ -87,6 +87,18 @@ export const NavigationDropdownContract = defineContract({
     },
 
     /**
+     * Open-state exposure for parent styling hooks (e.g., NavigationBar background changes).
+     * When the popover is open, set `data-is-open="true"` on the base wrapper (data-slot="base").
+     * When closed, omit the attribute entirely.
+     */
+    openStateAttribute: {
+      attribute: 'data-is-open',
+      valueWhenOpen: 'true',
+      omitWhenClosed: true,
+      targetSlot: 'base'
+    },
+
+    /**
      * Item rendering directive for the generator:
      *  - Render each `items[]` entry using the **MenuItem** component (link variant via `href`).
      *  - Apply these defaults to every MenuItem row:
