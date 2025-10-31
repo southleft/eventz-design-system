@@ -21,10 +21,11 @@ export const SubscriptionCardStyleMap = defineStyleMap({
   ] as const,
 
   slots: {
-    container: [],
-
     // Header
     terms: ['text-3xl', 'font-bold', 'text-color-content-default'] as const,
+
+    // Applied only when a consumer provides custom `cancel` slot content AND isActive=true.
+    // Do NOT apply these classes to the default TextLink.
     cancel: ['text-sm', 'font-medium', 'text-color-content-weak'] as const,
 
     // Inactive-only subtitle
