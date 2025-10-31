@@ -29,8 +29,7 @@ const containerClasses = `
   lg:h-88
   px-16
   lg:px-112
-  bg-color-background-none
-  has-[[data-slot=mobileNavigation]_[data-state=open]]:bg-background-modal-dark
+  bg-background-none
   transition-colors
 `;
 

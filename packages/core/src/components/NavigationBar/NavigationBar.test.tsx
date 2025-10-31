@@ -48,23 +48,6 @@ describe('NavigationBar', () => {
     );
   });
 
-  it('includes the modal background swap hook for open mobile navigation', () => {
-    render(
-      <NavigationBar
-        ariaLabel="Responsive nav"
-        items={baseItems}
-        mobileNavigation={
-          <button type="button" data-state="open" aria-label="Close navigation">
-            Close
-          </button>
-        }
-      />
-    );
-
-    expect(screen.getByRole('navigation', { name: 'Responsive nav' }).className).toContain(
-      'has-[[data-slot=mobileNavigation]_[data-state=open]]:bg-background-modal-dark'
-    );
-  });
   it('renders the logo when provided', () => {
     render(
       <NavigationBar

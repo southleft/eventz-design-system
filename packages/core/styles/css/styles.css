@@ -24,7 +24,6 @@
   --text-3xl: 1.875rem;
   --text-3xl--line-height: calc(2.25 / 1.875);
   --font-weight-medium: 500;
-  --font-weight-semibold: 600;
   --font-weight-bold: 700;
   --font-weight-extrabold: 800;
   --leading-tight: 1.25;
@@ -1127,9 +1126,6 @@
 .z-50 {
   z-index: 50;
 }
-.order-last {
-  order: 9999;
-}
 .row-span-4 {
   grid-row: span 4 / span 4;
 }
@@ -1210,9 +1206,6 @@
 }
 .ml-\[14px\] {
   margin-left: 14px;
-}
-.ml-auto {
-  margin-left: auto;
 }
 .box-border {
   box-sizing: border-box;
@@ -1573,9 +1566,6 @@
 .border-color-border-brand {
   border-color: var(--color-color-border-brand);
 }
-.border-color-border-default {
-  border-color: var(--color-color-border-default);
-}
 .border-color-border-inverse {
   border-color: var(--color-color-border-inverse);
 }
@@ -1702,9 +1692,6 @@
 .px-4 {
   padding-inline: var(--spacing-4);
 }
-.px-5 {
-  padding-inline: calc(var(--spacing) * 5);
-}
 .px-6 {
   padding-inline: calc(var(--spacing) * 6);
 }
@@ -1728,9 +1715,6 @@
 }
 .py-1\.5 {
   padding-block: var(--spacing-1_5);
-}
-.py-2 {
-  padding-block: var(--spacing-2);
 }
 .py-4 {
   padding-block: var(--spacing-4);
@@ -1848,10 +1832,6 @@
 .font-medium {
   --tw-font-weight: var(--font-weight-medium);
   font-weight: var(--font-weight-medium);
-}
-.font-semibold {
-  --tw-font-weight: var(--font-weight-semibold);
-  font-weight: var(--font-weight-semibold);
 }
 .whitespace-nowrap {
   white-space: nowrap;
@@ -2310,6 +2290,26 @@
     opacity: 50%;
   }
 }
+.has-\[\[data-is-open\=true\]\]\:bg-color-background-brand {
+  &:has(*:is([data-is-open=true])) {
+    background-color: var(--color-color-background-brand);
+  }
+}
+.has-\[\[data-is-open\=true\]\]\:bg-\(image\:--dt-background-modal-dark\) {
+  &:has(*:is([data-is-open=true])) {
+    background-image: var(--dt-background-modal-dark);
+  }
+}
+.has-\[\[data-is-open\=true\]\]\:bg-\[image\:var\(--dt-background-modal-dark\)\] {
+  &:has(*:is([data-is-open=true])) {
+    background-image: var(--dt-background-modal-dark);
+  }
+}
+.has-\[\[data-slot\=base\]\]\:bg-color-background-brand {
+  &:has(*:is([data-slot=base])) {
+    background-color: var(--color-color-background-brand);
+  }
+}
 .aria-disabled\:pointer-events-none {
   &[aria-disabled="true"] {
     pointer-events: none;
@@ -2685,11 +2685,6 @@
   @media (width >= 40rem) {
     font-size: var(--text-lg);
     line-height: var(--tw-leading, var(--text-lg--line-height));
-  }
-}
-.md\:order-none {
-  @media (width >= 48rem) {
-    order: 0;
   }
 }
 .md\:flex {
