@@ -44,6 +44,8 @@ export const NavigationBarStyleMap = defineStyleMap({
 
   // No variants in v1.
   state: {
-    // No component-level states; per-link `current` is handled via `aria-current` on the TextLink.
+    // Runtime handles per-link `current` aria state; we expose only layout toggles here.
+    listNoMobileNavigation: ['flex'] as const,
+    listHasMobileNavigation: ['hidden', 'md:flex'] as const
   }
 });
