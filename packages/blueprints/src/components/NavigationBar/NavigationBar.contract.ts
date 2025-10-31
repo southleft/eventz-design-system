@@ -58,13 +58,15 @@ export const NavigationBarContract = defineContract({
      *      label      → TextLink `label`
      *      href       → TextLink `href`
      *      current    → add `aria-current="page"` to the anchor when true
-     *  - Render order inside the primary cluster: `logo?` → list (items) → `mobileNavigation?`.
+     *  - Render order inside the primary cluster: `mobileNavigation?` → `logo?` → list (items)`.
      */
     itemRenderer: {
       component: 'TextLink',
       mapping: { label: 'label', href: 'href', current: 'aria-current' },
       currentValue: 'page'
     },
+    listVisibility:
+      'On small screens, hide the primary list only when a mobileNavigation slot is provided (use `hidden md:flex` when present; otherwise `flex`).',
     containerSlots: { primary: 0 },
 
     /** Layout note for implementers */
