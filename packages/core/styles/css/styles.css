@@ -1570,6 +1570,9 @@
   --tw-border-style: none;
   border-style: none;
 }
+.border-color-background-utility-danger {
+  border-color: var(--color-color-background-utility-danger);
+}
 .border-color-background-utility-success {
   border-color: var(--color-color-background-utility-success);
 }

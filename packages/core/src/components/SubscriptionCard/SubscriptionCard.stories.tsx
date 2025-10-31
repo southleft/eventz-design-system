@@ -41,7 +41,6 @@ export const ActiveCustomCancelSlot: Story = {
       {...args}
       cancel={<span>Contact customer support</span>}
       cancelText="Cancel"
-      cancelHref="https://example.com/cancel"
     />
   )
 };

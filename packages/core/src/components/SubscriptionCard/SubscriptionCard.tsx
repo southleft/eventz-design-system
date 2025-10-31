@@ -19,10 +19,14 @@ export interface SubscriptionCardProps extends NativeDivProps {
 
 const baseClasses = `
   flex flex-col gap-2 p-4 rounded-md border bg-color-background-none transition-colors
-  text-left w-[439px] border-color-background-utility-success
+  text-left w-[439px]
 `;
 
 const activeStateClasses = `
+  border-color-background-utility-danger
+`;
+
+const inactiveStateClasses = `
   border-color-background-utility-success
 `;
 
@@ -75,7 +79,11 @@ export const SubscriptionCard = React.forwardRef<HTMLDivElement, SubscriptionCar
     ref
   ) => {
     const baseClassName = collapseWhitespace(
-      composeClasses(baseClasses, isActive ? activeStateClasses : undefined, className)
+      composeClasses(
+        baseClasses,
+        isActive ? activeStateClasses : inactiveStateClasses,
+        className
+      )
     );
     const headerClassName = collapseWhitespace(composeClasses(headerClasses));
     const termsClassName = collapseWhitespace(composeClasses(termsClasses));
@@ -92,7 +100,7 @@ export const SubscriptionCard = React.forwardRef<HTMLDivElement, SubscriptionCar
     const shouldRenderDefaultCancel = isActive && !hasCancelSlot && hasCancelHref;
 
     return (
-      <div ref={ref} className={baseClassName} data-slot="base" {...rest}>
+      <div ref={ref} className={baseClassName} {...rest}>
         <div className={headerClassName}>
           <div className={termsClassName} data-slot="terms">
             {terms}
@@ -103,7 +111,7 @@ export const SubscriptionCard = React.forwardRef<HTMLDivElement, SubscriptionCar
             </div>
           ) : null}
           {shouldRenderDefaultCancel ? (
-            <TextLink variant="subtle" href={cancelHref} label={cancelText ?? 'Cancel'} />
+            <TextLink variant="subtle" href={cancelHref} label={cancelText} />
           ) : null}
         </div>
 

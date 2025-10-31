@@ -51,11 +51,14 @@ describe('SubscriptionCard', () => {
     expect(activeStateValid).toBe(true);
   });
 
-  it('toggles border success token when active', () => {
+  it('applies success when inactive and danger when active', () => {
     const { container, rerender } = renderSubscriptionCard();
     const inactiveRoot = container.firstElementChild as HTMLElement;
     const inactiveHasSuccess = inactiveRoot.className.includes(
       'border-color-background-utility-success'
+    );
+    const inactiveHasDanger = inactiveRoot.className.includes(
+      'border-color-background-utility-danger'
     );
     rerender(
       <SubscriptionCard
@@ -70,8 +73,15 @@ describe('SubscriptionCard', () => {
     const activeHasSuccess = activeRoot.className.includes(
       'border-color-background-utility-success'
     );
-    const togglesState = inactiveHasSuccess === false && activeHasSuccess === true;
-    expect(togglesState).toBe(true);
+    const activeHasDanger = activeRoot.className.includes(
+      'border-color-background-utility-danger'
+    );
+    const correctTokens =
+      inactiveHasSuccess === true &&
+      inactiveHasDanger === false &&
+      activeHasSuccess === false &&
+      activeHasDanger === true;
+    expect(correctTokens).toBe(true);
   });
 
   it('renders custom cancel slot instead of default TextLink', () => {
