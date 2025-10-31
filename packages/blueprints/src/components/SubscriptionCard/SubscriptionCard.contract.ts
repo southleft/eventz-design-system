@@ -65,6 +65,12 @@ export const SubscriptionCardContract = defineContract({
   // NOTE: No runtime validation. These hints guide generation only.
   rules: [
     {
+      hint: 'Border mapping is state-driven. There is NO default border token in base. The styleMap exposes two mutually exclusive state keys that mirror the prop: `isActive` and `isActive=false`.'
+    },
+    {
+      hint: 'When `isActive=true`, compose the danger border token (e.g., border-color-background-utility-danger). When `isActive=false`, compose the success border token (e.g., border-color-background-utility-success). Base must not include a border-color token.'
+    },
+    {
       hint: 'Inactive state behavior: omit header cancel entirely and ignore cancelHref/cancelText and the `cancel` slot. Render only inactiveSubtitle beneath terms.'
     },
     {
@@ -72,9 +78,6 @@ export const SubscriptionCardContract = defineContract({
     },
     {
       hint: 'Server component, base <div>. Do not add focus/interactive semantics to the container. The Cancel affordance is an inline TextLink when active.'
-    },
-    {
-      hint: 'Border tokens mirror SubscriptionCard.tsx: use border-color-background-utility-danger when isActive=true and border-color-background-utility-success when isActive=false.'
     }
   ],
 
@@ -88,8 +91,9 @@ export const SubscriptionCardContract = defineContract({
      * - When `isActive=false`:
      *   - Omit header cancel entirely (ignore `cancel` slot and cancel* props); render only the inactive subtitle below the terms.
      * - If a `cancel` slot is provided AND isActive=true, render it instead of the default TextLink.
+     * - Compose classes so exactly one border token is applied from state at a time; base carries no border-color token.
      */
     generator:
-      'Active: render TextLink (variant="subtle") with cancelHref + cancelText unless a `cancel` slot is provided. Inactive: omit header cancel entirely (ignore `cancel` slot and cancel* props); render subtitle only.'
+      'Active: render TextLink (variant="subtle") with cancelHref + cancelText unless a `cancel` slot is provided. Inactive: omit header cancel entirely (ignore `cancel` slot and cancel* props); render subtitle only. Compose one border token from state; base has none.'
   }
 });

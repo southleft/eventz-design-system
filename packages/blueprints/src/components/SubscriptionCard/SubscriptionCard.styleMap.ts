@@ -4,7 +4,7 @@ import { defineStyleMap } from '../../utilities';
 export const SubscriptionCardStyleMap = defineStyleMap({
   component: 'SubscriptionCard',
 
-  // Base utilities now; token colors already mapped as classes here.
+  // Mirrors runtime base class literals (no border token in base).
   base: [
     'flex flex-col gap-2 p-4 rounded-md border bg-color-background-none transition-colors',
     'text-left w-[439px]'
@@ -31,7 +31,7 @@ export const SubscriptionCardStyleMap = defineStyleMap({
 
   variants: {},
 
-  // Use the prop name for state parity so the generator can toggle directly.
+  // Reflects runtime: two explicit states; no default border in base.
   state: {
     isActive: ['border-color-background-utility-danger'],
     'isActive=false': ['border-color-background-utility-success']
