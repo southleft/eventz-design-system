@@ -17,7 +17,7 @@ export const SubscriptionCardStyleMap = defineStyleMap({
     'text-left',
     'w-[439px]',
     // Default (inactive) border color per spec mapping:
-    'border-color-background-utility-danger'
+    'border-color-background-utility-success'
   ] as const,
 
   slots: {
@@ -48,6 +48,6 @@ export const SubscriptionCardStyleMap = defineStyleMap({
 
   // Use the prop name for state parity so the generator can toggle directly.
   state: {
-    isActive: ['border-color-background-utility-success']
+    isActive: ['border-color-background-utility-danger']
   }
 });
