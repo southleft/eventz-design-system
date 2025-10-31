@@ -1347,11 +1347,17 @@
 .w-600 {
   width: calc(var(--spacing) * 600);
 }
+.w-\[135px\] {
+  width: 135px;
+}
 .w-\[192px\] {
   width: 192px;
 }
 .w-\[240px\] {
   width: 240px;
+}
+.w-\[439px\] {
+  width: 439px;
 }
 .w-full {
   width: 100%;
@@ -1581,6 +1587,9 @@
 .border-none {
   --tw-border-style: none;
   border-style: none;
+}
+.border-color-background-utility-danger {
+  border-color: var(--color-color-background-utility-danger);
 }
 .border-color-border-brand {
   border-color: var(--color-color-border-brand);
