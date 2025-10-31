@@ -98,4 +98,33 @@ describe('SubscriptionCard', () => {
       (cancelSlot?.textContent ?? '').trim() === 'Custom Cancel' && cancelLink === null;
     expect(slotOverrides).toBe(true);
   });
+
+  it('renders details but no cancel link when active without cancelHref', () => {
+    renderSubscriptionCard({
+      isActive: true,
+      nextBillingDate: 'Dec 31, 2025',
+      memberSince: 'Jan 2020'
+    });
+    const link = screen.queryByRole('link');
+    const nextLabel = screen.getByText('Next billing date:');
+    const memberLabel = screen.getByText('Member since:');
+    const valid = link === null && Boolean(nextLabel) && Boolean(memberLabel);
+    expect(valid).toBe(true);
+  });
+
+  it('applies cancel slot wrapper classes when custom slot is used (active)', () => {
+    const { container } = renderSubscriptionCard({
+      isActive: true,
+      cancel: <span>Custom Cancel</span>,
+      nextBillingDate: 'Dec 31, 2025',
+      memberSince: 'Jan 2020'
+    });
+    const slotWrapper = container.querySelector('[data-slot="cancel"]');
+    const hasExpected =
+      slotWrapper instanceof HTMLElement &&
+      slotWrapper.className.includes('text-sm') &&
+      slotWrapper.className.includes('font-medium') &&
+      slotWrapper.className.includes('text-color-content-weak');
+    expect(hasExpected).toBe(true);
+  });
 });
