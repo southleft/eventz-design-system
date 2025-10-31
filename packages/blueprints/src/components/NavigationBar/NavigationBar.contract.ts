@@ -26,23 +26,52 @@ export const NavigationBarContract = defineContract({
     },
 
     /** When true, the bar is `position: fixed` at the top of the viewport. */
-    fixed: { type: 'boolean', default: false }
+    fixed: { type: 'boolean', default: false },
+
+    /** Optional brand mark rendered ahead of the primary link list. */
+    logo: { type: 'slot' },
+
+    /**
+     * Optional mobile navigation trigger. When present, the primary link list is hidden at small
+     * breakpoints and the trigger becomes the first element in the primary cluster.
+     */
+    mobileNavigation: { type: 'slot' },
+
+    /** Optional right-aligned cluster for secondary actions (buttons, avatar menu, etc.). */
+    secondaryNavigation: { type: 'slot' }
   },
 
-  // Slottable regions (all optional)
-  // - logo: brand mark area (left)
-  // - mobileNavigation: typically a <NavigationDropdown />; rendered within the primary cluster
-  // - secondaryNavigation: consumer-owned cluster on the right
-  propsOptionalSlots: true,
-  slots: ['logo', 'mobileNavigation', 'secondaryNavigation'] as const,
+  // Rendered slots / data-slot hooks in order of appearance.
+  slots: [
+    'container',
+    'primary',
+    'mobileNavigation',
+    'logo',
+    'list',
+    'item',
+    'secondaryNavigation'
+  ] as const,
 
-  // Structural hint only; no classes here. Two flex children: primary cluster + secondary cluster.
+  // Structural hint only; classes live in the styleMap.
   layout: {
     type: 'container',
     tag: 'nav',
+    slot: 'container',
     children: [
-      { tag: 'div' }, // _primary → logo? + list (items) + mobileNavigation?
-      { slot: 'secondaryNavigation', tag: 'div' } // _secondaryNavigation
+      {
+        tag: 'div',
+        slot: 'primary',
+        children: [
+          { tag: 'div', slot: 'mobileNavigation' },
+          { tag: 'div', slot: 'logo' },
+          {
+            tag: 'ul',
+            slot: 'list',
+            children: [{ tag: 'li', slot: 'item' }]
+          }
+        ]
+      },
+      { tag: 'div', slot: 'secondaryNavigation' }
     ]
   },
 
@@ -58,10 +87,12 @@ export const NavigationBarContract = defineContract({
      *      label      → TextLink `label`
      *      href       → TextLink `href`
      *      current    → add `aria-current="page"` to the anchor when true
+     *  - Defaults: TextLink renders with `variant="strong"`.
      *  - Render order inside the primary cluster: `mobileNavigation?` → `logo?` → list (items)`.
      */
     itemRenderer: {
       component: 'TextLink',
+      defaults: { variant: 'strong' },
       mapping: { label: 'label', href: 'href', current: 'aria-current' },
       currentValue: 'page'
     },
