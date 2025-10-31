@@ -48,6 +48,29 @@ describe('NavigationBar', () => {
     );
   });
 
+  it('hides the primary link list on small screens when a mobileNavigation is provided', () => {
+    render(
+      <NavigationBar
+        ariaLabel="Responsive nav"
+        items={baseItems}
+        mobileNavigation={
+          <button type="button" aria-label="Menu">
+            Menu
+          </button>
+        }
+      />
+    );
+
+    const list = screen.getByRole('list');
+    expect(list.className).toContain('hidden md:flex');
+  });
+
+  it('shows the primary link list on small screens when no mobileNavigation is provided', () => {
+    render(<NavigationBar ariaLabel="Simple nav" items={baseItems} />);
+
+    const list = screen.getByRole('list');
+    expect(list.className).not.toContain('hidden md:flex');
+  });
   it('renders the logo when provided', () => {
     render(
       <NavigationBar
