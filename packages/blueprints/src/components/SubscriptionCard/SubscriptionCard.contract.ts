@@ -72,6 +72,9 @@ export const SubscriptionCardContract = defineContract({
     },
     {
       hint: 'Server component, base <div>. Do not add focus/interactive semantics to the container. The Cancel affordance is an inline TextLink when active.'
+    },
+    {
+      hint: 'Border tokens mirror SubscriptionCard.tsx: use border-color-background-utility-danger when isActive=true and border-color-background-utility-success when isActive=false.'
     }
   ],
 

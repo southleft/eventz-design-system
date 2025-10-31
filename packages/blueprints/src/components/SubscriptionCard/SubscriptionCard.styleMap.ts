@@ -34,6 +34,6 @@ export const SubscriptionCardStyleMap = defineStyleMap({
   // Use the prop name for state parity so the generator can toggle directly.
   state: {
     isActive: ['border-color-background-utility-danger'],
-    isInactive: ['border-color-background-utility-success']
+    'isActive=false': ['border-color-background-utility-success']
   }
 });
