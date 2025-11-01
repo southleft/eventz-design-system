@@ -1082,6 +1082,9 @@
 .relative {
   position: relative;
 }
+.static {
+  position: static;
+}
 .inset-0 {
   inset: var(--spacing-0);
 }
@@ -1243,6 +1246,10 @@
   width: var(--spacing-4);
   height: var(--spacing-4);
 }
+.size-8 {
+  width: calc(var(--spacing) * 8);
+  height: calc(var(--spacing) * 8);
+}
 .size-20 {
   width: calc(var(--spacing) * 20);
   height: calc(var(--spacing) * 20);
@@ -1284,6 +1291,9 @@
 }
 .h-\[min\(650px\,calc\(100vh-40px\)\)\] {
   height: min(650px, calc(100vh - 40px));
+}
+.h-px {
+  height: 1px;
 }
 .h-screen {
   height: 100vh;
@@ -2573,6 +2583,24 @@
     display: block;
   }
 }
+.data-\[rail-status\=default\]\:bg-color-background-default {
+  &[data-rail-status="default"] {
+    background-color: var(--color-color-background-default);
+  }
+}
+.data-\[rail-status\=full\]\:bg-color-content-brand {
+  &[data-rail-status="full"] {
+    background-color: var(--color-color-content-brand);
+  }
+}
+.data-\[rail-status\=partial\]\:bg-color-content-brand\/50 {
+  &[data-rail-status="partial"] {
+    background-color: var(--color-color-content-brand);
+    @supports (color: color-mix(in lab, red, red)) {
+      background-color: color-mix(in oklab, var(--color-color-content-brand) 50%, transparent);
+    }
+  }
+}
 .data-\[state\=active\]\:border-b-color-border-brand {
   &[data-state="active"] {
     border-bottom-color: var(--color-color-border-brand);
@@ -2642,6 +2670,51 @@
     &:active {
       background-color: var(--color-comp-button-primary-color-background-active);
     }
+  }
+}
+.data-\[step-status\=active\]\:border-color-content-brand {
+  &[data-step-status="active"] {
+    border-color: var(--color-color-content-brand);
+  }
+}
+.data-\[step-status\=active\]\:bg-transparent {
+  &[data-step-status="active"] {
+    background-color: transparent;
+  }
+}
+.data-\[step-status\=active\]\:text-color-content-brand {
+  &[data-step-status="active"] {
+    color: var(--color-color-content-brand);
+  }
+}
+.data-\[step-status\=completed\]\:border-color-content-brand {
+  &[data-step-status="completed"] {
+    border-color: var(--color-color-content-brand);
+  }
+}
+.data-\[step-status\=completed\]\:bg-color-content-brand {
+  &[data-step-status="completed"] {
+    background-color: var(--color-color-content-brand);
+  }
+}
+.data-\[step-status\=completed\]\:text-color-background-default {
+  &[data-step-status="completed"] {
+    color: var(--color-color-background-default);
+  }
+}
+.data-\[step-status\=upcoming\]\:border-color-background-default {
+  &[data-step-status="upcoming"] {
+    border-color: var(--color-color-background-default);
+  }
+}
+.data-\[step-status\=upcoming\]\:bg-transparent {
+  &[data-step-status="upcoming"] {
+    background-color: transparent;
+  }
+}
+.data-\[step-status\=upcoming\]\:text-color-content-weak {
+  &[data-step-status="upcoming"] {
+    color: var(--color-color-content-weak);
   }
 }
 .sm\:top-32 {
