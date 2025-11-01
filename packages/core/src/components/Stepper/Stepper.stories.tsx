@@ -17,7 +17,7 @@ type Story = StoryObj<StepperProps>;
 export const Default: Story = {
   args: {
     steps: 4,
-    activeStep: 1,
+    activeStep: 3,
     activeLabel: 'Shipping details',
     onStepChange: fn()
   }
@@ -26,7 +26,7 @@ export const Default: Story = {
 export const Static: Story = {
   args: {
     steps: 4,
-    activeStep: 1,
+    activeStep: 3,
     activeLabel: 'Shipping details'
   }
 };
@@ -34,7 +34,7 @@ export const Static: Story = {
 export const ActiveFirst: Story = {
   args: {
     steps: 4,
-    activeStep: 0,
+    activeStep: 1,
     activeLabel: 'Shipping details',
     onStepChange: fn()
   }
@@ -43,7 +43,7 @@ export const ActiveFirst: Story = {
 export const ActiveLast: Story = {
   args: {
     steps: 4,
-    activeStep: 3,
+    activeStep: 4,
     activeLabel: 'Shipping details',
     onStepChange: fn()
   }
