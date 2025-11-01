@@ -16,7 +16,7 @@ export interface StepperProps extends NavProps {
 }
 
 const containerClasses = `flex items-center select-none transition-colors`;
-const stepWrapperClasses = `flex flex-col items-center relative`;
+const stepWrapperClasses = `relative flex items-center justify-center h-32`;
 const stepElementClasses = `
   flex flex-col items-center justify-center relative size-32 rounded-full font-bold border-[2px] transition-colors
   focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2
@@ -27,8 +27,8 @@ const stepElementClasses = `
   data-[step-status=upcoming]:bg-color-background-default data-[step-status=upcoming]:text-color-content-weak
   data-[step-status=upcoming]:border-color-border-default
 `;
-const indicatorClasses = `pointer-events-none`;
-const labelClasses = `mt-1 text-sm text-center text-color-content-default`;
+const indicatorClasses = `pointer-events-none flex items-center justify-center`;
+const labelClasses = `text-sm text-center whitespace-nowrap text-color-content-default`;
 const railClasses = `
   flex-1 h-[2px] transition-colors bg-color-border-default
   data-[rail-status=default]:bg-color-border-default
@@ -38,10 +38,12 @@ const railClasses = `
 const railFillBaseClasses = 'block h-px bg-color-border-strong';
 const railFillPartialClasses = 'w-1/2';
 const railFillFullClasses = 'w-full';
+const activeLabelOverlayClasses = 'absolute inset-x-0 mt-1';
 
 export const Stepper = React.forwardRef<React.ElementRef<'nav'>, StepperProps>(
   ({ steps, activeStep, activeLabel, onStepChange, className, ...rest }, ref) => {
     const isInteractive = typeof onStepChange === 'function';
+    const [focusIndex, setFocusIndex] = React.useState(activeStep);
 
     const containerRole = isInteractive ? 'tablist' : 'list';
 
@@ -60,6 +62,10 @@ export const Stepper = React.forwardRef<React.ElementRef<'nav'>, StepperProps>(
       },
       [onStepChange]
     );
+
+    React.useEffect(() => {
+      setFocusIndex(activeStep);
+    }, [activeStep]);
 
     const stepsArray = React.useMemo(
       () => Array.from({ length: steps }, (_, index) => index),
@@ -94,6 +100,12 @@ export const Stepper = React.forwardRef<React.ElementRef<'nav'>, StepperProps>(
                 ? collapseWhitespace(composeClasses(railFillBaseClasses, railFillFullClasses))
                 : undefined;
 
+          const isActiveStep = index === activeStep;
+          const activeLabelClassName = isActiveStep
+            ? collapseWhitespace(composeClasses(labelClassName, activeLabelOverlayClasses))
+            : undefined;
+          const activeLabelStyle = isActiveStep ? { top: '100%' } : undefined;
+
           const rail =
             railStatus !== undefined ? (
               <div
@@ -103,7 +115,9 @@ export const Stepper = React.forwardRef<React.ElementRef<'nav'>, StepperProps>(
                 data-rail-status={railStatus}
                 aria-hidden="true"
               >
-                {railFillClassName ? <span data-part="fill" className={railFillClassName} /> : null}
+                {railFillClassName ? (
+                  <span data-part="fill" className={railFillClassName} aria-hidden="true" />
+                ) : null}
               </div>
             ) : null;
 
@@ -116,17 +130,27 @@ export const Stepper = React.forwardRef<React.ElementRef<'nav'>, StepperProps>(
                     type="button"
                     role="tab"
                     onClick={() => handleStepClick(index)}
+                    onFocus={() => setFocusIndex(index)}
                     aria-current={index === activeStep ? ('step' as const) : undefined}
                     aria-selected={index === activeStep ? true : false}
                     aria-labelledby={index === activeStep ? `stepper-label-${index}` : undefined}
                     aria-label={index !== activeStep ? `Step ${index + 1}` : undefined}
-                    tabIndex={index === activeStep ? 0 : -1}
+                    tabIndex={focusIndex === index ? 0 : -1}
                     className={stepElementClassName}
                     data-slot="step"
                     data-step-status={stepStatus}
                   >
-                    <span className={indicatorClassName} data-slot="indicator" aria-hidden="true">
-                      {stepStatus === 'completed' ? <CheckIcon /> : index + 1}
+                    <span
+                      className={indicatorClassName}
+                      data-slot="indicator"
+                      aria-hidden="true"
+                      tabIndex={-1}
+                    >
+                      {stepStatus === 'completed' ? (
+                        <CheckIcon aria-hidden="true" focusable="false" className="size-4" />
+                      ) : (
+                        index + 1
+                      )}
                     </span>
                   </button>
                 ) : (
@@ -136,7 +160,12 @@ export const Stepper = React.forwardRef<React.ElementRef<'nav'>, StepperProps>(
                     data-slot="step"
                     data-step-status={stepStatus}
                   >
-                    <span className={indicatorClassName} data-slot="indicator" aria-hidden="true">
+                    <span
+                      className={indicatorClassName}
+                      data-slot="indicator"
+                      aria-hidden="true"
+                      tabIndex={-1}
+                    >
                       {stepStatus === 'completed' ? (
                         <CheckIcon aria-hidden="true" focusable="false" className="size-4" />
                       ) : (
@@ -145,8 +174,13 @@ export const Stepper = React.forwardRef<React.ElementRef<'nav'>, StepperProps>(
                     </span>
                   </div>
                 )}
-                {index === activeStep ? (
-                  <span id={`stepper-label-${index}`} className={labelClassName} data-slot="label">
+                {isActiveStep ? (
+                  <span
+                    id={`stepper-label-${index}`}
+                    className={activeLabelClassName}
+                    style={activeLabelStyle}
+                    data-slot="label"
+                  >
                     {activeLabel}
                   </span>
                 ) : null}
