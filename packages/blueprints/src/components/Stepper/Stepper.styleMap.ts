@@ -38,17 +38,16 @@ const StepperStyleMap = {
       'data-[step-status=completed]:outline-offset-1',
       'data-[step-status=upcoming]:bg-color-background-default',
       'data-[step-status=upcoming]:text-color-content-weak',
-      'data-[step-status=upcoming]:border-color-border-default'
+      'data-[step-status=upcoming]:border-color-border-default',
+      'data-[step-status=active]:hover:text-color-content-brand-hover',
+      'data-[step-status=active]:hover:border-color-border-strong-hover',
+      'data-[step-status=upcoming]:hover:text-color-content-weak-hover',
+      'data-[step-status=upcoming]:hover:border-color-border-default-hover'
     ],
 
     /**
      * Interactive-only hover tokens (apply only when the step renders as a <button>).
-     * These are present in the runtime as `stepElementButtonClasses` and intentionally not
-     * included in the `step` slot array to avoid affecting the static <div> mode:
-     * - data-[step-status=active]:hover:text-color-content-brand-hover
-     * - data-[step-status=active]:hover:border-color-border-strong-hover
-     * - data-[step-status=upcoming]:hover:text-color-content-weak-hover
-     * - data-[step-status=upcoming]:hover:border-color-border-default-hover
+     * The runtime concatenates these conditionally so the static <div> path stays untouched.
      */
 
     /** Decorative number/check indicator inside each step element */
