@@ -8,6 +8,64 @@ import jsxA11y from 'eslint-plugin-jsx-a11y';
 import testingLibrary from 'eslint-plugin-testing-library';
 import jestDom from 'eslint-plugin-jest-dom';
 
+const useClientDirectiveRule = {
+  meta: {
+    type: 'problem',
+    schema: [
+      {
+        type: 'object',
+        properties: {
+          mode: { enum: ['require', 'forbid'] }
+        },
+        additionalProperties: false
+      }
+    ],
+    messages: {
+      missingDirective: "Client components must include a top-level 'use client' directive.",
+      unexpectedDirective: "Server components must not include the 'use client' directive."
+    }
+  },
+  create(context) {
+    const mode = context.options[0]?.mode ?? 'forbid';
+    return {
+      Program(node) {
+        const firstStatement = node.body[0];
+        const directiveStatement =
+          firstStatement &&
+          firstStatement.type === 'ExpressionStatement' &&
+          firstStatement.directive === 'use client'
+            ? firstStatement
+            : undefined;
+        const anyDirective = node.body.find(
+          (statement) =>
+            statement.type === 'ExpressionStatement' &&
+            statement.directive === 'use client'
+        );
+
+        if (mode === 'require') {
+          if (!directiveStatement) {
+            context.report({
+              node: firstStatement ?? node,
+              messageId: 'missingDirective'
+            });
+          }
+        } else if (mode === 'forbid' && anyDirective) {
+          context.report({
+            node: anyDirective,
+            messageId: 'unexpectedDirective'
+          });
+        }
+      }
+    };
+  }
+};
+
+const eslintCommentsPlugin = {
+  rules: {
+    'use-client-directive': useClientDirectiveRule
+  }
+};
+
 export default [
   // Ignore build outputs, deps, and config files to avoid typed rules on JS configs
   {
@@ -51,7 +109,8 @@ export default [
       'react-hooks': reactHooks,
       'jsx-a11y': jsxA11y,
       'testing-library': testingLibrary,
-      'jest-dom': jestDom
+      'jest-dom': jestDom,
+      'eslint-comments': eslintCommentsPlugin
     },
     settings: {
       react: { version: 'detect' }
@@ -59,6 +118,36 @@ export default [
     rules: {
       'react-hooks/rules-of-hooks': 'error',
       'react-hooks/exhaustive-deps': 'warn'
+    }
+  },
+
+  // Server component guardrails
+  {
+    files: ['src/components/server/**/*.{ts,tsx}'],
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          paths: ['radix-ui'],
+          patterns: ['@radix-ui/*']
+        }
+      ],
+      'no-restricted-syntax': [
+        'error',
+        {
+          selector: 'CallExpression[callee.name=/^use[A-Z]/]',
+          message: 'Hooks are not allowed in server components.'
+        }
+      ],
+      'eslint-comments/use-client-directive': ['error', { mode: 'forbid' }]
+    }
+  },
+
+  // Client component guardrails
+  {
+    files: ['src/components/client/**/*.{ts,tsx}'],
+    rules: {
+      'eslint-comments/use-client-directive': ['error', { mode: 'require' }]
     }
   },
 
