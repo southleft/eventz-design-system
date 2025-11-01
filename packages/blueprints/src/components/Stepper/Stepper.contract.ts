@@ -18,6 +18,12 @@ const StepperContract = {
       required: true,
       description: 'Zero-based index of the current (active) step.'
     },
+    /** Visible text rendered under the active step indicator only (design requirement). */
+    activeLabel: {
+      type: 'string',
+      required: true,
+      description: 'Label text displayed under the active step indicator only.'
+    },
     onStepChange: {
       type: 'callback',
       args: ['index: number'],
@@ -31,7 +37,7 @@ const StepperContract = {
    *  - container (root nav)
    *  - step (repeated per index)
    *     - indicator
-   *     - label
+   *     - label (ACTIVE STEP ONLY)
    *  - rail (between steps)
    */
   slots: ['container', 'step', 'indicator', 'label', 'rail'] as const,
@@ -67,10 +73,16 @@ const StepperContract = {
       hint: 'Rail status between steps (except before the first): before a completed step → data-rail-status="full"; before the active step → "partial"; otherwise → "default".'
     },
     {
-      hint: 'Interactivity: when `onStepChange` is provided, container uses role="tablist" and each step is a <button role="tab"> with the active one also carrying aria-current="step". Without `onStepChange`, use role="list" / role="listitem".'
+      hint: 'Render the label slot ONLY for the active step (index === activeStep) and place it under the indicator. For interactive mode, wire the button’s accessible name via aria-labelledby to that label element when active.'
     },
     {
-      hint: 'Accessibility name comes from the visible label under each indicator. The numeric indicator is decorative and should be aria-hidden="true". Preserve focus-visible ring tokens on interactive steps.'
+      hint: 'For non-active steps (no label element present), compute a simple accessible name (e.g., aria-label="Step {i+1}") so the button is named while the numeric indicator remains aria-hidden.'
+    },
+    {
+      hint: 'Interactivity: when `onStepChange` is provided, container uses role="tablist" and each step is a <button role="tab">; the active step may include aria-current="step". Without `onStepChange`, use role="list" / role="listitem".'
+    },
+    {
+      hint: 'The numeric indicator is decorative and should be aria-hidden="true". Completed steps render a check glyph/icon instead of the step number (icon is decorative as well). Preserve focus-visible ring tokens on the interactive step element.'
     }
   ]
 } satisfies ContractSpec;
