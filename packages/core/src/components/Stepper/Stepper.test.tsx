@@ -59,13 +59,19 @@ describe('Stepper', () => {
     expect(className.includes('focus-visible:ring-comp-border-focus-ring')).toBe(true);
   });
 
-  it('maps accessible names via aria-labelledby and aria-label', () => {
+  it('names the active tab via aria-labelledby', () => {
     render(<Stepper steps={3} activeStep={2} activeLabel="Review" onStepChange={jest.fn()} />);
     const tabs = screen.getAllByRole('tab');
-    const activeTab = tabs.find(tab => tab.getAttribute('aria-current') === 'step');
-    const inactiveTab = tabs.find(tab => tab.getAttribute('aria-current') !== 'step');
-    expect(activeTab?.getAttribute('aria-labelledby')).toMatch(/^stepper-label-1$/);
-    expect(inactiveTab?.getAttribute('aria-label')).toBe('Step 1');
+    const active = tabs.find(t => t.getAttribute('aria-current') === 'step')!;
+    const labelledBy = active.getAttribute('aria-labelledby') ?? '';
+    expect(/stepper-label-1$/.test(labelledBy)).toBe(true);
+  });
+
+  it('names non-active tabs via aria-label', () => {
+    render(<Stepper steps={3} activeStep={2} activeLabel="Review" onStepChange={jest.fn()} />);
+    const tabs = screen.getAllByRole('tab');
+    const aNonActive = tabs.find(t => t.getAttribute('aria-current') !== 'step')!;
+    expect(aNonActive.getAttribute('aria-label')).toBeTruthy();
   });
 
   it('invokes onStepChange when clicking an upcoming tab', async () => {

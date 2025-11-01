@@ -55,7 +55,16 @@ const StepperStyleMap = {
     indicator: ['pointer-events-none', 'flex', 'items-center', 'justify-center'],
 
     /** Label under the indicator; supplies accessible name */
-    label: ['text-sm', 'text-center', 'whitespace-nowrap', 'text-color-content-default'],
+    label: [
+      'text-sm',
+      'text-center',
+      'whitespace-nowrap',
+      'text-color-content-default',
+      'absolute',
+      'left-1/2',
+      'top-[calc(100%+6px)]',
+      '-translate-x-1/2'
+    ],
 
     /**
      * Rail between steps

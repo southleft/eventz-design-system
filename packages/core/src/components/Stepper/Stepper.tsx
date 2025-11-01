@@ -50,6 +50,7 @@ const activeLabelOverlayClasses = 'absolute left-1/2 top-[calc(100%+6px)] -trans
 
 export const Stepper = React.forwardRef<React.ElementRef<'nav'>, StepperProps>(
   ({ steps, activeStep, activeLabel, onStepChange, className, ...rest }, ref) => {
+    const uid = React.useId();
     const isInteractive = typeof onStepChange === 'function';
     const activeIndex = activeStep - 1; // activeStep is 1-based (1 => first step)
 
@@ -99,6 +100,8 @@ export const Stepper = React.forwardRef<React.ElementRef<'nav'>, StepperProps>(
                   ? 'partial'
                   : 'default';
 
+          const labelId = `${uid}-stepper-label-${index}`;
+
           const railFillClassName =
             railStatus === 'partial'
               ? collapseWhitespace(composeClasses(railFillBaseClasses, railFillPartialClasses))
@@ -137,7 +140,7 @@ export const Stepper = React.forwardRef<React.ElementRef<'nav'>, StepperProps>(
                     onClick={() => handleStepClick(index)}
                     aria-current={isActiveStep ? ('step' as const) : undefined}
                     aria-selected={isActiveStep ? true : false}
-                    aria-labelledby={isActiveStep ? `stepper-label-${index}` : undefined}
+                    aria-labelledby={isActiveStep ? labelId : undefined}
                     aria-label={!isActiveStep ? `Step ${index + 1}` : undefined}
                     className={interactiveStepElementClassName}
                     data-slot="step"
@@ -179,7 +182,7 @@ export const Stepper = React.forwardRef<React.ElementRef<'nav'>, StepperProps>(
                 )}
                 {isActiveStep ? (
                   <span
-                    id={`stepper-label-${index}`}
+                    id={labelId}
                     className={activeLabelClassName}
                     data-slot="label"
                   >
