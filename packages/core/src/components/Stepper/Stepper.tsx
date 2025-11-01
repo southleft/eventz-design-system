@@ -56,9 +56,7 @@ export const Stepper = React.forwardRef<React.ElementRef<'nav'>, StepperProps>(
 
     const handleStepClick = React.useCallback(
       (index: number) => {
-        if (onStepChange) {
-          onStepChange(index);
-        }
+        onStepChange!(index);
       },
       [onStepChange]
     );
