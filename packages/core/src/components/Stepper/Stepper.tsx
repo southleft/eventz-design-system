@@ -22,12 +22,18 @@ const stepElementClasses = `
   focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2
   focus-visible:ring-comp-border-focus-ring focus-visible:ring-offset-color-background-default
   data-[step-status=active]:bg-color-background-default data-[step-status=active]:text-color-content-brand
-  data-[step-status=active]:hover:text-color-content-brand-hover
-  data-[step-status=active]:border-color-border-strong data-[step-status=active]:hover:border-color-border-strong-hover
+  data-[step-status=active]:border-color-border-strong
   data-[step-status=completed]:bg-color-content-brand data-[step-status=completed]:text-color-background-default
   data-[step-status=completed]:outline-2 data-[step-status=completed]:outline-color-border-strong data-[step-status=completed]:outline-offset-1
-  data-[step-status=upcoming]:bg-color-background-default data-[step-status=upcoming]:text-color-content-weak data-[step-status=upcoming]:hover:text-color-content-weak-hover
-  data-[step-status=upcoming]:border-color-border-default data-[step-status=upcoming]:hover:border-color-border-default-hover
+  data-[step-status=upcoming]:bg-color-background-default data-[step-status=upcoming]:text-color-content-weak
+  data-[step-status=upcoming]:border-color-border-default
+`;
+
+const stepElementButtonClasses = `
+  data-[step-status=active]:hover:text-color-content-brand-hover
+  data-[step-status=active]:hover:border-color-border-strong-hover
+  data-[step-status=upcoming]:hover:text-color-content-weak-hover
+  data-[step-status=upcoming]:hover:border-color-border-default-hover
 `;
 const indicatorClasses = `pointer-events-none flex items-center justify-center`;
 const labelClasses = `text-sm text-center whitespace-nowrap text-color-content-default`;
@@ -52,6 +58,10 @@ export const Stepper = React.forwardRef<React.ElementRef<'nav'>, StepperProps>(
     const containerClassName = collapseWhitespace(composeClasses(containerClasses, className));
     const stepWrapperClassName = collapseWhitespace(composeClasses(stepWrapperClasses));
     const stepElementClassName = collapseWhitespace(composeClasses(stepElementClasses));
+    const stepElementButtonClassName = collapseWhitespace(composeClasses(stepElementButtonClasses));
+    const interactiveStepElementClassName = collapseWhitespace(
+      composeClasses(stepElementClassName, stepElementButtonClassName)
+    );
     const indicatorClassName = collapseWhitespace(composeClasses(indicatorClasses));
     const labelClassName = collapseWhitespace(composeClasses(labelClasses));
     const railClassName = collapseWhitespace(composeClasses(railClasses));
@@ -129,7 +139,7 @@ export const Stepper = React.forwardRef<React.ElementRef<'nav'>, StepperProps>(
                     aria-selected={isActiveStep ? true : false}
                     aria-labelledby={isActiveStep ? `stepper-label-${index}` : undefined}
                     aria-label={!isActiveStep ? `Step ${index + 1}` : undefined}
-                    className={stepElementClassName}
+                    className={interactiveStepElementClassName}
                     data-slot="step"
                     data-step-status={stepStatus}
                   >
