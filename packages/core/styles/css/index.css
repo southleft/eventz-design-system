@@ -62,6 +62,7 @@
   --color-color-border-default: var(--dt-color-border-default);
   --color-color-border-default-hover: var(--dt-color-border-default-hover);
   --color-color-border-inverse: var(--dt-color-border-inverse);
+  --color-color-border-strong: var(--dt-color-border-strong);
   --color-color-border-subtle: var(--dt-color-border-subtle);
 
   --color-color-content-brand: var(--dt-color-content-brand);
