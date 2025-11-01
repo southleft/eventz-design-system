@@ -21,7 +21,7 @@ const stepElementClasses = `
   flex flex-col items-center justify-center relative size-32 rounded-full font-bold border-[2px] transition-colors
   focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2
   focus-visible:ring-color-focus-ring focus-visible:ring-offset-color-background-default
-  data-[step-status=active]:bg-color-background-default data-[step-status=active]:text-color-content-brand data-[step-status=active]:border-color-border-default
+  data-[step-status=active]:bg-color-background-default data-[step-status=active]:text-color-content-brand data-[step-status=active]:border-color-border-strong
   data-[step-status=completed]:bg-color-content-brand data-[step-status=completed]:text-color-background-default
   data-[step-status=completed]:outline-2 data-[step-status=completed]:outline-color-border-strong data-[step-status=completed]:outline-offset-1
   data-[step-status=upcoming]:bg-color-background-default data-[step-status=upcoming]:text-color-content-weak
@@ -38,12 +38,12 @@ const railClasses = `
 const railFillBaseClasses = 'block h-px bg-color-border-strong';
 const railFillPartialClasses = 'w-1/2';
 const railFillFullClasses = 'w-full';
-const activeLabelOverlayClasses = 'absolute inset-x-0 mt-1';
+const activeLabelOverlayClasses = 'absolute left-1/2 top-[calc(100%+6px)] -translate-x-1/2';
 
 export const Stepper = React.forwardRef<React.ElementRef<'nav'>, StepperProps>(
   ({ steps, activeStep, activeLabel, onStepChange, className, ...rest }, ref) => {
     const isInteractive = typeof onStepChange === 'function';
-    const [focusIndex, setFocusIndex] = React.useState(activeStep);
+    const activeIndex = activeStep - 1; // activeStep is 1-based (1 => first step)
 
     const containerRole = isInteractive ? 'tablist' : 'list';
 
@@ -63,10 +63,6 @@ export const Stepper = React.forwardRef<React.ElementRef<'nav'>, StepperProps>(
       [onStepChange]
     );
 
-    React.useEffect(() => {
-      setFocusIndex(activeStep);
-    }, [activeStep]);
-
     const stepsArray = React.useMemo(
       () => Array.from({ length: steps }, (_, index) => index),
       [steps]
@@ -83,13 +79,13 @@ export const Stepper = React.forwardRef<React.ElementRef<'nav'>, StepperProps>(
       >
         {stepsArray.map(index => {
           const stepStatus =
-            index < activeStep ? 'completed' : index === activeStep ? 'active' : 'upcoming';
+            index < activeIndex ? 'completed' : index === activeIndex ? 'active' : 'upcoming';
           const railStatus =
             index === 0
               ? undefined
-              : index < activeStep
+              : index < activeIndex
                 ? 'full'
-                : index === activeStep
+                : index === activeIndex
                   ? 'partial'
                   : 'default';
 
@@ -100,11 +96,10 @@ export const Stepper = React.forwardRef<React.ElementRef<'nav'>, StepperProps>(
                 ? collapseWhitespace(composeClasses(railFillBaseClasses, railFillFullClasses))
                 : undefined;
 
-          const isActiveStep = index === activeStep;
+          const isActiveStep = index === activeIndex;
           const activeLabelClassName = isActiveStep
             ? collapseWhitespace(composeClasses(labelClassName, activeLabelOverlayClasses))
             : undefined;
-          const activeLabelStyle = isActiveStep ? { top: '100%' } : undefined;
 
           const rail =
             railStatus !== undefined ? (
@@ -130,12 +125,10 @@ export const Stepper = React.forwardRef<React.ElementRef<'nav'>, StepperProps>(
                     type="button"
                     role="tab"
                     onClick={() => handleStepClick(index)}
-                    onFocus={() => setFocusIndex(index)}
-                    aria-current={index === activeStep ? ('step' as const) : undefined}
-                    aria-selected={index === activeStep ? true : false}
-                    aria-labelledby={index === activeStep ? `stepper-label-${index}` : undefined}
-                    aria-label={index !== activeStep ? `Step ${index + 1}` : undefined}
-                    tabIndex={focusIndex === index ? 0 : -1}
+                    aria-current={isActiveStep ? ('step' as const) : undefined}
+                    aria-selected={isActiveStep ? true : false}
+                    aria-labelledby={isActiveStep ? `stepper-label-${index}` : undefined}
+                    aria-label={!isActiveStep ? `Step ${index + 1}` : undefined}
                     className={stepElementClassName}
                     data-slot="step"
                     data-step-status={stepStatus}
@@ -178,7 +171,6 @@ export const Stepper = React.forwardRef<React.ElementRef<'nav'>, StepperProps>(
                   <span
                     id={`stepper-label-${index}`}
                     className={activeLabelClassName}
-                    style={activeLabelStyle}
                     data-slot="label"
                   >
                     {activeLabel}

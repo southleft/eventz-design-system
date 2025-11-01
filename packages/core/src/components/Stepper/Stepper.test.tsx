@@ -114,4 +114,17 @@ describe('Stepper', () => {
     );
     expect(hasDecorativeCheck).toBe(true);
   });
+
+  it('invokes onStepChange when activating a focused tab with Enter', async () => {
+    const user = userEvent.setup();
+    const handleStepChange = jest.fn();
+    render(
+      <Stepper steps={3} activeStep={0} activeLabel="Shipping details" onStepChange={handleStepChange} />
+    );
+    const tabs = screen.getAllByRole('tab');
+    const target = tabs[1];
+    target.focus();
+    await user.keyboard('{Enter}');
+    expect(handleStepChange).toHaveBeenCalledWith(1);
+  });
 });
