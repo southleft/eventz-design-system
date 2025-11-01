@@ -7,9 +7,17 @@ import userEvent from '@testing-library/user-event';
 import { Stepper } from './Stepper';
 
 describe('Stepper', () => {
-  it('renders interactive navigation with visible labels', () => {
-    render(<Stepper steps={4} activeStep={1} onStepChange={jest.fn()} />);
-    expect(screen.getByRole('tablist')).toHaveTextContent('Step 1');
+  it('renders interactive navigation with only the active label visible', () => {
+    render(
+      <Stepper
+        steps={4}
+        activeStep={1}
+        activeLabel="Shipping details"
+        onStepChange={jest.fn()}
+      />
+    );
+    const labels = screen.getAllByText('Shipping details');
+    expect(labels).toHaveLength(1);
   });
 
   test.each([
@@ -17,7 +25,14 @@ describe('Stepper', () => {
     { activeStep: 1, expected: ['completed', 'active', 'upcoming'] },
     { activeStep: 2, expected: ['completed', 'completed', 'active'] }
   ])('applies data-step-status for activeStep $activeStep', ({ activeStep, expected }) => {
-    render(<Stepper steps={expected.length} activeStep={activeStep} onStepChange={jest.fn()} />);
+    render(
+      <Stepper
+        steps={expected.length}
+        activeStep={activeStep}
+        activeLabel="Shipping details"
+        onStepChange={jest.fn()}
+      />
+    );
     const statuses = screen
       .getAllByRole('tab')
       .map(tab => tab.getAttribute('data-step-status') ?? '');
@@ -29,33 +44,74 @@ describe('Stepper', () => {
     { steps: 4, activeStep: 1, expected: ['partial', 'default', 'default'] },
     { steps: 4, activeStep: 3, expected: ['full', 'full', 'partial'] }
   ])('derives rail statuses with steps=$steps activeStep=$activeStep', props => {
-    const view = render(<Stepper {...props} onStepChange={jest.fn()} />);
-    const rails = Array.from(
+    const view = render(
+      <Stepper {...props} activeLabel="Shipping details" onStepChange={jest.fn()} />
+    );
+    const railNodes = Array.from(
       view.container.querySelectorAll<HTMLElement>('[data-slot="rail"]')
-    ).map(node => node.getAttribute('data-rail-status') ?? '');
-    expect(rails).toEqual(props.expected);
+    );
+    const rails = railNodes.map(node => node.getAttribute('data-rail-status') ?? '');
+    const partialCheck = props.expected.includes('partial')
+      ? Boolean(
+          view.container
+            .querySelector('[data-rail-status="partial"]')
+            ?.querySelector<HTMLElement>('[data-part="fill"]')
+            ?.className.includes('w-1/2')
+        )
+      : true;
+    expect({ rails, partialCheck }).toEqual({ rails: props.expected, partialCheck: true });
   });
 
   it('marks the active interactive step with aria-current', () => {
-    render(<Stepper steps={4} activeStep={2} onStepChange={jest.fn()} />);
-    expect(screen.getByRole('tab', { name: 'Step 3' }).getAttribute('aria-current')).toBe('step');
+    render(
+      <Stepper steps={4} activeStep={2} activeLabel="Shipping details" onStepChange={jest.fn()} />
+    );
+    const tabs = screen.getAllByRole('tab');
+    expect(tabs[2].getAttribute('aria-current')).toBe('step');
   });
 
   it('renders static mode using list semantics', () => {
     const steps = 3;
-    render(<Stepper steps={steps} activeStep={1} />);
-    const listItemsCount = within(screen.getByRole('list')).getAllByRole('listitem').length;
-    expect(listItemsCount).toBe(steps);
+    render(<Stepper steps={steps} activeStep={1} activeLabel="Shipping details" />);
+    const summary = {
+      listCount: within(screen.getByRole('list')).getAllByRole('listitem').length,
+      labelCount: screen.getAllByText('Shipping details').length
+    };
+    expect(summary).toEqual({ listCount: steps, labelCount: 1 });
   });
 
   it('retains focus-visible ring classes on keyboard focus', async () => {
     const user = userEvent.setup();
-    render(<Stepper steps={3} activeStep={0} onStepChange={jest.fn()} />);
+    render(
+      <Stepper steps={3} activeStep={0} activeLabel="Shipping details" onStepChange={jest.fn()} />
+    );
     await user.tab();
-    const indicatorClassName =
-      document.activeElement
-        ?.querySelector<HTMLElement>('[data-slot="indicator"]')
-        ?.className ?? '';
-    expect(indicatorClassName.includes('focus-visible:ring-color-focus-ring')).toBe(true);
+    const activeClassName = document.activeElement?.className ?? '';
+    expect(activeClassName.includes('focus-visible:ring-color-focus-ring')).toBe(true);
+  });
+
+  it('applies aria-label to non-active interactive steps and aria-labelledby to the active step', () => {
+    render(
+      <Stepper steps={3} activeStep={1} activeLabel="Shipping details" onStepChange={jest.fn()} />
+    );
+    const tabs = screen.getAllByRole('tab');
+    const inactiveTab = tabs[0];
+    const activeTab = tabs[1];
+    const validity =
+      /^stepper-label-1$/.test(activeTab.getAttribute('aria-labelledby') ?? '') &&
+      inactiveTab.getAttribute('aria-label') === 'Step 1';
+    expect(validity).toBe(true);
+  });
+
+  it('renders a decorative check icon for completed steps', () => {
+    render(
+      <Stepper steps={3} activeStep={2} activeLabel="Shipping details" onStepChange={jest.fn()} />
+    );
+    const tabs = screen.getAllByRole('tab');
+    const completedTabs = tabs.slice(0, 2);
+    const hasDecorativeCheck = completedTabs.every(tab =>
+      tab.querySelector('svg[aria-hidden="true"]')
+    );
+    expect(hasDecorativeCheck).toBe(true);
   });
 });

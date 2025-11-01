@@ -10,13 +10,14 @@ type NavProps = Omit<React.ComponentPropsWithoutRef<'nav'>, 'role' | 'children'>
 export interface StepperProps extends NavProps {
   steps: number;
   activeStep: number;
+  activeLabel: string;
   onStepChange?: (index: number) => void;
 }
 
 const containerClasses = `flex items-center gap-4 select-none transition-colors`;
-const stepClasses = `flex flex-col items-center relative`;
-const indicatorClasses = `
-  size-8 rounded-full flex items-center justify-center font-bold border p-2 transition-colors
+const stepWrapperClasses = `flex flex-col items-center relative`;
+const stepElementClasses = `
+  flex flex-col items-center justify-center relative size-8 rounded-full font-bold border p-2 transition-colors
   focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2
   focus-visible:ring-color-focus-ring focus-visible:ring-offset-color-background-default
   data-[step-status=active]:bg-transparent data-[step-status=active]:text-color-content-brand
@@ -26,6 +27,7 @@ const indicatorClasses = `
   data-[step-status=upcoming]:bg-transparent data-[step-status=upcoming]:text-color-content-weak
   data-[step-status=upcoming]:border-color-background-default
 `;
+const indicatorClasses = `pointer-events-none`;
 const labelClasses = `mt-1 text-sm text-center text-color-content-default`;
 const railClasses = `
   flex-1 h-px transition-colors bg-color-background-default
@@ -35,13 +37,14 @@ const railClasses = `
 `;
 
 export const Stepper = React.forwardRef<React.ElementRef<'nav'>, StepperProps>(
-  ({ steps, activeStep, onStepChange, className, ...rest }, ref) => {
+  ({ steps, activeStep, activeLabel, onStepChange, className, ...rest }, ref) => {
     const isInteractive = typeof onStepChange === 'function';
 
     const containerRole = isInteractive ? 'tablist' : 'list';
 
     const containerClassName = collapseWhitespace(composeClasses(containerClasses, className));
-    const stepClassName = collapseWhitespace(composeClasses(stepClasses));
+    const stepWrapperClassName = collapseWhitespace(composeClasses(stepWrapperClasses));
+    const stepElementClassName = collapseWhitespace(composeClasses(stepElementClasses));
     const indicatorClassName = collapseWhitespace(composeClasses(indicatorClasses));
     const labelClassName = collapseWhitespace(composeClasses(labelClasses));
     const railClassName = collapseWhitespace(composeClasses(railClasses));
@@ -86,55 +89,104 @@ export const Stepper = React.forwardRef<React.ElementRef<'nav'>, StepperProps>(
                 data-slot="rail"
                 data-rail-status={railStatus}
                 aria-hidden="true"
-              />
-            ) : null;
-
-          if (isInteractive) {
-            return (
-              <React.Fragment key={`step-${index}`}>
-                {rail}
-                <button
-                  type="button"
-                  role="tab"
-                  onClick={() => handleStepClick(index)}
-                  aria-current={index === activeStep ? ('step' as const) : undefined}
-                  aria-selected={index === activeStep}
-                  tabIndex={index === activeStep ? 0 : -1}
-                  className={stepClassName}
-                  data-slot="step"
-                  data-step-status={stepStatus}
-                >
+              >
+                {railStatus === 'full' || railStatus === 'partial' ? (
                   <span
-                    className={indicatorClassName}
-                    data-slot="indicator"
-                    data-step-status={stepStatus}
-                    aria-hidden="true"
-                  >
-                    {index + 1}
-                  </span>
-                  <span className={labelClassName} data-slot="label">
-                    {`Step ${index + 1}`}
-                  </span>
-                </button>
-              </React.Fragment>
-            );
-          }
+                    data-part="fill"
+                    className={collapseWhitespace(
+                      composeClasses(
+                        'block h-px bg-color-content-brand',
+                        railStatus === 'partial' ? 'w-1/2' : 'w-full'
+                      )
+                    )}
+                  />
+                ) : null}
+              </div>
+            ) : null;
 
           return (
             <React.Fragment key={`step-${index}`}>
               {rail}
-              <div className={stepClassName} role="listitem" data-slot="step" data-step-status={stepStatus}>
-                <span
-                  className={indicatorClassName}
-                  data-slot="indicator"
-                  data-step-status={stepStatus}
-                  aria-hidden="true"
-                >
-                  {index + 1}
-                </span>
-                <span className={labelClassName} data-slot="label">
-                  {`Step ${index + 1}`}
-                </span>
+              <div className={stepWrapperClassName}>
+                {isInteractive ? (
+                  <button
+                    type="button"
+                    role="tab"
+                    onClick={() => handleStepClick(index)}
+                    aria-current={index === activeStep ? ('step' as const) : undefined}
+                    aria-selected={index === activeStep ? true : false}
+                    aria-labelledby={index === activeStep ? `stepper-label-${index}` : undefined}
+                    aria-label={index !== activeStep ? `Step ${index + 1}` : undefined}
+                    tabIndex={index === activeStep ? 0 : -1}
+                    className={stepElementClassName}
+                    data-slot="step"
+                    data-step-status={stepStatus}
+                  >
+                    <span className={indicatorClassName} data-slot="indicator" aria-hidden="true">
+                      {stepStatus === 'completed' ? (
+                        <svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 16 16"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                          focusable="false"
+                          aria-hidden="true"
+                        >
+                          <path
+                            d="M12.667 4.667 6.5 10.834 3.333 7.667"
+                            stroke="currentColor"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                        </svg>
+                      ) : (
+                        index + 1
+                      )}
+                    </span>
+                  </button>
+                ) : (
+                  <div
+                    role="listitem"
+                    className={stepElementClassName}
+                    data-slot="step"
+                    data-step-status={stepStatus}
+                  >
+                    <span className={indicatorClassName} data-slot="indicator" aria-hidden="true">
+                      {stepStatus === 'completed' ? (
+                        <svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 16 16"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                          focusable="false"
+                          aria-hidden="true"
+                        >
+                          <path
+                            d="M12.667 4.667 6.5 10.834 3.333 7.667"
+                            stroke="currentColor"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                        </svg>
+                      ) : (
+                        index + 1
+                      )}
+                    </span>
+                  </div>
+                )}
+                {index === activeStep ? (
+                  <span
+                    id={`stepper-label-${index}`}
+                    className={labelClassName}
+                    data-slot="label"
+                  >
+                    {activeLabel}
+                  </span>
+                ) : null}
               </div>
             </React.Fragment>
           );

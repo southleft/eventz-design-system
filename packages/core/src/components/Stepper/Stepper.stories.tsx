@@ -18,6 +18,7 @@ export const Default: Story = {
   args: {
     steps: 4,
     activeStep: 1,
+    activeLabel: 'Shipping details',
     onStepChange: fn()
   }
 };
@@ -25,7 +26,8 @@ export const Default: Story = {
 export const Static: Story = {
   args: {
     steps: 4,
-    activeStep: 1
+    activeStep: 1,
+    activeLabel: 'Shipping details'
   }
 };
 
@@ -33,6 +35,7 @@ export const ActiveFirst: Story = {
   args: {
     steps: 4,
     activeStep: 0,
+    activeLabel: 'Shipping details',
     onStepChange: fn()
   }
 };
@@ -41,6 +44,7 @@ export const ActiveLast: Story = {
   args: {
     steps: 4,
     activeStep: 3,
+    activeLabel: 'Shipping details',
     onStepChange: fn()
   }
 };
@@ -55,8 +59,8 @@ export const LongLabels: Story = {
   args: {
     steps: 4,
     activeStep: 2,
+    activeLabel: 'Review your shipping address and delivery preferences',
     onStepChange: fn()
   },
   render: args => <LongLabelsContainer {...args} />
 };
-
