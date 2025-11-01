@@ -49,18 +49,11 @@ export const ActiveLast: Story = {
   }
 };
 
-const LongLabelsContainer: React.FC<StepperProps> = args => (
-  <div style={{ maxWidth: 280 }}>
-    <Stepper {...args} />
-  </div>
-);
-
 export const LongLabels: Story = {
   args: {
     steps: 4,
     activeStep: 2,
     activeLabel: 'Review your shipping address and delivery preferences',
     onStepChange: fn()
-  },
-  render: args => <LongLabelsContainer {...args} />
+  }
 };
