@@ -29,6 +29,7 @@ export * from './RadioButtonGroup';
 export * from './Search';
 export * from './Select';
 export * from './SelectionCard';
+export * from './Stepper';
 export * from './SubscriptionCard';
 export * from './Tabs';
 export * from './Tag';
