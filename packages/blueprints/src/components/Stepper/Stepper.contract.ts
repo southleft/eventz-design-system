@@ -16,7 +16,7 @@ const StepperContract = {
     activeStep: {
       type: 'number',
       required: true,
-      description: 'Zero-based index of the current (active) step.'
+      description: 'One-based index of the current (active) step (1 ⇒ first step).'
     },
     /** Visible text rendered under the active step indicator only (design requirement). */
     activeLabel: {
@@ -28,7 +28,7 @@ const StepperContract = {
       type: 'callback',
       args: ['index: number'],
       description:
-        'Called when a step is activated by the user. When provided, steps render as focusable buttons.'
+        'Called when a step is activated by the user. Receives the zero-based step index. When provided, steps render as focusable buttons.'
     }
   },
 
@@ -45,18 +45,7 @@ const StepperContract = {
   /** Optional layout hint (no strict enforcement by generators). */
   layout: {
     type: 'container',
-    tag: 'nav',
-    className: ['container'],
-    children: [
-      {
-        tag: 'div',
-        className: ['step'] // repeated per step at runtime; children order matters
-      },
-      {
-        tag: 'div',
-        className: ['rail'] // rendered between steps (not before the first)
-      }
-    ]
+    tag: 'nav'
   },
 
   styleMap: true,
@@ -67,13 +56,13 @@ const StepperContract = {
    */
   rules: [
     {
-      hint: 'Derived step status for index i: i < activeStep → "completed"; i === activeStep → "active"; i > activeStep → "upcoming". Apply as data-step-status on each step.'
+      hint: 'Compute activeIndex = activeStep - 1. For each rendered step index i: i < activeIndex → data-step-status="completed"; i === activeIndex → "active"; otherwise → "upcoming".'
     },
     {
-      hint: 'Rail status between steps (except before the first): before a completed step → data-rail-status="full"; before the active step → "partial"; otherwise → "default".'
+      hint: 'Render a rail between steps except before the first. For rail ahead of index i: if i < activeIndex → data-rail-status="full"; if i === activeIndex → "partial"; otherwise → "default".'
     },
     {
-      hint: 'Render the label slot ONLY for the active step (index === activeStep) and place it under the indicator. For interactive mode, wire the button’s accessible name via aria-labelledby to that label element when active.'
+      hint: 'Render the label slot ONLY for the active step (index === activeIndex) and place it under the indicator. For interactive mode, wire the button’s accessible name via aria-labelledby to that label element when active.'
     },
     {
       hint: 'For non-active steps (no label element present), compute a simple accessible name (e.g., aria-label="Step {i+1}") so the button is named while the numeric indicator remains aria-hidden.'
@@ -82,7 +71,10 @@ const StepperContract = {
       hint: 'Interactivity: when `onStepChange` is provided, container uses role="tablist" and each step is a <button role="tab">; the active step may include aria-current="step". Without `onStepChange`, use role="list" / role="listitem".'
     },
     {
-      hint: 'The numeric indicator is decorative and should be aria-hidden="true". Completed steps render a check glyph/icon instead of the step number (icon is decorative as well). Preserve focus-visible ring tokens on the interactive step element.'
+      hint: 'The numeric indicator is decorative and should be aria-hidden="true". Completed steps render a check glyph/icon instead of the step number (icon is decorative as well).'
+    },
+    {
+      hint: 'Apply hover tokens for the step element only in interactive mode (when rendered as a <button>). Do not apply hover classes to the static <div> path.'
     }
   ]
 } satisfies ContractSpec;
