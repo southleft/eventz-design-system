@@ -2,7 +2,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import * as React from 'react';
 import { MediaCard, MediaCardProps } from './MediaCard';
-import { MediaControl } from '@doxyz-ui/core/client-components';
+import { MediaControl } from '../../client/MediaControl';
 import { EventIcon } from '../../../icons';
 
 const meta: Meta<MediaCardProps> = {

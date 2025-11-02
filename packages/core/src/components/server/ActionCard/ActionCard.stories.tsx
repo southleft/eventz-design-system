@@ -2,7 +2,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import * as React from 'react';
 import { ActionCard, type ActionCardProps } from './ActionCard';
-import { Button } from '@doxyz-ui/core/client-components';
+import { Button } from '../../client/Button';
 
 const meta: Meta<ActionCardProps> = {
   title: 'Server components/ActionCard',
