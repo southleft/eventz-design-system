@@ -2,7 +2,7 @@
 
 <!-- @agents:paths:start -->
 ### 📍 Canonical paths
-- Components root: `packages/core/src/components/<ComponentName>/`
+- Components root: `packages/core/src/components/(server|client)/<ComponentName>/`
 - Contract: `packages/blueprints/src/components/<ComponentName>/<ComponentName>.contract.ts`
 - styleMap: `packages/blueprints/src/components/<ComponentName>/<ComponentName>.styleMap.ts`
 > Source: AGENTS/META.yml (version: 1)

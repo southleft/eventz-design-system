@@ -2,7 +2,7 @@
 
 <!-- @agents:paths:start -->
 ### 📍 Canonical paths
-- Components root: `packages/core/src/components/<ComponentName>/`
+- Components root: `packages/core/src/components/(server|client)/<ComponentName>/`
 - Contract: `packages/blueprints/src/components/<ComponentName>/<ComponentName>.contract.ts`
 - styleMap: `packages/blueprints/src/components/<ComponentName>/<ComponentName>.styleMap.ts`
 > Source: AGENTS/META.yml (version: 1)
@@ -38,15 +38,19 @@ Agents must:
 - Files changed in the PR (diff view only)
 - Contract file: `/packages/blueprints/src/components/<ComponentName>/<ComponentName>.contract.ts`
 - styleMap file: `/packages/blueprints/src/components/<ComponentName>/<ComponentName>.styleMap.ts`
-- Generated outputs: `/packages/core/src/components/<ComponentName>/`
-- Public API barrel: `packages/core/src/components/index.ts`
+- Generated outputs: `/packages/core/src/components/server/<ComponentName>/` or `/packages/core/src/components/client/<ComponentName>/` (depending on 'use client')
+- Package-level public barrels:
+  - Server: `packages/core/src/index.server-components.ts`
+  - Client: `packages/core/src/index.client-components.ts`
+  - Icons: `packages/core/src/index.icons.ts`
+  - Utilities: `packages/core/src/index.utilities.ts`
 - Styles entry: `/packages/core/styles/css/index.css` if referenced
 
 ---
 
 ## 🔎 Review Workflow
 1. **Identify components** in PR title/body and confirm placement under:
-   `/packages/core/src/components/<ComponentName>/`
+   `/packages/core/src/components/server/<ComponentName>/` or `/packages/core/src/components/client/<ComponentName>/`
 2. **Load blueprints** (contract + styleMap).
 3. **Verify contract conformance**:
    - Props: no additions beyond contract; types and defaults match
@@ -68,7 +72,7 @@ Agents must:
    - Interactive elements must have accessible names (e.g., via aria-label, aria-labelledby, or visible text)
    - No per-component high-contrast toggles; high contrast is global.
 6. **Storybook**:
-   - Default export must include `title: 'Components/<ComponentName>'` and `component: <ComponentName>`
+   - Default export must include `title: 'Server components/<ComponentName>'` (server) or `title: 'Client components/<ComponentName>'` (client) and `component: <ComponentName>`
    - Stories rely on Storybook’s inferred controls from the component’s TypeScript interface. Do not manually add controls; they are auto‑generated.
 - **Variants-only:** all styleMap **variants** appear as stories; **no** additional stories for non-variant props
 - Exception banner: If the PR body declares a variants-only exception, do not flag non-variant stories in this review.
@@ -82,15 +86,16 @@ Agents must:
    - PR body includes checklist from `AGENTS/PR_PROTOCOL.md`
    - No unrelated changes
 9. **Barrel files & public API**:
-   - Component-level barrel exists: `packages/core/src/components/<ComponentName>/index.ts` re-exports the component.
-   - Package-level public API re-exports the component: `packages/core/src/components/index.ts` includes it (if the component is public).
+   - Component-level barrel exists: `packages/core/src/components/(server|client)/<ComponentName>/index.ts` re-exports the component.
+   - Package-level barrels expose the public surface: server → `index.server-components.ts`, client → `index.client-components.ts`, icons → `index.icons.ts`, utilities → `index.utilities.ts` (no root export).
 
 ---
 
 ## Storybook
-- Default export includes `title: 'Components/<ComponentName>'` and `component: <ComponentName>`.
+- Default export includes `title: 'Server components/<ComponentName>'` for server components or `title: 'Client components/<ComponentName>'` for client components, along with `component: <ComponentName>`.
 - Controls for all public props are inferred automatically by Storybook from the component’s TypeScript interface. Do not manually declare them.
 - **Variants-only policy:** Stories must cover **every styleMap variant**. Do **not** add stories for non-variant props (e.g., size, boolean flags, focus states); exercise those via Canvas controls.
+- Icon stories should appear under `Icons/<IconName>` and import icons via source-relative paths (e.g., `./IconName`) for Chromatic stability.
 
 ---
 
@@ -156,8 +161,8 @@ Agents must:
 > Missing component barrel or package-level export.
 >
 > Please ensure:
-> - `packages/core/src/components/<ComponentName>/index.ts` exists and re-exports the component, and
-> - `packages/core/src/components/index.ts` re-exports `<ComponentName>` (if it should be public).
+> - `packages/core/src/components/(server|client)/<ComponentName>/index.ts` exists and re-exports the component, and
+> - Package-level barrels (`index.server-components.ts`, `index.client-components.ts`, `index.icons.ts`, `index.utilities.ts`) include `<ComponentName>` as appropriate.
 >
 > This ensures the component is included in the package’s public API and import paths remain consistent.
 

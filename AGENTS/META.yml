@@ -1,7 +1,7 @@
 version: 1
 
 paths:
-  components_root: "packages/core/src/components/<ComponentName>/"
+  components_root: "packages/core/src/components/(server|client)/<ComponentName>/"
   contract: "packages/blueprints/src/components/<ComponentName>/<ComponentName>.contract.ts"
   styleMap: "packages/blueprints/src/components/<ComponentName>/<ComponentName>.styleMap.ts"
 
