@@ -2,7 +2,7 @@
 import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { MagnifyingGlassIcon, CheckIcon } from '@radix-ui/react-icons';
-import { Input, InputProps } from './Input';
+import { Input, InputProps } from '@doxyz-ui/core/client-components';
 
 type InputStoryArgs = InputProps & {
   showStartIcon?: boolean;
@@ -10,7 +10,7 @@ type InputStoryArgs = InputProps & {
 };
 
 const meta: Meta<InputStoryArgs> = {
-  title: 'Components/Input',
+  title: 'Client components/Input',
   component: Input,
   argTypes: {
     label: { control: 'text' },

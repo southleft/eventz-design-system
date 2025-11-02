@@ -2,10 +2,10 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import * as React from 'react';
 import { EventIcon } from '../../../icons';
-import { SelectionCard, type SelectionCardProps } from './SelectionCard';
+import { SelectionCard, type SelectionCardProps } from '@doxyz-ui/core/server-components';
 
 const meta: Meta<SelectionCardProps> = {
-  title: 'Components/SelectionCard',
+  title: 'Server components/SelectionCard',
   component: SelectionCard,
   args: {
     label: 'Workspace Alpha',

@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import * as React from 'react';
-import { Dialog, DialogProps } from './Dialog';
+import { Dialog, DialogProps } from '@doxyz-ui/core/client-components';
 
 const meta: Meta<typeof Dialog> = {
-  title: 'Components/Dialog',
+  title: 'Client components/Dialog',
   component: Dialog,
   argTypes: {
     onControlLeftClick: { action: 'control left click' },

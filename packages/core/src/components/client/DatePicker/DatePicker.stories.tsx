@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import 'rsuite/DateRangePicker/styles/index.css';
 
-import { DatePicker } from './DatePicker';
+import { DatePicker } from '@doxyz-ui/core/client-components';
 
 const meta: Meta<typeof DatePicker> = {
-  title: 'Components/DatePicker',
+  title: 'Client components/DatePicker',
   component: DatePicker
 };
 

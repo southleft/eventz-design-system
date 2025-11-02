@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { Countdown, type CountdownProps } from './Countdown';
+import { Countdown, type CountdownProps } from '@doxyz-ui/core/client-components';
 
 const meta: Meta<CountdownProps> = {
-  title: 'Components/Countdown',
+  title: 'Client components/Countdown',
   component: Countdown,
   args: {
     until: new Date(Date.now() + 5 * 60 * 1000).toISOString(),

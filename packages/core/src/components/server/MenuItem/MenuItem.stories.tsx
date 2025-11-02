@@ -1,13 +1,13 @@
 // packages/core/src/components/MenuItem/MenuItem.stories.tsx
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { MenuItem, MenuItemProps } from './MenuItem';
+import { MenuItem, MenuItemProps } from '@doxyz-ui/core/server-components';
 import { CloseIcon, InfoIcon } from '../../../icons';
 
 type MenuItemStoryArgs = MenuItemProps;
 
 const meta: Meta<MenuItemStoryArgs> = {
-  title: 'Components/MenuItem',
+  title: 'Server components/MenuItem',
   component: MenuItem,
   args: {
     type: 'simple',

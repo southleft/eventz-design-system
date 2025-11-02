@@ -1,11 +1,11 @@
 // packages/core/src/components/ActionCard/ActionCard.stories.tsx
 import type { Meta, StoryObj } from '@storybook/react';
 import * as React from 'react';
-import { ActionCard, type ActionCardProps } from './ActionCard';
-import { Button } from '../Button';
+import { ActionCard, type ActionCardProps } from '@doxyz-ui/core/server-components';
+import { Button } from '@doxyz-ui/core/client-components';
 
 const meta: Meta<ActionCardProps> = {
-  title: 'Components/ActionCard',
+  title: 'Server components/ActionCard',
   component: ActionCard,
   args: {
     title: 'Join now',

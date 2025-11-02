@@ -34,7 +34,12 @@ export default defineConfig(({ mode }) => {
           build: {
             emptyOutDir: true,
             lib: {
-              entry: 'src/index.ts', // barrel file
+              entry: {
+                'server-components': 'src/index.server-components.ts',
+                'client-components': 'src/index.client-components.ts',
+                icons: 'src/index.icons.ts',
+                utilities: 'src/index.utilities.ts'
+              },
               formats: ['es'] // ESM-only
             },
             rollupOptions: {
@@ -46,10 +51,8 @@ export default defineConfig(({ mode }) => {
                 return false;
               },
               output: {
-                entryFileNames: 'index.js', // ensure .js extension
+                entryFileNames: '[name].mjs',
                 sourcemap: true,
-                // force a single chunk even if someone adds a dynamic import later
-                inlineDynamicImports: true,
                 // emit a single CSS file named styles.css
                 assetFileNames: (asset: any) =>
                   asset.name && asset.name.endsWith('.css')

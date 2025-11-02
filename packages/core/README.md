@@ -28,18 +28,19 @@ They are marked as **peerDependencies** to avoid duplicate React or Radix versio
 
 ---
 
-## Usage
+## Usage examples
 
-In a Next.js App Router project:
-
-```tsx
-"use client";
-
-import { Button } from '@doxyz-ui/core';
-import '@doxyz-ui/core/styles.css'; // if you are using the provided CSS
+```ts
+// RSC-safe (layouts/pages, SSR-only)
+import { Heading, TextLink } from '@doxyz-ui/core/server-components';
+// Client islands (hooks/Radix/portals)
+import { Button, Dialog, Accordion } from '@doxyz-ui/core/client-components';
+// Icons & utilities
+import { PlayIcon } from '@doxyz-ui/core/icons';
+import { cx } from '@doxyz-ui/core/utilities';
 ```
 
-Components are ESM-only and tree-shakeable. Import just what you need.
+> Do not import from `@doxyz-ui/core` (root); use explicit subpaths.
 
 ---
 

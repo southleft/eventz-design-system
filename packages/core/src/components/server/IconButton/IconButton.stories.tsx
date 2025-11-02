@@ -2,10 +2,10 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import * as React from 'react';
 import { InfoCircledIcon } from '@radix-ui/react-icons';
-import { IconButton, IconButtonProps } from './IconButton';
+import { IconButton, IconButtonProps } from '@doxyz-ui/core/server-components';
 
 const meta: Meta<IconButtonProps> = {
-  title: 'Components/IconButton',
+  title: 'Server components/IconButton',
   component: IconButton,
   args: {
     icon: <InfoCircledIcon />,

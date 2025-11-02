@@ -1,1 +1,1 @@
-// icons barrel (populated in step 2)
+export * from './icons';

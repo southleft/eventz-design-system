@@ -1,12 +1,12 @@
 // packages/core/src/components/MediaCard/MediaCard.stories.tsx
 import type { Meta, StoryObj } from '@storybook/react';
 import * as React from 'react';
-import { MediaCard, MediaCardProps } from './MediaCard';
-import { MediaControl } from '../MediaControl';
+import { MediaCard, MediaCardProps } from '@doxyz-ui/core/server-components';
+import { MediaControl } from '@doxyz-ui/core/client-components';
 import { EventIcon } from '../../../icons';
 
 const meta: Meta<MediaCardProps> = {
-  title: 'Components/MediaCard',
+  title: 'Server components/MediaCard',
   component: MediaCard,
   args: {
     subtitle: 'Episode 5 · 48 min',

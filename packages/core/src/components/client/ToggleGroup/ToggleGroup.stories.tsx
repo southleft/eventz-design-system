@@ -4,7 +4,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import * as React from 'react';
 import { fn } from 'storybook/test';
 import { TextAlignLeftIcon, TextAlignCenterIcon, TextAlignRightIcon } from '@radix-ui/react-icons';
-import { ToggleGroup, ToggleGroupProps } from './ToggleGroup';
+import { ToggleGroup, ToggleGroupProps } from '@doxyz-ui/core/client-components';
 
 const textAlignmentItems: ToggleGroupProps['items'] = [
   { value: 'left', icon: <TextAlignLeftIcon /> },
@@ -13,7 +13,7 @@ const textAlignmentItems: ToggleGroupProps['items'] = [
 ];
 
 const meta: Meta<ToggleGroupProps> = {
-  title: 'Components/ToggleGroup',
+  title: 'Client components/ToggleGroup',
   component: ToggleGroup,
   args: {
     ariaLabel: 'Text alignment',

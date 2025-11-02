@@ -2,10 +2,10 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import * as React from 'react';
 import { ArrowRightIcon, ArrowLeftIcon } from '@radix-ui/react-icons';
-import { TextLink, TextLinkProps } from './TextLink';
+import { TextLink, TextLinkProps } from '@doxyz-ui/core/server-components';
 
 const meta: Meta<TextLinkProps> = {
-  title: 'Components/TextLink',
+  title: 'Server components/TextLink',
   component: TextLink,
   args: {
     label: 'Learn more',

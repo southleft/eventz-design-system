@@ -1,10 +1,10 @@
 // packages/core/src/components/SubscriptionCard/SubscriptionCard.stories.tsx
 import type { Meta, StoryObj } from '@storybook/react';
 import * as React from 'react';
-import { SubscriptionCard, type SubscriptionCardProps } from './SubscriptionCard';
+import { SubscriptionCard, type SubscriptionCardProps } from '@doxyz-ui/core/server-components';
 
 const meta: Meta<SubscriptionCardProps> = {
-  title: 'Components/SubscriptionCard',
+  title: 'Server components/SubscriptionCard',
   component: SubscriptionCard,
   args: {
     terms: '$12 per month',

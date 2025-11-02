@@ -2,10 +2,10 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import * as React from 'react';
 import { CheckIcon } from '@radix-ui/react-icons';
-import { Control, ControlProps } from './Control';
+import { Control, ControlProps } from '@doxyz-ui/core/server-components';
 
 const meta: Meta<ControlProps> = {
-  title: 'Components/Control',
+  title: 'Server components/Control',
   component: Control,
   args: {
     icon: <CheckIcon />,

@@ -2,7 +2,7 @@
 import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { MagnifyingGlassIcon, CheckIcon } from '@radix-ui/react-icons';
-import { Textarea, TextareaProps } from './Textarea';
+import { Textarea, TextareaProps } from '@doxyz-ui/core/client-components';
 
 type TextareaStoryArgs = TextareaProps & {
   showStartIcon?: boolean;
@@ -10,7 +10,7 @@ type TextareaStoryArgs = TextareaProps & {
 };
 
 const meta: Meta<TextareaStoryArgs> = {
-  title: 'Components/Textarea',
+  title: 'Client components/Textarea',
   component: Textarea,
   argTypes: {
     label: { control: 'text' },

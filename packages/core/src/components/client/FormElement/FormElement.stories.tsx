@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import * as React from 'react';
-import { FormElement } from './FormElement';
+import { FormElement } from '@doxyz-ui/core/client-components';
 
 const meta = {
-  title: 'Components/FormElement',
+  title: 'Client components/FormElement',
   component: FormElement,
   parameters: {
     docs: {
