@@ -17,6 +17,7 @@ jobs:
       - run: pnpm -w lint
       - run: pnpm -w type-check
       - run: pnpm agents:verify
+      - run: pnpm check:doc-blocks
       - run: pnpm -w test
       - run: pnpm --filter @doxyz-ui/core build
       - run: pnpm --filter @doxyz-ui/core exec npm pack --dry-run

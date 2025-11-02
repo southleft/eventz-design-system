@@ -13,7 +13,10 @@
     "sb:build": "pnpm --filter @doxyz-ui/core build:storybook",
     "pack:ui": "pnpm --filter @doxyz-ui/core exec npm pack --dry-run",
     "agents:sync": "node scripts/agents-sync.mjs",
-    "agents:verify": "node scripts/agents-sync.mjs && markdown-link-check -q AGENTS/*.md"
+    "agents:verify": "node scripts/agents-sync.mjs && markdown-link-check -q AGENTS/*.md",
+    "check:doc-blocks": "node scripts/check-doc-blocks.mjs --changed-only",
+    "check:doc-blocks:strict": "node scripts/check-doc-blocks.mjs --changed-only --require-header",
+    "check:doc-blocks:all": "node scripts/check-doc-blocks.mjs"
   },
   "devDependencies": {
     "@types/jest": "^30.0.0",
