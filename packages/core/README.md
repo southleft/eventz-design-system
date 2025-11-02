@@ -37,7 +37,7 @@ import { Heading, TextLink } from '@doxyz-ui/core/server-components';
 import { Button, Dialog, Accordion } from '@doxyz-ui/core/client-components';
 // Icons & utilities
 import { PlayIcon } from '@doxyz-ui/core/icons';
-import { cx } from '@doxyz-ui/core/utilities';
+import { collapseWhitespace, composeClasses } from '@doxyz-ui/core/utilities';
 ```
 
 > Do not import from `@doxyz-ui/core` (root); use explicit subpaths.
