@@ -1,7 +1,7 @@
 // packages/core/src/components/SubscriptionCard/SubscriptionCard.stories.tsx
 import type { Meta, StoryObj } from '@storybook/react';
 import * as React from 'react';
-import { SubscriptionCard, type SubscriptionCardProps } from '@doxyz-ui/core/server-components';
+import { SubscriptionCard, type SubscriptionCardProps } from './SubscriptionCard';
 
 const meta: Meta<SubscriptionCardProps> = {
   title: 'Server components/SubscriptionCard',

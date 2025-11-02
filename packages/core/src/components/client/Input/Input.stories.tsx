@@ -2,7 +2,7 @@
 import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { MagnifyingGlassIcon, CheckIcon } from '@radix-ui/react-icons';
-import { Input, InputProps } from '@doxyz-ui/core/client-components';
+import { Input, InputProps } from './Input';
 
 type InputStoryArgs = InputProps & {
   showStartIcon?: boolean;

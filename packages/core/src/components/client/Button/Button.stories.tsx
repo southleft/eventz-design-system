@@ -2,7 +2,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import * as React from 'react';
 import { InfoCircledIcon } from '@radix-ui/react-icons';
-import { Button, ButtonProps } from '@doxyz-ui/core/client-components';
+import { Button, ButtonProps } from './Button';
 
 const meta: Meta<ButtonProps> = {
   title: 'Client components/Button',

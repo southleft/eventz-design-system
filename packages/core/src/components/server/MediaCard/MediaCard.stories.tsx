@@ -1,7 +1,7 @@
 // packages/core/src/components/MediaCard/MediaCard.stories.tsx
 import type { Meta, StoryObj } from '@storybook/react';
 import * as React from 'react';
-import { MediaCard, MediaCardProps } from '@doxyz-ui/core/server-components';
+import { MediaCard, MediaCardProps } from './MediaCard';
 import { MediaControl } from '@doxyz-ui/core/client-components';
 import { EventIcon } from '../../../icons';
 

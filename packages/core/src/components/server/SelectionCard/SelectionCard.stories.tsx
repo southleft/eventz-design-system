@@ -2,7 +2,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import * as React from 'react';
 import { EventIcon } from '../../../icons';
-import { SelectionCard, type SelectionCardProps } from '@doxyz-ui/core/server-components';
+import { SelectionCard, type SelectionCardProps } from './SelectionCard';
 
 const meta: Meta<SelectionCardProps> = {
   title: 'Server components/SelectionCard',

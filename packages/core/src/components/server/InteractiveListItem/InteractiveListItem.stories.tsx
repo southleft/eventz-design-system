@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { InteractiveListItem, InteractiveListItemProps } from '@doxyz-ui/core/server-components';
+import { InteractiveListItem, InteractiveListItemProps } from './InteractiveListItem';
 
 const meta: Meta<InteractiveListItemProps> = {
   title: 'Server components/InteractiveListItem',

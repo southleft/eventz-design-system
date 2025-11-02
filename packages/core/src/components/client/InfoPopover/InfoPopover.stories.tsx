@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { InfoPopover, InfoPopoverProps } from '@doxyz-ui/core/client-components';
+import { InfoPopover, InfoPopoverProps } from './InfoPopover';
 
 const meta: Meta<InfoPopoverProps> = {
   title: 'Client components/InfoPopover',

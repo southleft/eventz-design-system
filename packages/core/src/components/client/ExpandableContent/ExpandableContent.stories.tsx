@@ -1,6 +1,6 @@
 // packages/core/src/components/ExpandableContent/ExpandableContent.stories.tsx
 import type { Meta, StoryObj } from '@storybook/react';
-import { ExpandableContent } from '@doxyz-ui/core/client-components';
+import { ExpandableContent } from './ExpandableContent';
 
 const sampleParagraph = `
  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin tincidunt pellentesque accumsan. Pellentesque quis fermentum lectus. Interdum et malesuada fames ac ante ipsum primis in faucibus. Maecenas dictum arcu ac nunc gravida posuere. Maecenas consectetur nunc at iaculis ultricies. Etiam id turpis risus. Phasellus massa diam, porttitor vel urna in, pellentesque convallis diam. Donec at maximus mauris. Mauris in venenatis metus, ut congue massa. Integer lobortis tristique diam eget finibus. Morbi pretium fringilla felis ut tempor. Aenean bibendum a tellus id venenatis. Aenean non porttitor leo, eu elementum lectus. Duis arcu mi, tincidunt sed imperdiet et, mollis vitae elit. Duis pretium lectus et lacinia accumsan. Nunc eu ligula et nulla ultrices vehicula.

@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { Countdown, type CountdownProps } from '@doxyz-ui/core/client-components';
+import { Countdown, type CountdownProps } from './Countdown';
 
 const meta: Meta<CountdownProps> = {
   title: 'Client components/Countdown',

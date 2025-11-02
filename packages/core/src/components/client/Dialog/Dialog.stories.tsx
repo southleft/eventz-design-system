@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import * as React from 'react';
-import { Dialog, DialogProps } from '@doxyz-ui/core/client-components';
+import { Dialog, DialogProps } from './Dialog';
 
 const meta: Meta<typeof Dialog> = {
   title: 'Client components/Dialog',

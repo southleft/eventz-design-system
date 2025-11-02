@@ -3,7 +3,7 @@ import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { Button } from '@doxyz-ui/core/client-components';
 import { NavigationDropdown } from '@doxyz-ui/core/client-components';
-import { NavigationBar, NavigationBarProps } from '@doxyz-ui/core/server-components';
+import { NavigationBar, NavigationBarProps } from './NavigationBar';
 
 const baseItems: NavigationBarProps['items'] = [
   { label: 'Overview', href: '/overview' },

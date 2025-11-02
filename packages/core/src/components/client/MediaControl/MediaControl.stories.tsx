@@ -2,7 +2,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import * as React from 'react';
 import { fn } from 'storybook/test';
-import { MediaControl, type MediaControlProps } from '@doxyz-ui/core/client-components';
+import { MediaControl, type MediaControlProps } from './MediaControl';
 
 const meta: Meta<MediaControlProps> = {
   title: 'Client components/MediaControl',

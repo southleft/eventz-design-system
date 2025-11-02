@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import * as React from 'react';
 import { fn } from 'storybook/test';
 import { CancelIcon, CircleCheckIcon, MapIcon } from '../../../icons';
-import { Search, SearchProps, SearchResult } from '@doxyz-ui/core/client-components';
+import { Search, SearchProps, SearchResult } from './Search';
 
 const mixedResults: SearchResult[] = [
   {

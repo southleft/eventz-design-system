@@ -2,7 +2,7 @@
 import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { MagnifyingGlassIcon, CheckIcon } from '@radix-ui/react-icons';
-import { Textarea, TextareaProps } from '@doxyz-ui/core/client-components';
+import { Textarea, TextareaProps } from './Textarea';
 
 type TextareaStoryArgs = TextareaProps & {
   showStartIcon?: boolean;

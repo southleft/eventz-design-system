@@ -4,7 +4,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import * as React from 'react';
 import { fn } from 'storybook/test';
 import { TextAlignLeftIcon, TextAlignCenterIcon, TextAlignRightIcon } from '@radix-ui/react-icons';
-import { ToggleGroup, ToggleGroupProps } from '@doxyz-ui/core/client-components';
+import { ToggleGroup, ToggleGroupProps } from './ToggleGroup';
 
 const textAlignmentItems: ToggleGroupProps['items'] = [
   { value: 'left', icon: <TextAlignLeftIcon /> },

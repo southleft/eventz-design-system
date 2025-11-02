@@ -3,7 +3,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import * as React from 'react';
 import { LayersIcon, ReaderIcon, GearIcon } from '@radix-ui/react-icons';
-import { Tabs, TabsProps } from '@doxyz-ui/core/client-components';
+import { Tabs, TabsProps } from './Tabs';
 
 const sectionTabs: TabsProps['tabsList'] = [
   {
