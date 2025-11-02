@@ -1,0 +1,90 @@
+// packages/core/src/components/Breadcrumbs/Breadcrumbs.tsx
+import * as React from 'react';
+import { TextLink } from '../TextLink';
+import { ChevronRightIcon } from '../../../icons/ChevronRightIcon';
+import { MoreHorizIcon } from '../../../icons/MoreHorizIcon';
+import { collapseWhitespace, composeClasses } from '../../../utilities';
+
+const baseClasses = ``;
+const listClasses = `flex gap-8 list-none`;
+const itemClasses = ``;
+const separatorClasses = `shrink-0`;
+const iconClasses = `text-color-content-subtle`;
+const ellipsisClasses = `shrink-0 pt-1`;
+const currentClasses = `text-sm font-bold text-color-content-default`;
+
+type BreadcrumbItem = {
+  label: string;
+  href: string;
+};
+
+export interface BreadcrumbsProps
+  extends Omit<React.ComponentPropsWithoutRef<'nav'>, 'children' | 'aria-label'> {
+  items: BreadcrumbItem[];
+  current: string;
+  ariaLabel?: string;
+}
+
+export const Breadcrumbs = ({
+  items,
+  current,
+  ariaLabel,
+  className,
+  ...rootProps
+}: BreadcrumbsProps) => {
+  const trimmedCurrent = current.trim();
+  const effectiveAriaLabel = ariaLabel ?? 'Breadcrumbs';
+  const shouldCollapse = items.length >= 5;
+
+  const baseClassName = collapseWhitespace(composeClasses(`${baseClasses} ${className ?? ''}`));
+  const listClassName = collapseWhitespace(composeClasses(listClasses));
+  const itemClassName = collapseWhitespace(composeClasses(itemClasses));
+  const separatorClassName = collapseWhitespace(composeClasses(separatorClasses));
+  const iconClassName = collapseWhitespace(composeClasses(iconClasses));
+  const ellipsisClassName = collapseWhitespace(composeClasses(ellipsisClasses));
+  const currentClassName = collapseWhitespace(composeClasses(currentClasses));
+
+  const StyledSeparator = <ChevronRightIcon className={iconClassName} aria-hidden="true" />;
+
+  return (
+    <nav
+      {...rootProps}
+      className={baseClassName}
+      aria-label={effectiveAriaLabel}
+      data-slot="container"
+    >
+      <ol className={listClassName} data-slot="list">
+        {shouldCollapse ? (
+          <>
+            <li className={itemClassName} data-slot="item">
+              <TextLink variant="subtle" label={items[0].label} href={items[0].href} />
+            </li>
+            <li className={separatorClassName} data-slot="separator" aria-hidden="true">
+              {StyledSeparator}
+            </li>
+            <li className={ellipsisClassName} data-slot="ellipsis" aria-hidden="true">
+              <MoreHorizIcon className={iconClassName} aria-hidden="true" />
+            </li>
+            <li className={separatorClassName} data-slot="separator" aria-hidden="true">
+              {StyledSeparator}
+            </li>
+          </>
+        ) : (
+          items.map((item, index) => (
+            <React.Fragment key={`${item.href}-${item.label}-${index}`}>
+              <li className={itemClassName} data-slot="item">
+                <TextLink variant="subtle" label={item.label} href={item.href} />
+              </li>
+              <li className={separatorClassName} data-slot="separator" aria-hidden="true">
+                {StyledSeparator}
+              </li>
+            </React.Fragment>
+          ))
+        )}
+        <li className={currentClassName} data-slot="current" aria-current="page">
+          {trimmedCurrent}
+        </li>
+      </ol>
+    </nav>
+  );
+};

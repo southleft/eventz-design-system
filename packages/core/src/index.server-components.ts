@@ -1,1 +1,15 @@
-// server components barrel (populated in step 2)
+// server components barrel
+export * from './components/server/ActionCard';
+export * from './components/server/Badge';
+export * from './components/server/Breadcrumbs';
+export * from './components/server/ContentCard';
+export * from './components/server/Control';
+export * from './components/server/InteractiveListItem';
+export * from './components/server/MediaCard';
+export * from './components/server/NavigationBar';
+export * from './components/server/SelectionCard';
+export * from './components/server/SubscriptionCard';
+export * from './components/server/IconButton';
+export * from './components/server/MenuItem';
+export * from './components/server/Tag';
+export * from './components/server/TextLink';

@@ -1,0 +1,161 @@
+'use client';
+
+import * as React from 'react';
+import { ErrorIcon } from '../../../icons';
+import { composeClasses } from '../../../utilities/composeClasses/composeClasses';
+import { collapseWhitespace } from '../../../utilities/collapseWhitespace/collapseWhitespace';
+import { mergeDescribedBy } from '../../../utilities/mergeDescribedBy/mergeDescribedBy';
+import { Checkbox } from '../Checkbox';
+import { InfoPopover } from '../InfoPopover';
+
+const baseClasses = `
+  inline-flex flex-col gap-1 border-none py-8
+`;
+
+const labelClasses = `
+  inline-flex gap-1 text-color-content-default text-xs uppercase
+`;
+
+const hintClasses = `
+  text-color-content-subtle text-xs -mt-8
+`;
+
+const choicesClasses = `
+  flex flex-col gap-3
+`;
+
+const errorClasses = `
+  text-color-content-utility-danger-subtle text-xs mt-1 inline-flex gap-2 items-center
+`;
+
+type CheckboxChoice = {
+  label: string;
+  value?: string;
+  id?: string;
+};
+
+type FieldsetProps = React.ComponentPropsWithoutRef<'fieldset'>;
+
+export interface CheckboxGroupProps
+  extends Omit<FieldsetProps, 'children' | 'defaultValue' | 'value'> {
+  label?: string;
+  ariaLabel?: string;
+  hint?: string;
+  info?: string;
+  error?: string;
+  name?: string;
+  choices: ReadonlyArray<CheckboxChoice>;
+  onCheckedChange?: (values: string[]) => void;
+}
+
+export const CheckboxGroup = React.forwardRef<HTMLFieldSetElement, CheckboxGroupProps>(
+  (
+    {
+      label,
+      ariaLabel,
+      hint,
+      info,
+      error,
+      name,
+      choices,
+      onCheckedChange: onGroupCheckedChange,
+      className,
+      id: idProp,
+      ...rest
+    },
+    ref
+  ) => {
+    const trimmedLabel = label?.trim();
+    const trimmedAriaLabel = ariaLabel?.trim();
+
+    const [selectedValues, setSelectedValues] = React.useState<string[]>([]);
+    const generatedId = React.useId();
+    const fieldsetId = idProp ?? generatedId;
+    const hintId = hint && hint.trim().length > 0 ? `${fieldsetId}-hint` : undefined;
+    const errorId = error && error.trim().length > 0 ? `${fieldsetId}-error` : undefined;
+    const { 'aria-describedby': ariaDescribedBy, ...fieldsetProps } = rest;
+    const describedBy = mergeDescribedBy(
+      ariaDescribedBy,
+      [hintId, errorId].filter((token): token is string => Boolean(token))
+    );
+
+    const fieldsetClassName = collapseWhitespace(composeClasses(baseClasses, className));
+    const legendClassName = collapseWhitespace(
+      composeClasses(labelClasses, trimmedLabel ? undefined : 'sr-only')
+    );
+    const infoAriaLabel = trimmedLabel ? `${trimmedLabel} info` : 'More info';
+    const hintClassName = collapseWhitespace(composeClasses(hintClasses));
+    const choicesClassName = collapseWhitespace(composeClasses(choicesClasses));
+    const errorClassName = collapseWhitespace(composeClasses(errorClasses));
+
+    const handleToggle = React.useCallback(
+      (value: string, next: boolean) => {
+        setSelectedValues(prev => {
+          const set = new Set(prev);
+
+          if (next) {
+            set.add(value);
+          } else {
+            set.delete(value);
+          }
+
+          const updated = Array.from(set);
+          onGroupCheckedChange?.(updated);
+          return updated;
+        });
+      },
+      [onGroupCheckedChange]
+    );
+
+    return (
+      <fieldset
+        {...fieldsetProps}
+        id={fieldsetId}
+        className={fieldsetClassName}
+        aria-describedby={describedBy}
+        ref={ref}
+      >
+        <legend className={legendClassName} data-slot="label">
+          {trimmedLabel ?? trimmedAriaLabel}
+          {trimmedLabel && info ? <InfoPopover ariaLabel={infoAriaLabel}>{info}</InfoPopover> : null}
+        </legend>
+
+        {hintId ? (
+          <div className={hintClassName} id={hintId} data-slot="hint">
+            {hint}
+          </div>
+        ) : null}
+
+        <div className={choicesClassName} data-slot="choices">
+          {choices.map((choice, index) => {
+            const computedValue = choice.value ?? choice.label;
+            const isChecked = selectedValues.includes(computedValue);
+
+            return (
+              <Checkbox
+                key={choice.id ?? `${fieldsetId}-choice-${index}`}
+                id={choice.id ?? `${fieldsetId}-choice-${index}`}
+                label={choice.label}
+                value={computedValue}
+                name={name}
+                checked={isChecked}
+                onCheckedChange={next => handleToggle(computedValue, next === true)}
+              />
+            );
+          })}
+        </div>
+
+        {errorId ? (
+          <div className={errorClassName} id={errorId} data-slot="error">
+            <span className="inline-flex items-center gap-1">
+              <ErrorIcon />
+            </span>
+            <span>{error}</span>
+          </div>
+        ) : null}
+      </fieldset>
+    );
+  }
+);
+
+CheckboxGroup.displayName = 'CheckboxGroup';

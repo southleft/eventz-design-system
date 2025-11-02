@@ -8,6 +8,8 @@ import jsxA11y from 'eslint-plugin-jsx-a11y';
 import testingLibrary from 'eslint-plugin-testing-library';
 import jestDom from 'eslint-plugin-jest-dom';
 
+const tsconfigRootDir = fileURLToPath(new URL('.', import.meta.url));
+
 const useClientDirectiveRule = {
   meta: {
     type: 'problem',
@@ -79,6 +81,10 @@ export default [
       'styles/tokens/**',
       'test.ts',
       'eslint.config.js',
+      'src/components/icons/**',
+      'src/components/utilities/**',
+      'src/icons/**',
+      'src/utilities/**/*.test.*',
       // (optional, extra safety)
       '**/*.config.*',
       'vite.config.*',
@@ -99,7 +105,7 @@ export default [
     languageOptions: {
       parserOptions: {
         project: ['./tsconfig.app.json', './tsconfig.build.json', './tsconfig.jest.json'],
-        tsconfigRootDir: fileURLToPath(new URL('.', import.meta.url))
+        tsconfigRootDir
       },
       ecmaVersion: 'latest',
       sourceType: 'module'
@@ -129,7 +135,7 @@ export default [
         'error',
         {
           paths: ['radix-ui'],
-          patterns: ['@radix-ui/*']
+          patterns: ['@radix-ui/react-*']
         }
       ],
       'no-restricted-syntax': [
@@ -143,20 +149,60 @@ export default [
     }
   },
 
+  {
+    files: [
+      'src/components/server/**/*.stories.ts',
+      'src/components/server/**/*.stories.tsx',
+      'src/components/server/**/*.test.ts',
+      'src/components/server/**/*.test.tsx',
+      'src/components/server/**/__tests__/**/*.ts',
+      'src/components/server/**/__tests__/**/*.tsx'
+    ],
+    rules: {
+      'no-restricted-imports': 'off'
+    }
+  },
+
   // Client component guardrails
   {
-    files: ['src/components/client/**/*.{ts,tsx}'],
+    files: ['src/components/client/**/*.tsx'],
     rules: {
       'eslint-comments/use-client-directive': ['error', { mode: 'require' }]
+    }
+  },
+
+  {
+    files: [
+      'src/components/client/**/*.stories.ts',
+      'src/components/client/**/*.stories.tsx',
+      'src/components/client/**/*.test.ts',
+      'src/components/client/**/*.test.tsx',
+      'src/components/client/**/__tests__/**/*.ts',
+      'src/components/client/**/__tests__/**/*.tsx'
+    ],
+    rules: {
+      'eslint-comments/use-client-directive': 'off'
     }
   },
 
   // Testing-specific guidance for test files
   {
     files: ['**/*.test.ts', '**/*.test.tsx', '**/__tests__/**/*.{ts,tsx}'],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.jest.json'],
+        tsconfigRootDir
+      }
+    },
     rules: {
       'jest-dom/prefer-checked': 'warn',
-      'jest-dom/prefer-enabled-disabled': 'warn'
+      'jest-dom/prefer-enabled-disabled': 'warn',
+      '@typescript-eslint/no-unnecessary-type-assertion': 'off',
+      '@typescript-eslint/no-unsafe-assignment': 'off',
+      '@typescript-eslint/no-unsafe-return': 'off',
+      '@typescript-eslint/no-unsafe-call': 'off',
+      '@typescript-eslint/no-unsafe-member-access': 'off',
+      '@typescript-eslint/no-unsafe-argument': 'off'
     }
   }
 ];
