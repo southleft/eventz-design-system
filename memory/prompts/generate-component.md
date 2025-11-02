@@ -20,10 +20,10 @@ If any conflict exists between this template and the AGENTS docs, **AGENTS docs 
 ## Paths
 - `contract`: `packages/blueprints/src/components/{{componentName}}/{{componentName}}.contract.ts`
 - `styleMap`: `packages/blueprints/src/components/{{componentName}}/{{componentName}}.styleMap.ts`
-- `destination`: `packages/core/src/components/{{componentName}}`
+- `destination`: `packages/core/src/components/{{componentKind}}/{{componentName}}`
 
 ## Output Files
-Generate all of the following inside `{{destination}}`:
+Generate all of the following inside `{{destination}}` (server or client folder):
 
 1. `{{componentName}}.tsx`
    - Export a named interface for props (e.g., `BadgeProps`) inferred from the contract.
@@ -39,7 +39,7 @@ Generate all of the following inside `{{destination}}`:
    - Prefer role/text queries (`screen.getByRole`, `getByText`) over snapshots.
 
 3. `{{componentName}}.stories.tsx`
-   - Default export: `title: 'Components/{{componentName}}'`, `component: {{componentName}}`.
+   - Default export: `title: '{{componentGroup}}/{{componentName}}'`, `component: {{componentName}}`.
    - Include at least one named story (e.g., `Default`) and expose controls for all public props.
    - **Do not declare `argTypes` at the default export or at any story.** Controls must be inferred from the component’s TypeScript props interface.
    - Use placeholders (emoji/inline SVG) for icon/slot demos.
@@ -56,6 +56,11 @@ Generate all of the following inside `{{destination}}`:
 - Follow existing project patterns for typing, file layout, and naming.
 - Do not emit unused imports or unused props.
 - For native elements (e.g., `<a>`, `<button>`, `<input>`), do not add custom event suppression or override native props (`tabIndex`, `rel`, etc.) unless the blueprint explicitly requires it.
+
+### Imports policy
+- Use explicit subpaths: @doxyz-ui/core/server-components, /client-components, /icons, /utilities
+- Do not import from @doxyz-ui/core (root)
+- In Storybook, icon stories import via source-relative paths (e.g., `./IconName`) for Chromatic stability
 
 ## Accessibility & Testing Guardrails
 - Decorative icons must have `aria-hidden="true"`.

@@ -3,11 +3,11 @@
 ## Structure
 
 ```ts
-// filename (example: // packages/core/src/components/Button/Button.tsx)
+// filename (example: // packages/core/src/components/client/Button/Button.tsx  // or server/Button/Button.tsx)
 
 // imports
 import { myFunction, MyTypeScriptInterface } from 'mycoolproject';
-import { collapseWhitespace, composeClasses } from '../../utilities';
+import { collapseWhitespace, composeClasses } from '../../utilities'; // source-relative in stories; subpath in app code
 
 // typings, interfaces
 // export only component interface
