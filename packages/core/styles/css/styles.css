@@ -1226,6 +1226,9 @@
 .block {
   display: block;
 }
+.contents {
+  display: contents;
+}
 .flex {
   display: flex;
 }
@@ -2708,11 +2711,6 @@
 .data-\[step-status\=active\]\:border-color-border-strong {
   &[data-step-status="active"] {
     border-color: var(--color-color-border-strong);
-  }
-}
-.data-\[step-status\=active\]\:border-color-border-strong-hover {
-  &[data-step-status="active"] {
-    border-color: var(--color-color-border-strong-hover);
   }
 }
 .data-\[step-status\=active\]\:bg-color-background-default {

@@ -1,0 +1,54 @@
+// packages/core/src/components/SubscriptionCard/SubscriptionCard.stories.tsx
+import type { Meta, StoryObj } from '@storybook/react';
+import * as React from 'react';
+import { SubscriptionCard, type SubscriptionCardProps } from './SubscriptionCard';
+
+const meta: Meta<SubscriptionCardProps> = {
+  title: 'Server components/SubscriptionCard',
+  component: SubscriptionCard,
+  args: {
+    terms: '$12 per month',
+    inactiveSubtitle: 'Cancel anytime.',
+    isActive: false
+  }
+};
+
+export default meta;
+
+type Story = StoryObj<SubscriptionCardProps>;
+
+export const Inactive: Story = {
+  args: {}
+};
+
+export const ActiveDefaultCancel: Story = {
+  args: {
+    isActive: true,
+    cancelHref: 'https://example.com/cancel',
+    nextBillingDate: 'Nov 30, 2025',
+    memberSince: 'Jun 2024'
+  }
+};
+
+export const ActiveCustomCancelSlot: Story = {
+  args: {
+    isActive: true,
+    nextBillingDate: 'Nov 30, 2025',
+    memberSince: 'Jun 2024'
+  },
+  render: args => (
+    <SubscriptionCard
+      {...args}
+      cancel={<span>Contact customer support</span>}
+      cancelText="Cancel"
+    />
+  )
+};
+
+export const LongTerms: Story = {
+  args: {
+    terms:
+      'Annual Enterprise Subscription with Premium Support and Unlimited Integrations for Large Teams',
+    inactiveSubtitle: 'You can change your plan at any time.'
+  }
+};

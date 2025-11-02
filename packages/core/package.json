@@ -8,13 +8,25 @@
     "dist"
   ],
   "exports": {
-    ".": {
-      "import": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+    "./server-components": {
+      "types": "./dist/server-components.d.ts",
+      "import": "./dist/server-components.mjs"
+    },
+    "./client-components": {
+      "types": "./dist/client-components.d.ts",
+      "import": "./dist/client-components.mjs"
+    },
+    "./icons": {
+      "types": "./dist/icons.d.ts",
+      "import": "./dist/icons.mjs"
+    },
+    "./utilities": {
+      "types": "./dist/utilities.d.ts",
+      "import": "./dist/utilities.mjs"
     },
     "./styles.css": "./dist/styles.css"
   },
-  "types": "./dist/index.d.ts",
+  "types": "./dist/server-components.d.ts",
   "sideEffects": false,
   "engines": {
     "node": ">=20.0.0"
@@ -40,11 +52,13 @@
     "test": "jest --config jest.config.ts --maxWorkers=50%",
     "test:watch": "jest --config jest.config.ts --watch --maxWorkers=25%",
     "test:coverage": "jest --config jest.config.ts --coverage",
+    "test:list": "jest --config jest.config.ts --listTests",
     "test:dev": "jest --config jest.config.ts --clearCache && jest --coverage --maxWorkers=50%",
     "type-check": "tsc -b",
     "prepublishOnly": "pnpm run build",
     "watch:tokens": "pnpm exec chokidar \"styles/tokens/**/*.{json,js,ts}\" -c \"node scripts/build-tokens.js\"",
-    "watch:tokens:once": "node scripts/build-tokens.js && pnpm run watch:tokens"
+    "watch:tokens:once": "node scripts/build-tokens.js && pnpm run watch:tokens",
+    "ci:guard": "node scripts/verify-server-bundle.js"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^4.1.0",

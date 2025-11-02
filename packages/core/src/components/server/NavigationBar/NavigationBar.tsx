@@ -1,0 +1,168 @@
+// packages/core/src/components/NavigationBar/NavigationBar.tsx
+import * as React from 'react';
+import { TextLink } from '../TextLink';
+import { collapseWhitespace, composeClasses } from '../../../utilities';
+
+type NavigationBarItem = {
+  label: string;
+  href: string;
+  current?: boolean;
+};
+
+type NavigationBarElement = React.ElementRef<'nav'>;
+
+export interface NavigationBarProps
+  extends Omit<React.ComponentPropsWithoutRef<'nav'>, 'children' | 'aria-label'> {
+  ariaLabel: string;
+  items: NavigationBarItem[];
+  fixed?: boolean;
+  logo?: React.ReactNode;
+  mobileNavigation?: React.ReactNode;
+  secondaryNavigation?: React.ReactNode;
+}
+
+const containerClasses = `
+  flex
+  items-center
+  justify-between
+  h-68
+  lg:h-88
+  px-16
+  lg:px-112
+  bg-background-none
+  transition-colors
+`;
+
+const primaryClasses = `
+  flex
+  items-center
+  justify-start
+  flex-1
+  min-w-0
+  gap-4
+  lg:gap-8
+`;
+
+const logoClasses = `
+  max-h-83
+  shrink-0
+`;
+
+const listClasses = `
+  items-center
+  min-w-0
+  gap-4
+  lg:gap-8
+`;
+
+const itemClasses = `
+  inline-flex
+`;
+
+const listWhenMobileNavClasses = `
+  hidden
+  md:flex
+`;
+
+const listWhenNoMobileNavClasses = `
+  flex
+`;
+
+const mobileNavigationClasses = `
+  inline-block
+  shrink-0
+  md:hidden
+`;
+
+const secondaryNavigationClasses = `
+  min-w-0
+`;
+
+const fixedClasses = `
+  fixed
+  inset-x-0
+  top-0
+  z-50
+`;
+
+export const NavigationBar = React.forwardRef<NavigationBarElement, NavigationBarProps>(
+  (
+    {
+      ariaLabel,
+      items,
+      fixed = false,
+      logo,
+      mobileNavigation,
+      secondaryNavigation,
+      className,
+      ...rootProps
+    },
+    forwardedRef
+  ) => {
+    const normalizedAriaLabel = ariaLabel.trim();
+
+    const containerClassName = collapseWhitespace(
+      composeClasses(containerClasses, fixed ? fixedClasses : undefined, className)
+    );
+    const primaryClassName = collapseWhitespace(composeClasses(primaryClasses));
+    const logoClassName = collapseWhitespace(composeClasses(logoClasses));
+    const listClassName = collapseWhitespace(
+      composeClasses(
+        mobileNavigation ? listWhenMobileNavClasses : listWhenNoMobileNavClasses,
+        listClasses
+      )
+    );
+    const itemClassName = collapseWhitespace(composeClasses(itemClasses));
+    const mobileNavigationClassName = collapseWhitespace(composeClasses(mobileNavigationClasses));
+    const secondaryNavigationClassName = collapseWhitespace(
+      composeClasses(secondaryNavigationClasses)
+    );
+
+    return (
+      <nav
+        {...rootProps}
+        ref={forwardedRef}
+        className={containerClassName}
+        aria-label={normalizedAriaLabel}
+        data-slot="container"
+      >
+        <div className={primaryClassName} data-slot="primary">
+          {mobileNavigation ? (
+            <div className={mobileNavigationClassName} data-slot="mobileNavigation">
+              {mobileNavigation}
+            </div>
+          ) : null}
+
+          {logo ? (
+            <div className={logoClassName} data-slot="logo">
+              {logo}
+            </div>
+          ) : null}
+
+          <ul className={listClassName} data-slot="list">
+            {items.map((item, index) => {
+              const trimmedLabel = item.label.trim();
+              const trimmedHref = item.href.trim();
+              return (
+                <li className={itemClassName} data-slot="item" key={`${trimmedHref}-${index}`}>
+                  <TextLink
+                    variant="strong"
+                    href={trimmedHref}
+                    label={trimmedLabel}
+                    aria-current={item.current ? 'page' : undefined}
+                  />
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+
+        <div className={secondaryNavigationClassName} data-slot="secondaryNavigation">
+          {secondaryNavigation}
+        </div>
+      </nav>
+    );
+  }
+);
+
+NavigationBar.displayName = 'NavigationBar';

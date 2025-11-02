@@ -12,7 +12,11 @@
     "moduleResolution": "bundler",
     "noEmit": true,
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@doxyz-ui/core/server-components": ["./src/index.server-components.ts"],
+      "@doxyz-ui/core/client-components": ["./src/index.client-components.ts"],
+      "@doxyz-ui/core/icons": ["./src/index.icons.ts"],
+      "@doxyz-ui/core/utilities": ["./src/index.utilities.ts"]
     },
     "resolveJsonModule": true,
     "skipLibCheck": true,
@@ -20,6 +24,6 @@
     "target": "ESNext",
     "tsBuildInfoFile": "node_modules/.cache/tsbuildinfo.app"
   },
-  "include": ["src"],
+  "include": ["src", "tests"],
   "exclude": ["**/*.stories.*", "**/__tests__/**", "**/*.spec.*"]
 }

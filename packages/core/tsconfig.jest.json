@@ -9,21 +9,15 @@
     "moduleResolution": "bundler",
     "noEmit": true,
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@doxyz-ui/core/server-components": ["./src/index.server-components.ts"],
+      "@doxyz-ui/core/client-components": ["./src/index.client-components.ts"],
+      "@doxyz-ui/core/icons": ["./src/index.icons.ts"],
+      "@doxyz-ui/core/utilities": ["./src/index.utilities.ts"]
     },
     "tsBuildInfoFile": "node_modules/.cache/tsbuildinfo.jest",
     "types": ["jest", "node"]
   },
   "exclude": ["dist", "build", "node_modules"],
-  "include": [
-    "src/**/*.ts",
-    "src/**/*.tsx",
-    "src/**/*.test.ts",
-    "src/**/*.test.tsx",
-    "src/**/*.spec.ts",
-    "src/**/*.spec.tsx",
-    "src/__tests__/**/*",
-    "jest.setup.ts",
-    "jest.setup.tsx"
-  ]
+  "include": ["src/**/*.ts", "src/**/*.tsx", "tests/**/*.ts", "tests/**/*.tsx"]
 }

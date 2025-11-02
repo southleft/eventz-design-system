@@ -2,7 +2,7 @@
 
 <!-- @agents:paths:start -->
 ### 📍 Canonical paths
-- Components root: `packages/core/src/components/<ComponentName>/`
+- Components root: `packages/core/src/components/(server|client)/<ComponentName>/`
 - Contract: `packages/blueprints/src/components/<ComponentName>/<ComponentName>.contract.ts`
 - styleMap: `packages/blueprints/src/components/<ComponentName>/<ComponentName>.styleMap.ts`
 > Source: AGENTS/META.yml (version: 1)
@@ -37,8 +37,9 @@ Generated components must include all of the following:
 - `/<ComponentName>.stories.tsx` — Storybook stories covering all public props/variants
 - `/<ComponentName>.test.tsx` (or `__tests__/`) — Jest + RTL tests for render, slots, variants, baseline a11y
 
-All outputs belong under:
-`/packages/core/src/components/<ComponentName>/`
+All outputs belong under **one of**:
+- `/packages/core/src/components/server/<ComponentName>/` (server component)
+- `/packages/core/src/components/client/<ComponentName>/` (client component)
 
 ---
 
@@ -54,7 +55,8 @@ All outputs belong under:
    - Accessibility: decorative icons → `aria-hidden="true"`, all interactive elements → accessible names.
    - For native elements (e.g., `<a>`, `<button>`, `<input>`), do not add custom event suppression or override native props (`tabIndex`, `rel`, etc.) unless the blueprint explicitly requires it.
 3. **Generate stories**:
-   - Default export: `title: 'Components/<ComponentName>'`
+   - Default export (server): `title: 'Server components/<ComponentName>'`
+   - Default export (client): `title: 'Client components/<ComponentName>'`
    - Include stories for all styleMap variants.
    - Use Storybook controls for all public props.
    - Controls are inferred from the component’s TypeScript interface. Do not declare manual argTypes.

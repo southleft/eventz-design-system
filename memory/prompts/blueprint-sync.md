@@ -1,7 +1,9 @@
 # Copy-Exact Blueprint Sync for `<ComponentName>` (two-phase; runtime is ground truth)
 
 Authoritative runtime (read first; do not modify):
-- packages/core/src/components/<ComponentName>/<ComponentName>.tsx
+- packages/core/src/components/server/<ComponentName>/<ComponentName>.tsx  (server component)
+- packages/core/src/components/client/<ComponentName>/<ComponentName>.tsx  (client component)
+- Choose the path that matches the component’s runtime signature (`'use client'` = client).
 
 Blueprint sources (to edit):
 - packages/blueprints/src/components/<ComponentName>/<ComponentName>.styleMap.ts
@@ -48,6 +50,10 @@ POST-PATCH SELF-CHECK (required)
   FOUND(base)=<styleMap.base single-line join>
   … repeat for selected, icon, label …
 - If any mismatch remains, STOP and re-apply until equal.
+
+### Imports policy
+- Use explicit subpaths when showing imports in examples: @doxyz-ui/core/server-components, /client-components, /icons, /utilities
+- Never import from @doxyz-ui/core (root)
 
 Constraints
 - Edit only the two blueprint files.

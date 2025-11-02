@@ -1,5 +1,4 @@
 import '../styles/css/styles.css';
-import type { Preview } from '@storybook/react';
 
 function applyScheme(scheme: 'dark' | 'light') {
   const root = document.documentElement;
@@ -34,11 +33,16 @@ export const decorators = [
   }
 ];
 
-const preview: Preview = {
-  parameters: {
-    controls: { matchers: { color: /(background|color)$/i, date: /Date$/i } },
-    backgrounds: { disable: true }
+export const parameters = {
+  options: {
+    storySort: {
+      order: ['Client components', 'Server components', 'Icons']
+    }
+  },
+  controls: {
+    matchers: { color: /(background|color)$/i, date: /Date$/i }
+  },
+  backgrounds: {
+    disable: true
   }
 };
-
-export default preview;

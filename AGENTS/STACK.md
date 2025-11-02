@@ -2,7 +2,7 @@
 
 <!-- @agents:paths:start -->
 ### 📍 Canonical paths
-- Components root: `packages/core/src/components/<ComponentName>/`
+- Components root: `packages/core/src/components/(server|client)/<ComponentName>/`
 - Contract: `packages/blueprints/src/components/<ComponentName>/<ComponentName>.contract.ts`
 - styleMap: `packages/blueprints/src/components/<ComponentName>/<ComponentName>.styleMap.ts`
 > Source: AGENTS/META.yml (version: 1)
@@ -22,7 +22,8 @@ For procedures and policies, see: `AGENTS/CODE_REVIEW.md`, `AGENTS/GENERATION.md
 ---
 
 ## 🧱 Repo Layout (high level)
-- **Core components:** packages/core/src/components/<ComponentName>/
+- **Core components:** packages/core/src/components/(server|client)/<ComponentName>/
+- **Public barrels:** server → `packages/core/src/index.server-components.ts`, client → `packages/core/src/index.client-components.ts`, icons → `packages/core/src/index.icons.ts`, utilities → `packages/core/src/index.utilities.ts`
 - **Blueprints (sources of truth):**
   - Contract → packages/blueprints/src/components/<ComponentName>/<ComponentName>.contract.ts
   - styleMap → packages/blueprints/src/components/<ComponentName>/<ComponentName>.styleMap.ts

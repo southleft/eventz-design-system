@@ -1,0 +1,105 @@
+'use client';
+
+import * as React from 'react';
+import { Control } from '../../server/Control';
+import { collapseWhitespace, composeClasses } from '../../../utilities';
+import { PauseIcon, PlayIcon } from '../../../icons';
+
+type MediaControlState = 'playing' | 'paused';
+
+type ControlProps = React.ComponentPropsWithoutRef<typeof Control>;
+type ForwardedControlProps = Omit<ControlProps, 'icon' | 'ariaLabel'>;
+
+export interface MediaControlProps extends ForwardedControlProps {
+  state?: MediaControlState;
+  defaultState?: MediaControlState;
+  onStateChange?: (next: MediaControlState) => void;
+  onPlay?: () => void;
+  onPause?: () => void;
+  ariaLabelPlay?: string;
+  ariaLabelPause?: string;
+  variant?: ControlProps['variant'];
+  size?: ControlProps['size'];
+}
+
+// NOTE: keep this selector in sync with MediaControl.styleMap state.playing (icon tint).
+const pauseIconClasses = `text-color-content-brand`;
+
+export const MediaControl = React.forwardRef<HTMLButtonElement, MediaControlProps>(
+  (
+    {
+      state: stateProp,
+      defaultState = 'paused',
+      onStateChange,
+      onPlay,
+      onPause,
+      ariaLabelPlay = 'Play media',
+      ariaLabelPause = 'Pause media',
+      variant = 'light',
+      size = 'lg',
+      className,
+      onClick,
+      ...rest
+    },
+    ref
+  ) => {
+    const isControlled = stateProp !== undefined;
+    const [uncontrolledState, setUncontrolledState] =
+      React.useState<MediaControlState>(defaultState);
+
+    const effectiveState: MediaControlState = isControlled ? stateProp : uncontrolledState;
+    const isPlaying = effectiveState === 'playing';
+
+    const handlePress = React.useCallback(
+      (event: React.MouseEvent<HTMLButtonElement>) => {
+        onClick?.(event);
+        if (event.defaultPrevented) {
+          return;
+        }
+
+        const nextState: MediaControlState = isPlaying ? 'paused' : 'playing';
+
+        if (!isControlled) {
+          setUncontrolledState(nextState);
+        }
+
+        onStateChange?.(nextState);
+
+        if (nextState === 'playing') {
+          onPlay?.();
+        } else {
+          onPause?.();
+        }
+      },
+      [isControlled, isPlaying, onClick, onPause, onPlay, onStateChange]
+    );
+
+    const rawAriaLabel = isPlaying ? ariaLabelPause : ariaLabelPlay;
+    const trimmedAriaLabel = rawAriaLabel.trim();
+    const fallbackAriaLabel = isPlaying ? 'Pause media' : 'Play media';
+    const ariaLabel = trimmedAriaLabel.length > 0 ? trimmedAriaLabel : fallbackAriaLabel;
+
+    const baseClassName = collapseWhitespace(composeClasses(className));
+    const pauseIconClassName = collapseWhitespace(composeClasses(pauseIconClasses));
+
+    return (
+      <Control
+        ref={ref}
+        icon={
+          <span data-slot="_icon" data-icon={isPlaying ? 'pause' : 'play'} aria-hidden="true">
+            {isPlaying ? <PauseIcon className={pauseIconClassName} /> : <PlayIcon />}
+          </span>
+        }
+        ariaLabel={ariaLabel}
+        variant={variant}
+        size={size}
+        onClick={handlePress}
+        className={baseClassName}
+        data-state={effectiveState}
+        {...rest}
+      />
+    );
+  }
+);
+
+MediaControl.displayName = 'MediaControl';
