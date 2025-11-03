@@ -6,6 +6,7 @@ export * from './components/client/Button';
 export * from './components/client/Checkbox';
 export * from './components/client/CheckboxGroup';
 export * from './components/client/Combobox';
+export * from './components/client/Control';
 export * from './components/client/Countdown';
 export * from './components/client/DatePicker';
 export * from './components/client/Dialog';

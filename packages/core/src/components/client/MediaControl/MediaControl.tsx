@@ -5,7 +5,7 @@
 // Summary: MediaControl toggles play and pause via Control button with controlled/uncontrolled state, aria labels, and play/pause callbacks.
 
 import * as React from 'react';
-import { Control } from '../../server/Control';
+import { Control } from '../Control';
 import { collapseWhitespace, composeClasses } from '../../../utilities';
 import { PauseIcon, PlayIcon } from '../../../icons';
 
