@@ -16,6 +16,21 @@ const MapPlaceholder: React.FC = () => (
   />
 );
 
+const MapWithMarkerChip: React.FC = () => (
+  <div className="relative h-full w-full">
+    <img
+      src="/images/austin-dark-map.png"
+      alt="Austin, TX — map placeholder with marker"
+      className="h-full w-full rounded-lg object-cover"
+      loading="lazy"
+      decoding="async"
+    />
+    <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+      <div className="dx-markerchip">3</div>
+    </div>
+  </div>
+);
+
 const meta = {
   title: 'Server components/Map',
   component: Map,
@@ -46,5 +61,11 @@ export const ControlsOff: Story = {
 export const OverlayOff: Story = {
   args: {
     showOverlay: false
+  }
+};
+
+export const WithMarkerChip: Story = {
+  args: {
+    children: <MapWithMarkerChip />
   }
 };
