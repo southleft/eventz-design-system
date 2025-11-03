@@ -30,8 +30,8 @@ const overlayClasses = `
 `;
 
 const railClasses = `
-  absolute top-3 right-3 flex flex-col gap-2 w-10 p-2 backdrop-blur-sm rounded-lg
-  bg-color-background-subtle/10 text-color-content-default border border-white/15 shadow-sm
+  absolute top-3 right-3 flex flex-col gap-2 border-none
+  bg-color-background-subtle/10 text-color-content-default
 `;
 
 const segmentClasses = `
@@ -39,12 +39,11 @@ const segmentClasses = `
 `;
 
 const tileClasses = `
-  grid place-items-center h-10 w-10 rounded-md border border-white/15
-  bg-[color-mix(in_oklab,var(--bg-glass)25%,transparent)] transition-colors
+  rounded-md p-1 bg-color-background-subtle/10 transition-colors border-none
 `;
 
 const iconClasses = `
-  pointer-events-none [&>svg]:size-5 [&>*]:aria-hidden
+  pointer-events-none [&>svg]:size-20 [&>*]:aria-hidden
 `;
 
 export const Map = React.forwardRef<HTMLElement, MapProps>(
@@ -82,9 +81,7 @@ export const Map = React.forwardRef<HTMLElement, MapProps>(
           {children}
         </div>
 
-        {showOverlay ? (
-          <div className={overlayClassName} data-part="overlay" />
-        ) : null}
+        {showOverlay ? <div className={overlayClassName} data-part="overlay" /> : null}
 
         {showControls ? (
           <div className={railClassName} data-part="rail">
@@ -97,9 +94,7 @@ export const Map = React.forwardRef<HTMLElement, MapProps>(
                 aria-label="Zoom in"
                 disabled
               >
-                <span className={iconClassName} data-part="icon" aria-hidden="true">
-                  <AddIcon />
-                </span>
+                <AddIcon className={iconClassName} data-part="icon" />
               </button>
               <button
                 type="button"
@@ -109,9 +104,7 @@ export const Map = React.forwardRef<HTMLElement, MapProps>(
                 aria-label="Zoom out"
                 disabled
               >
-                <span className={iconClassName} data-part="icon" aria-hidden="true">
-                  <RemoveIcon />
-                </span>
+                <RemoveIcon className={iconClassName} data-part="icon" />
               </button>
             </div>
 
@@ -123,9 +116,7 @@ export const Map = React.forwardRef<HTMLElement, MapProps>(
               aria-label="Near me"
               disabled
             >
-              <span className={iconClassName} data-part="icon" aria-hidden="true">
-                <NearMeIcon />
-              </span>
+              <NearMeIcon className={iconClassName} data-part="icon" />
             </button>
           </div>
         ) : null}
@@ -135,4 +126,3 @@ export const Map = React.forwardRef<HTMLElement, MapProps>(
 );
 
 Map.displayName = 'Map';
-

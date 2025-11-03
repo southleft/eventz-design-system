@@ -65,7 +65,7 @@ export default defineStyleMap({
       'rounded-md',
       'border',
       'border-white/15',
-      'bg-[color-mix(in_oklab,var(--bg-glass)25%,transparent)]',
+      'bg-color-background-subtle/10',
       'transition-colors'
     ],
 

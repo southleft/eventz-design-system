@@ -6,10 +6,14 @@ import type { Meta, StoryObj } from '@storybook/react';
 import * as React from 'react';
 import { Map } from './Map';
 
-const MapPlaceholder = () => (
-  <div className="flex h-full w-full items-center justify-center rounded-lg bg-color-background-subtle/40 text-color-content-subtle">
-    Consumer map surface
-  </div>
+const MapPlaceholder: React.FC = () => (
+  <img
+    src="/images/austin-dark-map.png"
+    alt="Austin, TX — map placeholder"
+    className="h-full w-full rounded-lg object-cover"
+    loading="lazy"
+    decoding="async"
+  />
 );
 
 const meta = {
@@ -44,4 +48,3 @@ export const OverlayOff: Story = {
     showOverlay: false
   }
 };
-
