@@ -11,7 +11,6 @@
   --color-neutral-800: oklch(26.9% 0 0);
   --color-neutral-900: oklch(20.5% 0 0);
   --color-neutral-950: oklch(14.5% 0 0);
-  --color-black: #000;
   --spacing: 1px;
   --container-xs: 20rem;
   --text-xs: 0.75rem;
@@ -139,8 +138,10 @@
   --color-comp-form-color-background-hover: var(--dt-comp-form-color-background-hover);
   --color-comp-form-color-border-default: var(--dt-comp-form-color-border-default);
   --color-comp-form-color-border-utility-danger: var(--dt-comp-form-color-border-utility-danger);
+  --color-opacity-overlay: var(--dt-opacity-overlay);
   --portal-extra-width: 31px;
   --font-font-family-primary: var(--dt-font-family-primary);
+  --radius-none: 0px;
   --shadow-shadows-shadow-6: var(--dt-shadows-shadow-6);
   --spacing-0: 0px;
   --spacing-0_5: calc(var(--dt-spacing-0-5) * 1px);
@@ -1278,6 +1279,10 @@
   width: calc(var(--spacing) * 32);
   height: calc(var(--spacing) * 32);
 }
+.size-40 {
+  width: calc(var(--spacing) * 40);
+  height: calc(var(--spacing) * 40);
+}
 .size-48 {
   width: calc(var(--spacing) * 48);
   height: calc(var(--spacing) * 48);
@@ -1525,6 +1530,12 @@
 .gap-8 {
   gap: calc(var(--spacing) * 8);
 }
+.gap-\[1px\] {
+  gap: 1px;
+}
+.gap-\[2px\] {
+  gap: 2px;
+}
 .gap-\[4px\] {
   gap: 4px;
 }
@@ -1684,6 +1695,9 @@
     background-color: color-mix(in oklab, var(--color-color-background-inverted) 50%, transparent);
   }
 }
+.bg-color-background-subtle {
+  background-color: var(--color-color-background-subtle);
+}
 .bg-color-background-subtle\/10 {
   background-color: var(--color-color-background-subtle);
   @supports (color: color-mix(in lab, red, red)) {
@@ -1726,8 +1740,29 @@
 .bg-comp-form-color-background-default {
   background-color: var(--color-comp-form-color-background-default);
 }
+.bg-opacity-overlay {
+  background-color: var(--color-opacity-overlay);
+}
 .bg-transparent {
   background-color: transparent;
+}
+.bg-linear-to-b {
+  --tw-gradient-position: to bottom;
+  @supports (background-image: linear-gradient(in lab, red, red)) {
+    --tw-gradient-position: to bottom in oklab;
+  }
+  background-image: linear-gradient(var(--tw-gradient-stops));
+}
+.from-opacity-overlay\/0 {
+  --tw-gradient-from: var(--color-opacity-overlay);
+  @supports (color: color-mix(in lab, red, red)) {
+    --tw-gradient-from: color-mix(in oklab, var(--color-opacity-overlay) 0%, transparent);
+  }
+  --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
+}
+.to-opacity-overlay {
+  --tw-gradient-to: var(--color-opacity-overlay);
+  --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
 }
 .fill-color-content-inverse {
   fill: var(--color-color-content-inverse);
@@ -1993,6 +2028,10 @@
   --tw-blur: blur(8px);
   filter: var(--tw-blur,) var(--tw-brightness,) var(--tw-contrast,) var(--tw-grayscale,) var(--tw-hue-rotate,) var(--tw-invert,) var(--tw-saturate,) var(--tw-sepia,) var(--tw-drop-shadow,);
 }
+.blur-sm {
+  --tw-blur: blur(var(--blur-sm));
+  filter: var(--tw-blur,) var(--tw-brightness,) var(--tw-contrast,) var(--tw-grayscale,) var(--tw-hue-rotate,) var(--tw-invert,) var(--tw-saturate,) var(--tw-sepia,) var(--tw-drop-shadow,);
+}
 .filter {
   filter: var(--tw-blur,) var(--tw-brightness,) var(--tw-contrast,) var(--tw-grayscale,) var(--tw-hue-rotate,) var(--tw-invert,) var(--tw-saturate,) var(--tw-sepia,) var(--tw-drop-shadow,);
 }
@@ -2147,6 +2186,17 @@
     color: var(--color-color-content-subtle);
   }
 }
+.first\:rounded-md {
+  &:first-child {
+    border-radius: var(--radius-md);
+  }
+}
+.first\:rounded-t-md {
+  &:first-child {
+    border-top-left-radius: var(--radius-md);
+    border-top-right-radius: var(--radius-md);
+  }
+}
 .first\:rounded-l-sm {
   &:first-child {
     border-top-left-radius: var(--radius-sm);
@@ -2157,6 +2207,12 @@
   &:last-child {
     border-top-right-radius: var(--radius-sm);
     border-bottom-right-radius: var(--radius-sm);
+  }
+}
+.last\:rounded-b-md {
+  &:last-child {
+    border-bottom-right-radius: var(--radius-md);
+    border-bottom-left-radius: var(--radius-md);
   }
 }
 .focus-within\:ring-2 {
@@ -3161,6 +3217,60 @@
     }
   }
 }
+.\[\&\>button\]\:first\:mb-1 {
+  &>button {
+    &:first-child {
+      margin-bottom: var(--spacing-1);
+    }
+  }
+}
+.\[\&\>button\]\:first\:rounded-md {
+  &>button {
+    &:first-child {
+      border-radius: var(--radius-md);
+    }
+  }
+}
+.\[\&\>button\]\:first\:rounded-t-md {
+  &>button {
+    &:first-child {
+      border-top-left-radius: var(--radius-md);
+      border-top-right-radius: var(--radius-md);
+    }
+  }
+}
+.\[\&\>button\]\:first\:rounded-b-md {
+  &>button {
+    &:first-child {
+      border-bottom-right-radius: var(--radius-md);
+      border-bottom-left-radius: var(--radius-md);
+    }
+  }
+}
+.\[\&\>button\]\:first\:rounded-b-none {
+  &>button {
+    &:first-child {
+      border-bottom-right-radius: var(--radius-none);
+      border-bottom-left-radius: var(--radius-none);
+    }
+  }
+}
+.\[\&\>button\]\:last\:rounded-t-none {
+  &>button {
+    &:last-child {
+      border-top-left-radius: var(--radius-none);
+      border-top-right-radius: var(--radius-none);
+    }
+  }
+}
+.\[\&\>button\]\:last\:rounded-b-md {
+  &>button {
+    &:last-child {
+      border-bottom-right-radius: var(--radius-md);
+      border-bottom-left-radius: var(--radius-md);
+    }
+  }
+}
 .\[\&\>img\]\:h-80 {
   &>img {
     height: calc(var(--spacing) * 80);
@@ -3521,6 +3631,48 @@
   inherits: false;
   initial-value: solid;
 }
+@property --tw-gradient-position {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-gradient-from {
+  syntax: "<color>";
+  inherits: false;
+  initial-value: #0000;
+}
+@property --tw-gradient-via {
+  syntax: "<color>";
+  inherits: false;
+  initial-value: #0000;
+}
+@property --tw-gradient-to {
+  syntax: "<color>";
+  inherits: false;
+  initial-value: #0000;
+}
+@property --tw-gradient-stops {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-gradient-via-stops {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-gradient-from-position {
+  syntax: "<length-percentage>";
+  inherits: false;
+  initial-value: 0%;
+}
+@property --tw-gradient-via-position {
+  syntax: "<length-percentage>";
+  inherits: false;
+  initial-value: 50%;
+}
+@property --tw-gradient-to-position {
+  syntax: "<length-percentage>";
+  inherits: false;
+  initial-value: 100%;
+}
 @property --tw-leading {
   syntax: "*";
   inherits: false;
@@ -3713,6 +3865,15 @@
       --tw-skew-x: initial;
       --tw-skew-y: initial;
       --tw-border-style: solid;
+      --tw-gradient-position: initial;
+      --tw-gradient-from: #0000;
+      --tw-gradient-via: #0000;
+      --tw-gradient-to: #0000;
+      --tw-gradient-stops: initial;
+      --tw-gradient-via-stops: initial;
+      --tw-gradient-from-position: 0%;
+      --tw-gradient-via-position: 50%;
+      --tw-gradient-to-position: 100%;
       --tw-leading: initial;
       --tw-font-weight: initial;
       --tw-shadow: 0 0 #0000;

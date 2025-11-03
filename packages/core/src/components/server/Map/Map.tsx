@@ -26,7 +26,7 @@ const surfaceClasses = `
 `;
 
 const overlayClasses = `
-  pointer-events-none absolute inset-x-0 bottom-0 w-full h-[82px] bg-opacity-overlay
+  pointer-events-none absolute inset-x-0 bottom-0 w-full h-[82px] bg-linear-to-b from-opacity-overlay/0 to-opacity-overlay
 `;
 
 const railClasses = `
@@ -35,11 +35,11 @@ const railClasses = `
 `;
 
 const segmentClasses = `
-  flex flex-col gap-2
+  flex flex-col gap-[2px] [&>button]:first:rounded-b-none [&>button]:last:rounded-t-none
 `;
 
 const tileClasses = `
-  rounded-md p-1 bg-color-background-subtle/10 transition-colors border-none
+  size-40 rounded-md bg-color-background-subtle text-color-content-default backdrop-blur-sm transition-colors border-none
 `;
 
 const iconClasses = `
