@@ -16,6 +16,7 @@ export * from './components/client/IconButton';
 export * from './components/client/InfoPopover';
 export * from './components/client/Input';
 export * from './components/client/MediaControl';
+export * from './components/client/MenuItem';
 export * from './components/client/NavigationDropdown';
 export * from './components/client/RadioButtonGroup';
 export * from './components/client/Search';

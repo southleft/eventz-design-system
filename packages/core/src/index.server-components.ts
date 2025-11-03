@@ -11,6 +11,6 @@ export * from './components/server/NavigationBar';
 export * from './components/server/SelectionCard';
 export * from './components/server/SubscriptionCard';
 export * from './components/client/IconButton';
-export * from './components/server/MenuItem';
+export * from './components/client/MenuItem';
 export * from './components/server/Tag';
 export * from './components/client/TextLink';

@@ -10,7 +10,7 @@ import { CloseIcon, NotesIcon } from '../../../icons';
 import { collapseWhitespace } from '../../../utilities/collapseWhitespace/collapseWhitespace';
 import { composeClasses } from '../../../utilities/composeClasses/composeClasses';
 import { IconButton } from '../IconButton';
-import { MenuItem } from '../../server/MenuItem';
+import { MenuItem } from '../MenuItem';
 
 const panelClasses = `
   z-50

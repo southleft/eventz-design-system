@@ -10,7 +10,7 @@ import { composeClasses } from '../../../utilities/composeClasses/composeClasses
 import { collapseWhitespace } from '../../../utilities/collapseWhitespace/collapseWhitespace';
 import { CloseIcon } from '../../../icons';
 import { FormElement, type FormElementProps } from '../FormElement';
-import { MenuItem } from '../../server/MenuItem';
+import { MenuItem } from '../MenuItem';
 
 const baseClasses = `
   relative inline-block w-full

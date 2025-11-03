@@ -7,7 +7,7 @@
 import * as React from 'react';
 import { Select as RadixSelect } from 'radix-ui';
 import { Input, type InputProps } from '../Input';
-import { MenuItem, type MenuItemComponentProps, type MenuItemProps } from '../../server/MenuItem';
+import { MenuItem, type MenuItemComponentProps, type MenuItemProps } from '../MenuItem';
 import { KeyboardArrowDownIcon } from '../../../icons';
 import { collapseWhitespace, composeClasses } from '../../../utilities';
 
