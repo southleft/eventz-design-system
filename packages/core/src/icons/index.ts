@@ -12,6 +12,7 @@ export * from './ErrorIcon';
 export * from './EventIcon';
 export * from './InfoIcon';
 export * from './KeyboardArrowDownIcon';
+export * from './LocationIcon';
 export * from './MapIcon';
 export * from './MoreHorizIcon';
 export * from './NearMeIcon';
