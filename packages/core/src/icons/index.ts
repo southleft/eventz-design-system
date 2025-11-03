@@ -20,6 +20,7 @@ export * from './NotesIcon';
 export * from './PauseIcon';
 export * from './PlayIcon';
 export * from './ProgressActivityIcon';
+export * from './RemoveIcon';
 export * from './SearchIcon';
 export * from './StadiumIcon';
 export * from './UploadIcon';
