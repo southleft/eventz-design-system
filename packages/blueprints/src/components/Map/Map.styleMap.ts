@@ -29,11 +29,12 @@ export default defineStyleMap({
       'bottom-0',
       'w-full',
       'h-[82px]',
-      // design token for opacity/overlay gradient
-      'bg-opacity-overlay'
+      'bg-linear-to-b',
+      'from-opacity-overlay/0',
+      'to-opacity-overlay'
     ],
 
-    // controls rail (top-right), 40px wide, glass/blur, 8px gaps
+    // controls rail (top-right container for tiles)
     _rail: [
       'absolute',
       'top-3',
@@ -41,36 +42,33 @@ export default defineStyleMap({
       'flex',
       'flex-col',
       'gap-2',
-      'w-10',
-      'p-2',
-      'backdrop-blur-sm',
-      'rounded-lg',
-      // subtle glass token background; tune in tokens/theme
+      'border-none',
       'bg-color-background-subtle/10',
-      'text-color-content-default',
-      'border',
-      'border-white/15',
-      'shadow-sm'
+      'text-color-content-default'
     ],
 
     // segmented zoom group
-    _segment: ['flex', 'flex-col', 'gap-2'],
+    _segment: [
+      'flex',
+      'flex-col',
+      'gap-[2px]',
+      '[&>button]:first:rounded-b-none',
+      '[&>button]:last:rounded-t-none'
+    ],
 
     // control tile (visual only)
     _tile: [
-      'grid',
-      'place-items-center',
-      'h-10',
-      'w-10',
+      'size-40',
       'rounded-md',
-      'border',
-      'border-white/15',
-      'bg-color-background-subtle/10',
-      'transition-colors'
+      'bg-color-background-subtle',
+      'text-color-content-default',
+      'backdrop-blur-sm',
+      'transition-colors',
+      'border-none'
     ],
 
     // icon wrapper inside tile
-    _icon: ['pointer-events-none', '[&>svg]:size-5', '[&>*]:aria-hidden']
+    _icon: ['pointer-events-none', '[&>svg]:size-20', '[&>*]:aria-hidden']
   },
   states: {
     // component-level
