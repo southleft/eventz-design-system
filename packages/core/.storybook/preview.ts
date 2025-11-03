@@ -1,4 +1,5 @@
 import '../styles/css/styles.css';
+import type { Decorator } from '@storybook/react';
 
 function applyScheme(scheme: 'dark' | 'light') {
   const root = document.documentElement;
@@ -26,7 +27,7 @@ export const globalTypes = {
   }
 };
 
-export const decorators = [
+export const decorators: Decorator[] = [
   (Story, context) => {
     applyScheme((context.globals.colorScheme as 'dark' | 'light') ?? 'dark');
     return Story();
@@ -36,7 +37,7 @@ export const decorators = [
 export const parameters = {
   options: {
     storySort: {
-      order: ['Client components', 'Server components', 'Icons']
+      order: ['Overview', 'Client components', 'Server components', 'Icons']
     }
   },
   controls: {

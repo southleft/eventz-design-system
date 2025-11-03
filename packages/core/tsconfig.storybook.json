@@ -25,6 +25,7 @@
     ".storybook/**/*.tsx",
     "src/**/*.stories.ts",
     "src/**/*.stories.tsx",
-    "src/**/*"
+    "src/**/*",
+    "src/types/**/*.d.ts"
   ]
 }
