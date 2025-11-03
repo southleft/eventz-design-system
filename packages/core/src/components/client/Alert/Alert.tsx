@@ -6,7 +6,7 @@
 
 import * as React from 'react';
 import { collapseWhitespace, composeClasses } from '../../../utilities';
-import { TextLink, type TextLinkProps } from '../../server/TextLink';
+import { TextLink, type TextLinkProps } from '../TextLink';
 import { IconButton } from '../IconButton';
 import { CircleCheckIcon, CloseIcon, ErrorIcon, InfoIcon, WarningIcon } from '../../../icons';
 

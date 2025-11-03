@@ -7,9 +7,13 @@
 import * as React from 'react';
 import { flushSync } from 'react-dom';
 import { AspectRatio } from 'radix-ui';
-import { AnimatedCircularProgressIcon, UploadIcon as FileUploadIcon, ErrorIcon } from '../../../icons';
+import {
+  AnimatedCircularProgressIcon,
+  UploadIcon as FileUploadIcon,
+  ErrorIcon
+} from '../../../icons';
 import { Button } from '../Button';
-import { TextLink } from '../../server/TextLink';
+import { TextLink } from '../TextLink';
 import { InfoPopover } from '../InfoPopover';
 import { composeClasses } from '../../../utilities/composeClasses/composeClasses';
 import { collapseWhitespace } from '../../../utilities/collapseWhitespace/collapseWhitespace';

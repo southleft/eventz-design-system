@@ -3,7 +3,7 @@
 // Summary: Breadcrumbs nav lists links, collapses long trails with ellipsis, and marks current page label.
 
 import * as React from 'react';
-import { TextLink } from '../TextLink';
+import { TextLink } from '../../client/TextLink';
 import { ChevronRightIcon } from '../../../icons/ChevronRightIcon';
 import { MoreHorizIcon } from '../../../icons/MoreHorizIcon';
 import { collapseWhitespace, composeClasses } from '../../../utilities';

@@ -3,7 +3,7 @@
 // Summary: NavigationBar lays out logo, primary links, optional mobile trigger, and secondary actions with fixed positioning support.
 
 import * as React from 'react';
-import { TextLink } from '../TextLink';
+import { TextLink } from '../../client/TextLink';
 import { collapseWhitespace, composeClasses } from '../../../utilities';
 
 type NavigationBarItem = {

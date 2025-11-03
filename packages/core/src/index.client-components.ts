@@ -23,4 +23,5 @@ export * from './components/client/Select';
 export * from './components/client/Stepper';
 export * from './components/client/Tabs';
 export * from './components/client/Textarea';
+export * from './components/client/TextLink';
 export * from './components/client/ToggleGroup';
