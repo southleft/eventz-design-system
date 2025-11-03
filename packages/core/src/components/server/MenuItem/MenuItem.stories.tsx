@@ -4,12 +4,10 @@
 
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { MenuItem, MenuItemProps } from './MenuItem';
+import { MenuItem } from './MenuItem';
 import { CloseIcon, InfoIcon } from '../../../icons';
 
-type MenuItemStoryArgs = MenuItemProps;
-
-const meta: Meta<MenuItemStoryArgs> = {
+const meta: Meta<typeof MenuItem> = {
   title: 'Server components/MenuItem',
   component: MenuItem,
   args: {
@@ -17,7 +15,6 @@ const meta: Meta<MenuItemStoryArgs> = {
     isSelected: false,
     borderBottom: true,
     ariaLabel: '',
-    href: '',
     imgSrc: '',
     imgAlt: '',
     mediaIcon: undefined,
@@ -33,14 +30,13 @@ const meta: Meta<MenuItemStoryArgs> = {
       imgSrc={args.type === 'complex' ? imgSrc || undefined : undefined}
       imgAlt={args.type === 'complex' ? imgAlt || undefined : undefined}
       mediaIcon={args.type === 'complex' ? mediaIcon : undefined}
-      href={args.href || undefined}
     />
   )
 };
 
 export default meta;
 
-type Story = StoryObj<MenuItemStoryArgs>;
+type Story = StoryObj<typeof MenuItem>;
 
 export const SimpleDefault: Story = {
   args: {
