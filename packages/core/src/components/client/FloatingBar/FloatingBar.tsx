@@ -6,7 +6,7 @@
 
 import * as React from 'react';
 import { ArrowBackIcon, ArrowForwardIcon } from '../../../icons';
-import { IconButton } from '../../server/IconButton';
+import { IconButton } from '../IconButton';
 import { composeClasses } from '../../../utilities/composeClasses/composeClasses';
 import { collapseWhitespace } from '../../../utilities/collapseWhitespace/collapseWhitespace';
 
@@ -19,8 +19,7 @@ const actionsClasses = `_actions inline-flex gap-2 shrink-0 justify-end`;
 
 type FloatingBarScrollEvent = MouseEvent | KeyboardEvent;
 
-export interface FloatingBarProps
-  extends Omit<React.HTMLAttributes<HTMLDivElement>, 'content'> {
+export interface FloatingBarProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'content'> {
   ariaLabel?: string;
   labelledBy?: string;
   isScrollable?: boolean;

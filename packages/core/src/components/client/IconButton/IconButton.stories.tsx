@@ -8,7 +8,7 @@ import { InfoCircledIcon } from '@radix-ui/react-icons';
 import { IconButton, IconButtonProps } from './IconButton';
 
 const meta: Meta<IconButtonProps> = {
-  title: 'Server components/IconButton',
+  title: 'Client components/IconButton',
   component: IconButton,
   args: {
     icon: <InfoCircledIcon />,

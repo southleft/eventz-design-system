@@ -7,7 +7,7 @@
 import * as React from 'react';
 import { collapseWhitespace, composeClasses } from '../../../utilities';
 import { TextLink, type TextLinkProps } from '../../server/TextLink';
-import { IconButton } from '../../server/IconButton';
+import { IconButton } from '../IconButton';
 import { CircleCheckIcon, CloseIcon, ErrorIcon, InfoIcon, WarningIcon } from '../../../icons';
 
 type AlertVariant = 'success' | 'info' | 'warning' | 'danger';
