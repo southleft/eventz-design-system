@@ -1530,9 +1530,6 @@
 .gap-8 {
   gap: calc(var(--spacing) * 8);
 }
-.gap-\[1px\] {
-  gap: 1px;
-}
 .gap-\[2px\] {
   gap: 2px;
 }
@@ -1740,9 +1737,6 @@
 .bg-comp-form-color-background-default {
   background-color: var(--color-comp-form-color-background-default);
 }
-.bg-opacity-overlay {
-  background-color: var(--color-opacity-overlay);
-}
 .bg-transparent {
   background-color: transparent;
 }
@@ -1781,9 +1775,6 @@
 }
 .object-cover {
   object-fit: cover;
-}
-.p-1 {
-  padding: var(--spacing-1);
 }
 .p-1\.5 {
   padding: var(--spacing-1_5);
@@ -1847,6 +1838,9 @@
 }
 .py-8 {
   padding-block: calc(var(--spacing) * 8);
+}
+.py-24 {
+  padding-block: calc(var(--spacing) * 24);
 }
 .py-32 {
   padding-block: calc(var(--spacing) * 32);
@@ -2028,10 +2022,6 @@
   --tw-blur: blur(8px);
   filter: var(--tw-blur,) var(--tw-brightness,) var(--tw-contrast,) var(--tw-grayscale,) var(--tw-hue-rotate,) var(--tw-invert,) var(--tw-saturate,) var(--tw-sepia,) var(--tw-drop-shadow,);
 }
-.blur-sm {
-  --tw-blur: blur(var(--blur-sm));
-  filter: var(--tw-blur,) var(--tw-brightness,) var(--tw-contrast,) var(--tw-grayscale,) var(--tw-hue-rotate,) var(--tw-invert,) var(--tw-saturate,) var(--tw-sepia,) var(--tw-drop-shadow,);
-}
 .filter {
   filter: var(--tw-blur,) var(--tw-brightness,) var(--tw-contrast,) var(--tw-grayscale,) var(--tw-hue-rotate,) var(--tw-invert,) var(--tw-saturate,) var(--tw-sepia,) var(--tw-drop-shadow,);
 }
@@ -2186,17 +2176,6 @@
     color: var(--color-color-content-subtle);
   }
 }
-.first\:rounded-md {
-  &:first-child {
-    border-radius: var(--radius-md);
-  }
-}
-.first\:rounded-t-md {
-  &:first-child {
-    border-top-left-radius: var(--radius-md);
-    border-top-right-radius: var(--radius-md);
-  }
-}
 .first\:rounded-l-sm {
   &:first-child {
     border-top-left-radius: var(--radius-sm);
@@ -2207,12 +2186,6 @@
   &:last-child {
     border-top-right-radius: var(--radius-sm);
     border-bottom-right-radius: var(--radius-sm);
-  }
-}
-.last\:rounded-b-md {
-  &:last-child {
-    border-bottom-right-radius: var(--radius-md);
-    border-bottom-left-radius: var(--radius-md);
   }
 }
 .focus-within\:ring-2 {
@@ -3217,36 +3190,6 @@
     }
   }
 }
-.\[\&\>button\]\:first\:mb-1 {
-  &>button {
-    &:first-child {
-      margin-bottom: var(--spacing-1);
-    }
-  }
-}
-.\[\&\>button\]\:first\:rounded-md {
-  &>button {
-    &:first-child {
-      border-radius: var(--radius-md);
-    }
-  }
-}
-.\[\&\>button\]\:first\:rounded-t-md {
-  &>button {
-    &:first-child {
-      border-top-left-radius: var(--radius-md);
-      border-top-right-radius: var(--radius-md);
-    }
-  }
-}
-.\[\&\>button\]\:first\:rounded-b-md {
-  &>button {
-    &:first-child {
-      border-bottom-right-radius: var(--radius-md);
-      border-bottom-left-radius: var(--radius-md);
-    }
-  }
-}
 .\[\&\>button\]\:first\:rounded-b-none {
   &>button {
     &:first-child {
@@ -3260,14 +3203,6 @@
     &:last-child {
       border-top-left-radius: var(--radius-none);
       border-top-right-radius: var(--radius-none);
-    }
-  }
-}
-.\[\&\>button\]\:last\:rounded-b-md {
-  &>button {
-    &:last-child {
-      border-bottom-right-radius: var(--radius-md);
-      border-bottom-left-radius: var(--radius-md);
     }
   }
 }
