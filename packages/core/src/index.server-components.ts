@@ -5,6 +5,7 @@ export * from './components/server/Breadcrumbs';
 export * from './components/server/ContentCard';
 export * from './components/server/Control';
 export * from './components/server/InteractiveListItem';
+export * from './components/server/Map';
 export * from './components/server/MediaCard';
 export * from './components/server/NavigationBar';
 export * from './components/server/SelectionCard';
