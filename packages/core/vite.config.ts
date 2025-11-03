@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import mdx from '@mdx-js/rollup';
 import dts from 'vite-plugin-dts';
 import { fileURLToPath, URL } from 'node:url';
 import pkg from './package.json' with { type: 'json' };
@@ -16,6 +17,7 @@ export default defineConfig(({ mode }) => {
     },
     plugins: [
       react(),
+      mdx({ include: [/\.mdx$/] }),
       // Enable dts only for library builds
       isLib &&
         dts({

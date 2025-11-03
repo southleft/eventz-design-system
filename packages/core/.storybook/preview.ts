@@ -36,7 +36,7 @@ export const decorators = [
 export const parameters = {
   options: {
     storySort: {
-      order: ['Client components', 'Server components', 'Icons']
+      order: ['Overview', 'Client components', 'Server components', 'Icons']
     }
   },
   controls: {
