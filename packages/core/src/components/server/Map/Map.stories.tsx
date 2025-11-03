@@ -11,7 +11,7 @@ const MapPlaceholder: React.FC = () => (
   <img
     src="/images/austin-dark-map.png"
     alt="Austin, TX — map placeholder"
-    className="h-full w-full rounded-lg object-cover"
+    className="object-cover"
     loading="lazy"
     decoding="async"
   />
@@ -22,7 +22,7 @@ const MapWithMarkerChip: React.FC = () => (
     <img
       src="/images/austin-dark-map.png"
       alt="Austin, TX — map placeholder with marker"
-      className="h-full w-full rounded-lg object-cover"
+      className="object-cover"
       loading="lazy"
       decoding="async"
     />
