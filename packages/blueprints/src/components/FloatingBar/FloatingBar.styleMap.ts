@@ -19,7 +19,8 @@ export const FloatingBarStyleMap = defineStyleMap({
       'flex-1',
       'justify-start',
       'truncate',
-      'text-color-content-default'
+      'text-color-content-default',
+      'text-lg'
     ] as const,
     _actions: ['inline-flex', 'gap-2', 'shrink-0', 'justify-end'] as const
   }

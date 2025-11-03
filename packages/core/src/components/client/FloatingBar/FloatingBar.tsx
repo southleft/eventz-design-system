@@ -13,7 +13,7 @@ const baseClasses = `flex items-center justify-between gap-2 px-16 py-24 bg-colo
 const startButtonWrapperClasses = `_startButton shrink-0`;
 const endButtonWrapperClasses = `_endButton shrink-0`;
 const railClasses = `_rail flex items-center gap-2 min-w-0 flex-1`;
-const contentClasses = `_content min-w-0 flex-1 justify-start truncate text-color-content-default`;
+const contentClasses = `_content min-w-0 flex-1 justify-start truncate text-color-content-default text-lg`;
 const actionsClasses = `_actions inline-flex gap-2 shrink-0 justify-end`;
 
 type FloatingBarScrollEvent = MouseEvent | KeyboardEvent;
