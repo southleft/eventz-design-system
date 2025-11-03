@@ -1,0 +1,15 @@
+{
+  "extends": "../tsconfig.app.json",
+  "compilerOptions": {
+    "types": [],
+    "jsx": "react-jsx"
+  },
+  "include": [
+    "../src/**/*.stories.ts",
+    "../src/**/*.stories.tsx",
+    "../src/**/*.mdx",
+    "../src/types/**/*.d.ts", // e.g., packages/core/types/markdown-raw.d.ts
+    "../src/**/*.d.ts"
+  ],
+  "exclude": []
+}
