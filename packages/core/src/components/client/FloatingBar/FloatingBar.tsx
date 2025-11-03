@@ -7,8 +7,7 @@
 import * as React from 'react';
 import { ArrowBackIcon, ArrowForwardIcon } from '../../../icons';
 import { IconButton } from '../IconButton';
-import { composeClasses } from '../../../utilities/composeClasses/composeClasses';
-import { collapseWhitespace } from '../../../utilities/collapseWhitespace/collapseWhitespace';
+import { composeClasses, collapseWhitespace } from '../../../utilities';
 
 const baseClasses = `flex items-center justify-between gap-2 px-16 py-24 bg-color-background-default outline-none`;
 const startButtonWrapperClasses = `_startButton shrink-0`;
@@ -81,11 +80,12 @@ export const FloatingBar = React.forwardRef<HTMLDivElement, FloatingBarProps>(
         role={role}
         aria-label={trimmedAriaLabel.length > 0 ? trimmedAriaLabel : undefined}
         aria-labelledby={trimmedLabelledBy.length > 0 ? trimmedLabelledBy : undefined}
-        data-slot="container"
+        data-part="container"
+        data-scrollable={isScrollable ? 'true' : undefined}
         {...rest}
       >
         {isScrollable ? (
-          <span className={startButtonClassName} data-slot="_startButton">
+          <span className={startButtonClassName} data-part="_startButton">
             <IconButton
               icon={<ArrowBackIcon />}
               ariaLabel="Scroll left"
@@ -95,16 +95,16 @@ export const FloatingBar = React.forwardRef<HTMLDivElement, FloatingBarProps>(
             />
           </span>
         ) : null}
-        <div className={railClassName} data-slot="_rail">
-          <div className={contentClassName} data-slot="_content">
+        <div className={railClassName} data-part="_rail">
+          <div className={contentClassName} data-part="_content">
             {content}
           </div>
-          <div className={actionsClassName} data-slot="_actions">
+          <div className={actionsClassName} data-part="_actions">
             {actions}
           </div>
         </div>
         {isScrollable ? (
-          <span className={endButtonClassName} data-slot="_endButton">
+          <span className={endButtonClassName} data-part="_endButton">
             <IconButton
               icon={<ArrowForwardIcon />}
               ariaLabel="Scroll right"

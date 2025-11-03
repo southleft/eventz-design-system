@@ -4,6 +4,7 @@
 
 import type { Meta, StoryObj } from '@storybook/react';
 import { fn } from 'storybook/test';
+import { Button } from '../Button';
 import { FloatingBar } from './FloatingBar';
 
 const meta: Meta<typeof FloatingBar> = {
@@ -17,8 +18,8 @@ type Story = StoryObj<typeof FloatingBar>;
 
 const defaultActions = (
   <div className="inline-flex gap-2">
-    <button type="button">Dismiss</button>
-    <button type="button">Apply</button>
+    <Button>Apply</Button>
+    <Button variant="secondary">Dismiss</Button>
   </div>
 );
 
@@ -58,10 +59,8 @@ export const ScrollableDisabled: Story = {
     ),
     actions: (
       <div className="inline-flex gap-2">
-        <button type="button" disabled>
-          Clear
-        </button>
-        <button type="button">Save</button>
+        <Button disabled>Clear</Button>
+        <Button>Save</Button>
       </div>
     )
   }
