@@ -14,6 +14,7 @@ export * from './InfoIcon';
 export * from './KeyboardArrowDownIcon';
 export * from './MapIcon';
 export * from './MoreHorizIcon';
+export * from './NearMeIcon';
 export * from './NewsmodeIcon';
 export * from './NotesIcon';
 export * from './PauseIcon';
