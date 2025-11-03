@@ -75,10 +75,6 @@ export default defineStyleMap({
     showOverlay: { _overlay: ['block'] },
     hideOverlay: { _overlay: ['hidden'] },
     showControls: { _rail: ['flex'] },
-    hideControls: { _rail: ['hidden'] },
-
-    // tile visual states (for consumers to toggle)
-    isFocused: { _tile: ['ring-2', 'ring-offset-1', 'ring-[var(--ring-focus)]'] },
-    isActive: { _tile: ['bg-white/20'] }
+    hideControls: { _rail: ['hidden'] }
   }
 });
