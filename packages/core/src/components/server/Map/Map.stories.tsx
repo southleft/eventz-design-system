@@ -4,6 +4,7 @@
 
 import type { Meta, StoryObj } from '@storybook/react';
 import * as React from 'react';
+import { LocationIcon } from '../../../icons';
 import { Map } from './Map';
 
 const MapPlaceholder: React.FC = () => (
@@ -26,7 +27,9 @@ const MapWithMarkerChip: React.FC = () => (
       decoding="async"
     />
     <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-      <div className="dx-markerchip">3</div>
+      <div className="dx-markerchip">
+        <LocationIcon className="size-full" />
+      </div>
     </div>
   </div>
 );

@@ -403,18 +403,8 @@
 
   .dx-markerchip {
     @apply inline-flex items-center justify-center rounded-full select-none;
-    @apply min-w-6 h-6 px-2 text-xs font-medium;
-    @apply border border-white/20 shadow-sm backdrop-blur-sm;
-    color: var(--color-fg, oklch(98% 0 0));
-    background-color: color-mix(in oklab, var(--bg-glass, black) 30%, transparent);
-  }
-  .dx-markerchip--sm {
-    @apply min-w-5 h-5 px-1.5 text-[11px];
-  }
-  .dx-markerchip--lg {
-    @apply min-w-7 h-7 px-2.5 text-sm;
-  }
-  .dx-markerchip--selected {
-    @apply ring-2 ring-offset-1 ring-black/10;
+    @apply border border-color-background-brand/20;
+    @apply p-120 size-32 lg:size-48;
+    @apply text-color-content-brand bg-color-background-brand/5;
   }
 }
