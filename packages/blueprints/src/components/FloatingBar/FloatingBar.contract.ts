@@ -44,31 +44,29 @@ export const FloatingBarContract = defineContract({
   layout: {
     type: 'container',
     tag: 'div',
-    className: ['flex items-center justify-between', 'gap-2'],
+    dataPart: 'container',
     children: [
       {
         tag: 'span',
-        className: ['_startButton', 'shrink-0'],
+        dataPart: '_startButton',
+        when: { isScrollable: true },
         comment:
-          'Auto-rendered when isScrollable is true: IconButton(variant="bare", icon=ArrowBackIcon, ariaLabel="Scroll left"). On activation, call onLeftScroll if provided; otherwise render disabled.'
+          'Auto-rendered when isScrollable is true: IconButton(variant="bare", icon=ArrowBackIcon, ariaLabel="Scroll left"). If onLeftScroll is defined, call it on activation; otherwise render the button disabled.'
       },
       {
         tag: 'div',
-        className: ['_rail', 'flex', 'items-center', 'gap-2', 'min-w-0', 'flex-1'],
+        dataPart: '_rail',
         children: [
-          { slot: 'content', tag: 'div', className: ['_content', 'min-w-0', 'flex-1'] },
-          {
-            slot: 'actions',
-            tag: 'div',
-            className: ['_actions', 'inline-flex', 'gap-2', 'shrink-0']
-          }
+          { slot: 'content', tag: 'div', dataPart: '_content' },
+          { slot: 'actions', tag: 'div', dataPart: '_actions' }
         ]
       },
       {
         tag: 'span',
-        className: ['_endButton', 'shrink-0'],
+        dataPart: '_endButton',
+        when: { isScrollable: true },
         comment:
-          'Auto-rendered when isScrollable is true: IconButton(variant="bare", icon=ArrowForwardIcon, ariaLabel="Scroll right"). On activation, call onRightScroll if provided; otherwise render disabled.'
+          'Auto-rendered when isScrollable is true: IconButton(variant="bare", icon=ArrowForwardIcon, ariaLabel="Scroll right"). If onRightScroll is defined, call it on activation; otherwise render the button disabled.'
       }
     ]
   },
@@ -85,6 +83,27 @@ export const FloatingBarContract = defineContract({
   styleMap: true,
 
   hints: {
-    a11y: 'Optionally role="region" when labelled by ariaLabel/labelledBy.'
+    a11y:
+      'Root sets role="region" only when ariaLabel or labelledBy provide a non-empty accessible name. Trim whitespace from both props before applying aria attributes.',
+    domHooks: {
+      container: {
+        dataPart: 'container',
+        selector: '[data-part="container"]',
+        state: 'data-scrollable="true" when isScrollable is truthy'
+      },
+      startButton: {
+        dataPart: '_startButton',
+        selector: '[data-part="_startButton"]',
+        renderedWhen: 'isScrollable=true'
+      },
+      rail: { dataPart: '_rail', selector: '[data-part="_rail"]' },
+      content: { dataPart: '_content', selector: '[data-part="_content"]' },
+      actions: { dataPart: '_actions', selector: '[data-part="_actions"]' },
+      endButton: {
+        dataPart: '_endButton',
+        selector: '[data-part="_endButton"]',
+        renderedWhen: 'isScrollable=true'
+      }
+    }
   }
 });
