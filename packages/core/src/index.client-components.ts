@@ -12,6 +12,7 @@ export * from './components/client/DatePicker';
 export * from './components/client/Dialog';
 export * from './components/client/ExpandableContent';
 export * from './components/client/FileUpload';
+export * from './components/client/FloatingBar';
 export * from './components/client/FormElement';
 export * from './components/client/IconButton';
 export * from './components/client/InfoPopover';
