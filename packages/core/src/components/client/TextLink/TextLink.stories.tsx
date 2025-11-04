@@ -15,14 +15,6 @@ const meta: Meta<TextLinkProps> = {
     href: '#',
     variant: 'brand',
     disabled: false
-  },
-  argTypes: {
-    variant: { control: { type: 'radio' }, options: ['brand', 'strong', 'subtle', 'inverted'] },
-    disabled: { control: 'boolean' },
-    href: { control: 'text' },
-    label: { control: 'text' },
-    startIcon: { control: false },
-    endIcon: { control: false }
   }
 };
 

@@ -17,9 +17,6 @@ const meta: Meta<IconButtonProps> = {
     loading: false,
     disabled: false,
     type: 'button'
-  },
-  argTypes: {
-    icon: { control: false }
   }
 };
 

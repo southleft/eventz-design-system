@@ -8,7 +8,7 @@ export const FloatingBarStyleMap = defineStyleMap({
     _startButton: ['_startButton shrink-0'] as const, // rendered only when isScrollable=true
     _endButton: ['_endButton shrink-0'] as const, // rendered only when isScrollable=true
     _rail: ['_rail flex items-center gap-2 min-w-0 flex-1'] as const,
-    _content: ['_content min-w-0 flex-1 justify-start truncate text-color-content-default'] as const,
+    _content: ['_content min-w-0 flex-1 justify-start truncate text-color-content-default text-lg'] as const,
     _actions: ['_actions inline-flex gap-2 shrink-0 justify-end'] as const
   }
 });

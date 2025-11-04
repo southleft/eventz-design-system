@@ -15,10 +15,6 @@ const meta: Meta<ControlProps> = {
     ariaLabel: 'Control icon',
     variant: 'brand',
     size: 'lg'
-  },
-  argTypes: {
-    icon: { control: false },
-    size: { control: { type: 'radio' }, options: ['lg', 'sm'] }
   }
 };
 
