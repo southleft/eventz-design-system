@@ -1276,10 +1276,6 @@
   width: var(--spacing-4);
   height: var(--spacing-4);
 }
-.size-5 {
-  width: calc(var(--spacing) * 5);
-  height: calc(var(--spacing) * 5);
-}
 .size-14 {
   width: calc(var(--spacing) * 14);
   height: calc(var(--spacing) * 14);
@@ -1299,10 +1295,6 @@
 .size-48 {
   width: calc(var(--spacing) * 48);
   height: calc(var(--spacing) * 48);
-}
-.size-\[14px\] {
-  width: 14px;
-  height: 14px;
 }
 .size-full {
   width: 100%;
@@ -2045,9 +2037,6 @@
 }
 .opacity-50 {
   opacity: 50%;
-}
-.opacity-80 {
-  opacity: 80%;
 }
 .opacity-100 {
   opacity: 100%;
