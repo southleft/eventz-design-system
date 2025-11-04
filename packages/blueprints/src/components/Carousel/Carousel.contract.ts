@@ -21,7 +21,8 @@ export default defineContract({
     // Index control
     defaultIndex: {
       type: 'number',
-      description: 'Initial slide index for uncontrolled usage. Default: 0.'
+      default: 0,
+      description: 'Initial slide index for uncontrolled usage.'
     },
     currentIndex: {
       type: 'number',
@@ -36,7 +37,8 @@ export default defineContract({
     // Physics
     loop: {
       type: 'boolean',
-      description: 'Enable wrap-around navigation. Default: false.'
+      default: false,
+      description: 'Enable wrap-around navigation.'
     },
     align: {
       type: 'enum',
@@ -55,7 +57,54 @@ export default defineContract({
     // Integrated chrome (fixed placement & style)
     showIndicators: {
       type: 'boolean',
-      description: 'Render the built-in indicators (bottom, single style). Default: true.'
+      default: true,
+      description: 'Render the built-in indicators (bottom, single style).'
+    },
+
+    // Autoplay (Embla Autoplay plugin — do NOT roll your own timers)
+    autoPlay: {
+      type: 'boolean',
+      default: false,
+      description: 'Enable slide auto-advance using the Embla Autoplay plugin.'
+    },
+    autoPlayDelay: {
+      type: 'number',
+      default: 4000,
+      description: 'Delay in milliseconds between automatic advances when autoPlay is true.'
+    },
+    autoPlayPauseOnInteraction: {
+      type: 'boolean',
+      default: true,
+      description: 'Pause autoplay on user drag/click/focus (maps to plugin stopOnInteraction).'
+    },
+    autoPlayPauseOnHover: {
+      type: 'boolean',
+      default: true,
+      description:
+        'Pause autoplay on pointer hover over the carousel (maps to plugin stopOnMouseEnter).'
+    },
+    autoPlayPauseOnFocus: {
+      type: 'boolean',
+      default: true,
+      description:
+        'Pause autoplay when focus is inside the carousel (maps to plugin stopOnFocusIn).'
+    },
+    autoPlayStopOnLast: {
+      type: 'boolean',
+      default: false,
+      description:
+        'When loop=false, stop autoplay on the last snap (maps to plugin stopOnLastSnap).'
+    },
+    respectReducedMotion: {
+      type: 'boolean',
+      default: true,
+      description: 'If prefers-reduced-motion is set, autoplay will not start unless this is false.'
+    },
+    onAutoPlayChange: {
+      type: 'callback',
+      args: ['playing: boolean'] as const,
+      description:
+        '(playing: boolean) => void — fires whenever autoplay starts or stops (plugin events and manual play/stop).'
     }
   },
 
@@ -71,9 +120,11 @@ export default defineContract({
       // ---------- Embla integration (do not roll your own) ----------
       'Mount Embla on the base viewport and use its API exclusively — do not implement custom transforms/drag/scroll logic. Use embla.scrollPrev(), embla.scrollNext(), and embla.scrollTo(index) for navigation; use embla.canScrollPrev()/canScrollNext() for availability; derive count from embla.scrollSnapList().length and currentIndex from embla.selectedScrollSnap(). Listen to embla events: init, reInit, select, slidesInView, pointerDown, pointerUp, settle. Maintain a Set of embla.slidesInView() and call onInViewChange(indices) only when it changes.',
       // ---------- Context API (backed by Embla) ----------
-      'Expose context backed by Embla: { currentIndex, count, canPrev, canNext, prev(), next(), goTo(i), isSelected(i), isInView(i) }. prev() calls embla.scrollPrev(); next() calls embla.scrollNext(); goTo(i) calls embla.scrollTo(i).',
+      'Expose context backed by Embla: { currentIndex, count, canPrev, canNext, prev(), next(), goTo(i), isSelected(i), isInView(i), autoPlay?: { isPlaying: boolean; play(): void; stop(): void } }. prev() calls embla.scrollPrev(); next() calls embla.scrollNext(); goTo(i) calls embla.scrollTo(i).',
+      // ---------- Autoplay (plugin-backed) ----------
+      'When autoPlay=true, instantiate the Embla Autoplay plugin with { delay: autoPlayDelay, stopOnInteraction: autoPlayPauseOnInteraction, stopOnMouseEnter: autoPlayPauseOnHover, stopOnFocusIn: autoPlayPauseOnFocus, stopOnLastSnap: autoPlayStopOnLast }. Respect prefers-reduced-motion by default (respectReducedMotion=true) by not starting autoplay automatically when the media query matches; allow override when false. Wire plugin events "autoplay:play"/"autoplay:stop" to onAutoPlayChange(true/false). If context exposes autoPlay.play() / autoPlay.stop(), ensure those also call onAutoPlayChange.',
       // ---------- Behavioral → class state mapping (styleMap) ----------
-      'Toggle style state classes based on runtime: [isDragging] true on pointerDown; false on pointerUp/settle. [isAtStart]=(!loop && !embla.canScrollPrev()). [isAtEnd]=(!loop && !embla.canScrollNext()). [rtl]=(document.dir==="rtl"). [hasIndicators]=(showIndicators).',
+      'Toggle style state classes based on runtime: [isDragging] true on pointerDown; false on pointerUp/settle. [isAtStart]=(!loop && !embla.canScrollPrev()). [isAtEnd]=(!loop && !embla.canScrollNext()). [rtl]=(document.dir==="rtl"). [hasIndicators]=(showIndicators). [isAutoPlaying]=(autoplay plugin is currently playing).',
       // ---------- Focus treatment ----------
       'Focus-visible rings are handled on interactive elements (indicator buttons). Do not apply or override focus rings on the root provider.'
     ].join(' ')

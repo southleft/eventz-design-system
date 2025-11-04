@@ -59,6 +59,9 @@ export default defineStyleMap({
     // Presence flags
     hasIndicators: ['[--has-indicators:1]'] as const,
 
+    // Autoplay state (required by contract hints)
+    isAutoPlaying: ['[--autoplay-playing:1]'] as const,
+
     // Indicator visual states (apply to each button)
     // Inactive ≈ 14px gray; Active ≈ 20px lime (per Figma selection).
     // Colors are token-friendly with safe fallbacks; feel free to remap in theme.
