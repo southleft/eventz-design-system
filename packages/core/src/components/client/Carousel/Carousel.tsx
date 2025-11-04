@@ -192,7 +192,7 @@ export const Carousel = React.forwardRef<HTMLDivElement, CarouselProps>(
     const [slidesInView, setSlidesInView] = React.useState<number[]>([]);
     const [isAutoPlaying, setIsAutoPlaying] = React.useState(false);
 
-    const effectiveIndex = isControlled ? (currentIndex as number) : uncontrolledIndex;
+    const effectiveIndex = isControlled ? currentIndex : uncontrolledIndex;
     const initialIndexRef = React.useRef(currentIndex ?? defaultIndex);
 
     React.useEffect(() => {
@@ -229,49 +229,43 @@ export const Carousel = React.forwardRef<HTMLDivElement, CarouselProps>(
       [forwardedRef]
     );
 
-    const updateAutoPlayState = React.useCallback(
-      (playing: boolean, notify: boolean) => {
-        if (autoPlayStateRef.current === playing) {
-          return;
-        }
+    const updateAutoPlayState = React.useCallback((playing: boolean, notify: boolean) => {
+      if (autoPlayStateRef.current === playing) {
+        return;
+      }
 
-        autoPlayStateRef.current = playing;
-        setIsAutoPlaying(playing);
+      autoPlayStateRef.current = playing;
+      setIsAutoPlaying(playing);
 
-        if (!notify) {
-          return;
-        }
+      if (!notify) {
+        return;
+      }
 
-        callbacksRef.current.onAutoPlayChange?.(playing);
-      },
-      []
-    );
+      callbacksRef.current.onAutoPlayChange?.(playing);
+    }, []);
 
-    const applySlidesInView = React.useCallback(
-      (indices: number[], notify: boolean) => {
-        const previous = slidesInViewRef.current;
-        const nextArray = indices.slice();
-        const nextSet = new Set(nextArray);
-        let changed = nextArray.length !== previous.size;
+    const applySlidesInView = React.useCallback((indices: number[], notify: boolean) => {
+      const previous = slidesInViewRef.current;
+      const nextArray = indices.slice();
+      const nextSet = new Set(nextArray);
+      let changed = nextArray.length !== previous.size;
 
-        if (!changed) {
-          for (const index of nextArray) {
-            if (!previous.has(index)) {
-              changed = true;
-              break;
-            }
+      if (!changed) {
+        for (const index of nextArray) {
+          if (!previous.has(index)) {
+            changed = true;
+            break;
           }
         }
+      }
 
-        slidesInViewRef.current = nextSet;
-        setSlidesInView(nextArray);
+      slidesInViewRef.current = nextSet;
+      setSlidesInView(nextArray);
 
-        if (notify && changed) {
-          callbacksRef.current.onInViewChange?.(nextArray);
-        }
-      },
-      []
-    );
+      if (notify && changed) {
+        callbacksRef.current.onInViewChange?.(nextArray);
+      }
+    }, []);
 
     const syncMetaState = React.useCallback(
       (api: EmblaApi) => {
@@ -455,8 +449,7 @@ export const Carousel = React.forwardRef<HTMLDivElement, CarouselProps>(
       updateAutoPlayState(false, true);
     }, [updateAutoPlayState]);
 
-    const resolvedAriaLabel =
-      ariaLabel ?? (ariaLabelledBy === undefined ? 'Carousel' : undefined);
+    const resolvedAriaLabel = ariaLabel ?? (ariaLabelledBy === undefined ? 'Carousel' : undefined);
 
     const baseClassName = collapseWhitespace(
       composeClasses(baseClasses, className, {
