@@ -109,6 +109,8 @@
     "@radix-ui/react-slot": "^1.2.3",
     "@radix-ui/themes": "^3.2.1",
     "@testing-library/user-event": "^14.6.1",
+    "embla-carousel": "^8.6.0",
+    "embla-carousel-autoplay": "^8.6.0",
     "rsuite": "^5.83.3"
   }
 }
