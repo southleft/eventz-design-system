@@ -3,6 +3,7 @@ export * from './components/client/Accordion';
 export * from './components/client/Alert';
 export * from './components/client/AvatarGroup';
 export * from './components/client/Button';
+export * from './components/client/Carousel';
 export * from './components/client/Checkbox';
 export * from './components/client/CheckboxGroup';
 export * from './components/client/Combobox';
