@@ -180,10 +180,7 @@ export const Carousel = React.forwardRef<HTMLDivElement, CarouselProps>(
     const autoPlayStateRef = React.useRef(false);
     const slidesInViewRef = React.useRef<Set<number>>(new Set());
     const isControlled = currentIndex !== undefined;
-    const isRtl = React.useMemo(
-      () => (typeof document !== 'undefined' ? document.dir === 'rtl' : false),
-      []
-    );
+    const isRtl = React.useMemo(() => document.dir === 'rtl', []);
 
     const [uncontrolledIndex, setUncontrolledIndex] = React.useState(defaultIndex);
     const [count, setCount] = React.useState(0);
@@ -195,7 +192,7 @@ export const Carousel = React.forwardRef<HTMLDivElement, CarouselProps>(
     const [slidesInView, setSlidesInView] = React.useState<number[]>([]);
     const [isAutoPlaying, setIsAutoPlaying] = React.useState(false);
 
-    const effectiveIndex = isControlled ? currentIndex ?? 0 : uncontrolledIndex;
+    const effectiveIndex = isControlled ? (currentIndex as number) : uncontrolledIndex;
     const initialIndexRef = React.useRef(currentIndex ?? defaultIndex);
 
     React.useEffect(() => {
@@ -222,7 +219,10 @@ export const Carousel = React.forwardRef<HTMLDivElement, CarouselProps>(
 
         if (typeof forwardedRef === 'function') {
           forwardedRef(node);
-        } else if (forwardedRef) {
+          return;
+        }
+
+        if (forwardedRef) {
           (forwardedRef as React.MutableRefObject<HTMLDivElement | null>).current = node;
         }
       },
@@ -238,9 +238,11 @@ export const Carousel = React.forwardRef<HTMLDivElement, CarouselProps>(
         autoPlayStateRef.current = playing;
         setIsAutoPlaying(playing);
 
-        if (notify) {
-          callbacksRef.current.onAutoPlayChange?.(playing);
+        if (!notify) {
+          return;
         }
+
+        callbacksRef.current.onAutoPlayChange?.(playing);
       },
       []
     );
@@ -283,33 +285,28 @@ export const Carousel = React.forwardRef<HTMLDivElement, CarouselProps>(
     );
 
     React.useEffect(() => {
-      const node = baseRef.current;
+      const node = baseRef.current as HTMLDivElement;
 
-      if (!node) {
-        return;
-      }
-
-      const plugins: EmblaPlugin[] = [];
       const prefersReducedMotion =
         respectReducedMotion &&
         typeof window !== 'undefined' &&
         typeof window.matchMedia === 'function' &&
         window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-      if (autoPlay) {
-        const autoplayOptions: AutoplayOptions = {
-          delay: autoPlayDelay,
-          stopOnInteraction: autoPlayPauseOnInteraction,
-          stopOnMouseEnter: autoPlayPauseOnHover,
-          stopOnFocusIn: autoPlayPauseOnFocus,
-          stopOnLastSnap: autoPlayStopOnLast,
-          playOnInit: !prefersReducedMotion
-        };
-        const autoplay = createAutoplay(autoplayOptions);
-        autoplayRef.current = autoplay;
-        plugins.push(autoplay);
-      } else {
-        autoplayRef.current = null;
+      const autoplayInstance = autoPlay
+        ? createAutoplay({
+            delay: autoPlayDelay,
+            stopOnInteraction: autoPlayPauseOnInteraction,
+            stopOnMouseEnter: autoPlayPauseOnHover,
+            stopOnFocusIn: autoPlayPauseOnFocus,
+            stopOnLastSnap: autoPlayStopOnLast,
+            playOnInit: !prefersReducedMotion
+          })
+        : null;
+
+      autoplayRef.current = autoplayInstance;
+
+      if (!autoplayInstance) {
         updateAutoPlayState(false, false);
       }
 
@@ -318,7 +315,7 @@ export const Carousel = React.forwardRef<HTMLDivElement, CarouselProps>(
         align
       };
 
-      const embla = createEmbla(node, options, plugins);
+      const embla = createEmbla(node, options, autoplayInstance ? [autoplayInstance] : []);
       emblaApiRef.current = embla;
 
       const handleSelect = () => {
