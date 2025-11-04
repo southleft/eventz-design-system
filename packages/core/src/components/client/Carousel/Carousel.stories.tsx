@@ -21,7 +21,7 @@ const slideItems = Array.from({ length: 5 }, (_, index) => {
 });
 
 const Template: React.FC<CarouselProps> = props => (
-  <div className={`mx-auto w-full max-w-xl`}>
+  <div className={`mx-auto w-full max-w-xl text-color-content-default`}>
     <Carousel {...props}>{slideItems}</Carousel>
   </div>
 );

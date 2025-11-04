@@ -132,20 +132,21 @@ const containerClasses = `
 `;
 
 const indicatorsClasses = `
-  absolute inset-x-0 bottom-0 flex justify-center gap-2 p-3
+  flex justify-center items-center gap-2 pt-32 pb-12
 `;
 
 const indicatorBaseClasses = `
-  relative shrink-0 rounded-full outline-none transition-[transform,opacity]
-  focus-visible:ring-2 focus-visible:ring-token-focus
-`;
-
-const indicatorInactiveClasses = `
-  size-[14px] opacity-80 bg-color-background-brand
+  relative shrink-0 rounded-full outline-none transition-[transform,opacity] border-none
+  focus-visible:ring-2 focus-visible:ring-comp-border-focus-ring
+  focus-visible:ring-offset-2 focus-visible:ring-offset-color-background-default
 `;
 
 const indicatorActiveClasses = `
-  size-5 opacity-100 bg-color-content-subtle
+  size-20 bg-color-background-brand
+`;
+
+const indicatorInactiveClasses = `
+  size-14 opacity-100 bg-color-content-subtle
 `;
 
 export const Carousel = React.forwardRef<HTMLDivElement, CarouselProps>(
