@@ -43,6 +43,67 @@ describe('FloatingBar', () => {
     expect(Boolean(leftButton)).toBe(expected);
   });
 
+  it('honors an explicit role prop', () => {
+    const { container } = render(
+      <FloatingBar
+        role="presentation"
+        ariaLabel="Action bar"
+        content={<span>Summary</span>}
+        actions={<button>Action</button>}
+      />
+    );
+    const root = container.firstElementChild as HTMLElement;
+    expect(root).toHaveAttribute('role', 'presentation');
+  });
+
+  it('applies region role when labelled by ID via aria-labelledby', () => {
+    render(
+      <>
+        <h2 id="title-id">Section Title</h2>
+        <FloatingBar
+          labelledBy="title-id"
+          content={<span>Summary</span>}
+          actions={<button>Action</button>}
+        />
+      </>
+    );
+    const region = screen.getByRole('region');
+    expect(region).toHaveAttribute('aria-labelledby', 'title-id');
+  });
+
+  it.each([
+    { ariaLabel: '   ', labelledBy: undefined },
+    { ariaLabel: undefined, labelledBy: '   ' },
+    { ariaLabel: '   ', labelledBy: '   ' }
+  ])('does not set region role when label props are whitespace-only', ({ ariaLabel, labelledBy }) => {
+    const ariaLabelProp: React.ComponentProps<typeof FloatingBar>['ariaLabel'] = ariaLabel;
+    const labelledByProp: React.ComponentProps<typeof FloatingBar>['labelledBy'] = labelledBy;
+    render(
+      <FloatingBar
+        ariaLabel={ariaLabelProp}
+        labelledBy={labelledByProp}
+        content={<span>Summary</span>}
+        actions={<button>Action</button>}
+      />
+    );
+    expect(screen.queryByRole('region')).toBeNull();
+  });
+
+  it('trims labelledBy before applying aria-labelledby', () => {
+    render(
+      <>
+        <h2 id="heading-id">Header</h2>
+        <FloatingBar
+          labelledBy="   heading-id   "
+          content={<span>Summary</span>}
+          actions={<button>Action</button>}
+        />
+      </>
+    );
+    const region = screen.getByRole('region');
+    expect(region).toHaveAttribute('aria-labelledby', 'heading-id');
+  });
+
   it('disables scroll buttons when handlers are not provided', () => {
     render(
       <FloatingBar

@@ -58,14 +58,14 @@ export const FloatingBar = React.forwardRef<HTMLDivElement, FloatingBarProps>(
 
     const handleLeftScroll = React.useCallback(
       (event: React.MouseEvent<HTMLButtonElement>) => {
-        onLeftScroll?.(event.nativeEvent);
+        onLeftScroll!(event.nativeEvent);
       },
       [onLeftScroll]
     );
 
     const handleRightScroll = React.useCallback(
       (event: React.MouseEvent<HTMLButtonElement>) => {
-        onRightScroll?.(event.nativeEvent);
+        onRightScroll!(event.nativeEvent);
       },
       [onRightScroll]
     );
