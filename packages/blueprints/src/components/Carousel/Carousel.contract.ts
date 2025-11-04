@@ -108,8 +108,8 @@ export default defineContract({
     }
   },
 
-  // Base acts as Embla viewport/root; we expose only the track and indicators slots.
-  slots: ['container', 'indicators'] as const,
+  // Base acts as Embla viewport/root; expose Embla track, indicator rail, and indicator button slots.
+  slots: ['_container', '_indicators', '_indicator'] as const,
 
   hints: {
     a11y: [

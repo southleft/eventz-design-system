@@ -211,6 +211,28 @@ const ContextInvoker: React.FC<{
   return null;
 };
 
+type CarouselContextSnapshot = ReturnType<typeof useCarouselContext>;
+
+function assertContext(
+  context: CarouselContextSnapshot | null,
+  message: string
+): CarouselContextSnapshot {
+  if (!context) {
+    throw new Error(message);
+  }
+  return context;
+}
+
+function assertAutoPlayControls(
+  controls: CarouselContextSnapshot['autoPlay'],
+  message: string
+): NonNullable<CarouselContextSnapshot['autoPlay']> {
+  if (!controls) {
+    throw new Error(message);
+  }
+  return controls;
+}
+
 beforeEach(() => {
   jest.clearAllMocks();
   autoplayFactory.mockImplementation(createAutoplayControl);
@@ -328,12 +350,14 @@ describe('Carousel', () => {
     );
 
     await act(async () => {});
-    expect(capturedContext).not.toBeNull();
-
+    const contextWithNavigation = assertContext(
+      capturedContext,
+      'Expected Carousel context when testing navigation helpers'
+    );
     act(() => {
-      capturedContext!.prev();
-      capturedContext!.next();
-      capturedContext!.goTo(2);
+      contextWithNavigation.prev();
+      contextWithNavigation.next();
+      contextWithNavigation.goTo(2);
     });
 
     const callSummary = {
@@ -469,8 +493,11 @@ describe('Carousel', () => {
   it('uses aria-labelledby when provided', () => {
     renderCarousel({ ariaLabel: undefined, ariaLabelledBy: 'heading-id' });
     const region = screen.getByRole('region');
-    expect(region.getAttribute('aria-label')).toBeNull();
-    expect(region.getAttribute('aria-labelledby')).toBe('heading-id');
+    const ariaState = {
+      label: region.getAttribute('aria-label'),
+      labelledBy: region.getAttribute('aria-labelledby')
+    };
+    expect(ariaState).toEqual({ label: null, labelledBy: 'heading-id' });
   });
 
   it('configures autoplay with playOnInit=false when prefers-reduced-motion matches', () => {
@@ -510,13 +537,17 @@ describe('Carousel', () => {
     );
 
     await act(async () => {});
-    expect(capturedContext).not.toBeNull();
-    const contextWithAutoplay = capturedContext!;
-    expect(contextWithAutoplay.autoPlay).toBeTruthy();
-
+    const contextWithAutoplay = assertContext(
+      capturedContext,
+      'Expected Carousel context when testing manual autoplay controls'
+    );
+    const autoPlayControls = assertAutoPlayControls(
+      contextWithAutoplay.autoPlay,
+      'Expected autoplay controls for manual play/stop test'
+    );
     act(() => {
-      contextWithAutoplay.autoPlay?.stop();
-      contextWithAutoplay.autoPlay?.play();
+      autoPlayControls.stop();
+      autoPlayControls.play();
     });
 
     const calls = handleAutoPlayChange.mock.calls.map(([value]) => value);
@@ -548,13 +579,18 @@ describe('Carousel', () => {
     );
 
     await act(async () => {});
-    expect(capturedContext).not.toBeNull();
-    const contextWithAutoplay = capturedContext!;
-    expect(contextWithAutoplay.autoPlay).toBeTruthy();
+    const contextWithAutoplay = assertContext(
+      capturedContext,
+      'Expected Carousel context when autoplay plugin is unavailable'
+    );
+    const autoPlayControls = assertAutoPlayControls(
+      contextWithAutoplay.autoPlay,
+      'Expected autoplay controls even when plugin is unavailable'
+    );
 
     act(() => {
-      contextWithAutoplay.autoPlay?.play();
-      contextWithAutoplay.autoPlay?.stop();
+      autoPlayControls.play();
+      autoPlayControls.stop();
     });
 
     expect(handleAutoPlayChange).toHaveBeenCalledTimes(0);
@@ -574,16 +610,21 @@ describe('Carousel', () => {
     );
 
     await act(async () => {});
-
-    expect(capturedContext).not.toBeNull();
-    const contextWithAutoplay = capturedContext!;
-
+    const contextWithAutoplay = assertContext(
+      capturedContext,
+      'Expected Carousel context when testing autoplay without handler'
+    );
+    const autoPlayControls = assertAutoPlayControls(
+      contextWithAutoplay.autoPlay,
+      'Expected autoplay controls when handler is omitted'
+    );
     act(() => {
-      contextWithAutoplay.autoPlay?.play();
-      contextWithAutoplay.autoPlay?.stop();
+      autoPlayControls.play();
+      autoPlayControls.stop();
     });
 
-    expect(contextWithAutoplay.autoPlay?.isPlaying).toBeDefined();
+    const isPlayingState = autoPlayControls.isPlaying;
+    expect(typeof isPlayingState).toBe('boolean');
   });
 
   it('relays autoplay plugin play/stop events to onAutoPlayChange in order', async () => {
@@ -656,14 +697,15 @@ describe('Carousel', () => {
     );
 
     await act(async () => {});
-    const getContext = () => {
-      expect(capturedContext).not.toBeNull();
-      return capturedContext!;
-    };
-
-    let contextSnapshot = getContext();
-    expect(contextSnapshot.isSelected(0)).toBe(true);
-    expect(contextSnapshot.isInView(0)).toBe(true);
+    const snapshots: Array<{ selected: boolean; inView: boolean }> = [];
+    const initialContext = assertContext(
+      capturedContext,
+      'Expected Carousel context for initial selection snapshot'
+    );
+    snapshots.push({
+      selected: initialContext.isSelected(0),
+      inView: initialContext.isInView(0)
+    });
 
     currentEmblaControl.setSlidesInView([0, 1]);
     act(() => {
@@ -675,23 +717,24 @@ describe('Carousel', () => {
       currentEmblaControl.emit('select');
     });
 
-    contextSnapshot = getContext();
-
-    expect({
-      selected: contextSnapshot.isSelected(1),
-      inView: contextSnapshot.isInView(1)
-    }).toEqual({
-      selected: true,
-      inView: true
+    const updatedContext = assertContext(
+      capturedContext,
+      'Expected Carousel context after selection update'
+    );
+    snapshots.push({
+      selected: updatedContext.isSelected(1),
+      inView: updatedContext.isInView(1)
     });
 
     view.unmount();
 
-    const prevCallsBefore = currentEmblaControl.api.scrollPrev.mock.calls.length;
-    const nextCallsBefore = currentEmblaControl.api.scrollNext.mock.calls.length;
-    const goToCallsBefore = currentEmblaControl.api.scrollTo.mock.calls.length;
+    const countsBefore = {
+      prev: currentEmblaControl.api.scrollPrev.mock.calls.length,
+      next: currentEmblaControl.api.scrollNext.mock.calls.length,
+      goTo: currentEmblaControl.api.scrollTo.mock.calls.length
+    };
 
-    const detachedContext = contextSnapshot;
+    const detachedContext = updatedContext;
 
     act(() => {
       detachedContext.prev();
@@ -699,14 +742,24 @@ describe('Carousel', () => {
       detachedContext.goTo(0);
     });
 
-    expect({
+    const countsAfter = {
       prev: currentEmblaControl.api.scrollPrev.mock.calls.length,
       next: currentEmblaControl.api.scrollNext.mock.calls.length,
       goTo: currentEmblaControl.api.scrollTo.mock.calls.length
-    }).toEqual({
-      prev: prevCallsBefore,
-      next: nextCallsBefore,
-      goTo: goToCallsBefore
+    };
+
+    const deltas = {
+      prev: countsAfter.prev - countsBefore.prev,
+      next: countsAfter.next - countsBefore.next,
+      goTo: countsAfter.goTo - countsBefore.goTo
+    };
+
+    expect({ snapshots, deltas }).toEqual({
+      snapshots: [
+        { selected: true, inView: true },
+        { selected: true, inView: true }
+      ],
+      deltas: { prev: 0, next: 0, goTo: 0 }
     });
   });
 });

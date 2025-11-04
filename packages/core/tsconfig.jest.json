@@ -5,9 +5,13 @@
     "composite": true,
     "esModuleInterop": true,
     "jsx": "react-jsx",
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "module": "esnext",
     "moduleResolution": "bundler",
     "noEmit": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "target": "ESNext",
     "paths": {
       "@/*": ["./src/*"],
       "@doxyz-ui/core/server-components": ["./src/index.server-components.ts"],
