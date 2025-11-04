@@ -6,7 +6,7 @@
 
 import * as React from 'react';
 import { KeyboardArrowDownIcon } from '../../../icons';
-import { IconButton } from '../../server/IconButton';
+import { IconButton } from '../IconButton';
 import { composeClasses } from '../../../utilities/composeClasses/composeClasses';
 import { collapseWhitespace } from '../../../utilities/collapseWhitespace/collapseWhitespace';
 

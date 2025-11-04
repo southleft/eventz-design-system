@@ -3,7 +3,7 @@
 // Summary: SubscriptionCard shows plan terms with active or inactive styling, optional cancel link or slot, and billing details.
 
 import * as React from 'react';
-import { TextLink } from '../TextLink';
+import { TextLink } from '../../client/TextLink';
 import { collapseWhitespace, composeClasses } from '../../../utilities';
 
 type NativeDivProps = Omit<React.HTMLAttributes<HTMLDivElement>, 'children'>;

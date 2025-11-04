@@ -19,7 +19,7 @@ import {
 import { collapseWhitespace, composeClasses } from '../../../utilities';
 import { Input, InputProps } from '../Input';
 import { Button } from '../Button';
-import { MenuItem } from '../../server/MenuItem';
+import { MenuItem } from '../MenuItem';
 
 const inputClasses = `min-w-480`;
 

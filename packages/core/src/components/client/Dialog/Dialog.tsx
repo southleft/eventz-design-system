@@ -6,7 +6,7 @@
 
 import * as React from 'react';
 import { Dialog as RadixDialog } from 'radix-ui';
-import { IconButton } from '../../server/IconButton';
+import { IconButton } from '../IconButton';
 import { CloseIcon, ArrowBackIcon, ArrowForwardIcon } from '../../../icons';
 import { collapseWhitespace, composeClasses } from '../../../utilities';
 
