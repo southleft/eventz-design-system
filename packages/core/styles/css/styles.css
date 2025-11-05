@@ -1199,6 +1199,9 @@
 .mt-2 {
   margin-top: var(--spacing-2);
 }
+.mt-3 {
+  margin-top: var(--spacing-3);
+}
 .mt-6 {
   margin-top: calc(var(--spacing) * 6);
 }
@@ -1213,6 +1216,12 @@
 }
 .-mr-12 {
   margin-right: calc(var(--spacing) * -12);
+}
+.mr-4 {
+  margin-right: var(--spacing-4);
+}
+.mb-4 {
+  margin-bottom: var(--spacing-4);
 }
 .mb-8 {
   margin-bottom: calc(var(--spacing) * 8);
@@ -1420,6 +1429,9 @@
 .w-full {
   width: 100%;
 }
+.w-max {
+  width: max-content;
+}
 .w-screen {
   width: 100vw;
 }
@@ -1440,6 +1452,12 @@
 }
 .min-w-480 {
   min-width: calc(var(--spacing) * 480);
+}
+.min-w-\[14rem\] {
+  min-width: 14rem;
+}
+.min-w-\[16rem\] {
+  min-width: 16rem;
 }
 .min-w-full {
   min-width: 100%;
@@ -1490,6 +1508,10 @@
 }
 .cursor-wait {
   cursor: wait;
+}
+.touch-pan-x {
+  --tw-pan-x: pan-x;
+  touch-action: var(--tw-pan-x,) var(--tw-pan-y,) var(--tw-pinch-zoom,);
 }
 .touch-pan-y {
   --tw-pan-y: pan-y;
@@ -1587,8 +1609,14 @@
 .\!overflow-x-visible {
   overflow-x: visible !important;
 }
+.overflow-x-auto {
+  overflow-x: auto;
+}
 .overflow-y-auto {
   overflow-y: auto;
+}
+.overscroll-x-contain {
+  overscroll-behavior-x: contain;
 }
 .\!rounded-full {
   border-radius: calc(infinity * 1px) !important;
@@ -2132,11 +2160,26 @@
 .\[--edge-start\:1\] {
   --edge-start: 1;
 }
+.\[--has-controls\:1\] {
+  --has-controls: 1;
+}
 .\[--has-indicators\:1\] {
   --has-indicators: 1;
 }
+.\[--scroller-edge-end\:1\] {
+  --scroller-edge-end: 1;
+}
+.\[--scroller-edge-start\:1\] {
+  --scroller-edge-start: 1;
+}
+.\[--scroller-scrolling\:1\] {
+  --scroller-scrolling: 1;
+}
 .\[direction\:rtl\] {
   direction: rtl;
+}
+.\[scrollbar-gutter\:stable\] {
+  scrollbar-gutter: stable;
 }
 .group-hover\:visible {
   &:is(:where(.group):hover *) {
@@ -2247,6 +2290,16 @@
   &:first-child {
     border-top-left-radius: var(--radius-sm);
     border-bottom-left-radius: var(--radius-sm);
+  }
+}
+.last\:mr-0 {
+  &:last-child {
+    margin-right: var(--spacing-0);
+  }
+}
+.last\:mb-0 {
+  &:last-child {
+    margin-bottom: var(--spacing-0);
   }
 }
 .last\:rounded-r-sm {
@@ -2777,6 +2830,11 @@
 .data-\[rail-status\=partial\]\:bg-color-border-default {
   &[data-rail-status="partial"] {
     background-color: var(--color-color-border-default);
+  }
+}
+.data-\[stack-rows\=true\]\:flex-col {
+  &[data-stack-rows="true"] {
+    flex-direction: column;
   }
 }
 .data-\[state\=active\]\:border-b-color-border-brand {

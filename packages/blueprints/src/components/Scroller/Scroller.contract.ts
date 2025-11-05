@@ -56,7 +56,7 @@ export default defineContract({
       // ---------- Region semantics ----------
       'Do NOT set role="region" and do NOT add aria labels. The Scroller is unlabeled by design.',
       // ---------- Integrated Controls ----------
-      'When showControls=true, render two icon-only Control buttons beneath the rail in a right-aligned row (the `_controls` slot uses "flex gap-2 justify-end"). Left = ArrowPrevIcon; Right = ArrowNextIcon. Controls are NOT disabled; instead, set Control variant="light" at edges and "brand" when paging is possible. Controls are size="sm" and must include non-empty aria-labels (e.g., "Scroll left", "Scroll right").',
+      'When showControls=true, render two icon-only Control buttons beneath the rail in a right-aligned row (the `_controls` slot uses "flex gap-2 justify-end"). Left = ArrowBackIcon; Right = ArrowForward`Icon. Controls are NOT disabled; instead, set Control variant="light" at edges and "brand" when paging is possible. Controls are size="sm" and must include non-empty aria-labels (e.g., "Scroll left", "Scroll right").',
       // ---------- Paging behavior (manual only) ----------
       'Prev/Next perform element.scrollBy({ left: ±step, behavior: "auto" }), where step = (pageBy==="viewport" ? base.clientWidth : pageSize). Do NOT implement smooth scrolling or autoplay. Desktop is expected to scroll via Controls (or wheel/trackpad); mobile supports native swipe.',
       // ---------- Layout: stacked rows ----------
