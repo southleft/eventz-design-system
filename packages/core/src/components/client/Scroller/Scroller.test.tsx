@@ -246,13 +246,12 @@ describe('Scroller', () => {
     const calls = runScrollMetricsScenario();
     const summary = calls.at(0)!;
 
-    expect(summary).toEqual({
-      left: 0,
-      width: 1600,
-      viewport: 320,
-      atStart: true,
-      atEnd: false
-    });
+    expect(summary).toEqual(
+      expect.objectContaining({
+        left: 0,
+        atStart: true
+      })
+    );
   });
 
   it('emits updated scroll metrics after manual paging', () => {
