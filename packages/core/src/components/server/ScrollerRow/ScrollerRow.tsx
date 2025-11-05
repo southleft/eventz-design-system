@@ -12,7 +12,7 @@ const baseClasses = `
   items-center
 `;
 
-export interface ScrollerRowProps extends React.HTMLAttributes<HTMLDivElement> {}
+export type ScrollerRowProps = React.HTMLAttributes<HTMLDivElement>;
 
 export const ScrollerRow = React.forwardRef<HTMLDivElement, ScrollerRowProps>(
   ({ className, children, ...rest }, forwardedRef) => {
