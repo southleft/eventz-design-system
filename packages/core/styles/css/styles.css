@@ -1199,6 +1199,9 @@
 .mt-2 {
   margin-top: var(--spacing-2);
 }
+.mt-3 {
+  margin-top: var(--spacing-3);
+}
 .mt-6 {
   margin-top: calc(var(--spacing) * 6);
 }
@@ -1420,6 +1423,9 @@
 .w-full {
   width: 100%;
 }
+.w-max {
+  width: max-content;
+}
 .w-screen {
   width: 100vw;
 }
@@ -1440,6 +1446,9 @@
 }
 .min-w-480 {
   min-width: calc(var(--spacing) * 480);
+}
+.min-w-\[14rem\] {
+  min-width: 14rem;
 }
 .min-w-full {
   min-width: 100%;
@@ -1490,6 +1499,10 @@
 }
 .cursor-wait {
   cursor: wait;
+}
+.touch-pan-x {
+  --tw-pan-x: pan-x;
+  touch-action: var(--tw-pan-x,) var(--tw-pan-y,) var(--tw-pinch-zoom,);
 }
 .touch-pan-y {
   --tw-pan-y: pan-y;
@@ -1587,8 +1600,14 @@
 .\!overflow-x-visible {
   overflow-x: visible !important;
 }
+.overflow-x-auto {
+  overflow-x: auto;
+}
 .overflow-y-auto {
   overflow-y: auto;
+}
+.overscroll-x-contain {
+  overscroll-behavior-x: contain;
 }
 .\!rounded-full {
   border-radius: calc(infinity * 1px) !important;
@@ -2132,11 +2151,32 @@
 .\[--edge-start\:1\] {
   --edge-start: 1;
 }
+.\[--has-controls\:1\] {
+  --has-controls: 1;
+}
 .\[--has-indicators\:1\] {
   --has-indicators: 1;
 }
+.\[--scroller-edge-end\:1\] {
+  --scroller-edge-end: 1;
+}
+.\[--scroller-edge-start\:1\] {
+  --scroller-edge-start: 1;
+}
+.\[--scroller-scrolling\:1\] {
+  --scroller-scrolling: 1;
+}
+.\[-ms-overflow-style\:none\] {
+  -ms-overflow-style: none;
+}
 .\[direction\:rtl\] {
   direction: rtl;
+}
+.\[scrollbar-gutter\:stable\] {
+  scrollbar-gutter: stable;
+}
+.\[scrollbar-width\:none\] {
+  scrollbar-width: none;
 }
 .group-hover\:visible {
   &:is(:where(.group):hover *) {
@@ -2779,6 +2819,11 @@
     background-color: var(--color-color-border-default);
   }
 }
+.data-\[stack-rows\=true\]\:flex-col {
+  &[data-stack-rows="true"] {
+    flex-direction: column;
+  }
+}
 .data-\[state\=active\]\:border-b-color-border-brand {
   &[data-state="active"] {
     border-bottom-color: var(--color-color-border-brand);
@@ -3147,6 +3192,11 @@
 .\[\&_input\]\:cursor-default {
   & input {
     cursor: default;
+  }
+}
+.\[\&\:\:-webkit-scrollbar\]\:hidden {
+  &::-webkit-scrollbar {
+    display: none;
   }
 }
 .\[\&\:focus-visible\:not\(\:hover\)\]\:ring-2 {
