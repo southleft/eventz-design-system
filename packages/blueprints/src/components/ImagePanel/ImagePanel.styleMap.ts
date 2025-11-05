@@ -63,7 +63,7 @@ export const ImagePanelStyleMap = defineStyleMap({
 
     _title: ['text-2xl', 'text-color-content-default'] as const,
 
-    _description: ['text-base', 'text-color-content-weak'] as const,
+    _description: ['text-base', 'text-color-content-weak', '-mt-22'] as const,
 
     _labels: ['text-sm', 'text-color-content-weak', 'flex', 'gap-4'] as const,
 
