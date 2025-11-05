@@ -22,6 +22,7 @@ export * from './components/client/MediaControl';
 export * from './components/client/MenuItem';
 export * from './components/client/NavigationDropdown';
 export * from './components/client/RadioButtonGroup';
+export * from './components/client/Scroller';
 export * from './components/client/Search';
 export * from './components/client/Select';
 export * from './components/client/Stepper';
