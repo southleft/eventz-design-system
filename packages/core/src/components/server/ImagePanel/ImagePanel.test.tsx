@@ -7,6 +7,16 @@ import * as React from 'react';
 import { render, screen } from '@testing-library/react';
 import { ImagePanel, type ImagePanelProps } from './ImagePanel';
 
+let consoleErrorSpy: jest.SpyInstance;
+
+beforeAll(() => {
+  consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+});
+
+afterAll(() => {
+  consoleErrorSpy?.mockRestore();
+});
+
 const baseProps: ImagePanelProps = {
   imgSrc: 'https://example.com/image.jpg',
   imgAlt: 'Sunrise over mountains',
@@ -28,10 +38,13 @@ describe('ImagePanel', () => {
       child.getAttribute('data-slot')
     );
     const content = base?.querySelector('[data-slot="_content"]');
-    const contentOrder = Array.from(content?.children ?? []).map(child => child.getAttribute('data-slot'));
+    const contentOrder = Array.from(content?.children ?? []).map(child =>
+      child.getAttribute('data-slot')
+    );
     const matchesOrder =
       JSON.stringify(slotOrder) === JSON.stringify(['_image', '_overlay', '_content']) &&
-      JSON.stringify(contentOrder) === JSON.stringify(['_actions', '_title', '_description', '_labels']);
+      JSON.stringify(contentOrder) ===
+        JSON.stringify(['_actions', '_title', '_description', '_labels']);
     expect(matchesOrder).toBe(true);
   });
 
@@ -109,5 +122,42 @@ describe('ImagePanel', () => {
     const remainsValid =
       Boolean(actionsSlot) && Boolean(labelsSlot) && titleSlot === null && descriptionSlot === null;
     expect(remainsValid).toBe(true);
+  });
+
+  it('normalizes non-array labels and actions to empty collections without throwing', () => {
+    const { container } = renderImagePanel({
+      labels: 'invalid' as unknown as ImagePanelProps['labels'],
+      actions: 'invalid' as unknown as ImagePanelProps['actions']
+    });
+    const labelsSlot = container.querySelector('[data-slot="_labels"]');
+    const labelItems = container.querySelectorAll('[data-slot="_labelItem"]');
+    const actionsSlot = container.querySelector('[data-slot="_actions"]');
+    const actionChildren = actionsSlot?.children.length ?? 0;
+    const normalized =
+      Boolean(labelsSlot) &&
+      labelItems.length === 0 &&
+      Boolean(actionsSlot) &&
+      actionChildren === 0;
+    expect(normalized).toBe(true);
+  });
+
+  it('falls back to empty labels and actions when props are omitted', () => {
+    const { container } = render(
+      <ImagePanel
+        imgSrc={baseProps.imgSrc}
+        imgAlt={baseProps.imgAlt}
+        loading={baseProps.loading}
+        title={baseProps.title}
+        description={baseProps.description}
+      />
+    );
+    const labelsSlot = container.querySelector('[data-slot="_labels"]');
+    const actionsSlot = container.querySelector('[data-slot="_actions"]');
+    const hasDefaults =
+      Boolean(labelsSlot) &&
+      labelsSlot?.children.length === 0 &&
+      Boolean(actionsSlot) &&
+      actionsSlot?.children.length === 0;
+    expect(hasDefaults).toBe(true);
   });
 });
