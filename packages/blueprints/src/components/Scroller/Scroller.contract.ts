@@ -42,7 +42,7 @@ export default defineContract({
   hints: {
     a11y: [
       'No role/region; unlabeled by design.',
-      'Controls: two icon-only Control buttons beneath the viewport (right-aligned). Left=ArrowBackIcon; Right=ArrowNextIcon. Never disabled. Variant="light" at edges; "brand" when paging possible; size="sm"; aria-label strings: "Scroll left" / "Scroll right".',
+      'Controls: two icon-only Control buttons beneath the viewport (right-aligned). Controls live outside the scroll viewport so they never scroll with content. Left=ArrowBackIcon; Right=ArrowForwardIcon. Never disabled. Variant="light" at edges; "brand" when paging possible; size="sm"; aria-label strings: "Scroll left" / "Scroll right".',
       'Manual paging only: element.scrollBy({ left: ±step, behavior: "auto" }), where step = (pageBy==="viewport" ? viewport.clientWidth : pageSize).',
       'When stackRows=true, set data-stack-rows="true" on `_rail` (styleMap encodes data-[stack-rows=true]:flex-col).',
       'LTR only; ignore RTL.',
