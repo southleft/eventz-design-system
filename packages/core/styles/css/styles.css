@@ -1217,12 +1217,6 @@
 .-mr-12 {
   margin-right: calc(var(--spacing) * -12);
 }
-.mr-4 {
-  margin-right: var(--spacing-4);
-}
-.mb-4 {
-  margin-bottom: var(--spacing-4);
-}
 .mb-8 {
   margin-bottom: calc(var(--spacing) * 8);
 }
@@ -1455,9 +1449,6 @@
 }
 .min-w-\[14rem\] {
   min-width: 14rem;
-}
-.min-w-\[16rem\] {
-  min-width: 16rem;
 }
 .min-w-full {
   min-width: 100%;
@@ -2175,11 +2166,17 @@
 .\[--scroller-scrolling\:1\] {
   --scroller-scrolling: 1;
 }
+.\[-ms-overflow-style\:none\] {
+  -ms-overflow-style: none;
+}
 .\[direction\:rtl\] {
   direction: rtl;
 }
 .\[scrollbar-gutter\:stable\] {
   scrollbar-gutter: stable;
+}
+.\[scrollbar-width\:none\] {
+  scrollbar-width: none;
 }
 .group-hover\:visible {
   &:is(:where(.group):hover *) {
@@ -2290,16 +2287,6 @@
   &:first-child {
     border-top-left-radius: var(--radius-sm);
     border-bottom-left-radius: var(--radius-sm);
-  }
-}
-.last\:mr-0 {
-  &:last-child {
-    margin-right: var(--spacing-0);
-  }
-}
-.last\:mb-0 {
-  &:last-child {
-    margin-bottom: var(--spacing-0);
   }
 }
 .last\:rounded-r-sm {
@@ -3205,6 +3192,11 @@
 .\[\&_input\]\:cursor-default {
   & input {
     cursor: default;
+  }
+}
+.\[\&\:\:-webkit-scrollbar\]\:hidden {
+  &::-webkit-scrollbar {
+    display: none;
   }
 }
 .\[\&\:focus-visible\:not\(\:hover\)\]\:ring-2 {

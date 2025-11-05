@@ -41,8 +41,7 @@ const configureGeometry = (element: HTMLDivElement, config: GeometryConfig): Geo
   });
 
   element.scrollBy = ((optionsOrX?: ScrollToOptions | number, y?: number) => {
-    const leftDelta =
-      typeof optionsOrX === 'number' ? optionsOrX : optionsOrX?.left ?? 0;
+    const leftDelta = typeof optionsOrX === 'number' ? optionsOrX : (optionsOrX?.left ?? 0);
 
     scrollLeftValue = Math.min(Math.max(scrollLeftValue + leftDelta, 0), maxScrollLeft);
 
@@ -64,7 +63,10 @@ const configureGeometry = (element: HTMLDivElement, config: GeometryConfig): Geo
 };
 
 const sampleChildren = Array.from({ length: 8 }, (_, index) => (
-  <div key={index} className="flex h-32 min-w-[14rem] items-center justify-center rounded-md bg-color-background-accent-subtle text-color-content-strong">
+  <div
+    key={index}
+    className="flex h-32 min-w-[14rem] items-center justify-center rounded-md bg-color-background-accent-subtle text-color-content-strong"
+  >
     Card {index + 1}
   </div>
 ));
@@ -72,8 +74,8 @@ const sampleChildren = Array.from({ length: 8 }, (_, index) => (
 describe('Scroller', () => {
   it('renders base and rail while toggling controls by showControls', () => {
     const { rerender } = render(<Scroller>{sampleChildren}</Scroller>);
-    const base = document.querySelector('[data-slot="base"]') as HTMLDivElement;
-    configureGeometry(base, { clientWidth: 320, scrollWidth: 1600 });
+    const viewport = document.querySelector('[data-slot="_viewport"]') as HTMLDivElement;
+    configureGeometry(viewport, { clientWidth: 320, scrollWidth: 1600 });
 
     const initialPresence = {
       base: Boolean(document.querySelector('[data-slot="base"]')),
@@ -81,11 +83,7 @@ describe('Scroller', () => {
       controlsWhenTrue: Boolean(document.querySelector('[data-slot="_controls"]'))
     };
 
-    rerender(
-      <Scroller showControls={false}>
-        {sampleChildren}
-      </Scroller>
-    );
+    rerender(<Scroller showControls={false}>{sampleChildren}</Scroller>);
 
     const finalPresence = {
       ...initialPresence,
@@ -104,7 +102,8 @@ describe('Scroller', () => {
     jest.useFakeTimers();
     render(<Scroller>{sampleChildren}</Scroller>);
     const base = document.querySelector('[data-slot="base"]') as HTMLDivElement;
-    const geometry = configureGeometry(base, { clientWidth: 320, scrollWidth: 1920 });
+    const viewport = document.querySelector('[data-slot="_viewport"]') as HTMLDivElement;
+    const geometry = configureGeometry(viewport, { clientWidth: 320, scrollWidth: 1920 });
 
     const prevButton = screen.getByRole('button', { name: 'Scroll left' });
     const nextButton = screen.getByRole('button', { name: 'Scroll right' });
@@ -126,7 +125,7 @@ describe('Scroller', () => {
     };
 
     act(() => {
-      base.scrollBy({ left: geometry.getMaxScrollLeft(), behavior: 'auto' });
+      viewport.scrollBy({ left: geometry.getMaxScrollLeft(), behavior: 'auto' });
       jest.runOnlyPendingTimers();
     });
 
@@ -155,11 +154,9 @@ describe('Scroller', () => {
 
   it('paginates by viewport and fixed steps', () => {
     jest.useFakeTimers();
-    const { rerender } = render(
-      <Scroller pageBy="viewport">{sampleChildren}</Scroller>
-    );
-    const base = document.querySelector('[data-slot="base"]') as HTMLDivElement;
-    const geometry = configureGeometry(base, { clientWidth: 300, scrollWidth: 1500 });
+    const { rerender } = render(<Scroller pageBy="viewport">{sampleChildren}</Scroller>);
+    const viewport = document.querySelector('[data-slot="_viewport"]') as HTMLDivElement;
+    const geometry = configureGeometry(viewport, { clientWidth: 300, scrollWidth: 1500 });
 
     const next = screen.getByRole('button', { name: 'Scroll right' });
     const prev = screen.getByRole('button', { name: 'Scroll left' });
@@ -201,11 +198,7 @@ describe('Scroller', () => {
   });
 
   it('applies stackRows data attribute', () => {
-    render(
-      <Scroller stackRows>
-        {sampleChildren}
-      </Scroller>
-    );
+    render(<Scroller stackRows>{sampleChildren}</Scroller>);
     const rail = document.querySelector('[data-slot="_rail"]') as HTMLElement;
     const attributeSnapshot = {
       stackRows: rail.getAttribute('data-stack-rows')
@@ -218,18 +211,16 @@ describe('Scroller', () => {
   it('emits scroll metrics on mount and subsequent scrolls', () => {
     jest.useFakeTimers();
     const handler = jest.fn();
-    render(
-      <Scroller onScrollChange={handler}>{sampleChildren}</Scroller>
-    );
-    const base = document.querySelector('[data-slot="base"]') as HTMLDivElement;
-    configureGeometry(base, { clientWidth: 320, scrollWidth: 1600 });
+    render(<Scroller onScrollChange={handler}>{sampleChildren}</Scroller>);
+    const viewport = document.querySelector('[data-slot="_viewport"]') as HTMLDivElement;
+    configureGeometry(viewport, { clientWidth: 320, scrollWidth: 1600 });
 
     act(() => {
       jest.runOnlyPendingTimers();
     });
 
     act(() => {
-      base.scrollBy({ left: 320, behavior: 'auto' });
+      viewport.scrollBy({ left: 320, behavior: 'auto' });
       jest.runOnlyPendingTimers();
     });
 
