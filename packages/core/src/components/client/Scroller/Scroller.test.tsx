@@ -219,10 +219,10 @@ describe('Scroller', () => {
     });
   });
 
-  it('emits scroll metrics on mount and subsequent scrolls', () => {
+  const runScrollMetricsScenario = () => {
     jest.useFakeTimers();
     const handler = jest.fn();
-    render(<Scroller onScrollChange={handler}>{sampleChildren}</Scroller>);
+    const { unmount } = render(<Scroller onScrollChange={handler}>{sampleChildren}</Scroller>);
     const viewport = document.querySelector('[data-slot="_viewport"]') as HTMLDivElement;
     configureGeometry(viewport, { clientWidth: 320, scrollWidth: 1600 });
 
@@ -236,21 +236,43 @@ describe('Scroller', () => {
       jest.runOnlyPendingTimers();
     });
 
+    const calls = handler.mock.calls.map(([metrics]) => metrics);
     jest.useRealTimers();
+    unmount();
+    return calls;
+  };
 
-    const formattedCalls = handler.mock.calls.map(([metrics]) => metrics);
-    const initialMetrics = formattedCalls.at(0);
-    const latestMetrics = formattedCalls.at(-1);
+  it('emits initial scroll metrics on mount', () => {
+    const calls = runScrollMetricsScenario();
+    const summary = calls.at(0)!;
 
-    expect(handler.mock.calls.length).toBeGreaterThanOrEqual(2);
-    expect(initialMetrics).toMatchObject({ left: 0, atStart: true });
-    expect(latestMetrics).toEqual({
+    expect(summary).toEqual({
+      left: 0,
+      width: 1600,
+      viewport: 320,
+      atStart: true,
+      atEnd: false
+    });
+  });
+
+  it('emits updated scroll metrics after manual paging', () => {
+    const calls = runScrollMetricsScenario();
+    const summary = calls.at(-1)!;
+
+    expect(summary).toEqual({
       left: 320,
       width: 1600,
       viewport: 320,
       atStart: false,
       atEnd: false
     });
+  });
+
+  it('emits metrics more than once during interaction', () => {
+    const calls = runScrollMetricsScenario();
+    const emittedMultipleTimes = calls.length >= 2;
+
+    expect(emittedMultipleTimes).toBe(true);
   });
 
   it('does not emit duplicate metrics when values are unchanged', () => {
@@ -277,10 +299,10 @@ describe('Scroller', () => {
     expect(handler).not.toHaveBeenCalled();
   });
 
-  it('invokes onWheel callback and clears scrolling flag after idle timeout', () => {
+  const runWheelScenario = () => {
     jest.useFakeTimers();
     const onWheel = jest.fn();
-    render(<Scroller onWheel={onWheel}>{sampleChildren}</Scroller>);
+    const { unmount } = render(<Scroller onWheel={onWheel}>{sampleChildren}</Scroller>);
     const base = document.querySelector('[data-slot="base"]') as HTMLDivElement;
     const viewport = document.querySelector('[data-slot="_viewport"]') as HTMLDivElement;
 
@@ -288,21 +310,40 @@ describe('Scroller', () => {
       fireEvent.wheel(viewport, { deltaX: 12 });
     });
 
-    expect(onWheel).toHaveBeenCalledTimes(1);
-    expect(base.className.includes('[--scroller-scrolling:1]')).toBe(true);
-
     act(() => {
       fireEvent.wheel(viewport, { deltaX: -6 });
     });
 
-    expect(onWheel).toHaveBeenCalledTimes(2);
+    const callCount = onWheel.mock.calls.length;
+    const scrollingDuringInteraction = base.className.includes('[--scroller-scrolling:1]');
 
     act(() => {
       jest.runOnlyPendingTimers();
     });
 
-    expect(base.className.includes('[--scroller-scrolling:1]')).toBe(false);
+    const scrollingAfterIdle = base.className.includes('[--scroller-scrolling:1]');
     jest.useRealTimers();
+    unmount();
+
+    return { callCount, scrollingDuringInteraction, scrollingAfterIdle };
+  };
+
+  it('invokes onWheel callback for each wheel event', () => {
+    const { callCount } = runWheelScenario();
+
+    expect(callCount).toBe(2);
+  });
+
+  it('sets the scrolling state while wheel events are active', () => {
+    const { scrollingDuringInteraction } = runWheelScenario();
+
+    expect(scrollingDuringInteraction).toBe(true);
+  });
+
+  it('clears the scrolling state after idle timeout', () => {
+    const { scrollingAfterIdle } = runWheelScenario();
+
+    expect(scrollingAfterIdle).toBe(false);
   });
 
   it('forwards the viewport element through refs', () => {
@@ -313,7 +354,7 @@ describe('Scroller', () => {
     expect(viewportRef.current).toBe(viewport);
   });
 
-  it('registers and disconnects ResizeObserver when available', () => {
+  const runResizeObserverScenario = () => {
     const observe = jest.fn<void, [Element, ResizeObserverOptions?]>();
     const disconnect = jest.fn<void, []>();
 
@@ -332,13 +373,25 @@ describe('Scroller', () => {
     const viewport = document.querySelector('[data-slot="_viewport"]');
     const rail = document.querySelector('[data-slot="_rail"]');
 
-    expect(observe).toHaveBeenCalledWith(viewport);
-    expect(observe).toHaveBeenCalledWith(rail);
+    const observedViewport = observe.mock.calls.some(call => call[0] === viewport);
+    const observedRail = observe.mock.calls.some(call => call[0] === rail);
 
     unmount();
-    expect(disconnect).toHaveBeenCalled();
+    const disconnected = disconnect.mock.calls.length > 0;
 
     globalAny.ResizeObserver = originalResizeObserver ?? undefined;
+
+    return { observedViewport, observedRail, disconnected };
+  };
+
+  it('registers and disconnects ResizeObserver when available', () => {
+    const result = runResizeObserverScenario();
+
+    expect(result).toEqual({
+      observedViewport: true,
+      observedRail: true,
+      disconnected: true
+    });
   });
 
   it('mounts without ResizeObserver support', () => {

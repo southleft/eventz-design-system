@@ -36,8 +36,8 @@ export default defineContract({
   },
 
   // Base is a non-scroll wrapper. `_viewport` is the horizontal scroll container.
-  // `_controls` is a sibling below the viewport.
-  slots: ['viewport', 'rail', 'controls'] as const,
+  // `_controls` is a sibling below the viewport with `_prev`/`_next` hooks.
+  slots: ['_viewport', '_rail', '_controls', '_prev', '_next'] as const,
 
   hints: {
     a11y: [
