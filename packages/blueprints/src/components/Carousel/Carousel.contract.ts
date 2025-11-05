@@ -46,6 +46,12 @@ export default defineContract({
       default: 'center',
       description: 'Where a slide snaps after drag.'
     },
+    peek: {
+      type: 'boolean',
+      default: false,
+      description:
+        'When true, all slide wrappers set data-peek="true" to enable full-basis peeking on non-selected slides as well.'
+    },
 
     // Visibility set hook (analytics/lazy-load)
     onInViewChange: {

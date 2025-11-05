@@ -92,7 +92,7 @@ export const WithCarousel: Story = {
     ];
 
     return (
-      <Carousel ariaLabel="Image gallery" loop align="center">
+      <Carousel ariaLabel="Image gallery" peek={true} loop align="center">
         {panels.map((p, i) => (
           <ImagePanel
             key={i}

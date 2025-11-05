@@ -1476,9 +1476,6 @@
 .grow {
   flex-grow: 1;
 }
-.basis-full {
-  flex-basis: 100%;
-}
 .-translate-x-1\/2 {
   --tw-translate-x: calc(calc(1/2 * 100%) * -1);
   translate: var(--tw-translate-x) var(--tw-translate-y);
@@ -2207,6 +2204,11 @@
 }
 .\[scrollbar-width\:none\] {
   scrollbar-width: none;
+}
+.not-data-\[peek\=true\]\:basis-full {
+  &:not(*[data-peek="true"]) {
+    flex-basis: 100%;
+  }
 }
 .group-hover\:visible {
   &:is(:where(.group):hover *) {

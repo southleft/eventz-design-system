@@ -110,6 +110,7 @@ export interface CarouselProps
   onChange?: (index: number) => void;
   loop?: boolean;
   align?: Align;
+  peek?: boolean;
   onInViewChange?: (indices: number[]) => void;
   showIndicators?: boolean;
   autoPlay?: boolean;
@@ -150,7 +151,7 @@ const indicatorInactiveClasses = `
 `;
 
 const slideClasses = `
-  embla__slide group shrink-0 basis-full min-w-0
+  embla__slide group shrink-0 not-data-[peek=true]:basis-full min-w-0
 `;
 
 export const Carousel = React.forwardRef<HTMLDivElement, CarouselProps>(
@@ -173,6 +174,7 @@ export const Carousel = React.forwardRef<HTMLDivElement, CarouselProps>(
       autoPlayStopOnLast = false,
       respectReducedMotion = true,
       onAutoPlayChange,
+      peek = false,
       children,
       className,
       ...rest
@@ -544,7 +546,7 @@ export const Carousel = React.forwardRef<HTMLDivElement, CarouselProps>(
           <div className={containerClassName}>
             {React.Children.toArray(children).map((child, i) => {
               const inViewIndex = isDragging
-                ? (slidesInView.find((n) => n !== effectiveIndex) ?? effectiveIndex)
+                ? (slidesInView.find(n => n !== effectiveIndex) ?? effectiveIndex)
                 : effectiveIndex;
               const isInView = i === inViewIndex ? 'true' : undefined;
 
@@ -556,6 +558,7 @@ export const Carousel = React.forwardRef<HTMLDivElement, CarouselProps>(
                   aria-roledescription="slide"
                   aria-label={`Slide ${i + 1} of ${count}`}
                   data-is-in-view={isInView}
+                  data-peek={peek ? 'true' : undefined}
                 >
                   {child as React.ReactNode}
                 </div>
