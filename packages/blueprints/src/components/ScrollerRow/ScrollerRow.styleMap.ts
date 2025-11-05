@@ -5,5 +5,5 @@ export default defineStyleMap({
   component: 'ScrollerRow',
 
   // Flex row container used inside Scroller rails
-  base: ['flex', 'gap-2', 'justify-between', 'items-center'] as const
+  base: ['flex', 'gap-4', 'justify-between', 'items-center'] as const
 });

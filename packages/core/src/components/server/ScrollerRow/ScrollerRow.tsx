@@ -7,7 +7,7 @@ import { collapseWhitespace, composeClasses } from '../../../utilities';
 
 const baseClasses = `
   flex
-  gap-2
+  gap-4
   justify-between
   items-center
 `;
