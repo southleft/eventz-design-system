@@ -11,13 +11,18 @@ export const ImagePanelStyleMap = defineStyleMap({
     'h-[390px]',
     'lg:w-[1040px]',
     'lg:h-[620px]',
+    // Transform + transition (explicit duration/ease; motion-reduce guarded)
     'transform-gpu',
     'transition-transform',
-    'duration-token-md',
-    'ease-token-standard',
+    'duration-700',
+    'ease-in-out',
+    'motion-reduce:transition-none',
     // Visual size change via scale (no layout thrash)
-    'scale-95',
-    'group-data-[is-in-view=true]:scale-100'
+    'scale-80',
+    'group-data-[is-in-view=true]:scale-100',
+    // Edge spacing adjustments at large breakpoints
+    'mx-0',
+    'lg:-mx-36'
   ] as const,
 
   slots: {
@@ -28,8 +33,7 @@ export const ImagePanelStyleMap = defineStyleMap({
       'block',
       'size-full',
       'object-cover',
-      'object-center'
-      // <img> receives loading/fetchpriority via props
+      'object-center' // <img> receives loading/fetchpriority via props
     ] as const,
 
     _overlay: [
@@ -44,13 +48,15 @@ export const ImagePanelStyleMap = defineStyleMap({
       'inset-0',
       'flex',
       'flex-col',
-      'gap-1',
+      'justify-end',
       'items-start',
-      'p-token-md',
+      // Padding currently mirrors runtime (both token and explicit for now)
+      'p-4',
+      // Fade with explicit duration/ease; motion-reduce guarded
       'opacity-0',
       'transition-opacity',
-      'duration-token-md',
-      'ease-token-standard',
+      'duration-1000',
+      'ease-in-out',
       'group-data-[is-in-view=true]:opacity-100',
       'motion-reduce:transition-none'
     ] as const,
@@ -59,9 +65,9 @@ export const ImagePanelStyleMap = defineStyleMap({
 
     _description: ['text-base', 'text-color-content-weak'] as const,
 
-    _labels: ['text-sm', 'text-color-content-weak', 'flex'] as const,
+    _labels: ['text-sm', 'text-color-content-weak', 'flex', 'gap-4'] as const,
 
-    _actions: ['flex', 'gap-2', 'items-center'] as const
+    _actions: ['flex', 'gap-3', 'items-center', '-mb-4'] as const
   },
 
   // No variants; visuals are token-driven

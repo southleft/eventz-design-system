@@ -26,8 +26,8 @@ export interface ImagePanelProps extends NativeDivProps {
 
 const baseClasses = `
   relative isolate overflow-clip w-[390px] h-[390px] lg:w-[1040px] lg:h-[620px]
-  transform-gpu transition-transform duration-token-md ease-token-standard scale-80
-  group-data-[is-in-view=true]:scale-100 mx-0 lg:-mx-36
+  transform-gpu transition-transform duration-700 ease-in-out motion-reduce:transition-none
+  scale-80 group-data-[is-in-view=true]:scale-100 mx-0 lg:-mx-36
 `;
 
 const imageSlotClasses = `
@@ -35,11 +35,13 @@ const imageSlotClasses = `
 `;
 
 const overlaySlotClasses = `
-  pointer-events-none absolute inset-0 overlay-image-overlay-dark
+  pointer-events-none absolute inset-0
+  overlay-image-overlay
 `;
 
 const contentSlotClasses = `
-  absolute inset-0 flex flex-col justify-end p-4 items-start p-token-md opacity-0 transition-opacity
+  absolute inset-0 flex flex-col justify-end p-4 items-start opacity-0
+  transition-opacity duration-1000 ease-in-out
   duration-token-md ease-token-standard group-data-[is-in-view=true]:opacity-100 motion-reduce:transition-none
 `;
 
