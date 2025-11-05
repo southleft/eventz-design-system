@@ -149,6 +149,10 @@ const indicatorInactiveClasses = `
   size-14 opacity-100 bg-color-content-subtle
 `;
 
+const slideClasses = `
+  embla__slide group shrink-0 basis-full min-w-0
+`;
+
 export const Carousel = React.forwardRef<HTMLDivElement, CarouselProps>(
   (
     {
@@ -464,6 +468,7 @@ export const Carousel = React.forwardRef<HTMLDivElement, CarouselProps>(
     );
 
     const containerClassName = collapseWhitespace(composeClasses(containerClasses));
+    const slideClassName = collapseWhitespace(composeClasses(slideClasses));
     const indicatorsClassName = collapseWhitespace(composeClasses(indicatorsClasses));
 
     const contextValue = React.useMemo<CarouselContextValue>(() => {
@@ -536,7 +541,27 @@ export const Carousel = React.forwardRef<HTMLDivElement, CarouselProps>(
           aria-labelledby={ariaLabelledBy}
           {...rest}
         >
-          <div className={containerClassName}>{children}</div>
+          <div className={containerClassName}>
+            {React.Children.toArray(children).map((child, i) => {
+              const inViewIndex = isDragging
+                ? (slidesInView.find((n) => n !== effectiveIndex) ?? effectiveIndex)
+                : effectiveIndex;
+              const isInView = i === inViewIndex ? 'true' : undefined;
+
+              return (
+                <div
+                  key={i}
+                  className={slideClassName}
+                  role="group"
+                  aria-roledescription="slide"
+                  aria-label={`Slide ${i + 1} of ${count}`}
+                  data-is-in-view={isInView}
+                >
+                  {child as React.ReactNode}
+                </div>
+              );
+            })}
+          </div>
           {indicatorButtons && <div className={indicatorsClassName}>{indicatorButtons}</div>}
         </div>
       </CarouselContext.Provider>

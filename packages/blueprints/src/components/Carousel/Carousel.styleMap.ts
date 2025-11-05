@@ -26,6 +26,14 @@ export default defineStyleMap({
       // gap/spacing is a composition concern; do not set here
     ] as const,
 
+    _slide: [
+      'embla__slide',
+      'group',
+      'shrink-0',
+      'basis-full',
+      'min-w-0'
+    ] as const,
+
     _indicators: ['flex', 'justify-center', 'items-center', 'gap-2', 'pt-32', 'pb-12'] as const,
 
     // Each indicator is a <button>; no visible text, SR label provided at runtime.
