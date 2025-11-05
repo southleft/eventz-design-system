@@ -30,7 +30,7 @@ export default defineStyleMap({
       'embla__slide',
       'group',
       'shrink-0',
-      'not-data-[peek=true]:basis-auto',
+      'not-data-[peek=true]:basis-full',
       'min-w-0'
     ] as const,
 

@@ -74,7 +74,7 @@ export const ImagePanelContract = defineContract({
           { tag: 'div', slot: '_actions', children: [{ slot: 'actions' }] },
           { tag: 'div', slot: '_title' },
           { tag: 'div', slot: '_description' },
-          { tag: 'div', slot: '_labels' }
+          { tag: 'div', slot: '_labels', children: [{ slot: 'label' }] }
         ]
       }
     ]

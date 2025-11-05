@@ -57,8 +57,8 @@ const labelsSlotClasses = `
   text-sm text-color-content-weak flex gap-4
 `;
 
-const labelClasses = `
-  flex itemx center gap-1
+const labelSlotClasses = `
+  flex items-center gap-1
 `;
 
 const actionsSlotClasses = `
@@ -91,7 +91,7 @@ export const ImagePanel = React.forwardRef<HTMLDivElement, ImagePanelProps>(
     const titleSlotClassName = collapseWhitespace(composeClasses(titleSlotClasses));
     const descriptionSlotClassName = collapseWhitespace(composeClasses(descriptionSlotClasses));
     const labelsSlotClassName = collapseWhitespace(composeClasses(labelsSlotClasses));
-    const labelClassName = collapseWhitespace(composeClasses(labelClasses));
+    const labelSlotClassName = collapseWhitespace(composeClasses(labelSlotClasses));
     const actionsSlotClassName = collapseWhitespace(composeClasses(actionsSlotClasses));
 
     return (
@@ -131,7 +131,7 @@ export const ImagePanel = React.forwardRef<HTMLDivElement, ImagePanelProps>(
               return (
                 <span
                   key={labelKey}
-                  className={labelClassName}
+                  className={labelSlotClassName}
                   data-slot="_labelItem"
                   aria-label={accessibleLabel}
                 >
