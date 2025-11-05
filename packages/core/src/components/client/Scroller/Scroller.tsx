@@ -158,8 +158,7 @@ export const Scroller = React.forwardRef<HTMLDivElement, ScrollerProps>(
 
     const applyScroll = React.useCallback(
       (direction: -1 | 1) => {
-        const el = viewportRef.current;
-        if (!el) return;
+        const el = viewportRef.current!;
         const step = pageBy === 'viewport' ? el.clientWidth : pageSize;
         el.scrollBy({ left: step * direction, behavior: 'auto' });
       },
@@ -167,16 +166,16 @@ export const Scroller = React.forwardRef<HTMLDivElement, ScrollerProps>(
     );
 
     React.useEffect(() => {
-      const el = viewportRef.current;
-      if (!el) return;
+      const el = viewportRef.current!;
 
       const handler = () => updateMetrics(el, true);
       updateMetrics(el, true);
 
       if (typeof ResizeObserver === 'function') {
         const ro = new ResizeObserver(handler);
-        ro.observe(el);
-        if (railRef.current) ro.observe(railRef.current);
+        ([el, railRef.current] as (Element | null)[])
+          .filter(Boolean)
+          .forEach(node => ro.observe(node as Element));
         return () => ro.disconnect();
       }
       return undefined;
