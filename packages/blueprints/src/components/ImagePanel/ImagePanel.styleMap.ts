@@ -40,7 +40,7 @@ export const ImagePanelStyleMap = defineStyleMap({
       'pointer-events-none',
       'absolute',
       'inset-0',
-      'overlay-image-overlay-dark' // utility bound to --overlay-image-overlay-dark token
+      'overlay-image-overlay' // utility bound to --overlay-image-overlay-dark token
     ] as const,
 
     _content: [
