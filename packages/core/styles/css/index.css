@@ -388,6 +388,10 @@
     background-image: var(--dt-background-modal-dark);
   }
 
+  .overlay-image-overlay-dark {
+    background-image: var(--dt-overlay-image-overlay-dark);
+  }
+
   /* Focus ring token hook (Tailwind’s ring system uses --tw-ring-color) */
   .ring-comp-button-focus-color-ring {
     --tw-ring-color: var(--color-comp-button-focus-color-ring);

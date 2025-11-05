@@ -51,7 +51,7 @@ export const ImagePanelStyleMap = defineStyleMap({
       'transition-opacity',
       'duration-token-md',
       'ease-token-standard',
-      'group-data-[is-in-view=true]:opacity-1',
+      'group-data-[is-in-view=true]:opacity-100',
       'motion-reduce:transition-none'
     ] as const,
 

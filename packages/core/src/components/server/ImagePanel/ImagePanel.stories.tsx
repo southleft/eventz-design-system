@@ -41,7 +41,7 @@ export const Default: Story = {
   render: args => {
     return (
       <div>
-        <div className="group">
+        <div className="group" data-is-in-view="true">
           <ImagePanel {...args} />
         </div>
       </div>
@@ -113,18 +113,8 @@ export const WithCarousel: Story = {
               }
             ]}
             actions={[
-              <Control
-                ariaLabel="Plan trip"
-                variant="light"
-                size="sm"
-                icon={<EventIcon decorative />}
-              />,
-              <Control
-                ariaLabel="View details"
-                variant="light"
-                size="sm"
-                icon={<EventIcon decorative />}
-              />
+              <Control ariaLabel="Plan trip" variant="light" icon={<EventIcon decorative />} />,
+              <Control ariaLabel="View details" variant="light" icon={<EventIcon decorative />} />
             ]}
           />
         ))}

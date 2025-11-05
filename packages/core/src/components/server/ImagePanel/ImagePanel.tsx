@@ -26,8 +26,8 @@ export interface ImagePanelProps extends NativeDivProps {
 
 const baseClasses = `
   relative isolate overflow-clip w-[390px] h-[390px] lg:w-[1040px] lg:h-[620px]
-  transform-gpu transition-transform duration-token-md ease-token-standard scale-95
-  group-data-[is-in-view=true]:scale-100
+  transform-gpu transition-transform duration-token-md ease-token-standard scale-80
+  group-data-[is-in-view=true]:scale-100 mx-0 lg:-mx-36
 `;
 
 const imageSlotClasses = `
@@ -39,8 +39,8 @@ const overlaySlotClasses = `
 `;
 
 const contentSlotClasses = `
-  absolute inset-0 flex flex-col gap-1 items-start p-token-md opacity-0 transition-opacity
-  duration-token-md ease-token-standard group-data-[is-in-view=true]:opacity-1 motion-reduce:transition-none
+  absolute inset-0 flex flex-col justify-end p-4 items-start p-token-md opacity-0 transition-opacity
+  duration-token-md ease-token-standard group-data-[is-in-view=true]:opacity-100 motion-reduce:transition-none
 `;
 
 const titleSlotClasses = `
@@ -48,15 +48,19 @@ const titleSlotClasses = `
 `;
 
 const descriptionSlotClasses = `
-  text-base text-color-content-weak
+  text-base text-color-content-weak -mt-22
 `;
 
 const labelsSlotClasses = `
-  text-sm text-color-content-weak flex
+  text-sm text-color-content-weak flex gap-4
+`;
+
+const labelClasses = `
+  flex itemx center gap-1
 `;
 
 const actionsSlotClasses = `
-  flex gap-2 items-center
+  flex gap-3 items-center -mb-4
 `;
 
 export const ImagePanel = React.forwardRef<HTMLDivElement, ImagePanelProps>(
@@ -85,6 +89,7 @@ export const ImagePanel = React.forwardRef<HTMLDivElement, ImagePanelProps>(
     const titleSlotClassName = collapseWhitespace(composeClasses(titleSlotClasses));
     const descriptionSlotClassName = collapseWhitespace(composeClasses(descriptionSlotClasses));
     const labelsSlotClassName = collapseWhitespace(composeClasses(labelsSlotClasses));
+    const labelClassName = collapseWhitespace(composeClasses(labelClasses));
     const actionsSlotClassName = collapseWhitespace(composeClasses(actionsSlotClasses));
 
     return (
@@ -118,9 +123,16 @@ export const ImagePanel = React.forwardRef<HTMLDivElement, ImagePanelProps>(
             {labelsList.map(({ icon, label, ariaLabel }, index) => {
               const labelKey = `${label}-${index}`;
               const accessibleLabel =
-                typeof ariaLabel === 'string' && ariaLabel.trim().length > 0 ? ariaLabel : undefined;
+                typeof ariaLabel === 'string' && ariaLabel.trim().length > 0
+                  ? ariaLabel
+                  : undefined;
               return (
-                <span key={labelKey} data-slot="_labelItem" aria-label={accessibleLabel}>
+                <span
+                  key={labelKey}
+                  className={labelClassName}
+                  data-slot="_labelItem"
+                  aria-label={accessibleLabel}
+                >
                   {icon ? (
                     <span aria-hidden="true" data-slot="_labelIcon">
                       {icon}

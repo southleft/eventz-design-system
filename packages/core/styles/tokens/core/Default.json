@@ -1013,11 +1013,11 @@
   },
   "overlay": {
     "image-overlay-dark": {
-      "value": "linear-gradient(90deg, #181a1c00 0%, #181a1c8f 57.69%, #181a1c 100%)",
+      "value": "linear-gradient(180deg, #181a1c00 0%, #181a1c8f 57.69%, #181a1c 100%)",
       "type": "color"
     },
     "image-overlay-light": {
-      "value": "linear-gradient(90deg, #ffffff00 0%, #ffffff8f 57.69%, #ffffff 100%)",
+      "value": "linear-gradient(180deg, #ffffff00 0%, #ffffff8f 57.69%, #ffffff 100%)",
       "type": "color"
     }
   },
