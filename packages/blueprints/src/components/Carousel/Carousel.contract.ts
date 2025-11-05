@@ -108,8 +108,8 @@ export default defineContract({
     }
   },
 
-  // Base acts as Embla viewport/root; expose Embla track, indicator rail, and indicator button slots.
-  slots: ['_container', '_indicators', '_indicator'] as const,
+  // Base acts as Embla viewport/root; expose Embla track, slide wrapper, indicator rail, and indicator button slots.
+  slots: ['_container', '_slide', '_indicators', '_indicator'] as const,
 
   hints: {
     a11y: [
@@ -118,7 +118,7 @@ export default defineContract({
       // ---------- Indicators (Option A: plain buttons) ----------
       'Indicators are a simple list of <button> elements at the bottom. Each button is tabbable by default; Enter/Space activates and calls goTo(index). Set aria-current="true" on the active indicator and include an SR-only label like "Go to slide X of Y". No Arrow-key roving or Home/End behavior in v1.',
       // ---------- Embla integration (do not roll your own) ----------
-      'Mount Embla on the base viewport and use its API exclusively — do not implement custom transforms/drag/scroll logic. Use embla.scrollPrev(), embla.scrollNext(), and embla.scrollTo(index) for navigation; use embla.canScrollPrev()/canScrollNext() for availability; derive count from embla.scrollSnapList().length and currentIndex from embla.selectedScrollSnap(). Listen to embla events: init, reInit, select, slidesInView, pointerDown, pointerUp, settle. Maintain a Set of embla.slidesInView() and call onInViewChange(indices) only when it changes.',
+      'Mount Embla on the base viewport and use its API exclusively — do not implement custom transforms/drag/scroll logic. Use embla.scrollPrev(), embla.scrollNext(), and embla.scrollTo(index) for navigation; use embla.canScrollPrev()/canScrollNext() for availability; derive count from embla.scrollSnapList().length and currentIndex from embla.selectedScrollSnap(). Listen to embla events: init, reInit, select, slidesInView, pointerDown, pointerUp, settle. Maintain a Set of embla.slidesInView() and call onInViewChange(indices) only when it changes. Each direct child slide is a provider-owned wrapper element that receives data-is-in-view on the incoming slide during drag and on the active slide when settled; children are treated as opaque (RSC-safe).',
       // ---------- Context API (backed by Embla) ----------
       'Expose context backed by Embla: { currentIndex, count, canPrev, canNext, prev(), next(), goTo(i), isSelected(i), isInView(i), autoPlay?: { isPlaying: boolean; play(): void; stop(): void } }. prev() calls embla.scrollPrev(); next() calls embla.scrollNext(); goTo(i) calls embla.scrollTo(i).',
       // ---------- Autoplay (plugin-backed) ----------
