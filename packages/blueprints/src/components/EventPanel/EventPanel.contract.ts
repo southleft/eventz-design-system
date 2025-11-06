@@ -4,7 +4,7 @@ import { defineContract } from '../../utilities';
 export const EventPanelContract = defineContract({
   component: 'EventPanel',
   description:
-    'Server-rendered event panel for slides. Image with overlay nav controls only; all event details render under the image (no content overlay).',
+    'Server-rendered event panel. Image with overlay navigation (left/right) only; all event details render under the image. Details are mobile-only; CTAs render below the media at all sizes.',
   base: 'div',
 
   // Flat props (server component)
@@ -91,9 +91,9 @@ export const EventPanelContract = defineContract({
   hints: {
     a11y: {
       recommendation:
-        'imgAlt is required (empty allowed if decorative). Decorative label icons should be aria-hidden. Visible text provides the accessible name.'
+        'imgAlt is required (empty allowed if decorative). Decorative icons inside chips should be aria-hidden. Visible text provides the accessible name.'
     },
     visibility:
-      'Event details are intended to be hidden at larger breakpoints via the styleMap (e.g., mobile-only block). No runtime logic required.'
+      'Event details are intended to be hidden at larger breakpoints via the styleMap (mobile-only). CTAs (_buttons) are rendered outside details so they remain visible at all sizes.'
   }
 });

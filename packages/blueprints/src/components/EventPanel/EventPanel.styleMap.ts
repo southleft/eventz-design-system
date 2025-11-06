@@ -2,15 +2,15 @@
 import { defineStyleMap } from '../../utilities';
 
 export const EventPanelStyleMap = defineStyleMap({
-  // Base container stacks media + details (no clipping at root)
-  base: ['isolate'] as const,
+  // Base container (width spacing aligns to runtime)
+  base: ['isolate', 'w-[390px]', 'lg:w-[560px]', 'lg:mx-32'] as const,
 
   slots: {
     // Media wrapper (image + overlay + split nav)
     _media: [
       'relative',
       'overflow-clip',
-      // Fixed panel sizing (hero size)
+      // Fixed panel sizing
       'w-[390px]',
       'h-[390px]',
       'lg:w-[560px]',
@@ -23,10 +23,8 @@ export const EventPanelStyleMap = defineStyleMap({
       'motion-reduce:transition-none',
       // Visual size change via scale (no layout thrash)
       'scale-80',
-      'group-data-[is-in-view=true]:scale-100',
-      // Edge spacing at large breakpoints
-      'mx-0',
-      'lg:-mx-36'
+      'lg:scale-110',
+      'group-data-[is-in-view=true]:scale-100'
     ] as const,
 
     _image: ['block', 'size-full', 'object-cover', 'object-center'] as const,
@@ -41,25 +39,64 @@ export const EventPanelStyleMap = defineStyleMap({
       'flex',
       'items-center',
       'justify-between',
-      'p-4'
+      'p-4',
+      'opacity-0',
+      'transition-opacity',
+      'duration-1000',
+      'ease-in-out',
+      'group-data-[is-in-view=true]:opacity-100',
+      'motion-reduce:transition-none'
     ] as const,
-    _left: [] as const,
-    _right: [] as const,
+    _left: ['flex', 'items-center', 'gap-2'] as const,
+    _right: ['flex', 'items-center', 'gap-2'] as const,
 
     // Under-image event details (mobile-only block)
-    _details: ['flex', 'lg:hidden', 'mt-3', 'flex-col', 'gap-2', 'p-4'] as const,
+    _details: [
+      'px-2',
+      'py-4',
+      'lg:hidden',
+      'w-[380px]',
+      'opacity-0',
+      'transition-opacity',
+      'duration-1000',
+      'ease-in-out',
+      'group-data-[is-in-view=true]:opacity-100',
+      'motion-reduce:transition-none'
+    ] as const,
 
     _subtitle: ['text-sm', 'tracking-wide', 'uppercase', 'text-color-content-weak'] as const,
     _title: ['text-2xl', 'text-color-content-default'] as const,
-    _description: ['text-base', 'text-color-content-weak'] as const,
+    _description: ['text-base', 'text-color-content-weak', 'mb-12'] as const,
 
-    _meta: ['flex', 'flex-col', 'gap-1', 'text-sm', 'text-color-content-weak'] as const,
-    _labels: ['flex', 'gap-3'] as const,
-    label: ['flex', 'items-center', 'gap-1'] as const,
+    _meta: [
+      'flex',
+      'flex-col',
+      'items-start',
+      'gap-2',
+      'text-sm',
+      'text-color-content-weak'
+    ] as const,
+    _labels: ['flex', 'flex-wrap', 'gap-3', 'mb-12'] as const,
 
-    _avatars: [] as const,
+    _avatars: ['flex', '-space-x-2', 'items-center'] as const,
 
-    _buttons: ['mt-2', 'flex', 'gap-3', 'items-center', 'justify-end'] as const
+    _buttons: [
+      'mt-12',
+      'lg:mt-24',
+      'mx-12',
+      'lg:mx-0',
+      'flex',
+      'gap-3',
+      'items-center',
+      'justify-start',
+      'lg:justify-end',
+      'opacity-0',
+      'transition-opacity',
+      'duration-1000',
+      'ease-in-out',
+      'group-data-[is-in-view=true]:opacity-100',
+      'motion-reduce:transition-none'
+    ] as const
   },
 
   variants: {},
