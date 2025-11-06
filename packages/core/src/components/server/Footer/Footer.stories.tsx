@@ -4,27 +4,50 @@
 
 import type { Meta, StoryObj } from '@storybook/react';
 import * as React from 'react';
-import { Button } from '../../client/Button';
 import { Footer, FooterProps } from './Footer';
+import { NavigationContainer } from '../NavigationContainer';
+import { TextLink } from '../../client/TextLink';
+import { NavigationBar, NavigationBarProps } from '../NavigationBar';
+
+const baseItems: NavigationBarProps['items'] = [
+  { label: '© 2025 DO312 All Rights Reserved', href: '/' }
+];
+
+const baseSecondaryNavigation = (
+  <div className="inline-flex gap-4">
+    <TextLink variant="subtle" label="Privacy" href="https://www.example.com" />
+    <TextLink variant="subtle" label="Terms and conditions" href="https://www.example.com" />
+  </div>
+);
+
+const defaultLogo = <span className="text-lg font-bold text-color-content-default">DoXYZ</span>;
+
+const defaultChildren = (
+  <div>
+    <div>
+      <TextLink label="Content and links go here" href="https://www.example.com" variant="subtle" />
+    </div>
+    <div>
+      <TextLink label="Content and links go here" href="https://www.example.com" variant="subtle" />
+    </div>
+    <div>
+      <TextLink label="Content and links go here" href="https://www.example.com" variant="subtle" />
+    </div>
+    <div>
+      <TextLink label="Content and links go here" href="https://www.example.com" variant="subtle" />
+    </div>
+    <div>
+      <TextLink label="Content and links go here" href="https://www.example.com" variant="subtle" />
+    </div>
+  </div>
+);
 
 const meta: Meta<FooterProps> = {
   title: 'Server components/Footer',
   component: Footer,
   args: {
     className: '',
-    children: (
-      <div>
-        <div>
-          <Button variant="bare">Content and links go here</Button>
-        </div>
-        <div>
-          <Button variant="bare">Content and links go here</Button>
-        </div>
-        <div>
-          <Button variant="bare">Content and links go here</Button>
-        </div>
-      </div>
-    )
+    children: defaultChildren
   }
 };
 
@@ -34,4 +57,20 @@ type Story = StoryObj<FooterProps>;
 
 export const Default: Story = {
   args: {}
+};
+
+export const WithContainers: Story = {
+  args: {
+    children: (
+      <>
+        <NavigationContainer>{defaultChildren}</NavigationContainer>
+        <NavigationBar
+          ariaLabel="Footer navigation"
+          items={baseItems}
+          logo={defaultLogo}
+          secondaryNavigation={baseSecondaryNavigation}
+        />
+      </>
+    )
+  }
 };

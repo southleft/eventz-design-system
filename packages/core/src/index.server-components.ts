@@ -11,6 +11,7 @@ export * from './components/server/InteractiveListItem';
 export * from './components/server/Map';
 export * from './components/server/MediaCard';
 export * from './components/server/NavigationBar';
+export * from './components/server/NavigationContainer';
 export * from './components/server/ScrollerRow';
 export * from './components/server/SelectionCard';
 export * from './components/server/SubscriptionCard';
