@@ -45,6 +45,8 @@ const actionsBarClasses = `
 
 const detailsClasses = `
   px-32 py-4 lg:hidden w-[380px]
+  opacity-0 transition-opacity duration-1000 ease-in-out
+  group-data-[is-in-view=true]:opacity-100 motion-reduce:transition-none
 `;
 
 const subtitleClasses = `
@@ -56,19 +58,21 @@ const titleClasses = `
 `;
 
 const descriptionClasses = `
-  text-base text-color-content-weak
+  text-base text-color-content-weak mb-12
 `;
 
 const metaClasses = `
   flex flex-col items-start gap-2 text-sm text-color-content-weak
 `;
 
-const labelsClasses = `
-  flex gap-3
+const chipsClasses = `
+  flex flex-wrap gap-3 mb-12
 `;
 
 const buttonsClasses = `
-  mt-24 mx-24 hidden group-data-[is-in-view=true]:flex gap-3 items-center justify-end
+  pl-24 mt-12 lg:mt-24 mx-12 lg:mx-24 flex gap-3 items-center justify-start lg:justify-end
+  opacity-0 transition-opacity duration-1000 ease-in-out
+  group-data-[is-in-view=true]:opacity-100 motion-reduce:transition-none
 `;
 
 const leftClasses = `
@@ -115,7 +119,7 @@ export const EventPanel = React.forwardRef<HTMLDivElement, EventPanelProps>(
     const titleClassName = collapseWhitespace(composeClasses(titleClasses));
     const descriptionClassName = collapseWhitespace(composeClasses(descriptionClasses));
     const metaClassName = collapseWhitespace(composeClasses(metaClasses));
-    const labelsClassName = collapseWhitespace(composeClasses(labelsClasses));
+    const chipsClassName = collapseWhitespace(composeClasses(chipsClasses));
     const buttonsClassName = collapseWhitespace(composeClasses(buttonsClasses));
     const leftClassName = collapseWhitespace(composeClasses(leftClasses));
     const rightClassName = collapseWhitespace(composeClasses(rightClasses));
@@ -159,7 +163,7 @@ export const EventPanel = React.forwardRef<HTMLDivElement, EventPanelProps>(
           ) : null}
           {(Array.isArray(chips) && chips.length > 0) || avatars ? (
             <div className={metaClassName} data-slot="_meta">
-              <div className={labelsClassName} data-slot="_labels">
+              <div className={chipsClassName} data-slot="_labels">
                 {Array.isArray(chips)
                   ? chips.map((chip, i) => <React.Fragment key={i}>{chip}</React.Fragment>)
                   : null}
