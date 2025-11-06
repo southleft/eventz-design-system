@@ -10,14 +10,7 @@ import { Button } from '../../client/Button';
 import { AvatarGroup } from '../../client/AvatarGroup';
 import { Carousel } from '../../client/Carousel';
 import { Chip } from '../Chip/Chip';
-import {
-  EventIcon,
-  MapIcon,
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  ShareIcon,
-  ArrowOutwardIcon
-} from '../../../icons';
+import { EventIcon, MapIcon, PlayIcon, ShareIcon, ArrowOutwardIcon } from '../../../icons';
 
 const sampleUsers: React.ComponentProps<typeof AvatarGroup>['users'] = [
   { name: 'Inez Ortiz', imageUrl: 'https://i.pravatar.cc/96?img=1' },
@@ -48,21 +41,11 @@ const renderButtons = (): React.ReactNode => (
 );
 
 const renderLeftAction = (): React.ReactNode => (
-  <Control
-    ariaLabel="Previous event"
-    size="sm"
-    variant="light"
-    icon={<ChevronLeftIcon decorative />}
-  />
+  <Control ariaLabel="Previous event" variant="light" icon={<PlayIcon />} />
 );
 
 const renderRightAction = (): React.ReactNode => (
-  <Control
-    ariaLabel="Next event"
-    size="sm"
-    variant="light"
-    icon={<ChevronRightIcon decorative />}
-  />
+  <Control ariaLabel="Next event" variant="light" icon={<ShareIcon />} />
 );
 
 const baseArgs: EventPanelProps = {
@@ -126,59 +109,78 @@ export const CarouselComposition: Story = {
         title: 'Founder fireside',
         subtitle: 'Conversation',
         description: 'Hear how product teams iterate quickly with real user input.',
-        buttons: renderButtons()
+        chips: renderChips(),
+        avatars: renderAvatars(),
+        buttons: renderButtons(),
+        leftAction: renderLeftAction(),
+        rightAction: renderRightAction()
       },
       {
         imgSrc: 'https://picsum.photos/seed/event-carousel-2/560/490',
         imgAlt: 'Attendees collaborating at a workshop table',
         title: 'Design lab',
         subtitle: 'Workshop',
-        description: 'Sketch with mentors and develop new flows for your app.'
+        description: 'Sketch with mentors and develop new flows for your app.',
+        chips: renderChips(),
+        avatars: renderAvatars(),
+        buttons: renderButtons(),
+        leftAction: renderLeftAction(),
+        rightAction: renderRightAction()
       },
       {
         imgSrc: 'https://picsum.photos/seed/event-carousel-3/560/490',
         imgAlt: 'Open air venue surrounded by city skyline',
         title: 'City socials',
         subtitle: 'Networking',
-        description: 'Connect with peers across product, engineering, and design.'
+        description: 'Connect with peers across product, engineering, and design.',
+        chips: renderChips(),
+        avatars: renderAvatars(),
+        buttons: renderButtons(),
+        leftAction: renderLeftAction(),
+        rightAction: renderRightAction()
       },
       {
         imgSrc: 'https://picsum.photos/seed/event-carousel-4/560/490',
         imgAlt: 'Speakers presenting on a large screen stage',
         title: 'Launch keynote',
         subtitle: 'Keynote',
-        description: 'See the latest platform capabilities and roadmap reveals.'
+        description: 'See the latest platform capabilities and roadmap reveals.',
+        chips: renderChips(),
+        avatars: renderAvatars(),
+        buttons: renderButtons(),
+        leftAction: renderLeftAction(),
+        rightAction: renderRightAction()
       },
       {
         imgSrc: 'https://picsum.photos/seed/event-carousel-5/560/490',
         imgAlt: 'Outdoor lounge with colorful lighting',
         title: 'After hours',
         subtitle: 'Social',
-        description: 'Wind down with curated music and lounge sessions.'
+        description: 'Wind down with curated music and lounge sessions.',
+        chips: renderChips(),
+        avatars: renderAvatars(),
+        buttons: renderButtons(),
+        leftAction: renderLeftAction(),
+        rightAction: renderRightAction()
       },
       {
         imgSrc: 'https://picsum.photos/seed/event-carousel-6/560/490',
         imgAlt: 'Hands-on demo stations with interactive displays',
         title: 'Demo floor',
         subtitle: 'Experience',
-        description: 'Interact with partner booths and emerging prototypes.'
+        description: 'Interact with partner booths and emerging prototypes.',
+        chips: renderChips(),
+        avatars: renderAvatars(),
+        buttons: renderButtons(),
+        leftAction: renderLeftAction(),
+        rightAction: renderRightAction()
       }
     ];
 
     return (
       <Carousel ariaLabel="Upcoming events carousel" align="center" loop peek>
         {events.map((event, index) => (
-          <EventPanel
-            key={index}
-            imgSrc={event.imgSrc}
-            imgAlt={event.imgAlt}
-            subtitle={event.subtitle}
-            title={event.title}
-            description={event.description}
-            chips={event.chips ?? renderChips()}
-            avatars={event.avatars ?? renderAvatars()}
-            buttons={event.buttons ?? renderButtons()}
-          />
+          <EventPanel key={index} {...event} />
         ))}
       </Carousel>
     );
