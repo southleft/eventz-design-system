@@ -13,7 +13,7 @@ export interface ChipProps {
 }
 
 const baseClasses = `inline-flex items-center gap-1 text-color-content-weak bg-background-default`;
-const iconClasses = `shrink-0 [&>svg]:size-4`;
+const iconClasses = `shrink-0`;
 const textClasses = `truncate`;
 
 export const Chip = ({ label, ariaLabel, icon, className }: ChipProps) => {

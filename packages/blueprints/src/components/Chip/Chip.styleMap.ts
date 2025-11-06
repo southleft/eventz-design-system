@@ -14,8 +14,7 @@ export const ChipStyleMap = defineStyleMap({
   slots: {
     _icon: [
       // Make SVGs a predictable size and non-wrapping
-      'shrink-0',
-      '[&>svg]:size-4'
+      'shrink-0'
     ] as const,
     _text: [
       // Allow long labels to truncate gracefully when constrained

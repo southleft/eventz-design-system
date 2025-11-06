@@ -10,7 +10,8 @@ export const ChipContract = defineContract({
   props: {
     label: { type: 'string', required: true },
     ariaLabel: { type: 'string' },
-    icon: { type: 'slot' }
+    icon: { type: 'slot' },
+    className: { type: 'string' }
   },
 
   slots: ['_icon', '_text'] as const,
