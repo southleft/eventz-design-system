@@ -2,94 +2,64 @@
 import { defineStyleMap } from '../../utilities';
 
 export const EventPanelStyleMap = defineStyleMap({
-  base: [
-    // Hero sizing owned by the panel (not Carousel)
-    'relative',
-    'isolate',
-    'overflow-clip',
-    'w-[390px]',
-    'h-[390px]',
-    'lg:w-[1040px]',
-    'lg:h-[620px]',
-    // Motion & transform
-    'transform-gpu',
-    'transition-transform',
-    'duration-700',
-    'ease-in-out',
-    'motion-reduce:transition-none',
-    // Scale change for snap visibility
-    'scale-80',
-    'group-data-[is-in-view=true]:scale-100',
-    // Edge spacing at large breakpoints
-    'mx-0',
-    'lg:-mx-36'
-  ] as const,
+  // Base container stacks media + details (no clipping at root)
+  base: ['isolate'] as const,
 
   slots: {
-    // Optional structural hook (unused, kept for mapping completeness)
-    container: [],
+    // Media wrapper (image + overlay + split nav)
+    _media: [
+      'relative',
+      'overflow-clip',
+      // Fixed panel sizing (hero size)
+      'w-[390px]',
+      'h-[390px]',
+      'lg:w-[560px]',
+      'lg:h-[490px]',
+      // Transform + transition
+      'transform-gpu',
+      'transition-transform',
+      'duration-700',
+      'ease-in-out',
+      'motion-reduce:transition-none',
+      // Visual size change via scale (no layout thrash)
+      'scale-80',
+      'group-data-[is-in-view=true]:scale-100',
+      // Edge spacing at large breakpoints
+      'mx-0',
+      'lg:-mx-36'
+    ] as const,
 
     _image: ['block', 'size-full', 'object-cover', 'object-center'] as const,
 
-    _overlay: [
-      'pointer-events-none',
-      'absolute',
-      'inset-0',
-      'overlay-image-overlay' // resolves to dark by default; light override via root mode
-    ] as const,
+    _overlay: ['pointer-events-none', 'absolute', 'inset-0', 'overlay-image-overlay'] as const,
 
-    _content: [
+    // Split navigation actions over the image (no other overlay content)
+    _actionsBar: [
       'absolute',
-      'inset-0',
+      'inset-x-0',
+      'bottom-0',
       'flex',
-      'flex-col',
+      'items-center',
       'justify-between',
-      'p-4',
-      'p-token-md',
-      // Fade in on snap visibility (parallel to ImagePanel behavior)
-      'opacity-0',
-      'transition-opacity',
-      'duration-1000',
-      'ease-in-out',
-      'group-data-[is-in-view=true]:opacity-100',
-      'motion-reduce:transition-none'
+      'p-4'
     ] as const,
+    _left: [] as const,
+    _right: [] as const,
 
-    _actionsBar: ['flex', 'items-center', 'justify-between', 'w-full'] as const,
-    _left: ['flex', 'items-center', 'gap-2'] as const,
-    _right: ['flex', 'items-center', 'gap-2'] as const,
-
-    _overlayButtons: ['hidden', 'lg:flex', 'gap-3', 'items-center', 'justify-end'] as const,
-
-    // Under-image details (mobile only)
-    _details: [
-      'block',
-      'lg:hidden',
-      'mt-3',
-      'flex',
-      'flex-col',
-      'gap-2',
-      'p-4',
-      'p-token-md'
-    ] as const,
+    // Under-image event details (mobile-only block)
+    _details: ['flex', 'lg:hidden', 'mt-3', 'flex-col', 'gap-2', 'p-4'] as const,
 
     _subtitle: ['text-sm', 'tracking-wide', 'uppercase', 'text-color-content-weak'] as const,
     _title: ['text-2xl', 'text-color-content-default'] as const,
     _description: ['text-base', 'text-color-content-weak'] as const,
 
-    _meta: [
-      'flex',
-      'flex-wrap',
-      'items-center',
-      'gap-x-4',
-      'gap-y-1',
-      'text-sm',
-      'text-color-content-weak'
-    ] as const,
+    _meta: ['flex', 'flex-col', 'gap-1', 'text-sm', 'text-color-content-weak'] as const,
     _labels: ['flex', 'gap-3'] as const,
-    _avatars: ['flex', '-space-x-2', 'items-center'] as const,
+    label: ['flex', 'items-center', 'gap-1'] as const,
 
-    _buttons: ['mt-2', 'flex', 'gap-3', 'items-center'] as const
+    _avatars: [] as const,
+
+    _buttons: ['mt-2', 'flex', 'gap-3', 'items-center', 'justify-end'] as const
   },
 
   variants: {},

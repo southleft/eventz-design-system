@@ -4,38 +4,37 @@ import { defineContract } from '../../utilities';
 export const EventPanelContract = defineContract({
   component: 'EventPanel',
   description:
-    'Server-rendered event panel used inside a client Carousel. Image with overlay actions; under-image event details on mobile; desktop shows only CTA buttons under the image.',
+    'Server-rendered event panel for slides. Image with overlay nav controls only; all event details render under the image (no content overlay).',
   base: 'div',
 
-  // Public props — allowed kinds only
+  // Flat props (server component)
   props: {
     imgSrc: { type: 'string', required: true },
     imgAlt: { type: 'string', required: true },
     loading: { type: 'enum', options: ['lazy', 'eager'] as const, default: 'lazy' },
     fetchPriority: { type: 'enum', options: ['high', 'low'] as const },
 
-    // Overlay split actions (consumer-provided controls)
+    // Overlay split nav on the image
     leftAction: { type: 'slot' },
     rightAction: { type: 'slot' },
 
-    // Event content (flattened; complex bits modeled as slots per blueprint rules)
+    // Event details (all UNDER the image)
     subtitle: { type: 'string' }, // overline (renders above title)
     title: { type: 'string' },
     description: { type: 'string' },
-    labels: { type: 'slot' }, // chips row (icons inside should be aria-hidden)
-    avatars: { type: 'slot' }, // AvatarGroup
-    buttons: { type: 'slot' } // CTA row; consumer passes multiple controls within
+    labels: { type: 'slot' }, // chips row (consumer-provided)
+    avatars: { type: 'slot' }, // AvatarGroup (consumer-provided)
+    buttons: { type: 'slot' } // CTA row (consumer-provided Buttons)
   },
 
-  // Slots in render order (includes all slot props)
+  // Deterministic slots (no overlay content slot)
   slots: [
+    '_media',
     '_image',
     '_overlay',
-    '_content',
     '_actionsBar',
     '_left',
     '_right',
-    '_overlayButtons',
     '_details',
     '_subtitle',
     '_title',
@@ -46,14 +45,56 @@ export const EventPanelContract = defineContract({
     '_buttons'
   ] as const,
 
+  // Structural layout only (no classes)
+  layout: {
+    type: 'container',
+    tag: 'div',
+    children: [
+      {
+        tag: 'div',
+        slot: '_media',
+        children: [
+          { tag: 'img', slot: '_image' },
+          { tag: 'div', slot: '_overlay' },
+          {
+            tag: 'div',
+            slot: '_actionsBar',
+            children: [
+              { tag: 'div', slot: '_left' },
+              { tag: 'div', slot: '_right' }
+            ]
+          }
+        ]
+      },
+      {
+        tag: 'div',
+        slot: '_details',
+        children: [
+          { tag: 'div', slot: '_subtitle' },
+          { tag: 'div', slot: '_title' },
+          { tag: 'div', slot: '_description' },
+          {
+            tag: 'div',
+            slot: '_meta',
+            children: [
+              { tag: 'div', slot: '_labels' },
+              { tag: 'div', slot: '_avatars' }
+            ]
+          }
+        ]
+      },
+      { tag: 'div', slot: '_buttons' }
+    ]
+  },
+
   styleMap: true,
 
   hints: {
     a11y: {
       recommendation:
-        'imgAlt is required (empty allowed if decorative). Label icons should be aria-hidden. Visible text supplies the accessible name.'
+        'imgAlt is required (empty allowed if decorative). Decorative label icons should be aria-hidden. Visible text provides the accessible name.'
     },
-    composition:
-      'Compose inside the client Carousel. Do not import EventPanel from client components. Desktop shows only overlay buttons; mobile shows full details block.'
+    visibility:
+      'Event details are intended to be hidden at larger breakpoints via the styleMap (e.g., mobile-only block). No runtime logic required.'
   }
 });
