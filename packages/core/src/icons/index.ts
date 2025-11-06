@@ -23,6 +23,7 @@ export * from './PlayIcon';
 export * from './ProgressActivityIcon';
 export * from './RemoveIcon';
 export * from './SearchIcon';
+export * from './ShareIcon';
 export * from './StadiumIcon';
 export * from './UploadIcon';
 export * from './WarningIcon';
