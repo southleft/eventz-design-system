@@ -6,7 +6,9 @@ export const ChipStyleMap = defineStyleMap({
     // Inline, compact row
     'inline-flex',
     'items-center',
-    'gap-1'
+    'gap-1',
+    'text-color-content-weak',
+    'bg-background-default'
   ] as const,
 
   slots: {
