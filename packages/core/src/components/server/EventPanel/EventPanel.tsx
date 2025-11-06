@@ -68,7 +68,7 @@ const labelsClasses = `
 `;
 
 const buttonsClasses = `
-  mt-2 hidden group-data-[is-in-view=true]:flex gap-3 items-center justify-end w-[390px] lg:w-[560px]
+  mt-24 mx-24 hidden group-data-[is-in-view=true]:flex gap-3 items-center justify-end
 `;
 
 const leftClasses = `
