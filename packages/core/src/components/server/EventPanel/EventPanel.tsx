@@ -16,7 +16,7 @@ export interface EventPanelProps extends NativeDivProps {
   subtitle?: string;
   title?: string;
   description?: string;
-  labels?: React.ReactNode;
+  chips?: React.ReactNode[];
   avatars?: React.ReactNode;
   buttons?: React.ReactNode;
 }
@@ -97,7 +97,7 @@ export const EventPanel = React.forwardRef<HTMLDivElement, EventPanelProps>(
       subtitle,
       title,
       description,
-      labels,
+      chips,
       avatars,
       buttons,
       className,
@@ -157,10 +157,12 @@ export const EventPanel = React.forwardRef<HTMLDivElement, EventPanelProps>(
               {description}
             </div>
           ) : null}
-          {labels || avatars ? (
+          {(Array.isArray(chips) && chips.length > 0) || avatars ? (
             <div className={metaClassName} data-slot="_meta">
               <div className={labelsClassName} data-slot="_labels">
-                {labels}
+                {Array.isArray(chips)
+                  ? chips.map((chip, i) => <React.Fragment key={i}>{chip}</React.Fragment>)
+                  : null}
               </div>
               <div className={avatarsClassName} data-slot="_avatars">
                 {avatars}

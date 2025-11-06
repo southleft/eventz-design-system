@@ -9,6 +9,7 @@ import { Control } from '../../client/Control';
 import { Button } from '../../client/Button';
 import { AvatarGroup } from '../../client/AvatarGroup';
 import { Carousel } from '../../client/Carousel';
+import { Chip } from '../Chip/Chip';
 import {
   EventIcon,
   MapIcon,
@@ -17,8 +18,6 @@ import {
   UploadIcon as ShareIcon
 } from '../../../icons';
 
-const labelItemClassName = `flex items-center gap-1 text-sm text-color-content-weak`;
-
 const sampleUsers: React.ComponentProps<typeof AvatarGroup>['users'] = [
   { name: 'Inez Ortiz', imageUrl: 'https://i.pravatar.cc/96?img=1' },
   { name: 'Samir Patel', imageUrl: 'https://i.pravatar.cc/96?img=2' },
@@ -26,22 +25,11 @@ const sampleUsers: React.ComponentProps<typeof AvatarGroup>['users'] = [
   { name: 'Lena Brooks', imageUrl: 'https://i.pravatar.cc/96?img=4' }
 ];
 
-const renderLabels = (): React.ReactNode => (
-  <>
-    <span className={labelItemClassName}>
-      <EventIcon decorative />
-      <span>In-person</span>
-    </span>
-    <span className={labelItemClassName}>
-      <ShareIcon decorative />
-      <span>Live stream</span>
-    </span>
-    <span className={labelItemClassName}>
-      <MapIcon decorative />
-      <span>Downtown campus</span>
-    </span>
-  </>
-);
+const renderChips = (): React.ReactNode[] => ([
+  <Chip key="inperson" label="In-person" icon={<EventIcon decorative />} />,
+  <Chip key="livestream" label="Live stream" icon={<ShareIcon decorative />} />,
+  <Chip key="campus" label="Downtown campus" icon={<MapIcon decorative />} />
+]);
 
 const renderAvatars = (): React.ReactNode => (
   <AvatarGroup users={sampleUsers} showMessage={false} count={128} avatarsToDisplay={4} />
@@ -83,7 +71,7 @@ const baseArgs: EventPanelProps = {
     'Join fellow builders for rapid prototyping, breakout sessions, and pop-up demos across the venue.',
   leftAction: renderLeftAction(),
   rightAction: renderRightAction(),
-  labels: renderLabels(),
+  chips: renderChips(),
   avatars: renderAvatars(),
   buttons: renderButtons()
 };
@@ -191,7 +179,7 @@ export const CarouselComposition: Story = {
             subtitle={event.subtitle}
             title={event.title}
             description={event.description}
-            labels={event.labels ?? renderLabels()}
+            chips={event.chips ?? renderChips()}
             avatars={event.avatars ?? renderAvatars()}
             buttons={event.buttons ?? renderButtons()}
           />

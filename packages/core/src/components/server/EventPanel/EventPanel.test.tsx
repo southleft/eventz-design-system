@@ -5,6 +5,7 @@
 import '@testing-library/jest-dom';
 import { render } from '@testing-library/react';
 import * as React from 'react';
+import { Chip } from '../Chip/Chip';
 import { EventPanel, type EventPanelProps } from './EventPanel';
 
 const baseProps: EventPanelProps = {
@@ -15,18 +16,20 @@ const baseProps: EventPanelProps = {
   description: 'Collaborate with product leaders and attend hands-on sessions.',
   leftAction: <button type="button">Prev</button>,
   rightAction: <button type="button">Next</button>,
-  labels: (
-    <>
-      <span>
-        <span aria-hidden="true">🎟️</span>
-        <span>Ticketed</span>
-      </span>
-      <span>
-        <span aria-hidden="true">🌐</span>
-        <span>Hybrid</span>
-      </span>
-    </>
-  ),
+  chips: [
+    <Chip
+      key="ticketed"
+      label="Ticketed"
+      ariaLabel="Ticketed event"
+      icon={<span aria-hidden="true">🎟️</span>}
+    />,
+    <Chip
+      key="hybrid"
+      label="Hybrid"
+      ariaLabel="Hybrid event"
+      icon={<span aria-hidden="true">🌐</span>}
+    />
+  ],
   avatars: <div>Avatar roster</div>,
   buttons: (
     <>

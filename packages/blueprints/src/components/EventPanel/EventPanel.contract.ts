@@ -21,7 +21,7 @@ export const EventPanelContract = defineContract({
     subtitle: { type: 'string' }, // overline (renders above title)
     title: { type: 'string' },
     description: { type: 'string' },
-    labels: { type: 'slot' }, // chips row (consumer-provided)
+    chips: { type: 'slot' }, // Chip[] row (consumer-provided)
     avatars: { type: 'slot' }, // AvatarGroup (consumer-provided)
     buttons: { type: 'slot' } // CTA row (consumer-provided Buttons)
   },
