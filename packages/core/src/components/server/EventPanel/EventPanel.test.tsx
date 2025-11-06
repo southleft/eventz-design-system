@@ -60,7 +60,7 @@ describe('EventPanel', () => {
     const details = container.querySelector('[data-slot="_details"]');
     const buttons = container.querySelector('[data-slot="_buttons"]');
     const visibilityAndPlacement =
-      Boolean(details?.className.includes('p-4')) &&
+      Boolean(details?.className.includes('py-4')) &&
       Boolean(buttons) &&
       buttons?.parentElement !== details;
     expect(visibilityAndPlacement).toBe(true);
@@ -99,5 +99,57 @@ describe('EventPanel', () => {
       Boolean(media?.className.includes('group-data-[is-in-view=true]:scale-100')) &&
       Boolean(overlay?.className.includes('overlay-image-overlay'));
     expect(classTokensApplied).toBe(true);
+  });
+
+  it('renders avatars in meta while leaving labels empty when chips are not provided', () => {
+    const { container } = renderEventPanel({ chips: undefined });
+    const meta = container.querySelector('[data-slot="_meta"]');
+    const labels = container.querySelector('[data-slot="_labels"]');
+    const avatars = container.querySelector('[data-slot="_avatars"]');
+    expect(meta).not.toBeNull();
+    expect(labels?.childElementCount).toBe(0);
+    expect(avatars).not.toBeNull();
+  });
+
+  it('hides meta when chips are empty and avatars are not provided', () => {
+    const { container } = renderEventPanel({ chips: [], avatars: undefined });
+    const meta = container.querySelector('[data-slot="_meta"]');
+    expect(meta).toBeNull();
+  });
+
+  it('hides meta when chips and avatars are absent', () => {
+    const { container } = renderEventPanel({ chips: undefined, avatars: undefined });
+    const meta = container.querySelector('[data-slot="_meta"]');
+    expect(meta).toBeNull();
+  });
+
+  it('renders meta when chips are provided without avatars', () => {
+    const { container } = renderEventPanel({ avatars: undefined });
+    const meta = container.querySelector('[data-slot="_meta"]');
+    const labels = container.querySelector('[data-slot="_labels"]');
+    const avatars = container.querySelector('[data-slot="_avatars"]');
+    expect(meta).not.toBeNull();
+    expect(labels?.childElementCount).toBe(baseProps.chips?.length ?? 0);
+    expect(avatars?.childElementCount).toBe(0);
+  });
+
+  it('omits subtitle, title, and description when provided as whitespace', () => {
+    const { container } = renderEventPanel({
+      subtitle: '   ',
+      title: ' ',
+      description: '    '
+    });
+    const subtitle = container.querySelector('[data-slot="_subtitle"]');
+    const title = container.querySelector('[data-slot="_title"]');
+    const description = container.querySelector('[data-slot="_description"]');
+    expect(subtitle).toBeNull();
+    expect(title).toBeNull();
+    expect(description).toBeNull();
+  });
+
+  it('omits the buttons slot when no buttons are provided', () => {
+    const { container } = renderEventPanel({ buttons: undefined });
+    const buttons = container.querySelector('[data-slot="_buttons"]');
+    expect(buttons).toBeNull();
   });
 });
