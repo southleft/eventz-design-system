@@ -36,7 +36,7 @@ describe('Chip', () => {
     const iconWrapper = container.querySelector('span[aria-hidden="true"]');
     const classTokensApplied =
       root.className.includes('inline-flex') &&
-      (iconWrapper?.className.includes('[&>svg]:size-4') ?? false);
+      (iconWrapper?.className.includes('shrink-0') ?? false);
     expect(classTokensApplied).toBe(true);
   });
 });
