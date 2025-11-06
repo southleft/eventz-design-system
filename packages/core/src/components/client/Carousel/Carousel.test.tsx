@@ -72,11 +72,9 @@ function createEmblaMock(): EmblaControl {
       Array.from({ length: emblaConfig.snapCount }, (_, index) => index)
     ),
     selectedScrollSnap: jest.fn(() => selected),
-    canScrollPrev: jest.fn(() => (canPrevOverride ?? selected > 0)),
+    canScrollPrev: jest.fn(() => canPrevOverride ?? selected > 0),
     canScrollNext: jest.fn(
-      () =>
-        canNextOverride ??
-        selected < Math.max(emblaConfig.snapCount - 1, 0)
+      () => canNextOverride ?? selected < Math.max(emblaConfig.snapCount - 1, 0)
     ),
     scrollPrev: jest.fn(() => {
       if (selected > 0) {
@@ -166,9 +164,8 @@ const createAutoplayControl = (options: Record<string, unknown> = {}) => {
   return control;
 };
 
-const autoplayFactory: jest.Mock<AutoplayControl, [Record<string, unknown>?]> = jest.fn(
-  createAutoplayControl
-);
+const autoplayFactory: jest.Mock<AutoplayControl, [Record<string, unknown>?]> =
+  jest.fn(createAutoplayControl);
 
 jest.mock('embla-carousel-autoplay', () => ({
   __esModule: true,
@@ -345,7 +342,11 @@ describe('Carousel', () => {
       },
       <>
         {slides}
-        <ContextInvoker onInvoke={ctx => { capturedContext = ctx; }} />
+        <ContextInvoker
+          onInvoke={ctx => {
+            capturedContext = ctx;
+          }}
+        />
       </>
     );
 
@@ -378,12 +379,10 @@ describe('Carousel', () => {
 
     renderCarousel(
       {},
-      (
-        <>
-          {slides}
-          <IndexProbe />
-        </>
-      )
+      <>
+        {slides}
+        <IndexProbe />
+      </>
     );
 
     currentEmblaControl.updateSelected(2);
@@ -480,11 +479,7 @@ describe('Carousel', () => {
   });
 
   it('falls back to the default aria-label when none is supplied', () => {
-    render(
-      <Carousel>
-        {slides}
-      </Carousel>
-    );
+    render(<Carousel>{slides}</Carousel>);
 
     const region = screen.getByRole('region', { name: 'Carousel' });
     expect(region.getAttribute('aria-labelledby')).toBeNull();
@@ -528,12 +523,14 @@ describe('Carousel', () => {
 
     renderCarousel(
       { autoPlay: true, onAutoPlayChange: handleAutoPlayChange },
-      (
-        <>
-          {slides}
-          <ContextInvoker onInvoke={ctx => { capturedContext = ctx; }} />
-        </>
-      )
+      <>
+        {slides}
+        <ContextInvoker
+          onInvoke={ctx => {
+            capturedContext = ctx;
+          }}
+        />
+      </>
     );
 
     await act(async () => {});
@@ -559,7 +556,11 @@ describe('Carousel', () => {
     control.isPlaying.mockReturnValue(true);
     autoplayFactory.mockImplementationOnce(() => control);
     const handleAutoPlayChange = jest.fn();
-    renderCarousel({ autoPlay: true, onAutoPlayChange: handleAutoPlayChange, respectReducedMotion: false });
+    renderCarousel({
+      autoPlay: true,
+      onAutoPlayChange: handleAutoPlayChange,
+      respectReducedMotion: false
+    });
     expect(handleAutoPlayChange).toHaveBeenCalledTimes(0);
   });
 
@@ -570,12 +571,14 @@ describe('Carousel', () => {
 
     renderCarousel(
       { autoPlay: true, onAutoPlayChange: handleAutoPlayChange },
-      (
-        <>
-          {slides}
-          <ContextInvoker onInvoke={ctx => { capturedContext = ctx; }} />
-        </>
-      )
+      <>
+        {slides}
+        <ContextInvoker
+          onInvoke={ctx => {
+            capturedContext = ctx;
+          }}
+        />
+      </>
     );
 
     await act(async () => {});
@@ -601,12 +604,15 @@ describe('Carousel', () => {
 
     renderCarousel(
       { autoPlay: true },
-      (
-        <>
-          {slides}
-          <ContextInvoker once={false} onInvoke={ctx => { capturedContext = ctx; }} />
-        </>
-      )
+      <>
+        {slides}
+        <ContextInvoker
+          once={false}
+          onInvoke={ctx => {
+            capturedContext = ctx;
+          }}
+        />
+      </>
     );
 
     await act(async () => {});
@@ -688,12 +694,15 @@ describe('Carousel', () => {
 
     const view = renderCarousel(
       {},
-      (
-        <>
-          {slides}
-          <ContextInvoker once={false} onInvoke={ctx => { capturedContext = ctx; }} />
-        </>
-      )
+      <>
+        {slides}
+        <ContextInvoker
+          once={false}
+          onInvoke={ctx => {
+            capturedContext = ctx;
+          }}
+        />
+      </>
     );
 
     await act(async () => {});
@@ -761,5 +770,15 @@ describe('Carousel', () => {
       ],
       deltas: { prev: 0, next: 0, goTo: 0 }
     });
+  });
+
+  it('applies data-peek="true" to all slide wrappers when peek is true', () => {
+    renderCarousel({ peek: true });
+    const wrappers = screen.getAllByRole('group', { name: /Slide \d+ of \d+/ });
+    const summary = {
+      count: wrappers.length,
+      uniquePeek: Array.from(new Set(wrappers.map(w => w.getAttribute('data-peek')))).join(',')
+    };
+    expect(summary).toEqual({ count: 5, uniquePeek: 'true' });
   });
 });
