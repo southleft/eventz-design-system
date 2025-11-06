@@ -15,7 +15,8 @@ import {
   MapIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
-  UploadIcon as ShareIcon
+  ShareIcon,
+  ArrowOutwardIcon
 } from '../../../icons';
 
 const sampleUsers: React.ComponentProps<typeof AvatarGroup>['users'] = [
@@ -25,11 +26,11 @@ const sampleUsers: React.ComponentProps<typeof AvatarGroup>['users'] = [
   { name: 'Lena Brooks', imageUrl: 'https://i.pravatar.cc/96?img=4' }
 ];
 
-const renderChips = (): React.ReactNode[] => ([
+const renderChips = (): React.ReactNode[] => [
   <Chip key="inperson" label="In-person" icon={<EventIcon decorative />} />,
   <Chip key="livestream" label="Live stream" icon={<ShareIcon decorative />} />,
   <Chip key="campus" label="Downtown campus" icon={<MapIcon decorative />} />
-]);
+];
 
 const renderAvatars = (): React.ReactNode => (
   <AvatarGroup users={sampleUsers} showMessage={false} count={128} avatarsToDisplay={4} />
@@ -37,9 +38,11 @@ const renderAvatars = (): React.ReactNode => (
 
 const renderButtons = (): React.ReactNode => (
   <>
-    <Button variant="primary">Get tickets</Button>
-    <Button variant="secondary" startIcon={<ShareIcon decorative />}>
-      Share
+    <Button variant="primary" endIcon={<ArrowOutwardIcon />}>
+      Find tickets
+    </Button>
+    <Button variant="secondary" startIcon={<EventIcon />}>
+      Add to calendar
     </Button>
   </>
 );
@@ -123,14 +126,7 @@ export const CarouselComposition: Story = {
         title: 'Founder fireside',
         subtitle: 'Conversation',
         description: 'Hear how product teams iterate quickly with real user input.',
-        buttons: (
-          <>
-            <Button variant="primary">Reserve</Button>
-            <Button variant="secondary" startIcon={<ShareIcon decorative />}>
-              Share
-            </Button>
-          </>
-        )
+        buttons: renderButtons()
       },
       {
         imgSrc: 'https://picsum.photos/seed/event-carousel-2/560/490',
