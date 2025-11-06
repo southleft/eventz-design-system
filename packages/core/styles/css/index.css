@@ -392,17 +392,22 @@
     background-image: var(--dt-overlay-image-overlay-dark);
   }
 
-  /* Dark mode */
   :where(html.light, html[data-theme='light']) .overlay-image-overlay {
     background-image: var(--dt-overlay-image-overlay-light);
   }
 
-  /* Light mode */
   :where(html:not(.light):not([data-theme='light'])) .overlay-image-overlay {
     background-image: var(--dt-overlay-image-overlay-dark);
   }
 
-  /* Focus ring token hook (Tailwind’s ring system uses --tw-ring-color) */
+  :where(html.light, html[data-theme='light']) .background-footer {
+    background-image: var(--dt-background-footer-light);
+  }
+
+  :where(html:not(.light):not([data-theme='light'])) .background-footer {
+    background-image: var(--dt-background-footer-dark);
+  }
+
   .ring-comp-button-focus-color-ring {
     --tw-ring-color: var(--color-comp-button-focus-color-ring);
   }
