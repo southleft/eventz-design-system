@@ -1235,6 +1235,15 @@
     max-width: 96rem;
   }
 }
+.-mx-24 {
+  margin-inline: calc(var(--spacing) * -24);
+}
+.-mx-32 {
+  margin-inline: calc(var(--spacing) * -32);
+}
+.-mx-36 {
+  margin-inline: calc(var(--spacing) * -36);
+}
 .mx-0 {
   margin-inline: var(--spacing-0);
 }
@@ -2139,6 +2148,9 @@
 .pl-1 {
   padding-left: var(--spacing-1);
 }
+.pl-2 {
+  padding-left: var(--spacing-2);
+}
 .pl-4 {
   padding-left: var(--spacing-4);
 }
@@ -2401,6 +2413,11 @@
 .\[scrollbar-width\:none\] {
   scrollbar-width: none;
 }
+.not-group-data-\[is-in-view\=true\]\:mx-24 {
+  &:not(*:is(:where(.group)[data-is-in-view="true"] *)) {
+    margin-inline: calc(var(--spacing) * 24);
+  }
+}
 .not-data-\[peek\=true\]\:basis-full {
   &:not(*[data-peek="true"]) {
     flex-basis: 100%;
@@ -2479,6 +2496,11 @@
 .group-data-\[highlighted\]\:text-color-content-default-hover {
   &:is(:where(.group)[data-highlighted] *) {
     color: var(--color-color-content-default-hover);
+  }
+}
+.group-data-\[is-in-view\=true\]\:mx-24 {
+  &:is(:where(.group)[data-is-in-view="true"] *) {
+    margin-inline: calc(var(--spacing) * 24);
   }
 }
 .group-data-\[is-in-view\=true\]\:flex {
@@ -3294,9 +3316,34 @@
     margin-inline: calc(var(--spacing) * -36);
   }
 }
+.lg\:mx-0 {
+  @media (width >= 64rem) {
+    margin-inline: var(--spacing-0);
+  }
+}
+.lg\:mx-2 {
+  @media (width >= 64rem) {
+    margin-inline: var(--spacing-2);
+  }
+}
+.lg\:mx-4 {
+  @media (width >= 64rem) {
+    margin-inline: var(--spacing-4);
+  }
+}
+.lg\:mx-8 {
+  @media (width >= 64rem) {
+    margin-inline: calc(var(--spacing) * 8);
+  }
+}
 .lg\:mx-24 {
   @media (width >= 64rem) {
     margin-inline: calc(var(--spacing) * 24);
+  }
+}
+.lg\:mx-32 {
+  @media (width >= 64rem) {
+    margin-inline: calc(var(--spacing) * 32);
   }
 }
 .lg\:mt-24 {
@@ -3362,6 +3409,14 @@
 .lg\:w-full {
   @media (width >= 64rem) {
     width: 100%;
+  }
+}
+.lg\:scale-110 {
+  @media (width >= 64rem) {
+    --tw-scale-x: 110%;
+    --tw-scale-y: 110%;
+    --tw-scale-z: 110%;
+    scale: var(--tw-scale-x) var(--tw-scale-y);
   }
 }
 .lg\:justify-end {

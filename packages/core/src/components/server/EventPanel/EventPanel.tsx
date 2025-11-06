@@ -22,13 +22,13 @@ export interface EventPanelProps extends NativeDivProps {
 }
 
 const baseClasses = `
-  isolate
+  isolate w-[390px] lg:w-[560px] lg:mx-32
 `;
 
 const mediaClasses = `
   relative overflow-clip w-[390px] h-[390px] lg:w-[560px] lg:h-[490px]
   transform-gpu transition-transform duration-700 ease-in-out motion-reduce:transition-none
-  scale-110 group-data-[is-in-view=true]:scale-100 mx-24
+  scale-80 lg:scale-110 group-data-[is-in-view=true]:scale-100
 `;
 
 const imageClasses = `
@@ -41,10 +41,12 @@ const overlayClasses = `
 
 const actionsBarClasses = `
   absolute inset-x-0 bottom-0 flex items-center justify-between p-4
+  opacity-0 transition-opacity duration-1000 ease-in-out
+  group-data-[is-in-view=true]:opacity-100 motion-reduce:transition-none
 `;
 
 const detailsClasses = `
-  px-32 py-4 lg:hidden w-[380px]
+  px-2 py-4 lg:hidden w-[380px]
   opacity-0 transition-opacity duration-1000 ease-in-out
   group-data-[is-in-view=true]:opacity-100 motion-reduce:transition-none
 `;
@@ -70,7 +72,7 @@ const chipsClasses = `
 `;
 
 const buttonsClasses = `
-  pl-24 mt-12 lg:mt-24 mx-12 lg:mx-24 flex gap-3 items-center justify-start lg:justify-end
+  mt-12 lg:mt-24 mx-12 lg:mx-0 flex gap-3 items-center justify-start lg:justify-end
   opacity-0 transition-opacity duration-1000 ease-in-out
   group-data-[is-in-view=true]:opacity-100 motion-reduce:transition-none
 `;
