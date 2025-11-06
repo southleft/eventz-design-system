@@ -3,6 +3,7 @@ export * from './AnimatedCircularProgressIcon';
 export * from './ArrowBackIcon';
 export * from './ArrowDropDownIcon';
 export * from './ArrowForwardIcon';
+export * from './ArrowOutwardIcon';
 export * from './ArtistIcon';
 export * from './CancelIcon';
 export * from './CheckIcon';
