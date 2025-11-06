@@ -11,8 +11,6 @@
   --color-neutral-800: oklch(26.9% 0 0);
   --color-neutral-900: oklch(20.5% 0 0);
   --color-neutral-950: oklch(14.5% 0 0);
-  --color-black: #000;
-  --color-white: #fff;
   --spacing: 1px;
   --container-xs: 20rem;
   --container-xl: 36rem;
@@ -1237,6 +1235,9 @@
 .mx-4 {
   margin-inline: var(--spacing-4);
 }
+.mx-24 {
+  margin-inline: calc(var(--spacing) * 24);
+}
 .mx-auto {
   margin-inline: auto;
 }
@@ -1488,6 +1489,15 @@
 .w-\[240px\] {
   width: 240px;
 }
+.w-\[300px\] {
+  width: 300px;
+}
+.w-\[350px\] {
+  width: 350px;
+}
+.w-\[380px\] {
+  width: 380px;
+}
 .w-\[390px\] {
   width: 390px;
 }
@@ -1508,6 +1518,12 @@
 }
 .max-w-1600 {
   max-width: calc(var(--spacing) * 1600);
+}
+.max-w-\[380px\] {
+  max-width: 380px;
+}
+.max-w-\[390px\] {
+  max-width: 390px;
 }
 .max-w-xl {
   max-width: var(--container-xl);
@@ -1551,6 +1567,12 @@
   --tw-scale-x: 80%;
   --tw-scale-y: 80%;
   --tw-scale-z: 80%;
+  scale: var(--tw-scale-x) var(--tw-scale-y);
+}
+.scale-110 {
+  --tw-scale-x: 110%;
+  --tw-scale-y: 110%;
+  --tw-scale-z: 110%;
   scale: var(--tw-scale-x) var(--tw-scale-y);
 }
 .rotate-0 {
@@ -1659,9 +1681,6 @@
 }
 .gap-\[4px\] {
   gap: 4px;
-}
-.gap-x-4 {
-  column-gap: var(--spacing-4);
 }
 .-space-x-2 {
   :where(& > :not(:last-child)) {
@@ -1937,6 +1956,9 @@
 .p-4 {
   padding: var(--spacing-4);
 }
+.p-12 {
+  padding: calc(var(--spacing) * 12);
+}
 .p-20 {
   padding: calc(var(--spacing) * 20);
 }
@@ -1969,6 +1991,9 @@
 }
 .px-24 {
   padding-inline: calc(var(--spacing) * 24);
+}
+.px-32 {
+  padding-inline: calc(var(--spacing) * 32);
 }
 .py-\(--spacing-1\) {
   padding-block: var(--spacing-1);
@@ -2370,12 +2395,19 @@
     color: var(--color-color-content-default-hover);
   }
 }
-.group-data-\[is-in-view\=true\]\:scale-80 {
+.group-data-\[is-in-view\=true\]\:flex {
   &:is(:where(.group)[data-is-in-view="true"] *) {
-    --tw-scale-x: 80%;
-    --tw-scale-y: 80%;
-    --tw-scale-z: 80%;
-    scale: var(--tw-scale-x) var(--tw-scale-y);
+    display: flex;
+  }
+}
+.group-data-\[is-in-view\=true\]\:hidden {
+  &:is(:where(.group)[data-is-in-view="true"] *) {
+    display: none;
+  }
+}
+.group-data-\[is-in-view\=true\]\:inline-block {
+  &:is(:where(.group)[data-is-in-view="true"] *) {
+    display: inline-block;
   }
 }
 .group-data-\[is-in-view\=true\]\:scale-100 {
@@ -2383,6 +2415,14 @@
     --tw-scale-x: 100%;
     --tw-scale-y: 100%;
     --tw-scale-z: 100%;
+    scale: var(--tw-scale-x) var(--tw-scale-y);
+  }
+}
+.group-data-\[is-in-view\=true\]\:scale-110 {
+  &:is(:where(.group)[data-is-in-view="true"] *) {
+    --tw-scale-x: 110%;
+    --tw-scale-y: 110%;
+    --tw-scale-z: 110%;
     scale: var(--tw-scale-x) var(--tw-scale-y);
   }
 }

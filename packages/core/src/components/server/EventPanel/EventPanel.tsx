@@ -28,7 +28,7 @@ const baseClasses = `
 const mediaClasses = `
   relative overflow-clip w-[390px] h-[390px] lg:w-[560px] lg:h-[490px]
   transform-gpu transition-transform duration-700 ease-in-out motion-reduce:transition-none
-  scale-80 group-data-[is-in-view=true]:scale-100 mx-0 lg:-mx-36
+  scale-110 group-data-[is-in-view=true]:scale-100 mx-24
 `;
 
 const imageClasses = `
@@ -44,7 +44,7 @@ const actionsBarClasses = `
 `;
 
 const detailsClasses = `
-  p-4 lg:hidden
+  px-32 py-4 lg:hidden w-[380px]
 `;
 
 const subtitleClasses = `
@@ -68,7 +68,7 @@ const labelsClasses = `
 `;
 
 const buttonsClasses = `
-  mt-2 flex gap-3 items-center justify-end
+  mt-2 hidden group-data-[is-in-view=true]:flex gap-3 items-center justify-end w-[390px] lg:w-[560px]
 `;
 
 const leftClasses = `
