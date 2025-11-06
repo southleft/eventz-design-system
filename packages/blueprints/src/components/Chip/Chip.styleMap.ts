@@ -8,7 +8,7 @@ export const ChipStyleMap = defineStyleMap({
     'items-center',
     'gap-1',
     'text-color-content-weak',
-    'bg-background-default'
+    'bg-background-none'
   ] as const,
 
   slots: {
