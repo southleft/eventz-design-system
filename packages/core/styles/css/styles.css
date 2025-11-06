@@ -3278,6 +3278,11 @@
     padding-inline: calc(var(--spacing) * 112);
   }
 }
+.lg\:py-56 {
+  @media (width >= 64rem) {
+    padding-block: calc(var(--spacing) * 56);
+  }
+}
 .lg\:text-lg {
   @media (width >= 64rem) {
     font-size: var(--text-lg);
