@@ -12,7 +12,6 @@ export const EventPanelContract = defineContract({
     imgSrc: { type: 'string', required: true },
     imgAlt: { type: 'string', required: true },
     loading: { type: 'enum', options: ['lazy', 'eager'] as const, default: 'lazy' },
-    fetchPriority: { type: 'enum', options: ['high', 'low'] as const },
 
     // Overlay split nav on the image
     leftAction: { type: 'slot' },
