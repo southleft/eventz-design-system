@@ -52,7 +52,7 @@ describe('Heading', () => {
       </Heading>
     );
     const element = screen.getByRole('heading', { level: 1, name: 'Explicit Size' });
-    expect(element.className.includes('text-2xl')).toBe(false);
+    expect(element.className.includes('text-3xl')).toBe(false);
   });
 
   it('omits preset weight class when weight is explicit', () => {

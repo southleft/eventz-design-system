@@ -70,9 +70,9 @@ export const HeadingStyleMap = defineStyleMap({
     noMargin: ['m-0'] as const,
 
     // Preset SIZE states (mobile-first; apply lg: bump only where specified)
-    presetSizeH1: ['text-2xl'] as const,
+    presetSizeH1: ['text-3xl'] as const,
     presetSizeH2: ['text-2xl'] as const,
-    presetSizeH3: ['text-2xl'] as const,
+    presetSizeH3: ['text-xl'] as const,
     presetSizeH4: ['text-xl'] as const,
     presetSizeH5: ['text-lg'] as const,
     presetSizeH6: ['text-base'] as const,
