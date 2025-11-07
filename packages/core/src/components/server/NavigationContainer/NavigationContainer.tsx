@@ -17,7 +17,7 @@ export const NavigationContainer = (props: NavigationContainerProps) => {
   const rootClassName = collapseWhitespace(composeClasses(baseClasses, className));
 
   return (
-    <div {...rest} className={rootClassName}>
+    <div {...rest} className={rootClassName} data-slot="container">
       {children}
     </div>
   );

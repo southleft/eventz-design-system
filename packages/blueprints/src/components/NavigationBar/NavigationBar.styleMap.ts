@@ -5,6 +5,7 @@ export const NavigationBarStyleMap = defineStyleMap({
 
   // Root nav classes mirror runtime containerClasses.
   base: [
+    'group',
     'flex',
     'items-center',
     'justify-between',

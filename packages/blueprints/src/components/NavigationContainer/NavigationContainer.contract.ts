@@ -13,7 +13,7 @@ export const NavigationContainerContract = defineContract({
   props: {},
 
   // No named slots; arbitrary children allowed.
-  slots: [] as const,
+  slots: ['container'] as const,
 
   // Advisory only; structural classes belong in the styleMap.
   layout: {
