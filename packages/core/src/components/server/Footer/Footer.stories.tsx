@@ -7,14 +7,10 @@ import * as React from 'react';
 import { Footer, FooterProps } from './Footer';
 import { NavigationContainer } from '../NavigationContainer';
 import { TextLink } from '../../client/TextLink';
-import { NavigationBar, NavigationBarProps } from '../NavigationBar';
-
-const baseItems: NavigationBarProps['items'] = [
-  { label: '© 2025 DO312 All Rights Reserved', href: '/' }
-];
+import { NavigationBar } from '../NavigationBar';
 
 const baseSecondaryNavigation = (
-  <div className="inline-flex gap-4">
+  <div className="inline-flex gap-4 mb-24 lg:mb-0">
     <TextLink variant="subtle" label="Privacy" href="https://www.example.com" />
     <TextLink variant="subtle" label="Terms and conditions" href="https://www.example.com" />
   </div>
@@ -66,8 +62,13 @@ export const WithContainers: Story = {
         <NavigationContainer>{defaultChildren}</NavigationContainer>
         <NavigationBar
           ariaLabel="Footer navigation"
-          items={baseItems}
           logo={defaultLogo}
+          tagline={
+            <div className="text-xs uppercase text-color-content-default mb-12 lg:mb-0">
+              © 2025 DO312 All Rights Reserved
+            </div>
+          }
+          wrap
           secondaryNavigation={baseSecondaryNavigation}
         />
       </>

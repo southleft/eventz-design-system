@@ -1292,6 +1292,9 @@
 .mb-12 {
   margin-bottom: calc(var(--spacing) * 12);
 }
+.mb-24 {
+  margin-bottom: calc(var(--spacing) * 24);
+}
 .mb-auto {
   margin-bottom: auto;
 }
@@ -2415,6 +2418,16 @@
     rotate: 180deg;
   }
 }
+.group-data-\[wrap\=true\]\:flex-col {
+  &:is(:where(.group)[data-wrap="true"] *) {
+    flex-direction: column;
+  }
+}
+.group-data-\[wrap\=true\]\:items-baseline {
+  &:is(:where(.group)[data-wrap="true"] *) {
+    align-items: baseline;
+  }
+}
 .placeholder\:text-color-content-subtle {
   &::placeholder {
     color: var(--color-color-content-subtle);
@@ -3124,6 +3137,21 @@
     }
   }
 }
+.data-\[wrap\=true\]\:h-auto {
+  &[data-wrap="true"] {
+    height: auto;
+  }
+}
+.data-\[wrap\=true\]\:flex-col {
+  &[data-wrap="true"] {
+    flex-direction: column;
+  }
+}
+.data-\[wrap\=true\]\:items-baseline {
+  &[data-wrap="true"] {
+    align-items: baseline;
+  }
+}
 .motion-reduce\:transition-none {
   @media (prefers-reduced-motion: reduce) {
     transition-property: none;
@@ -3198,6 +3226,11 @@
 .lg\:-mr-18 {
   @media (width >= 64rem) {
     margin-right: calc(var(--spacing) * -18);
+  }
+}
+.lg\:mb-0 {
+  @media (width >= 64rem) {
+    margin-bottom: var(--spacing-0);
   }
 }
 .lg\:ml-18 {
@@ -3287,6 +3320,41 @@
   @media (width >= 64rem) {
     font-size: var(--text-lg);
     line-height: var(--tw-leading, var(--text-lg--line-height));
+  }
+}
+.group-data-\[wrap\=true\]\:lg\:flex-row {
+  &:is(:where(.group)[data-wrap="true"] *) {
+    @media (width >= 64rem) {
+      flex-direction: row;
+    }
+  }
+}
+.group-data-\[wrap\=true\]\:lg\:items-center {
+  &:is(:where(.group)[data-wrap="true"] *) {
+    @media (width >= 64rem) {
+      align-items: center;
+    }
+  }
+}
+.data-\[wrap\=true\]\:lg\:h-88 {
+  &[data-wrap="true"] {
+    @media (width >= 64rem) {
+      height: calc(var(--spacing) * 88);
+    }
+  }
+}
+.data-\[wrap\=true\]\:lg\:flex-row {
+  &[data-wrap="true"] {
+    @media (width >= 64rem) {
+      flex-direction: row;
+    }
+  }
+}
+.data-\[wrap\=true\]\:lg\:items-center {
+  &[data-wrap="true"] {
+    @media (width >= 64rem) {
+      align-items: center;
+    }
   }
 }
 .group-hover\:\[\&_\*\]\:text-color-content-weak-hover {

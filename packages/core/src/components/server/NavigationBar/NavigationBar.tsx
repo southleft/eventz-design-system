@@ -19,6 +19,7 @@ export interface NavigationBarProps
   ariaLabel: string;
   items?: NavigationBarItem[];
   fixed?: boolean;
+  wrap?: boolean;
   logo?: React.ReactNode;
   tagline?: React.ReactNode;
   mobileNavigation?: React.ReactNode;
@@ -26,11 +27,18 @@ export interface NavigationBarProps
 }
 
 const containerClasses = `
+  group
   flex
   items-center
+  data-[wrap=true]:flex-col
+  data-[wrap=true]:items-baseline
+  data-[wrap=true]:lg:flex-row
+  data-[wrap=true]:lg:items-center
   justify-between
   h-68
   lg:h-88
+  data-[wrap=true]:h-auto
+  data-[wrap=true]:lg:h-88
   px-16
   lg:px-112
   bg-background-none
@@ -40,6 +48,10 @@ const containerClasses = `
 const primaryClasses = `
   flex
   items-center
+  group-data-[wrap=true]:flex-col
+  group-data-[wrap=true]:items-baseline
+  group-data-[wrap=true]:lg:flex-row
+  group-data-[wrap=true]:lg:items-center
   justify-start
   flex-1
   min-w-0
@@ -95,6 +107,7 @@ export const NavigationBar = React.forwardRef<NavigationBarElement, NavigationBa
       ariaLabel,
       items = [],
       fixed = false,
+      wrap = false,
       logo,
       tagline,
       mobileNavigation,
@@ -130,6 +143,7 @@ export const NavigationBar = React.forwardRef<NavigationBarElement, NavigationBa
         className={containerClassName}
         aria-label={normalizedAriaLabel}
         data-slot="container"
+        {...(wrap ? { 'data-wrap': 'true' } : {})}
       >
         <div className={primaryClassName} data-slot="primary">
           {mobileNavigation ? (

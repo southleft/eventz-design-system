@@ -28,6 +28,9 @@ export const NavigationBarContract = defineContract({
     /** When true, the bar is `position: fixed` at the top of the viewport. */
     fixed: { type: 'boolean', default: false },
 
+    /** When true, sets a group-data-wrap marker on the container for downstream styling. */
+    wrap: { type: 'boolean', default: false },
+
     /** Optional brand mark rendered ahead of the primary link list. */
     logo: { type: 'slot' },
 
