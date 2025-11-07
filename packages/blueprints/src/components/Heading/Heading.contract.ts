@@ -139,7 +139,7 @@ export const HeadingContract = defineContract({
       byAs: {
         h1: { size: '3xl', weight: 'bold' },
         h2: { size: '2xl', weight: 'bold' },
-        h3: { size: '2xl', weight: 'extra-bold' },
+        h3: { size: 'xl', weight: 'extra-bold' },
         h4: { size: 'xl', weight: 'bold' },
         h5: { size: 'lg', weight: 'bold' },
         h6: { size: 'base', weight: 'bold' }
