@@ -5,11 +5,18 @@ export const NavigationBarStyleMap = defineStyleMap({
 
   // Root nav classes mirror runtime containerClasses.
   base: [
+    'group',
     'flex',
     'items-center',
     'justify-between',
+    'data-[wrap=true]:flex-col',
+    'data-[wrap=true]:items-baseline',
+    'data-[wrap=true]:lg:flex-row',
+    'data-[wrap=true]:lg:items-center',
     'h-68',
     'lg:h-88',
+    'data-[wrap=true]:h-auto',
+    'data-[wrap=true]:lg:h-88',
     'px-16',
     'lg:px-112',
     'bg-background-none',
@@ -20,10 +27,25 @@ export const NavigationBarStyleMap = defineStyleMap({
     /** Root nav container */
     container: [] as const,
     /** Primary cluster: logo? → list → mobileNavigation? */
-    primary: ['flex', 'items-center', 'justify-start', 'flex-1', 'min-w-0', 'gap-4', 'lg:gap-8'] as const,
+    primary: [
+      'flex',
+      'items-center',
+      'group-data-[wrap=true]:flex-col',
+      'group-data-[wrap=true]:items-baseline',
+      'group-data-[wrap=true]:lg:flex-row',
+      'group-data-[wrap=true]:lg:items-center',
+      'justify-start',
+      'flex-1',
+      'min-w-0',
+      'gap-4',
+      'lg:gap-8'
+    ] as const,
 
     /** Brand mark slot (optional) */
     logo: ['shrink-0', 'max-h-83'] as const,
+
+    /** Tagline slot placed after the logo */
+    tagline: [] as const,
 
     /** Horizontal list of primary links (TextLink hosts) */
     list: ['items-center', 'min-w-0', 'gap-4', 'lg:gap-8'] as const,

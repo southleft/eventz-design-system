@@ -13,8 +13,7 @@ export const NavigationBarContract = defineContract({
     /** Primary navigation links (rendered as TextLink items). */
     items: {
       type: 'array',
-      required: true,
-      minItems: 1,
+      required: false,
       of: {
         type: 'object',
         shape: {
@@ -28,8 +27,14 @@ export const NavigationBarContract = defineContract({
     /** When true, the bar is `position: fixed` at the top of the viewport. */
     fixed: { type: 'boolean', default: false },
 
+    /** When true, sets a group-data-wrap marker on the container for downstream styling. */
+    wrap: { type: 'boolean', default: false },
+
     /** Optional brand mark rendered ahead of the primary link list. */
     logo: { type: 'slot' },
+
+    /** Optional tagline rendered between the logo and primary links. */
+    tagline: { type: 'slot' },
 
     /**
      * Optional mobile navigation trigger. When present, the primary link list is hidden at small
@@ -47,6 +52,7 @@ export const NavigationBarContract = defineContract({
     'primary',
     'mobileNavigation',
     'logo',
+    'tagline',
     'list',
     'item',
     'secondaryNavigation'
@@ -64,6 +70,7 @@ export const NavigationBarContract = defineContract({
         children: [
           { tag: 'div', slot: 'mobileNavigation' },
           { tag: 'div', slot: 'logo' },
+          { tag: 'div', slot: 'tagline' },
           {
             tag: 'ul',
             slot: 'list',

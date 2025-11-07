@@ -13,6 +13,32 @@ const baseItems: NavigationBarProps['items'] = [
 ];
 
 describe('NavigationBar', () => {
+  it('renders tagline when provided', () => {
+    render(
+      <NavigationBar
+        ariaLabel="Nav with tagline"
+        items={[]}
+        tagline={<div data-testid="tagline">Hello Tagline</div>}
+      />
+    );
+
+    expect(screen.getByTestId('tagline')).toBeInTheDocument();
+  });
+
+  it('renders with no items', () => {
+    render(<NavigationBar ariaLabel="No items nav" />);
+
+    expect(screen.getByRole('navigation', { name: 'No items nav' })).toBeInTheDocument();
+  });
+
+  it('sets data-wrap attribute when wrap is true', () => {
+    render(<NavigationBar ariaLabel="Wrap nav" items={baseItems} wrap />);
+
+    expect(screen.getByRole('navigation', { name: 'Wrap nav' })).toHaveAttribute(
+      'data-wrap',
+      'true'
+    );
+  });
   it('renders navigation landmark with the provided aria-label', () => {
     render(<NavigationBar ariaLabel="Primary navigation" items={baseItems} />);
     expect(screen.getByRole('navigation', { name: 'Primary navigation' })).toBeInTheDocument();
