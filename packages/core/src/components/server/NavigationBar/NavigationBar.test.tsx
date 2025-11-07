@@ -30,6 +30,15 @@ describe('NavigationBar', () => {
 
     expect(screen.getByRole('navigation', { name: 'No items nav' })).toBeInTheDocument();
   });
+
+  it('sets data-wrap attribute when wrap is true', () => {
+    render(<NavigationBar ariaLabel="Wrap nav" items={baseItems} wrap />);
+
+    expect(screen.getByRole('navigation', { name: 'Wrap nav' })).toHaveAttribute(
+      'data-wrap',
+      'true'
+    );
+  });
   it('renders navigation landmark with the provided aria-label', () => {
     render(<NavigationBar ariaLabel="Primary navigation" items={baseItems} />);
     expect(screen.getByRole('navigation', { name: 'Primary navigation' })).toBeInTheDocument();

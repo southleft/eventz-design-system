@@ -354,33 +354,47 @@ describe('Scroller', () => {
   });
 
   const runResizeObserverScenario = () => {
-    const observe = jest.fn<void, [Element, ResizeObserverOptions?]>();
-    const disconnect = jest.fn<void, []>();
+    const observeSpy = jest.fn<void, [Element, ResizeObserverOptions?]>();
+    const disconnectSpy = jest.fn<void, []>();
+    let resizeCallback: ResizeObserverCallback | null = null;
 
     class ResizeObserverMock {
-      constructor() {}
-      observe = observe;
-      disconnect = disconnect;
+      constructor(callback: ResizeObserverCallback) {
+        resizeCallback = callback;
+      }
+
+      observe: ResizeObserver['observe'] = (target, options) => {
+        observeSpy(target, options);
+      };
+
+      disconnect: ResizeObserver['disconnect'] = () => {
+        disconnectSpy();
+      };
     }
 
     const globalAny = globalThis as Record<string, unknown>;
     const originalResizeObserver = globalAny.ResizeObserver as typeof ResizeObserver | undefined;
-    globalAny.ResizeObserver = ResizeObserverMock;
+    globalAny.ResizeObserver = ResizeObserverMock as unknown as typeof ResizeObserver;
 
     const { unmount } = render(<Scroller>{sampleChildren}</Scroller>);
+
+    act(() => {
+      resizeCallback?.([], {} as ResizeObserver);
+    });
 
     const viewport = document.querySelector('[data-slot="_viewport"]');
     const rail = document.querySelector('[data-slot="_rail"]');
 
-    const observedViewport = observe.mock.calls.some(call => call[0] === viewport);
-    const observedRail = observe.mock.calls.some(call => call[0] === rail);
+    const observedViewport = observeSpy.mock.calls.some(call => call[0] === viewport);
+    const observedRail = observeSpy.mock.calls.some(call => call[0] === rail);
+    const callbackRegistered = resizeCallback !== null;
 
     unmount();
-    const disconnected = disconnect.mock.calls.length > 0;
+    const disconnected = disconnectSpy.mock.calls.length > 0;
 
     globalAny.ResizeObserver = originalResizeObserver ?? undefined;
 
-    return { observedViewport, observedRail, disconnected };
+    return { observedViewport, observedRail, disconnected, callbackRegistered };
   };
 
   it('registers and disconnects ResizeObserver when available', () => {
@@ -389,7 +403,8 @@ describe('Scroller', () => {
     expect(result).toEqual({
       observedViewport: true,
       observedRail: true,
-      disconnected: true
+      disconnected: true,
+      callbackRegistered: true
     });
   });
 
