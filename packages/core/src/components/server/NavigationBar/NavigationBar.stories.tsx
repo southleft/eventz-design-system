@@ -76,3 +76,14 @@ export const RichSecondary: Story = {
     secondaryNavigation: <Button>Sign in</Button>
   }
 };
+
+export const WithTagline: Story = {
+  args: {
+    items: undefined,
+    tagline: (
+      <div className="text-xs uppercase text-color-content-default">
+        © 2025 DO312 All Rights Reserved
+      </div>
+    )
+  }
+};

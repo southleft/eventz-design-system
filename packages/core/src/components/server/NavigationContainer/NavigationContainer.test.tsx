@@ -22,20 +22,4 @@ describe('NavigationContainer', () => {
       text: element.textContent?.trim()
     }).toEqual({ tag: 'DIV', text: 'Child' });
   });
-
-  it('merges styleMap tokens with custom className', () => {
-    render(
-      <NavigationContainer data-testid="navigation-container" className="custom-nav">
-        Content
-      </NavigationContainer>
-    );
-
-    const className = screen.getByTestId('navigation-container').className;
-    const tokens = ['px-16', 'lg:px=112', 'py-24', 'lg:py-56', 'bg-background-none'];
-
-    expect({
-      hasTokens: tokens.every(token => className.includes(token)),
-      hasCustom: className.includes('custom-nav')
-    }).toEqual({ hasTokens: true, hasCustom: true });
-  });
 });

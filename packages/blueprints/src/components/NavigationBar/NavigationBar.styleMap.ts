@@ -25,6 +25,9 @@ export const NavigationBarStyleMap = defineStyleMap({
     /** Brand mark slot (optional) */
     logo: ['shrink-0', 'max-h-83'] as const,
 
+    /** Tagline slot placed after the logo */
+    tagline: [] as const,
+
     /** Horizontal list of primary links (TextLink hosts) */
     list: ['items-center', 'min-w-0', 'gap-4', 'lg:gap-8'] as const,
 

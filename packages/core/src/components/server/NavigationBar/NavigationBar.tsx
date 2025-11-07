@@ -17,9 +17,10 @@ type NavigationBarElement = React.ElementRef<'nav'>;
 export interface NavigationBarProps
   extends Omit<React.ComponentPropsWithoutRef<'nav'>, 'children' | 'aria-label'> {
   ariaLabel: string;
-  items: NavigationBarItem[];
+  items?: NavigationBarItem[];
   fixed?: boolean;
   logo?: React.ReactNode;
+  tagline?: React.ReactNode;
   mobileNavigation?: React.ReactNode;
   secondaryNavigation?: React.ReactNode;
 }
@@ -92,9 +93,10 @@ export const NavigationBar = React.forwardRef<NavigationBarElement, NavigationBa
   (
     {
       ariaLabel,
-      items,
+      items = [],
       fixed = false,
       logo,
+      tagline,
       mobileNavigation,
       secondaryNavigation,
       className,
@@ -135,29 +137,30 @@ export const NavigationBar = React.forwardRef<NavigationBarElement, NavigationBa
               {mobileNavigation}
             </div>
           ) : null}
-
           {logo ? (
             <div className={logoClassName} data-slot="logo">
               {logo}
             </div>
           ) : null}
-
-          <ul className={listClassName} data-slot="list">
-            {items.map((item, index) => {
-              const trimmedLabel = item.label.trim();
-              const trimmedHref = item.href.trim();
-              return (
-                <li className={itemClassName} data-slot="item" key={`${trimmedHref}-${index}`}>
-                  <TextLink
-                    variant="strong"
-                    href={trimmedHref}
-                    label={trimmedLabel}
-                    aria-current={item.current ? 'page' : undefined}
-                  />
-                </li>
-              );
-            })}
-          </ul>
+          {tagline ? <div data-slot="tagline">{tagline}</div> : null}
+          {items.length > 0 ? (
+            <ul className={listClassName} data-slot="list">
+              {items.map((item, index) => {
+                const trimmedLabel = item.label.trim();
+                const trimmedHref = item.href.trim();
+                return (
+                  <li className={itemClassName} data-slot="item" key={`${trimmedHref}-${index}`}>
+                    <TextLink
+                      variant="strong"
+                      href={trimmedHref}
+                      label={trimmedLabel}
+                      aria-current={item.current ? 'page' : undefined}
+                    />
+                  </li>
+                );
+              })}
+            </ul>
+          ) : null}{' '}
         </div>
 
         <div className={secondaryNavigationClassName} data-slot="secondaryNavigation">
