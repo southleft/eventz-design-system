@@ -14,7 +14,6 @@ export const NavigationBarContract = defineContract({
     items: {
       type: 'array',
       required: false,
-      minItems: 1,
       of: {
         type: 'object',
         shape: {

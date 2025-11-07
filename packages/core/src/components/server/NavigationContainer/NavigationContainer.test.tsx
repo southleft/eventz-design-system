@@ -31,12 +31,22 @@ describe('NavigationContainer', () => {
     );
 
     const element = screen.getByTestId('navigation-container');
+    const flags = {
+      px16: element.className.includes('px-16'),
+      lgPx112: element.className.includes('lg:px-112'),
+      py24: element.className.includes('py-24'),
+      lgPy56: element.className.includes('lg:py-56'),
+      background: element.className.includes('bg-background-none'),
+      custom: element.className.includes('custom-class')
+    };
 
-    expect(element.className).toContain('px-16');
-    expect(element.className).toContain('lg:px-112');
-    expect(element.className).toContain('py-24');
-    expect(element.className).toContain('lg:py-56');
-    expect(element.className).toContain('bg-background-none');
-    expect(element.className).toContain('custom-class');
+    expect(flags).toEqual({
+      px16: true,
+      lgPx112: true,
+      py24: true,
+      lgPy56: true,
+      background: true,
+      custom: true
+    });
   });
 });
