@@ -20,24 +20,29 @@ describe('Heading', () => {
       sizeToken: string;
       weightToken: string;
     }> = [
-      { as: 'h1', level: 1, sizeToken: 'text-2xl', weightToken: 'font-bold' },
+      { as: 'h1', level: 1, sizeToken: 'text-3xl', weightToken: 'font-bold' },
       { as: 'h2', level: 2, sizeToken: 'text-2xl', weightToken: 'font-bold' },
-      { as: 'h3', level: 3, sizeToken: 'text-2xl', weightToken: 'font-extrabold' },
+      { as: 'h3', level: 3, sizeToken: 'text-xl', weightToken: 'font-extrabold' },
       { as: 'h4', level: 4, sizeToken: 'text-xl', weightToken: 'font-bold' },
       { as: 'h5', level: 5, sizeToken: 'text-lg', weightToken: 'font-bold' },
       { as: 'h6', level: 6, sizeToken: 'text-base', weightToken: 'font-bold' }
     ];
 
-    it.each(cases)('applies presets for %s when size and weight are auto', ({ as, level, sizeToken, weightToken }) => {
-      render(
-        <Heading as={as} size="auto" weight="auto">
-          Preset
-        </Heading>
-      );
-      const element = screen.getByRole('heading', { level, name: 'Preset' });
-      const hasAllTokens = [sizeToken, weightToken].every((token) => element.className.includes(token));
-      expect(hasAllTokens).toBe(true);
-    });
+    it.each(cases)(
+      'applies presets for %s when size and weight are auto',
+      ({ as, level, sizeToken, weightToken }) => {
+        render(
+          <Heading as={as} size="auto" weight="auto">
+            Preset
+          </Heading>
+        );
+        const element = screen.getByRole('heading', { level, name: 'Preset' });
+        const hasAllTokens = [sizeToken, weightToken].every(token =>
+          element.className.includes(token)
+        );
+        expect(hasAllTokens).toBe(true);
+      }
+    );
   });
 
   it('omits preset size class when size is explicit', () => {
@@ -84,7 +89,7 @@ describe('Heading', () => {
       'lowercase',
       'capitalize'
     ];
-    const hasTokens = forbiddenTokens.some((token) => element.className.includes(token));
+    const hasTokens = forbiddenTokens.some(token => element.className.includes(token));
     expect(hasTokens).toBe(false);
   });
 
@@ -104,11 +109,7 @@ describe('Heading', () => {
   });
 
   it('omits m-0 when noMargin is false', () => {
-    render(
-      <Heading noMargin={false}>
-        Margin Default
-      </Heading>
-    );
+    render(<Heading noMargin={false}>Margin Default</Heading>);
     expect(screen.getByText('Margin Default').className.includes('m-0')).toBe(false);
   });
 });
