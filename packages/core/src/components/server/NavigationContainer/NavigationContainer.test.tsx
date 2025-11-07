@@ -31,10 +31,10 @@ describe('NavigationContainer', () => {
     );
 
     const className = screen.getByTestId('navigation-container').className;
-    const tokens = ['px-16', 'lg:px112', 'py-24', 'lg:py-56', 'bg-background-none'];
+    const tokens = ['px-16', 'lg:px=112', 'py-24', 'lg:py-56', 'bg-background-none'];
 
     expect({
-      hasTokens: tokens.every((token) => className.includes(token)),
+      hasTokens: tokens.every(token => className.includes(token)),
       hasCustom: className.includes('custom-nav')
     }).toEqual({ hasTokens: true, hasCustom: true });
   });
