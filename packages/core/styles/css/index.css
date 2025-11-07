@@ -77,8 +77,11 @@
   --color-color-content-utility-danger-strong: var(--dt-color-content-utility-danger-strong);
   --color-color-content-utility-danger-subtle: var(--dt-color-content-utility-danger-subtle);
   --color-color-content-utility-info-strong: var(--dt-color-content-utility-info-strong);
+  --color-color-content-utility-info-subtle: var(--dt-color-content-utility-info-subtle);
   --color-color-content-utility-success-strong: var(--dt-color-content-utility-success-strong);
+  --color-color-content-utility-success-subtle: var(--dt-color-content-utility-success-subtle);
   --color-color-content-utility-warning-strong: var(--dt-color-content-utility-warning-strong);
+  --color-color-content-utility-warning-subtle: var(--dt-color-content-utility-warning-subtle);
   --color-color-content-weak: var(--dt-color-content-weak);
   --color-color-content-weak-hover: var(--dt-color-content-weak-hover);
 
