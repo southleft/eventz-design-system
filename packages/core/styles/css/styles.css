@@ -1,6 +1,7 @@
 /*! tailwindcss v4.1.16 | MIT License | https://tailwindcss.com */
 @layer properties;
 :root, :host {
+  --color-red-500: oklch(63.7% 0.237 25.331);
   --color-neutral-100: oklch(97% 0 0);
   --color-neutral-200: oklch(92.2% 0 0);
   --color-neutral-300: oklch(87% 0 0);
@@ -1893,6 +1894,9 @@
 .bg-comp-form-color-background-default {
   background-color: var(--color-comp-form-color-background-default);
 }
+.bg-red-500 {
+  background-color: var(--color-red-500);
+}
 .bg-transparent {
   background-color: transparent;
 }
@@ -3157,6 +3161,16 @@
     transition-property: none;
   }
 }
+.sm\:invisible {
+  @media (width >= 40rem) {
+    visibility: hidden;
+  }
+}
+.sm\:visible {
+  @media (width >= 40rem) {
+    visibility: visible;
+  }
+}
 .sm\:top-32 {
   @media (width >= 40rem) {
     top: calc(var(--spacing) * 32);
@@ -3193,6 +3207,16 @@
     line-height: var(--tw-leading, var(--text-lg--line-height));
   }
 }
+.md\:invisible {
+  @media (width >= 48rem) {
+    visibility: hidden;
+  }
+}
+.md\:visible {
+  @media (width >= 48rem) {
+    visibility: visible;
+  }
+}
 .md\:flex {
   @media (width >= 48rem) {
     display: flex;
@@ -3201,6 +3225,16 @@
 .md\:hidden {
   @media (width >= 48rem) {
     display: none;
+  }
+}
+.lg\:invisible {
+  @media (width >= 64rem) {
+    visibility: hidden;
+  }
+}
+.lg\:visible {
+  @media (width >= 64rem) {
+    visibility: visible;
   }
 }
 .lg\:-mx-36 {
@@ -3355,6 +3389,26 @@
     @media (width >= 64rem) {
       align-items: center;
     }
+  }
+}
+.xl\:invisible {
+  @media (width >= 80rem) {
+    visibility: hidden;
+  }
+}
+.xl\:visible {
+  @media (width >= 80rem) {
+    visibility: visible;
+  }
+}
+.\32 xl\:invisible {
+  @media (width >= 96rem) {
+    visibility: hidden;
+  }
+}
+.\32 xl\:visible {
+  @media (width >= 96rem) {
+    visibility: visible;
   }
 }
 .group-hover\:\[\&_\*\]\:text-color-content-weak-hover {

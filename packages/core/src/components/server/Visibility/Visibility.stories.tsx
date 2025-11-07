@@ -31,11 +31,12 @@ const meta: Meta<VisibilityProps> = {
   title: 'Server components/Visibility',
   component: Visibility,
   args: {
-    children: 'Responsive content block'
+    children: 'Responsive content block',
+    className: ''
   },
   parameters: {
     controls: {
-      include: ['from', 'to']
+      include: ['from', 'to', 'className']
     }
   }
 };
@@ -68,10 +69,13 @@ export const Examples: Story = {
         <ExampleBlock label='from="md" to="xl"' description="Visible only between md and xl." />
       </Visibility>
       <Visibility from="xl" to="md">
-        <ExampleBlock label='from="xl" to="md"' description="Hidden strictly between md and xl." />
+        <ExampleBlock label='from="xl" to="md"' description="Visible outside md..xl." />
       </Visibility>
       <Visibility from="md" to="md">
-        <ExampleBlock label='from="md" to="md"' description="Hidden everywhere (conflicting bounds)." />
+        <ExampleBlock
+          label='from="md" to="md"'
+          description="Hidden everywhere (conflicting bounds)."
+        />
       </Visibility>
     </div>
   )
