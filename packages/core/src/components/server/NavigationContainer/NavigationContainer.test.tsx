@@ -22,4 +22,21 @@ describe('NavigationContainer', () => {
       text: element.textContent?.trim()
     }).toEqual({ tag: 'DIV', text: 'Child' });
   });
+
+  it('merges caller className while preserving styleMap tokens', () => {
+    render(
+      <NavigationContainer data-testid="navigation-container" className="custom-class">
+        <span>Child</span>
+      </NavigationContainer>
+    );
+
+    const element = screen.getByTestId('navigation-container');
+
+    expect(element.className).toContain('px-16');
+    expect(element.className).toContain('lg:px-112');
+    expect(element.className).toContain('py-24');
+    expect(element.className).toContain('lg:py-56');
+    expect(element.className).toContain('bg-background-none');
+    expect(element.className).toContain('custom-class');
+  });
 });
