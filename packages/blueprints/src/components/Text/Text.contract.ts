@@ -66,7 +66,7 @@ export const TextContract = defineContract({
     align: {
       type: 'enum',
       options: ['left', 'center', 'right', 'justify', 'inherit'] as const,
-      default: 'left',
+      default: 'inherit',
       description: 'Text alignment. `inherit` applies no class.'
     },
 
@@ -102,7 +102,7 @@ export const TextContract = defineContract({
     transform: {
       type: 'enum',
       options: ['normal', 'uppercase', 'lowercase', 'capitalize', 'inherit'] as const,
-      default: 'normal',
+      default: 'inherit',
       description: 'Text transform. `inherit` applies no class.'
     },
 
