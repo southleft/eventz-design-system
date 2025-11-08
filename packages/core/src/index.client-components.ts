@@ -25,6 +25,7 @@ export * from './components/client/RadioButtonGroup';
 export * from './components/client/Scroller';
 export * from './components/client/Search';
 export * from './components/client/Select';
+export * from './components/client/Slider';
 export * from './components/client/Stepper';
 export * from './components/client/Tabs';
 export * from './components/client/Textarea';
