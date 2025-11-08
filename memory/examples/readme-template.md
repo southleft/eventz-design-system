@@ -1,6 +1,6 @@
 # {{ComponentName}}
-*Type: {{server | client}}*
-*Base: {{HTMLTag | BasePrimitive}}*
+*Type: {{server | client}}* |
+*Base: {{HTMLTag | BasePrimitive}}* |
 *Last updated: {{YYYY-MM-DD}}*
 
 ## Overview
@@ -41,7 +41,7 @@ import type { {{ComponentName}}Props } from '@doxyz-ui/core/{{server | client}}/
 
 ## Props (Declared + Inherited)
 
-{{Agent: Resolve all extended interfaces and list only public, component-level props. Exclude HTMLElement attributes from @types/react.}}
+{{Agent: Resolve all extended interfaces and list only public, component-level props. Exclude HTMLElement attributes from @types/react. List props in alphabetical order. If component accepts a className prop, include it in the list.}}
 
 | Prop       | Type       |       Default | Required | Notes    |
 | ---------- | ---------- | ------------: | :------: | -------- |
@@ -52,7 +52,7 @@ import type { {{ComponentName}}Props } from '@doxyz-ui/core/{{server | client}}/
 
 ---
 
-## Slots & Structure
+## Structure
 
 {{Agent: Describe available slots and root structure. Use concise bullets.}}
 
@@ -78,6 +78,16 @@ import type { {{ComponentName}}Props } from '@doxyz-ui/core/{{server | client}}/
 | --------------------------- | ------------------------------------------------- |
 | `data-[loading=true]`       | Applies loading visuals and disables interactions |
 | `data-[validation=invalid]` | Highlights invalid input styles                   |
+
+---
+
+## Classes
+
+{{Agent: List all classes used by each data slot.}}
+
+| Data slot                    | Classes                                 |
+| ---------------------------- | --------------------------------------- |
+| `{{data slot or container}}` | `{{class}}` `{{class}}` `{{class}}` ... |
 
 ---
 
