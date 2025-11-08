@@ -41,7 +41,7 @@ import type { {{ComponentName}}Props } from '@doxyz-ui/core/{{server | client}}/
 
 ## Props (Declared + Inherited)
 
-{{Agent: Resolve all extended interfaces and list only public, component-level props. Except for className, exclude HTMLElement attributes from @types/react. List props in alphabetical order. Do NOT include a catch-all row like "...rest" or "Other props"—every inherited prop must appear as its own row. In the Default column, print the exact JS/TS literal when available (e.g., { placeholder: 'Select a date range', endIcon: <ArrowDropDownIcon /> }); do not use prose descriptions like "placeholder + Icon". Keep all props in alphabetical order.}}
+{{Agent: Resolve all extended interfaces and list only public, component-level props. Except for className, exclude HTMLElement attributes from @types/react. List props in alphabetical order. Do NOT include a catch-all row like "...rest" or "Other props"—every inherited prop must appear as its own row. In the Default column, print the exact JS/TS literal when available, even when it's an object (e.g., { placeholder: 'Select a date range', endIcon: <ArrowDropDownIcon /> }); do not use prose descriptions like "placeholder + Icon". Keep all props in alphabetical order.}}
 
 | Prop       | Type       |       Default |                          Required                          | Notes    |
 | ---------- | ---------- | ------------: | :--------------------------------------------------------: | -------- |
@@ -68,7 +68,7 @@ Rules: do NOT output raw `Omit<>`/`Pick<>` strings; do NOT include DOM/HTMLEleme
 
 > DOM structure sketch:
 
-```txt
+```jsx
 <{{HTMLTag}} data-...>
   {{SlotSketch}}
 </{{HTMLTag}}>

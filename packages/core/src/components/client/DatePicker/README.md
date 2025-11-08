@@ -2,7 +2,7 @@
 *Type: client* | *Base: div* | *Last updated: 2025-11-08*
 
 ## Overview
-DatePicker wraps RSuite's `DateRangePicker`, replaces the visible trigger with the design-system `Input`, and keeps the popup portal scoped to the wrapper so styles and tests can target a stable DOM subtree. It supports both controlled and uncontrolled `value`/`open` flows, injects responsive defaults (single calendar below `lg`, dual calendars otherwise), and pins a custom locale/button copy to keep copy consistent. Use it when you need a date-range control that feels native to DoXYZ tokens without wiring RSuite manually.
+DatePicker wraps RSuite's `DateRangePicker`, replaces the visible trigger with the design-system `Input`, and scopes the popup portal to a stable wrapper so styles and tests can target predictable DOM. It supports both controlled and uncontrolled `value`/`open` flows, injects responsive defaults (single calendar below `lg`, dual calendars otherwise), and preloads desktop shortcuts plus localized copy. Reach for it when you need RSuite's calendar ergonomics without wiring the picker and trigger plumbing yourself.
 
 ---
 
@@ -27,103 +27,102 @@ import type { DatePickerProps } from '@doxyz-ui/core/client/DatePicker';
 <DatePicker {...props} />
 ```
 
-> - Use `defaultValue`/`defaultOpen` for uncontrolled flows or pair `value`/`open` with the corresponding callbacks for full control.
-> - Override the visible trigger via `InputProps` (placeholder, icons, aria-label); DatePicker still owns `onClick`/`onKeyDown`.
+> - Pair `value`/`onChange` (and optionally `open`/`onOpen`/`onClose`) for controlled flows; otherwise rely on `defaultValue`/`defaultOpen`.
+> - Customize placeholder text, icons, or `aria-label` via `InputProps`, but DatePicker still owns the click/keydown handlers on the trigger.
 
 ---
 
 ## Props (Declared + Inherited)
 
-Props are alphabetized and combine DatePicker's own API with the RSuite `DateRangePickerProps` surface (minus pinned keys); DOM attributes are excluded except for the wrapper's `className`.
+Props are alphabetized and merge DatePicker's layout props with RSuite's `DateRangePickerProps` surface (minus pinned keys such as `appearance`, `block`, `caretAs`, `className`, `disabledDate`, `editable`, `format`, `label`, `placeholder`, `renderValue`, `showHeader`, `showOneCalendar`, and `size`). DOM attributes are excluded except for the wrapper's `className`/`style`.
 
 | Prop | Type | Default | Required | Notes |
 | --- | --- | ---: | :---: | --- |
-| `InputProps` | `Partial<InputProps>` | `{ placeholder: 'Select a date range', endIcon: <ArrowDropDownIcon aria-hidden="true" /> }` |  | Merged into the visible `Input` trigger before DatePicker applies its own a11y and event handlers. |
-| `as` | `React.ElementType` |  |  | Forwards to RSuite so the internal picker can render with a custom wrapper; the outer div always stays a `div`. |
-| `calendarSnapping` | `boolean` |  |  | Keeps the start date anchored to the left calendar even if a user begins on the right calendar (RSuite v5.69+). |
-| `character` | `string` | `''` |  | Forced to an empty string so the read-only `Input` controls how the selected range is rendered. |
-| `children` | `React.ReactNode` |  |  | Accepted by RSuite but ignored by this wrapper because it renders its own trigger. |
-| `className` | `string` |  |  | Appended to the outer wrapper alongside the generated token classes. |
-| `classPrefix` | `string` |  |  | Overrides RSuite's internal class prefix if you need to target its portal contents. |
-| `cleanable` | `boolean` |  |  | Toggles RSuite's clear button; still disabled if the wrapper itself is disabled. |
-| `container` | `HTMLElement \| (() => HTMLElement)` | `wrapperRef.current ?? document.body` |  | Always overridden so the popup mounts inside the component wrapper for styling; consumer containers are ignored. |
+| `as` | `React.ElementType` |  |  | Forwarded to RSuite so the internal picker can swap its host element (the outer wrapper always stays a `div`). |
+| `calendarSnapping` | `boolean` | `false` |  | Keeps the start date anchored to the left calendar even if a user begins selection on the right calendar. |
+| `character` | `string` | `''` |  | DatePicker forces an empty separator so the visible Input fully controls how the range is rendered. |
+| `children` | `React.ReactNode` |  |  | Accepted by RSuite but ignored because DatePicker renders and controls its own trigger. |
+| `className` | `string` |  |  | Appended to the wrapper in addition to the generated token classes. |
+| `classPrefix` | `string` |  |  | Overrides RSuite's internal class prefix if you need to scope portal styles. |
+| `cleanable` | `boolean` |  |  | Toggles RSuite's clear button; it is still disabled when the wrapper is disabled. |
+| `container` | `HTMLElement | (() => HTMLElement)` | `wrapperRef.current ?? document.body` |  | Always overridden so the popup portal stays scoped to the wrapper for styling and tests. |
 | `containerPadding` | `number` |  |  | Insets the popup from the viewport edges when RSuite positions it. |
-| `defaultCalendarValue` | `DateRange` |  |  | Controls which month pair RSuite displays when the popup first opens. |
-| `defaultOpen` | `boolean` |  |  | Sets the initial open state for uncontrolled usage (component otherwise starts closed). |
-| `defaultValue` | `DateRange \| null` |  |  | Supplies the initial value when letting DatePicker manage the range. |
-| `disabled` | `boolean` |  |  | Disables the trigger `Input`, prevents opening, and forwards to RSuite. |
-| `format` | `string` | `'MM/dd/yyyy'` |  | String passed to RSuite for parsing/rendering and mirrored in the trigger display. |
-| `fullWidth` | `boolean` | `false` |  | Applies the `w-full` layout token to stretch the wrapper horizontally. |
-| `hideHours` | `(hour: number, date: Date) => boolean` |  |  | Return `true` to suppress specific hours whenever the time panel renders. |
-| `hideMinutes` | `(minute: number, date: Date) => boolean` |  |  | Return `true` to suppress specific minutes. |
-| `hideSeconds` | `(second: number, date: Date) => boolean` |  |  | Return `true` to suppress specific seconds. |
-| `hoverRange` | `'week' \| 'month' \| ((date: Date) => DateRange)` |  |  | Lets RSuite derive preset ranges from the hovered date for one-tap selection. |
-| `id` | `string` |  |  | Applied to RSuite's hidden input so external `<label htmlFor>` associations continue working. |
-| `isoWeek` | `boolean` |  |  | Switches calendars to ISO week numbering (weeks start on Monday). |
-| `limitEndYear` | `number` |  |  | Caps how far into the future users can browse relative to the current selection. |
-| `limitStartYear` | `number` |  |  | Caps how far into the past users can browse relative to the current selection. |
+| `defaultCalendarValue` | `[Date, Date]` |  |  | Controls the initial month pair the calendars show on first open. |
+| `defaultOpen` | `boolean` | `false` |  | Initial open state when leaving `open` uncontrolled. |
+| `defaultValue` | `[Date, Date] | null` | `null` |  | Initial range when DatePicker owns `value`. |
+| `disabled` | `boolean` |  |  | Disables the Input trigger, prevents toggling, and forwards to RSuite. |
+| `format` | `string` | `'MM/dd/yyyy'` |  | Forwarded to RSuite for parsing/rendering and mirrored in the Input display string. |
+| `fullWidth` | `boolean` | `false` |  | Adds the `w-full` layout token to stretch the wrapper horizontally. |
+| `hideHours` | `(hour: number, date: Date) => boolean` |  |  | Return `true` to hide specific hour options when the time panel is visible. |
+| `hideMinutes` | `(minute: number, date: Date) => boolean` |  |  | Return `true` to hide specific minute options. |
+| `hideSeconds` | `(second: number, date: Date) => boolean` |  |  | Return `true` to hide specific second options. |
+| `hoverRange` | `'week' | 'month' | ((date: Date) => [Date, Date])` |  |  | Lets RSuite derive preset ranges from the hovered date for one-tap selection. |
+| `id` | `string` |  |  | Applied to RSuite's hidden input so external `<label htmlFor>` connections continue working. |
+| `InputProps` | `Partial<InputProps>` | `{ placeholder: 'Select a date range', endIcon: <ArrowDropDownIcon aria-hidden="true" /> }` |  | Merged into the visible Input trigger; DatePicker still overrides readOnly, events, and accessibility props. |
+| `isoWeek` | `boolean` |  |  | Switches the calendars to ISO week numbering (weeks start on Monday). |
+| `limitEndYear` | `number` | `1000` |  | Maximum number of years users can browse forward relative to the current selection. |
+| `limitStartYear` | `number` |  |  | Maximum number of years users can browse backward relative to the current selection. |
 | `loading` | `boolean` |  |  | Shows RSuite's loading indicator in the popup header. |
-| `locale` | `Partial<DateRangePickerLocale>` | `{ ok: 'Apply' }` |  | Runtime injects a minimal locale overriding the OK label; custom locales are currently ignored. |
-| `menuAutoWidth` | `boolean` |  |  | Forces the popup width to match the trigger width. |
-| `menuClassName` | `string` |  |  | Adds classes to the popup surface for further styling. |
-| `menuMaxHeight` | `number` |  |  | Defines the popup's max height in pixels. |
-| `menuStyle` | `React.CSSProperties` |  |  | Inline styles applied to the popup element rendered by RSuite. |
-| `monthDropdownProps` | `MonthDropdownProps` |  |  | Forwards props to the calendar's month dropdown control. |
-| `name` | `string` |  |  | Sets the hidden input's form field name for form submissions. |
-| `onBlur` | `React.FocusEventHandler<any>` |  |  | Called when the RSuite picker loses focus. |
-| `onChange` | `(value: DateRange \| null, event: React.SyntheticEvent) => void` |  |  | Fired whenever the date range changes; receives `null` when cleared. |
-| `onClean` | `(event: React.MouseEvent) => void` |  |  | Fired after RSuite's clear action removes the current value. |
-| `onClose` | `() => void` |  |  | Called after the popup closes (fires even if DatePicker triggered the close). |
-| `onEnter` | `(node: HTMLElement) => void` |  |  | Animation callback fired before the popup transitions in. |
-| `onEntered` | `(node: HTMLElement) => void` |  |  | Animation callback fired after the popup finishes entering. |
+| `locale` | `Partial<DateRangePickerLocale>` | `{ ok: 'Apply' }` |  | Runtime injects this locale to pin the OK label; custom locales are currently ignored. |
+| `menuAutoWidth` | `boolean` |  |  | If true, forces the popup width to match the trigger width. |
+| `menuClassName` | `string` |  |  | Adds custom classes to the popup surface rendered by RSuite. |
+| `menuMaxHeight` | `number` |  |  | Caps the popup height before scrolling. |
+| `menuStyle` | `React.CSSProperties` |  |  | Inline styles forwarded to the popup element. |
+| `monthDropdownProps` | `MonthDropdownProps` |  |  | Configures the optional month dropdown (item renderer, class names, virtualization). |
+| `name` | `string` |  |  | Forwarded to the hidden input so native form submissions include the value. |
+| `onBlur` | `React.FocusEventHandler<any>` |  |  | Fires when the trigger Input loses focus. |
+| `onChange` | `(value: [Date, Date] | null, event?: React.SyntheticEvent | Event) => void` |  |  | Called after the range changes; DatePicker normalizes the payload to `[Date, Date] | null`. |
+| `onClean` | `(event: React.MouseEvent) => void` |  |  | Called when RSuite's clear action is triggered. |
+| `onClose` | `(event?: React.SyntheticEvent | Event) => void` |  |  | Runs whenever the popup closes (controlled or uncontrolled). |
+| `onEnter` | `(node: HTMLElement) => void` |  |  | Animation callback fired before the popup finishes entering. |
+| `onEntered` | `(node: HTMLElement) => void` |  |  | Animation callback fired after the popup enters. |
 | `onEntering` | `(node: HTMLElement) => void` |  |  | Animation callback fired as the popup begins to enter. |
-| `onExit` | `(node: HTMLElement) => void` |  |  | Animation callback fired before the popup exits. |
-| `onExited` | `(node: HTMLElement) => void` |  |  | Animation callback fired after the popup finishes exiting. |
-| `onExiting` | `(node: HTMLElement) => void` |  |  | Animation callback fired while the popup is exiting. |
-| `onFocus` | `React.FocusEventHandler<any>` |  |  | Called when the RSuite picker gains focus. |
-| `onOk` | `(date: DateRange, event: React.SyntheticEvent) => void` |  |  | Fired when RSuite's OK action confirms a range. |
-| `onOpen` | `() => void` |  |  | Called whenever the popup opens (both controlled and uncontrolled cases). |
-| `onSelect` | `(date: Date, event?: React.SyntheticEvent) => void` |  |  | Fired after the user selects a specific date cell. |
-| `onShortcutClick` | `(range: RangeType, event: React.MouseEvent) => void` |  |  | Fires when a shortcut range is chosen; useful if you need analytics. |
-| `oneTap` | `boolean` |  |  | Let users confirm a range with a single click coupled with `hoverRange`. |
-| `open` | `boolean` |  |  | Controls the popup's visibility when paired with `onOpen`/`onClose`; otherwise the component manages it internally. |
-| `placement` | `TypeAttributes.Placement` |  |  | Sets the popup placement relative to the trigger (falls back to RSuite default). |
-| `plaintext` | `boolean` |  |  | Renders the value as plain text rather than an interactive picker. |
-| `preventOverflow` | `boolean` |  |  | Stops the popup from overflowing the viewport boundaries. |
-| `ranges` | `RangeType[]` | `Today/Tomorrow/Next 7 Days (desktop), [] (mobile)` |  | Runtime injects curated shortcut ranges on desktop and suppresses them on single-calendar/mobile mode; consumer-provided ranges are overwritten. |
-| `readOnly` | `boolean` |  |  | Keeps the picker interactive but renders the trigger as read-only text. |
-| `renderCell` | `(date: Date) => React.ReactNode` |  |  | Customizes the content rendered inside each date cell. |
-| `renderExtraFooter` | `() => React.ReactNode` |  |  | Adds custom footer content beneath the calendars. |
-| `renderTitle` | `(date: Date, calendarKey: 'start' \| 'end') => React.ReactNode` |  |  | Replaces the default calendar header rendering. |
-| `shouldDisableDate` | `DisabledDateFunction` |  |  | Return `true` to disable specific dates. |
-| `shouldDisableHour` | `(hour: number, date: Date) => boolean` |  |  | Return `true` to disable hours in the time picker. |
-| `shouldDisableMinute` | `(minute: number, date: Date) => boolean` |  |  | Return `true` to disable minutes in the time picker. |
-| `shouldDisableSecond` | `(second: number, date: Date) => boolean` |  |  | Return `true` to disable seconds in the time picker. |
-| `showHeader` | `boolean` | `< lg: true, >= lg: false` |  | Defaults to visible below `lg` and hidden at/above `lg`; pass an explicit boolean to override. |
-| `showMeridian` | `boolean` |  |  | Deprecated RSuite prop that still forwards through for compatibility. |
-| `showMeridiem` | `boolean` |  |  | Enables AM/PM display in the time picker. |
-| `showOneCalendar` | `boolean` | `< lg: true, >= lg: false` |  | Controls whether RSuite renders one or two calendars; responsive by default. |
+| `onExit` | `(node: HTMLElement) => void` |  |  | Animation callback fired before the popup finishes exiting. |
+| `onExited` | `(node: HTMLElement) => void` |  |  | Animation callback fired after the popup exits. |
+| `onExiting` | `(node: HTMLElement) => void` |  |  | Animation callback fired as the popup begins to exit. |
+| `onFocus` | `React.FocusEventHandler<any>` |  |  | Fires when the trigger Input receives focus. |
+| `onOk` | `(value: [Date, Date], event: React.SyntheticEvent) => void` |  |  | Called when the RSuite OK action is clicked. |
+| `onOpen` | `(event?: React.SyntheticEvent | Event) => void` |  |  | Runs whenever the popup opens (controlled or uncontrolled). |
+| `onSelect` | `(date: Date, event?: React.SyntheticEvent) => void` |  |  | Called as individual dates are selected inside the calendar. |
+| `onShortcutClick` | `(range: RangeType<[Date, Date]>, event: React.MouseEvent) => void` |  |  | Called when a predefined shortcut range is clicked. |
+| `oneTap` | `boolean` |  |  | Allows users to select a full range with a single tap when combined with `hoverRange`. |
+| `open` | `boolean` |  |  | Controls popup visibility; pair with `onOpen`/`onClose`. |
+| `placement` | `TypeAttributes.Placement` |  |  | Positions the RSuite popup (e.g., `bottomStart`, `topEnd`, or one of the `auto*` placements). |
+| `plaintext` | `boolean` |  |  | Renders the picker in read-only/plain-text mode. |
+| `preventOverflow` | `boolean` |  |  | Prevents the popup from overflowing the viewport by flipping placement when needed. |
+| `ranges` | `RangeType<[Date, Date]>[]` | `desktop presets; [] in single-calendar mode` |  | DatePicker overrides this prop: desktop mode injects Today/Tomorrow/Next 7 Days, while one-calendar mode passes an empty array. |
+| `readOnly` | `boolean` |  |  | Marks the picker as read-only while keeping it focusable. |
+| `renderCell` | `(date: Date) => React.ReactNode` |  |  | Custom renderer for individual calendar cells. |
+| `renderExtraFooter` | `() => React.ReactNode` |  |  | Renders custom footer content beneath the calendars. |
+| `renderTitle` | `(date: Date, calendarKey: 'start' | 'end') => React.ReactNode` |  |  | Custom renderer for each calendar's title. |
+| `shouldDisableDate` | `(date: Date, selected?: [Date?, Date?], selectedDone?: boolean, target?: string) => boolean` |  |  | Return `true` to disable specific dates. |
+| `shouldDisableHour` | `(hour: number, date: Date) => boolean` |  |  | Return `true` to disable an hour in the time view. |
+| `shouldDisableMinute` | `(minute: number, date: Date) => boolean` |  |  | Return `true` to disable a minute in the time view. |
+| `shouldDisableSecond` | `(second: number, date: Date) => boolean` |  |  | Return `true` to disable a second in the time view. |
+| `showHeader` | `boolean` |  |  | If omitted, DatePicker hides the RSuite header below `lg` and shows it at `lg` and above. |
+| `showMeridian` | `boolean` |  |  | Deprecated alias for `showMeridiem`; kept for RSuite compatibility. |
+| `showMeridiem` | `boolean` |  |  | Shows 12-hour clock markers when the time panel is enabled. |
+| `showOneCalendar` | `boolean` |  |  | If omitted, DatePicker defaults to one calendar below `lg` and two calendars at/above `lg`. |
 | `showWeekNumbers` | `boolean` |  |  | Displays ISO week numbers in the calendar grid. |
-| `style` | `React.CSSProperties` |  |  | Inline styles applied to the RSuite picker element (not the outer wrapper). |
-| `toggleAs` | `React.ElementType` |  |  | Overrides the element used for RSuite's internal toggle button. |
-| `value` | `DateRange \| null` | `null` |  | Controlled range value; pass `null` to clear both dates. |
-| `weekStart` | `0 \| 1 \| 2 \| 3 \| 4 \| 5 \| 6` | `0` |  | Sets which weekday (0 = Sunday) starts the calendar grid when `isoWeek` is false. |
+| `style` | `React.CSSProperties` |  |  | Inline styles applied to the wrapper `div`. |
+| `toggleAs` | `React.ElementType` |  |  | Customizes RSuite's hidden toggle button (rare because the visible trigger is an Input). |
+| `value` | `[Date, Date] | null` | `null` |  | Controlled range value; pair with `onChange`. |
+| `weekStart` | `0 | 1 | 2 | 3 | 4 | 5 | 6` | `0` |  | Index of the first day of the week unless `isoWeek` is true. |
 
-* **Extends:** `DateRangePickerProps` minus: `appearance`, `block`, `caretAs`, `className`, `disabledDate`, `editable`, `format`, `label`, `placeholder`, `renderValue`, `showHeader`, `showOneCalendar`, `size`; plus DatePicker-specific props for layout and trigger control.
-* **Forwards:** Does not forward arbitrary `<div>` attributes; interact via the documented picker props and `InputProps`.
+* **Extends:** `DateRangePickerProps` minus: `appearance`, `block`, `caretAs`, `className`, `disabledDate`, `editable`, `format`, `label`, `placeholder`, `renderValue`, `showHeader`, `showOneCalendar`, `size`; DatePicker reintroduces `className`, `format`, `showHeader`, `showOneCalendar`, and adds layout/trigger seams (`fullWidth`, `InputProps`).
+* **Forwards:** Non-modeled props pass directly to RSuite's `DateRangePicker`; the wrapper `div` only exposes `className`, `style`, and data attributes.
 
 ---
 
 ## Structure
 
-* **container** - root `<div>` that scopes styling, owns the trigger, and hosts the portal container.
-* **trigger input** - design-system `Input` rendered inside the container; receives merged `InputProps` and exposes the value read-only.
-* **RSuite portal** - `DateRangePicker` attaches to `container` via a ref and renders its popup just inside the wrapper (falls back to `document.body` until the ref exists).
+* **container** — outer wrapper; hosts the Input trigger, receives forwarded `className`/`style`, and scopes the portal for RSuite.
+* **RSuite panel (internal)** — rendered by `DateRangePicker`, scoped via `.dxyz-date-picker` for downstream CSS.
 
 > DOM structure sketch:
 
 ```txt
-<div data-slot="container" data-show-one-calendar="true|false">
+<div data-slot="container" data-show-one-calendar="true|undefined">
   <Input ... />
   <DateRangePicker portal />
 </div>
@@ -150,11 +149,11 @@ Props are alphabetized and combine DatePicker's own API with the RSuite `DateRan
 
 ## Accessibility
 
-* **Name:** The visible `Input` exposes the name via surrounding `<label>` elements or `InputProps.aria-label`; provide explicit labeling whenever the placeholder is not descriptive enough.
-* **Keyboard:** `Tab` moves focus to the trigger, `Enter`/`ArrowDown` open the popup (DatePicker calls `preventDefault()` to avoid native text-field behavior), and `Esc`/RSuite close controls dismiss it.
-* **Roles/States:** The trigger sets `aria-haspopup="dialog"` and `aria-expanded`; RSuite renders a proper dialog with focus trapping and status messaging.
-* **Announcements:** Rely on RSuite's internal aria-live updates for selection feedback; add your own status region inside `renderExtraFooter` if you need custom narration.
-* **Icon-only pattern:** Supply a non-empty `InputProps.aria-label` whenever the trigger lacks visible text and keep decorative icons `aria-hidden="true"`.
+* **Name:** Provided by surrounding `<label>` elements or `InputProps.aria-label`; supply explicit text when the placeholder is not descriptive.
+* **Keyboard:** `Tab` focuses the Input, `Enter`/`ArrowDown` open the popup (native text-field actions are prevented), and `Esc`/RSuite close controls dismiss the dialog.
+* **Roles/States:** The trigger sets `aria-haspopup="dialog"` and `aria-expanded`; RSuite renders a focus-trapped dialog with the correct roles.
+* **Announcements:** Rely on RSuite's internal aria-live updates for selection changes, or render status text via `renderExtraFooter` for custom narration.
+* **Icon-only pattern:** Provide a non-empty `InputProps.aria-label` when the trigger lacks visible text and keep decorative icons `aria-hidden="true"`.
 
 ---
 
@@ -175,20 +174,20 @@ const [open, setOpen] = React.useState(false);
 <DatePicker
   value={range}
   open={open}
-  onChange={(next) => setRange(next)}
+  onChange={next => setRange(next)}
   onOpen={() => setOpen(true)}
   onClose={() => setOpen(false)}
 />
 ```
 
-### Mobile-friendly single calendar with custom trigger
+### Custom trigger copy with disabled dates
 
 ```tsx
 <DatePicker
   showOneCalendar
-  fullWidth
-  InputProps={{ placeholder: 'Pick travel dates', endIcon: <ArrowDropDownIcon aria-hidden="true" /> }}
-  shouldDisableDate={(date) => date < new Date()}
+  InputProps={{ placeholder: 'Pick travel dates', 'aria-label': 'Select travel window' }}
+  shouldDisableDate={date => date < new Date()}
+  shouldDisableHour={hour => hour < 8}
 />
 ```
 
@@ -199,7 +198,7 @@ const [open, setOpen] = React.useState(false);
 * Contract ↔ styleMap variants: **OK**
 * Slots parity: **OK**
 * State flags parity: **OK** (runtime adds `data-show-one-calendar` purely for responsive styling)
-* Signature hash: `642db36cc97ca9ff882a19b1d2af01c4399ba2fcd4289058d0d20cf6350b252c`
+* Signature hash: `f2e4c1ff2b6a28a4823d7d2496846580e431bb82058296a6e5a9739993c24dac`
 
 ---
 
