@@ -22,12 +22,14 @@ import type { {{ComponentName}}Props } from '@doxyz-ui/core/{{server | client}}/
 
 ## Usage
 
+{{Agent: If the component accepts children, use this code block}}
 ```tsx
-<{{ComponentName}}
-  {{PrimaryPropsExample}}
->
-  {{ChildrenExample}}
-</{{ComponentName}}>
+<{{ComponentName}} { ...props }>{children}</{{ComponentName}}>
+```
+
+{{Agent: If the component does not accept children, use this code block}}
+```tsx
+<{{ComponentName}} { ...props } />
 ```
 
 > {{Agent: Add 1–2 short bullets with usage tips or defaults.}}
@@ -42,8 +44,8 @@ import type { {{ComponentName}}Props } from '@doxyz-ui/core/{{server | client}}/
 | ---------- | ---------- | ------------: | :------: | -------- |
 | `{{prop}}` | `{{type}}` | `{{default}}` |          | {{note}} |
 
-**Extends:** `{{ExtendedInterfaces}}`
-**Forwards:** All standard HTML attributes for `<{{HTMLTag}}>` to the root element.
+* **Extends:** `{{ExtendedInterfaces}}`
+* **Forwards:** All standard HTML attributes for `<{{HTMLTag}}>` to the root element.
 
 ---
 

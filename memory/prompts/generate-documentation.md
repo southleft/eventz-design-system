@@ -6,7 +6,6 @@ Generate or update per-component API documentation using the AI-owned README tem
 SCOPE (✅/❌)
 ✅ Create or update README.md in the component folder
 ✅ Update the component’s existing .stories file to render README using @storybook/addon-docs Markdown and ?raw import
-✅ Compute runtime signature and update front‑matter (runtimeHash, updated)
 ✅ Derive declared + inherited props (exclude HTMLElement attributes)
 ✅ Derive public data attributes / states
 ✅ Compare blueprint contract/styleMap to runtime and write parity checklist
@@ -49,11 +48,9 @@ ALGORITHM
 	•	If contract/styleMap exist, extract variant keys, slot names, and public state flags (data-* selectors).
 	3.	DERIVE STATES
 	•	From runtime toggles and styleMap, list public data-* states and a short effect note.
-	4.	COMPUTE SIGNATURE
-	•	Build normalized signature (sorted prop names + stringified types + sorted states) and sha256 hash → runtimeHash.
 	5.	GENERATE README
 	•	Load memory/examples/readme-template.md and fill placeholders:
-	•	{{ComponentName}}, {{HTMLTag}}, {{BasePrimitiveOrHost}}, {{server | client}}, {{RuntimeSignatureHash}}, {{YYYY-MM-DD}}
+	•	{{ComponentName}}, {{HTMLTag}}, {{BasePrimitiveOrHost}}, {{server | client}}, {{YYYY-MM-DD}}
 	•	Fill all sections per template; concise, neutral tone; examples minimal and correct.
 	6.	WIRE README INTO STORIES (no MDX)
 	•	Ensure the story file:
@@ -67,11 +64,10 @@ ALGORITHM
 	7.	VERIFY
 	•	Confirm README placeholders are all resolved.
 	•	Confirm prop table excludes DOM attributes and includes inherited component props.
-	•	Confirm parity checklist and signature hash are present.
 	•	Confirm the story meta compiles (imports exist; parameters.docs.page is present exactly once).
 
 ACCEPTANCE CRITERIA
-	•	README.md exists with all sections, fully AI-generated, front‑matter updated (runtimeHash, updated).
+	•	README.md exists with all sections, fully AI-generated, has no front-matter.
 	•	Storybook shows the README when opening the component’s Docs tab (parameters.docs.page wired with Markdown + ?raw).
 	•	Canvas Controls table shows declared + inherited props from the component (DOM attributes excluded via docgen config).
 	•	Re-running with no runtime changes yields zero diffs to both README and stories.
