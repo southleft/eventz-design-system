@@ -1,4 +1,7 @@
 # {{ComponentName}}
+*Type: {{server | client}}*
+*Base primitive or host: {{BasePrimitiveOrHost}}*
+*Last updated: {{YYYY-MM-DD}}
 
 ## Overview
 {{Agent: Write a concise description of the component’s purpose, when to use it, and its key behaviors. Keep to 2–4 sentences.}}
@@ -57,7 +60,7 @@ import type { {{ComponentName}}Props } from '@doxyz-ui/core/{{server | client}}/
 * **{{slotName}}** — {{slotPurpose}}
 * **{{slotName}}** — {{slotPurpose}}
 
-> DOM structure sketch (optional):
+> DOM structure sketch:
 
 ```txt
 <{{HTMLTag}} data-...>
@@ -71,10 +74,10 @@ import type { {{ComponentName}}Props } from '@doxyz-ui/core/{{server | client}}/
 
 {{Agent: Derive from runtime/styleMap. Include only semantic, public states.}}
 
-| State flag                  | Selector example | Effect                                            |
-| --------------------------- | ---------------- | ------------------------------------------------- |
-| `data-[loading=true]`       | `&`              | Applies loading visuals and disables interactions |
-| `data-[validation=invalid]` | `[&_._input]`    | Highlights invalid input styles                   |
+| State flag                  | Effect                                            |
+| --------------------------- | ------------------------------------------------- |
+| `data-[loading=true]`       | Applies loading visuals and disables interactions |
+| `data-[validation=invalid]` | Highlights invalid input styles                   |
 
 ---
 
