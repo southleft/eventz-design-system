@@ -1,4 +1,4 @@
-<file name=2 path=/Users/tonym/Documents/Github/doxyz-ui/memory/prompts/generate-component.md># Generate Component from Contract and styleMap
+# Generate Component from Contract and styleMap
 
 You are a component generation agent for the DoXYZ design system. Follow the repository rules in:
 - `AGENTS/GENERATION.md`
@@ -25,7 +25,7 @@ If any conflict exists between this template and the AGENTS docs, **AGENTS docs 
 ## Output Files
 Generate all of the following inside `{{destination}}` (server or client folder):
 
-All generated files must begin with the standardized 3‑line doc block. For **client** components, the file must start with `'use client'` on line 1; place the doc block **after** that directive, then a blank line, then imports.
+All generated files must begin with the standardized 3-line doc block. For **client** components, the file must start with `'use client'` on line 1; place the doc block **after** that directive, then a blank line, then imports.
 
 Example format:
 // packages/core/src/components/{{componentKind}}/{{componentName}}/{{componentName}}.<ext>
@@ -36,7 +36,7 @@ Example format:
    - Include the top-of-file doc block. If `{{componentKind}}` is "client", begin the file with 'use client', then the doc block, then imports.
    - Export a named interface for props (e.g., `BadgeProps`) inferred from the contract.
    - Use the Radix primitive if `contract.base` is defined; support `asChild` if declared.
-   - Apply Tailwind classes from the styleMap using `composeClasses` (`packages/core/src/utilities/composeClasses/composeClasses.ts`); MUST use template literals for all static or inline className definitions; DO NOT use string concatenation (`+`), arrays of strings, or array joins; DO NOT pass arrays directly to `composeClasses`.
+   - Apply Tailwind classes from the styleMap using `composeClasses`; **wrap the final composed class string with `collapseWhitespace`**. **Import both from the utilities barrel** (`packages/core/src/utilities`). MUST use template literals for all static or inline className definitions; DO NOT use string concatenation (`+`), arrays of strings, or array joins; DO NOT pass arrays directly to `composeClasses`.
    - Conditionally render slots exactly as defined in the contract layout.
    - If a layout wrapper is specified (e.g., `layout: { tag: 'span', className: '...' }`), apply it inside the component.
    - Export the component as a named export (e.g., `export const Badge = …`).
@@ -59,7 +59,7 @@ Example format:
 - Props, slots, layout, and Radix base must match the contract exactly.
 - Classes and variants must match the styleMap exactly.
 - Do not add props, slots, or classes not defined by these sources.
-- Apply Tailwind classes using `composeClasses`; MUST use template literals for all static or inline className definitions; DO NOT use string concatenation (`+`), arrays of strings, or array joins; DO NOT pass arrays directly to `composeClasses`.
+- Apply Tailwind classes using `composeClasses` and **wrap the result with `collapseWhitespace`**; **import both from the utilities barrel** (`packages/core/src/utilities`). MUST use template literals (`` `...` ``) for all static or inline className definitions; DO NOT use string concatenation (`+`), arrays of strings, or array joins; DO NOT pass arrays directly to `composeClasses`.
 - **Stories must not include `argTypes` (neither on default export nor per-story).** If a control is needed, ensure it is typed in the component’s props so Storybook infers it automatically.
 - Honor `layout` (including child container and slot order) exactly.
 - Support Radix `asChild` using `Slot` when declared.
@@ -71,6 +71,7 @@ Example format:
 - Use explicit subpaths: @doxyz-ui/core/server-components, /client-components, /icons, /utilities
 - Do not import from @doxyz-ui/core (root)
 - In Storybook, icon stories import via source-relative paths (e.g., `./IconName`) for Chromatic stability
+- **Utilities barrel:** `import { collapseWhitespace, composeClasses } from '../../../utilities'` (adjust the relative path as needed)
 
 ## Accessibility & Testing Guardrails
 - Decorative icons must have `aria-hidden="true"`.

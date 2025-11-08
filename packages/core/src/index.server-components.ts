@@ -6,6 +6,7 @@ export * from './components/server/Chip';
 export * from './components/server/ContentCard';
 export * from './components/server/EventPanel';
 export * from './components/server/Footer';
+export * from './components/server/Heading';
 export * from './components/server/ImagePanel';
 export * from './components/server/InteractiveListItem';
 export * from './components/server/Map';
@@ -16,4 +17,8 @@ export * from './components/server/ScrollerRow';
 export * from './components/server/SelectionCard';
 export * from './components/server/SubscriptionCard';
 export * from './components/server/Tag';
+<<<<<<< HEAD
 export * from './components/server/Visibility';
+=======
+export * from './components/server/Text';
+>>>>>>> development
