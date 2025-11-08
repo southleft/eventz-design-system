@@ -57,8 +57,9 @@ ALGORITHM
 	•	Fill all sections per template; concise, neutral tone; examples minimal and correct.
 	6.	WIRE README INTO STORIES (no MDX)
 	•	Ensure the story file:
-	•	Imports: import { Markdown } from ‘@storybook/addon-docs’
+	•	Imports: import { Markdown } from ‘@storybook/addon-docs/blocks’
 	•	Imports: import Readme from ‘./README.md?raw’
+	•	Includes: tags: ['autodocs'] in the default meta object after component
 	•	In the default export meta object, set or merge: parameters.docs.page = () => {Readme}
 	•	Preserve existing component, render, title, and other parameters.
 	•	Avoid duplicate imports; if they exist, reuse them.

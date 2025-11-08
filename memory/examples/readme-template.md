@@ -1,15 +1,3 @@
-````markdown
----
-# DO NOT EDIT BY HAND
-# This file is fully AI-generated. The agent owns all sections.
-component: {{ComponentName}}
-package: '@doxyz-ui/core/{{server | client}}/{{ComponentName}}'
-basePrimitive: {{BasePrimitiveOrHost}}        # e.g., radix-ui:Slider | host:button
-htmlTag: {{HTMLTag}}                           # e.g., button, div, input
-runtimeHash: sha256:{{RuntimeSignatureHash}}   # props + states signature
-updated: {{YYYY-MM-DD}}
----
-
 # {{ComponentName}}
 
 ## Overview
@@ -22,7 +10,7 @@ updated: {{YYYY-MM-DD}}
 ### Component
 ```ts
 import { {{ComponentName}} } from '@doxyz-ui/core/{{server | client}}/{{ComponentName}}';
-````
+```
 
 ### Types
 
