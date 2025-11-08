@@ -121,4 +121,4 @@ import type { {{ComponentName}}Props } from '@doxyz-ui/core/{{server | client}}/
 
 * Contract ↔ styleMap variants: **{{OK|MISMATCH}}**
 * Slots parity: **{{OK|MISMATCH}}**
-* State flags parit
+* State flags parity: **{{OK|MISMATCH}}**
