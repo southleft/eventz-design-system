@@ -41,13 +41,19 @@ import type { {{ComponentName}}Props } from '@doxyz-ui/core/{{server | client}}/
 
 ## Props (Declared + Inherited)
 
-{{Agent: Resolve all extended interfaces and list only public, component-level props. Except for className, exclude HTMLElement attributes from @types/react. List props in alphabetical order.}}
+{{Agent: Resolve all extended interfaces and list only public, component-level props. Except for className, exclude HTMLElement attributes from @types/react. List props in alphabetical order. Do NOT include a catch-all row like "...rest" or "Other props"—every inherited prop must appear as its own row. In the Default column, print the exact JS/TS literal when available (e.g., { placeholder: 'Select a date range', endIcon: <ArrowDropDownIcon /> }); do not use prose descriptions like "placeholder + Icon". Keep all props in alphabetical order.}}
 
-| Prop       | Type       |       Default | Required   | Notes    |
-| ---------- | ---------- | ------------- | ---------- | -------- |
-| `{{prop}}` | `{{type}}` | `{{default}}` | {{Yes | }} | {{note}} |
+| Prop       | Type       |       Default |                          Required                          | Notes    |
+| ---------- | ---------- | ------------: | :--------------------------------------------------------: | -------- |
+| `{{prop}}` | `{{type}}` | `{{default}}` | {{Agent: Output "Yes" if required; otherwise leave blank}} | {{note}} |
 
-* **Extends:** `{{ExtendedInterfaces}}`
+{{Agent: For {{ExtendedInterfaces}}, output a wrap-friendly block (start with a newline). Expand utility types (Omit, Pick, Partial, Required, Readonly, intersections) before printing. For each extended interface:
+
+- If keys are omitted, print: "`{{InterfaceName}}` minus: " then a comma delimited list: `{{key1}}`, `{{key2}}`, `{{key3}}`, ...
+- If no keys are omitted, print: `{{InterfaceName}}`
+
+Rules: do NOT output raw `Omit<>`/`Pick<>` strings; do NOT include DOM/HTMLElement attributes; wrap only identifiers in backticks; prefer comma delimited lists; keep width ≤ 80 chars.}}
+* **Extends:** {{ExtendedInterfaces}}
 * **Forwards:** All standard HTML attributes for `<{{HTMLTag}}>` to the root element.
 
 ---
@@ -122,3 +128,12 @@ import type { {{ComponentName}}Props } from '@doxyz-ui/core/{{server | client}}/
 * Contract ↔ styleMap variants: **{{OK|MISMATCH}}**
 * Slots parity: **{{OK|MISMATCH}}**
 * State flags parity: **{{OK|MISMATCH}}**
+* Signature hash: `{{runtimeHash}}`
+
+---
+
+## Changelog
+
+| Date       | Changes |
+| ---------- | ------- |
+| {{YYYY-MM-DD}} | {{Agent: Summarize the update (e.g., "Initial documentation", "Synced props with contract")}} |
