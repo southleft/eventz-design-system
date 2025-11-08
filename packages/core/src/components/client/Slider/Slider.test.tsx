@@ -100,4 +100,5 @@ describe('Slider', () => {
       thumb: thumb?.className.includes('size-[8px]')
     }).toEqual({ track: true, range: true, thumb: true });
   });
+
 });

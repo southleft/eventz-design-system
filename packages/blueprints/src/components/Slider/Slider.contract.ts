@@ -28,13 +28,13 @@ const spec: ContractSpec = {
     max: { type: 'number', default: 100 },
     step: { type: 'number', default: 1 },
 
-    /** A11y: at least one must be provided and non-empty. */
-    ariaLabel: { type: 'string' },
+    /** A11y: required accessible name for the thumb/root. */
+    ariaLabel: { type: 'string', required: true },
     ariaLabelledBy: { type: 'string' }
   },
 
   /** Radix parts mapped to slots for layout/styling. */
-  slots: ['track', 'range', 'thumb'] as const,
+  slots: ['container', '_track', '_range', '_thumb'] as const,
 
   /** Minimal structural hint; generators wire Radix parts accordingly. */
   layout: {
@@ -50,7 +50,7 @@ const spec: ContractSpec = {
   styleMap: true,
 
   hints: {
-    a11y: 'Provide one: ariaLabel or ariaLabelledBy. Horizontal only; one thumb only. Keyboard: Arrow/Page/Home/End supported by Radix.',
+    a11y: 'ariaLabel is required for an accessible name; optionally provide ariaLabelledBy to mirror external labels. Horizontal only; one thumb only. Keyboard: Arrow/Page/Home/End supported by Radix.',
     radixAdapter: { uses: ['Slider'] as const }
   }
 };

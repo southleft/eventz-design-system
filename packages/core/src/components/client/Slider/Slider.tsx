@@ -17,7 +17,7 @@ export interface SliderProps {
   min?: number;
   max?: number;
   step?: number;
-  ariaLabel?: string;
+  ariaLabel: string;
   ariaLabelledBy?: string;
 }
 
@@ -45,6 +45,7 @@ const thumbClasses = `
 
 export const Slider = React.forwardRef<SliderRootElement, SliderProps>(
   ({ value, onChange, onCommit, min = 0, max = 100, step = 1, ariaLabel, ariaLabelledBy }, ref) => {
+
     const handleValueChange = React.useCallback(
       (nextValues: number[]) => {
         const nextValue = nextValues[0];
@@ -72,11 +73,9 @@ export const Slider = React.forwardRef<SliderRootElement, SliderProps>(
     const thumbClassName = collapseWhitespace(composeClasses(thumbClasses));
 
     const thumbAriaProps =
-      ariaLabel !== undefined
-        ? { 'aria-label': ariaLabel }
-        : ariaLabelledBy !== undefined
-          ? { 'aria-labelledby': ariaLabelledBy }
-          : {};
+      ariaLabelledBy && ariaLabelledBy.trim().length > 0
+        ? { 'aria-labelledby': ariaLabelledBy }
+        : { 'aria-label': ariaLabel };
 
     return (
       <RadixSlider.Root
