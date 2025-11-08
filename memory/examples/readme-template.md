@@ -1,7 +1,7 @@
 # {{ComponentName}}
 *Type: {{server | client}}*
-*Base primitive or host: {{BasePrimitiveOrHost}}*
-*Last updated: {{YYYY-MM-DD}}
+*Base: {{HTMLTag | BasePrimitive}}*
+*Last updated: {{YYYY-MM-DD}}*
 
 ## Overview
 {{Agent: Write a concise description of the component’s purpose, when to use it, and its key behaviors. Keep to 2–4 sentences.}}

@@ -23,7 +23,7 @@ DISCOVERY (conventions; infer everything else)
 	•	storyFile: /.stories.tsx
 	•	blueprintContractFile: packages/blueprints/**//.contract.ts (if present)
 	•	blueprintStyleMapFile: packages/blueprints/**//.styleMap.ts (if present)
-	•	htmlTag, basePrimitive, packageSegment: infer from runtime and path; if unknown, htmlTag=div, basePrimitive=host:div, packageSegment=client
+	•	htmlTag, basePrimitive: infer from runtime and path.
 
 FILES TO TOUCH
 	1.	/README.md (create or replace)
@@ -50,7 +50,7 @@ ALGORITHM
 	•	From runtime toggles and styleMap, list public data-* states and a short effect note.
 	5.	GENERATE README
 	•	Load memory/examples/readme-template.md and fill placeholders:
-	•	{{ComponentName}}, {{HTMLTag}}, {{BasePrimitiveOrHost}}, {{server | client}}, {{YYYY-MM-DD}}
+	•	{{ComponentName}}, {{HTMLTag | BasePrimitive}}, {{server | client}}, {{YYYY-MM-DD}}
 	•	Fill all sections per template; concise, neutral tone; examples minimal and correct.
 	6.	WIRE README INTO STORIES (no MDX)
 	•	Ensure the story file:
