@@ -43,7 +43,7 @@ const map: StyleMapSpec = {
     // Thumb (handle)
     _thumb: [
       'relative',
-      'size-[4px]',
+      'size-[8px]', // fixed per spec (was 4px)
       'rounded-full',
       'bg-color-background-brand', // token
       'focus-visible:outline-none',

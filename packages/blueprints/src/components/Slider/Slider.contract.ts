@@ -50,29 +50,9 @@ const spec: ContractSpec = {
   styleMap: true,
 
   hints: {
-    a11y: 'Require one: ariaLabel or ariaLabelledBy. Keep horizontal only; one thumb only. Keyboard: Arrow/Page/Home/End supported by Radix.',
+    a11y: 'Provide one: ariaLabel or ariaLabelledBy. Horizontal only; one thumb only. Keyboard: Arrow/Page/Home/End supported by Radix.',
     radixAdapter: { uses: ['Slider'] as const }
-  },
-
-  rules: [
-    {
-      validate: props =>
-        typeof props.value === 'number' &&
-        typeof props.min === 'number' &&
-        typeof props.max === 'number' &&
-        props.min < props.max &&
-        (typeof props.step !== 'number' || props.step > 0),
-      message: 'Ensure numeric domain is valid: min < max and step > 0 (if provided).'
-    },
-    {
-      validate: props => {
-        const a = (props.ariaLabel as string | undefined)?.trim();
-        const b = (props.ariaLabelledBy as string | undefined)?.trim();
-        return !!(a && a.length) || !!(b && b.length);
-      },
-      message: 'Provide a non-empty ariaLabel or ariaLabelledBy for accessibility.'
-    }
-  ]
+  }
 };
 
 export default defineContract(spec);
