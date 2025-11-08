@@ -41,11 +41,11 @@ import type { {{ComponentName}}Props } from '@doxyz-ui/core/{{server | client}}/
 
 ## Props (Declared + Inherited)
 
-{{Agent: Resolve all extended interfaces and list only public, component-level props. Except for className (unless explicitly omitted), exclude HTMLElement attributes from @types/react. List props in alphabetical order.}}
+{{Agent: Resolve all extended interfaces and list only public, component-level props. Except for className, exclude HTMLElement attributes from @types/react. List props in alphabetical order.}}
 
-| Prop       | Type       |       Default | Required | Notes    |
-| ---------- | ---------- | ------------: | :------: | -------- |
-| `{{prop}}` | `{{type}}` | `{{default}}` |          | {{note}} |
+| Prop       | Type       |       Default | Required   | Notes    |
+| ---------- | ---------- | ------------- | ---------- | -------- |
+| `{{prop}}` | `{{type}}` | `{{default}}` | {{Yes | }} | {{note}} |
 
 * **Extends:** `{{ExtendedInterfaces}}`
 * **Forwards:** All standard HTML attributes for `<{{HTMLTag}}>` to the root element.
