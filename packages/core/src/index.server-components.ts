@@ -16,9 +16,6 @@ export * from './components/server/NavigationContainer';
 export * from './components/server/ScrollerRow';
 export * from './components/server/SelectionCard';
 export * from './components/server/SubscriptionCard';
-export * from './components/server/Tag';
-<<<<<<< HEAD
-export * from './components/server/Visibility';
-=======
 export * from './components/server/Text';
->>>>>>> development
+export * from './components/server/Tag';
+export * from './components/server/Visibility';
