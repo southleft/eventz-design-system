@@ -55,59 +55,43 @@ const spec: ContractSpec = {
   /**
    * Layout hint for generators. Renders the progress bar on top, then the main row with clusters.
    * Interactive elements (play/pause, ranges) are native elements rendered in core from this layout.
+   *
+   * NOTE: Class names are intentionally omitted here; all styling is defined in the styleMap.
    */
   layout: {
     type: 'container',
     tag: 'div',
-    className: ['MediaPlayer', 'flex', 'flex-col', 'w-full'],
     children: [
       {
         tag: 'div',
-        className: ['_progressTop'],
-        children: [
-          { tag: 'div', className: ['_track', '_trackEmpty'] },
-          { tag: 'div', className: ['_track', '_trackFill'] },
-          { tag: 'div', className: ['_thumb'] }
-        ]
+        children: [{ tag: 'div' }, { tag: 'div' }, { tag: 'div' }]
       },
       {
         tag: 'div',
-        className: ['_row'],
         children: [
           {
             tag: 'div',
-            className: ['_lead'],
             children: [
-              { tag: 'div', className: ['_artwork'] },
+              { tag: 'div' },
               {
                 tag: 'div',
-                className: ['_labels'],
-                children: [
-                  { tag: 'div', className: ['_subtitle'] },
-                  { tag: 'div', className: ['_title'] }
-                ]
+                children: [{ tag: 'div' }, { tag: 'div' }]
               }
             ]
           },
           {
             tag: 'div',
-            className: ['_controls'],
-            children: [{ tag: 'button', className: ['_playPause'] }]
+            children: [{ tag: 'button' }]
           },
           {
             tag: 'div',
-            className: ['_seekGroup'],
-            children: [
-              { tag: 'input', className: ['_seekRange'] },
-              { tag: 'div', className: ['_timeDisplay'] }
-            ]
+            children: [{ tag: 'input' }, { tag: 'div' }]
           },
           {
             tag: 'div',
-            className: ['_volumeGroup'],
-            children: [{ tag: 'input', className: ['_volumeRange'] }]
+            children: [{ tag: 'input' }]
           },
-          { tag: 'div', className: ['_actions'] }
+          { tag: 'div' }
         ]
       }
     ]
@@ -116,23 +100,18 @@ const spec: ContractSpec = {
   styleMap: true,
 
   hints: {
-    a11y: 'Use native <button> for play/pause (Space/Enter work). Use <input type="range"> for seek and volume with aria-labels. Top progress bar is decorative and must be aria-hidden.',
+    a11y: 'Use native <button>-backed controls for play/pause (via MediaControl) and Slider for seek and volume, ensuring aria labels are provided. The top progress bar is decorative and must be aria-hidden.',
     control:
-      'Play/pause renders the shared Control component with variant="light". When paused, Control uses icon={<PlayIcon />}. When playing, Control uses icon={<PauseIcon />}. The Control’s icon is decorative (aria-hidden) and Control must receive a non-empty ariaLabel.',
+      'Use the shared MediaControl component for play/pause. MediaControl already handles play/pause icons, aria labels, and controlled/uncontrolled state internally. The generating agent should NOT manage icons or ariaLabel directly; instead, it should attach event handlers such as onPlay and onPause (and optionally state/defaultState/onStateChange) so MediaPlayer can synchronize MediaControl with the underlying <audio> element.',
+    slider:
+      'Implement the seekRange and volumeRange slots with the shared Slider component, not raw <input type="range">. Treat Slider as a controlled component backed by internal MediaPlayer state:\n' +
+      '- Seek (progress): map the underlying <audio> element currentTime/duration into a Slider value suitable for the Slider domain (for example, a 0–100 normalized percentage). Use Slider.onChange for live scrub UI (updating visual progress and time display only) and Slider.onCommit to perform the actual seek on the <audio> element (by mapping the committed value back into seconds).\n' +
+      '- Volume: in the default variant only, map the Slider value into the <audio> element volume (for example, value/100 for a 0–100 domain). Use Slider.onChange to update volume immediately and keep the --volume CSS variable in sync. The compact and mini variants hide the volumeRange slot.',
     volume:
-      'The volume slider is shown only in the default variant. On some mobile browsers (e.g., iOS Safari), programmatic volume control is limited; the slider should gracefully disable/hide if element volume cannot be changed.'
+      'The volume slider is shown only in the default variant. Render VolumeUpIcon as the volume indicator next to the volume slider; treat this icon as decorative (aria-hidden="true"). On some mobile browsers (e.g., iOS Safari), programmatic volume control is limited; when the Slider cannot meaningfully change element volume, it should behave gracefully (e.g., treat it as a UI hint or clamp to mute/unmute only) rather than assuming precise volume control.'
   },
 
-  rules: [
-    {
-      validate: props => typeof props.audioSrc === 'string' && props.audioSrc.trim().length > 0,
-      message: 'audioSrc must be a non-empty string (href).'
-    },
-    {
-      validate: props => typeof props.title === 'string' && props.title.trim().length > 0,
-      message: 'title must be a non-empty string.'
-    }
-  ]
+  rules: []
 };
 
 export default defineContract(spec);
