@@ -30,6 +30,8 @@ export * from './SearchIcon';
 export * from './ShareIcon';
 export * from './StadiumIcon';
 export * from './UploadIcon';
+export * from './VolumeDownIcon';
+export * from './VolumeUpIcon';
 export * from './WarningIcon';
 export * from './ChevronLeftIcon';
 export * from './ChevronRightIcon';
