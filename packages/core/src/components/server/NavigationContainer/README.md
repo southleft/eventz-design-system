@@ -26,13 +26,11 @@ import type { NavigationContainerProps } from '@doxyz-ui/core/server/NavigationC
 ## Usage
 
 ```tsx
-<NavigationContainer>
-  <NavigationBar ariaLabel="Primary" items={items} />
-</NavigationContainer>
+<NavigationContainer { ...props }>{children}</NavigationContainer>
 ```
 
-> - Wrap any navigation clusters to align them with the page grid; combine with `className` when you need extra borders or background treatments.
-> - The wrapper is purely structural—child content defines semantics (`nav`, `ul`, etc.).
+> - Use this wrapper to align navigation clusters with the page grid and add any extra borders/backgrounds via `className`.
+> - The component itself is structural; semantics and roles come from the children you render inside.
 
 ---
 

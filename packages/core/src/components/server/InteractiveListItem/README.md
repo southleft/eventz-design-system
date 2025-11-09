@@ -26,18 +26,11 @@ import type { InteractiveListItemProps } from '@doxyz-ui/core/server/Interactive
 ## Usage
 
 ```tsx
-<InteractiveListItem
-  title="Design Signals"
-  supportingText="New episode every Tuesday"
-  highlightText="Season 4"
-  imgSrc="/artwork/design-signals.jpg"
-  imgAlt="Design Signals artwork"
-  onClick={() => console.log('Open show')}
-/>
+<InteractiveListItem { ...props } />
 ```
 
-> - Provide `href` when the row navigates; otherwise it renders a `<button type="button">` and forwards button attributes (`onClick`, `disabled`, etc.).
-> - Set `isRemovable` to show the circular thumbnail (icon or `imgSrc`) and a cancel affordance on the right.
+> - Provide `href` for anchor behavior; omit it to render the button variant that forwards `onClick`, `disabled`, etc.
+> - Enable `isRemovable` to show the thumbnail/cancel affordance and ensure `imgSrc`/`imgAlt` stay paired.
 
 ---
 

@@ -26,17 +26,11 @@ import type { TagProps } from '@doxyz-ui/core/server/Tag';
 ## Usage
 
 ```tsx
-<Tag
-  label="Design"
-  variant="parent"
-  isInteractive
-  isActive={activeTag === 'design'}
-  onClick={() => setActiveTag('design')}
-/>
+<Tag { ...props } />
 ```
 
-> - When `isInteractive` is true, the component renders a `<button type="button">` with focus ring support; otherwise it renders a simple `<span>`.
-> - The visible `label` always provides the accessible name—avoid adding `aria-label` unless you need to disambiguate duplicated text.
+> - Enable `isInteractive` when the tag needs to behave like a button; otherwise it renders a plain `<span>`.
+> - Let the `label` text supply the accessible name unless you must disambiguate identical visuals.
 
 ---
 

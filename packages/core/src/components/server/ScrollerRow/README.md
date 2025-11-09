@@ -26,14 +26,11 @@ import type { ScrollerRowProps } from '@doxyz-ui/core/server/ScrollerRow';
 ## Usage
 
 ```tsx
-<ScrollerRow>
-  <Heading as="h3">Trending shows</Heading>
-  <Button variant="secondary">View all</Button>
-</ScrollerRow>
+<ScrollerRow { ...props }>{children}</ScrollerRow>
 ```
 
-> - Combine responsive spacing or alignment utilities through `className` while keeping the base flex layout intact.
-> - The wrapper is purely structural; focus handling lives in the interactive children inside the row.
+> - Maintain the base flex layout and layer any additional spacing/alignment utilities via `className`.
+> - Focus responsibility and semantics stay with the interactive children inside the row.
 
 ---
 

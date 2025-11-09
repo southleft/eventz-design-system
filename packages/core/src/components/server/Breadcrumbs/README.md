@@ -26,18 +26,11 @@ import type { BreadcrumbsProps } from '@doxyz-ui/core/server/Breadcrumbs';
 ## Usage
 
 ```tsx
-<Breadcrumbs
-  items={[
-    { label: 'Home', href: '/' },
-    { label: 'Library', href: '/library' },
-    { label: 'Podcasts', href: '/library/podcasts' }
-  ]}
-  current="Design Hour"
-/>
+<Breadcrumbs { ...props } />
 ```
 
-> - Provide every crumb via the `items` array except the current page, which is supplied separately through `current`.
-> - Override `ariaLabel` when the default landmark label (“Breadcrumbs”) is not descriptive enough.
+> - Supply `items` for intermediate crumbs and `current` for the final label so the ordered list stays semantic.
+> - Customize `ariaLabel` when “Breadcrumbs” is not sufficiently descriptive for adjacent landmarks.
 
 ---
 

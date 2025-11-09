@@ -26,25 +26,11 @@ import type { ImagePanelProps } from '@doxyz-ui/core/server/ImagePanel';
 ## Usage
 
 ```tsx
-<ImagePanel
-  imgSrc="https://picsum.photos/seed/image-panel/1600/900"
-  imgAlt="Crowd cheering at a live event"
-  fetchPriority="high"
-  title="Design Signals Live"
-  description="Join the team on tour for an intimate live taping."
-  labels={[
-    { icon: <LocationIcon />, label: 'Berlin', ariaLabel: 'Location Berlin' },
-    { icon: <ClockIcon />, label: 'June 6', ariaLabel: 'June 6' }
-  ]}
-  actions={[
-    <Button key="primary" variant="primary">Get tickets</Button>,
-    <Button key="secondary" variant="secondary">Notify me</Button>
-  ]}
-/>
+<ImagePanel { ...props } />
 ```
 
-> - Toggle `data-is-in-view="true"` on the parent `.group` wrapper when the slide is visible so the scale and fade transitions run.
-> - Use `fetchPriority="high"` for the first slide image to avoid LCP delays; subsequent slides should stay `low`.
+> - Set `data-is-in-view="true"` on the parent group when a slide is active so the scale/opacity tokens fire.
+> - Prefer `fetchPriority="high"` for the hero slide and `low` for subsequent slides while keeping `loading="lazy"`.
 
 ---
 

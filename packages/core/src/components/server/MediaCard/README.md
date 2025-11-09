@@ -26,21 +26,11 @@ import type { MediaCardProps } from '@doxyz-ui/core/server/MediaCard';
 ## Usage
 
 ```tsx
-<MediaCard
-  subtitle="Season 4 • Episode 12"
-  title="Co-designing with AI"
-  labels={[
-    { icon: <ClockIcon />, label: '38 min' },
-    { label: 'Premium' }
-  ]}
-  imgSrc="/art/episode-12.jpg"
-  imgAlt="Episode artwork"
-  control={<PlayButton aria-label="Play episode" />}
-/>
+<MediaCard { ...props } />
 ```
 
-> - The `control` slot must always render something interactive (Button, IconButton, etc.); the card simply positions it.
-> - Provide `imgAlt` whenever `imgSrc` exists—use `''` if the artwork is purely decorative.
+> - Always render an interactive node such as a Button or IconButton via the `control` slot; the card just positions it.
+> - Keep `imgSrc` and `imgAlt` in lockstep, using `''` when the artwork is decorative.
 
 ---
 

@@ -26,13 +26,11 @@ import type { TextProps } from '@doxyz-ui/core/server/Text';
 ## Usage
 
 ```tsx
-<Text as="p" size="lg" color="weak">
-  Last updated 2 hours ago
-</Text>
+<Text { ...props }>{children}</Text>
 ```
 
-> - The `as` prop controls semantics only; visuals come from the typography props.
-> - Set `truncate` to clamp text to a single line; wrap Text in a constrained container so the ellipsis has an effect.
+> - Use `as` for semantics and rely on the typography props for visuals.
+> - Apply `truncate` only when the container width enforces single-line layout so the ellipsis appears.
 
 ---
 

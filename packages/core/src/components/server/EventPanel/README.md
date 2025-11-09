@@ -26,25 +26,11 @@ import type { EventPanelProps } from '@doxyz-ui/core/server/EventPanel';
 ## Usage
 
 ```tsx
-<EventPanel
-  imgSrc="https://picsum.photos/seed/event-panel/960/720"
-  imgAlt="Crowd at a night concert"
-  leftAction={<ArrowLeftIcon aria-label="Previous" />}
-  rightAction={<ArrowRightIcon aria-label="Next" />}
-  subtitle="Live taping"
-  title="Design Signals Tour"
-  description="Join the crew in London for a live episode and studio walkthrough."
-  chips={[
-    <Chip key="date" label="Apr 24" />,
-    <Chip key="venue" label="Kings Cross" />
-  ]}
-  avatars={<AvatarGroup />}
-  buttons={<Button variant="primary">Reserve a seat</Button>}
-/>
+<EventPanel { ...props } />
 ```
 
-> - Always provide both `imgSrc` and descriptive `imgAlt`; the hero image is the focal point and drives the accessible context.
-> - The surrounding controller is responsible for toggling `data-is-in-view="true"` on the group when the panel enters the viewport.
+> - Always pass `imgSrc`/`imgAlt` as a pair so the hero image remains descriptive; `''` is acceptable for decorative art.
+> - Manage `data-is-in-view="true"` on the `.group` wrapper at the parent level to trigger the scale/opacity transitions.
 
 ---
 

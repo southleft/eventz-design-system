@@ -26,17 +26,11 @@ import type { SubscriptionCardProps } from '@doxyz-ui/core/server/SubscriptionCa
 ## Usage
 
 ```tsx
-<SubscriptionCard
-  terms="$18 / month"
-  isActive
-  nextBillingDate="Nov 30, 2025"
-  memberSince="Apr 2022"
-  cancelHref="/billing/cancel"
-/>
+<SubscriptionCard { ...props } />
 ```
 
-> - Provide `cancelHref` (and optional `cancelText`) when `isActive` is true and you want the default inline TextLink; pass a `cancel` slot to render bespoke controls.
-> - When `isActive` is false, the cancel slot/text are ignored and only `inactiveSubtitle` renders below the terms.
+> - Use `cancelHref`/`cancelText` (or the `cancel` slot) only when `isActive` is true.
+> - Rely on `inactiveSubtitle` to explain the dormant state when `isActive` is false.
 
 ---
 

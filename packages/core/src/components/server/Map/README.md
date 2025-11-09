@@ -26,13 +26,11 @@ import type { MapProps } from '@doxyz-ui/core/server/Map';
 ## Usage
 
 ```tsx
-<Map ariaLabel="Nearby studios" showControls={false}>
-  <ConsumerMapLayer data-map-layer />
-</Map>
+<Map { ...props }>{children}</Map>
 ```
 
-> - Always supply a descriptive `ariaLabel`; the component renders a `role="region"` to give the map content an accessible name.
-> - Add the `data-map-layer` attribute (or `_map-layer` class) to your map canvas so the base selectors can pin it edge-to-edge.
+> - Provide `ariaLabel` so the `role="region"` receives a meaningful name.
+> - Tag your map canvas with `data-map-layer` (or the `_map-layer` class) so the helper selectors cover the entire surface.
 
 ---
 

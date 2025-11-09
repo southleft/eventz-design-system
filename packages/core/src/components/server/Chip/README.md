@@ -26,14 +26,11 @@ import type { ChipProps } from '@doxyz-ui/core/server/Chip';
 ## Usage
 
 ```tsx
-<Chip
-  icon={<CalendarIcon />}
-  label="Weekly drop"
-/>
+<Chip { ...props } />
 ```
 
-> - Leave `ariaLabel` undefined so the visible `label` becomes the accessible name unless you truly need a different spoken phrase.
-> - Icons are treated as decorative; ensure the `label` conveys the meaning on its own.
+> - Let the visible `label` supply the accessible name; only pass `ariaLabel` when additional context is required.
+> - Treat `icon` as decorative (`aria-hidden="true"`) so the chip remains concise.
 
 ---
 

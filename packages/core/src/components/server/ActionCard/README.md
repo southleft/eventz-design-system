@@ -26,19 +26,11 @@ import type { ActionCardProps } from '@doxyz-ui/core/server/ActionCard';
 ## Usage
 
 ```tsx
-<ActionCard
-  title="Join now"
-  subtitle="Get the most out of DoXYZ"
-  description="Unlock premium features."
-  imgSrc="https://picsum.photos/seed/action-card/640/360"
-  imgAlt="Abstract gradient background"
-  badge="Featured"
-  action={<Button variant="primary">Follow</Button>}
-/>
+<ActionCard { ...props } />
 ```
 
-> - Pass a fully configured interactive node (Button, Link, etc.) via `action`; it drives the card’s focus-visible state.
-> - Provide `ariaLabel` only when the spoken name should differ from the visible `title`.
+> - Supply an interactive `action` node so the focus-visible ring is tied to the actual control.
+> - Keep `ariaLabel` undefined unless the visible title needs an explicit override.
 
 ---
 

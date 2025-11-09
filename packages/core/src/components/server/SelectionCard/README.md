@@ -26,17 +26,11 @@ import type { SelectionCardProps } from '@doxyz-ui/core/server/SelectionCard';
 ## Usage
 
 ```tsx
-<SelectionCard
-  label="Design"
-  icon={<DesignIcon />}
-  isSelected={selected}
-  ariaLabel="Select design track"
-  onClick={toggle}
-/>
+<SelectionCard { ...props } />
 ```
 
-> - The visible `label` becomes the accessible name; set `ariaLabel` only when you need extra context such as “Remove Design track”.
-> - Wrap these cards in a grid/list that manages `onClick`/keyboard events and updates `isSelected`.
+> - The visible `label` is the accessible name; only pass `ariaLabel` for additional context.
+> - Manage interaction (keyboard, selection toggles) externally while updating `isSelected`.
 
 ---
 

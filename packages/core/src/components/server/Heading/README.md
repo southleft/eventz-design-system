@@ -26,13 +26,11 @@ import type { HeadingProps } from '@doxyz-ui/core/server/Heading';
 ## Usage
 
 ```tsx
-<Heading as="h2" size="3xl" weight="bold" color="brand">
-  Featured episodes
-</Heading>
+<Heading { ...props }>{children}</Heading>
 ```
 
-> - Keep `size="auto"` and `weight="auto"` unless you need a visual override; both map to level presets derived from the `as` value.
-> - Set `noMargin={false}` only when you want to retain the browser’s default block margins around headings.
+> - Leave `size="auto"`/`weight="auto"` to use the level presets unless you need a different visual.
+> - Set `noMargin={false}` only when you intentionally want the browser’s default margins.
 
 ---
 

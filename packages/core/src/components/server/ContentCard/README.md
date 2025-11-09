@@ -26,23 +26,11 @@ import type { ContentCardProps } from '@doxyz-ui/core/server/ContentCard';
 ## Usage
 
 ```tsx
-<ContentCard
-  layout="horizontal"
-  title="Design Signals"
-  subtitle="Episode 04"
-  description="How teams scale creative reviews."
-  imgSrc="https://picsum.photos/seed/content-card/320/320"
-  imgAlt="Abstract studio lights"
-  labels={[
-    { icon: <ClockIcon />, label: '42 min' },
-    { label: 'Season 3' }
-  ]}
-  href="/shows/design-signals"
-/>
+<ContentCard { ...props } />
 ```
 
-> - Set `href` when the entire card should be clickable; otherwise keep it as a `<div>` and opt into keyboard focus with `focusable`.
-> - Provide `imgAlt` whenever `imgSrc` is defined and use an empty string when the media is decorative.
+> - Use `href` to turn the card into an anchor and let `focusable` drive keyboard behavior when `href` is absent.
+> - Always supply `imgAlt` when `imgSrc` is present, passing `''` for decorative imagery.
 
 ---
 

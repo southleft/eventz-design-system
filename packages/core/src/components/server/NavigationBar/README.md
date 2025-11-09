@@ -26,21 +26,11 @@ import type { NavigationBarProps } from '@doxyz-ui/core/server/NavigationBar';
 ## Usage
 
 ```tsx
-<NavigationBar
-  ariaLabel="Primary"
-  logo={<Logo />}
-  items={[
-    { label: 'Shows', href: '/shows' },
-    { label: 'Events', href: '/events', current: true },
-    { label: 'About', href: '/about' }
-  ]}
-  mobileNavigation={<MobileMenu />}
-  secondaryNavigation={<ThemeToggle />}
-/>
+<NavigationBar { ...props } />
 ```
 
-> - Provide a descriptive `ariaLabel`; the component uses `<nav aria-label={ariaLabel}>` to expose the landmark.
-> - When passing `mobileNavigation`, the primary list hides on small screens but remains visible at `md` and above.
+> - Always pass a descriptive `ariaLabel` so the `<nav>` landmark communicates its purpose.
+> - Supply `mobileNavigation` only when needed; it hides the primary list below `md` but keeps it visible above.
 
 ---
 

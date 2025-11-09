@@ -26,15 +26,11 @@ import type { BadgeProps } from '@doxyz-ui/core/server/Badge';
 ## Usage
 
 ```tsx
-<Badge
-  variant="brand"
-  icon={<LiveIcon />}
-  label="Live now"
-/>
+<Badge { ...props } />
 ```
 
-> - The badge is purely presentational; wrap it in higher-level primitives when it needs to be interactive.
-> - Icons are rendered with `aria-hidden="true"`, so ensure the `label` string contains the full accessible name.
+> - Keep icons decorative (`aria-hidden="true"`) so the `label` string is the only announced text.
+> - Drive color via `variant`; the component remains presentational and should sit inside interactive parents if needed.
 
 ---
 

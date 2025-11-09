@@ -26,13 +26,11 @@ import type { VisibilityProps } from '@doxyz-ui/core/server/Visibility';
 ## Usage
 
 ```tsx
-<Visibility from="lg">
-  <DesktopNav />
-</Visibility>
+<Visibility { ...props }>{children}</Visibility>
 ```
 
-> - `from="lg"` keeps the content hidden until the large breakpoint, while `to="md"` shows the content until medium and hides it on larger screens.
-> - Because the component only toggles CSS visibility, focusable children remain tabbable—wrap control logic around it if you need to fully remove elements from the accessibility tree.
+> - Use `from` and `to` to control the visibility window, defaulting to `visible` when neither is provided.
+> - Because it only toggles CSS visibility, ensure focusable children are also managed (e.g., via `inert` or conditional rendering) if needed.
 
 ---
 

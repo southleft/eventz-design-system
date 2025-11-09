@@ -26,14 +26,11 @@ import type { FooterProps } from '@doxyz-ui/core/server/Footer';
 ## Usage
 
 ```tsx
-<Footer className="py-12">
-  <FooterNav />
-  <LegalLinks />
-</Footer>
+<Footer { ...props }>{children}</Footer>
 ```
 
-> - Compose your own layout inside the wrapper; Footer’s only job is to provide the gradient background.
-> - Merge spacing or grid utilities through `className` to align with the rest of the page shell.
+> - Wrap whatever navigation or legal content you need inside the gradient shell.
+> - Merge spacing/grid utilities via `className` to match the surrounding layout.
 
 ---
 
