@@ -1,7 +1,7 @@
 # ScrollerRow
 *Type: server* |
 *Base: div* |
-*Last updated: 2025-11-08*
+*Last updated: 2025-11-09*
 
 ## Overview
 ScrollerRow is a lightweight flex container that evenly spaces items across horizontal carousels or promo rails. It simply merges its spacing tokens with any `className` you pass and forwards the rest of the `<div>` props. Use it to align headline + actions above or below scrollers without repeating flex utilities.
@@ -35,6 +35,8 @@ import type { ScrollerRowProps } from '@doxyz-ui/core/server/ScrollerRow';
 ---
 
 ## Props (Declared + Inherited)
+
+Resolve all extended interfaces and list only public, component-level props. Except for className, exclude HTMLElement attributes from @types/react. List props in alphabetical order. Do NOT include a catch-all row like “…rest” or “Other props”—every inherited prop must appear as its own row.
 
 | Prop        | Type     | Default | Required | Notes                                                                |
 | ----------- | -------- | ------- | :------: | -------------------------------------------------------------------- |

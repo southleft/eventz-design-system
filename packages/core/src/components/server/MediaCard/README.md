@@ -1,7 +1,7 @@
 # MediaCard
 *Type: server* |
 *Base: div* |
-*Last updated: 2025-11-08*
+*Last updated: 2025-11-09*
 
 ## Overview
 MediaCard displays a horizontal preview with an optional image, subtitle, label chips, and a required overlay control slot (for example, a play button). The card itself is non-interactive: hover/focus styles react to whichever control you pass in. Use it inside carousels or lists where you want a consistent tile but need to inject your own interactive control.
@@ -36,7 +36,7 @@ import type { MediaCardProps } from '@doxyz-ui/core/server/MediaCard';
 
 ## Props (Declared + Inherited)
 
-Only component-level props are listed; standard `<div>` attributes from `React.HTMLAttributes<HTMLDivElement>` (other than `children`/`title`) are forwarded automatically.
+Resolve all extended interfaces and list only public, component-level props. Except for className, exclude HTMLElement attributes from @types/react. List props in alphabetical order. Do NOT include a catch-all row like “…rest” or “Other props”—every inherited prop must appear as its own row.
 
 | Prop        | Type                                                    | Default | Required | Notes                                                                                           |
 | ----------- | ------------------------------------------------------- | ------- | :------: | ----------------------------------------------------------------------------------------------- |

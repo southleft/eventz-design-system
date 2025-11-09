@@ -1,7 +1,7 @@
 # SubscriptionCard
 *Type: server* |
 *Base: div* |
-*Last updated: 2025-11-08*
+*Last updated: 2025-11-09*
 
 ## Overview
 SubscriptionCard displays plan terms with either an active state (billing details + cancel affordance) or an inactive state (call-to-action subtitle). It optionally renders a TextLink cancel action or a custom `cancel` slot when the account is active. Use it wherever you need to summarize a user’s subscription status without wiring client handlers directly inside the card.
@@ -36,7 +36,7 @@ import type { SubscriptionCardProps } from '@doxyz-ui/core/server/SubscriptionCa
 
 ## Props (Declared + Inherited)
 
-Only component-level props are listed; standard `<div>` attributes from `React.HTMLAttributes<HTMLDivElement>` (other than `children`) are forwarded automatically.
+Resolve all extended interfaces and list only public, component-level props. Except for className, exclude HTMLElement attributes from @types/react. List props in alphabetical order. Do NOT include a catch-all row like “…rest” or “Other props”—every inherited prop must appear as its own row.
 
 | Prop             | Type                         | Default            | Required | Notes                                                                                                 |
 | ---------------- | ---------------------------- | ------------------ | :------: | ----------------------------------------------------------------------------------------------------- |

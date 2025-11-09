@@ -1,7 +1,7 @@
 # Map
 *Type: server* |
 *Base: section* |
-*Last updated: 2025-11-08*
+*Last updated: 2025-11-09*
 
 ## Overview
 Map wraps consumer-provided map layers inside a sized region with optional overlay and a decorative control rail. It does not initialize map SDKs; instead it offers a consistent frame, gradient overlay, and disabled control tiles that product teams can later wire to real interactions. Use it when embedding third-party map canvases or panoramics that need consistent sizing within cards or detail pages.
@@ -36,7 +36,7 @@ import type { MapProps } from '@doxyz-ui/core/server/Map';
 
 ## Props (Declared + Inherited)
 
-Only component-level props are listed; standard `<section>` attributes from `React.HTMLAttributes<HTMLElement>` (other than `aria-label`) are forwarded automatically.
+Resolve all extended interfaces and list only public, component-level props. Except for className, exclude HTMLElement attributes from @types/react. List props in alphabetical order. Do NOT include a catch-all row like “…rest” or “Other props”—every inherited prop must appear as its own row.
 
 | Prop          | Type      | Default | Required | Notes                                                                                     |
 | ------------- | --------- | ------- | :------: | ----------------------------------------------------------------------------------------- |

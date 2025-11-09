@@ -1,7 +1,7 @@
 # Badge
 *Type: server* |
 *Base: span* |
-*Last updated: 2025-11-08*
+*Last updated: 2025-11-09*
 
 ## Overview
 Badge renders a small label with tightly controlled typography and gradient backgrounds to call out status, metadata, or featured categories. It wraps the Radix Badge primitive but owns the inline layout, ensuring icons and text stay vertically centered. Use it anywhere you need a lightweight status descriptor without introducing interactive behavior.
@@ -36,7 +36,7 @@ import type { BadgeProps } from '@doxyz-ui/core/server/Badge';
 
 ## Props (Declared + Inherited)
 
-Only component-level props are listed; standard `<span>` attributes from `React.HTMLAttributes<HTMLSpanElement>` (other than `className`) are forwarded automatically. Defaults are shown exactly when supplied by the runtime.
+Resolve all extended interfaces and list only public, component-level props. Except for className, exclude HTMLElement attributes from @types/react. List props in alphabetical order. Do NOT include a catch-all row like “…rest” or “Other props”—every inherited prop must appear as its own row.
 
 | Prop        | Type                                         |   Default | Required | Notes                                                                 |
 | ----------- | -------------------------------------------- | --------: | :------: | --------------------------------------------------------------------- |

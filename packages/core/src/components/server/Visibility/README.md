@@ -1,7 +1,7 @@
 # Visibility
 *Type: server* |
 *Base: div* |
-*Last updated: 2025-11-08*
+*Last updated: 2025-11-09*
 
 ## Overview
 Visibility is a utility wrapper that toggles its children between Tailwind breakpoints using `visible`/`invisible` utilities. Supply `from` to start showing content at a breakpoint, `to` to stop showing at a breakpoint, or both to create windows. Semantics remain unchanged—the wrapper only manipulates CSS visibility.
@@ -35,6 +35,8 @@ import type { VisibilityProps } from '@doxyz-ui/core/server/Visibility';
 ---
 
 ## Props (Declared + Inherited)
+
+Resolve all extended interfaces and list only public, component-level props. Except for className, exclude HTMLElement attributes from @types/react. List props in alphabetical order. Do NOT include a catch-all row like “…rest” or “Other props”—every inherited prop must appear as its own row.
 
 | Prop        | Type                           | Default | Required | Notes                                                                                     |
 | ----------- | ------------------------------ | ------- | :------: | ----------------------------------------------------------------------------------------- |

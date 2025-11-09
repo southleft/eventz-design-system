@@ -1,7 +1,7 @@
 # ContentCard
 *Type: server* |
 *Base: div / a (link mode)* |
-*Last updated: 2025-11-08*
+*Last updated: 2025-11-09*
 
 ## Overview
 ContentCard displays editorial content with optional media, badge overlays, descriptive copy, and inline metadata labels. It supports three compositions—vertical, horizontal, and post—and can turn into a link when `href` is provided, adding a decorative arrow inside the title while preserving focus management. Use it for featured stories, channel promos, or any content-first tile where actions live elsewhere.
@@ -36,7 +36,7 @@ import type { ContentCardProps } from '@doxyz-ui/core/server/ContentCard';
 
 ## Props (Declared + Inherited)
 
-Only component-level props are listed; standard `<div>` attributes (other than `className`) and the whitelisted anchor attributes (`target`, `rel`, `download`, `hrefLang`, `ping`, `referrerPolicy`) are forwarded automatically.
+Resolve all extended interfaces and list only public, component-level props. Except for className, exclude HTMLElement attributes from @types/react. List props in alphabetical order. Do NOT include a catch-all row like “…rest” or “Other props”—every inherited prop must appear as its own row.
 
 | Prop        | Type                                                        |   Default | Required | Notes                                                                                                                                      |
 | ----------- | ----------------------------------------------------------- | --------: | :------: | ------------------------------------------------------------------------------------------------------------------------------------------ |

@@ -1,7 +1,7 @@
 # SelectionCard
 *Type: server* |
 *Base: div* |
-*Last updated: 2025-11-08*
+*Last updated: 2025-11-09*
 
 ## Overview
 SelectionCard is a focusable checkbox-style tile used in multi-select grids. It requires an icon and label, exposes `role="checkbox"` semantics, and toggles `data-selected` plus `aria-checked` when `isSelected` is true. Use it when you need lightweight selectable tiles without pulling in client interactivity—wire key handling or selection state at a higher level.
@@ -36,7 +36,7 @@ import type { SelectionCardProps } from '@doxyz-ui/core/server/SelectionCard';
 
 ## Props (Declared + Inherited)
 
-Only component-level props are listed; standard `<div>` attributes (other than `role`, `tabIndex`, `aria-checked`, `aria-label`) are forwarded automatically.
+Resolve all extended interfaces and list only public, component-level props. Except for className, exclude HTMLElement attributes from @types/react. List props in alphabetical order. Do NOT include a catch-all row like “…rest” or “Other props”—every inherited prop must appear as its own row.
 
 | Prop        | Type              | Default | Required | Notes                                                                                     |
 | ----------- | ----------------- | ------- | :------: | ----------------------------------------------------------------------------------------- |

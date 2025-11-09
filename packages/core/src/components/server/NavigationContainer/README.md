@@ -1,7 +1,7 @@
 # NavigationContainer
 *Type: server* |
 *Base: div* |
-*Last updated: 2025-11-08*
+*Last updated: 2025-11-09*
 
 ## Overview
 NavigationContainer is a simple layout wrapper that applies consistent padding and neutral background tokens around navigation sections. Use it to give NavigationBar, footer navs, or any grouped links equal breathing room without repeating spacing utilities across pages.
@@ -35,6 +35,8 @@ import type { NavigationContainerProps } from '@doxyz-ui/core/server/NavigationC
 ---
 
 ## Props (Declared + Inherited)
+
+Resolve all extended interfaces and list only public, component-level props. Except for className, exclude HTMLElement attributes from @types/react. List props in alphabetical order. Do NOT include a catch-all row like “…rest” or “Other props”—every inherited prop must appear as its own row.
 
 | Prop        | Type     | Default | Required | Notes                                                                 |
 | ----------- | -------- | ------- | :------: | --------------------------------------------------------------------- |

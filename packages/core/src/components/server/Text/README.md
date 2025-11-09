@@ -1,7 +1,7 @@
 # Text
 *Type: server* |
 *Base: span (polymorphic)* |
-*Last updated: 2025-11-08*
+*Last updated: 2025-11-09*
 
 ## Overview
 Text is a polymorphic typography primitive that maps semantic props (`size`, `weight`, `color`, etc.) to design-system token classes while letting you choose the rendered element via `as`. Unlike Heading, it has no presets—every visual axis is explicit and defaults to neutral values. Use it for inline copy, helper text, captions, and any content that needs consistent tokens without custom CSS.
@@ -36,7 +36,7 @@ import type { TextProps } from '@doxyz-ui/core/server/Text';
 
 ## Props (Declared + Inherited)
 
-Only component-level props are listed; standard attributes for the rendered element (`as` component) are forwarded automatically.
+Resolve all extended interfaces and list only public, component-level props. Except for className, exclude HTMLElement attributes from @types/react. List props in alphabetical order. Do NOT include a catch-all row like “…rest” or “Other props”—every inherited prop must appear as its own row.
 
 | Prop        | Type                                                                                                                            | Default  | Required | Notes                                                                                         |
 | ----------- | -------------------------------------------------------------------------------------------------------------------------------- | -------- | :------: | --------------------------------------------------------------------------------------------- |

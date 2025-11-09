@@ -1,7 +1,7 @@
 # Heading
 *Type: server* |
 *Base: h2 (configurable h1–h6)* |
-*Last updated: 2025-11-08*
+*Last updated: 2025-11-09*
 
 ## Overview
 Heading renders semantic `h1`–`h6` elements with opt-in typography controls (size, weight, alignment, color, transform) plus utility booleans for italics, truncation, and margin reset. By default it picks the appropriate size/weight preset for the chosen `as` level while still allowing explicit overrides. Use it whenever you need consistent heading tokens without giving up document outline control.
@@ -36,7 +36,7 @@ import type { HeadingProps } from '@doxyz-ui/core/server/Heading';
 
 ## Props (Declared + Inherited)
 
-Only component-level props are listed; standard `<h*>` attributes from `React.HTMLAttributes<HTMLHeadingElement>` (other than `className`) are forwarded automatically.
+Resolve all extended interfaces and list only public, component-level props. Except for className, exclude HTMLElement attributes from @types/react. List props in alphabetical order. Do NOT include a catch-all row like “…rest” or “Other props”—every inherited prop must appear as its own row.
 
 | Prop        | Type                                                                                                                          | Default | Required | Notes                                                                                     |
 | ----------- | ----------------------------------------------------------------------------------------------------------------------------- | ------- | :------: | ----------------------------------------------------------------------------------------- |

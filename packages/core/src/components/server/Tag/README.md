@@ -1,7 +1,7 @@
 # Tag
 *Type: server* |
 *Base: span / button (interactive)* |
-*Last updated: 2025-11-08*
+*Last updated: 2025-11-09*
 
 ## Overview
 Tag renders pill-style labels that can be either decorative (`isInteractive=false`) or clickable (`isInteractive=true`). It supports `parent` and `child` variants plus an `isActive` flag that adjusts colors. Use it for taxonomy controls, filters, and chip-like metadata where you need server-rendered markup with flexible interactivity.
@@ -35,6 +35,8 @@ import type { TagProps } from '@doxyz-ui/core/server/Tag';
 ---
 
 ## Props (Declared + Inherited)
+
+Resolve all extended interfaces and list only public, component-level props. Except for className, exclude HTMLElement attributes from @types/react. List props in alphabetical order. Do NOT include a catch-all row like “…rest” or “Other props”—every inherited prop must appear as its own row.
 
 | Prop           | Type                        | Default   | Required | Notes                                                                                         |
 | -------------- | --------------------------- | --------- | :------: | --------------------------------------------------------------------------------------------- |

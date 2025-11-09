@@ -1,7 +1,7 @@
 # NavigationBar
 *Type: server* |
 *Base: nav* |
-*Last updated: 2025-11-08*
+*Last updated: 2025-11-09*
 
 ## Overview
 NavigationBar renders the site-wide primary navigation shell with slots for a logo, tagline, primary link list, optional mobile trigger, and right-aligned secondary actions. It supports fixed positioning and a wrapped layout for stacked content. Use it as the top-level chrome for marketing or app surfaces where the navigation landmarks must remain server-rendered.
@@ -36,7 +36,7 @@ import type { NavigationBarProps } from '@doxyz-ui/core/server/NavigationBar';
 
 ## Props (Declared + Inherited)
 
-Only component-level props are listed; standard `<nav>` attributes from `React.ComponentPropsWithoutRef<'nav'>` (other than `children`/`aria-label`) are forwarded automatically.
+Resolve all extended interfaces and list only public, component-level props. Except for className, exclude HTMLElement attributes from @types/react. List props in alphabetical order. Do NOT include a catch-all row like “…rest” or “Other props”—every inherited prop must appear as its own row.
 
 | Prop                 | Type                                                               | Default | Required | Notes                                                                                     |
 | -------------------- | ------------------------------------------------------------------ | ------- | :------: | ----------------------------------------------------------------------------------------- |

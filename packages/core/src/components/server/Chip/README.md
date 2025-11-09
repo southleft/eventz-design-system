@@ -1,7 +1,7 @@
 # Chip
 *Type: server* |
 *Base: span* |
-*Last updated: 2025-11-08*
+*Last updated: 2025-11-09*
 
 ## Overview
 Chip renders a lightweight inline label with an optional decorative icon, making it ideal for metadata such as episode length, availability tags, or category indicators. It is purely presentational: color and emphasis inherit from the parent container, and the component never becomes interactive on its own. Use it wherever you need compact text that stays aligned with surrounding inline content.
@@ -36,7 +36,7 @@ import type { ChipProps } from '@doxyz-ui/core/server/Chip';
 
 ## Props (Declared + Inherited)
 
-Chip does not forward arbitrary DOM props, so every prop is listed explicitly below.
+Resolve all extended interfaces and list only public, component-level props. Except for className, exclude HTMLElement attributes from @types/react. List props in alphabetical order. Do NOT include a catch-all row like “…rest” or “Other props”—every inherited prop must appear as its own row.
 
 | Prop        | Type               | Default | Required | Notes                                                                |
 | ----------- | ------------------ | ------- | :------: | -------------------------------------------------------------------- |

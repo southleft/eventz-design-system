@@ -1,7 +1,7 @@
 # ImagePanel
 *Type: server* |
 *Base: div* |
-*Last updated: 2025-11-08*
+*Last updated: 2025-11-09*
 
 ## Overview
 ImagePanel powers hero-scale carousel slides by rendering a responsive image, overlay gradient, and a stacked block that fades in when the slide becomes active. Consumers supply CTA buttons and label chips while the component handles scale/opacity transitions tied to the parent’s `data-is-in-view` flag. Use it for promotional rails or landing-page hero carousels where the art direction lives in the image.
@@ -36,7 +36,7 @@ import type { ImagePanelProps } from '@doxyz-ui/core/server/ImagePanel';
 
 ## Props (Declared + Inherited)
 
-Only component-level props are listed; standard `<div>` attributes from `React.HTMLAttributes<HTMLDivElement>` (other than `title`) are forwarded automatically.
+Resolve all extended interfaces and list only public, component-level props. Except for className, exclude HTMLElement attributes from @types/react. List props in alphabetical order. Do NOT include a catch-all row like “…rest” or “Other props”—every inherited prop must appear as its own row.
 
 | Prop           | Type                                                                                           | Default | Required | Notes                                                                                                     |
 | -------------- | ---------------------------------------------------------------------------------------------- | ------- | :------: | --------------------------------------------------------------------------------------------------------- |

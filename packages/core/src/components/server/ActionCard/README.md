@@ -1,7 +1,7 @@
 # ActionCard
 *Type: server* |
 *Base: div* |
-*Last updated: 2025-11-08*
+*Last updated: 2025-11-09*
 
 ## Overview
 ActionCard surfaces a promotional tile with an optional media preview, subtitle, description, and a required action control. Use it whenever you need a compact, center-aligned stack that highlights a single call-to-action while keeping badge and media presentation consistent. The base is focus-managed as a group so hover/focus states respond to the interactive child rather than an explicit button wrapper.
@@ -36,7 +36,7 @@ import type { ActionCardProps } from '@doxyz-ui/core/server/ActionCard';
 
 ## Props (Declared + Inherited)
 
-Only component-level props are listed; standard `<div>` attributes from `React.HTMLAttributes<HTMLDivElement>` (other than `className`) are forwarded automatically. Defaults are shown exactly when defined by the runtime.
+Resolve all extended interfaces and list only public, component-level props. Except for className, exclude HTMLElement attributes from @types/react. List props in alphabetical order. Do NOT include a catch-all row like “…rest” or “Other props”—every inherited prop must appear as its own row.
 
 | Prop          | Type             | Default | Required | Notes                                                                                  |
 | ------------- | ---------------- | ------- | :------: | -------------------------------------------------------------------------------------- |

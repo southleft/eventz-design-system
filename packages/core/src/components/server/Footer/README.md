@@ -1,7 +1,7 @@
 # Footer
 *Type: server* |
 *Base: div* |
-*Last updated: 2025-11-08*
+*Last updated: 2025-11-09*
 
 ## Overview
 Footer is a minimal wrapper that applies the system footer gradient background and forwards every native `<div>` attribute to the root. It is intentionally content-agnostic so product teams can compose navigation links, metadata, or social lists without opinionated layout. Use it any time you need the standard DoXYZ footer backdrop behind custom markup.
@@ -36,7 +36,7 @@ import type { FooterProps } from '@doxyz-ui/core/server/Footer';
 
 ## Props (Declared + Inherited)
 
-Footer simply forwards all native `<div>` props; only `className` is documented explicitly per the documentation guidelines.
+Resolve all extended interfaces and list only public, component-level props. Except for className, exclude HTMLElement attributes from @types/react. List props in alphabetical order. Do NOT include a catch-all row like “…rest” or “Other props”—every inherited prop must appear as its own row.
 
 | Prop        | Type     | Default | Required | Notes                                              |
 | ----------- | -------- | ------- | :------: | -------------------------------------------------- |

@@ -1,7 +1,7 @@
 # Breadcrumbs
 *Type: server* |
 *Base: nav* |
-*Last updated: 2025-11-08*
+*Last updated: 2025-11-09*
 
 ## Overview
 Breadcrumbs renders a semantic navigation landmark with an ordered list of intermediate TextLinks and a final, non-link label for the current page. It automatically collapses long trails (five or more items) by inserting an ellipsis between the first crumb and the current page to keep the row compact. Use it near page headers to orient visitors within nested sections without cluttering the layout.
@@ -36,7 +36,7 @@ import type { BreadcrumbsProps } from '@doxyz-ui/core/server/Breadcrumbs';
 
 ## Props (Declared + Inherited)
 
-Only component-level props are listed; standard `<nav>` attributes from `React.ComponentPropsWithoutRef<'nav'>` (other than `children` and `aria-label`) are forwarded automatically. Defaults reflect runtime behavior.
+Resolve all extended interfaces and list only public, component-level props. Except for className, exclude HTMLElement attributes from @types/react. List props in alphabetical order. Do NOT include a catch-all row like “…rest” or “Other props”—every inherited prop must appear as its own row.
 
 | Prop        | Type                                   |     Default | Required | Notes                                                                                                   |
 | ----------- | -------------------------------------- | -----------: | :------: | ------------------------------------------------------------------------------------------------------- |
