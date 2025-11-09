@@ -1,122 +1,76 @@
 // packages/blueprints/src/components/MediaPlayer/MediaPlayer.styleMap.ts
 import { defineStyleMap } from '../../utilities/defineStyleMap';
-import type { StyleMapSpec } from '../../utilities/defineStyleMap/types';
 
 /**
  * Token-first style map for MediaPlayer.
- * Keys here must align with the contract’s slots and variant options.
- * Decorative progress bar reads CSS var: --progress (0..100).
- * Seek and volume visuals are owned by the shared Slider component; this map
- * only controls placement and layout of the Slider instances.
+ *
+ * MediaControl and Slider own their internal visuals (track, thumb, pill, focus ring).
+ * This styleMap only defines layout, spacing, and typography for MediaPlayer’s clusters,
+ * plus variant reductions (default / compact / mini).
  */
-const map: StyleMapSpec = {
+export default defineStyleMap({
   component: 'MediaPlayer',
 
-  base: [
-    'flex',
-    'flex-col',
-    'w-full',
-    'rounded-[var(--border/radius/xs,4px)]',
-    'focus-within:outline-none'
-  ],
+  base: ['flex', 'flex-col', 'items-start', 'w-full'],
 
   slots: {
-    // Top progress (decorative)
-    _progressTop: ['relative', 'w-full', 'rounded-[var(--border/radius/xxs,2px)]', 'mb-[-6px]'],
-    '_progressTop ._track._trackEmpty': [
-      'h-[4px]',
-      'w-full',
-      'bg-[var(--color/background/subtle,rgba(255,255,255,0.10))]',
-      'rounded-[inherit]'
-    ],
-    '_progressTop ._track._trackFill': [
-      'h-[4px]',
-      'bg-[var(--color/background/brand,#c2f853)]',
-      'rounded-[inherit]',
-      '[width:calc(var(--progress,0)*1%)]'
-    ],
-    '_progressTop ._thumb': [
-      'absolute',
-      'top-1/2',
-      'translate-y-[-50%]',
-      'size-[8px]',
-      'rounded-full',
-      '[left:calc(var(--progress,0)*1%)]',
-      'bg-[var(--color/background/brand,#c2f853)]'
-    ],
+    // Top seek slider (full-width) — placement only
+    _seek: ['flex', 'items-center', 'w-full', '-mb-6', 'pr-2'],
 
-    // Row surface
+    // Main row surface (rounded chrome)
     _row: [
       'flex',
       'items-center',
       'justify-between',
       'w-full',
-      'bg-[var(--color/background/subtle,rgba(255,255,255,0.10))]',
-      'px-[var(--spacing/4,16px)]',
-      'pt-[var(--spacing/5,20px)]',
-      'pb-[var(--spacing/4,16px)]'
+      'bg-color-background-subtle',
+      'px-16',
+      'pt-20',
+      'pb-16',
+      'gap-24',
+      'rounded-xs'
     ],
 
-    // Lead
-    _lead: ['flex', 'items-center', 'gap-[var(--spacing/2,8px)]', 'min-w-0', 'flex-1'],
-    '_lead ._artwork': [
-      'relative',
-      'shrink-0',
-      'size-[40px]',
-      'rounded-[var(--border/radius/6,6px)]',
-      'overflow-clip'
-    ],
-    '_lead ._labels': ['flex', 'flex-col', 'gap-[var(--spacing/0,0px)]', 'min-w-0'],
-    '_lead ._labels ._subtitle': [
-      'font-[family-name:var(--font-family/primary)]',
-      'text-[12px]',
-      'leading-[18px]',
-      'font-medium',
-      'text-[color:var(--color/content/weak,#c6c7c6)]',
-      'truncate'
-    ],
-    '_lead ._labels ._title': [
+    // Lead (artwork + labels)
+    _lead: ['flex', 'items-center', 'gap-16', 'min-w-0', 'flex-1'],
+    '_lead ._artwork': ['relative', 'shrink-0', 'size-40', 'overflow-clip'],
+    '_lead ._labels': ['flex', 'flex-col', 'min-w-0', 'gap-0'],
+
+    '_lead ._labels ._subtitle': ['text-xs', 'font-medium', 'text-color-content-weak', 'truncate'],
+
+    // Inline title + time row
+    '_lead ._labels ._titleRow': ['flex', 'items-center', 'gap-8', 'min-w-0'],
+    '_lead ._labels ._titleRow ._title': [
       'font-[family-name:var(--font-family/primary)]',
       'text-[16px]',
-      'leading-[20px]',
       'font-medium',
-      'text-[color:var(--color/content/default,#ffffff)]',
+      'text-color-content-default',
       'truncate'
     ],
-
-    // Controls
-    _controls: ['flex', 'items-center', 'gap-[var(--spacing/2,8px)]'],
-    '_controls ._playPause': [
-      'rounded-[50px]',
-      'backdrop-blur-[5px]',
-      'backdrop-filter',
-      'bg-[var(--comp/button/color/background/knockout-blur,rgba(37,39,41,0.5))]',
-      'p-[var(--spacing/2.5,10px)]',
-      'focus-visible:outline-none',
-      'focus-visible:ring-[var(--ring/width,2px)]',
-      'focus-visible:ring-[color:var(--ring/color,rgba(194,248,83,0.70))]'
-    ],
-
-    // Seek (Slider goes into _seekRange; Slider owns its own track/thumb visuals)
-    _seekGroup: ['flex', 'items-center', 'gap-[var(--spacing/2,8px)]', 'min-w-0', 'flex-1'],
-    '_seekGroup ._seekRange': ['w-full', 'min-w-[120px]'],
-    '_seekGroup ._timeDisplay': [
-      'text-[12px]',
-      'leading-[18px]',
+    '_lead ._labels ._titleRow ._timeDisplay': [
+      'text-xs',
       'font-medium',
-      'text-[color:var(--color/content/weak,#c6c7c6)]',
+      'text-color-content-weak',
       'whitespace-nowrap'
     ],
 
-    // Volume (Slider goes into _volumeRange; Slider owns its own track/thumb visuals)
-    _volumeGroup: ['flex', 'items-center', 'gap-[var(--spacing/2,8px)]'],
-    '_volumeGroup ._volumeRange': ['w-[120px]'],
+    // Controls cluster (MediaControl internals not styled here)
+    _controls: ['flex', 'items-center', 'gap-8'],
 
-    // Actions
-    _actions: ['flex', 'items-center', 'gap-[var(--spacing/2,8px)]']
+    // Volume cluster (Slider goes into _volumeRange; Slider owns its visuals)
+    _volumeGroup: ['flex', 'items-center', 'gap-8'],
+    '_volumeGroup ._volumeRange': ['w-120'],
+
+    // Actions cluster (e.g., overflow)
+    _actions: ['flex', 'items-center', 'gap-8']
   },
 
-  // Variants: 'default' (lg), 'compact' (sm), 'mini' (control-only)
+  /**
+   * Variants:
+   * - default: full layout
+   * - compact: no artwork, no volume slider
+   * - mini: controls-only (no seek, no lead, no volume, no actions)
+   */
   variants: {
     default: [
       // artwork visible; volume group shown
@@ -128,18 +82,16 @@ const map: StyleMapSpec = {
       '[&_.\\_volumeGroup]:hidden'
     ],
     mini: [
-      // control-only: hide clusters not needed
+      // controls-only
+      '[&_.\\_seek]:hidden',
       '[&_.\\_lead]:hidden',
-      '[&_.\\_seekGroup]:hidden',
       '[&_.\\_volumeGroup]:hidden',
       '[&_.\\_actions]:hidden'
     ]
   },
 
-  // Style hooks for runtime state toggles
+  // Style hooks for runtime state toggles (e.g., playing vs paused)
   state: {
     playing: []
   }
-};
-
-export default defineStyleMap(map);
+});

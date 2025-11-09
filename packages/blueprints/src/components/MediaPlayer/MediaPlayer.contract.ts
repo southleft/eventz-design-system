@@ -1,16 +1,23 @@
 // packages/blueprints/src/components/MediaPlayer/MediaPlayer.contract.ts
 import { defineContract } from '../../utilities/defineContract';
-import type { ContractSpec } from '../../utilities/defineContract/types';
 
 /**
  * MediaPlayer — stateful, dependency-free audio player chrome.
- * Owns a hidden <audio> element and renders native controls (button + ranges).
- * Decorative progress bar is driven by a CSS variable: --progress (0..100).
- * Variants: 'default' (design lg), 'compact' (design sm), and 'mini' (control-only).
+ *
+ * Uses:
+ * - native <audio> as the playback engine
+ * - MediaControl for play/pause
+ * - Slider for seek (top bar) and volume (right-hand slider)
+ *
+ * Variants:
+ * - 'default'  — top seek slider, artwork, label + time, controls, volume slider, actions.
+ * - 'compact'  — top seek slider, no artwork, label + time, controls, no volume slider, actions.
+ * - 'mini'     — MediaControl-only (no top seek slider, no lead, no volume, no actions).
  */
-const spec: ContractSpec = {
+export default defineContract({
   component: 'MediaPlayer',
-  description: 'Audio player chrome using native <audio> with progress, seek, and volume controls.',
+  description:
+    'Audio player chrome using native <audio> with MediaControl for play/pause and Slider for seek and volume.',
   base: 'div',
 
   props: {
@@ -22,10 +29,19 @@ const spec: ContractSpec = {
     subtitle: { type: 'string' },
 
     /** Presentation / behavior */
-    variant: { type: 'enum', options: ['default', 'compact', 'mini'] as const, default: 'default' },
+    variant: {
+      type: 'enum',
+      options: ['default', 'compact', 'mini'] as const,
+      default: 'default'
+    },
     autoPlay: { type: 'boolean', default: false },
-    preload: { type: 'enum', options: ['metadata', 'auto', 'none'] as const, default: 'metadata' },
+    preload: {
+      type: 'enum',
+      options: ['metadata', 'auto', 'none'] as const,
+      default: 'metadata'
+    },
     loop: { type: 'boolean', default: false },
+
     /** Start position in seconds (seeks on loadedmetadata). */
     startTime: { type: 'number', default: 0 }
   },
@@ -35,26 +51,40 @@ const spec: ContractSpec = {
    * These are structural containers used by the styleMap/layout; they do not imply interactivity.
    */
   slots: [
-    'progressTop',
-    'row',
-    'lead',
-    'artwork',
-    'labels',
-    'subtitle',
-    'title',
-    'controls',
-    'playPause',
-    'seekGroup',
-    'seekRange',
-    'timeDisplay',
-    'volumeGroup',
-    'volumeRange',
-    'actions'
+    'seek', // top seek slider (Slider host)
+    'row', // main row surface
+    'lead', // left cluster (artwork + labels)
+    'artwork', // thumbnail/avatar for the track
+    'labels', // vertical stack: subtitle + titleRow
+    'subtitle', // small label above
+    'titleRow', // inline row wrapper for title + timeDisplay
+    'title', // main label text
+    'timeDisplay', // "MM:SS / MM:SS" next to the title
+    'controls', // play/pause cluster (and future +/-10s icons)
+    'playPause', // MediaControl instance
+    'volumeGroup', // right-hand volume cluster
+    'volumeRange', // volume Slider host (shared Slider mounts here)
+    'actions' // trailing actions (e.g., overflow)
   ] as const,
 
   /**
-   * Layout hint for generators. Renders the progress bar on top, then the main row with clusters.
-   * Interactive elements (play/pause, ranges) are composed in core using MediaControl + Slider.
+   * Layout hint for generators — every node is slot-bound (deterministic mapping).
+   *
+   * Structure:
+   * - seek (Slider)
+   * - row
+   *   - lead
+   *     - artwork
+   *     - labels
+   *       - subtitle
+   *       - titleRow
+   *         - title
+   *         - timeDisplay
+   *   - controls
+   *     - playPause (MediaControl)
+   *   - volumeGroup
+   *     - volumeRange (Slider)
+   *   - actions
    *
    * NOTE: Class names are intentionally omitted here; all styling is defined in the styleMap.
    */
@@ -62,36 +92,44 @@ const spec: ContractSpec = {
     type: 'container',
     tag: 'div',
     children: [
+      { tag: 'div', slot: 'seek' },
       {
         tag: 'div',
-        children: [{ tag: 'div' }, { tag: 'div' }, { tag: 'div' }]
-      },
-      {
-        tag: 'div',
+        slot: 'row',
         children: [
           {
             tag: 'div',
+            slot: 'lead',
             children: [
-              { tag: 'div' },
+              { tag: 'div', slot: 'artwork' },
               {
                 tag: 'div',
-                children: [{ tag: 'div' }, { tag: 'div' }]
+                slot: 'labels',
+                children: [
+                  { tag: 'div', slot: 'subtitle' },
+                  {
+                    tag: 'div',
+                    slot: 'titleRow',
+                    children: [
+                      { tag: 'div', slot: 'title' },
+                      { tag: 'div', slot: 'timeDisplay' }
+                    ]
+                  }
+                ]
               }
             ]
           },
           {
             tag: 'div',
-            children: [{ tag: 'button' }]
+            slot: 'controls',
+            children: [{ tag: 'button', slot: 'playPause' }]
           },
           {
             tag: 'div',
-            children: [{ tag: 'input' }, { tag: 'div' }]
+            slot: 'volumeGroup',
+            children: [{ tag: 'div', slot: 'volumeRange' }]
           },
-          {
-            tag: 'div',
-            children: [{ tag: 'input' }]
-          },
-          { tag: 'div' }
+          { tag: 'div', slot: 'actions' }
         ]
       }
     ]
@@ -100,21 +138,19 @@ const spec: ContractSpec = {
   styleMap: true,
 
   hints: {
-    a11y: 'Use MediaControl for play/pause and the shared Slider component for seek and volume. Provide aria labels on Slider (e.g., "Seek" and "Volume") or aria-labelledby wiring. The top progress bar is decorative and must be aria-hidden.',
+    a11y: 'Use MediaControl for play/pause and the shared Slider component for both seek and volume. MediaControl provides proper button semantics. Each Slider must have an accessible name via ariaLabel or ariaLabelledBy (e.g., "Seek" and "Volume"). Time stamps are text next to the title, not part of the seek Slider.',
 
     control:
-      'Use the shared MediaControl component for play/pause. MediaControl already handles play/pause icons, aria labels, and controlled/uncontrolled state internally. The generating agent should NOT manage icons or ariaLabel directly; instead, it should attach event handlers such as onPlay and onPause (and optionally state/defaultState/onStateChange) so MediaPlayer can synchronize MediaControl with the underlying <audio> element.',
+      'Use the shared MediaControl component for play/pause. MediaControl already handles play/pause icons, aria labels, and its own focus styling. The generating agent must NOT manage icons or ariaLabel directly; instead, wire MediaControl with handlers such as onPlay and onPause (and optionally state/defaultState/onStateChange) so its internal state reflects the underlying <audio> element.',
 
     slider:
-      'Implement the seekRange and volumeRange slots by rendering the shared Slider component (do not build custom tracks or thumbs here). Treat Slider as a controlled component driven by MediaPlayer state:\n' +
-      '- Seek: mount <Slider> inside the seekRange slot. Use value=audioCurrentTime, min=0, max=audioDuration, and a small step (e.g., 0.1 or 1). Wire Slider.onChange to update a local "scrub" value and time display while the user is dragging, and Slider.onCommit to set audio.currentTime to the committed value.\n' +
-      '- Volume: in the default variant only, mount <Slider> inside the volumeRange slot. Use a percentage domain such as min=0, max=100, step=1. Wire Slider.onChange to update the <audio> element volume (value/100) and any internal volume state. compact and mini variants hide the volumeGroup/volumeRange slots via the styleMap.',
+      'Render the shared Slider component in the seek and volume slots; do not build custom tracks or thumbs in MediaPlayer.\n' +
+      '- Seek: mount <Slider> in the seek slot. Use value=audioCurrentTime, min=0, max=audioDuration, and a small step (e.g., 0.1 or 1). Pass ariaLabel="Seek" (or ariaLabelledBy) and wire Slider.onChange to update a local scrub value + timeDisplay while the user is dragging. Use Slider.onCommit to set audio.currentTime to the committed value.\n' +
+      '- Volume: in the default variant only, mount <Slider> in the volumeRange slot. Use a 0–100 domain (min=0, max=100, step=1). Pass ariaLabel="Volume" (or ariaLabelledBy) and wire Slider.onChange to update the <audio> element volume (value/100) and any internal volume state. The compact and mini variants hide the volumeGroup/volumeRange via the styleMap.',
 
     volume:
-      'The volume slider is shown only in the default variant. Render VolumeUpIcon next to the volume Slider as a decorative indicator (aria-hidden="true"). On platforms where fine-grained volume control is restricted (e.g., iOS Safari), the Slider should still render, but updates may effectively behave like a mute/unmute or coarse control; handle this in core without changing the blueprint.'
+      'The volume Slider is shown only in the default variant. Render VolumeUpIcon next to the volume Slider as a decorative indicator (aria-hidden="true"). On platforms where fine-grained volume control is restricted (e.g., iOS Safari), the Slider should still render, but updates may effectively behave like a mute/unmute or coarse control; handle this in core without changing the blueprint.'
   },
 
   rules: []
-};
-
-export default defineContract(spec);
+});
