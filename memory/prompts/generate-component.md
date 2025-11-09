@@ -72,6 +72,7 @@ Example format:
 - Do not import from @doxyz-ui/core (root)
 - In Storybook, icon stories import via source-relative paths (e.g., `./IconName`) for Chromatic stability
 - **Utilities barrel:** `import { collapseWhitespace, composeClasses } from '../../../utilities'` (adjust the relative path as needed)
+- **Context7 MCP:** Tailwind v4 tokens + Radix primitives + ARIA patterns (for a11y consistency)
 
 ## Accessibility & Testing Guardrails
 - Decorative icons must have `aria-hidden="true"`.
