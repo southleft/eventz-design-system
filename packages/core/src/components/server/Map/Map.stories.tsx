@@ -3,9 +3,11 @@
 // Summary: Storybook stories for Map showing default, nested, and control/overlay toggles with placeholder surface content.
 
 import type { Meta, StoryObj } from '@storybook/react';
+import { Markdown } from '@storybook/addon-docs/blocks';
 import * as React from 'react';
 import { LocationIcon } from '../../../icons';
 import { Map } from './Map';
+import Readme from './README.md?raw';
 
 const MapPlaceholder: React.FC = () => (
   <img
@@ -37,6 +39,12 @@ const MapWithMarkerChip: React.FC = () => (
 const meta = {
   title: 'Server components/Map',
   component: Map,
+  tags: ['autodocs'],
+  parameters: {
+    docs: {
+      page: () => <Markdown>{Readme}</Markdown>
+    }
+  },
   args: {
     ariaLabel: 'Map',
     children: <MapPlaceholder />

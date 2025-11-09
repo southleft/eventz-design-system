@@ -1292,6 +1292,9 @@
 .mt-3 {
   margin-top: var(--spacing-3);
 }
+.mt-4 {
+  margin-top: var(--spacing-4);
+}
 .mt-6 {
   margin-top: calc(var(--spacing) * 6);
 }
@@ -1649,9 +1652,6 @@
 }
 .flex-col {
   flex-direction: column;
-}
-.flex-row {
-  flex-direction: row;
 }
 .flex-row-reverse {
   flex-direction: row-reverse;
@@ -2044,6 +2044,12 @@
 .py-8 {
   padding-block: calc(var(--spacing) * 8);
 }
+.py-12 {
+  padding-block: calc(var(--spacing) * 12);
+}
+.py-16 {
+  padding-block: calc(var(--spacing) * 16);
+}
 .py-24 {
   padding-block: calc(var(--spacing) * 24);
 }
@@ -2290,6 +2296,9 @@
 .no-underline {
   text-decoration-line: none;
 }
+.overline {
+  text-decoration-line: overline;
+}
 .placeholder-color-content-weak {
   &::placeholder {
     color: var(--color-color-content-weak);
@@ -2321,6 +2330,10 @@
 }
 .ring-comp-border-focus-ring {
   --tw-ring-color: var(--color-comp-border-focus-ring);
+}
+.outline {
+  outline-style: var(--tw-outline-style);
+  outline-width: 1px;
 }
 .blur {
   --tw-blur: blur(8px);
@@ -4302,6 +4315,11 @@
   inherits: false;
   initial-value: 0 0 #0000;
 }
+@property --tw-outline-style {
+  syntax: "*";
+  inherits: false;
+  initial-value: solid;
+}
 @property --tw-blur {
   syntax: "*";
   inherits: false;
@@ -4399,11 +4417,6 @@
   syntax: "*";
   inherits: false;
 }
-@property --tw-outline-style {
-  syntax: "*";
-  inherits: false;
-  initial-value: solid;
-}
 @keyframes spin {
   to {
     transform: rotate(360deg);
@@ -4454,6 +4467,7 @@
       --tw-ring-offset-width: 0px;
       --tw-ring-offset-color: #fff;
       --tw-ring-offset-shadow: 0 0 #0000;
+      --tw-outline-style: solid;
       --tw-blur: initial;
       --tw-brightness: initial;
       --tw-contrast: initial;
@@ -4478,7 +4492,6 @@
       --tw-backdrop-sepia: initial;
       --tw-duration: initial;
       --tw-ease: initial;
-      --tw-outline-style: solid;
     }
   }
 }

@@ -3,13 +3,21 @@
 // Summary: Storybook stories for ActionCard showing default card, media/badge combinations, and description emphasis with customizable Button action.
 
 import type { Meta, StoryObj } from '@storybook/react';
+import { Markdown } from '@storybook/addon-docs/blocks';
 import * as React from 'react';
 import { ActionCard, type ActionCardProps } from './ActionCard';
+import Readme from './README.md?raw';
 import { Button } from '../../client/Button';
 
 const meta: Meta<ActionCardProps> = {
   title: 'Server components/ActionCard',
   component: ActionCard,
+  tags: ['autodocs'],
+  parameters: {
+    docs: {
+      page: () => <Markdown>{Readme}</Markdown>
+    }
+  },
   args: {
     title: 'Join now',
     subtitle: 'Get the most out of DoXYZ',

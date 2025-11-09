@@ -3,12 +3,20 @@
 // Summary: Stories showcase Heading defaults, auto presets per level, and prop-driven variant tables (size, weight, align, color, transform, italic, truncate).
 
 import type { Meta, StoryObj } from '@storybook/react';
+import { Markdown } from '@storybook/addon-docs/blocks';
 import * as React from 'react';
 import { Heading, HeadingProps } from './Heading';
+import Readme from './README.md?raw';
 
 const meta: Meta<HeadingProps> = {
   title: 'Server components/Heading',
   component: Heading,
+  tags: ['autodocs'],
+  parameters: {
+    docs: {
+      page: () => <Markdown>{Readme}</Markdown>
+    }
+  },
   args: {
     as: 'h2',
     size: 'auto',

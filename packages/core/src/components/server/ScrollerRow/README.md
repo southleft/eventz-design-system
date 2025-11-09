@@ -1,7 +1,10 @@
 # ScrollerRow
+*Type: server* |
+*Base: div* |
+*Last updated: 2025-11-08*
 
 ## Overview
-ScrollerRow is a lightweight flex-row container that spaces and aligns scroller content with even gaps. Use it to line up media cards or calls-to-action while inheriting the responsive spacing tokens defined in the style map. It forwards all `<div>` attributes, so consumers can add regions, roles, or custom classes as needed.
+ScrollerRow is a lightweight flex container that evenly spaces items across horizontal carousels or promo rails. It simply merges its spacing tokens with any `className` you pass and forwards the rest of the `<div>` props. Use it to align headline + actions above or below scrollers without repeating flex utilities.
 
 ---
 
@@ -23,41 +26,36 @@ import type { ScrollerRowProps } from '@doxyz-ui/core/server/ScrollerRow';
 ## Usage
 
 ```tsx
-<ScrollerRow
-  className="px-6"
->
-  <div>Episode 12</div>
-  <div>Episode 13</div>
+<ScrollerRow>
+  <Heading as="h3">Trending shows</Heading>
+  <Button variant="secondary">View all</Button>
 </ScrollerRow>
 ```
 
-> - Combine tokens like `px-*` or `w-*` in `className` to adjust spacing while retaining the base flex layout.
-> - Forward `aria-*` attributes or `role="group"` when the row groups related interactive cards.
+> - Combine responsive spacing or alignment utilities through `className` while keeping the base flex layout intact.
+> - The wrapper is purely structural; focus handling lives in the interactive children inside the row.
 
 ---
 
 ## Props (Declared + Inherited)
 
-Only component-level props are listed below; standard `<div>` attributes (aria-*, data-*, etc.) are forwarded automatically.
+| Prop        | Type     | Default | Required | Notes                                                                |
+| ----------- | -------- | ------- | :------: | -------------------------------------------------------------------- |
+| `className` | `string` |         |          | Additional utility classes merged with the flex row tokens.          |
 
-| Prop        | Type     | Default | Required | Notes                                                     |
-| ----------- | -------- | ------: | :------: | --------------------------------------------------------- |
-| `className` | `string` |     `—` |   No     | Additional utility classes merged after the layout tokens |
-
-**Extends:** `React.HTMLAttributes<HTMLDivElement>`
-**Forwards:** All standard HTML attributes for `<div>` to the root element.
+* **Extends:** `React.HTMLAttributes<HTMLDivElement>`
+* **Forwards:** All standard HTML attributes for `<div>` to the root element.
 
 ---
 
-## Slots & Structure
+## Structure
 
-* **container** — `<div>` root that owns the flex row layout and forwards HTML attributes.
-* **children** — arbitrary nodes rendered inline within the flex row.
+* **container** — Single flex row `<div>` that renders `children`.
 
 > DOM structure sketch:
 
-```txt
-<div class="flex gap-4 justify-between items-center">
+```jsx
+<div className="flex gap-4 justify-between items-center">
   {children}
 </div>
 ```
@@ -66,41 +64,47 @@ Only component-level props are listed below; standard `<div>` attributes (aria-*
 
 ## Data Attributes & States
 
-ScrollerRow does not expose custom `data-*` attributes or visual states. Consumers may add their own `data-*` flags, which pass through to the root `<div>` unchanged.
+| State flag | Effect |
+| ---------- | ------ |
+| None       | The component exposes no `data-*` states; consumers can add their own if needed. |
+
+---
+
+## Classes
+
+| Data slot | Classes                                    |
+| --------- | ------------------------------------------ |
+| `base`    | `flex` `gap-4` `justify-between` `items-center` |
 
 ---
 
 ## Accessibility
 
-* **Name:** Provided by visible child content or any forwarded `aria-label`/`aria-labelledby` on the root container.
-* **Keyboard:** The container itself is not focusable; ensure its children contain the interactive focus and keyboard behavior.
-* **Roles/States:** Add `role="group"` or `role="list"` when grouping related controls; the component does not set roles by default.
-* **Announcements:** Announce meaningful updates (e.g., loading new scroller content) via a sibling `aria-live` region if needed.
-* **Icon-only pattern:** Ensure child controls that show only icons include accessible labels; decorative icons should be `aria-hidden="true"`.
+* **Name:** Provide labels/roles on children (e.g., headings, buttons); the container itself is silent.
+* **Keyboard:** Non-interactive; ensure interactive children provide proper focus order and spacing.
+* **Roles/States:** Add `role="group"` or ARIA attributes to child elements if you need grouped semantics.
+* **Announcements:** Keep row content concise so screen readers encounter it naturally in document order.
+* **Icon-only pattern:** Manage labels on the icon buttons you place inside; the row does not enforce policies.
 
 ---
 
 ## Patterns & Examples
 
-### Media rail
+### Heading with CTA
 
 ```tsx
 <ScrollerRow className="py-4">
-  <MediaCard title="Design Debrief" />
-  <MediaCard title="Signals" />
-  <MediaCard title="Studio Diary" />
+  <Heading as="h4">Recently added</Heading>
+  <TextLink label="See all" href="/recent" variant="subtle" />
 </ScrollerRow>
 ```
 
-### Row with CTA
+### Filter row
 
 ```tsx
-<ScrollerRow className="items-start">
-  <div>
-    <h3 className="text-lg font-semibold">Continue listening</h3>
-    <p className="text-subtle">Pick up where you left off.</p>
-  </div>
-  <Button variant="primary">See all</Button>
+<ScrollerRow className="gap-6">
+  <FilterTabs />
+  <Button variant="bare">Manage filters</Button>
 </ScrollerRow>
 ```
 
@@ -108,6 +112,15 @@ ScrollerRow does not expose custom `data-*` attributes or visual states. Consume
 
 ## Blueprint Parity
 
-* Contract ↔ styleMap variants: **OK** (no variants defined)
-* Slots parity: **OK** (no blueprint slots; runtime renders children only)
-* State flags parity: **OK** (no data states in styleMap or runtime)
+* Contract ↔ styleMap variants: **OK**
+* Slots parity: **OK**
+* State flags parity: **OK**
+* Signature hash: `07eb703a8d5b89c7b87d7768a2e977fb064aaef76766cf50c2a7ddb95bb44ff4`
+
+---
+
+## Changelog
+
+| Date       | Changes              |
+| ---------- | -------------------- |
+| 2025-11-08 | Initial documentation |

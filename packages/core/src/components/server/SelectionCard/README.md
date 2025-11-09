@@ -1,8 +1,10 @@
 # SelectionCard
-*Type: server | Base: div | Last updated: 2025-11-08*
+*Type: server* |
+*Base: div* |
+*Last updated: 2025-11-08*
 
 ## Overview
-SelectionCard is a fixed-width, checkbox-style tile for multi-select flows that pairs a required icon with a single-line label. It renders on the server and exposes checkbox semantics (role, aria-checked, tab focus) so parent components can provide interaction handlers client-side. Use it when you need a lightweight way to preview and choose between small sets of workspaces, plans, or entities without pulling in a full card grid experience.
+SelectionCard is a focusable checkbox-style tile used in multi-select grids. It requires an icon and label, exposes `role="checkbox"` semantics, and toggles `data-selected` plus `aria-checked` when `isSelected` is true. Use it when you need lightweight selectable tiles without pulling in client interactivity—wire key handling or selection state at a higher level.
 
 ---
 
@@ -24,38 +26,51 @@ import type { SelectionCardProps } from '@doxyz-ui/core/server/SelectionCard';
 ## Usage
 
 ```tsx
-<SelectionCard { ...props } />
+<SelectionCard
+  label="Design"
+  icon={<DesignIcon />}
+  isSelected={selected}
+  ariaLabel="Select design track"
+  onClick={toggle}
+/>
 ```
 
-> - `label` is the visible and accessible text; prefer `ariaLabel` only when the label cannot be exposed.
-> - Toggle `isSelected` to sync the tile with upstream selection logic and emit `data-selected="true"` for styling hooks.
+> - The visible `label` becomes the accessible name; set `ariaLabel` only when you need extra context such as “Remove Design track”.
+> - Wrap these cards in a grid/list that manages `onClick`/keyboard events and updates `isSelected`.
 
 ---
 
 ## Props (Declared + Inherited)
 
-| Prop        | Type              |       Default | Required | Notes                                                                 |
-| ----------- | ----------------- | ------------: | :------: | --------------------------------------------------------------------- |
-| `label`     | `string`          |             — |   ✅    | Visible text; also the default accessible name.                       |
-| `icon`      | `React.ReactNode` |             — |   ✅    | Required decorative icon rendered inside a 48×48 box.                 |
-| `isSelected` | `boolean`        |         false |   ❌    | Controls selection visuals, `aria-checked`, and `data-selected`.      |
-| `ariaLabel` | `string`          |             — |   ❌    | Optional accessible label; trimmed and omitted when empty or missing. |
+Only component-level props are listed; standard `<div>` attributes (other than `role`, `tabIndex`, `aria-checked`, `aria-label`) are forwarded automatically.
 
-* **Extends:** `Omit<React.HTMLAttributes<HTMLDivElement>, 'children' | 'role' | 'aria-checked' | 'aria-label' | 'tabIndex'>`
-* **Forwards:** All standard HTML attributes for `<div>` to the root element.
+| Prop        | Type              | Default | Required | Notes                                                                                     |
+| ----------- | ----------------- | ------- | :------: | ----------------------------------------------------------------------------------------- |
+| `ariaLabel` | `string`          |         |          | Optional alternate accessible name; defaults to the visible `label`.                      |
+| `className` | `string`          |         |          | Additional utility classes merged with the base tile tokens.                              |
+| `icon`      | `React.ReactNode` |         |   Yes    | Required decorative node rendered in the 48×48 icon slot.                                 |
+| `isSelected`| `boolean`         | `false` |          | Controls the selected visual state and sets `aria-checked`.                               |
+| `label`     | `string`          |         |   Yes    | Visible text shown below the icon and used as the default accessible name.                |
+
+* **Extends:** `React.HTMLAttributes<HTMLDivElement>` minus: `children`, `role`, `aria-checked`, `aria-label`, `tabIndex`
+* **Forwards:** All other standard HTML attributes for `<div>` to the root element.
 
 ---
 
-## Slots & Structure
+## Structure
 
-* **container** — `<div>` root with checkbox semantics; receives forwarded HTML attributes.
-* **icon** — `<div>` wrapper whose contents are `aria-hidden`; sized to 48×48 and centers the provided icon.
-* **label** — `<div>` that truncates overflow and mirrors group-selected color changes.
+* **icon** — Decorative wrapper containing the provided icon; marked `aria-hidden="true"`.
+* **label** — Text span that truncates and inherits color changes when selected.
 
 > DOM structure sketch:
 
-```txt
-<div role="checkbox" tabIndex="0" aria-checked data-selected>
+```jsx
+<div
+  role="checkbox"
+  tabIndex={0}
+  aria-checked={isSelected}
+  data-selected={isSelected ? 'true' : undefined}
+>
   <div aria-hidden="true">{icon}</div>
   <div>{label}</div>
 </div>
@@ -65,50 +80,54 @@ import type { SelectionCardProps } from '@doxyz-ui/core/server/SelectionCard';
 
 ## Data Attributes & States
 
-| State flag            | Effect                                                                 |
-| --------------------- | ---------------------------------------------------------------------- |
-| `data-selected="true"`| Adds brand border, brand text color, and drives slot color sync via group selectors. |
+| State flag                | Effect                                                                 |
+| ------------------------- | ---------------------------------------------------------------------- |
+| `data-[selected=true]`    | Applies brand border/text color and syncs the label’s brand color.     |
+
+---
+
+## Classes
+
+| Data slot | Classes                                                                                                                                                                               |
+| --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `base`    | `w-[240px]` `inline-flex` `flex-col` `items-center` `justify-start` `gap-4` `py-8` `px-6` `rounded-lg` `bg-color-background-default` `py-32` `px-24` `focus-visible:ring-offset-color-background-default` `cursor-pointer` `select-none` `outline-none` `focus-visible:ring-2` `focus-visible:ring-comp-border-focus-ring` `focus-visible:ring-offset-2` `group` `text-color-content-default` `hover:text-color-content-default-hover` plus selected state tokens `border border-2 border-color-border-brand text-color-content-brand rounded-lg`. |
+| `icon`    | `size-48` `shrink-0` `text-base` `[&>svg]:size-48`                                                                                                                                    |
+| `label`   | `w-full` `text-center` `truncate` `group-data-[selected=true]:text-color-content-brand`                                                                                               |
 
 ---
 
 ## Accessibility
 
-* **Name:** Provided by the `label` string; set `ariaLabel` when the visual label cannot be exposed verbatim.
-* **Keyboard:** Receives focus via Tab and should be toggled by the parent handler on Space/Enter keypress (root already has `role="checkbox"` and `tabIndex=0`).
-* **Roles/States:** Root exposes `role="checkbox"` with `aria-checked={isSelected}` for assistive parity.
-* **Announcements:** Parent logic should announce selection changes if toggling happens outside native checkbox events (e.g., via `aria-live` region).
-* **Icon-only pattern:** Decorative icon wrapper sets `aria-hidden="true"`; do not pass focusable elements in the `icon` slot.
+* **Name:** Defaults to the visible `label`; provide `ariaLabel` if you need a longer or more descriptive name.
+* **Keyboard:** Because the root sets `role="checkbox"` and `tabIndex={0}`, keyboard interaction (`Space` toggles selection) should be managed by the parent composite; ensure you handle `onKeyDown` and `onClick` externally.
+* **Roles/States:** `aria-checked` mirrors `isSelected`; reflect state in any higher-level controller as well.
+* **Announcements:** Icons are `aria-hidden="true"` to avoid duplicate announcements.
+* **Icon-only pattern:** Not applicable; cards always include a text label.
 
 ---
 
 ## Patterns & Examples
 
-### Basic Card
-
-```tsx
-<SelectionCard label="Workspace Alpha" icon={<EventIcon />} />
-```
-
-### Controlled Selection Grid
-
-```tsx
-{workspaces.map(workspace => (
-  <SelectionCard
-    key={workspace.id}
-    label={workspace.name}
-    icon={<workspace.Icon />}
-    isSelected={selectedIds.includes(workspace.id)}
-  />
-))}
-```
-
-### Custom Accessible Label
+### Filter chooser
 
 ```tsx
 <SelectionCard
-  label="DSP-025"
-  ariaLabel="Workspace DSP zero two five"
-  icon={<EventIcon />}
+  label="Audio"
+  icon={<WaveIcon />}
+  isSelected={filters.audio}
+  onClick={() => toggleFilter('audio')}
+/>
+```
+
+### Pseudo-radio grid
+
+```tsx
+<SelectionCard
+  label="Monthly"
+  icon={<CalendarIcon />}
+  isSelected={billingCadence === 'monthly'}
+  ariaLabel="Select monthly billing"
+  onClick={() => setBillingCadence('monthly')}
 />
 ```
 
@@ -116,6 +135,15 @@ import type { SelectionCardProps } from '@doxyz-ui/core/server/SelectionCard';
 
 ## Blueprint Parity
 
-* Contract ↔ styleMap variants: **OK (single spec)**
-* Slots parity: **OK (icon, label)**
-* State flags parity: **OK (`data-selected`)**
+* Contract ↔ styleMap variants: **OK**
+* Slots parity: **OK**
+* State flags parity: **OK**
+* Signature hash: `4769f29b61e748849b9dbed05a0d7c770f04c32bae8657bf6a5ccd12910a4ee3`
+
+---
+
+## Changelog
+
+| Date       | Changes              |
+| ---------- | -------------------- |
+| 2025-11-08 | Initial documentation |

@@ -3,11 +3,19 @@
 // Summary: Stories for InteractiveListItem covering removable versus static modes, href rendering, supporting/highlight text, and icon overrides.
 
 import type { Meta, StoryObj } from '@storybook/react';
+import { Markdown } from '@storybook/addon-docs/blocks';
 import { InteractiveListItem, InteractiveListItemProps } from './InteractiveListItem';
+import Readme from './README.md?raw';
 
 const meta: Meta<InteractiveListItemProps> = {
   title: 'Server components/InteractiveListItem',
   component: InteractiveListItem,
+  tags: ['autodocs'],
+  parameters: {
+    docs: {
+      page: () => <Markdown>{Readme}</Markdown>
+    }
+  },
   args: {
     title: 'Account settings',
     supportingText: 'Manage how your account appears to others.',

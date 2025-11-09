@@ -3,11 +3,13 @@
 // Summary: Storybook coverage for Footer showing the gradient wrapper with customizable className and child content.
 
 import type { Meta, StoryObj } from '@storybook/react';
+import { Markdown } from '@storybook/addon-docs/blocks';
 import * as React from 'react';
 import { Footer, FooterProps } from './Footer';
 import { NavigationContainer } from '../NavigationContainer';
 import { TextLink } from '../../client/TextLink';
 import { NavigationBar } from '../NavigationBar';
+import Readme from './README.md?raw';
 
 const baseSecondaryNavigation = (
   <div className="inline-flex gap-4 mb-24 lg:mb-0">
@@ -41,6 +43,12 @@ const defaultChildren = (
 const meta: Meta<FooterProps> = {
   title: 'Server components/Footer',
   component: Footer,
+  tags: ['autodocs'],
+  parameters: {
+    docs: {
+      page: () => <Markdown>{Readme}</Markdown>
+    }
+  },
   args: {
     className: '',
     children: defaultChildren

@@ -4,7 +4,7 @@
 *Last updated: 2025-11-08*
 
 ## Overview
-SubscriptionCard is a server-rendered summary card for billing or account pages that surfaces plan terms, cancellation affordances, and either an inactive subtitle or active billing details. Use it to show subscribers what they pay, when they renew, and how to cancel without embedding business logic. The card swaps between inactive and active layouts based on `isActive` and supports a custom cancel slot for advanced flows.
+SubscriptionCard displays plan terms with either an active state (billing details + cancel affordance) or an inactive state (call-to-action subtitle). It optionally renders a TextLink cancel action or a custom `cancel` slot when the account is active. Use it wherever you need to summarize a user’s subscription status without wiring client handlers directly inside the card.
 
 ---
 
@@ -26,62 +26,66 @@ import type { SubscriptionCardProps } from '@doxyz-ui/core/server/SubscriptionCa
 ## Usage
 
 ```tsx
-<SubscriptionCard { ...props } />
+<SubscriptionCard
+  terms="$18 / month"
+  isActive
+  nextBillingDate="Nov 30, 2025"
+  memberSince="Apr 2022"
+  cancelHref="/billing/cancel"
+/>
 ```
 
-> - Provide `terms` for every render; it is the only required prop and serves as the visual headline.
-> - Toggle `isActive` to flip between the inactive subtitle and the active billing rows; only pass `cancelHref` or a `cancel` slot when the plan is active.
+> - Provide `cancelHref` (and optional `cancelText`) when `isActive` is true and you want the default inline TextLink; pass a `cancel` slot to render bespoke controls.
+> - When `isActive` is false, the cancel slot/text are ignored and only `inactiveSubtitle` renders below the terms.
 
 ---
 
 ## Props (Declared + Inherited)
 
-| Prop               | Type                               |        Default | Required | Notes                                                                                               |
-| ------------------ | ---------------------------------- | -------------: | :------: | --------------------------------------------------------------------------------------------------- |
-| `cancel`           | `React.ReactNode`                  |             — |    No    | Optional slot that replaces the default Cancel TextLink when `isActive` is true.                    |
-| `cancelHref`       | `string`                           |             — |    No    | URL for the inline Cancel TextLink; ignored when inactive or when a `cancel` slot is provided.     |
-| `cancelText`       | `string`                           |      `Cancel` |    No    | Label applied to the default Cancel TextLink.                                                       |
-| `className`        | `string`                           |             — |    No    | Merges custom classes with the component's composed styles.                                        |
-| `inactiveSubtitle` | `string`                           | `Cancel anytime.` |    No    | Copy rendered below the header only when inactive.                                                  |
-| `isActive`         | `boolean`                          |        `false` |    No    | Drives container border token, cancel affordance visibility, and which body content renders.       |
-| `memberSince`      | `string`                           |             — |    No    | Value text for the "Member since" detail row; displayed only when active.                          |
-| `nextBillingDate`  | `string`                           |             — |    No    | Value text for the "Next billing date" detail row; displayed only when active.                     |
-| `terms`            | `string`                           |             — |   Yes    | Required headline describing the plan or billing cadence.                                           |
+Only component-level props are listed; standard `<div>` attributes from `React.HTMLAttributes<HTMLDivElement>` (other than `children`) are forwarded automatically.
 
-* **Extends:** `Omit<React.HTMLAttributes<HTMLDivElement>, 'children'>`
-* **Forwards:** All standard HTML attributes for `<div>` (except `children`) to the root element.
+| Prop             | Type                         | Default            | Required | Notes                                                                                                 |
+| ---------------- | ---------------------------- | ------------------ | :------: | ----------------------------------------------------------------------------------------------------- |
+| `cancel`         | `React.ReactNode`            |                    |          | Custom node rendered in the header when `isActive` is true; overrides the default cancel TextLink.    |
+| `cancelHref`     | `string`                     |                    |          | URL for the default cancel TextLink (active state only).                                              |
+| `cancelText`     | `string`                     | `'Cancel'`         |          | Label used by the default cancel TextLink when `cancelHref` is provided.                              |
+| `className`      | `string`                     |                    |          | Additional utility classes merged with the card container.                                            |
+| `inactiveSubtitle` | `string`                   | `'Cancel anytime.'`|          | Subtitle displayed only when `isActive` is false.                                                      |
+| `isActive`       | `boolean`                    | `false`            |          | Switches between billing-detail view (active) and subtitle-only view (inactive).                      |
+| `memberSince`    | `string`                     |                    |          | Value for the “Member since” detail row (active state).                                                |
+| `nextBillingDate`| `string`                     |                    |          | Value for the “Next billing date” detail row (active state).                                           |
+| `terms`          | `string`                     |                    |   Yes    | Required heading describing the plan cost/terms.                                                       |
+
+* **Extends:** `React.HTMLAttributes<HTMLDivElement>` minus: `children`
+* **Forwards:** All standard HTML attributes for `<div>` to the root element.
 
 ---
 
 ## Structure
 
-* **container** — root `<div>` that forwards HTML attributes and composes the border/background tokens.
-* **header** — flex row that pairs the `terms` slot with either the Cancel slot content or default TextLink.
-* **terms (`data-slot="terms"`)** — bold headline showing the required plan description.
-* **cancel (`data-slot="cancel"`)** — optional slot rendered only when active; otherwise the inline TextLink appears when `cancelHref` is set.
-* **subtitle (`data-slot="subtitle"`)** — inactive-only copy rendered under the header.
-* **details (`data-slot="details"`)** — column wrapper for the active billing rows.
-* **detailRow / detailLabel / detailValue** — label/value pairs for next billing date and member since fields.
+* **header** — Flex row containing the `terms` label and either the default cancel TextLink or custom `cancel` slot when active.
+* **details** — Two-row grid listing billing info (rendered only when `isActive` is true).
+* **subtitle** — Paragraph shown when inactive to encourage reactivation.
 
 > DOM structure sketch:
 
-```txt
-<div>
-  <div data-slot="terms">{terms}</div>
+```jsx
+<div className={isActive ? '...danger border...' : '...success border...'}>
+  <div data-slot="header">
+    <div data-slot="terms">{terms}</div>
+    {isActive && (cancel ? <div data-slot="cancel">{cancel}</div> : cancelHref && <TextLink variant="subtle" href={cancelHref} label={cancelText} />)}
+  </div>
   {isActive ? (
-    <>
-      {cancel slot | <TextLink />}
-      <div data-slot="details">
-        <div data-slot="detailRow">
-          <span data-slot="detailLabel">Next billing date:</span>
-          <span data-slot="detailValue">{nextBillingDate}</span>
-        </div>
-        <div data-slot="detailRow">
-          <span data-slot="detailLabel">Member since:</span>
-          <span data-slot="detailValue">{memberSince}</span>
-        </div>
+    <div data-slot="details">
+      <div data-slot="detailRow">
+        <span data-slot="detailLabel">Next billing date:</span>
+        <span data-slot="detailValue">{nextBillingDate}</span>
       </div>
-    </>
+      <div data-slot="detailRow">
+        <span data-slot="detailLabel">Member since:</span>
+        <span data-slot="detailValue">{memberSince}</span>
+      </div>
+    </div>
   ) : (
     <p data-slot="subtitle">{inactiveSubtitle}</p>
   )}
@@ -94,67 +98,56 @@ import type { SubscriptionCardProps } from '@doxyz-ui/core/server/SubscriptionCa
 
 | State flag | Effect |
 | ---------- | ------ |
-| _None_     | Component does not expose public `data-*` state flags; the active/inactive styling is handled via internal class toggles only. |
+| None       | Visual states are controlled directly through the `isActive` prop, not `data-*` attributes. |
 
 ---
 
 ## Classes
 
-| Data slot / state             | Classes                                                                                       |
-| ----------------------------- | --------------------------------------------------------------------------------------------- |
-| `container (base)`            | `flex` `flex-col` `gap-2` `p-4` `rounded-md` `border` `bg-color-background-none` `transition-colors` `text-left` `w-[439px]` |
-| `container (isActive)`        | `border-color-background-utility-danger`                                                      |
-| `container (isActive=false)`  | `border-color-background-utility-success`                                                     |
-| `header`                      | `flex` `items-start` `justify-between` `gap-4`                                                 |
-| `terms`                       | `text-3xl` `font-bold` `text-color-content-default`                                           |
-| `cancel`                      | `text-sm` `font-medium` `text-color-content-weak`                                             |
-| `subtitle`                    | `text-sm` `text-color-content-weak`                                                           |
-| `details`                     | `flex` `flex-col` `gap-1`                                                                     |
-| `detailRow`                   | `flex` `items-center` `gap-2`                                                                  |
-| `detailLabel`                 | `uppercase` `text-sm` `w-[135px]` `font-medium` `text-color-content-default`                  |
-| `detailValue`                 | `text-sm` `text-color-content-weak`                                                           |
+| Data slot        | Classes                                                                                                                                                    |
+| ---------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `base`           | `flex` `flex-col` `gap-2` `p-4` `rounded-md` `border` `bg-color-background-none` `transition-colors` `text-left` `w-[439px]` plus conditional border tokens (`border-color-background-utility-danger` when active, `border-color-background-utility-success` otherwise). |
+| `header`         | `flex` `items-start` `justify-between` `gap-4`                                                                                                              |
+| `terms`          | `text-3xl` `font-bold` `text-color-content-default`                                                                                                        |
+| `cancel`         | `text-sm` `font-medium` `text-color-content-weak` (applied only when a custom slot is rendered)                                                             |
+| `subtitle`       | `text-sm` `text-color-content-weak`                                                                                                                         |
+| `details`        | `flex` `flex-col` `gap-1`                                                                                                                                   |
+| `detailRow`      | `flex` `items-center` `gap-2`                                                                                                                               |
+| `detailLabel`    | `uppercase` `text-sm` `w-[135px]` `font-medium` `text-color-content-default`                                                                                |
+| `detailValue`    | `text-sm` `text-color-content-weak`                                                                                                                         |
 
 ---
 
 ## Accessibility
 
-* **Name:** The visible `terms` text serves as the primary label; the Cancel affordance inherits its name from `cancelText` or the interactive element you render in the `cancel` slot.
-* **Keyboard:** The container is not focusable; focus lands on the inline TextLink or any tabbable controls inside the `cancel` slot.
-* **Roles/States:** Root remains a semantic `<div>` and relies on native semantics for the nested TextLink; no extra ARIA roles are required.
-* **Announcements:** When subscription values change dynamically (e.g., after an upgrade), announce the change via a nearby `aria-live="polite"` region.
-* **Icon-only pattern:** Provide an `aria-label` on icon-only cancel actions and set decorative icons to `aria-hidden="true"`.
+* **Name:** The card itself is presentational; headings, detail rows, and the cancel action provide the textual information.
+* **Keyboard:** The default cancel action is a `TextLink` (anchor). If you supply a custom `cancel` slot, ensure it handles focus and keyboard input appropriately.
+* **Roles/States:** No landmark roles are added; set `aria-live` or status roles externally if plan changes need announcement.
+* **Announcements:** Keep `nextBillingDate`/`memberSince` strings user-friendly (e.g., “Nov 30, 2025”) so screen readers read them naturally.
+* **Icon-only pattern:** Avoid icon-only content inside detail rows; provide text or `aria-label` for any supplemental icons you insert.
 
 ---
 
 ## Patterns & Examples
 
-### Inactive Summary
-
-```tsx
-<SubscriptionCard terms="$12 per month" inactiveSubtitle="Cancel anytime." />
-```
-
-### Active Plan With Default Cancel Link
+### Active subscription
 
 ```tsx
 <SubscriptionCard
-  terms="$12 per month"
+  terms="$24 / year"
   isActive
-  cancelHref="https://example.com/cancel"
-  nextBillingDate="Nov 30, 2025"
-  memberSince="Jun 2024"
+  nextBillingDate="Jan 18, 2026"
+  memberSince="May 2023"
+  cancelHref="/billing/cancel"
 />
 ```
 
-### Active Plan With Custom Cancel Slot
+### Inactive offer
 
 ```tsx
 <SubscriptionCard
-  terms="Enterprise"
-  isActive
-  nextBillingDate="Nov 30, 2025"
-  memberSince="Jun 2024"
-  cancel={<span>Contact customer support</span>}
+  terms="Upgrade to Plus"
+  inactiveSubtitle="Unlock unlimited projects and live support."
 />
 ```
 
@@ -162,6 +155,15 @@ import type { SubscriptionCardProps } from '@doxyz-ui/core/server/SubscriptionCa
 
 ## Blueprint Parity
 
-* Contract ↔ styleMap variants: **OK** (neither file defines variants, matching the runtime implementation).
-* Slots parity: **OK** (runtime renders header, terms, cancel, subtitle, details, detailRow, detailLabel, and detailValue as mapped in the styleMap).
-* State flags parity: **OK** (`isActive` and `isActive=false` state tokens match the documented border classes).
+* Contract ↔ styleMap variants: **OK**
+* Slots parity: **OK**
+* State flags parity: **OK**
+* Signature hash: `d0a80b0650c928ecc3b67569de66d174fe6e225b589d7cab0721344abdb573e7`
+
+---
+
+## Changelog
+
+| Date       | Changes              |
+| ---------- | -------------------- |
+| 2025-11-08 | Initial documentation |
