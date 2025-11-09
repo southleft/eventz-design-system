@@ -31,6 +31,7 @@ export * from './ShareIcon';
 export * from './StadiumIcon';
 export * from './UploadIcon';
 export * from './VolumeDownIcon';
+export * from './VolumeOffIcon';
 export * from './VolumeUpIcon';
 export * from './WarningIcon';
 export * from './ChevronLeftIcon';
