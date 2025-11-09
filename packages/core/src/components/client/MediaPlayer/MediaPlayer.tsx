@@ -24,11 +24,11 @@ export interface MediaPlayerProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 const baseClasses = `
-  flex flex-col items-start w-full
+  flex flex-col items-start w-full h-78
 `;
 const seekClasses = `_seek flex items-center w-full -mb-6 pr-2`;
-const rowClasses = `_row flex items-center justify-between w-full bg-color-background-subtle px-16 pt-20 pb-16 gap-24 rounded-xs`;
-const leadClasses = `_lead flex items-center gap-16 min-w-0 flex-1`;
+const rowClasses = `_row flex items-center w-full bg-color-background-subtle py-20`;
+const leadClasses = `_lead flex items-center gap-16 min-w-0 flex-1 pl-16`;
 const artworkClasses = `_artwork relative shrink-0 size-40 overflow-clip`;
 const labelsClasses = `_labels flex flex-col min-w-0 gap-0`;
 const subtitleClasses = `_subtitle text-xs font-medium text-color-content-weak truncate`;
@@ -36,7 +36,7 @@ const titleRowClasses = `_titleRow flex items-center gap-8 min-w-0`;
 const titleClasses = `_title font-[family-name:var(--font-family/primary)] text-[16px] font-medium text-color-content-default truncate`;
 const timeDisplayClasses = `_timeDisplay text-xs font-medium text-color-content-weak whitespace-nowrap`;
 const controlsClasses = `_controls flex items-center gap-8`;
-const volumeGroupClasses = `_volumeGroup flex items-center gap-8`;
+const volumeGroupClasses = `_volumeGroup text-comp-button-color-content-default justify-end flex items-center gap-8 pr-16`;
 const volumeRangeClasses = `_volumeRange w-120`;
 const actionsClasses = `_actions flex items-center gap-8`;
 
@@ -60,7 +60,7 @@ const formatTime = (value: number): string => {
   return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
 };
 
-const SEEK_STEP = 0.1;
+const seekStep = 0.1;
 
 export const MediaPlayer = React.forwardRef<HTMLDivElement, MediaPlayerProps>(
   (
@@ -226,7 +226,7 @@ export const MediaPlayer = React.forwardRef<HTMLDivElement, MediaPlayerProps>(
               value={seekValue}
               min={0}
               max={seekMax > 0 ? seekMax : 0}
-              step={SEEK_STEP}
+              step={seekStep}
               onChange={handleSeekChange}
               onCommit={handleSeekCommit}
               ariaLabel="Seek"
@@ -254,29 +254,33 @@ export const MediaPlayer = React.forwardRef<HTMLDivElement, MediaPlayerProps>(
           )}
           <div className={controlsClassName} data-slot="_controls">
             <MediaControl
+              variant="dark"
+              size="lg"
               defaultState={autoPlay ? 'playing' : 'paused'}
               onPlay={handleControlPlay}
               onPause={handleControlPause}
             />
           </div>
-          {variant === 'default' && (
-            <div className={volumeGroupClassName} data-slot="_volumeGroup">
-              <span aria-hidden="true">
-                <VolumeUpIcon />
-              </span>
-              <div className={volumeRangeClassName} data-slot="_volumeRange">
-                <Slider
-                  value={volume}
-                  min={0}
-                  max={100}
-                  step={1}
-                  onChange={handleVolumeChange}
-                  ariaLabel="Volume"
-                />
+          <div className="flex items-center justify-end gap-8 flex-1 min-w-0">
+            {variant === 'default' && (
+              <div className={volumeGroupClassName} data-slot="_volumeGroup">
+                <div className={volumeRangeClassName} data-slot="_volumeRange">
+                  <Slider
+                    value={volume}
+                    min={0}
+                    max={100}
+                    step={1}
+                    onChange={handleVolumeChange}
+                    ariaLabel="Volume"
+                  />
+                </div>
+                <span aria-hidden="true">
+                  <VolumeUpIcon />
+                </span>
               </div>
-            </div>
-          )}
-          {variant !== 'mini' && <div className={actionsClassName} data-slot="_actions" />}
+            )}
+            {variant !== 'mini' && <div className={actionsClassName} data-slot="_actions" />}
+          </div>
         </div>
         <audio
           ref={audioRef}
