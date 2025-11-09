@@ -35,8 +35,6 @@ import type { {{ComponentName}}Props } from '@doxyz-ui/core/{{server | client}}/
 <{{ComponentName}} { ...props } />
 ```
 
-> {{Agent: Add 1–2 short bullets with usage tips or defaults.}}
-
 ---
 
 ## Props (Declared + Inherited)
@@ -114,6 +112,9 @@ Rules: do NOT output raw `Omit<>`/`Pick<>` strings; do NOT include DOM/HTMLEleme
 ## Patterns & Examples
 
 {{Agent: Add 2–4 focused examples that show common patterns. Keep them short.}}
+
+> {{Agent: Add 1–3 short bullets with usage tips following each example.}}
+
 
 ### {{PatternName}}
 
