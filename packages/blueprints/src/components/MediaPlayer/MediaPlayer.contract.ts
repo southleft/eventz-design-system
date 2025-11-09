@@ -5,7 +5,7 @@ import type { ContractSpec } from '../../utilities/defineContract/types';
 /**
  * MediaPlayer — stateful, dependency-free audio player chrome.
  * Owns a hidden <audio> element and renders native controls (button + ranges).
- * Decorative progress/volume bars are driven by CSS variables: --progress (0..100), --volume (0..100).
+ * Decorative progress bar is driven by a CSS variable: --progress (0..100).
  * Variants: 'default' (design lg), 'compact' (design sm), and 'mini' (control-only).
  */
 const spec: ContractSpec = {
@@ -54,7 +54,7 @@ const spec: ContractSpec = {
 
   /**
    * Layout hint for generators. Renders the progress bar on top, then the main row with clusters.
-   * Interactive elements (play/pause, ranges) are native elements rendered in core from this layout.
+   * Interactive elements (play/pause, ranges) are composed in core using MediaControl + Slider.
    *
    * NOTE: Class names are intentionally omitted here; all styling is defined in the styleMap.
    */
@@ -100,15 +100,18 @@ const spec: ContractSpec = {
   styleMap: true,
 
   hints: {
-    a11y: 'Use native <button>-backed controls for play/pause (via MediaControl) and Slider for seek and volume, ensuring aria labels are provided. The top progress bar is decorative and must be aria-hidden.',
+    a11y: 'Use MediaControl for play/pause and the shared Slider component for seek and volume. Provide aria labels on Slider (e.g., "Seek" and "Volume") or aria-labelledby wiring. The top progress bar is decorative and must be aria-hidden.',
+
     control:
       'Use the shared MediaControl component for play/pause. MediaControl already handles play/pause icons, aria labels, and controlled/uncontrolled state internally. The generating agent should NOT manage icons or ariaLabel directly; instead, it should attach event handlers such as onPlay and onPause (and optionally state/defaultState/onStateChange) so MediaPlayer can synchronize MediaControl with the underlying <audio> element.',
+
     slider:
-      'Implement the seekRange and volumeRange slots with the shared Slider component, not raw <input type="range">. Treat Slider as a controlled component backed by internal MediaPlayer state:\n' +
-      '- Seek (progress): map the underlying <audio> element currentTime/duration into a Slider value suitable for the Slider domain (for example, a 0–100 normalized percentage). Use Slider.onChange for live scrub UI (updating visual progress and time display only) and Slider.onCommit to perform the actual seek on the <audio> element (by mapping the committed value back into seconds).\n' +
-      '- Volume: in the default variant only, map the Slider value into the <audio> element volume (for example, value/100 for a 0–100 domain). Use Slider.onChange to update volume immediately and keep the --volume CSS variable in sync. The compact and mini variants hide the volumeRange slot.',
+      'Implement the seekRange and volumeRange slots by rendering the shared Slider component (do not build custom tracks or thumbs here). Treat Slider as a controlled component driven by MediaPlayer state:\n' +
+      '- Seek: mount <Slider> inside the seekRange slot. Use value=audioCurrentTime, min=0, max=audioDuration, and a small step (e.g., 0.1 or 1). Wire Slider.onChange to update a local "scrub" value and time display while the user is dragging, and Slider.onCommit to set audio.currentTime to the committed value.\n' +
+      '- Volume: in the default variant only, mount <Slider> inside the volumeRange slot. Use a percentage domain such as min=0, max=100, step=1. Wire Slider.onChange to update the <audio> element volume (value/100) and any internal volume state. compact and mini variants hide the volumeGroup/volumeRange slots via the styleMap.',
+
     volume:
-      'The volume slider is shown only in the default variant. Render VolumeUpIcon as the volume indicator next to the volume slider; treat this icon as decorative (aria-hidden="true"). On some mobile browsers (e.g., iOS Safari), programmatic volume control is limited; when the Slider cannot meaningfully change element volume, it should behave gracefully (e.g., treat it as a UI hint or clamp to mute/unmute only) rather than assuming precise volume control.'
+      'The volume slider is shown only in the default variant. Render VolumeUpIcon next to the volume Slider as a decorative indicator (aria-hidden="true"). On platforms where fine-grained volume control is restricted (e.g., iOS Safari), the Slider should still render, but updates may effectively behave like a mute/unmute or coarse control; handle this in core without changing the blueprint.'
   },
 
   rules: []

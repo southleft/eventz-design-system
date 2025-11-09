@@ -5,7 +5,9 @@ import type { StyleMapSpec } from '../../utilities/defineStyleMap/types';
 /**
  * Token-first style map for MediaPlayer.
  * Keys here must align with the contract’s slots and variant options.
- * Decorative progress/volume bars read CSS vars: --progress (0..100), --volume (0..100).
+ * Decorative progress bar reads CSS var: --progress (0..100).
+ * Seek and volume visuals are owned by the shared Slider component; this map
+ * only controls placement and layout of the Slider instances.
  */
 const map: StyleMapSpec = {
   component: 'MediaPlayer',
@@ -95,7 +97,7 @@ const map: StyleMapSpec = {
       'focus-visible:ring-[color:var(--ring/color,rgba(194,248,83,0.70))]'
     ],
 
-    // Seek
+    // Seek (Slider goes into _seekRange; Slider owns its own track/thumb visuals)
     _seekGroup: ['flex', 'items-center', 'gap-[var(--spacing/2,8px)]', 'min-w-0', 'flex-1'],
     '_seekGroup ._seekRange': ['w-full', 'min-w-[120px]'],
     '_seekGroup ._timeDisplay': [
@@ -106,7 +108,7 @@ const map: StyleMapSpec = {
       'whitespace-nowrap'
     ],
 
-    // Volume
+    // Volume (Slider goes into _volumeRange; Slider owns its own track/thumb visuals)
     _volumeGroup: ['flex', 'items-center', 'gap-[var(--spacing/2,8px)]'],
     '_volumeGroup ._volumeRange': ['w-[120px]'],
 
