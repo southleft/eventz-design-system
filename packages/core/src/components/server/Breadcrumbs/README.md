@@ -125,8 +125,8 @@ Resolve all extended interfaces and list only public, component-level props. Exc
   current="Company update"
 />
 ```
-> - Keep short trails fully expanded so each link is immediately clickable.
-> - Supply the `current` label separately so screen readers announce the active page.
+- Keep short trails fully expanded so each link is immediately clickable.
+- Supply the `current` label separately so screen readers announce the active page.
 
 ### Collapsed trail
 
@@ -142,8 +142,8 @@ Resolve all extended interfaces and list only public, component-level props. Exc
   current="Episode 12"
 />
 ```
-> - Long trails collapse automatically; confirm the `items` array remains ordered from root to leaf.
-> - Ensure the truncated labels still make sense when hover tooltips expose the full text.
+- Long trails collapse automatically; confirm the `items` array remains ordered from root to leaf.
+- Ensure the truncated labels still make sense when hover tooltips expose the full text.
 
 ---
 

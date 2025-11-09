@@ -146,8 +146,8 @@ Resolve all extended interfaces and list only public, component-level props. Exc
   buttons={<Button variant="secondary">Add to calendar</Button>}
 />
 ```
-> - Populate the `chips` slot with metadata like format or access level so viewers can skim the context.
-> - Keep CTA buttons concise and high contrast since they render over imagery.
+- Populate the `chips` slot with metadata like format or access level so viewers can skim the context.
+- Keep CTA buttons concise and high contrast since they render over imagery.
 
 ### Carousel-controlled panel
 
@@ -163,8 +163,8 @@ Resolve all extended interfaces and list only public, component-level props. Exc
   avatars={<AvatarGroup size="lg" />}
 />
 ```
-> - Provide `leftAction`/`rightAction` controls when the panel participates in a carousel or playlist.
-> - Use the `avatars` slot to preview featured speakers or attendees for extra social proof.
+- Provide `leftAction`/`rightAction` controls when the panel participates in a carousel or playlist.
+- Use the `avatars` slot to preview featured speakers or attendees for extra social proof.
 
 ---
 

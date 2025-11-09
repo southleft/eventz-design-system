@@ -108,16 +108,16 @@ const Comp = isInteractive ? 'button' : 'span';
   onClick={() => toggle('work')}
 />
 ```
-> - Combine `isInteractive` with `variant="parent"` to represent top-level filters in a facets list.
-> - Drive `isActive` from shared state so the pill colors stay in sync with applied filters.
+- Combine `isInteractive` with `variant="parent"` to represent top-level filters in a facets list.
+- Drive `isActive` from shared state so the pill colors stay in sync with applied filters.
 
 ### Static metadata tag
 
 ```tsx
 <Tag label="Featured" isInteractive={false} />
 ```
-> - Keep decorative tags non-interactive when they simply annotate content.
-> - Rely on the default parent styling for metadata badges that sit inside cards or lists.
+- Keep decorative tags non-interactive when they simply annotate content.
+- Rely on the default parent styling for metadata badges that sit inside cards or lists.
 
 ---
 

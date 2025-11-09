@@ -125,8 +125,8 @@ Resolve all extended interfaces and list only public, component-level props. Exc
   action={<Button variant="primary">Start now</Button>}
 />
 ```
-> - Keep the button focusable—the card's focus ring mirrors whatever interactive child you render.
-> - Constrain copy to a couple of sentences so the stacked layout stays compact.
+- Keep the button focusable—the card's focus ring mirrors whatever interactive child you render.
+- Constrain copy to a couple of sentences so the stacked layout stays compact.
 
 ### Media highlight with badge
 
@@ -140,8 +140,8 @@ Resolve all extended interfaces and list only public, component-level props. Exc
   action={<Button variant="secondary">Add to calendar</Button>}
 />
 ```
-> - Pair `imgAlt` text with a concise subtitle to describe the visual content for screen readers.
-> - Use `badge` to flag live or limited events so the media instantly communicates urgency.
+- Pair `imgAlt` text with a concise subtitle to describe the visual content for screen readers.
+- Use `badge` to flag live or limited events so the media instantly communicates urgency.
 
 ---
 

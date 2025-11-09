@@ -95,8 +95,8 @@ Resolve all extended interfaces and list only public, component-level props. Exc
   <TextLink label="See all" href="/recent" variant="subtle" />
 </ScrollerRow>
 ```
-> - Wrap headings and CTA links to keep scroller titles and jump links aligned on the same baseline.
-> - Add vertical padding via `className` so the row spacing matches the adjacent carousel.
+- Wrap headings and CTA links to keep scroller titles and jump links aligned on the same baseline.
+- Add vertical padding via `className` so the row spacing matches the adjacent carousel.
 
 ### Filter row
 
@@ -106,8 +106,8 @@ Resolve all extended interfaces and list only public, component-level props. Exc
   <Button variant="bare">Manage filters</Button>
 </ScrollerRow>
 ```
-> - Increase the `gap` when combining compact filters with secondary actions.
-> - Use bare buttons to introduce tertiary actions without overpowering the filter controls.
+- Increase the `gap` when combining compact filters with secondary actions.
+- Use bare buttons to introduce tertiary actions without overpowering the filter controls.
 
 ---
 

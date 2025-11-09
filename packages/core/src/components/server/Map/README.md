@@ -118,8 +118,8 @@ Resolve all extended interfaces and list only public, component-level props. Exc
   <ProviderMap data-map-layer />
 </Map>
 ```
-> - Leave `showControls` enabled to highlight available zoom or layer buttons in hero contexts.
-> - Pass attribution markup or provider layers through `children` so the root still owns focus management.
+- Leave `showControls` enabled to highlight available zoom or layer buttons in hero contexts.
+- Pass attribution markup or provider layers through `children` so the root still owns focus management.
 
 ### Nested map inside card
 
@@ -128,8 +128,8 @@ Resolve all extended interfaces and list only public, component-level props. Exc
   <MiniMap data-map-layer />
 </Map>
 ```
-> - Use `isNested` plus `showOverlay={false}` when the panel sits inside another card or sheet.
-> - Disable controls for miniature maps to avoid redundant navigation targets.
+- Use `isNested` plus `showOverlay={false}` when the panel sits inside another card or sheet.
+- Disable controls for miniature maps to avoid redundant navigation targets.
 
 ---
 

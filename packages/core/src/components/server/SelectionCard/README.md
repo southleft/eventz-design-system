@@ -110,8 +110,8 @@ Resolve all extended interfaces and list only public, component-level props. Exc
   onClick={() => toggleFilter('audio')}
 />
 ```
-> - Use SelectionCard instances inside a checkbox group when filters can be toggled independently.
-> - Reflect the card's state in external data (e.g., `filters.audio`) so visuals and logic stay synced.
+- Use SelectionCard instances inside a checkbox group when filters can be toggled independently.
+- Reflect the card's state in external data (e.g., `filters.audio`) so visuals and logic stay synced.
 
 ### Pseudo-radio grid
 
@@ -124,8 +124,8 @@ Resolve all extended interfaces and list only public, component-level props. Exc
   onClick={() => setBillingCadence('monthly')}
 />
 ```
-> - Pair `ariaLabel` with pricing cadence selectors so the spoken label is unambiguous.
-> - Treat `isSelected` as the single source of truth when modeling radio-style grids.
+- Pair `ariaLabel` with pricing cadence selectors so the spoken label is unambiguous.
+- Treat `isSelected` as the single source of truth when modeling radio-style grids.
 
 ---
 

@@ -133,8 +133,8 @@ Resolve all extended interfaces and list only public, component-level props. Exc
   cancelHref="/billing/cancel"
 />
 ```
-> - Set `isActive` alongside billing metadata to highlight ongoing plans with renewal info.
-> - Provide `cancelHref` so the inline action routes members to the correct management flow.
+- Set `isActive` alongside billing metadata to highlight ongoing plans with renewal info.
+- Provide `cancelHref` so the inline action routes members to the correct management flow.
 
 ### Inactive offer
 
@@ -144,8 +144,8 @@ Resolve all extended interfaces and list only public, component-level props. Exc
   inactiveSubtitle="Unlock unlimited projects and live support."
 />
 ```
-> - Omit `memberSince` and `nextBillingDate` for inactive offers so the layout focuses on upgrade copy.
-> - Customize `inactiveSubtitle` with a concise value prop to prompt conversions.
+- Omit `memberSince` and `nextBillingDate` for inactive offers so the layout focuses on upgrade copy.
+- Customize `inactiveSubtitle` with a concise value prop to prompt conversions.
 
 ---
 

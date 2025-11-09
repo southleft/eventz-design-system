@@ -132,8 +132,8 @@ const Component = href ? 'a' : 'button';
   href="/settings/notifications"
 />
 ```
-> - Provide an `href` to get anchor semantics when the item routes to a detail page.
-> - Use `supportingText` for short descriptions that help disambiguate similar rows.
+- Provide an `href` to get anchor semantics when the item routes to a detail page.
+- Use `supportingText` for short descriptions that help disambiguate similar rows.
 
 ### Removable saved show
 
@@ -146,8 +146,8 @@ const Component = href ? 'a' : 'button';
   onClick={() => console.log('Remove series')}
 />
 ```
-> - Toggle `isRemovable` to surface the trailing remove affordance for saved content.
-> - Pair `imgSrc`/`imgAlt` with the title when the row represents media or playlists.
+- Toggle `isRemovable` to surface the trailing remove affordance for saved content.
+- Pair `imgSrc`/`imgAlt` with the title when the row represents media or playlists.
 
 ---
 

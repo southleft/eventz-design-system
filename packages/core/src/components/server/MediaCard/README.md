@@ -133,8 +133,8 @@ Resolve all extended interfaces and list only public, component-level props. Exc
   control={<IconButton aria-label="Play Night Shift" icon={<PlayIcon />} />}
 />
 ```
-> - Stack multiple `labels` to convey status plus runtime for audiovisual content.
-> - Keep the control `aria-label` descriptive since it is the only interactive element on the card.
+- Stack multiple `labels` to convey status plus runtime for audiovisual content.
+- Keep the control `aria-label` descriptive since it is the only interactive element on the card.
 
 ### Bookmark button
 
@@ -147,8 +147,8 @@ Resolve all extended interfaces and list only public, component-level props. Exc
   control={<IconButton aria-label="Save playlist" icon={<BookmarkIcon />} />}
 />
 ```
-> - Provide `imgSrc`/`imgAlt` when the card represents saved media to give visual context.
-> - Swap the control icon to match secondary actions like bookmarking or sharing.
+- Provide `imgSrc`/`imgAlt` when the card represents saved media to give visual context.
+- Swap the control icon to match secondary actions like bookmarking or sharing.
 
 ---
 

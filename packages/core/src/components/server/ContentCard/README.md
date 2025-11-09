@@ -150,8 +150,8 @@ const Wrapper = href ? 'a' : 'div';
   labels={[{ label: '11 min read' }]}
 />
 ```
-> - Use the default vertical layout when you want stacked media with metadata chips underneath.
-> - Keep `labels` concise; one or two tokens prevents crowding beneath the description.
+- Use the default vertical layout when you want stacked media with metadata chips underneath.
+- Keep `labels` concise; one or two tokens prevents crowding beneath the description.
 
 ### Linked horizontal story
 
@@ -169,8 +169,8 @@ const Wrapper = href ? 'a' : 'div';
   ]}
 />
 ```
-> - Provide `href` to enable the built-in anchor styling and arrow indicator for linkable cards.
-> - Mix icon-backed labels to communicate locale and duration at a glance.
+- Provide `href` to enable the built-in anchor styling and arrow indicator for linkable cards.
+- Mix icon-backed labels to communicate locale and duration at a glance.
 
 ---
 

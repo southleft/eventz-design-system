@@ -96,8 +96,8 @@ Resolve all extended interfaces and list only public, component-level props. Exc
   <DesktopNavigation />
 </Visibility>
 ```
-> - Use the `from` prop to hide large navigation until the viewport reaches desktop widths.
-> - Keep interactive children focusable only when they are actually visible to avoid tab-trap issues.
+- Use the `from` prop to hide large navigation until the viewport reaches desktop widths.
+- Keep interactive children focusable only when they are actually visible to avoid tab-trap issues.
 
 ### Mobile-only helper
 
@@ -106,8 +106,8 @@ Resolve all extended interfaces and list only public, component-level props. Exc
   <Text size="sm" color="weak">Swipe to explore more content.</Text>
 </Visibility>
 ```
-> - The `to` prop is useful for surfacing helper text exclusively on small screens.
-> - Combine with `color="weak"` Text so the hint reads as secondary guidance.
+- The `to` prop is useful for surfacing helper text exclusively on small screens.
+- Combine with `color="weak"` Text so the hint reads as secondary guidance.
 
 ---
 

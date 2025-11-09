@@ -113,14 +113,12 @@ Rules: do NOT output raw `Omit<>`/`Pick<>` strings; do NOT include DOM/HTMLEleme
 
 {{Agent: Add 2–4 focused examples that show common patterns. Keep them short.}}
 
-> {{Agent: Add 1–3 short bullets with usage tips following each example.}}
-
-
 ### {{PatternName}}
 
 ```tsx
 <{{ComponentName}} {{PatternProps}}>{{PatternChildren}}</{{ComponentName}}>
 ```
+{{Agent: Add 1–3 short bullets with usage tips following each example.}}
 
 ---
 

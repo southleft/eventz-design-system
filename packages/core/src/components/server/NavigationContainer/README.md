@@ -95,8 +95,8 @@ Resolve all extended interfaces and list only public, component-level props. Exc
   <NavigationBar ariaLabel="Global" items={items} />
 </NavigationContainer>
 ```
-> - Add a bottom border when pairing with a sticky NavigationBar so the bar feels anchored.
-> - Forward spacing utilities through `className` instead of wrapping the nav in extra divs.
+- Add a bottom border when pairing with a sticky NavigationBar so the bar feels anchored.
+- Forward spacing utilities through `className` instead of wrapping the nav in extra divs.
 
 ### Footer navigation
 
@@ -105,8 +105,8 @@ Resolve all extended interfaces and list only public, component-level props. Exc
   <FooterNav />
 </NavigationContainer>
 ```
-> - Swap background tokens to inverse palettes when the container sits over a dark hero.
-> - Reuse the wrapper for footer menus to keep padding consistent with top-level navs.
+- Swap background tokens to inverse palettes when the container sits over a dark hero.
+- Reuse the wrapper for footer menus to keep padding consistent with top-level navs.
 
 ---
 

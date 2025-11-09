@@ -102,8 +102,8 @@ const Tag = as ?? 'h2';
 ```tsx
 <Heading as="h3">Popular episodes</Heading>
 ```
-> - Rely on semantic `as` props to keep heading levels correct for document structure.
-> - Use the default preset when you want typography that adapts automatically between breakpoints.
+- Rely on semantic `as` props to keep heading levels correct for document structure.
+- Use the default preset when you want typography that adapts automatically between breakpoints.
 
 ### Utility heading
 
@@ -112,8 +112,8 @@ const Tag = as ?? 'h2';
   Recently added
 </Heading>
 ```
-> - Mix size, weight, color, and casing tokens to build utility headings for utility slots.
-> - Set `noMargin={false}` when the surrounding layout already manages block spacing.
+- Mix size, weight, color, and casing tokens to build utility headings for utility slots.
+- Set `noMargin={false}` when the surrounding layout already manages block spacing.
 
 ---
 

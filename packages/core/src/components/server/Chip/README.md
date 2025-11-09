@@ -101,16 +101,16 @@ Resolve all extended interfaces and list only public, component-level props. Exc
 <Chip icon={<ClockIcon />} label="45 min" />
 <Chip icon={<GlobeIcon />} label="EN" />
 ```
-> - Pair icons with abbreviated labels to surface dense metadata like duration and language.
-> - Keep each chip focusable only if you wrap it in an interactive parent; the component itself stays static.
+- Pair icons with abbreviated labels to surface dense metadata like duration and language.
+- Keep each chip focusable only if you wrap it in an interactive parent; the component itself stays static.
 
 ### Neutral inline tags
 
 ```tsx
 <Chip className="text-color-content-default" label="Editorial" />
 ```
-> - Override the text color when you need the chip to blend into inline prose.
-> - Use neutral chips for category tags where an icon would add noise.
+- Override the text color when you need the chip to blend into inline prose.
+- Use neutral chips for category tags where an icon would add noise.
 
 ---
 
