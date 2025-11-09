@@ -12,6 +12,7 @@ export * from './CloseIcon';
 export * from './ErrorIcon';
 export * from './EventIcon';
 export * from './ForwardIcon';
+export * from './Forward10Icon';
 export * from './InfoIcon';
 export * from './KeyboardArrowDownIcon';
 export * from './LocationIcon';
