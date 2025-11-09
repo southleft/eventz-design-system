@@ -29,9 +29,6 @@ import type { ComboboxProps } from '@doxyz-ui/core/client/Combobox';
 <Combobox { ...props } />
 ```
 
-> - Provide `items` as MenuItem-compatible objects; ids must be stable because they back selection.
-> - Use `selectedIds`/`onSelectionChange` for controlled state or `defaultSelectedIds` for an uncontrolled experience.
-
 ---
 
 ## Props (Declared + Inherited)

@@ -24,15 +24,8 @@ import type { TextareaProps } from '@doxyz-ui/core/client/Textarea';
 ## Usage
 
 ```tsx
-<Textarea
-  label="Message"
-  placeholder="Share context"
-  hint="Markdown supported"
-/>
+<Textarea { ...props } />
 ```
-
-- Provide either `label` or `ariaLabel` so the field always has an accessible name.
-- Additional native textarea props (`placeholder`, `rows`, `maxLength`, etc.) are forwarded through `textareaRest`.
 
 ---
 

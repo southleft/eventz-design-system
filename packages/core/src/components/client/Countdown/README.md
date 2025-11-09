@@ -24,16 +24,8 @@ import type { CountdownProps } from '@doxyz-ui/core/client/Countdown';
 ## Usage
 
 ```tsx
-<Countdown
-  until="2025-12-31T23:59:59Z"
-  variant="expiring"
-  announceLabel="Time remaining"
-  onComplete={() => notify('Happy New Year!')}
-/>
+<Countdown { ...props } />
 ```
-
-- `until` must be ISO-8601 with an explicit timezone (e.g., `Z` or `-05:00`).
-- Use `announceLabel` to add a screen-reader prefix such as “Time remaining.”
 
 ---
 

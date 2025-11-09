@@ -24,18 +24,8 @@ import type { MenuItemProps } from '@doxyz-ui/core/client/MenuItem';
 ## Usage
 
 ```tsx
-<MenuItem
-  type="complex"
-  option="Growth team"
-  supportingText="8 members • Active"
-  imgSrc="https://picsum.photos/80"
-  isSelected={value === 'growth'}
-  onClick={() => setValue('growth')}
-/>
+<MenuItem { ...props } />
 ```
-
-- Pass `href` to render as an anchor while keeping the same spacing and aria attributes.
-- Use `isSelected` to show the checkmark icon and highlight the option.
 
 ---
 

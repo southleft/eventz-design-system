@@ -24,11 +24,8 @@ import type { InputProps } from '@doxyz-ui/core/client/Input';
 ## Usage
 
 ```tsx
-<Input label="Workspace name" placeholder="My team" required />
+<Input { ...props } />
 ```
-
-- The component wraps `FormElement` internally, so props like `label`, `hint`, `error`, and `info` flow straight through.
-- Native input props (`placeholder`, `type`, `name`, `onChange`, etc.) are forwarded to the actual `<input>` element.
 
 ---
 

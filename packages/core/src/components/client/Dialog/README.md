@@ -24,20 +24,8 @@ import type { DialogProps } from '@doxyz-ui/core/client/Dialog';
 ## Usage
 
 ```tsx
-<Dialog
-  trigger={<Button>Open dialog</Button>}
-  size="md"
->
-  <div className="space-y-4 w-full">
-    <h2 className="text-xl font-semibold">Request access</h2>
-    <p>Submit the form below and we’ll review within 24 hours.</p>
-    <Form>…</Form>
-  </div>
-</Dialog>
+<Dialog { ...props }>{children}</Dialog>
 ```
-
-- Provide any React node as `trigger`; it renders via `RadixDialog.Trigger asChild` and receives focus trapping automatically.
-- Choose `size` (`sm`, `md`, `lg`) to set the max width.
 
 ---
 

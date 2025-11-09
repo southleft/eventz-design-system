@@ -24,20 +24,8 @@ import type { CheckboxGroupProps } from '@doxyz-ui/core/client/CheckboxGroup';
 ## Usage
 
 ```tsx
-<CheckboxGroup
-  label="Notify me about"
-  name="notifications"
-  choices={[
-    { label: 'New followers', value: 'followers' },
-    { label: 'Weekly reports', value: 'reports' },
-    { label: 'Product updates', value: 'updates' }
-  ]}
-  onCheckedChange={values => setNotifications(values)}
-/>
+<CheckboxGroup { ...props } />
 ```
-
-- Provide either `label` or `ariaLabel` so the fieldset has an accessible name.
-- Choices default their `value` to `label` when not supplied; pass stable ids when syncing to backend enums.
 
 ---
 

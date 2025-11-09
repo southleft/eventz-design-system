@@ -24,11 +24,8 @@ import type { ControlProps } from '@doxyz-ui/core/client/Control';
 ## Usage
 
 ```tsx
-<Control icon={<ChevronRightIcon />} ariaLabel="Next slide" variant="dark" />
+<Control { ...props } />
 ```
-
-- Always pass a descriptive `ariaLabel`; the runtime throws if it’s empty after trimming.
-- Pick `size="sm"` for dense toolbars; `lg` matches primary buttons.
 
 ---
 

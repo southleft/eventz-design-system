@@ -24,11 +24,8 @@ import type { CheckboxProps } from '@doxyz-ui/core/client/Checkbox';
 ## Usage
 
 ```tsx
-<Checkbox label="Subscribe to updates" checked={checked} onCheckedChange={setChecked} />
+<Checkbox { ...props } />
 ```
-
-- Provide a non-empty `label`; it supplies both the visible caption and the accessible name.
-- Use `checked` + `onCheckedChange` for controlled state or omit `checked` to let Radix manage it.
 
 ---
 

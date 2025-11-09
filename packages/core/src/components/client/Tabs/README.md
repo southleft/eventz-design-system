@@ -24,20 +24,8 @@ import type { TabsProps } from '@doxyz-ui/core/client/Tabs';
 ## Usage
 
 ```tsx
-<Tabs
-  ariaLabel="Project detail tabs"
-  value={tab}
-  onValueChange={setTab}
-  tabsList=[
-    { value: 'overview', label: 'Overview', content: <OverviewTab /> },
-    { value: 'activity', label: 'Activity', content: <ActivityTab />, icon: <ActivityIcon /> },
-    { value: 'files', label: 'Files', content: <FilesTab />, disabled: !canViewFiles }
-  ]
-/>
+<Tabs { ...props } />
 ```
-
-- Provide `ariaLabel`; it labels the tab list when there isn’t a visible heading.
-- Set `type="button"` to reuse Button styles for triggers (no icons in that mode).
 
 ---
 

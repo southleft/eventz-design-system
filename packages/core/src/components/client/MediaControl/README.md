@@ -24,18 +24,8 @@ import type { MediaControlProps } from '@doxyz-ui/core/client/MediaControl';
 ## Usage
 
 ```tsx
-<MediaControl
-  state={isPlaying ? 'playing' : 'paused'}
-  onStateChange={next => setIsPlaying(next === 'playing')}
-  onPlay={player.play}
-  onPause={player.pause}
-  ariaLabelPlay="Play sample"
-  ariaLabelPause="Pause sample"
-/>
+<MediaControl { ...props } />
 ```
-
-- Omit `state` to let the component manage its own state starting from `defaultState`.
-- Customize `variant` and `size` to match surrounding controls (`brand`, `dark`, `light`; `lg`, `sm`).
 
 ---
 

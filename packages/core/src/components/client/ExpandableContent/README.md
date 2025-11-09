@@ -24,15 +24,8 @@ import type { ExpandableContentProps } from '@doxyz-ui/core/client/ExpandableCon
 ## Usage
 
 ```tsx
-<ExpandableContent activeLabel="More details">
-  <p>
-    Use this space to share deeper explanation without overwhelming the layout. Lorem ipsum dolor sit amet…
-  </p>
-</ExpandableContent>
+<ExpandableContent { ...props }>{children}</ExpandableContent>
 ```
-
-- Pass `defaultExpanded` to start open; switch to controlled mode by providing `expanded` + `onExpandedChange`.
-- Children render directly inside the content region.
 
 ---
 

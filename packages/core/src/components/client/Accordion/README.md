@@ -24,9 +24,7 @@ import type { AccordionProps } from '@doxyz-ui/core/client/Accordion';
 ## Usage
 
 ```tsx
-<Accordion title="What is DoXYZ?">
-  {children}
-</Accordion>
+<Accordion { ...props }>{children}</Accordion>
 ```
 
 ---

@@ -24,13 +24,8 @@ import type { FormElementProps } from '@doxyz-ui/core/client/FormElement';
 ## Usage
 
 ```tsx
-<FormElement label="Workspace name" hint="Shown on invoices" asChild>
-  <input placeholder="DoXYZ" />
-</FormElement>
+<FormElement { ...props }>{children}</FormElement>
 ```
-
-- When `asChild` is `true`, the child must be able to receive props such as `id`, `aria-describedby`, and `disabled`; Radix Slot handles the prop injection.
-- When `asChild` is `false`, FormElement renders your child as-is inside the row, and you are responsible for linking labels/aria manually.
 
 ---
 

@@ -24,21 +24,8 @@ import type { RadioButtonGroupProps } from '@doxyz-ui/core/client/RadioButtonGro
 ## Usage
 
 ```tsx
-<RadioButtonGroup
-  label="Delivery speed"
-  name="shippingSpeed"
-  value={speed}
-  onValueChange={setSpeed}
-  choices={[
-    { value: 'standard', label: 'Standard (3–5 days)' },
-    { value: 'express', label: 'Express (2 days)', hint: 'Adds $15' },
-    { value: 'overnight', label: 'Overnight', disabled: !allowRush }
-  ]}
-/>
+<RadioButtonGroup { ...props } />
 ```
-
-- `choices` must include a `value`; `label` falls back to the value when omitted.
-- The component manages ids for each choice to keep label/description wiring consistent.
 
 ---
 

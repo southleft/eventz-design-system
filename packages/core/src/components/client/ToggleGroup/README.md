@@ -24,21 +24,8 @@ import type { ToggleGroupProps } from '@doxyz-ui/core/client/ToggleGroup';
 ## Usage
 
 ```tsx
-<ToggleGroup
-  ariaLabel="View options"
-  type="single"
-  value={view}
-  onValueChange={setView}
-  items={[
-    { value: 'list', icon: <ListBulletIcon /> },
-    { value: 'grid', icon: <GridIcon /> },
-    { value: 'map', icon: <MapIcon />, disabled: !hasMap }
-  ]}
-/>
+<ToggleGroup { ...props } />
 ```
-
-- `ariaLabel` is required because the buttons contain only icons. Item-level `ariaLabel`s override the default (derived from `value`).
-- Set `type="multiple"` to allow multi-select behavior; `value`/`defaultValue` become arrays in that mode.
 
 ---
 

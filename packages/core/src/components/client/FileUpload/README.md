@@ -23,17 +23,8 @@ import type { FileUploadProps } from '@doxyz-ui/core/client/FileUpload';
 ## Usage
 
 ```tsx
-<FileUpload
-  label="Hero image"
-  hint="PNG or JPG, up to 5MB"
-  imageFormat="photo"
-  onFileAccepted={({ file }) => upload(file!)}
-  onFileError={({ message }) => toast.error(message)}
-/>
+<FileUpload { ...props } />
 ```
-
-- Provide `label`/`ariaLabel` so the dropzone is discoverable; the component handles `aria-describedby` merges for hint/error/info copy.
-- Use the callbacks to react to selections (`onFileSelected`), cancellations, completed uploads, and errors.
 
 ---
 

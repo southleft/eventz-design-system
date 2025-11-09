@@ -24,11 +24,8 @@ import type { DatePickerProps } from '@doxyz-ui/core/client/DatePicker';
 ## Usage
 
 ```tsx
-<DatePicker {...props} />
+<DatePicker { ...props } />
 ```
-
-> - Pair `value`/`onChange` (and optionally `open`/`onOpen`/`onClose`) for controlled flows; otherwise rely on `defaultValue`/`defaultOpen`.
-> - Customize placeholder text, icons, or `aria-label` via `InputProps`, but DatePicker still owns the click/keydown handlers on the trigger.
 
 ---
 

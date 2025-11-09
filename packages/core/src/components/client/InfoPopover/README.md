@@ -24,13 +24,8 @@ import type { InfoPopoverProps } from '@doxyz-ui/core/client/InfoPopover';
 ## Usage
 
 ```tsx
-<InfoPopover ariaLabel="Explain priority">
-  Priority controls the order in which tasks are surfaced to collaborators.
-</InfoPopover>
+<InfoPopover { ...props }>{children}</InfoPopover>
 ```
-
-- The trigger is icon-only, so always pass a descriptive `ariaLabel`.
-- Provide short copy (1–2 sentences); the content container clamps width and adds padding automatically.
 
 ---
 

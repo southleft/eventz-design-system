@@ -24,19 +24,8 @@ import type { SearchProps, SearchResult } from '@doxyz-ui/core/client/Search';
 ## Usage
 
 ```tsx
-<Search
-  value={term}
-  onSearchTermChange={setTerm}
-  results={results}
-  onResultSelect={result => router.push(result.href ?? '#')}
-  onViewAllClick={term => router.push(`/search?term=${term}`)}
-  loading={isLoading}
-  noResultsMessage="No matches yet"
-/>
+<Search { ...props } />
 ```
-
-- `results` is an array of `{ id, label, description?, href?, icon?, type? }`. When `icon` is absent, the component picks a default icon based on `type`.
-- `onSearchTermChange` fires on every keystroke—debounce/fetch in the parent.
 
 ---
 

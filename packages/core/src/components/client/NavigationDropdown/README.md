@@ -24,19 +24,8 @@ import type { NavigationDropdownProps } from '@doxyz-ui/core/client/NavigationDr
 ## Usage
 
 ```tsx
-<NavigationDropdown
-  triggerAriaLabel="Open main menu"
-  ariaLabel="Primary navigation"
-  items=[
-    { label: 'Products', href: '/products' },
-    { label: 'Pricing', href: '/pricing' },
-    { label: 'Contact', href: '/contact' }
-  ]
-/>
+<NavigationDropdown { ...props } />
 ```
-
-- Provide `ariaLabel` to wrap the list in a `<nav>` landmark.
-- `triggerAriaLabel` names the icon button; defaults to “Menu.”
 
 ---
 

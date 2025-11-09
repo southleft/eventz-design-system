@@ -24,11 +24,8 @@ import type { IconButtonProps } from '@doxyz-ui/core/client/IconButton';
 ## Usage
 
 ```tsx
-<IconButton icon={<PlusIcon />} ariaLabel="Add item" />
+<IconButton { ...props } />
 ```
-
-- Always pass a descriptive `ariaLabel`; the component throws if it’s blank after trimming.
-- Loading automatically disables the control and toggles `aria-busy`.
 
 ---
 

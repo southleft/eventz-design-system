@@ -24,16 +24,8 @@ import type { StepperProps } from '@doxyz-ui/core/client/Stepper';
 ## Usage
 
 ```tsx
-<Stepper
-  steps={4}
-  activeStep={2}
-  activeLabel="Choose plan"
-  onStepChange={index => setActive(index + 1)}
-/>
+<Stepper { ...props } />
 ```
-
-- `activeStep` is one-based (1 ⇒ first step). The component converts it to a zero-based active index internally.
-- When `onStepChange` is omitted, the component renders a read-only list instead of interactive buttons.
 
 ---
 

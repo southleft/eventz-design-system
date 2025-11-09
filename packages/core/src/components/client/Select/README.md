@@ -24,16 +24,8 @@ import type { SelectProps } from '@doxyz-ui/core/client/Select';
 ## Usage
 
 ```tsx
-<Select
-  value={status}
-  onValueChange={setStatus}
-  options={statuses.map(option => ({ option, supportingText: descriptions[option] }))}
-  InputProps={{ label: 'Status', placeholder: 'Choose status' }}
-/>
+<Select { ...props } />
 ```
-
-- Each entry in `options` is `MenuItemProps & { option: string }`. `option` is used as the Radix `value` and the visible label.
-- Override `InputProps.endIcon` to change the trigger chevron; `startIcon` is intentionally not supported.
 
 ---
 

@@ -24,19 +24,8 @@ import type { SliderProps } from '@doxyz-ui/core/client/Slider';
 ## Usage
 
 ```tsx
-<Slider
-  value={position}
-  onChange={setPosition}
-  onCommit={commitSeek}
-  min={0}
-  max={trackDuration}
-  step={1}
-  ariaLabel="Seek position"
-/>
+<Slider { ...props } />
 ```
-
-- `onChange` fires continuously as the thumb moves; use `onCommit` to trigger a seek or server update when the user releases.
-- Set `ariaLabelledBy` when pairing the slider with an external label; otherwise pass `ariaLabel`.
 
 ---
 

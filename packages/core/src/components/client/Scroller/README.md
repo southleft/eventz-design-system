@@ -24,19 +24,8 @@ import type { ScrollerProps } from '@doxyz-ui/core/client/Scroller';
 ## Usage
 
 ```tsx
-<Scroller
-  showControls
-  onScrollChange={metrics => setCanAdvance(!metrics.atEnd)}
-  pageBy="viewport"
->
-  {items.map(item => (
-    <Card key={item.id}>{item.content}</Card>
-  ))}
-</Scroller>
+<Scroller { ...props }>{children}</Scroller>
 ```
-
-- Wrap each child in a fixed-width element if you want equal paging behavior.
-- Set `stackRows` to `true` to render multiple rows vertically (useful for token grids) while keeping the controls.
 
 ---
 

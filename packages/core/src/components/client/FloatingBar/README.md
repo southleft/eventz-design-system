@@ -24,15 +24,8 @@ import type { FloatingBarProps } from '@doxyz-ui/core/client/FloatingBar';
 ## Usage
 
 ```tsx
-<FloatingBar
-  ariaLabel="Selected filters"
-  content={<span>{selectedFilters.join(', ') || 'No filters applied'}</span>}
-  actions={<Button variant="primary">Apply filters</Button>}
-/>
+<FloatingBar { ...props } />
 ```
-
-- Provide `content` for the left/center region and `actions` for the right-aligned button group.
-- Set `isScrollable` and provide `onLeftScroll`/`onRightScroll` when the bar controls a horizontally scrollable list.
 
 ---
 

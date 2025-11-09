@@ -24,11 +24,8 @@ import type { AvatarGroupProps } from '@doxyz-ui/core/client/AvatarGroup';
 ## Usage
 
 ```tsx
-<AvatarGroup users={users} count={42} />
+<AvatarGroup { ...props } />
 ```
-
-- Provide `users` as `{ name: string; imageUrl: string }[]`; the component trims whitespace before rendering.
-- Omit `count` to report `users.length`, or override it when the backend tracks more members than you display.
 
 ---
 

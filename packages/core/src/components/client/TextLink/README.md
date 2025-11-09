@@ -24,11 +24,8 @@ import type { TextLinkProps } from '@doxyz-ui/core/client/TextLink';
 ## Usage
 
 ```tsx
-<TextLink href="/docs/getting-started" label="Getting started" />
+<TextLink { ...props } />
 ```
-
-- `href` and `label` are trimmed to avoid stray whitespace.
-- Use `disabled` when the destination is unavailable; it applies `aria-disabled` and removes pointer events.
 
 ---
 

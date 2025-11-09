@@ -27,9 +27,6 @@ import type { ButtonProps } from '@doxyz-ui/core/client/Button';
 <Button { ...props }>{children}</Button>
 ```
 
-- Keep the child text short (2–4 words) so the button stays scannable.
-- Supply `startIcon`/`endIcon` for glyphs; the component handles spacing and `aria-hidden`.
-
 ---
 
 ## Props (Declared + Inherited)

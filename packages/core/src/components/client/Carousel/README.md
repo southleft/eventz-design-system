@@ -23,17 +23,8 @@ import { useCarouselContext } from '@doxyz-ui/core/client/Carousel';
 ## Usage
 
 ```tsx
-<Carousel autoPlay loop ariaLabel="Customer quotes">
-  {quotes.map(quote => (
-    <CarouselSlide key={quote.id}>
-      <QuoteCard {...quote} />
-    </CarouselSlide>
-  ))}
-</Carousel>
+<Carousel { ...props }>{children}</Carousel>
 ```
-
-- Wrap slide content in elements that fill the available width; the component clones children inside Embla’s track.
-- Consume `useCarouselContext()` inside descendants to render custom controls or indicators (prev, next, goTo, etc.).
 
 ---
 
