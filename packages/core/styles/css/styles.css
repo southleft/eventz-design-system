@@ -1166,6 +1166,9 @@
 .static {
   position: static;
 }
+.sticky {
+  position: sticky;
+}
 .inset-0 {
   inset: var(--spacing-0);
 }

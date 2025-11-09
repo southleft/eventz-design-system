@@ -29,8 +29,6 @@ import type { EventPanelProps } from '@doxyz-ui/core/server/EventPanel';
 <EventPanel { ...props } />
 ```
 
-> - Always pass `imgSrc`/`imgAlt` as a pair so the hero image remains descriptive; `''` is acceptable for decorative art.
-> - Manage `data-is-in-view="true"` on the `.group` wrapper at the parent level to trigger the scale/opacity transitions.
 
 ---
 
@@ -148,6 +146,8 @@ Resolve all extended interfaces and list only public, component-level props. Exc
   buttons={<Button variant="secondary">Add to calendar</Button>}
 />
 ```
+> - Populate the `chips` slot with metadata like format or access level so viewers can skim the context.
+> - Keep CTA buttons concise and high contrast since they render over imagery.
 
 ### Carousel-controlled panel
 
@@ -163,6 +163,8 @@ Resolve all extended interfaces and list only public, component-level props. Exc
   avatars={<AvatarGroup size="lg" />}
 />
 ```
+> - Provide `leftAction`/`rightAction` controls when the panel participates in a carousel or playlist.
+> - Use the `avatars` slot to preview featured speakers or attendees for extra social proof.
 
 ---
 
@@ -179,4 +181,5 @@ Resolve all extended interfaces and list only public, component-level props. Exc
 
 | Date       | Changes              |
 | ---------- | -------------------- |
+| 2025-11-09 | Updated usage/examples guidance |
 | 2025-11-08 | Initial documentation |

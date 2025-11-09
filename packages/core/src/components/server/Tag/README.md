@@ -29,8 +29,6 @@ import type { TagProps } from '@doxyz-ui/core/server/Tag';
 <Tag { ...props } />
 ```
 
-> - Enable `isInteractive` when the tag needs to behave like a button; otherwise it renders a plain `<span>`.
-> - Let the `label` text supply the accessible name unless you must disambiguate identical visuals.
 
 ---
 
@@ -110,12 +108,16 @@ const Comp = isInteractive ? 'button' : 'span';
   onClick={() => toggle('work')}
 />
 ```
+> - Combine `isInteractive` with `variant="parent"` to represent top-level filters in a facets list.
+> - Drive `isActive` from shared state so the pill colors stay in sync with applied filters.
 
 ### Static metadata tag
 
 ```tsx
 <Tag label="Featured" isInteractive={false} />
 ```
+> - Keep decorative tags non-interactive when they simply annotate content.
+> - Rely on the default parent styling for metadata badges that sit inside cards or lists.
 
 ---
 
@@ -132,4 +134,5 @@ const Comp = isInteractive ? 'button' : 'span';
 
 | Date       | Changes              |
 | ---------- | -------------------- |
+| 2025-11-09 | Updated usage/examples guidance |
 | 2025-11-08 | Initial documentation |

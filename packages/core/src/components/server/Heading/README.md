@@ -29,8 +29,6 @@ import type { HeadingProps } from '@doxyz-ui/core/server/Heading';
 <Heading { ...props }>{children}</Heading>
 ```
 
-> - Leave `size="auto"`/`weight="auto"` to use the level presets unless you need a different visual.
-> - Set `noMargin={false}` only when you intentionally want the browser’s default margins.
 
 ---
 
@@ -104,6 +102,8 @@ const Tag = as ?? 'h2';
 ```tsx
 <Heading as="h3">Popular episodes</Heading>
 ```
+> - Rely on semantic `as` props to keep heading levels correct for document structure.
+> - Use the default preset when you want typography that adapts automatically between breakpoints.
 
 ### Utility heading
 
@@ -112,6 +112,8 @@ const Tag = as ?? 'h2';
   Recently added
 </Heading>
 ```
+> - Mix size, weight, color, and casing tokens to build utility headings for utility slots.
+> - Set `noMargin={false}` when the surrounding layout already manages block spacing.
 
 ---
 
@@ -128,4 +130,5 @@ const Tag = as ?? 'h2';
 
 | Date       | Changes              |
 | ---------- | -------------------- |
+| 2025-11-09 | Updated usage/examples guidance |
 | 2025-11-08 | Initial documentation |

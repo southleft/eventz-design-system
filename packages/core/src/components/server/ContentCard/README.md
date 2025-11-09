@@ -29,8 +29,6 @@ import type { ContentCardProps } from '@doxyz-ui/core/server/ContentCard';
 <ContentCard { ...props } />
 ```
 
-> - Use `href` to turn the card into an anchor and let `focusable` drive keyboard behavior when `href` is absent.
-> - Always supply `imgAlt` when `imgSrc` is present, passing `''` for decorative imagery.
 
 ---
 
@@ -152,6 +150,8 @@ const Wrapper = href ? 'a' : 'div';
   labels={[{ label: '11 min read' }]}
 />
 ```
+> - Use the default vertical layout when you want stacked media with metadata chips underneath.
+> - Keep `labels` concise; one or two tokens prevents crowding beneath the description.
 
 ### Linked horizontal story
 
@@ -169,6 +169,8 @@ const Wrapper = href ? 'a' : 'div';
   ]}
 />
 ```
+> - Provide `href` to enable the built-in anchor styling and arrow indicator for linkable cards.
+> - Mix icon-backed labels to communicate locale and duration at a glance.
 
 ---
 
@@ -185,4 +187,5 @@ const Wrapper = href ? 'a' : 'div';
 
 | Date       | Changes              |
 | ---------- | -------------------- |
+| 2025-11-09 | Updated usage/examples guidance |
 | 2025-11-08 | Initial documentation |

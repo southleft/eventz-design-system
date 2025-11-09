@@ -29,8 +29,6 @@ import type { ChipProps } from '@doxyz-ui/core/server/Chip';
 <Chip { ...props } />
 ```
 
-> - Let the visible `label` supply the accessible name; only pass `ariaLabel` when additional context is required.
-> - Treat `icon` as decorative (`aria-hidden="true"`) so the chip remains concise.
 
 ---
 
@@ -103,12 +101,16 @@ Resolve all extended interfaces and list only public, component-level props. Exc
 <Chip icon={<ClockIcon />} label="45 min" />
 <Chip icon={<GlobeIcon />} label="EN" />
 ```
+> - Pair icons with abbreviated labels to surface dense metadata like duration and language.
+> - Keep each chip focusable only if you wrap it in an interactive parent; the component itself stays static.
 
 ### Neutral inline tags
 
 ```tsx
 <Chip className="text-color-content-default" label="Editorial" />
 ```
+> - Override the text color when you need the chip to blend into inline prose.
+> - Use neutral chips for category tags where an icon would add noise.
 
 ---
 
@@ -125,4 +127,5 @@ Resolve all extended interfaces and list only public, component-level props. Exc
 
 | Date       | Changes              |
 | ---------- | -------------------- |
+| 2025-11-09 | Updated usage/examples guidance |
 | 2025-11-08 | Initial documentation |

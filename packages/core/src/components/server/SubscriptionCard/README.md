@@ -29,8 +29,6 @@ import type { SubscriptionCardProps } from '@doxyz-ui/core/server/SubscriptionCa
 <SubscriptionCard { ...props } />
 ```
 
-> - Use `cancelHref`/`cancelText` (or the `cancel` slot) only when `isActive` is true.
-> - Rely on `inactiveSubtitle` to explain the dormant state when `isActive` is false.
 
 ---
 
@@ -135,6 +133,8 @@ Resolve all extended interfaces and list only public, component-level props. Exc
   cancelHref="/billing/cancel"
 />
 ```
+> - Set `isActive` alongside billing metadata to highlight ongoing plans with renewal info.
+> - Provide `cancelHref` so the inline action routes members to the correct management flow.
 
 ### Inactive offer
 
@@ -144,6 +144,8 @@ Resolve all extended interfaces and list only public, component-level props. Exc
   inactiveSubtitle="Unlock unlimited projects and live support."
 />
 ```
+> - Omit `memberSince` and `nextBillingDate` for inactive offers so the layout focuses on upgrade copy.
+> - Customize `inactiveSubtitle` with a concise value prop to prompt conversions.
 
 ---
 
@@ -160,4 +162,5 @@ Resolve all extended interfaces and list only public, component-level props. Exc
 
 | Date       | Changes              |
 | ---------- | -------------------- |
+| 2025-11-09 | Updated usage/examples guidance |
 | 2025-11-08 | Initial documentation |

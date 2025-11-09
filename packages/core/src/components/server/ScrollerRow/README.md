@@ -29,8 +29,6 @@ import type { ScrollerRowProps } from '@doxyz-ui/core/server/ScrollerRow';
 <ScrollerRow { ...props }>{children}</ScrollerRow>
 ```
 
-> - Maintain the base flex layout and layer any additional spacing/alignment utilities via `className`.
-> - Focus responsibility and semantics stay with the interactive children inside the row.
 
 ---
 
@@ -97,6 +95,8 @@ Resolve all extended interfaces and list only public, component-level props. Exc
   <TextLink label="See all" href="/recent" variant="subtle" />
 </ScrollerRow>
 ```
+> - Wrap headings and CTA links to keep scroller titles and jump links aligned on the same baseline.
+> - Add vertical padding via `className` so the row spacing matches the adjacent carousel.
 
 ### Filter row
 
@@ -106,6 +106,8 @@ Resolve all extended interfaces and list only public, component-level props. Exc
   <Button variant="bare">Manage filters</Button>
 </ScrollerRow>
 ```
+> - Increase the `gap` when combining compact filters with secondary actions.
+> - Use bare buttons to introduce tertiary actions without overpowering the filter controls.
 
 ---
 
@@ -122,4 +124,5 @@ Resolve all extended interfaces and list only public, component-level props. Exc
 
 | Date       | Changes              |
 | ---------- | -------------------- |
+| 2025-11-09 | Updated usage/examples guidance |
 | 2025-11-08 | Initial documentation |

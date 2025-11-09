@@ -29,8 +29,6 @@ import type { ActionCardProps } from '@doxyz-ui/core/server/ActionCard';
 <ActionCard { ...props } />
 ```
 
-> - Supply an interactive `action` node so the focus-visible ring is tied to the actual control.
-> - Keep `ariaLabel` undefined unless the visible title needs an explicit override.
 
 ---
 
@@ -127,6 +125,8 @@ Resolve all extended interfaces and list only public, component-level props. Exc
   action={<Button variant="primary">Start now</Button>}
 />
 ```
+> - Keep the button focusable—the card's focus ring mirrors whatever interactive child you render.
+> - Constrain copy to a couple of sentences so the stacked layout stays compact.
 
 ### Media highlight with badge
 
@@ -140,6 +140,8 @@ Resolve all extended interfaces and list only public, component-level props. Exc
   action={<Button variant="secondary">Add to calendar</Button>}
 />
 ```
+> - Pair `imgAlt` text with a concise subtitle to describe the visual content for screen readers.
+> - Use `badge` to flag live or limited events so the media instantly communicates urgency.
 
 ---
 
@@ -156,4 +158,5 @@ Resolve all extended interfaces and list only public, component-level props. Exc
 
 | Date       | Changes              |
 | ---------- | -------------------- |
+| 2025-11-09 | Updated usage/examples guidance |
 | 2025-11-08 | Initial documentation |

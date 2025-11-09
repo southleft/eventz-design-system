@@ -29,8 +29,6 @@ import type { TextProps } from '@doxyz-ui/core/server/Text';
 <Text { ...props }>{children}</Text>
 ```
 
-> - Use `as` for semantics and rely on the typography props for visuals.
-> - Apply `truncate` only when the container width enforces single-line layout so the ellipsis appears.
 
 ---
 
@@ -105,6 +103,8 @@ const Comp = as ?? 'span';
   You can update this later in settings.
 </Text>
 ```
+> - Combine `size="sm"` with `color="weak"` for secondary helper copy.
+> - Keep helper text concise so it reads well next to form controls.
 
 ### Inline code snippet
 
@@ -113,6 +113,8 @@ const Comp = as ?? 'span';
   npm install @doxyz-ui/core
 </Text>
 ```
+> - Switch the `as` prop to semantic elements like `code` when you need inline formatting.
+> - Pair inverse colors with dark backgrounds to maintain contrast.
 
 ---
 
@@ -129,4 +131,5 @@ const Comp = as ?? 'span';
 
 | Date       | Changes              |
 | ---------- | -------------------- |
+| 2025-11-09 | Updated usage/examples guidance |
 | 2025-11-08 | Initial documentation |

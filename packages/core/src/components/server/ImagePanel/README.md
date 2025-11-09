@@ -29,8 +29,6 @@ import type { ImagePanelProps } from '@doxyz-ui/core/server/ImagePanel';
 <ImagePanel { ...props } />
 ```
 
-> - Set `data-is-in-view="true"` on the parent group when a slide is active so the scale/opacity tokens fire.
-> - Prefer `fetchPriority="high"` for the hero slide and `low` for subsequent slides while keeping `loading="lazy"`.
 
 ---
 
@@ -134,6 +132,8 @@ Resolve all extended interfaces and list only public, component-level props. Exc
   actions={[<Button key="watch">Watch episode</Button>]}
 />
 ```
+> - Stick to a single primary action when the panel functions like a hero slide.
+> - Always provide `imgAlt` so the title and description have visual context for non-visual users.
 
 ### Multi-label carousel card
 
@@ -151,6 +151,8 @@ Resolve all extended interfaces and list only public, component-level props. Exc
   ]}
 />
 ```
+> - Mix text-only and icon-backed labels to communicate tag-like metadata.
+> - Provide a `variant="secondary"` button plus an icon button to balance emphasis across multiple calls to action.
 
 ---
 
@@ -167,4 +169,5 @@ Resolve all extended interfaces and list only public, component-level props. Exc
 
 | Date       | Changes              |
 | ---------- | -------------------- |
+| 2025-11-09 | Updated usage/examples guidance |
 | 2025-11-08 | Initial documentation |

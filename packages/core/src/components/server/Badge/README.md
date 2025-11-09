@@ -29,8 +29,6 @@ import type { BadgeProps } from '@doxyz-ui/core/server/Badge';
 <Badge { ...props } />
 ```
 
-> - Keep icons decorative (`aria-hidden="true"`) so the `label` string is the only announced text.
-> - Drive color via `variant`; the component remains presentational and should sit inside interactive parents if needed.
 
 ---
 
@@ -107,6 +105,8 @@ Resolve all extended interfaces and list only public, component-level props. Exc
 ```tsx
 <Badge variant="pink" label="Beta" />
 ```
+> - Use bright variants for in-progress or beta statuses that should stand out inline.
+> - Keep labels short (typically a single word) so the badge maintains its pill shape.
 
 ### Badge with icon
 
@@ -117,6 +117,8 @@ Resolve all extended interfaces and list only public, component-level props. Exc
   label="Featured"
 />
 ```
+> - Decorative icons should stay `aria-hidden` so assistive tech only hears the label.
+> - Pick iconography that reinforces the label meaning—avoid redundant text inside the icon.
 
 ---
 
@@ -134,4 +136,5 @@ Resolve all extended interfaces and list only public, component-level props. Exc
 
 | Date       | Changes              |
 | ---------- | -------------------- |
+| 2025-11-09 | Updated usage/examples guidance |
 | 2025-11-08 | Initial documentation |

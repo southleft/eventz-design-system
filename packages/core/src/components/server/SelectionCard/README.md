@@ -29,8 +29,6 @@ import type { SelectionCardProps } from '@doxyz-ui/core/server/SelectionCard';
 <SelectionCard { ...props } />
 ```
 
-> - The visible `label` is the accessible name; only pass `ariaLabel` for additional context.
-> - Manage interaction (keyboard, selection toggles) externally while updating `isSelected`.
 
 ---
 
@@ -112,6 +110,8 @@ Resolve all extended interfaces and list only public, component-level props. Exc
   onClick={() => toggleFilter('audio')}
 />
 ```
+> - Use SelectionCard instances inside a checkbox group when filters can be toggled independently.
+> - Reflect the card's state in external data (e.g., `filters.audio`) so visuals and logic stay synced.
 
 ### Pseudo-radio grid
 
@@ -124,6 +124,8 @@ Resolve all extended interfaces and list only public, component-level props. Exc
   onClick={() => setBillingCadence('monthly')}
 />
 ```
+> - Pair `ariaLabel` with pricing cadence selectors so the spoken label is unambiguous.
+> - Treat `isSelected` as the single source of truth when modeling radio-style grids.
 
 ---
 
@@ -140,4 +142,5 @@ Resolve all extended interfaces and list only public, component-level props. Exc
 
 | Date       | Changes              |
 | ---------- | -------------------- |
+| 2025-11-09 | Updated usage/examples guidance |
 | 2025-11-08 | Initial documentation |

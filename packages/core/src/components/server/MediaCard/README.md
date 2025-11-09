@@ -29,8 +29,6 @@ import type { MediaCardProps } from '@doxyz-ui/core/server/MediaCard';
 <MediaCard { ...props } />
 ```
 
-> - Always render an interactive node such as a Button or IconButton via the `control` slot; the card just positions it.
-> - Keep `imgSrc` and `imgAlt` in lockstep, using `''` when the artwork is decorative.
 
 ---
 
@@ -135,6 +133,8 @@ Resolve all extended interfaces and list only public, component-level props. Exc
   control={<IconButton aria-label="Play Night Shift" icon={<PlayIcon />} />}
 />
 ```
+> - Stack multiple `labels` to convey status plus runtime for audiovisual content.
+> - Keep the control `aria-label` descriptive since it is the only interactive element on the card.
 
 ### Bookmark button
 
@@ -147,6 +147,8 @@ Resolve all extended interfaces and list only public, component-level props. Exc
   control={<IconButton aria-label="Save playlist" icon={<BookmarkIcon />} />}
 />
 ```
+> - Provide `imgSrc`/`imgAlt` when the card represents saved media to give visual context.
+> - Swap the control icon to match secondary actions like bookmarking or sharing.
 
 ---
 
@@ -163,4 +165,5 @@ Resolve all extended interfaces and list only public, component-level props. Exc
 
 | Date       | Changes              |
 | ---------- | -------------------- |
+| 2025-11-09 | Updated usage/examples guidance |
 | 2025-11-08 | Initial documentation |

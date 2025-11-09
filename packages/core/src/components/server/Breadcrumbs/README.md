@@ -29,8 +29,6 @@ import type { BreadcrumbsProps } from '@doxyz-ui/core/server/Breadcrumbs';
 <Breadcrumbs { ...props } />
 ```
 
-> - Supply `items` for intermediate crumbs and `current` for the final label so the ordered list stays semantic.
-> - Customize `ariaLabel` when “Breadcrumbs” is not sufficiently descriptive for adjacent landmarks.
 
 ---
 
@@ -127,6 +125,8 @@ Resolve all extended interfaces and list only public, component-level props. Exc
   current="Company update"
 />
 ```
+> - Keep short trails fully expanded so each link is immediately clickable.
+> - Supply the `current` label separately so screen readers announce the active page.
 
 ### Collapsed trail
 
@@ -142,6 +142,8 @@ Resolve all extended interfaces and list only public, component-level props. Exc
   current="Episode 12"
 />
 ```
+> - Long trails collapse automatically; confirm the `items` array remains ordered from root to leaf.
+> - Ensure the truncated labels still make sense when hover tooltips expose the full text.
 
 ---
 
@@ -158,4 +160,5 @@ Resolve all extended interfaces and list only public, component-level props. Exc
 
 | Date       | Changes              |
 | ---------- | -------------------- |
+| 2025-11-09 | Updated usage/examples guidance |
 | 2025-11-08 | Initial documentation |

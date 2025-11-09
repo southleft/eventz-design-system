@@ -29,8 +29,6 @@ import type { NavigationContainerProps } from '@doxyz-ui/core/server/NavigationC
 <NavigationContainer { ...props }>{children}</NavigationContainer>
 ```
 
-> - Use this wrapper to align navigation clusters with the page grid and add any extra borders/backgrounds via `className`.
-> - The component itself is structural; semantics and roles come from the children you render inside.
 
 ---
 
@@ -97,6 +95,8 @@ Resolve all extended interfaces and list only public, component-level props. Exc
   <NavigationBar ariaLabel="Global" items={items} />
 </NavigationContainer>
 ```
+> - Add a bottom border when pairing with a sticky NavigationBar so the bar feels anchored.
+> - Forward spacing utilities through `className` instead of wrapping the nav in extra divs.
 
 ### Footer navigation
 
@@ -105,6 +105,8 @@ Resolve all extended interfaces and list only public, component-level props. Exc
   <FooterNav />
 </NavigationContainer>
 ```
+> - Swap background tokens to inverse palettes when the container sits over a dark hero.
+> - Reuse the wrapper for footer menus to keep padding consistent with top-level navs.
 
 ---
 
@@ -121,4 +123,5 @@ Resolve all extended interfaces and list only public, component-level props. Exc
 
 | Date       | Changes              |
 | ---------- | -------------------- |
+| 2025-11-09 | Updated usage/examples guidance |
 | 2025-11-08 | Initial documentation |

@@ -29,8 +29,6 @@ import type { MapProps } from '@doxyz-ui/core/server/Map';
 <Map { ...props }>{children}</Map>
 ```
 
-> - Provide `ariaLabel` so the `role="region"` receives a meaningful name.
-> - Tag your map canvas with `data-map-layer` (or the `_map-layer` class) so the helper selectors cover the entire surface.
 
 ---
 
@@ -120,6 +118,8 @@ Resolve all extended interfaces and list only public, component-level props. Exc
   <ProviderMap data-map-layer />
 </Map>
 ```
+> - Leave `showControls` enabled to highlight available zoom or layer buttons in hero contexts.
+> - Pass attribution markup or provider layers through `children` so the root still owns focus management.
 
 ### Nested map inside card
 
@@ -128,6 +128,8 @@ Resolve all extended interfaces and list only public, component-level props. Exc
   <MiniMap data-map-layer />
 </Map>
 ```
+> - Use `isNested` plus `showOverlay={false}` when the panel sits inside another card or sheet.
+> - Disable controls for miniature maps to avoid redundant navigation targets.
 
 ---
 
@@ -144,4 +146,5 @@ Resolve all extended interfaces and list only public, component-level props. Exc
 
 | Date       | Changes              |
 | ---------- | -------------------- |
+| 2025-11-09 | Updated usage/examples guidance |
 | 2025-11-08 | Initial documentation |

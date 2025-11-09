@@ -29,8 +29,6 @@ import type { VisibilityProps } from '@doxyz-ui/core/server/Visibility';
 <Visibility { ...props }>{children}</Visibility>
 ```
 
-> - Use `from` and `to` to control the visibility window, defaulting to `visible` when neither is provided.
-> - Because it only toggles CSS visibility, ensure focusable children are also managed (e.g., via `inert` or conditional rendering) if needed.
 
 ---
 
@@ -98,6 +96,8 @@ Resolve all extended interfaces and list only public, component-level props. Exc
   <DesktopNavigation />
 </Visibility>
 ```
+> - Use the `from` prop to hide large navigation until the viewport reaches desktop widths.
+> - Keep interactive children focusable only when they are actually visible to avoid tab-trap issues.
 
 ### Mobile-only helper
 
@@ -106,6 +106,8 @@ Resolve all extended interfaces and list only public, component-level props. Exc
   <Text size="sm" color="weak">Swipe to explore more content.</Text>
 </Visibility>
 ```
+> - The `to` prop is useful for surfacing helper text exclusively on small screens.
+> - Combine with `color="weak"` Text so the hint reads as secondary guidance.
 
 ---
 
@@ -122,4 +124,5 @@ Resolve all extended interfaces and list only public, component-level props. Exc
 
 | Date       | Changes              |
 | ---------- | -------------------- |
+| 2025-11-09 | Updated usage/examples guidance |
 | 2025-11-08 | Initial documentation |

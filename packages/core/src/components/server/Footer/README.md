@@ -29,8 +29,6 @@ import type { FooterProps } from '@doxyz-ui/core/server/Footer';
 <Footer { ...props }>{children}</Footer>
 ```
 
-> - Wrap whatever navigation or legal content you need inside the gradient shell.
-> - Merge spacing/grid utilities via `className` to match the surrounding layout.
 
 ---
 
@@ -102,6 +100,8 @@ Resolve all extended interfaces and list only public, component-level props. Exc
   </Grid>
 </Footer>
 ```
+> - Combine the footer wrapper with grid primitives to organize dense navigation links.
+> - Add a top border to clearly separate footer content from the rest of the page.
 
 ### Minimal legal footer
 
@@ -110,6 +110,8 @@ Resolve all extended interfaces and list only public, component-level props. Exc
   <p>© {new Date().getFullYear()} DoXYZ Labs. All rights reserved.</p>
 </Footer>
 ```
+> - Keep the legal variant lightweight—smaller typography and muted color reinforce its secondary role.
+> - Use expression interpolation for the year so the markup stays evergreen.
 
 ---
 
@@ -126,4 +128,5 @@ Resolve all extended interfaces and list only public, component-level props. Exc
 
 | Date       | Changes              |
 | ---------- | -------------------- |
+| 2025-11-09 | Updated usage/examples guidance |
 | 2025-11-08 | Initial documentation |

@@ -29,8 +29,6 @@ import type { InteractiveListItemProps } from '@doxyz-ui/core/server/Interactive
 <InteractiveListItem { ...props } />
 ```
 
-> - Provide `href` for anchor behavior; omit it to render the button variant that forwards `onClick`, `disabled`, etc.
-> - Enable `isRemovable` to show the thumbnail/cancel affordance and ensure `imgSrc`/`imgAlt` stay paired.
 
 ---
 
@@ -134,6 +132,8 @@ const Component = href ? 'a' : 'button';
   href="/settings/notifications"
 />
 ```
+> - Provide an `href` to get anchor semantics when the item routes to a detail page.
+> - Use `supportingText` for short descriptions that help disambiguate similar rows.
 
 ### Removable saved show
 
@@ -146,6 +146,8 @@ const Component = href ? 'a' : 'button';
   onClick={() => console.log('Remove series')}
 />
 ```
+> - Toggle `isRemovable` to surface the trailing remove affordance for saved content.
+> - Pair `imgSrc`/`imgAlt` with the title when the row represents media or playlists.
 
 ---
 
@@ -162,4 +164,5 @@ const Component = href ? 'a' : 'button';
 
 | Date       | Changes              |
 | ---------- | -------------------- |
+| 2025-11-09 | Updated usage/examples guidance |
 | 2025-11-08 | Initial documentation |

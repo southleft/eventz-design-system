@@ -29,8 +29,6 @@ import type { NavigationBarProps } from '@doxyz-ui/core/server/NavigationBar';
 <NavigationBar { ...props } />
 ```
 
-> - Always pass a descriptive `ariaLabel` so the `<nav>` landmark communicates its purpose.
-> - Supply `mobileNavigation` only when needed; it hides the primary list below `md` but keeps it visible above.
 
 ---
 
@@ -138,6 +136,8 @@ Resolve all extended interfaces and list only public, component-level props. Exc
   secondaryNavigation={<Button variant="secondary">Sign in</Button>}
 />
 ```
+> - Use `fixed` when the nav should stay pinned; remember to offset body content accordingly.
+> - Mark the active page with `current: true` so screen readers receive `aria-current="page"`.
 
 ### Wrapped marketing nav
 
@@ -152,6 +152,8 @@ Resolve all extended interfaces and list only public, component-level props. Exc
   secondaryNavigation={<Button variant="primary">Get started</Button>}
 />
 ```
+> - Enable `wrap` to stack tagline or supplemental CTA content beneath the primary row.
+> - Supply `mobileNavigation` controls to handle small-screen menus without duplicating desktop links.
 
 ---
 
@@ -168,4 +170,5 @@ Resolve all extended interfaces and list only public, component-level props. Exc
 
 | Date       | Changes              |
 | ---------- | -------------------- |
+| 2025-11-09 | Updated usage/examples guidance |
 | 2025-11-08 | Initial documentation |
