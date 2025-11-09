@@ -25,12 +25,12 @@ import type { {{ComponentName}}Props } from '@doxyz-ui/core/{{server | client}}/
 
 ## Usage
 
-{{Agent: If the component accepts children, use this code block}}
+{{Agent: If the component accepts children, use this code block exactly as formatted replacing only the ComponentName}}
 ```tsx
 <{{ComponentName}} { ...props }>{children}</{{ComponentName}}>
 ```
 
-{{Agent: If the component does not accept children, use this code block}}
+{{Agent: If the component does not accept children, use this code block exactly as formatted replacing only the ComponentName}}
 ```tsx
 <{{ComponentName}} { ...props } />
 ```

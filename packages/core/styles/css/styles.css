@@ -1313,6 +1313,9 @@
 .-mr-12 {
   margin-right: calc(var(--spacing) * -12);
 }
+.mr-4 {
+  margin-right: var(--spacing-4);
+}
 .-mb-4 {
   margin-bottom: calc(var(--spacing-4) * -1);
 }
@@ -1499,6 +1502,9 @@
 .w-40 {
   width: calc(var(--spacing) * 40);
 }
+.w-64 {
+  width: calc(var(--spacing) * 64);
+}
 .w-82 {
   width: calc(var(--spacing) * 82);
 }
@@ -1577,6 +1583,9 @@
 .min-w-\[14rem\] {
   min-width: 14rem;
 }
+.min-w-\[480px\] {
+  min-width: 480px;
+}
 .min-w-full {
   min-width: 100%;
 }
@@ -1630,6 +1639,9 @@
 .cursor-pointer {
   cursor: pointer;
 }
+.cursor-progress {
+  cursor: progress;
+}
 .cursor-wait {
   cursor: wait;
 }
@@ -1646,6 +1658,9 @@
 }
 .list-none {
   list-style-type: none;
+}
+.grid-cols-2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 .grid-cols-\[112px_1fr\] {
   grid-template-columns: 112px 1fr;
@@ -1715,6 +1730,13 @@
 }
 .gap-\[4px\] {
   gap: 4px;
+}
+.space-y-4 {
+  :where(& > :not(:last-child)) {
+    --tw-space-y-reverse: 0;
+    margin-block-start: calc(var(--spacing-4) * var(--tw-space-y-reverse));
+    margin-block-end: calc(var(--spacing-4) * calc(1 - var(--tw-space-y-reverse)));
+  }
 }
 .-space-x-2 {
   :where(& > :not(:last-child)) {
@@ -2044,9 +2066,6 @@
 .py-8 {
   padding-block: calc(var(--spacing) * 8);
 }
-.py-12 {
-  padding-block: calc(var(--spacing) * 12);
-}
 .py-16 {
   padding-block: calc(var(--spacing) * 16);
 }
@@ -2298,6 +2317,9 @@
 }
 .overline {
   text-decoration-line: overline;
+}
+.underline {
+  text-decoration-line: underline;
 }
 .placeholder-color-content-weak {
   &::placeholder {
@@ -4186,6 +4208,11 @@
   syntax: "*";
   inherits: false;
 }
+@property --tw-space-y-reverse {
+  syntax: "*";
+  inherits: false;
+  initial-value: 0;
+}
 @property --tw-space-x-reverse {
   syntax: "*";
   inherits: false;
@@ -4439,6 +4466,7 @@
       --tw-pan-x: initial;
       --tw-pan-y: initial;
       --tw-pinch-zoom: initial;
+      --tw-space-y-reverse: 0;
       --tw-space-x-reverse: 0;
       --tw-border-style: solid;
       --tw-gradient-position: initial;
