@@ -24,6 +24,7 @@ export * from './PauseIcon';
 export * from './PlayIcon';
 export * from './ProgressActivityIcon';
 export * from './RemoveIcon';
+export * from './ReplayIcon';
 export * from './SearchIcon';
 export * from './ShareIcon';
 export * from './StadiumIcon';
