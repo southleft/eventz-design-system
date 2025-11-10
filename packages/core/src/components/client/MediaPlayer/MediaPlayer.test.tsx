@@ -124,7 +124,6 @@ describe('MediaPlayer', () => {
     expect(sliders.length).toBe(2);
   });
 
-
   it('updates the time display after audio metadata and timeupdate events', async () => {
     renderMediaPlayer();
     const audio = document.querySelector('audio') as HTMLAudioElement;
@@ -280,7 +279,6 @@ describe('MediaPlayer', () => {
     expect(volumeSlider.value).toBe('45');
   });
 
-
   it('compact: hides the volume slider', () => {
     renderMediaPlayer({ variant: 'compact' });
     expect(screen.queryByTestId('Volume-slider')).toBeNull();
@@ -422,5 +420,4 @@ describe('MediaPlayer', () => {
     renderMediaPlayer({ variant: 'compact' });
     expect(screen.queryByRole('button', { name: /close/i })).toBeNull();
   });
-
 });

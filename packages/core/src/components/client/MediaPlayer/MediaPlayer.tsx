@@ -308,24 +308,12 @@ export const MediaPlayer = React.forwardRef<HTMLDivElement, MediaPlayerProps>(
               )}
 
               <div className={controlsClassName} data-slot="_controls">
-                <IconButton
-                  variant="bare"
-                  icon={<Replay10Icon />}
-                  ariaLabel="Replay 10 seconds"
-                  onClick={handleReplay10}
-                />
                 <MediaControl
                   variant="dark"
                   size="lg"
                   defaultState={autoPlay ? 'playing' : 'paused'}
                   onPlay={handleControlPlay}
                   onPause={handleControlPause}
-                />
-                <IconButton
-                  variant="bare"
-                  icon={<Forward10Icon />}
-                  ariaLabel="Forward 10 seconds"
-                  onClick={handleForward10}
                 />
               </div>
 
