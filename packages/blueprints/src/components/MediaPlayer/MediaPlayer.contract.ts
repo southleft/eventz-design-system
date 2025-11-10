@@ -10,9 +10,9 @@ import { defineContract } from '../../utilities/defineContract';
  * - Slider for seek (top bar) and volume (right-hand slider)
  *
  * Variants:
- * - 'default'  — top seek slider, artwork, label + time, controls, volume slider, actions.
- * - 'compact'  — top seek slider, no artwork, label + time, controls, no volume slider, actions.
- * - 'mini'     — MediaControl-only (no top seek slider, no lead, no volume, no actions).
+ * - 'default'  — top seek slider, artwork, label + **time**, controls (with optional ±10s), volume controls, close, actions.
+ * - 'compact'  — top seek slider, **no artwork**, label (no time), controls in lead position, **no volume controls**, close, actions.
+ * - 'mini'     — MediaControl-only (no seek, no lead, no volume, no actions).
  */
 export default defineContract({
   component: 'MediaPlayer',
@@ -27,6 +27,10 @@ export default defineContract({
     /** Labels */
     title: { type: 'string', required: true, default: '' },
     subtitle: { type: 'string' },
+
+    /** Artwork (optional) */
+    imgSrc: { type: 'string' },
+    imgAlt: { type: 'string' },
 
     /** Presentation / behavior */
     variant: {
@@ -43,7 +47,13 @@ export default defineContract({
     loop: { type: 'boolean', default: false },
 
     /** Start position in seconds (seeks on loadedmetadata). */
-    startTime: { type: 'number', default: 0 }
+    startTime: { type: 'number', default: 0 },
+
+    /** Volume UI toggle (default: true). When false, volume UI is hidden and volume is fixed to 100%. */
+    showVolume: { type: 'boolean', default: true },
+
+    /** Optional close action handler (used by the Close icon button in default/compact). */
+    onCloseClick: { type: 'callback', args: ['event: MouseEvent'] }
   },
 
   /**
@@ -146,10 +156,13 @@ export default defineContract({
     slider:
       'Render the shared Slider component in the seek and volume slots; do not build custom tracks or thumbs in MediaPlayer.\n' +
       '- Seek: mount <Slider> in the seek slot. Use value=audioCurrentTime, min=0, max=audioDuration, and a small step (e.g., 0.1 or 1). Pass ariaLabel="Seek" (or ariaLabelledBy) and wire Slider.onChange to update a local scrub value + timeDisplay while the user is dragging. Use Slider.onCommit to set audio.currentTime to the committed value.\n' +
-      '- Volume: in the default variant only, mount <Slider> in the volumeRange slot. Use a 0–100 domain (min=0, max=100, step=1). Pass ariaLabel="Volume" (or ariaLabelledBy) and wire Slider.onChange to update the <audio> element volume (value/100) and any internal volume state. The compact and mini variants hide the volumeGroup/volumeRange via the styleMap.',
+      '- Volume: render only when `variant === \'default\'` **and** `showVolume !== false`; mount <Slider> in the volumeRange slot. Use a 0–100 domain (min=0, max=100, step=1). Pass ariaLabel="Volume" (or ariaLabelledBy) and wire Slider.onChange to update the <audio> element volume (value/100) and any internal volume state.',
 
     volume:
-      'The volume Slider is shown only in the default variant. Render VolumeUpIcon next to the volume Slider as a decorative indicator (aria-hidden="true"). On platforms where fine-grained volume control is restricted (e.g., iOS Safari), the Slider should still render, but updates may effectively behave like a mute/unmute or coarse control; handle this in core without changing the blueprint.'
+      'The volume Slider is shown only when `variant === "default"` **and** `showVolume !== false`. Render a decorative volume icon adjacent to the Slider; icon choice is implementation-defined. Do not build custom rails/thumbs here — use the shared Slider component. When the volume UI is not shown, treat volume as fixed at 100%. Use **conditional rendering**, not CSS, to include/exclude the volume group.',
+
+    chrome:
+      'Default variant: show Replay10/Forward10 IconButtons flanking MediaControl for ±10s seek. Default **and** compact variants: show a Close IconButton at the far right; wire its onClick to `onCloseClick` when provided. Mini variant: control-only (no seek, no close, no actions). Use conditional rendering for variant differences (no CSS hides).'
   },
 
   rules: []
