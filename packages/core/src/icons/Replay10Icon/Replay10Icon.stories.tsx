@@ -11,13 +11,6 @@ const meta: Meta<Replay10IconProps> = {
   args: {
     decorative: true,
     color: 'currentColor'
-  },
-  argTypes: {
-    decorative: { control: 'boolean' },
-    title: { control: 'text' },
-    titleId: { control: 'text' },
-    color: { control: 'color' },
-    className: { control: 'text' }
   }
 };
 

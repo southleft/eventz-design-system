@@ -432,11 +432,9 @@ describe('MediaPlayer', () => {
     { variant: 'mini', label: /forward 10 seconds/i, shouldExist: false }
   ] as const)('%s variant skip control visibility', ({ variant, label, shouldExist }) => {
     renderMediaPlayer({ variant });
-    if (shouldExist) {
-      expect(screen.getByRole('button', { name: label })).toBeInTheDocument();
-    } else {
-      expect(screen.queryByRole('button', { name: label })).toBeNull();
-    }
+    const button = screen.queryByRole('button', { name: label });
+    const presence = button ? 'present' : 'absent';
+    expect(presence).toBe(shouldExist ? 'present' : 'absent');
   });
 
   it('mute: clicking the volume button sets audio volume to 0', async () => {
@@ -637,9 +635,9 @@ describe('MediaPlayer', () => {
     dispatchAudioEvent(audio, 'loadedmetadata');
 
     const playBtn = screen.getByRole('button', { name: 'Play media' });
-    await expect(userEvent.click(playBtn)).resolves.toBeUndefined();
-
-    expect(failingPlay).toHaveBeenCalledTimes(1);
+    await expect(
+      userEvent.click(playBtn).then(() => failingPlay.mock.calls.length)
+    ).resolves.toBe(1);
 
     if (originalDescriptor) {
       Object.defineProperty(window.HTMLMediaElement.prototype, 'play', originalDescriptor);

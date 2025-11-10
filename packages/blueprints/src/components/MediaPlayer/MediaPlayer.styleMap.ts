@@ -28,7 +28,16 @@ export default defineStyleMap({
     _seek: ['flex', 'items-center', 'w-full', '-mb-6', 'pr-2'],
 
     // Main row surface (rounded chrome)
-    _row: ['flex', 'items-center', 'w-full', 'bg-color-background-subtle', 'py-20'],
+    _row: [
+      'flex',
+      'items-center',
+      'w-full',
+      'bg-color-background-subtle',
+      'py-20',
+      'group-data-[variant=mini]:h-40',
+      'group-data-[variant=mini]:rounded-full',
+      'group-data-[variant=mini]:py-0'
+    ],
 
     // Lead (artwork + labels)
     _lead: ['flex', 'items-center', 'gap-16', 'min-w-0', 'flex-1', 'pl-16'],
@@ -41,7 +50,7 @@ export default defineStyleMap({
     '_lead ._labels ._titleRow': ['flex', 'items-baseline', 'gap-8', 'min-w-0'],
     '_lead ._labels ._titleRow ._title': [
       'font-[family-name:var(--font-family/primary)]',
-      'text-[16px]',
+      'text-base',
       'font-medium',
       'text-color-content-default',
       'truncate'
@@ -61,12 +70,12 @@ export default defineStyleMap({
 
     // Volume cluster (Slider goes into _volumeRange; Slider owns its visuals)
     _volumeGroup: [
+      'text-comp-button-color-content-default',
+      'justify-end',
       'flex',
       'items-center',
       'gap-8',
-      'justify-end',
-      'pr-16',
-      'text-comp-button-color-content-default'
+      'pr-16'
     ],
     '_volumeGroup ._volumeRange': ['w-120'],
 
