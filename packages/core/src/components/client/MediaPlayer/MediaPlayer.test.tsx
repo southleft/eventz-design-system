@@ -124,6 +124,7 @@ describe('MediaPlayer', () => {
     expect(sliders.length).toBe(2);
   });
 
+
   it('updates the time display after audio metadata and timeupdate events', async () => {
     renderMediaPlayer();
     const audio = document.querySelector('audio') as HTMLAudioElement;
@@ -203,6 +204,18 @@ describe('MediaPlayer', () => {
     expect(audio.volume).toBeCloseTo(0.35);
   });
 
+  it('uses the existing audio time when startTime is zero', async () => {
+    renderMediaPlayer({ startTime: 0 });
+    const audio = document.querySelector('audio') as HTMLAudioElement;
+    primeMediaElement(audio, { duration: 95, currentTime: 5 });
+
+    dispatchAudioEvent(audio, 'loadedmetadata');
+
+    await waitFor(() => {
+      expect(screen.getByText('00:05 / 01:35')).toBeInTheDocument();
+    });
+  });
+
   it('resets duration and time when the audioSrc prop changes', async () => {
     const initialProps: MediaPlayerProps = {
       audioSrc: '/audio/first.mp3',
@@ -226,11 +239,6 @@ describe('MediaPlayer', () => {
     await waitFor(() => {
       expect(screen.getByText('00:00 / 00:00')).toBeInTheDocument();
     });
-  });
-
-  it('falls back to the generic aria label when title is blank', () => {
-    renderMediaPlayer({ title: '   ', subtitle: undefined });
-    expect(screen.getByRole('region')).toHaveAttribute('aria-label', 'Media player');
   });
 
   it('seeks to the provided startTime once metadata loads', () => {
@@ -289,6 +297,70 @@ describe('MediaPlayer', () => {
   it('mini: hides the volume slider', () => {
     renderMediaPlayer({ variant: 'mini' });
     expect(screen.queryByTestId('Volume-slider')).toBeNull();
+  });
+
+  it('initializes compact MediaControl in playing state when autoPlay is true', () => {
+    renderMediaPlayer({ variant: 'compact', autoPlay: true });
+    const control = screen.getByRole('button', { name: 'Pause media' });
+    expect(control).toHaveAttribute('data-state', 'playing');
+  });
+
+  it('initializes default MediaControl in playing state when autoPlay is true', () => {
+    renderMediaPlayer({ variant: 'default', autoPlay: true });
+    const control = screen.getByRole('button', { name: 'Pause media' });
+    expect(control).toHaveAttribute('data-state', 'playing');
+  });
+
+  it('swallows errors when initial seek fails during metadata handling', () => {
+    renderMediaPlayer({ startTime: 12 });
+    const audio = document.querySelector('audio') as HTMLAudioElement;
+    primeMediaElement(audio, { duration: 120, currentTime: 0 });
+
+    const originalDescriptor = Object.getOwnPropertyDescriptor(audio, 'currentTime');
+    const boundOriginalGet = originalDescriptor?.get?.bind(audio);
+    Object.defineProperty(audio, 'currentTime', {
+      configurable: true,
+      get: boundOriginalGet ?? (() => 0),
+      set() {
+        throw new Error('seek failure');
+      }
+    });
+
+    expect(() => dispatchAudioEvent(audio, 'loadedmetadata')).not.toThrow();
+
+    if (originalDescriptor) {
+      Object.defineProperty(audio, 'currentTime', originalDescriptor);
+    }
+  });
+
+  it('swallows errors when seek commits throw', () => {
+    renderMediaPlayer();
+    const audio = document.querySelector('audio') as HTMLAudioElement;
+    primeMediaElement(audio, { duration: 200, currentTime: 0 });
+    dispatchAudioEvent(audio, 'loadedmetadata');
+
+    const originalDescriptor = Object.getOwnPropertyDescriptor(audio, 'currentTime');
+    const boundOriginalGet = originalDescriptor?.get?.bind(audio);
+    Object.defineProperty(audio, 'currentTime', {
+      configurable: true,
+      get: boundOriginalGet ?? (() => 0),
+      set() {
+        throw new Error('commit failure');
+      }
+    });
+
+    const seekSlider = screen.getByTestId('Seek-slider') as HTMLInputElement;
+    fireEvent.change(seekSlider, { target: { value: '10' } });
+    expect(() => fireEvent.mouseUp(seekSlider)).not.toThrow();
+
+    if (originalDescriptor) {
+      Object.defineProperty(audio, 'currentTime', originalDescriptor);
+    }
+  });
+
+  it('falls back to the generic aria label when title is blank', () => {
+    renderMediaPlayer({ title: '   ', subtitle: undefined });
+    expect(screen.getByRole('region')).toHaveAttribute('aria-label', 'Media player');
   });
 
 });
