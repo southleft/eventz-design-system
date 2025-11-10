@@ -511,4 +511,193 @@ describe('MediaPlayer', () => {
     renderMediaPlayer({ variant: 'default' });
     expect(screen.queryByRole('img')).toBeNull();
   });
+
+  it('default: artwork img uses empty alt when imgAlt is missing', () => {
+    renderMediaPlayer({
+      variant: 'default',
+      imgSrc: 'https://placehold.co/80x80/png'
+    });
+    const img = document.querySelector('[data-slot="_artwork"] img') as HTMLImageElement | null;
+    expect(img).not.toBeNull();
+    expect(img).toHaveAttribute('alt', '');
+  });
+
+  it('unmute: restores previous volume after muting', async () => {
+    renderMediaPlayer({ variant: 'default' });
+    const audio = document.querySelector('audio') as HTMLAudioElement;
+    primeMediaElement(audio, { duration: 120, volume: 1 });
+    dispatchAudioEvent(audio, 'loadedmetadata');
+
+    const volumeSlider = screen.getByTestId('Volume-slider') as HTMLInputElement;
+    fireEvent.change(volumeSlider, { target: { value: '60' } });
+
+    const muteBtn = screen.getByRole('button', { name: /mute/i });
+    await userEvent.click(muteBtn);
+
+    const unmuteBtn = screen.getByRole('button', { name: /unmute/i });
+    await userEvent.click(unmuteBtn);
+
+    expect(audio.volume).toBeCloseTo(0.6);
+  });
+
+  it('effect([volume]): writes to audio.volume when volume state changes from native event', async () => {
+    renderMediaPlayer({ variant: 'default' });
+    const audio = document.querySelector('audio') as HTMLAudioElement;
+    primeMediaElement(audio, { duration: 60, volume: 1 });
+    dispatchAudioEvent(audio, 'loadedmetadata');
+
+    let backing = 1;
+    const setSpy = jest.fn((v: number) => {
+      backing = v;
+    });
+    Object.defineProperty(audio, 'volume', {
+      configurable: true,
+      get: () => backing,
+      set: setSpy
+    });
+
+    backing = 0.35;
+    dispatchAudioEvent(audio, 'volumechange');
+
+    await waitFor(() => {
+      expect(setSpy).toHaveBeenCalledTimes(1);
+      expect(backing).toBeCloseTo(0.35);
+    });
+  });
+
+  it('unmute: when prior volume is unknown (muted via slider to 0), fallback restores to 100%', async () => {
+    renderMediaPlayer({ variant: 'default' });
+    const audio = document.querySelector('audio') as HTMLAudioElement;
+    primeMediaElement(audio, { duration: 120, volume: 1 });
+    dispatchAudioEvent(audio, 'loadedmetadata');
+
+    const volumeSlider = screen.getByTestId('Volume-slider') as HTMLInputElement;
+    fireEvent.change(volumeSlider, { target: { value: '0' } });
+
+    const unmuteBtn = screen.getByRole('button', { name: /unmute/i });
+    await userEvent.click(unmuteBtn);
+
+    await waitFor(() => {
+      expect(audio.volume).toBeCloseTo(1.0);
+    });
+  });
+
+  it('skipBy: safe no-op when audio element is missing', async () => {
+    const actualReact = jest.requireActual<typeof React>('react');
+
+    const stubRef: React.MutableRefObject<HTMLAudioElement | null> = { current: null };
+    Object.defineProperty(stubRef, 'current', {
+      configurable: true,
+      get: () => null,
+      set: () => {
+        /* ignore attempts to set the audio element */
+      }
+    });
+
+    const refSpy = jest.spyOn(actualReact, 'useRef').mockReturnValueOnce(stubRef);
+
+    renderMediaPlayer({ variant: 'default' });
+
+    const replayBtn = screen.getByRole('button', { name: /replay 10 seconds/i });
+    await userEvent.click(replayBtn);
+
+    const fwdBtn = screen.getByRole('button', { name: /forward 10 seconds/i });
+    await userEvent.click(fwdBtn);
+
+    expect(screen.getByText('00:00 / 00:00')).toBeInTheDocument();
+
+    refSpy.mockRestore();
+  });
+
+  it('volume effect: returns early when audio element is missing', () => {
+    const actualReact = jest.requireActual<typeof React>('react');
+    const originalUseRef = actualReact.useRef;
+    const refSpy = jest.spyOn(actualReact, 'useRef').mockImplementationOnce(initialValue => {
+      const ref = originalUseRef(initialValue);
+      (ref as React.MutableRefObject<HTMLAudioElement | null>).current = null;
+      return ref;
+    });
+
+    renderMediaPlayer({ variant: 'default' });
+
+    const volumeSlider = screen.getByTestId('Volume-slider') as HTMLInputElement;
+    fireEvent.change(volumeSlider, { target: { value: '35' } });
+    expect(volumeSlider.value).toBe('35');
+    refSpy.mockRestore();
+  });
+
+  it('control play: safe no-op when audio element is missing', async () => {
+    const actualReact = jest.requireActual<typeof React>('react');
+    const stubRef: React.MutableRefObject<HTMLAudioElement | null> = { current: null };
+    Object.defineProperty(stubRef, 'current', {
+      configurable: true,
+      get: () => null,
+      set: () => {
+        /* ignore attachment */
+      }
+    });
+    const refSpy = jest.spyOn(actualReact, 'useRef').mockReturnValueOnce(stubRef);
+
+    renderMediaPlayer();
+
+    const playBtn = screen.getByRole('button', { name: 'Play media' });
+    await userEvent.click(playBtn);
+
+    expect(playMock).not.toHaveBeenCalled();
+    refSpy.mockRestore();
+  });
+
+  it('control play: handles rejected play promise gracefully (no unhandled rejection)', async () => {
+    const originalDescriptor = Object.getOwnPropertyDescriptor(
+      window.HTMLMediaElement.prototype,
+      'play'
+    );
+    const failingPlay = jest.fn().mockRejectedValue(new Error('play failed'));
+    Object.defineProperty(window.HTMLMediaElement.prototype, 'play', {
+      configurable: true,
+      value: failingPlay
+    });
+
+    renderMediaPlayer();
+    const audio = document.querySelector('audio') as HTMLAudioElement;
+    primeMediaElement(audio, { duration: 90 });
+    dispatchAudioEvent(audio, 'loadedmetadata');
+
+    const playBtn = screen.getByRole('button', { name: 'Play media' });
+    await expect(userEvent.click(playBtn)).resolves.toBeUndefined();
+
+    expect(failingPlay).toHaveBeenCalledTimes(1);
+
+    if (originalDescriptor) {
+      Object.defineProperty(window.HTMLMediaElement.prototype, 'play', originalDescriptor);
+    }
+  });
+
+  it('skipBy: uses 0 when currentTime is non-finite (fallback branch)', async () => {
+    renderMediaPlayer({ variant: 'default' });
+    const audio = document.querySelector('audio') as HTMLAudioElement;
+    primeMediaElement(audio, { duration: 120, currentTime: 10 });
+    dispatchAudioEvent(audio, 'loadedmetadata');
+
+    (audio as unknown as { currentTime: number }).currentTime = Number.NaN;
+
+    const replayBtn = screen.getByRole('button', { name: /replay 10 seconds/i });
+    await userEvent.click(replayBtn);
+
+    expect(audio.currentTime).toBe(0);
+  });
+
+  it('skipBy: clamps to 0 when duration is non-finite (upper bound 0)', async () => {
+    renderMediaPlayer({ variant: 'default' });
+    const audio = document.querySelector('audio') as HTMLAudioElement;
+    primeMediaElement(audio, { duration: 60, currentTime: 5 });
+    dispatchAudioEvent(audio, 'loadedmetadata');
+
+    (audio as unknown as { duration: number }).duration = Number.NaN;
+
+    const fwdBtn = screen.getByRole('button', { name: /forward 10 seconds/i });
+    await userEvent.click(fwdBtn);
+
+    expect(audio.currentTime).toBe(0);
+  });
 });
