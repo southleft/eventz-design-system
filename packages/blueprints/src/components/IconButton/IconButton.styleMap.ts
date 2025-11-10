@@ -19,7 +19,7 @@ export const IconButtonStyleMap = defineStyleMap({
 
   slots: {
     container: ['h-32', 'w-32', 'rounded-md'] as const,
-    icon: ['shrink-0', 'pt-1'] as const
+    icon: ['shrink-0', 'pt-1', '[&_svg]:size-20'] as const
   },
 
   variants: {
