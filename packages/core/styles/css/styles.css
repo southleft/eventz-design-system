@@ -3685,6 +3685,12 @@
     cursor: default;
   }
 }
+.\[\&_svg\]\:size-20 {
+  & svg {
+    width: calc(var(--spacing) * 20);
+    height: calc(var(--spacing) * 20);
+  }
+}
 .\[\&\:\:-webkit-scrollbar\]\:hidden {
   &::-webkit-scrollbar {
     display: none;

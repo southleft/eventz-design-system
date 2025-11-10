@@ -73,7 +73,7 @@ const stateClasses = {
 } as const;
 
 const slotClasses = {
-  icon: 'shrink-0 pt-1'
+  icon: 'shrink-0 pt-1 [&_svg]:size-20'
 } as const;
 
 export const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
