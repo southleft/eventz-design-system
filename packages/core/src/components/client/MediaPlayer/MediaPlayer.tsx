@@ -8,7 +8,7 @@ import * as React from 'react';
 import { IconButton } from '../IconButton';
 import { MediaControl } from '../MediaControl';
 import { Slider } from '../Slider';
-import { CloseIcon, Forward10Icon, Replay10Icon, VolumeUpIcon } from '../../../icons';
+import { CloseIcon, Forward10Icon, Replay10Icon, VolumeDownIcon, VolumeUpIcon } from '../../../icons';
 import { formatTime, clamp, collapseWhitespace, composeClasses } from '../../../utilities';
 
 type MediaPlayerVariant = 'default' | 'compact' | 'mini';
@@ -246,24 +246,12 @@ export const MediaPlayer = React.forwardRef<HTMLDivElement, MediaPlayerProps>(
             <>
               <div className={leadClassName} data-slot="_lead">
                 <div className={controlsClassName} data-slot="_controls">
-                  <IconButton
-                    variant="bare"
-                    icon={<Replay10Icon />}
-                    ariaLabel="Replay 10 seconds"
-                    onClick={handleReplay10}
-                  />
                   <MediaControl
                     variant="dark"
                     size="lg"
                     defaultState={autoPlay ? 'playing' : 'paused'}
                     onPlay={handleControlPlay}
                     onPause={handleControlPause}
-                  />
-                  <IconButton
-                    variant="bare"
-                    icon={<Forward10Icon />}
-                    ariaLabel="Forward 10 seconds"
-                    onClick={handleForward10}
                   />
                 </div>
                 <div className={labelsClassName} data-slot="_labels">
@@ -308,6 +296,14 @@ export const MediaPlayer = React.forwardRef<HTMLDivElement, MediaPlayerProps>(
               )}
 
               <div className={controlsClassName} data-slot="_controls">
+                {variant === 'default' && (
+                  <IconButton
+                    variant="bare"
+                    icon={<Replay10Icon />}
+                    ariaLabel="Replay 10 seconds"
+                    onClick={handleReplay10}
+                  />
+                )}
                 <MediaControl
                   variant="dark"
                   size="lg"
@@ -315,6 +311,14 @@ export const MediaPlayer = React.forwardRef<HTMLDivElement, MediaPlayerProps>(
                   onPlay={handleControlPlay}
                   onPause={handleControlPause}
                 />
+                {variant === 'default' && (
+                  <IconButton
+                    variant="bare"
+                    icon={<Forward10Icon />}
+                    ariaLabel="Forward 10 seconds"
+                    onClick={handleForward10}
+                  />
+                )}
               </div>
 
               <div className="flex items-center justify-end gap-8 flex-1 min-w-0">
@@ -331,7 +335,7 @@ export const MediaPlayer = React.forwardRef<HTMLDivElement, MediaPlayerProps>(
                       />
                     </div>
                     <span aria-hidden="true">
-                      <VolumeUpIcon />
+                      {volume > 50 ? <VolumeUpIcon /> : <VolumeDownIcon />}
                     </span>
                     <IconButton variant="bare" icon={<CloseIcon />} ariaLabel="Close" />
                   </div>
