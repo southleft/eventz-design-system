@@ -3,12 +3,20 @@
 // Summary: Storybook coverage for Text demonstrating default semantics plus size, weight, align, color, transform, italic, and truncate variants.
 
 import type { Meta, StoryObj } from '@storybook/react';
+import { Markdown } from '@storybook/addon-docs/blocks';
 import * as React from 'react';
 import { Text, TextProps } from './Text';
+import Readme from './README.md?raw';
 
 const meta: Meta<TextProps> = {
   title: 'Server components/Text',
   component: Text,
+  tags: ['autodocs'],
+  parameters: {
+    docs: {
+      page: () => <Markdown>{Readme}</Markdown>
+    }
+  },
   args: {
     children: 'The quick brown fox jumps over the lazy dog.',
     size: 'base',

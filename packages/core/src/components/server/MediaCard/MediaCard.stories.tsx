@@ -3,14 +3,22 @@
 // Summary: Stories for MediaCard illustrating base layout, media/label metadata, control overlay, and focusable versus link variants.
 
 import type { Meta, StoryObj } from '@storybook/react';
+import { Markdown } from '@storybook/addon-docs/blocks';
 import * as React from 'react';
 import { MediaCard, MediaCardProps } from './MediaCard';
 import { MediaControl } from '../../client/MediaControl';
 import { EventIcon } from '../../../icons';
+import Readme from './README.md?raw';
 
 const meta: Meta<MediaCardProps> = {
   title: 'Server components/MediaCard',
   component: MediaCard,
+  tags: ['autodocs'],
+  parameters: {
+    docs: {
+      page: () => <Markdown>{Readme}</Markdown>
+    }
+  },
   args: {
     subtitle: 'Episode 5 · 48 min',
     title: 'The Design Systems Podcast',

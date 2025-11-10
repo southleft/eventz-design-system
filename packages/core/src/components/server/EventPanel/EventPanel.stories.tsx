@@ -3,6 +3,7 @@
 // Summary: Stories for EventPanel showcasing mobile details, desktop layout, and carousel composition with navigation controls.
 
 import type { Meta, StoryObj } from '@storybook/react';
+import { Markdown } from '@storybook/addon-docs/blocks';
 import * as React from 'react';
 import { EventPanel, type EventPanelProps } from './EventPanel';
 import { Control } from '../../client/Control';
@@ -11,6 +12,7 @@ import { AvatarGroup } from '../../client/AvatarGroup';
 import { Carousel } from '../../client/Carousel';
 import { Chip } from '../Chip/Chip';
 import { EventIcon, MapIcon, PlayIcon, ShareIcon, ArrowOutwardIcon } from '../../../icons';
+import Readme from './README.md?raw';
 
 const sampleUsers: React.ComponentProps<typeof AvatarGroup>['users'] = [
   { name: 'Inez Ortiz', imageUrl: 'https://i.pravatar.cc/96?img=1' },
@@ -65,6 +67,12 @@ const baseArgs: EventPanelProps = {
 const meta: Meta<EventPanelProps> = {
   title: 'Server components/EventPanel',
   component: EventPanel,
+  tags: ['autodocs'],
+  parameters: {
+    docs: {
+      page: () => <Markdown>{Readme}</Markdown>
+    }
+  },
   args: baseArgs
 };
 

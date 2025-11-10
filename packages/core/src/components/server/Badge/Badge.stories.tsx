@@ -3,16 +3,24 @@
 // Summary: Stories for Badge covering brand color variants with optional icon slot and label content control.
 
 import type { Meta, StoryObj } from '@storybook/react';
+import { Markdown } from '@storybook/addon-docs/blocks';
 import * as React from 'react';
 import { Badge, BadgeProps } from './Badge';
+import Readme from './README.md?raw';
 
 const meta: Meta<BadgeProps> = {
   title: 'Server components/Badge',
   component: Badge,
+  tags: ['autodocs'],
+  parameters: {
+    docs: {
+      page: () => <Markdown>{Readme}</Markdown>
+    }
+  },
   args: {
     label: 'Badge',
-    icon: <span aria-hidden="true">🏷️</span>,
-  },
+    icon: <span aria-hidden="true">🏷️</span>
+  }
 };
 
 export default meta;

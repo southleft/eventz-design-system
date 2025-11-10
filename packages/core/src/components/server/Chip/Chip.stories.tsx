@@ -3,13 +3,21 @@
 // Summary: Stories for Chip demonstrating default label, optional icon slot, long label truncation, and aria-label override.
 
 import type { Meta, StoryObj } from '@storybook/react';
+import { Markdown } from '@storybook/addon-docs/blocks';
 import * as React from 'react';
 import { EventIcon } from '../../../icons';
 import { Chip, type ChipProps } from './Chip';
+import Readme from './README.md?raw';
 
 const meta: Meta<ChipProps> = {
   title: 'Server components/Chip',
   component: Chip,
+  tags: ['autodocs'],
+  parameters: {
+    docs: {
+      page: () => <Markdown>{Readme}</Markdown>
+    }
+  },
   args: {
     label: 'General Admission',
     icon: undefined,

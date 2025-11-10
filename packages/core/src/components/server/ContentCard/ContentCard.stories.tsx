@@ -3,13 +3,21 @@
 // Summary: Stories for ContentCard highlighting vertical/horizontal/post layouts, badge overlays, labels metadata, focusable mode, and link appearance.
 
 import type { Meta, StoryObj } from '@storybook/react';
+import { Markdown } from '@storybook/addon-docs/blocks';
 import * as React from 'react';
 import { ContentCard, ContentCardProps } from './ContentCard';
 import { EventIcon } from '../../../icons';
+import Readme from './README.md?raw';
 
 const meta: Meta<ContentCardProps> = {
   title: 'Server components/ContentCard',
   component: ContentCard,
+  tags: ['autodocs'],
+  parameters: {
+    docs: {
+      page: () => <Markdown>{Readme}</Markdown>
+    }
+  },
   args: {
     layout: 'vertical',
     focusable: false,

@@ -3,7 +3,9 @@
 // Summary: Story rendering ScrollerRow with MediaCard children to demonstrate flex row layout usage.
 
 import type { Meta, StoryObj } from '@storybook/react';
+import { Markdown } from '@storybook/addon-docs/blocks';
 import * as React from 'react';
+import Readme from './README.md?raw';
 import { ScrollerRow } from './ScrollerRow';
 import { MediaCard } from '../MediaCard/MediaCard';
 import { MediaControl } from '../../client/MediaControl';
@@ -12,8 +14,10 @@ import { EventIcon } from '../../../icons';
 const meta: Meta<typeof ScrollerRow> = {
   title: 'Server components/ScrollerRow',
   component: ScrollerRow,
+  tags: ['autodocs'],
   parameters: {
     docs: {
+      page: () => <Markdown>{Readme}</Markdown>,
       description: {
         component:
           'Layout row for Scroller compositions; applies flex gap-2 justify-between items-center.'
