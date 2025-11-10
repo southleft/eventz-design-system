@@ -32,7 +32,7 @@ export interface MediaPlayerProps extends React.HTMLAttributes<HTMLDivElement> {
   loop?: boolean;
   startTime?: number;
   showVolume?: boolean;
-  onCloseClick?: () => void;
+  onCloseClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
 const baseClasses = `
@@ -285,6 +285,7 @@ export const MediaPlayer = React.forwardRef<HTMLDivElement, MediaPlayerProps>(
               <div className={leadClassName} data-slot="_lead">
                 <div className={controlsClassName} data-slot="_controls">
                   <MediaControl
+                    data-slot="_playPause"
                     variant="dark"
                     size="lg"
                     defaultState={autoPlay ? 'playing' : 'paused'}
@@ -360,6 +361,7 @@ export const MediaPlayer = React.forwardRef<HTMLDivElement, MediaPlayerProps>(
                   />
                 )}
                 <MediaControl
+                  data-slot="_playPause"
                   variant="dark"
                   size="lg"
                   defaultState={autoPlay ? 'playing' : 'paused'}
