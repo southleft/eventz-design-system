@@ -31,6 +31,7 @@ export interface MediaPlayerProps extends React.HTMLAttributes<HTMLDivElement> {
   preload?: 'metadata' | 'auto' | 'none';
   loop?: boolean;
   startTime?: number;
+  showVolume?: boolean;
   onCloseClick?: () => void;
 }
 
@@ -71,6 +72,7 @@ export const MediaPlayer = React.forwardRef<HTMLDivElement, MediaPlayerProps>(
       preload = 'metadata',
       loop = false,
       startTime = 0,
+      showVolume = true,
       onCloseClick,
       className,
       ...rest
@@ -244,6 +246,16 @@ export const MediaPlayer = React.forwardRef<HTMLDivElement, MediaPlayerProps>(
       audio.volume = volume / 100;
     }, [volume]);
 
+    React.useEffect(() => {
+      if (!showVolume) {
+        setMuted(false);
+        setPrevVolumeBeforeMute(null);
+        setVolume(100);
+        const audio = audioRef.current;
+        if (audio) audio.volume = 1;
+      }
+    }, [showVolume]);
+
     const trimmedTitle = title.trim();
     const trimmedSubtitle = subtitle?.trim() ?? '';
 
@@ -362,38 +374,42 @@ export const MediaPlayer = React.forwardRef<HTMLDivElement, MediaPlayerProps>(
 
               <div className="flex items-center justify-end gap-8 flex-1 min-w-0">
                 {variant === 'default' && (
-                  <div className={volumeGroupClassName} data-slot="_volumeGroup">
-                    <div className={volumeRangeClassName} data-slot="_volumeRange">
-                      <Slider
-                        value={volume}
-                        min={0}
-                        max={100}
-                        step={1}
-                        onChange={handleVolumeChange}
-                        ariaLabel="Volume"
-                      />
-                    </div>
-                    <IconButton
-                      variant="bare"
-                      icon={
-                        muted ? (
-                          <VolumeOffIcon />
-                        ) : volume > 50 ? (
-                          <VolumeUpIcon />
-                        ) : (
-                          <VolumeDownIcon />
-                        )
-                      }
-                      ariaLabel={muted ? 'Unmute' : 'Mute'}
-                      onClick={handleToggleMute}
-                    />
+                  <>
+                    {showVolume && (
+                      <div className={volumeGroupClassName} data-slot="_volumeGroup">
+                        <div className={volumeRangeClassName} data-slot="_volumeRange">
+                          <Slider
+                            value={volume}
+                            min={0}
+                            max={100}
+                            step={1}
+                            onChange={handleVolumeChange}
+                            ariaLabel="Volume"
+                          />
+                        </div>
+                        <IconButton
+                          variant="bare"
+                          icon={
+                            muted ? (
+                              <VolumeOffIcon />
+                            ) : volume > 50 ? (
+                              <VolumeUpIcon />
+                            ) : (
+                              <VolumeDownIcon />
+                            )
+                          }
+                          ariaLabel={muted ? 'Unmute' : 'Mute'}
+                          onClick={handleToggleMute}
+                        />
+                      </div>
+                    )}
                     <IconButton
                       variant="bare"
                       icon={<CloseIcon />}
                       ariaLabel="Close"
                       onClick={onCloseClick}
                     />
-                  </div>
+                  </>
                 )}
                 {variant !== 'mini' && <div className={actionsClassName} data-slot="_actions" />}
               </div>
