@@ -96,6 +96,22 @@ const dispatchAudioEvent = (audio: HTMLAudioElement, type: string) => {
   });
 };
 
+const stubAudioRefNull = () => {
+  const actualReact = jest.requireActual<typeof React>('react');
+  const originalUseRef = actualReact.useRef;
+  return jest.spyOn(actualReact, 'useRef').mockImplementationOnce(initialValue => {
+    const ref = originalUseRef(initialValue);
+    Object.defineProperty(ref, 'current', {
+      configurable: true,
+      get: () => null,
+      set: () => {
+        /* ignore attempts to assign */
+      }
+    });
+    return ref;
+  });
+};
+
 const renderMediaPlayer = (props?: Partial<MediaPlayerProps>) => {
   const defaultProps: MediaPlayerProps = {
     audioSrc: '/audio/sample.mp3',
@@ -583,18 +599,7 @@ describe('MediaPlayer', () => {
   });
 
   it('skipBy: safe no-op when audio element is missing', async () => {
-    const actualReact = jest.requireActual<typeof React>('react');
-
-    const stubRef: React.MutableRefObject<HTMLAudioElement | null> = { current: null };
-    Object.defineProperty(stubRef, 'current', {
-      configurable: true,
-      get: () => null,
-      set: () => {
-        /* ignore attempts to set the audio element */
-      }
-    });
-
-    const refSpy = jest.spyOn(actualReact, 'useRef').mockReturnValueOnce(stubRef);
+    const refSpy = stubAudioRefNull();
 
     renderMediaPlayer({ variant: 'default' });
 
@@ -610,13 +615,7 @@ describe('MediaPlayer', () => {
   });
 
   it('volume effect: returns early when audio element is missing', () => {
-    const actualReact = jest.requireActual<typeof React>('react');
-    const originalUseRef = actualReact.useRef;
-    const refSpy = jest.spyOn(actualReact, 'useRef').mockImplementationOnce(initialValue => {
-      const ref = originalUseRef(initialValue);
-      (ref as React.MutableRefObject<HTMLAudioElement | null>).current = null;
-      return ref;
-    });
+    const refSpy = stubAudioRefNull();
 
     renderMediaPlayer({ variant: 'default' });
 
@@ -627,16 +626,7 @@ describe('MediaPlayer', () => {
   });
 
   it('control play: safe no-op when audio element is missing', async () => {
-    const actualReact = jest.requireActual<typeof React>('react');
-    const stubRef: React.MutableRefObject<HTMLAudioElement | null> = { current: null };
-    Object.defineProperty(stubRef, 'current', {
-      configurable: true,
-      get: () => null,
-      set: () => {
-        /* ignore attachment */
-      }
-    });
-    const refSpy = jest.spyOn(actualReact, 'useRef').mockReturnValueOnce(stubRef);
+    const refSpy = stubAudioRefNull();
 
     renderMediaPlayer();
 
@@ -699,5 +689,157 @@ describe('MediaPlayer', () => {
     await userEvent.click(fwdBtn);
 
     expect(audio.currentTime).toBe(0);
+  });
+
+  it('loadedmetadata: non-finite duration sets duration=0 and uses startTime as safeStartTime', () => {
+    renderMediaPlayer({ startTime: 7 });
+    const audio = document.querySelector('audio') as HTMLAudioElement;
+    primeMediaElement(audio, { duration: 60, currentTime: 0 });
+    (audio as unknown as { duration: number }).duration = Number.NaN;
+
+    dispatchAudioEvent(audio, 'loadedmetadata');
+
+    expect(audio.currentTime).toBe(7);
+    expect(screen.getByText('00:07 / 00:00')).toBeInTheDocument();
+  });
+
+  it('loadedmetadata: clamps startTime to duration when startTime exceeds duration', () => {
+    renderMediaPlayer({ startTime: 75 });
+    const audio = document.querySelector('audio') as HTMLAudioElement;
+    primeMediaElement(audio, { duration: 50, currentTime: 0 });
+
+    dispatchAudioEvent(audio, 'loadedmetadata');
+
+    expect(audio.currentTime).toBe(50);
+    expect(screen.getByText('00:50 / 00:50')).toBeInTheDocument();
+  });
+
+  it('loadedmetadata: startTime=0 uses audio.currentTime fallback of 0 when non-finite', () => {
+    renderMediaPlayer({ startTime: 0 });
+    const audio = document.querySelector('audio') as HTMLAudioElement;
+    primeMediaElement(audio, { duration: 80, currentTime: 0 });
+    (audio as unknown as { currentTime: number }).currentTime = Number.NaN;
+
+    dispatchAudioEvent(audio, 'loadedmetadata');
+
+    expect(screen.getByText('00:00 / 01:20')).toBeInTheDocument();
+  });
+
+  it('volume onChange: assigns audio.volume = bounded/100 via direct setter', () => {
+    renderMediaPlayer({ variant: 'default' });
+    const audio = document.querySelector('audio') as HTMLAudioElement;
+    primeMediaElement(audio, { duration: 60, volume: 1 });
+    dispatchAudioEvent(audio, 'loadedmetadata');
+
+    let backing = 1;
+    const setSpy = jest.fn((v: number) => {
+      backing = v;
+    });
+    Object.defineProperty(audio, 'volume', {
+      configurable: true,
+      get: () => backing,
+      set: setSpy
+    });
+
+    const volumeSlider = screen.getByTestId('Volume-slider') as HTMLInputElement;
+    fireEvent.change(volumeSlider, { target: { value: '24' } });
+
+    expect(setSpy).toHaveBeenCalled();
+    expect(setSpy).toHaveBeenLastCalledWith(0.24);
+    expect(backing).toBeCloseTo(0.24);
+  });
+
+  it('seek onChange enters scrubbing state and mirrors the scrub time label', () => {
+    renderMediaPlayer();
+    const audio = document.querySelector('audio') as HTMLAudioElement;
+    primeMediaElement(audio, { duration: 120, currentTime: 15 });
+    dispatchAudioEvent(audio, 'loadedmetadata');
+
+    const seekSlider = screen.getByTestId('Seek-slider') as HTMLInputElement;
+    fireEvent.change(seekSlider, { target: { value: '30' } });
+
+    expect(screen.getByText('00:30 / 02:00')).toBeInTheDocument();
+  });
+
+  it('seek commit clamps to audio duration when releasing beyond the total length', async () => {
+    renderMediaPlayer();
+    const audio = document.querySelector('audio') as HTMLAudioElement;
+    primeMediaElement(audio, { duration: 90, currentTime: 0 });
+    dispatchAudioEvent(audio, 'loadedmetadata');
+
+    const seekSlider = screen.getByTestId('Seek-slider') as HTMLInputElement;
+    fireEvent.change(seekSlider, { target: { value: '120' } });
+    fireEvent.mouseUp(seekSlider);
+
+    expect(audio.currentTime).toBe(90);
+
+    await waitFor(() => {
+      expect(screen.getByText('01:30 / 01:30')).toBeInTheDocument();
+    });
+  });
+
+  it('timeupdate: non-finite currentTime falls back to 0', async () => {
+    renderMediaPlayer();
+    const audio = document.querySelector('audio') as HTMLAudioElement;
+    primeMediaElement(audio, { duration: 80, currentTime: 0 });
+    dispatchAudioEvent(audio, 'loadedmetadata');
+
+    (audio as unknown as { currentTime: number }).currentTime = Number.NaN;
+    dispatchAudioEvent(audio, 'timeupdate');
+
+    await waitFor(() => {
+      expect(screen.getByText('00:00 / 01:20')).toBeInTheDocument();
+    });
+  });
+
+  it('volume onChange: guard returns early when no audio element (no direct setter call)', () => {
+    const refSpy = stubAudioRefNull();
+
+    renderMediaPlayer({ variant: 'default' });
+
+    const volumeSlider = screen.getByTestId('Volume-slider') as HTMLInputElement;
+    fireEvent.change(volumeSlider, { target: { value: '35' } });
+    expect(volumeSlider.value).toBe('35');
+
+    refSpy.mockRestore();
+  });
+
+  it('durationchange: non-finite duration falls back to zero', () => {
+    renderMediaPlayer();
+    const audio = document.querySelector('audio') as HTMLAudioElement;
+    primeMediaElement(audio, { duration: 200, currentTime: 0 });
+    dispatchAudioEvent(audio, 'loadedmetadata');
+
+    (audio as unknown as { duration: number }).duration = Number.NaN;
+    dispatchAudioEvent(audio, 'durationchange');
+
+    expect(screen.getByText('00:00 / 00:00')).toBeInTheDocument();
+  });
+
+  it('seek commit: guard returns early when audio element is missing', () => {
+    const refSpy = stubAudioRefNull();
+
+    renderMediaPlayer();
+
+    const seekSlider = screen.getByTestId('Seek-slider') as HTMLInputElement;
+    fireEvent.change(seekSlider, { target: { value: '30' } });
+    expect(() => fireEvent.mouseUp(seekSlider)).not.toThrow();
+    expect(seekSlider.value).toBe('30');
+
+    refSpy.mockRestore();
+  });
+
+  it('seek commit: uses nextValue fallback when duration is zero', () => {
+    renderMediaPlayer();
+    const audio = document.querySelector('audio') as HTMLAudioElement;
+    primeMediaElement(audio, { duration: 0, currentTime: 0 });
+    dispatchAudioEvent(audio, 'loadedmetadata');
+
+    const seekSlider = screen.getByTestId('Seek-slider') as HTMLInputElement;
+    fireEvent.change(seekSlider, { target: { value: '45' } });
+    fireEvent.mouseUp(seekSlider);
+
+    expect(audio.currentTime).toBe(45);
+    expect(screen.getByText('00:45 / 00:00')).toBeInTheDocument();
   });
 });
