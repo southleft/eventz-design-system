@@ -25,7 +25,6 @@ export const DropdownStyleMap = defineStyleMap({
 
   state: {
     // Mirrors contract props for deterministic toggles (even if no extra classes are needed yet)
-    open: [] as const,
-    disabled: [] as const
+    open: [] as const
   }
 });
