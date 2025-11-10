@@ -11,20 +11,24 @@ import { defineStyleMap } from '../../utilities/defineStyleMap';
 export default defineStyleMap({
   component: 'MediaPlayer',
 
-  base: ['flex', 'flex-col', 'items-start', 'w-full', 'h-78'],
+  base: [
+    'flex',
+    'flex-col',
+    'items-start',
+    'w-full',
+    'h-78',
+    'data-[variant=compact]:w-418',
+    'group',
+    'data-[variant=mini]:size-40',
+    'data-[variant=mini]:rounded-full'
+  ],
 
   slots: {
     // Top seek slider (full-width) — placement only
     _seek: ['flex', 'items-center', 'w-full', '-mb-6', 'pr-2'],
 
     // Main row surface (rounded chrome)
-    _row: [
-      'flex',
-      'items-center',
-      'w-full',
-      'bg-color-background-subtle',
-      'py-20'
-    ],
+    _row: ['flex', 'items-center', 'w-full', 'bg-color-background-subtle', 'py-20'],
 
     // Lead (artwork + labels)
     _lead: ['flex', 'items-center', 'gap-16', 'min-w-0', 'flex-1', 'pl-16'],

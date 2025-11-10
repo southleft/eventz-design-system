@@ -53,7 +53,7 @@ export default defineContract({
     showVolume: { type: 'boolean', default: true },
 
     /** Optional close action handler (used by the Close icon button in default/compact). */
-    onCloseClick: { type: 'callback', args: ['event: MouseEvent'] }
+    onCloseClick: { type: 'callback', args: [] }
   },
 
   /**
