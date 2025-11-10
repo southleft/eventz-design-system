@@ -3,11 +3,19 @@
 // Summary: Stories for Breadcrumbs demonstrating default trail, collapse behavior, custom aria-label, and long navigation sequences with arg controls for items/current.
 
 import type { Meta, StoryObj } from '@storybook/react';
+import { Markdown } from '@storybook/addon-docs/blocks';
 import { Breadcrumbs, BreadcrumbsProps } from './Breadcrumbs';
+import Readme from './README.md?raw';
 
 const meta: Meta<BreadcrumbsProps> = {
   title: 'Server components/Breadcrumbs',
   component: Breadcrumbs,
+  tags: ['autodocs'],
+  parameters: {
+    docs: {
+      page: () => <Markdown>{Readme}</Markdown>
+    }
+  },
   args: {
     items: [
       { label: 'Home', href: '/' },

@@ -4,6 +4,12 @@ const config: StorybookConfig = {
   stories: ['../src/**/*.stories.tsx', '../src/**/*.mdx'],
   addons: ['@chromatic-com/storybook', '@storybook/addon-docs', '@storybook/addon-a11y'],
   staticDirs: ['../public'],
+  core: {
+    disableTelemetry: true
+  },
+  docs: {
+    defaultName: 'Summary'
+  },
   framework: {
     name: '@storybook/react-vite',
     options: {}

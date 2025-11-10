@@ -3,14 +3,22 @@
 // Summary: Storybook coverage for NavigationContainer showing default usage and composition within Footer.
 
 import type { Meta, StoryObj } from '@storybook/react';
+import { Markdown } from '@storybook/addon-docs/blocks';
 import * as React from 'react';
 import { Button } from '../../client/Button';
 import { Footer as FooterWrapper } from '../Footer/Footer';
 import { NavigationContainer, NavigationContainerProps } from './NavigationContainer';
+import Readme from './README.md?raw';
 
 const meta: Meta<NavigationContainerProps> = {
   title: 'Server components/NavigationContainer',
   component: NavigationContainer,
+  tags: ['autodocs'],
+  parameters: {
+    docs: {
+      page: () => <Markdown>{Readme}</Markdown>
+    }
+  },
   args: {
     children: (
       <div>

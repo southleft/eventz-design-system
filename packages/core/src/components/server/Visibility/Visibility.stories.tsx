@@ -3,8 +3,10 @@
 // Summary: Stories demonstrating Visibility baseline render plus breakpoint-bound examples using from/to props.
 
 import type { Meta, StoryObj } from '@storybook/react';
+import { Markdown } from '@storybook/addon-docs/blocks';
 import * as React from 'react';
 import { Visibility, type VisibilityProps } from './Visibility';
+import Readme from './README.md?raw';
 
 const demoContainerStyle: React.CSSProperties = {
   display: 'grid',
@@ -30,11 +32,15 @@ const demoDescriptionStyle: React.CSSProperties = {
 const meta: Meta<VisibilityProps> = {
   title: 'Server components/Visibility',
   component: Visibility,
+  tags: ['autodocs'],
   args: {
     children: 'Responsive content block',
     className: ''
   },
   parameters: {
+    docs: {
+      page: () => <Markdown>{Readme}</Markdown>
+    },
     controls: {
       include: ['from', 'to', 'className']
     }

@@ -4,6 +4,8 @@
 
 import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
+import { Markdown } from '@storybook/addon-docs/blocks';
+import Readme from './README.md?raw';
 import { Combobox, type ComboboxProps } from './Combobox';
 import { ArtistIcon, EventIcon, MapIcon, NewsmodeIcon, SearchIcon, StadiumIcon } from '../../../icons';
 
@@ -39,6 +41,12 @@ const complexItems = [
 const meta: Meta<ComboboxProps> = {
   title: 'Client components/Combobox',
   component: Combobox,
+  tags: ['autodocs'],
+  parameters: {
+    docs: {
+      page: () => <Markdown>{Readme}</Markdown>
+    }
+  },
   args: {
     FormElementProps: {
       label: 'Categories',

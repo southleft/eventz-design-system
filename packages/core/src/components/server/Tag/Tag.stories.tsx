@@ -3,11 +3,19 @@
 // Summary: Stories for Tag covering interactive parent/child variants, active state, non-interactive use, and cursor behavior.
 
 import type { Meta, StoryObj } from '@storybook/react';
+import { Markdown } from '@storybook/addon-docs/blocks';
 import { Tag, TagProps } from './Tag';
+import Readme from './README.md?raw';
 
 const meta: Meta<TagProps> = {
   title: 'Server components/Tag',
   component: Tag,
+  tags: ['autodocs'],
+  parameters: {
+    docs: {
+      page: () => <Markdown>{Readme}</Markdown>
+    }
+  },
   args: {
     label: 'Branch',
     variant: 'parent',

@@ -3,15 +3,23 @@
 // Summary: Stories for ImagePanel demonstrating fade/scale in isolation and inside a real Carousel.
 
 import type { Meta, StoryObj } from '@storybook/react';
+import { Markdown } from '@storybook/addon-docs/blocks';
 import * as React from 'react';
 import { ImagePanel, type ImagePanelProps } from './ImagePanel';
 import { EventIcon } from '../../../icons';
 import { Control } from '../../client/Control';
 import { Carousel } from '../../client/Carousel';
+import Readme from './README.md?raw';
 
 const meta: Meta<ImagePanelProps> = {
   title: 'Server components/ImagePanel',
   component: ImagePanel,
+  tags: ['autodocs'],
+  parameters: {
+    docs: {
+      page: () => <Markdown>{Readme}</Markdown>
+    }
+  },
   args: {
     imgSrc: 'https://picsum.photos/seed/image-panel/1040/620',
     imgAlt: 'Snowy mountain range at twilight',

@@ -6,9 +6,11 @@
 // - StackRows: three ScrollerRow rows with MediaCards
 // - NoControls: ContentCards horizontal, no image, controls hidden
 
+import { Markdown } from '@storybook/addon-docs/blocks';
 import type { Meta, StoryObj } from '@storybook/react';
 import * as React from 'react';
 import { fn } from 'storybook/test';
+import Readme from './README.md?raw';
 import { Scroller, type ScrollerProps } from './Scroller';
 
 // Server-side presentation components used in stories
@@ -66,12 +68,14 @@ const meta: Meta<ScrollerProps> = {
     children: defaultChildren,
     onScrollChange: fn()
   },
+  tags: ['autodocs'],
   parameters: {
     docs: {
       description: {
         component:
           'Manual horizontal scroller with prev/next Controls. Next.js note: pass server-rendered children (e.g., `<ScrollerRow>` or `<MediaCard>`) from a parent server component; do not import server components into this client Scroller. Controls are rendered outside the scroll viewport and do not scroll with content. The viewport hides native scrollbars while remaining scrollable.'
-      }
+      },
+      page: () => <Markdown>{Readme}</Markdown>
     }
   }
 };

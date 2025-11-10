@@ -4,9 +4,11 @@
 
 import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
+import { Markdown } from '@storybook/addon-docs/blocks';
 import { Button } from '../../client/Button';
 import { NavigationDropdown } from '../../client/NavigationDropdown';
 import { NavigationBar, NavigationBarProps } from './NavigationBar';
+import Readme from './README.md?raw';
 
 const baseItems: NavigationBarProps['items'] = [
   { label: 'Overview', href: '/overview' },
@@ -20,6 +22,12 @@ const defaultLogo = <span className="text-lg font-bold text-color-content-defaul
 const meta: Meta<NavigationBarProps> = {
   title: 'Server components/NavigationBar',
   component: NavigationBar,
+  tags: ['autodocs'],
+  parameters: {
+    docs: {
+      page: () => <Markdown>{Readme}</Markdown>
+    }
+  },
   args: {
     ariaLabel: 'Primary navigation',
     items: baseItems,
