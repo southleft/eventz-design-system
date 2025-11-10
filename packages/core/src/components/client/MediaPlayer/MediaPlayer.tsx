@@ -307,6 +307,12 @@ export const MediaPlayer = React.forwardRef<HTMLDivElement, MediaPlayerProps>(
               </div>
 
               <div className="flex items-center justify-end gap-8 flex-1 min-w-0">
+                <IconButton
+                  variant="bare"
+                  icon={<CloseIcon />}
+                  ariaLabel="Close"
+                  onClick={onCloseClick}
+                />
                 <div className={actionsClassName} data-slot="_actions" />
               </div>
             </>

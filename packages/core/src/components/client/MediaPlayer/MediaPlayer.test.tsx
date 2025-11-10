@@ -432,9 +432,9 @@ describe('MediaPlayer', () => {
     expect(screen.getByRole('button', { name: /close/i })).toBeInTheDocument();
   });
 
-  it('compact: does not render Close icon button', () => {
+  it('compact: renders Close icon button', () => {
     renderMediaPlayer({ variant: 'compact' });
-    expect(screen.queryByRole('button', { name: /close/i })).toBeNull();
+    expect(screen.getByRole('button', { name: /close/i })).toBeInTheDocument();
   });
 
   it('default: shows skip buttons (replay/forward 10)', () => {
