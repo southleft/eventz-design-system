@@ -10,9 +10,9 @@ import { ArrowDropDownIcon } from '../../../icons';
 import { collapseWhitespace, composeClasses } from '../../../utilities';
 import { Button } from '../Button';
 
-const containerClasses = `
-  min-w-160
-`;
+const containerClasses = `min-w-160`;
+
+const containerChildClasses = `grow text-left`;
 
 const contentClasses = `
   rounded-md
@@ -88,6 +88,7 @@ export const Dropdown = React.forwardRef<HTMLDivElement, DropdownProps>((props, 
 
   const baseClassName = collapseWhitespace(composeClasses(className));
   const containerClassName = collapseWhitespace(composeClasses(containerClasses));
+  const containerChildClassName = collapseWhitespace(composeClasses(containerChildClasses));
   const contentClassName = collapseWhitespace(composeClasses(contentClasses));
   const resolvedEndIcon = endIcon ?? <ArrowDropDownIcon aria-hidden="true" />;
 
@@ -110,7 +111,7 @@ export const Dropdown = React.forwardRef<HTMLDivElement, DropdownProps>((props, 
             className={containerClassName}
             data-slot="container"
           >
-            {label}
+            <div className={containerChildClassName}>{label}</div>
           </Button>
         </Popover.Trigger>
         <Popover.Portal>
