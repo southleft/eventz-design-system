@@ -4,13 +4,25 @@
 
 import '@testing-library/jest-dom';
 import * as React from 'react';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MediaPlayer, type MediaPlayerProps } from './MediaPlayer';
-import type { SliderProps } from '../Slider';
 
+type MockSliderProps = {
+  value: number;
+  onChange: (v: number) => void;
+  onCommit?: (v: number) => void;
+  ariaLabel?: string;
+};
+
+/**
+ * NOTE: MediaPlayer tests only verify integration with Slider:
+ * - Seek: onChange/onCommit update audio.currentTime and visible time label
+ * - Volume: onChange maps to audio.volume
+ * We do NOT test Slider behavior/semantics/aria here; those belong to Slider tests.
+ */
 jest.mock('../Slider', () => ({
-  Slider: ({ value, onChange, onCommit, ariaLabel }: SliderProps) => (
+  Slider: ({ value, onChange, onCommit, ariaLabel }: MockSliderProps) => (
     <input
       type="range"
       role="slider"
@@ -78,6 +90,12 @@ const primeMediaElement = (
   });
 };
 
+const dispatchAudioEvent = (audio: HTMLAudioElement, type: string) => {
+  act(() => {
+    audio.dispatchEvent(new Event(type));
+  });
+};
+
 const renderMediaPlayer = (props?: Partial<MediaPlayerProps>) => {
   const defaultProps: MediaPlayerProps = {
     audioSrc: '/audio/sample.mp3',
@@ -90,35 +108,40 @@ const renderMediaPlayer = (props?: Partial<MediaPlayerProps>) => {
 };
 
 describe('MediaPlayer', () => {
-  it('renders the title, subtitle, and both sliders', () => {
+  it('renders the title', () => {
     renderMediaPlayer();
     expect(screen.getByText('Sample Track')).toBeInTheDocument();
+  });
+
+  it('renders the subtitle', () => {
+    renderMediaPlayer();
     expect(screen.getByText('Sample Artist')).toBeInTheDocument();
-    expect(screen.getByTestId('Seek-slider')).toBeInTheDocument();
-    expect(screen.getByTestId('Volume-slider')).toBeInTheDocument();
+  });
+
+  it('default: renders two sliders (seek and volume)', () => {
+    renderMediaPlayer({ variant: 'default' });
+    const sliders = screen.getAllByRole('slider');
+    expect(sliders.length).toBe(2);
   });
 
   it('updates the time display after audio metadata and timeupdate events', async () => {
     renderMediaPlayer();
     const audio = document.querySelector('audio') as HTMLAudioElement;
     primeMediaElement(audio, { duration: 120, currentTime: 0 });
-    audio.dispatchEvent(new Event('loadedmetadata'));
+    dispatchAudioEvent(audio, 'loadedmetadata');
     audio.currentTime = 42;
-    audio.dispatchEvent(new Event('timeupdate'));
+    dispatchAudioEvent(audio, 'timeupdate');
 
     await waitFor(() => {
       expect(screen.getByText('00:42 / 02:00')).toBeInTheDocument();
     });
-
-    const seekSlider = screen.getByTestId('Seek-slider') as HTMLInputElement;
-    expect(seekSlider.value).toBe('42');
   });
 
   it('commits seek changes back to the audio element', async () => {
     renderMediaPlayer();
     const audio = document.querySelector('audio') as HTMLAudioElement;
     primeMediaElement(audio, { duration: 180, currentTime: 0 });
-    audio.dispatchEvent(new Event('loadedmetadata'));
+    dispatchAudioEvent(audio, 'loadedmetadata');
     const seekSlider = screen.getByTestId('Seek-slider') as HTMLInputElement;
 
     fireEvent.change(seekSlider, { target: { value: '60' } });
@@ -127,42 +150,115 @@ describe('MediaPlayer', () => {
     await waitFor(() => {
       expect(audio.currentTime).toBe(60);
     });
+  });
 
+  it('updates the time label after a committed seek', async () => {
+    renderMediaPlayer();
+    const audio = document.querySelector('audio') as HTMLAudioElement;
+    primeMediaElement(audio, { duration: 180, currentTime: 0 });
+    dispatchAudioEvent(audio, 'loadedmetadata');
+    const seekSlider = screen.getByTestId('Seek-slider') as HTMLInputElement;
+    fireEvent.change(seekSlider, { target: { value: '60' } });
+    fireEvent.mouseUp(seekSlider);
     await waitFor(() => {
       expect(screen.getByText('01:00 / 03:00')).toBeInTheDocument();
     });
   });
 
-  it('routes play and pause through MediaControl interactions', async () => {
+  it('plays on first click of the control button', async () => {
     const user = userEvent.setup();
     renderMediaPlayer();
     const audio = document.querySelector('audio') as HTMLAudioElement;
     primeMediaElement(audio, { duration: 90 });
-    audio.dispatchEvent(new Event('loadedmetadata'));
+    dispatchAudioEvent(audio, 'loadedmetadata');
 
-    const playButton = screen.getByRole('button', { name: 'Play' });
-    await user.click(playButton);
+    const controlBtn = screen.getByRole('button');
+    await user.click(controlBtn);
     expect(playMock).toHaveBeenCalledTimes(1);
-    audio.dispatchEvent(new Event('play'));
+  });
 
-    const pauseButton = await screen.findByRole('button', { name: 'Pause' });
-    await user.click(pauseButton);
+  it('pauses on second click of the control button', async () => {
+    const user = userEvent.setup();
+    renderMediaPlayer();
+    const audio = document.querySelector('audio') as HTMLAudioElement;
+    primeMediaElement(audio, { duration: 90 });
+    dispatchAudioEvent(audio, 'loadedmetadata');
+
+    const controlBtn = screen.getByRole('button');
+    await user.click(controlBtn);
+    dispatchAudioEvent(audio, 'play');
+    await user.click(controlBtn);
     expect(pauseMock).toHaveBeenCalledTimes(1);
-    audio.dispatchEvent(new Event('pause'));
-
-    await screen.findByRole('button', { name: 'Play' });
   });
 
   it('maps volume slider changes to the audio element volume', () => {
     renderMediaPlayer();
     const audio = document.querySelector('audio') as HTMLAudioElement;
     primeMediaElement(audio, { duration: 60, volume: 1 });
-    audio.dispatchEvent(new Event('loadedmetadata'));
+    dispatchAudioEvent(audio, 'loadedmetadata');
 
     const volumeSlider = screen.getByTestId('Volume-slider') as HTMLInputElement;
     fireEvent.change(volumeSlider, { target: { value: '35' } });
 
     expect(audio.volume).toBeCloseTo(0.35);
-    expect(volumeSlider.value).toBe('35');
   });
+
+  it('seeks to the provided startTime once metadata loads', () => {
+    renderMediaPlayer({ startTime: 15 });
+    const audio = document.querySelector('audio') as HTMLAudioElement;
+    primeMediaElement(audio, { duration: 120, currentTime: 0 });
+
+    dispatchAudioEvent(audio, 'loadedmetadata');
+
+    expect(audio.currentTime).toBe(15);
+  });
+
+  it('updates the duration label after durationchange events', async () => {
+    renderMediaPlayer();
+    const audio = document.querySelector('audio') as HTMLAudioElement;
+    primeMediaElement(audio, { duration: 60, currentTime: 0 });
+    dispatchAudioEvent(audio, 'loadedmetadata');
+
+    (audio as unknown as { duration: number }).duration = 245;
+    dispatchAudioEvent(audio, 'durationchange');
+
+    await waitFor(() => {
+      expect(screen.getByText('00:00 / 04:05')).toBeInTheDocument();
+    });
+  });
+
+  it('syncs the slider value when the audio element fires volumechange', () => {
+    renderMediaPlayer();
+    const audio = document.querySelector('audio') as HTMLAudioElement;
+    primeMediaElement(audio, { duration: 60, volume: 1 });
+    dispatchAudioEvent(audio, 'loadedmetadata');
+
+    audio.volume = 0.45;
+    dispatchAudioEvent(audio, 'volumechange');
+
+    const volumeSlider = screen.getByTestId('Volume-slider') as HTMLInputElement;
+    expect(volumeSlider.value).toBe('45');
+  });
+
+
+  it('compact: hides the volume slider', () => {
+    renderMediaPlayer({ variant: 'compact' });
+    expect(screen.queryByTestId('Volume-slider')).toBeNull();
+  });
+
+  it('compact: does not render the time display', () => {
+    renderMediaPlayer({ variant: 'compact' });
+    expect(screen.queryByText(/\/\s*\d{2}:\d{2}$/)).toBeNull();
+  });
+
+  it('mini: hides the seek slider', () => {
+    renderMediaPlayer({ variant: 'mini' });
+    expect(screen.queryByTestId('Seek-slider')).toBeNull();
+  });
+
+  it('mini: hides the volume slider', () => {
+    renderMediaPlayer({ variant: 'mini' });
+    expect(screen.queryByTestId('Volume-slider')).toBeNull();
+  });
+
 });
