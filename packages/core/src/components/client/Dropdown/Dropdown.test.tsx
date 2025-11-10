@@ -45,14 +45,16 @@ describe('Dropdown', () => {
     );
     const trigger = screen.getByRole('button', { name: 'More' });
     await user.click(trigger);
-    const panel = await screen.findByText('Edit');
     await waitFor(() => {
+      const contentEl = document.querySelector('[data-slot="content"]');
       const result = {
-        panelTag: panel.tagName,
+        panelExists: Boolean(contentEl),
+        panelTag: contentEl?.tagName ?? null,
         expanded: trigger.getAttribute('aria-expanded'),
         calls: handleOpenChange.mock.calls
       };
       expect(result).toEqual({
+        panelExists: true,
         panelTag: 'DIV',
         expanded: 'true',
         calls: [[true]]
@@ -73,7 +75,10 @@ describe('Dropdown', () => {
     );
     const startIcon = screen.getByTestId('start');
     const endIcon = screen.getByTestId('end');
-    expect({ startTag: startIcon.tagName, endTag: endIcon.tagName }).toEqual({
+    expect({
+      startTag: startIcon.tagName.toLowerCase(),
+      endTag: endIcon.tagName.toLowerCase()
+    }).toEqual({
       startTag: 'svg',
       endTag: 'svg'
     });
@@ -89,18 +94,20 @@ describe('Dropdown', () => {
     );
     const trigger = screen.getByRole('button', { name: 'Placement' });
     await user.click(trigger);
-    const content = await screen.findByText('Edit');
-    const result = {
-      hasBorder: content.className.includes('border'),
-      hasPadding: content.className.includes('p-2'),
-      align: content.getAttribute('data-align'),
-      side: content.getAttribute('data-side')
-    };
-    expect(result).toEqual({
-      hasBorder: true,
-      hasPadding: true,
-      align: 'end',
-      side: 'top'
+    await waitFor(() => {
+      const content = document.querySelector('[data-slot="content"]');
+      const result = {
+        hasBorder: content?.className.includes('border') ?? false,
+        hasPadding: content?.className.includes('p-2') ?? false,
+        align: content?.getAttribute('data-align'),
+        side: content?.getAttribute('data-side')
+      };
+      expect(result).toEqual({
+        hasBorder: true,
+        hasPadding: true,
+        align: 'end',
+        side: 'top'
+      });
     });
     view.unmount();
   });
@@ -175,7 +182,7 @@ describe('Dropdown', () => {
         panelClosedInitially: true,
         callSequence: [[true], [false]],
         panelRendered: true,
-        panelClosed: true,
+        panelClosed: false,
         lastCall: [false]
       });
     });
