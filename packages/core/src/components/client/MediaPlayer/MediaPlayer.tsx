@@ -8,7 +8,7 @@ import * as React from 'react';
 import { MediaControl } from '../MediaControl';
 import { Slider } from '../Slider';
 import { VolumeUpIcon } from '../../../icons';
-import { collapseWhitespace, composeClasses } from '../../../utilities';
+import { formatTime, clamp, collapseWhitespace, composeClasses } from '../../../utilities';
 
 type MediaPlayerVariant = 'default' | 'compact' | 'mini';
 
@@ -44,26 +44,6 @@ const controlsClasses = `_controls flex items-center gap-8`;
 const volumeGroupClasses = `_volumeGroup text-comp-button-color-content-default justify-end flex items-center gap-8 pr-16`;
 const volumeRangeClasses = `_volumeRange w-120`;
 const actionsClasses = `_actions flex items-center gap-8`;
-
-const clamp = (value: number, min: number, max: number): number => {
-  if (!Number.isFinite(value)) {
-    return min;
-  }
-  if (max < min) {
-    return min;
-  }
-  return Math.min(Math.max(value, min), max);
-};
-
-const formatTime = (value: number): string => {
-  if (!Number.isFinite(value) || value < 0) {
-    return '00:00';
-  }
-  const totalSeconds = Math.floor(value);
-  const minutes = Math.floor(totalSeconds / 60);
-  const seconds = totalSeconds % 60;
-  return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-};
 
 const seekStep = 0.1;
 

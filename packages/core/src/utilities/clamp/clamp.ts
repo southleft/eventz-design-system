@@ -1,4 +1,4 @@
-export const clamp = (value: number, min: number, max: number): number => {
+export function clamp(value: number, min: number, max: number): number {
   if (!Number.isFinite(value)) {
     return min;
   }
@@ -12,4 +12,4 @@ export const clamp = (value: number, min: number, max: number): number => {
     return max;
   }
   return value;
-};
+}

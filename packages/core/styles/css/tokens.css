@@ -272,20 +272,8 @@
   --dt-spacing-0-5: 2;
   --dt-spacing-px: 1;
   --dt-spacing-2-5: 10;
-  --dt-background-page-dark: linear-gradient(
-    180deg,
-    #1c1e20 0%,
-    #0c0e10 28.37%,
-    #1c1e20 55.29%,
-    #0c0e10 100%
-  );
-  --dt-background-page-light: linear-gradient(
-    -44deg,
-    #f8fdef 0%,
-    #fefefe 36.54%,
-    #f8fdef 70.19%,
-    #fefefe 100%
-  );
+  --dt-background-page-dark: linear-gradient(180deg, #1c1e20 0%, #0c0e10 28.37%, #1c1e20 55.29%, #0c0e10 100%);
+  --dt-background-page-light: linear-gradient(-44deg, #f8fdef 0%, #fefefe 36.54%, #f8fdef 70.19%, #fefefe 100%);
   --dt-background-modal-dark: linear-gradient(180deg, #1c1e20 0%, #222425 53.76%, #1c1e20 100%);
   --dt-background-modal-light: linear-gradient(180deg, #ffffff 0%, #f2f2f2 53.76%, #ffffff 100%);
   --dt-background-footer-dark: linear-gradient(180deg, #00000200 0%, #000002 100%);
@@ -298,25 +286,14 @@
   --dt-highlight-highlight-2: linear-gradient(270deg, #fcebf5 0%, #f6b2db 100%);
   --dt-highlight-highlight-3: linear-gradient(-90deg, #cfeff6 0%, #9ae0f0 100%);
   --dt-highlight-highlight-4: linear-gradient(-90deg, #f7f2ec 0%, #f0d1a5 100%);
-  --dt-overlay-image-overlay-dark: linear-gradient(
-    180deg,
-    #181a1c00 0%,
-    #181a1c8f 57.69%,
-    #181a1c 100%
-  );
-  --dt-overlay-image-overlay-light: linear-gradient(
-    180deg,
-    #ffffff00 0%,
-    #ffffff8f 57.69%,
-    #ffffff 100%
-  );
-  --dt-shadows-shadow-1: [object Object], [object Object], [object Object];
-  --dt-shadows-shadow-2:
-    [object Object], [object Object], [object Object], [object Object], [object Object];
-  --dt-shadows-shadow-3: [object Object], [object Object], [object Object], [object Object];
-  --dt-shadows-shadow-4: [object Object], [object Object], [object Object];
-  --dt-shadows-shadow-5: [object Object], [object Object], [object Object];
-  --dt-shadows-shadow-6: [object Object], [object Object], [object Object], [object Object];
+  --dt-overlay-image-overlay-dark: linear-gradient(180deg, #181a1c00 0%, #181a1c8f 57.69%, #181a1c 100%);
+  --dt-overlay-image-overlay-light: linear-gradient(180deg, #ffffff00 0%, #ffffff8f 57.69%, #ffffff 100%);
+  --dt-shadows-shadow-1: [object Object],[object Object],[object Object];
+  --dt-shadows-shadow-2: [object Object],[object Object],[object Object],[object Object],[object Object];
+  --dt-shadows-shadow-3: [object Object],[object Object],[object Object],[object Object];
+  --dt-shadows-shadow-4: [object Object],[object Object],[object Object];
+  --dt-shadows-shadow-5: [object Object],[object Object],[object Object];
+  --dt-shadows-shadow-6: [object Object],[object Object],[object Object],[object Object];
   --dt-font-families-karla: Karla;
   --dt-line-heights-0: 56;
   --dt-line-heights-1: 36;
