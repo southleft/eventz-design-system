@@ -49,9 +49,9 @@ const leadClasses = `_lead flex items-center gap-16 min-w-0 flex-1 pl-16`;
 const artworkClasses = `_artwork relative shrink-0 size-40 overflow-clip`;
 const labelsClasses = `_labels flex flex-col min-w-0 gap-0`;
 const subtitleClasses = `_subtitle text-xs font-medium text-color-content-weak truncate`;
-const titleRowClasses = `_titleRow flex items-center gap-8 min-w-0`;
+const titleRowClasses = `_titleRow flex items-baseline gap-8 min-w-0`;
 const titleClasses = `_title font-[family-name:var(--font-family/primary)] text-[16px] font-medium text-color-content-default truncate`;
-const timeDisplayClasses = `_timeDisplay text-xs font-medium text-color-content-weak whitespace-nowrap`;
+const timeDisplayClasses = `_timeDisplay text-xs font-medium text-color-content-weak whitespace-nowrap pl-8 border-l border-color-background-subtle`;
 const controlsClasses = `_controls flex items-center gap-8`;
 const volumeGroupClasses = `_volumeGroup text-comp-button-color-content-default justify-end flex items-center gap-8 pr-16`;
 const volumeRangeClasses = `_volumeRange w-120`;
@@ -250,9 +250,7 @@ export const MediaPlayer = React.forwardRef<HTMLDivElement, MediaPlayerProps>(
       if (!showVolume) {
         setMuted(false);
         setPrevVolumeBeforeMute(null);
-        setVolume(100);
-        const audio = audioRef.current;
-        if (audio) audio.volume = 1;
+        setVolume(100); // [volume] effect will set audio.volume = 1
       }
     }, [showVolume]);
 

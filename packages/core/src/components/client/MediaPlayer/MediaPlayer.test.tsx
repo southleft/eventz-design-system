@@ -842,4 +842,28 @@ describe('MediaPlayer', () => {
     expect(audio.currentTime).toBe(45);
     expect(screen.getByText('00:45 / 00:00')).toBeInTheDocument();
   });
+
+  it('showVolume=false hides volume UI and resets audio volume to 100%', async () => {
+    const baseProps: MediaPlayerProps = {
+      audioSrc: '/audio/sample.mp3',
+      title: 'Sample Track',
+      subtitle: 'Sample Artist'
+    };
+
+    const view = render(<MediaPlayer {...baseProps} variant="default" showVolume />);
+    const audio = document.querySelector('audio') as HTMLAudioElement;
+    primeMediaElement(audio, { duration: 120, volume: 1 });
+    dispatchAudioEvent(audio, 'loadedmetadata');
+
+    const volumeSlider = screen.getByTestId('Volume-slider') as HTMLInputElement;
+    fireEvent.change(volumeSlider, { target: { value: '20' } });
+    expect(audio.volume).toBeCloseTo(0.2);
+
+    view.rerender(<MediaPlayer {...baseProps} variant="default" showVolume={false} />);
+
+    await waitFor(() => {
+      expect(audio.volume).toBe(1);
+    });
+    expect(screen.queryByTestId('Volume-slider')).toBeNull();
+  });
 });
