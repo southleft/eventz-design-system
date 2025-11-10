@@ -420,4 +420,95 @@ describe('MediaPlayer', () => {
     renderMediaPlayer({ variant: 'compact' });
     expect(screen.queryByRole('button', { name: /close/i })).toBeNull();
   });
+
+  it('default: shows skip buttons (replay/forward 10)', () => {
+    renderMediaPlayer({ variant: 'default' });
+    expect(screen.getByRole('button', { name: /replay 10 seconds/i })).toBeInTheDocument();
+  });
+
+  it('default: shows forward 10 button', () => {
+    renderMediaPlayer({ variant: 'default' });
+    expect(screen.getByRole('button', { name: /forward 10 seconds/i })).toBeInTheDocument();
+  });
+
+  it('compact: hides skip buttons', () => {
+    renderMediaPlayer({ variant: 'compact' });
+    expect(screen.queryByRole('button', { name: /replay 10 seconds/i })).toBeNull();
+  });
+
+  it('mini: hides skip buttons', () => {
+    renderMediaPlayer({ variant: 'mini' });
+    expect(screen.queryByRole('button', { name: /forward 10 seconds/i })).toBeNull();
+  });
+
+  it('mute: clicking the volume button sets audio volume to 0', async () => {
+    renderMediaPlayer({ variant: 'default' });
+    const audio = document.querySelector('audio') as HTMLAudioElement;
+    primeMediaElement(audio, { duration: 120, volume: 1 });
+    dispatchAudioEvent(audio, 'loadedmetadata');
+
+    const muteBtn = screen.getByRole('button', { name: /mute/i });
+    await userEvent.click(muteBtn);
+
+    expect(audio.volume).toBe(0);
+  });
+
+  it('mute button label switches to "Unmute" when muted', async () => {
+    renderMediaPlayer({ variant: 'default' });
+    const audio = document.querySelector('audio') as HTMLAudioElement;
+    primeMediaElement(audio, { duration: 120, volume: 1 });
+    dispatchAudioEvent(audio, 'loadedmetadata');
+
+    const muteBtn = screen.getByRole('button', { name: /mute/i });
+    await userEvent.click(muteBtn);
+
+    const unmuteBtn = screen.getByRole('button', { name: /unmute/i });
+    expect(unmuteBtn).toBeInTheDocument();
+  });
+
+  it('mute button label returns to "Mute" after unmuting', async () => {
+    renderMediaPlayer({ variant: 'default' });
+    const audio = document.querySelector('audio') as HTMLAudioElement;
+    primeMediaElement(audio, { duration: 120, volume: 1 });
+    dispatchAudioEvent(audio, 'loadedmetadata');
+
+    const muteBtn = screen.getByRole('button', { name: /mute/i });
+    await userEvent.click(muteBtn);
+    const unmuteBtn = screen.getByRole('button', { name: /unmute/i });
+    await userEvent.click(unmuteBtn);
+
+    const muteBtnAgain = screen.getByRole('button', { name: /mute/i });
+    expect(muteBtnAgain).toBeInTheDocument();
+  });
+
+  it('default: renders artwork image when imgSrc provided', () => {
+    renderMediaPlayer({
+      variant: 'default',
+      imgSrc: 'https://placehold.co/80x80/png',
+      imgAlt: 'Album art'
+    });
+    const img = screen.getByRole('img', { name: 'Album art' });
+    expect(img).toBeInTheDocument();
+  });
+
+  it('default: artwork img uses object-cover', () => {
+    renderMediaPlayer({
+      variant: 'default',
+      imgSrc: 'https://placehold.co/80x80/png',
+      imgAlt: 'Album art'
+    });
+    const img = screen.getByRole('img', { name: 'Album art' }) as HTMLImageElement;
+    expect(img).toHaveClass('object-cover');
+  });
+
+  it('default: renders placeholder artwork slot when no imgSrc', () => {
+    renderMediaPlayer({ variant: 'default' });
+    const slot = document.querySelector('[data-slot="_artwork"]');
+    expect(slot).not.toBeNull();
+  });
+
+  it('default: does not render img element when no imgSrc', () => {
+    renderMediaPlayer({ variant: 'default' });
+    expect(screen.queryByRole('img')).toBeNull();
+  });
 });

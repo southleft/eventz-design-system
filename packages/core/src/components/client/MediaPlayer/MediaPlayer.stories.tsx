@@ -24,7 +24,9 @@ export const Default: Story = {
   args: {
     variant: 'default',
     autoPlay: false,
-    loop: false
+    loop: false,
+    imgSrc: 'https://placehold.co/80x80/png',
+    imgAlt: 'Album art'
   }
 };
 

@@ -8,7 +8,14 @@ import * as React from 'react';
 import { IconButton } from '../IconButton';
 import { MediaControl } from '../MediaControl';
 import { Slider } from '../Slider';
-import { CloseIcon, Forward10Icon, Replay10Icon, VolumeDownIcon, VolumeUpIcon } from '../../../icons';
+import {
+  CloseIcon,
+  Forward10Icon,
+  Replay10Icon,
+  VolumeDownIcon,
+  VolumeOffIcon,
+  VolumeUpIcon
+} from '../../../icons';
 import { formatTime, clamp, collapseWhitespace, composeClasses } from '../../../utilities';
 
 type MediaPlayerVariant = 'default' | 'compact' | 'mini';
@@ -17,11 +24,14 @@ export interface MediaPlayerProps extends React.HTMLAttributes<HTMLDivElement> {
   audioSrc: string;
   title: string;
   subtitle?: string;
+  imgSrc?: string;
+  imgAlt?: string;
   variant?: MediaPlayerVariant;
   autoPlay?: boolean;
   preload?: 'metadata' | 'auto' | 'none';
   loop?: boolean;
   startTime?: number;
+  onCloseClick?: () => void;
 }
 
 const baseClasses = `
@@ -54,11 +64,14 @@ export const MediaPlayer = React.forwardRef<HTMLDivElement, MediaPlayerProps>(
       audioSrc,
       title,
       subtitle,
+      imgSrc,
+      imgAlt,
       variant = 'default',
       autoPlay = false,
       preload = 'metadata',
       loop = false,
       startTime = 0,
+      onCloseClick,
       className,
       ...rest
     },
@@ -70,6 +83,8 @@ export const MediaPlayer = React.forwardRef<HTMLDivElement, MediaPlayerProps>(
     const [isScrubbing, setIsScrubbing] = React.useState(false);
     const [scrubTime, setScrubTime] = React.useState<number | null>(null);
     const [volume, setVolume] = React.useState(100);
+    const [muted, setMuted] = React.useState(false);
+    const [prevVolumeBeforeMute, setPrevVolumeBeforeMute] = React.useState<number | null>(null);
 
     const displayedCurrentTime = isScrubbing && scrubTime !== null ? scrubTime : currentTime;
     const normalizedDuration = Number.isFinite(duration) && duration > 0 ? duration : 0;
@@ -170,11 +185,24 @@ export const MediaPlayer = React.forwardRef<HTMLDivElement, MediaPlayerProps>(
     const handleVolumeChange = React.useCallback((nextValue: number) => {
       const bounded = clamp(nextValue, 0, 100);
       setVolume(bounded);
+      setMuted(bounded === 0);
       const audio = audioRef.current;
       if (audio) {
         audio.volume = bounded / 100;
       }
     }, []);
+
+    const handleToggleMute = React.useCallback(() => {
+      if (muted) {
+        const restore = prevVolumeBeforeMute ?? 100;
+        setMuted(false);
+        handleVolumeChange(restore);
+      } else {
+        setPrevVolumeBeforeMute(volume);
+        setMuted(true);
+        handleVolumeChange(0);
+      }
+    }, [muted, prevVolumeBeforeMute, volume, handleVolumeChange]);
 
     const skipBy = React.useCallback((deltaSeconds: number) => {
       const audio = audioRef.current;
@@ -274,7 +302,18 @@ export const MediaPlayer = React.forwardRef<HTMLDivElement, MediaPlayerProps>(
             <>
               {variant !== 'mini' && (
                 <div className={leadClassName} data-slot="_lead">
-                  {variant === 'default' && <div className={artworkClassName} aria-hidden="true" />}
+                  {variant === 'default' &&
+                    (imgSrc ? (
+                      <div className={artworkClassName} data-slot="_artwork">
+                        <img
+                          className="block w-full h-full object-cover"
+                          src={imgSrc}
+                          alt={imgAlt ?? ''}
+                        />
+                      </div>
+                    ) : (
+                      <div className={artworkClassName} data-slot="_artwork" aria-hidden="true" />
+                    ))}
                   <div className={labelsClassName} data-slot="_labels">
                     <div className={subtitleClassName} data-slot="_subtitle">
                       {trimmedSubtitle}
@@ -334,10 +373,26 @@ export const MediaPlayer = React.forwardRef<HTMLDivElement, MediaPlayerProps>(
                         ariaLabel="Volume"
                       />
                     </div>
-                    <span aria-hidden="true">
-                      {volume > 50 ? <VolumeUpIcon /> : <VolumeDownIcon />}
-                    </span>
-                    <IconButton variant="bare" icon={<CloseIcon />} ariaLabel="Close" />
+                    <IconButton
+                      variant="bare"
+                      icon={
+                        muted ? (
+                          <VolumeOffIcon />
+                        ) : volume > 50 ? (
+                          <VolumeUpIcon />
+                        ) : (
+                          <VolumeDownIcon />
+                        )
+                      }
+                      ariaLabel={muted ? 'Unmute' : 'Mute'}
+                      onClick={handleToggleMute}
+                    />
+                    <IconButton
+                      variant="bare"
+                      icon={<CloseIcon />}
+                      ariaLabel="Close"
+                      onClick={onCloseClick}
+                    />
                   </div>
                 )}
                 {variant !== 'mini' && <div className={actionsClassName} data-slot="_actions" />}
