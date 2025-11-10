@@ -25,9 +25,14 @@ export interface MediaPlayerProps extends React.HTMLAttributes<HTMLDivElement> {
 
 const baseClasses = `
   flex flex-col items-start w-full h-78
+  data-[variant=compact]:w-418 group
+  data-[variant=mini]:size-40 data-[variant=mini]:rounded-full
 `;
 const seekClasses = `_seek flex items-center w-full -mb-6 pr-2`;
-const rowClasses = `_row flex items-center w-full bg-color-background-subtle py-20`;
+const rowClasses = `
+  _row flex items-center w-full bg-color-background-subtle py-20
+  group-data-[variant=mini]:h-40 group-data-[variant=mini]:rounded-full group-data-[variant=mini]:py-0
+`;
 const leadClasses = `_lead flex items-center gap-16 min-w-0 flex-1 pl-16`;
 const artworkClasses = `_artwork relative shrink-0 size-40 overflow-clip`;
 const labelsClasses = `_labels flex flex-col min-w-0 gap-0`;
@@ -234,53 +239,91 @@ export const MediaPlayer = React.forwardRef<HTMLDivElement, MediaPlayerProps>(
           </div>
         )}
         <div className={rowClassName} data-slot="_row">
-          {variant !== 'mini' && (
-            <div className={leadClassName} data-slot="_lead">
-              {variant === 'default' && <div className={artworkClassName} aria-hidden="true" />}
-              <div className={labelsClassName} data-slot="_labels">
-                <div className={subtitleClassName} data-slot="_subtitle">
-                  {trimmedSubtitle}
-                </div>
-                <div className={titleRowClassName} data-slot="_titleRow">
-                  <div className={titleClassName} data-slot="_title">
-                    {trimmedTitle}
-                  </div>
-                  <div className={timeDisplayClassName} data-slot="_timeDisplay" aria-live="off">
-                    {timeDisplayLabel}
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-          <div className={controlsClassName} data-slot="_controls">
-            <MediaControl
-              variant="dark"
-              size="lg"
-              defaultState={autoPlay ? 'playing' : 'paused'}
-              onPlay={handleControlPlay}
-              onPause={handleControlPause}
-            />
-          </div>
-          <div className="flex items-center justify-end gap-8 flex-1 min-w-0">
-            {variant === 'default' && (
-              <div className={volumeGroupClassName} data-slot="_volumeGroup">
-                <div className={volumeRangeClassName} data-slot="_volumeRange">
-                  <Slider
-                    value={volume}
-                    min={0}
-                    max={100}
-                    step={1}
-                    onChange={handleVolumeChange}
-                    ariaLabel="Volume"
+          {variant === 'compact' ? (
+            <>
+              <div className={leadClassName} data-slot="_lead">
+                <div className={controlsClassName} data-slot="_controls">
+                  <MediaControl
+                    variant="dark"
+                    size="lg"
+                    defaultState={autoPlay ? 'playing' : 'paused'}
+                    onPlay={handleControlPlay}
+                    onPause={handleControlPause}
                   />
                 </div>
-                <span aria-hidden="true">
-                  <VolumeUpIcon />
-                </span>
+                <div className={labelsClassName} data-slot="_labels">
+                  <div className={subtitleClassName} data-slot="_subtitle">
+                    {trimmedSubtitle}
+                  </div>
+                  <div className={titleRowClassName} data-slot="_titleRow">
+                    <div className={titleClassName} data-slot="_title">
+                      {trimmedTitle}
+                    </div>
+                  </div>
+                </div>
               </div>
-            )}
-            {variant !== 'mini' && <div className={actionsClassName} data-slot="_actions" />}
-          </div>
+
+              <div className="flex items-center justify-end gap-8 flex-1 min-w-0">
+                <div className={actionsClassName} data-slot="_actions" />
+              </div>
+            </>
+          ) : (
+            <>
+              {variant !== 'mini' && (
+                <div className={leadClassName} data-slot="_lead">
+                  {variant === 'default' && <div className={artworkClassName} aria-hidden="true" />}
+                  <div className={labelsClassName} data-slot="_labels">
+                    <div className={subtitleClassName} data-slot="_subtitle">
+                      {trimmedSubtitle}
+                    </div>
+                    <div className={titleRowClassName} data-slot="_titleRow">
+                      <div className={titleClassName} data-slot="_title">
+                        {trimmedTitle}
+                      </div>
+                      <div
+                        className={timeDisplayClassName}
+                        data-slot="_timeDisplay"
+                        aria-live="off"
+                      >
+                        {timeDisplayLabel}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              <div className={controlsClassName} data-slot="_controls">
+                <MediaControl
+                  variant="dark"
+                  size="lg"
+                  defaultState={autoPlay ? 'playing' : 'paused'}
+                  onPlay={handleControlPlay}
+                  onPause={handleControlPause}
+                />
+              </div>
+
+              <div className="flex items-center justify-end gap-8 flex-1 min-w-0">
+                {variant === 'default' && (
+                  <div className={volumeGroupClassName} data-slot="_volumeGroup">
+                    <div className={volumeRangeClassName} data-slot="_volumeRange">
+                      <Slider
+                        value={volume}
+                        min={0}
+                        max={100}
+                        step={1}
+                        onChange={handleVolumeChange}
+                        ariaLabel="Volume"
+                      />
+                    </div>
+                    <span aria-hidden="true">
+                      <VolumeUpIcon />
+                    </span>
+                  </div>
+                )}
+                {variant !== 'mini' && <div className={actionsClassName} data-slot="_actions" />}
+              </div>
+            </>
+          )}
         </div>
         <audio
           ref={audioRef}
