@@ -5,9 +5,10 @@
 // Summary: Client MediaPlayer wiring native audio with MediaControl and Slider instances for seek and volume plus layout variants.
 
 import * as React from 'react';
+import { IconButton } from '../IconButton';
 import { MediaControl } from '../MediaControl';
 import { Slider } from '../Slider';
-import { VolumeUpIcon } from '../../../icons';
+import { CloseIcon, Forward10Icon, Replay10Icon, VolumeUpIcon } from '../../../icons';
 import { formatTime, clamp, collapseWhitespace, composeClasses } from '../../../utilities';
 
 type MediaPlayerVariant = 'default' | 'compact' | 'mini';
@@ -175,6 +176,28 @@ export const MediaPlayer = React.forwardRef<HTMLDivElement, MediaPlayerProps>(
       }
     }, []);
 
+    const skipBy = React.useCallback((deltaSeconds: number) => {
+      const audio = audioRef.current;
+      if (!audio) return;
+      const dur = Number.isFinite(audio.duration) && audio.duration > 0 ? audio.duration : 0;
+      const current = Number.isFinite(audio.currentTime) ? audio.currentTime : 0;
+      const next = clamp(current + deltaSeconds, 0, dur > 0 ? dur : 0);
+      try {
+        audio.currentTime = next;
+      } catch {
+        // no-op if seeking fails
+      }
+      setCurrentTime(next);
+    }, []);
+
+    const handleReplay10 = React.useCallback(() => {
+      skipBy(-10);
+    }, [skipBy]);
+
+    const handleForward10 = React.useCallback(() => {
+      skipBy(10);
+    }, [skipBy]);
+
     const handleControlPlay = React.useCallback(() => {
       const audio = audioRef.current;
       if (!audio) return;
@@ -223,12 +246,24 @@ export const MediaPlayer = React.forwardRef<HTMLDivElement, MediaPlayerProps>(
             <>
               <div className={leadClassName} data-slot="_lead">
                 <div className={controlsClassName} data-slot="_controls">
+                  <IconButton
+                    variant="bare"
+                    icon={<Replay10Icon />}
+                    ariaLabel="Replay 10 seconds"
+                    onClick={handleReplay10}
+                  />
                   <MediaControl
                     variant="dark"
                     size="lg"
                     defaultState={autoPlay ? 'playing' : 'paused'}
                     onPlay={handleControlPlay}
                     onPause={handleControlPause}
+                  />
+                  <IconButton
+                    variant="bare"
+                    icon={<Forward10Icon />}
+                    ariaLabel="Forward 10 seconds"
+                    onClick={handleForward10}
                   />
                 </div>
                 <div className={labelsClassName} data-slot="_labels">
@@ -273,12 +308,24 @@ export const MediaPlayer = React.forwardRef<HTMLDivElement, MediaPlayerProps>(
               )}
 
               <div className={controlsClassName} data-slot="_controls">
+                <IconButton
+                  variant="bare"
+                  icon={<Replay10Icon />}
+                  ariaLabel="Replay 10 seconds"
+                  onClick={handleReplay10}
+                />
                 <MediaControl
                   variant="dark"
                   size="lg"
                   defaultState={autoPlay ? 'playing' : 'paused'}
                   onPlay={handleControlPlay}
                   onPause={handleControlPause}
+                />
+                <IconButton
+                  variant="bare"
+                  icon={<Forward10Icon />}
+                  ariaLabel="Forward 10 seconds"
+                  onClick={handleForward10}
                 />
               </div>
 
@@ -298,6 +345,7 @@ export const MediaPlayer = React.forwardRef<HTMLDivElement, MediaPlayerProps>(
                     <span aria-hidden="true">
                       <VolumeUpIcon />
                     </span>
+                    <IconButton variant="bare" icon={<CloseIcon />} ariaLabel="Close" />
                   </div>
                 )}
                 {variant !== 'mini' && <div className={actionsClassName} data-slot="_actions" />}

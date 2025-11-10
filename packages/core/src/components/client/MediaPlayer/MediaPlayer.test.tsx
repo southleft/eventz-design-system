@@ -173,7 +173,7 @@ describe('MediaPlayer', () => {
     primeMediaElement(audio, { duration: 90 });
     dispatchAudioEvent(audio, 'loadedmetadata');
 
-    const controlBtn = screen.getByRole('button');
+    const controlBtn = screen.getByRole('button', { name: 'Play media' });
     await user.click(controlBtn);
     expect(playMock).toHaveBeenCalledTimes(1);
   });
@@ -185,10 +185,12 @@ describe('MediaPlayer', () => {
     primeMediaElement(audio, { duration: 90 });
     dispatchAudioEvent(audio, 'loadedmetadata');
 
-    const controlBtn = screen.getByRole('button');
-    await user.click(controlBtn);
+    const playButton = screen.getByRole('button', { name: 'Play media' });
+    await user.click(playButton);
     dispatchAudioEvent(audio, 'play');
-    await user.click(controlBtn);
+
+    const pauseButton = await screen.findByRole('button', { name: 'Pause media' });
+    await user.click(pauseButton);
     expect(pauseMock).toHaveBeenCalledTimes(1);
   });
 
@@ -361,6 +363,64 @@ describe('MediaPlayer', () => {
   it('falls back to the generic aria label when title is blank', () => {
     renderMediaPlayer({ title: '   ', subtitle: undefined });
     expect(screen.getByRole('region')).toHaveAttribute('aria-label', 'Media player');
+  });
+
+  it('replay 10: moves currentTime back by 10s (clamped at 0)', async () => {
+    renderMediaPlayer();
+    const audio = document.querySelector('audio') as HTMLAudioElement;
+    primeMediaElement(audio, { duration: 120, currentTime: 5 });
+    dispatchAudioEvent(audio, 'loadedmetadata');
+
+    const replayBtn = screen.getByRole('button', { name: /replay 10 seconds/i });
+    await userEvent.click(replayBtn);
+
+    expect(audio.currentTime).toBe(0);
+  });
+
+  it('replay 10: moves currentTime back by 10s (normal case)', async () => {
+    renderMediaPlayer();
+    const audio = document.querySelector('audio') as HTMLAudioElement;
+    primeMediaElement(audio, { duration: 200, currentTime: 50 });
+    dispatchAudioEvent(audio, 'loadedmetadata');
+
+    const replayBtn = screen.getByRole('button', { name: /replay 10 seconds/i });
+    await userEvent.click(replayBtn);
+
+    expect(audio.currentTime).toBe(40);
+  });
+
+  it('forward 10: moves currentTime forward by 10s (not beyond duration)', async () => {
+    renderMediaPlayer();
+    const audio = document.querySelector('audio') as HTMLAudioElement;
+    primeMediaElement(audio, { duration: 55, currentTime: 50 });
+    dispatchAudioEvent(audio, 'loadedmetadata');
+
+    const fwdBtn = screen.getByRole('button', { name: /forward 10 seconds/i });
+    await userEvent.click(fwdBtn);
+
+    expect(audio.currentTime).toBe(55);
+  });
+
+  it('forward 10: moves currentTime forward by 10s (normal case)', async () => {
+    renderMediaPlayer();
+    const audio = document.querySelector('audio') as HTMLAudioElement;
+    primeMediaElement(audio, { duration: 200, currentTime: 50 });
+    dispatchAudioEvent(audio, 'loadedmetadata');
+
+    const fwdBtn = screen.getByRole('button', { name: /forward 10 seconds/i });
+    await userEvent.click(fwdBtn);
+
+    expect(audio.currentTime).toBe(60);
+  });
+
+  it('default: renders Close icon button (after volume icon)', () => {
+    renderMediaPlayer({ variant: 'default' });
+    expect(screen.getByRole('button', { name: /close/i })).toBeInTheDocument();
+  });
+
+  it('compact: does not render Close icon button', () => {
+    renderMediaPlayer({ variant: 'compact' });
+    expect(screen.queryByRole('button', { name: /close/i })).toBeNull();
   });
 
 });
