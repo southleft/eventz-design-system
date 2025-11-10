@@ -203,6 +203,36 @@ describe('MediaPlayer', () => {
     expect(audio.volume).toBeCloseTo(0.35);
   });
 
+  it('resets duration and time when the audioSrc prop changes', async () => {
+    const initialProps: MediaPlayerProps = {
+      audioSrc: '/audio/first.mp3',
+      title: 'Track One',
+      subtitle: 'Artist'
+    };
+    const view = render(<MediaPlayer {...initialProps} />);
+    const audio = document.querySelector('audio') as HTMLAudioElement;
+    primeMediaElement(audio, { duration: 120, currentTime: 45 });
+    dispatchAudioEvent(audio, 'loadedmetadata');
+    dispatchAudioEvent(audio, 'timeupdate');
+
+    await waitFor(() => {
+      expect(screen.getByText('00:45 / 02:00')).toBeInTheDocument();
+    });
+
+    view.rerender(
+      <MediaPlayer {...initialProps} audioSrc="/audio/second.mp3" title="Second Track" />
+    );
+
+    await waitFor(() => {
+      expect(screen.getByText('00:00 / 00:00')).toBeInTheDocument();
+    });
+  });
+
+  it('falls back to the generic aria label when title is blank', () => {
+    renderMediaPlayer({ title: '   ', subtitle: undefined });
+    expect(screen.getByRole('region')).toHaveAttribute('aria-label', 'Media player');
+  });
+
   it('seeks to the provided startTime once metadata loads', () => {
     renderMediaPlayer({ startTime: 15 });
     const audio = document.querySelector('audio') as HTMLAudioElement;
