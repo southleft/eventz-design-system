@@ -3,11 +3,19 @@
 // Summary: Storybook stories for MediaPlayer covering default, compact, and mini layouts with sample audio sources.
 
 import type { Meta, StoryObj } from '@storybook/react';
+import { Markdown } from '@storybook/addon-docs/blocks';
 import { MediaPlayer, type MediaPlayerProps } from './MediaPlayer';
+import Readme from './README.md?raw';
 
 const meta: Meta<MediaPlayerProps> = {
   title: 'Client components/MediaPlayer',
   component: MediaPlayer,
+  tags: ['autodocs'],
+  parameters: {
+    docs: {
+      page: () => <Markdown>{Readme}</Markdown>
+    }
+  },
   args: {
     audioSrc: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3',
     title: 'Inspiration Loop',
