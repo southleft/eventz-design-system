@@ -27,7 +27,7 @@ export interface TextLinkProps
     TextLinkOwnProps {}
 
 const baseClasses = `
-  inline-flex items-center select-none justify-center no-underline gap-2
+  inline-flex items-center select-none no-underline gap-2
   text-sm whitespace-nowrap transition-colors outline-none rounded-sm
   focus-visible:ring focus-visible:ring-comp-border-focus-ring focus-visible:ring-offset-2
   aria-disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:select-none
