@@ -370,7 +370,7 @@ export function Combobox({
     }
   };
 
-  const menuItemClasses = `w-full`;
+  const menuItemClasses = `w-full focus-visible-brand-inset`;
   const menuItemClassName = collapseWhitespace(composeClasses(menuItemClasses));
 
   const rootClassName = collapseWhitespace(

@@ -29,7 +29,8 @@ export const ComboboxContract = defineContract({
 
     endIcon: {
       type: 'slot',
-      description: 'Optional override icon for the clear-all button. Defaults to CloseIcon when not provided.'
+      description:
+        'Optional override icon for the clear-all button. Defaults to CloseIcon when not provided.'
     },
 
     /** Placeholder text for the internal input element. */
@@ -64,7 +65,8 @@ export const ComboboxContract = defineContract({
     /** Apply a divider below each MenuItem row (uniform, forwarded to MenuItem). */
     menuItemBorderBottom: {
       type: 'boolean',
-      description: 'Optional uniform divider under every item row (forwarded to MenuItem). Defaults depend on menuItemType (see rules).'
+      description:
+        'Optional uniform divider under every item row (forwarded to MenuItem). Defaults depend on menuItemType (see rules).'
     },
 
     /** Controlled/uncontrolled selection. */
@@ -227,6 +229,6 @@ export const ComboboxContract = defineContract({
 
   hints: {
     radixAdapter: { uses: ['Popover'] as const },
-    a11y: 'FormElement provides the accessible name/description. When disabled, prevent opening. Chips dismiss buttons must be focusable and have aria-labels. The list is a plain list; MenuItem handles per-row semantics.'
+    a11y: 'FormElement provides the accessible name/description. When disabled, prevent opening. Chips dismiss buttons must be focusable and have aria-labels. The list is a plain list; MenuItem handles per-row semantics. MenuItem uses an inset focus ring utility (focus-visible-brand-inset) so the focus indicator is not clipped by the Popover panel.'
   }
 });

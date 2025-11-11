@@ -93,7 +93,7 @@ export const ComboboxStyleMap = defineStyleMap({
       'text-color-content-default'
     ] as const,
 
-    menuItem: ['w-full'] as const,
+    menuItem: ['w-full', 'focus-visible-brand-inset'] as const,
 
     input: [
       'min-w-0',

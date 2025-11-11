@@ -395,6 +395,14 @@
     @apply outline-none ring-2 ring-offset-4 ring-comp-border-focus-ring ring-offset-color-background-default;
   }
 
+  /* Inset focus ring for items inside clipped containers (e.g., dropdown panels) */
+  .focus-visible-brand-inset {
+    @apply outline-none;
+  }
+  .focus-visible-brand-inset:focus-visible {
+    @apply ring-inset ring-2 ring-comp-border-focus-ring ring-offset-0;
+  }
+
   .overlay-image-overlay-dark {
     background-image: var(--dt-overlay-image-overlay-dark);
   }
