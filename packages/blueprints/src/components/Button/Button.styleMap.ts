@@ -40,12 +40,13 @@ export const ButtonStyleMap = defineStyleMap({
     primary: [
       'bg-comp-button-primary-color-background-default',
       'text-comp-button-primary-color-content-default',
-      'border-comp-border-none',
+      'border-none',
       'hover:bg-comp-button-primary-color-background-hover',
       'active:bg-comp-button-primary-color-background-active'
     ] as const,
 
     secondary: [
+      'border',
       'bg-comp-button-color-background-default',
       'border-comp-button-color-border-default',
       'text-comp-button-color-content-default',
@@ -56,7 +57,7 @@ export const ButtonStyleMap = defineStyleMap({
     bare: [
       'bg-background-none',
       'text-comp-button-color-content-default',
-      'border-comp-border-none',
+      'border-none',
       'hover:bg-comp-button-color-background-hover',
       'active:bg-comp-button-color-background-active'
     ] as const,
@@ -64,7 +65,7 @@ export const ButtonStyleMap = defineStyleMap({
     knockout: [
       'bg-comp-button-color-background-knockout',
       'text-comp-button-color-content-default',
-      'border-comp-border-none',
+      'border-none',
       'hover:bg-comp-button-color-background-knockout-hover',
       'active:bg-comp-button-color-background-knockout-active'
     ] as const
