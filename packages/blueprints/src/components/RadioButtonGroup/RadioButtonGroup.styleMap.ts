@@ -32,12 +32,15 @@ export const RadioButtonGroupStyleMap = defineStyleMap({
       'bg-background-none',
       'focus:outline-none',
       'disabled:opacity-50',
-      'focus-visible:ring-2',
-      'focus-visible:ring-comp-border-focus-ring',
-      'focus-visible:ring-offset-4',
-      'focus-visible:ring-offset-color-background-default'
+      'focus-visible-brand'
     ] as const,
-    indicator: ['pointer-events-none', 'block', 'size-2', 'rounded-full', 'bg-color-content-brand'] as const,
+    indicator: [
+      'pointer-events-none',
+      'block',
+      'size-2',
+      'rounded-full',
+      'bg-color-content-brand'
+    ] as const,
     // Visual label styling is applied on the wrapping Radix Label.Root container in runtime.
     // The inner span carries no classes to avoid duplication and drift.
     choiceLabel: [] as const,
