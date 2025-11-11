@@ -38,11 +38,7 @@ export const ComboboxStyleMap = defineStyleMap({
       'border-0',
       'bg-background-none',
       'text-color-content-default',
-      'focus-visible:outline-none',
-      'focus-visible:ring-2',
-      'focus-visible:ring-comp-border-focus-ring',
-      'focus-visible:ring-offset-2',
-      'focus-visible:ring-offset-color-background-default',
+      'focus-visible-brand',
       'transition-opacity',
       'opacity-0'
     ] as const,
@@ -65,10 +61,7 @@ export const ComboboxStyleMap = defineStyleMap({
       'h-22',
       'transition-colors',
       'group',
-      'focus-visible:outline-none',
-      'focus-visible:ring-2',
-      'focus-visible:ring-comp-border-focus-ring',
-      'focus-visible:ring-offset-[-4px]'
+      'focus-visible-brand'
     ] as const,
 
     chipDismiss: [
@@ -83,15 +76,22 @@ export const ComboboxStyleMap = defineStyleMap({
       'bg-color-background-brand',
       'group-hover:bg-color-background-brand-hover',
       'text-color-content-inverse',
-      'focus-visible:ring-2',
-      'focus-visible:ring-comp-border-focus-ring',
-      'focus-visible:ring-offset-2',
-      'focus-visible:ring-offset-color-background-default'
+      'focus-visible-brand'
     ] as const,
 
-    startIcon: ['shrink-0', 'py-(--spacing-1_5)', 'inline-flex', 'text-color-content-default'] as const,
+    startIcon: [
+      'shrink-0',
+      'py-(--spacing-1_5)',
+      'inline-flex',
+      'text-color-content-default'
+    ] as const,
 
-    endIcon: ['shrink-0', 'py-(--spacing-1_5)', 'inline-flex', 'text-color-content-default'] as const,
+    endIcon: [
+      'shrink-0',
+      'py-(--spacing-1_5)',
+      'inline-flex',
+      'text-color-content-default'
+    ] as const,
 
     menuItem: ['w-full'] as const,
 
