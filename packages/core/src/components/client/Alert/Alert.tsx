@@ -28,7 +28,6 @@ const contentClasses = `flex flex-col gap-2 flex-grow`;
 const titleClasses = `text-base font-bold`;
 const descriptionClasses = `text-sm`;
 const closeButtonClasses = `pt-0`;
-const closeGlyphClasses = `fill-color-content-inverse -mt-2`;
 
 const iconFillClasses: Record<AlertVariant, string> = {
   success: `fill-color-content-utility-success-strong`,
@@ -89,7 +88,6 @@ export const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
     const titleClassName = collapseWhitespace(composeClasses(titleClasses));
     const descriptionClassName = collapseWhitespace(composeClasses(descriptionClasses));
     const closeButtonClassName = collapseWhitespace(composeClasses(closeButtonClasses));
-    const closeGlyphClassName = collapseWhitespace(composeClasses(closeGlyphClasses));
 
     const textLinkElement = textLink ? <TextLink {...textLink} data-slot="textLink" /> : null;
 
@@ -119,7 +117,7 @@ export const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
             onClick={onCloseClick}
             variant="bareKnockout"
             className={closeButtonClassName}
-            icon={closeIcon ?? <CloseIcon className={closeGlyphClassName} data-slot="closeIcon" />}
+            icon={closeIcon ?? <CloseIcon data-slot="closeIcon" />}
           />
         ) : null}
       </div>

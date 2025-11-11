@@ -24,7 +24,7 @@ export const AlertStyleMap = defineStyleMap({
     title: ['text-base', 'font-bold'] as const,
     description: ['text-sm'] as const,
     textLink: [] as const,
-    closeIcon: ['fill-color-content-inverse', '-mt-2'] as const
+    closeIcon: [] as const
   },
 
   // Visual variants are 1:1 with contract props.variant options
