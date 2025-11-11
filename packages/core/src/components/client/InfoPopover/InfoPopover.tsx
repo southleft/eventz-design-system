@@ -11,7 +11,10 @@ import { collapseWhitespace } from '../../../utilities/collapseWhitespace/collap
 import { composeClasses } from '../../../utilities/composeClasses/composeClasses';
 
 const baseClasses = `relative dxyz-info-popover`;
-const triggerClasses = `inline-flex items-center justify-center shrink-0 border-none bg-background-none text-color-content-subtle focus:outline-none focus-visible:ring-2 focus-visible:ring-comp-border-focus-ring focus-visible:ring-offset-2 [&>svg]:size-16`;
+const triggerClasses = `
+  inline-flex items-center justify-center shrink-0 border-none bg-background-none text-color-content-subtle
+  focus-visible-brand [&>svg]:size-16 rounded-full
+`;
 const contentClasses = `max-w-xs rounded-md bg-color-content-default p-3 text-sm shadow-lg`;
 
 type Side = 'top' | 'right' | 'bottom' | 'left';
