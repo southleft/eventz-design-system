@@ -6,6 +6,7 @@ export const FormElementStyleMap = defineStyleMap({
     'inline-flex',
     'border-none',
     'flex-col',
+    'p-0',
     'gap-1',
     'disabled:opacity-50',
     'disabled:pointer-events-none'
