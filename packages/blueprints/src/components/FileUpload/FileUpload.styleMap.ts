@@ -41,7 +41,11 @@ export default defineStyleMap({
       'hover:border-comp-form-color-hover',
       // focus-within:* ring is applied conditionally at runtime (keyboard modality)
       // conditional focus-within:* ring classes are applied as 'focusWithinRingClasses'
-      'focus-visible-brand'
+      'focus-visible-brand',
+      'focus-within:ring-2',
+      'focus-within:ring-offset-4',
+      'focus-within:ring-comp-border-focus-ring',
+      'focus-within:ring-offset-color-background-default'
     ] as const,
 
     // Thumbnail host (AspectRatio handles sizing)

@@ -39,7 +39,7 @@ const contentBodyClasses = `
   min-h-0
   overflow-auto
 `;
-const navigationClasses = `h-40 w-40 !rounded-full border-none absolute z-20 pointer-events-auto bg-comp-button-color-backgroud-knockout-blur`;
+const navigationClasses = `h-40 w-40 !rounded-full border-none absolute z-20 pointer-events-auto bg-comp-button-color-background-knockout-blur`;
 const controlLeftClasses = `top-1/2 -translate-y-1/2 -left-20`;
 const controlRightClasses = `top-1/2 -translate-y-1/2 -right-20`;
 const sizeSmClasses = `w-600`;

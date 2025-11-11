@@ -62,7 +62,7 @@ export const DialogStyleMap = defineStyleMap({
       'top-1/2',
       '-translate-y-1/2',
       '-left-20',
-      'bg-comp-button-color-backgroud-knockout-blur'
+      'bg-comp-button-color-background-knockout-blur'
     ] as const,
     controlRight: [
       'h-40',
@@ -75,7 +75,7 @@ export const DialogStyleMap = defineStyleMap({
       'top-1/2',
       '-translate-y-1/2',
       '-right-20',
-      'bg-comp-button-color-backgroud-knockout-blur'
+      'bg-comp-button-color-background-knockout-blur'
     ] as const,
 
     // portal kept for structural parity (Radix Portal does not accept className)

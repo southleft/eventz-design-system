@@ -23,7 +23,7 @@ const StepperStyleMap = {
       'font-bold',
       'border-[2px]',
       'transition-colors',
-      'focus-visible-ring',
+      'focus-visible-brand',
       'data-[step-status=active]:bg-color-background-default',
       'data-[step-status=active]:text-color-content-brand',
       'data-[step-status=active]:border-color-border-strong',
