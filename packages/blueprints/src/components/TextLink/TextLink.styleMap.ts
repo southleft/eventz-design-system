@@ -13,9 +13,7 @@ export const TextLinkStyleMap = defineStyleMap({
     'transition-colors',
     'outline-none',
     'rounded-sm',
-    'focus-visible:ring',
-    'focus-visible:ring-comp-border-focus-ring',
-    'focus-visible:ring-offset-2',
+    'focus-visible-brand',
     'aria-disabled:opacity-50',
     'aria-disabled:pointer-events-none',
     'aria-disabled:select-none'
