@@ -7,6 +7,7 @@ export const MenuItemStyleMap = defineStyleMap({
     'flex-nowrap',
     'items-center',
     'gap-8',
+    'no-underline',
     'bg-background-none',
     'border-l-0',
     'border-r-0',
