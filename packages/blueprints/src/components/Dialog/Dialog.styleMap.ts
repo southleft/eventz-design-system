@@ -37,7 +37,7 @@ export const DialogStyleMap = defineStyleMap({
       'z-10',
       'text-color-content-default',
       'pointer-events-auto',
-      'bg-background-modal-dark',
+      'background-modal',
       'shadow-xl',
       'h-[min(650px,calc(100vh-40px))]',
       'overflow-visible',
