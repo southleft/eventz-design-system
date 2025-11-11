@@ -1,5 +1,5 @@
 # InfoPopover
-*Type: client* | *Base: div* | *Last updated: 2025-11-08*
+*Type: client* | *Base: div* | *Last updated: 2025-11-11*
 
 ## Overview
 InfoPopover renders an icon-only trigger that opens a Radix Popover for short helper text. It accepts a required `ariaLabel`, lets you pick the side/offset, and notifies parent controls when the panel opens or closes. Use it to append inline explanations to labels, table headers, or setting names without overwhelming the layout.
@@ -85,11 +85,11 @@ import type { InfoPopoverProps } from '@doxyz-ui/core/client/InfoPopover';
 
 ## Classes
 
-| Data slot      | Classes |
-| -------------- | ------- |
-| `container`    | `relative dxyz-info-popover` |
-| `infoTrigger`  | `inline-flex items-center justify-center shrink-0 border-none bg-background-none text-color-content-subtle focus:outline-none focus-visible:ring-2 focus-visible:ring-comp-border-focus-ring focus-visible:ring-offset-2 [&>svg]:size-16` |
-| `infoContent`  | `max-w-xs rounded-md bg-color-content-default p-3 text-sm shadow-lg` |
+| Data slot | Classes |
+| --------- | ------- |
+| `container` | `relative` `dxyz-info-popover` |
+| `infoTrigger` | `inline-flex` `items-center` `justify-center` `shrink-0` `border-none` `bg-background-none` `text-color-content-subtle` `focus-visible-brand` `rounded-full` `[&>svg]:size-16` |
+| `infoContent` | `max-w-xs` `rounded-md` `bg-color-content-default` `p-3` `text-sm` `shadow-lg` |
 
 ---
 
@@ -164,4 +164,5 @@ const [infoOpen, setInfoOpen] = useState(false);
 
 | Date       | Changes |
 | ---------- | ------- |
+| 2025-11-11 | Synced classes with blueprint tokens. |
 | 2025-11-08 | Initial documentation and Storybook README wiring. |

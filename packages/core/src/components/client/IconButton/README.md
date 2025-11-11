@@ -1,5 +1,5 @@
 # IconButton
-*Type: client* | *Base: button* | *Last updated: 2025-11-08*
+*Type: client* | *Base: button* | *Last updated: 2025-11-11*
 
 ## Overview
 IconButton renders an icon-only control with the same visual variants as the standard Button. It enforces a non-empty `ariaLabel`, supports loading/disabled states, and forwards native button props so you can reuse it inside forms or toolbars. Reach for it when an action can be represented by a glyph rather than text.
@@ -73,10 +73,16 @@ import type { IconButtonProps } from '@doxyz-ui/core/client/IconButton';
 
 ## Classes
 
-| Data slot   | Classes |
-| ----------- | ------- |
-| `container` | `inline-flex select-none items-center justify-center outline-none transition-colors focus-visible:ring-2 focus-visible:ring-comp-icon-button-focus-color-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none whitespace-nowrap h-32 w-32 rounded-md` + variant token set (`primary`, `secondary`, `bare`, `knockout`, `bareKnockout`). |
-| `icon`      | `shrink-0 pt-1` |
+| Data slot | Classes |
+| --------- | ------- |
+| `container` | `inline-flex` `select-none` `items-center` `justify-center` `outline-none` `transition-colors` `focus-visible-brand` `disabled:opacity-50` `disabled:pointer-events-none` `whitespace-nowrap` `h-32` `w-32` `rounded-md` |
+| `icon` | `shrink-0` `pt-1` `[&_svg]:size-20` |
+| `container (variant: primary)` | `bg-comp-button-primary-color-background-default` `text-comp-button-primary-color-content-default` `border-comp-border-none` `hover:bg-comp-button-primary-color-background-hover` `active:bg-comp-button-primary-color-background-active` |
+| `container (variant: secondary)` | `bg-comp-button-color-background-default` `border-comp-button-color-border-default` `text-comp-button-color-content-default` `hover:bg-comp-button-color-background-hover` `active:bg-comp-button-color-background-active` |
+| `container (variant: bare)` | `bg-background-none` `text-comp-button-color-content-default` `border-comp-border-none` `hover:bg-comp-button-color-background-hover` `active:bg-comp-button-color-background-active` |
+| `container (variant: knockout)` | `bg-comp-button-color-background-knockout` `text-comp-button-color-content-default` `border-comp-border-none` `hover:bg-comp-button-color-background-knockout-hover` `active:bg-comp-button-color-background-knockout-active` |
+| `container (variant: bareKnockout)` | `bg-background-none` `text-comp-button-primary-color-content-default` `border-comp-border-none` `hover:bg-comp-button-color-background-hover` `active:bg-comp-button-color-background-active` |
+| `container (state: loading)` | `cursor-wait` |
 
 ---
 
@@ -139,4 +145,5 @@ import type { IconButtonProps } from '@doxyz-ui/core/client/IconButton';
 
 | Date       | Changes |
 | ---------- | ------- |
+| 2025-11-11 | Synced classes with blueprint tokens. |
 | 2025-11-08 | Initial documentation and Storybook README wiring. |

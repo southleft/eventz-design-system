@@ -1,5 +1,5 @@
 # FloatingBar
-*Type: client* | *Base: div* | *Last updated: 2025-11-08*
+*Type: client* | *Base: div* | *Last updated: 2025-11-11*
 
 ## Overview
 FloatingBar is a horizontally aligned utility bar that can display summary content plus trailing actions, with optional scroll controls on each side. When `isScrollable` is true, arrow `IconButton`s fire scroll callbacks so parents can nudge a scroll container left/right. Provide `ariaLabel` or `labelledBy` to describe the region when it acts as supplementary navigation.
@@ -81,13 +81,14 @@ import type { FloatingBarProps } from '@doxyz-ui/core/client/FloatingBar';
 
 ## Classes
 
-| Data slot   | Classes |
-| ----------- | ------- |
-| `container` | `flex items-center justify-between gap-2 px-16 py-24 bg-color-background-default outline-none` |
-| `_startButton`/`_endButton` | `shrink-0` |
-| `_rail`     | `flex items-center gap-2 min-w-0 flex-1` |
-| `_content`  | `min-w-0 flex-1 justify-start truncate text-color-content-default text-lg` |
-| `_actions`  | `inline-flex gap-2 shrink-0 justify-end` |
+| Data slot | Classes |
+| --------- | ------- |
+| `container` | `flex` `items-center` `justify-between` `gap-2` `px-16` `py-24` `bg-color-background-default` `outline-none` |
+| `_startButton` | `_startButton` `shrink-0` |
+| `_endButton` | `_endButton` `shrink-0` |
+| `_rail` | `_rail` `flex` `items-center` `gap-2` `min-w-0` `flex-1` |
+| `_content` | `_content` `min-w-0` `flex-1` `justify-start` `truncate` `text-color-content-default` `text-lg` |
+| `_actions` | `_actions` `inline-flex` `gap-2` `shrink-0` `justify-end` |
 
 ---
 
@@ -152,4 +153,5 @@ import type { FloatingBarProps } from '@doxyz-ui/core/client/FloatingBar';
 
 | Date       | Changes |
 | ---------- | ------- |
+| 2025-11-11 | Synced classes with blueprint tokens. |
 | 2025-11-08 | Initial documentation and Storybook README wiring. |

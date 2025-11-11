@@ -1,5 +1,5 @@
 # Accordion
-*Type: client* | *Base: RadixAccordion.Root* | *Last updated: 2025-11-08*
+*Type: client* | *Base: RadixAccordion.Root* | *Last updated: 2025-11-11*
 
 ## Overview
 Accordion reveals a single collapsible answer or detail block with a Radix-powered trigger and chevron indicator. Use it for short FAQ-style disclosures that may optionally show a decorative thumbnail and intro sentence before the body. Emphasis styles let you control how bold the title reads without changing the layout.
@@ -105,20 +105,20 @@ The table below flattens `RadixAccordion.Root` into component-level props (alpha
 
 ## Classes
 
-| Data slot                     | Classes |
-| ----------------------------- | ------- |
-| `container`                   | `[&:has(:focus-visible)]:ring-2 [&:has(:focus-visible)]:ring-offset-4 [&:has(:focus-visible)]:ring-comp-border-focus-ring [&:has(:focus-visible)]:ring-offset-color-background-default flex flex-col w-full` |
-| `item`                        | `bg-comp-accordion-item-color-background-default text-comp-accordion-item-color-foreground-default rounded-md` |
-| `header`                      | `border mt-auto mb-auto border-none` |
-| `trigger`                     | `text-color-content-default hover:text-color-content-default-hover border-none w-full flex justify-between outline-none bg-background-none pt-2 pb-2 pl-1 pr-1 group` |
-| `triggerLabelGroup`           | `inline-flex items-center gap-8` |
-| `image`                       | `[&_img]:h-24 [&_img]:w-24 [&_img]:rounded-[4px] overflow-hidden [&_img]:object-cover` |
-| `title`                       | `text-base lg:text-lg` |
-| `title (strong emphasis)`     | `font-bold` |
-| `icon`                        | `shrink-0` |
-| `iconGlyph`                   | `transition-transform group-data-[state=open]:rotate-180 group-data-[state=closed]:rotate-0 size-20` |
-| `content`                     | `text-color-content-weak text-sm pl-1 pr-1` |
-| `intro`                       | `text-color-content-weak text-sm` |
+| Data slot | Classes |
+| --------- | ------- |
+| `container` | `[&:has(:focus-visible)]:ring-2` `[&:has(:focus-visible)]:ring-offset-4` `[&:has(:focus-visible)]:ring-comp-border-focus-ring` `[&:has(:focus-visible)]:ring-offset-color-background-default` `flex` `flex-col` `w-full` |
+| `item` | `bg-comp-accordion-item-color-background-default` `text-comp-accordion-item-color-foreground-default` `rounded-md` |
+| `header` | `border` `mt-auto` `mb-auto` `border-none` |
+| `trigger` | `text-color-content-default` `hover:text-color-content-default-hover` `border-none` `w-full` `flex` `justify-between` `outline-none` `bg-background-none` `pt-2` `pb-2` `pl-1` `pr-1` `group` |
+| `triggerLabelGroup` | `inline-flex` `items-center` `gap-8` |
+| `image` | `[&_img]:h-24` `[&_img]:w-24` `[&_img]:rounded-[4px]` `overflow-hidden` `[&_img]:object-cover` |
+| `title` | `text-base` `lg:text-lg` |
+| `icon` | `shrink-0` |
+| `iconGlyph` | `transition-transform` `group-data-[state=open]:rotate-180` `group-data-[state=closed]:rotate-0` `size-20` |
+| `content` | `text-color-content-weak` `text-sm` `pl-1` `pr-1` |
+| `intro` | `text-color-content-weak` `text-sm` |
+| `title (state: strong)` | `font-bold` |
 
 ---
 
@@ -188,4 +188,5 @@ The table below flattens `RadixAccordion.Root` into component-level props (alpha
 
 | Date       | Changes |
 | ---------- | ------- |
+| 2025-11-11 | Synced classes with blueprint tokens. |
 | 2025-11-08 | Initial documentation and Storybook README wiring. |

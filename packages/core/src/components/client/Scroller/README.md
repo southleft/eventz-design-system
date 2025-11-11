@@ -1,5 +1,5 @@
 # Scroller
-*Type: client* | *Base: div* | *Last updated: 2025-11-08*
+*Type: client* | *Base: div* | *Last updated: 2025-11-11*
 
 ## Overview
 Scroller provides a horizontally scrollable rail with hidden scrollbars, optional stacked rows, and optional arrow controls powered by the `Control` component. It exposes scroll metrics via `onScrollChange`, tracks whether the viewport is at the start/end, and lets you page by viewport size or a fixed number of pixels.
@@ -87,13 +87,18 @@ import type { ScrollerProps } from '@doxyz-ui/core/client/Scroller';
 
 ## Classes
 
-| Data slot   | Classes |
-| ----------- | ------- |
-| `base`      | `relative block w-full` plus conditional state classes (`[--scroller-scrolling:1]`, etc.). |
-| `_viewport` | `overflow-x-auto overscroll-x-contain touch-pan-x [scrollbar-gutter:stable] [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden` |
-| `_rail`     | `flex items-stretch min-w-0 w-max data-[stack-rows=true]:flex-col` |
-| `_controls` | `mt-3 flex gap-2 justify-end` |
-| `_prev`/`_next` | `shrink-0` |
+| Data slot | Classes |
+| --------- | ------- |
+| `base` | `relative` `block` `w-full` |
+| `_viewport` | `overflow-x-auto` `overscroll-x-contain` `touch-pan-x` `[scrollbar-gutter:stable]` `[-ms-overflow-style:none]` `[scrollbar-width:none]` `[&::-webkit-scrollbar]:hidden` |
+| `_rail` | `flex` `items-stretch` `min-w-0` `w-max` `data-[stack-rows=true]:flex-col` |
+| `_controls` | `mt-3` `flex` `gap-2` `justify-end` |
+| `_prev` | `shrink-0` |
+| `_next` | `shrink-0` |
+| `base (state: is scrolling)` | `[--scroller-scrolling:1]` |
+| `base (state: is at start)` | `[--scroller-edge-start:1]` |
+| `base (state: is at end)` | `[--scroller-edge-end:1]` |
+| `base (state: has controls)` | `[--has-controls:1]` |
 
 ---
 
@@ -156,4 +161,5 @@ import type { ScrollerProps } from '@doxyz-ui/core/client/Scroller';
 
 | Date       | Changes |
 | ---------- | ------- |
+| 2025-11-11 | Synced classes with blueprint tokens. |
 | 2025-11-08 | Initial documentation and Storybook README wiring. |

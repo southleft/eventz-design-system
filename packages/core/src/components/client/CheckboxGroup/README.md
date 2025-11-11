@@ -1,5 +1,5 @@
 # CheckboxGroup
-*Type: client* | *Base: fieldset* | *Last updated: 2025-11-08*
+*Type: client* | *Base: fieldset* | *Last updated: 2025-11-11*
 
 ## Overview
 CheckboxGroup arranges related Checkbox options inside a fieldset with shared legend, hint/error messaging, and optional info popover. It manages an internal list of selected values and emits the full array through `onCheckedChange`, while also wiring `aria-describedby` so hints/errors are read to assistive tech. Use it for multi-select questions such as notification preferences or filters.
@@ -102,11 +102,11 @@ import type { CheckboxGroupProps } from '@doxyz-ui/core/client/CheckboxGroup';
 
 | Data slot | Classes |
 | --------- | ------- |
-| `fieldset` | `inline-flex flex-col gap-1 border-none py-8` + any custom classes via `className`. |
-| `label`    | `inline-flex gap-1 text-color-content-default text-xs uppercase` |
-| `hint`     | `text-color-content-subtle text-xs -mt-8` |
-| `choices`  | `flex flex-col gap-3` |
-| `error`    | `text-color-content-utility-danger-subtle text-xs mt-1 inline-flex gap-2 items-center` |
+| `label` | `inline-flex` `flex-col` `gap-1` `border-none` `py-8` |
+| `label` | `inline-flex` `gap-1` `text-color-content-default` `text-xs` `uppercase` |
+| `hint` | `text-color-content-subtle` `text-xs` `-mt-8` |
+| `choices` | `flex` `flex-col` `gap-3` |
+| `error` | `text-color-content-utility-danger-subtle` `text-xs` `mt-1` `inline-flex` `gap-2` `items-center` |
 
 ---
 
@@ -177,4 +177,5 @@ import type { CheckboxGroupProps } from '@doxyz-ui/core/client/CheckboxGroup';
 
 | Date       | Changes |
 | ---------- | ------- |
+| 2025-11-11 | Synced classes with blueprint tokens. |
 | 2025-11-08 | Initial documentation and Storybook README wiring. |

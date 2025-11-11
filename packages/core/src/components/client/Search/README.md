@@ -1,5 +1,5 @@
 # Search
-*Type: client* | *Base: Popover.Root* | *Last updated: 2025-11-08*
+*Type: client* | *Base: Popover.Root* | *Last updated: 2025-11-11*
 
 ## Overview
 Search combines an `Input` trigger with a Radix Popover that displays async search results, loading state, and an optional “view all” action. It handles controlled and uncontrolled terms, swaps icons as you type, announces empty states, and maps each result to a `MenuItem`. Use it anywhere you need a multi-source search surface inside dashboards or marketing sites.
@@ -124,13 +124,15 @@ import type { SearchProps, SearchResult } from '@doxyz-ui/core/client/Search';
 
 ## Classes
 
-| Data slot      | Classes |
-| -------------- | ------- |
-| `anchor`       | `min-w-480` (ensures the dropdown matches the input width).
-| `results`      | `inline-flex flex-col justify-center p-4 rounded-sm border overflow-hidden border-color-border-subtle bg-color-background-default content-center -ml-[31px] mt-6` + state modifiers for loading/empty.
-| `status`       | `inline-block w-full text-center text-sm text-color-content-weak` |
-| `viewAllRow`   | `inline-flex w-full justify-end` |
-| `clearButton`  | `inline-flex h-20 w-20 items-center justify-center rounded-full border-0 bg-background-none text-color-content-default hover:bg-color-background-default-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-comp-border-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-color-background-default` |
+| Data slot | Classes |
+| --------- | ------- |
+| `anchor` | `min-w-xs` |
+| `results` | `inline-flex` `flex-col` `justify-center` `p-4` `rounded-sm` `border` `overflow-hidden` `border-color-border-subtle` `bg-color-background-default` `content-center` `-ml-[31px]` `mt-6` |
+| `status` | `inline-block` `w-full` `text-center` `text-sm` `text-color-content-weak` |
+| `viewAllRow` | `inline-flex` `w-full` `justify-end` |
+| `clearButton` | `inline-flex` `h-20` `w-20` `items-center` `justify-center` `rounded-full` `border-0` `bg-background-none` `text-color-content-default` `hover:bg-color-background-default-hover` `focus-visible:outline-none` `focus-visible:ring-2` `focus-visible:ring-comp-border-focus-ring` `focus-visible:ring-offset-2` `focus-visible:ring-offset-color-background-default` |
+| `button (state: is loading)` | `data-[is-loading=true]:h-48` |
+| `button (state: no results)` | `data-[no-results=true]:h-48` `data-[no-results=true]:items-center` |
 
 ---
 
@@ -213,4 +215,5 @@ const results = useAsyncResults(term);
 
 | Date       | Changes |
 | ---------- | ------- |
+| 2025-11-11 | Synced classes with blueprint tokens. |
 | 2025-11-08 | Initial documentation and Storybook README wiring. |

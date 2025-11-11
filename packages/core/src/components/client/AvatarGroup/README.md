@@ -1,5 +1,5 @@
 # AvatarGroup
-*Type: client* | *Base: div* | *Last updated: 2025-11-08*
+*Type: client* | *Base: div* | *Last updated: 2025-11-11*
 
 ## Overview
 AvatarGroup stacks user faces with overlapping Radix Avatars and an optional trailing message like “+12 others interested.” It abbreviates large counts (k/m/b), trims empty user data, and exposes slots for each avatar piece so tokens stay in sync with the blueprint. Use it anywhere you need to preview a cohort of participants next to a short caption.
@@ -91,17 +91,17 @@ import type { AvatarGroupProps } from '@doxyz-ui/core/client/AvatarGroup';
 
 ## Classes
 
-| Data slot        | Classes |
-| ---------------- | ------- |
-| `container`      | `flex gap-8 items-center` |
-| `avatars`        | `flex items-center flex-row-reverse` |
-| `avatar`         | `inline-flex select-none items-center justify-center overflow-hidden rounded-full align-middle w-24 lg:w-32 -mr-12 lg:-mr-18 border-color-border-inverse border` |
-| `avatarImage`    | `size-full rounded-[inherit] object-cover` |
-| `avatarFallback` | `flex items-center justify-center overflow-hidden rounded-full bg-background-none text-base font-medium w-24 h-24 lg:w-32 lg:h-32 -mr-12 lg:-mr-18` |
-| `message`        | `inline-flex gap-[4px] text-color-content-subtle text-sm ml-12 lg:ml-18` |
-| `indicator`      | *(no additional classes)* |
-| `count`          | *(no additional classes)* |
-| `messageText`    | *(no additional classes)* |
+| Data slot | Classes |
+| --------- | ------- |
+| `container` | `flex` `gap-8` `items-center` |
+| `avatars` | `flex` `items-center` `flex-row-reverse` |
+| `avatar` | `inline-flex` `select-none` `items-center` `justify-center` `overflow-hidden` `rounded-full` `align-middle` `w-24` `lg:w-32` `-mr-12` `lg:-mr-18` `border-color-border-inverse` `border` |
+| `avatarImage` | `size-full` `rounded-[inherit]` `object-cover` |
+| `avatarFallback` | `flex` `items-center` `justify-center` `overflow-hidden` `rounded-full` `bg-background-none` `text-base` `font-medium` `w-24` `h-24` `lg:w-32` `lg:h-32` `-mr-12` `lg:-mr-18` |
+| `message` | `inline-flex` `gap-[4]` `text-color-content-subtle` `text-sm` `ml-12` `lg:ml-18` |
+| `indicator` | — |
+| `count` | — |
+| `messageText` | — |
 
 ---
 
@@ -164,4 +164,5 @@ import type { AvatarGroupProps } from '@doxyz-ui/core/client/AvatarGroup';
 
 | Date       | Changes |
 | ---------- | ------- |
+| 2025-11-11 | Synced classes with blueprint tokens. |
 | 2025-11-08 | Initial documentation and Storybook README wiring. |

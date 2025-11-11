@@ -1,5 +1,5 @@
 # Textarea
-*Type: client* | *Base: fieldset* | *Last updated: 2025-11-08*
+*Type: client* | *Base: fieldset* | *Last updated: 2025-11-11*
 
 ## Overview
 Textarea wraps a native `<textarea>` in a Radix `Label`/fieldset combo so labeling, hints, and inline info popovers stay consistent with other inputs. It supports optional start/end icons, merges `aria-describedby` for hint/error/info content, and toggles invalid/disabled states via data attributes. Use it for multi-line text capture anywhere the FormElement pattern isn’t available.
@@ -94,16 +94,18 @@ import type { TextareaProps } from '@doxyz-ui/core/client/Textarea';
 
 ## Classes
 
-| Data slot   | Classes |
-| ----------- | ------- |
-| `container` | `inline-flex border-none flex-col gap-1 disabled:opacity-50 disabled:pointer-events-none data-[disabled=true]:opacity-50 data-[disabled=true]:pointer-events-none data-[invalid=true]:[&_[data-slot=textarea]]:border-comp-form-color-border-utility-danger` |
-| `label`     | `inline-flex gap-1 text-color-content-default text-xs uppercase` |
-| `textarea`  | `inline-flex items-center gap-2 rounded-lg px-(--spacing-1_5) bg-comp-form-color-background-default border border-comp-form-color-border-default text-sm hover:bg-comp-form-color-background-hover hover:border-comp-form-color-hover [&:has(:focus-visible)]:ring-2 [&:has(:focus-visible)]:ring-offset-4 [&:has(:focus-visible)]:ring-comp-border-focus-ring [&:has(:focus-visible)]:ring-offset-color-background-default` |
-| `startIcon` | `shrink-0 [&>svg]:size-4 py-(--spacing-1_5) inline-flex text-color-content-default` |
-| `value`     | `grow bg-transparent outline-none text-color-content-default placeholder-color-content-weak border-none py-(--spacing-1_5) focus:placeholder:opacity-0` |
-| `endIcon`   | `shrink-0 [&>svg]:size-4 py-(--spacing-1_5) inline-flex text-color-content-default` |
-| `hint`      | `text-color-content-subtle text-xs` |
-| `error`     | `text-color-content-utility-danger-subtle text-xs mt-1 inline-flex gap-2` |
+| Data slot | Classes |
+| --------- | ------- |
+| `container` | `inline-flex` `border-none` `flex-col` `gap-1` `disabled:opacity-50` `disabled:pointer-events-none` |
+| `label` | `inline-flex` `gap-1` `text-color-content-default` `text-xs` `uppercase` |
+| `textarea` | `inline-flex` `items-center` `gap-2` `rounded-lg` `px-(--spacing-1_5)` `bg-comp-form-color-background-default` `border` `border-comp-form-color-border-default` `text-sm` `hover:bg-comp-form-color-background-hover` `hover:border-comp-form-color-hover` `[&:has(:focus-visible)]:ring-2` `[&:has(:focus-visible)]:ring-offset-4` `[&:has(:focus-visible)]:ring-comp-border-focus-ring` `[&:has(:focus-visible)]:ring-offset-color-background-default` |
+| `startIcon` | `shrink-0` `[&>svg]:size-4` `py-(--spacing-1_5)` `inline-flex` `text-color-content-default` |
+| `value` | `grow` `bg-transparent` `outline-none` `text-color-content-default` `placeholder-color-content-weak` `border-none` `py-(--spacing-1_5)` `focus:placeholder:opacity-0` |
+| `endIcon` | `shrink-0` `[&>svg]:size-4` `py-(--spacing-1_5)` `inline-flex` `text-color-content-default` |
+| `hint` | `text-color-content-subtle` `text-xs` |
+| `error` | `text-color-content-utility-danger-subtle` `text-xs` `mt-1` `inline-flex` `gap-2` `pl-1` |
+| `container (state: disabled)` | `data-[disabled=true]:opacity-50` `data-[disabled=true]:pointer-events-none` |
+| `container (state: invalid)` | `data-[invalid=true]:[&_[data-slot=textarea]]:border-comp-form-color-border-utility-danger` |
 
 ---
 
@@ -165,4 +167,5 @@ import type { TextareaProps } from '@doxyz-ui/core/client/Textarea';
 
 | Date       | Changes |
 | ---------- | ------- |
+| 2025-11-11 | Synced classes with blueprint tokens. |
 | 2025-11-08 | Initial documentation and Storybook README wiring. |

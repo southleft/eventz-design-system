@@ -1,5 +1,5 @@
 # ExpandableContent
-*Type: client* | *Base: div* | *Last updated: 2025-11-08*
+*Type: client* | *Base: div* | *Last updated: 2025-11-11*
 
 ## Overview
 ExpandableContent reveals long-form text or descriptions behind a collapsible region with animated height transitions. It supports uncontrolled (`defaultExpanded`) and controlled (`expanded` + `onExpandedChange`) modes, clamps closed content to 75px, and rotates a chevron `IconButton` to indicate state. Use it for FAQs, truncated descriptions, or footnotes.
@@ -83,8 +83,8 @@ import type { ExpandableContentProps } from '@doxyz-ui/core/client/ExpandableCon
 
 | Data slot | Classes |
 | --------- | ------- |
-| `content` | `peer overflow-hidden transition-[max-height] duration-200 ease-in-out text-color-content-weak text-sm data-[state=closed]:mh-75 data-[state=closed]:line-clamp-3` |
-| `control` | `flex justify-center pt-16 [&>button]:transition-transform peer-data-[state=open]:[&>button]:rotate-180 peer-data-[state=closed]:[&>button]:rotate-0` |
+| `content` | `peer` `overflow-hidden` `data-[state=closed]:mh-75` `data-[state=closed]:line-clamp-3` `transition-[max-height]` `duration-200` `ease-in-out` `text-color-content-weak` `text-sm` |
+| `control` | `flex` `justify-center` `pt-16` `[&>button]:transition-transform` `peer-data-[state=open]:[&>button]:rotate-180` `peer-data-[state=closed]:[&>button]:rotate-0` |
 
 ---
 

@@ -1,5 +1,5 @@
 # Tabs
-*Type: client* | *Base: RadixTabs.Root* | *Last updated: 2025-11-08*
+*Type: client* | *Base: RadixTabs.Root* | *Last updated: 2025-11-11*
 
 ## Overview
 Tabs renders a Radix-powered tab system with two trigger styles: `section` (classic underlined tabs with optional icons) and `button` (each trigger renders inside the Button component). Pass an array of tab descriptors and control the active tab via `value`/`onValueChange` or let it manage its own state with `defaultValue`.
@@ -95,12 +95,12 @@ import type { TabsProps } from '@doxyz-ui/core/client/Tabs';
 
 | Data slot | Classes |
 | --------- | ------- |
-| `base`    | `flex flex-col` |
-| `list`    | `flex` (`gap-8` appended when `type="button"`) |
-| `trigger` | `flex-grow inline-flex cursor-default select-none items-center justify-center h-34 px-10 outline-none text-color-content-weak border-b border-b-color-border-default bg-background-none border-t-0 border-l-0 border-r-0 disabled:opacity-50 disabled:pointer-events-none focus-visible:ring-2 focus-visible:ring-offset-4 focus-visible:ring-comp-border-focus-ring focus-visible:ring-offset-color-background-default gap-6 hover:text-color-content-weak-hover hover:border-b-color-border-default-hover data-[state=active]:border-b-color-border-brand data-[state=active]:text-color-content-brand data-[state=active]:hover:border-b-color-border-brand-hover data-[state=active]:hover:text-color-content-brand-hover` (section mode)
-| `triggerIcon` | `shrink-0 [&>svg]:size-16` |
-| `content` | `outline-none text-color-content-default` |
-| `button trigger` | Renders via `<Button>`; supply extra classes with `className` if needed.
+| `base` | `flex` `flex-col` |
+| `list` | `flex` |
+| `trigger` | `flex-grow` `inline-flex` `cursor-default` `select-none` `items-center` `justify-center` `h-34` `px-10` `outline-none` `text-color-content-weak` `border-b` `border-b-color-border-default` `bg-background-none` `border-t-0` `border-l-0` `border-r-0` `disabled:opacity-50` `disabled:pointer-events-none` `focus-visible:ring-2` `focus-visible:ring-offset-4` `focus-visible:ring-comp-border-focus-ring` `focus-visible:ring-offset-color-background-default` `gap-6` `hover:text-color-content-weak-hover` `hover:border-b-color-border-default-hover` `data-[state=active]:border-b-color-border-brand` `data-[state=active]:text-color-content-brand` `data-[state=active]:hover:border-b-color-border-brand-hover` `data-[state=active]:hover:text-color-content-brand-hover` |
+| `triggerIcon` | `shrink-0` `[&>svg]:size-16` |
+| `content` | `outline-none` `text-color-content-default` |
+| `list (layout: gapped)` | `gap-8` |
 
 ---
 
@@ -177,4 +177,5 @@ import type { TabsProps } from '@doxyz-ui/core/client/Tabs';
 
 | Date       | Changes |
 | ---------- | ------- |
+| 2025-11-11 | Synced classes with blueprint tokens. |
 | 2025-11-08 | Initial documentation and Storybook README wiring. |

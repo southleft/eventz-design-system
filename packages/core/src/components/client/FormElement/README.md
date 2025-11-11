@@ -1,5 +1,5 @@
 # FormElement
-*Type: client* | *Base: fieldset* | *Last updated: 2025-11-08*
+*Type: client* | *Base: fieldset* | *Last updated: 2025-11-11*
 
 ## Overview
 FormElement is the shared shell used by inputs, selects, and other controls. It renders a Radix `Label`, optional InfoPopover, focusable row chrome, and hint/error messaging. Pass `asChild` to have FormElement inject `id`, `aria-describedby`, `aria-label`, and `disabled` into your control via Radix Slot; otherwise it simply wraps your child in a neutral container.
@@ -97,12 +97,14 @@ import type { FormElementProps } from '@doxyz-ui/core/client/FormElement';
 
 | Data slot | Classes |
 | --------- | ------- |
-| `fieldset` | `inline-flex border-none flex-col gap-1 disabled:opacity-50 disabled:pointer-events-none data-[disabled=true]:opacity-50 data-[disabled=true]:pointer-events-none data-[invalid=true]:[&_[data-slot=row]]:border-comp-form-color-border-utility-danger` |
-| `label`    | `inline-flex gap-1 text-color-content-default text-xs uppercase` |
-| `row`      | `inline-flex items-start gap-2 gap-y-1 rounded-lg text-color-content-default bg-comp-form-color-background-default border border-comp-form-color-border-default text-sm hover:bg-comp-form-color-background-hover hover:border-comp-form-color-hover [&:has(:focus-visible)]:ring-2 [&:has(:focus-visible)]:ring-offset-4 [&:has(:focus-visible)]:ring-comp-border-focus-ring [&:has(:focus-visible)]:ring-offset-color-background-default` |
-| `value`    | *(inherits layout from the row; no extra tokens applied)* |
-| `hint`     | `text-color-content-subtle text-xs` |
-| `error`    | `text-color-content-utility-danger-subtle text-xs mt-1 inline-flex gap-2 items-center` |
+| `label` | `inline-flex` `border-none` `flex-col` `p-0` `gap-1` `disabled:opacity-50` `disabled:pointer-events-none` |
+| `label` | `inline-flex` `gap-1` `text-color-content-default` `text-xs` `uppercase` |
+| `hint` | `text-color-content-subtle` `text-xs` |
+| `error` | `text-color-content-utility-danger-subtle` `text-xs` `mt-1` `inline-flex` `gap-2` `items-center` |
+| `row` | `inline-flex` `items-start` `gap-2` `gap-y-1` `rounded-lg` `text-color-content-default` `bg-comp-form-color-background-default` `border` `border-comp-form-color-border-default` `text-sm` `hover:bg-comp-form-color-background-hover` `hover:border-comp-form-color-hover` `[&:has(:focus-visible)]:ring-2` `[&:has(:focus-visible)]:ring-offset-4` `[&:has(:focus-visible)]:ring-comp-border-focus-ring` `[&:has(:focus-visible)]:ring-offset-color-background-default` |
+| `value` | — |
+| `label (state: disabled)` | `data-[disabled=true]:opacity-50` `data-[disabled=true]:pointer-events-none` |
+| `label (state: invalid)` | `data-[invalid=true]:[&_[data-slot=row]]:border-comp-form-color-border-utility-danger` |
 
 ---
 
@@ -171,4 +173,5 @@ import type { FormElementProps } from '@doxyz-ui/core/client/FormElement';
 
 | Date       | Changes |
 | ---------- | ------- |
+| 2025-11-11 | Synced classes with blueprint tokens. |
 | 2025-11-08 | Initial documentation and Storybook README wiring. |

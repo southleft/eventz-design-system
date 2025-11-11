@@ -1,5 +1,5 @@
 # Select
-*Type: client* | *Base: RadixSelect.Root* | *Last updated: 2025-11-08*
+*Type: client* | *Base: RadixSelect.Root* | *Last updated: 2025-11-11*
 
 ## Overview
 Select composes Radix Select with the system `Input` as the trigger and `MenuItem` for options. It keeps the trigger read-only, mirrors selection into the input value, and styles the popup viewport with a subtle border. Use it for lightweight dropdowns when you need more control than `<select>` but don’t require virtualization.
@@ -82,10 +82,10 @@ import type { SelectProps } from '@doxyz-ui/core/client/Select';
 
 ## Classes
 
-| Slot      | Classes |
+| Data slot | Classes |
 | --------- | ------- |
-| `trigger` | `[&_input]:cursor-default` (ensures the input cursor stays default instead of text).
-| `viewport`| `border rounded-lg -ml-[7px] !overflow-x-visible border-color-border-subtle bg-color-background-default` |
+| `viewport` | `border` `rounded-lg` `-ml-[7px]` `!overflow-x-visible` `border-color-border-subtle` `bg-color-background-default` |
+| `trigger` | `[&_input]:cursor-default` |
 
 ---
 
@@ -150,4 +150,5 @@ import type { SelectProps } from '@doxyz-ui/core/client/Select';
 
 | Date       | Changes |
 | ---------- | ------- |
+| 2025-11-11 | Synced classes with blueprint tokens. |
 | 2025-11-08 | Initial documentation and Storybook README wiring. |

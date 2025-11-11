@@ -1,7 +1,7 @@
 # Dropdown
 *Type: client* |
 *Base: Radix Popover (div)* |
-*Last updated: 2025-11-10*
+*Last updated: 2025-11-11*
 
 ## Overview
 Dropdown composes a Radix Popover with the DoXYZ secondary Button to show consumer-owned panel content behind a labeled trigger. Use it for lightweight menus, filters, or preview panels where you control everything inside the surface. The component centralizes trigger labeling, icon affordances, placement controls, and focus management while leaving panel layout entirely up to the children slot.
@@ -89,10 +89,10 @@ import type { DropdownProps } from '@doxyz-ui/core/client/Dropdown';
 
 ## Classes
 
-| Data slot    | Classes |
-| ------------ | ------- |
-| `container`  | `min-w-160`
-| `content`    | `rounded-md border shadow-md p-2 bg-color-background-default text-color-content-default border-color-border-subtle`
+| Data slot | Classes |
+| --------- | ------- |
+| `container` | `min-w-160` |
+| `content` | `rounded-md` `border` `shadow-md` `p-2` `bg-color-background-default` `text-color-content-default` `border-color-border-subtle` |
 
 ---
 
@@ -174,4 +174,5 @@ const [open, setOpen] = React.useState(false);
 
 | Date       | Changes |
 | ---------- | ------- |
+| 2025-11-11 | Synced classes with blueprint tokens. |
 | 2025-11-10 | Initial documentation for Dropdown, including props, states, and parity notes. |

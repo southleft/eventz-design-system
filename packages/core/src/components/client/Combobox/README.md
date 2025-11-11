@@ -1,7 +1,7 @@
 # Combobox
 *Type: client* |
 *Base: div* |
-*Last updated: 2025-11-08*
+*Last updated: 2025-11-11*
 
 ## Overview
 Combobox is a multi-select text input that renders chips for the active selections and opens a suggestion list inside a Radix Popover. It handles both controlled and uncontrolled selection/open state, includes optional start/end icons, and forwards FormElement props for labeling. Use it anywhere you need a compact, filter-style picker that keeps selections visible directly in the field.
@@ -103,21 +103,24 @@ import type { ComboboxProps } from '@doxyz-ui/core/client/Combobox';
 
 ## Classes
 
-| Data slot / element | Classes |
-| ------------------- | ------- |
-| container           | `relative` `inline-block` `w-full` |
-| anchor              | `relative` `inline-block` |
-| panel               | `rounded-md` `border` `border-color-border-subtle` `z-50` `overflow-hidden` `ml-[14px]` `-mt-[28px]` `bg-color-background-default` `content-center` |
-| empty               | `text-color-content-subtle` `text-xs` `px-2` `py-1.5` |
-| value / field       | `flex` `flex-wrap` `items-center` `gap-1` `w-full` `py-(--spacing-1)` `px-(--spacing-2_5)` |
-| clearAll            | `inline-flex` `items-center` `justify-center` `rounded-full` `border-0` `bg-background-none` `text-color-content-default` `focus-visible:outline-none` `focus-visible:ring-2` `focus-visible:ring-comp-border-focus-ring` `focus-visible:ring-offset-2` `focus-visible:ring-offset-color-background-default` `transition-opacity` `opacity-0` |
-| chips               | `flex` `flex-wrap` `items-center` `gap-1` `py-0.5` |
-| chip                | `inline-flex` `items-center` `gap-1` `rounded-xs` `border-0` `text-xs` `font-medium` `leading-[18px]` `bg-color-background-brand` `hover:bg-color-background-brand-hover` `text-color-content-inverse` `px-2` `h-22` `transition-colors` `group` `focus-visible:outline-none` `focus-visible:ring-2` `focus-visible:ring-comp-border-focus-ring` `focus-visible:ring-offset-[-4px]` |
-| chipDismiss         | `inline-flex` `items-center` `justify-center` `rounded-full` `h-20` `w-20` `shrink-0` `border-0` `bg-color-background-brand` `group-hover:bg-color-background-brand-hover` `text-color-content-inverse` `focus-visible:ring-2` `focus-visible:ring-comp-border-focus-ring` `focus-visible:ring-offset-2` `focus-visible:ring-offset-color-background-default` |
-| startIcon           | `shrink-0` `py-(--spacing-1_5)` `inline-flex` `text-color-content-default` |
-| endIcon             | `shrink-0` `py-(--spacing-1_5)` `inline-flex` `text-color-content-default` |
-| menuItem            | `w-full` |
-| input               | `min-w-0` `flex-1` `bg-transparent` `outline-none` `border-0` `text-color-content-default` `placeholder:text-color-content-subtle` `focus:placeholder:opacity-0` `caret-transparent` `select-none` |
+| Data slot | Classes |
+| --------- | ------- |
+| `container` | `relative` `inline-block` `w-full` |
+| `anchor` | `relative` `inline-block` |
+| `panel` | `rounded-md` `border` `border-color-border-subtle` `z-50` `overflow-hidden` `ml-[14px]` `-mt-[28px]` `bg-color-background-default` `content-center` |
+| `empty` | `text-color-content-subtle` `text-xs` `px-2` `py-1.5` |
+| `value` | `flex` `flex-wrap` `items-center` `gap-1` `w-full` `py-(--spacing-1)` `px-(--spacing-2_5)` |
+| `clearAll` | `inline-flex` `items-center` `justify-center` `rounded-full` `border-0` `bg-background-none` `text-color-content-default` `focus-visible-brand` `transition-opacity` `opacity-0` |
+| `chips` | `flex` `flex-wrap` `items-center` `gap-1` `py-0.5` |
+| `chip` | `inline-flex` `items-center` `gap-1` `rounded-xs` `border-0` `text-xs` `font-medium` `leading-[18px]` `bg-color-background-brand` `hover:bg-color-background-brand-hover` `text-color-content-inverse` `px-2` `h-22` `transition-colors` `group` `focus-visible-brand` |
+| `chipDismiss` | `inline-flex` `items-center` `justify-center` `rounded-full` `h-20` `w-20` `shrink-0` `border-0` `bg-color-background-brand` `group-hover:bg-color-background-brand-hover` `text-color-content-inverse` `focus-visible-brand` |
+| `startIcon` | `shrink-0` `py-(--spacing-1_5)` `inline-flex` `text-color-content-default` |
+| `endIcon` | `shrink-0` `py-(--spacing-1_5)` `inline-flex` `text-color-content-default` |
+| `menuItem` | `w-full` `focus-visible-brand-inset` |
+| `input` | `min-w-0` `flex-1` `bg-transparent` `outline-none` `border-0` `text-color-content-default` `placeholder:text-color-content-subtle` `focus:placeholder:opacity-0` `caret-transparent` `select-none` |
+| `container (state: open)` | `data-[open=true]:block` `data-[open=false]:hidden` |
+| `container (state: disabled)` | `data-[disabled=true]:pointer-events-none` `data-[disabled=true]:opacity-50` |
+| `container (state: has selection)` | `data-[has-selection=true]:[&_button[data-role=clear-all]]:opacity-100` `data-[has-selection=true]:[&_[data-slot=clearAll]]:opacity-100` |
 
 ---
 

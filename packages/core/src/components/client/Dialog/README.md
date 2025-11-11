@@ -1,5 +1,5 @@
 # Dialog
-*Type: client* | *Base: RadixDialog.Root* | *Last updated: 2025-11-08*
+*Type: client* | *Base: RadixDialog.Root* | *Last updated: 2025-11-11*
 
 ## Overview
 Dialog renders a modal overlay using Radix Dialog primitives. It includes a configurable trigger, overlay, focus-trapped content surface, optional navigation controls, and size presets. Use it for blocking flows such as confirmations or carousels where users can step through content.
@@ -96,14 +96,20 @@ import type { DialogProps } from '@doxyz-ui/core/client/Dialog';
 
 ## Classes
 
-| Slot        | Classes |
-| ----------- | ------- |
-| `overlay`   | `fixed inset-0 z-0 bg-color-background-inverted/50 data-[state=open]:animate-overlayShow` |
-| `centerer`  | `fixed inset-0 grid place-items-center p-20 pointer-events-none` |
-| `content`   | `rounded-md flex flex-col min-h-0 gap-8 items-center p-40 relative box-border z-10 bg-background-modal-dark shadow-(--shadow-shadows-shadow-6) h-[min(650px,calc(100vh-40px))] overflow-visible focus-visible:ring-2 focus-visible:ring-offset-4 focus-visible:ring-comp-border-focus-ring focus-visible:ring-offset-color-background-default` + size class. |
-| `close`     | `h-40 w-full flex justify-end` |
-| `contentBody` | `w-full flex-1 min-h-0 overflow-auto` |
-| `controlLeft/right` | `h-40 w-40 !rounded-full border-none absolute z-20 pointer-events-auto top-1/2 -translate-y-1/2 (-left-20 | -right-20)` |
+| Data slot | Classes |
+| --------- | ------- |
+| `centerer` | `relative` `outline-none` |
+| `centerer` | `fixed` `inset-0` `grid` `place-items-center` `p-20` `pointer-events-none` |
+| `overlay` | `fixed` `inset-0` `z-0` `bg-color-background-inverted/50` `data-[state=open]:animate-overlayShow` |
+| `content` | `rounded-md` `flex` `flex-col` `min-h-0` `gap-8` `items-center` `p-40` `relative` `box-border` `z-10` `text-color-content-default` `pointer-events-auto` `bg-background-modal-dark` `shadow-xl` `h-[min(650px,calc(100vh-40px))]` `overflow-visible` `focus-visible-brand` |
+| `close` | `h-40` `w-full` `flex` `justify-end` |
+| `contentBody` | `w-full` `flex-1` `min-h-0` `overflow-auto` |
+| `controlLeft` | `h-40` `w-40` `!rounded-full` `border-none` `absolute` `z-20` `pointer-events-auto` `top-1/2` `-translate-y-1/2` `-left-20` `bg-comp-button-color-background-knockout-blur` |
+| `controlRight` | `h-40` `w-40` `!rounded-full` `border-none` `absolute` `z-20` `pointer-events-auto` `top-1/2` `-translate-y-1/2` `-right-20` `bg-comp-button-color-background-knockout-blur` |
+| `portal` | — |
+| `centerer (state: size sm)` | `w-600` |
+| `centerer (state: size md)` | `w-full` `max-w-1300` |
+| `centerer (state: size lg)` | `w-full` `max-w-1600` |
 
 ---
 
@@ -164,4 +170,5 @@ import type { DialogProps } from '@doxyz-ui/core/client/Dialog';
 
 | Date       | Changes |
 | ---------- | ------- |
+| 2025-11-11 | Synced classes with blueprint tokens. |
 | 2025-11-08 | Initial documentation and Storybook README wiring. |
