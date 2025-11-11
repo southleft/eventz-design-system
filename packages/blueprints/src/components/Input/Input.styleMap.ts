@@ -20,8 +20,7 @@ export const InputStyleMap = defineStyleMap({
       'items-center',
       'gap-2',
       'shrink-0',
-      '[&>svg]:size-4',
-      'py-(--spacing-1_5)',
+      'size-20',
       'text-color-content-default'
     ] as const,
     input: [
@@ -34,13 +33,7 @@ export const InputStyleMap = defineStyleMap({
       'py-(--spacing-1_5)',
       'focus:placeholder:opacity-0'
     ] as const,
-    endIcon: [
-      'shrink-0',
-      '[&>svg]:size-4',
-      'py-(--spacing-1_5)',
-      'inline-flex',
-      'text-color-content-default'
-    ] as const
+    endIcon: ['shrink-0', 'size-20', 'inline-flex', 'text-color-content-default'] as const
   },
 
   state: {

@@ -14,7 +14,7 @@ const inputRowClasses = `
 `;
 
 const startIconClasses = `
-  inline-flex items-center gap-2 shrink-0 [&>svg]:size-4 py-(--spacing-1_5) inline-flex text-color-content-default
+  inline-flex items-center gap-2 shrink-0 size-20 inline-flex text-color-content-default
 `;
 
 const inputClasses = `
@@ -22,7 +22,7 @@ const inputClasses = `
 `;
 
 const endIconClasses = `
-  shrink-0 [&>svg]:size-4 py-(--spacing-1_5) inline-flex text-color-content-default
+  shrink-0 size-20 inline-flex text-color-content-default
 `;
 
 const invalidStateClasses = `
