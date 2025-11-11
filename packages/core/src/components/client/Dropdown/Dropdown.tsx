@@ -92,8 +92,10 @@ export const Dropdown = React.forwardRef<HTMLDivElement, DropdownProps>((props, 
   const contentClassName = collapseWhitespace(composeClasses(contentClasses));
   const resolvedEndIcon = endIcon ?? <ArrowDropDownIcon aria-hidden="true" />;
 
+  const openStateAttr = resolvedOpen ? 'true' : undefined;
+
   return (
-    <div ref={ref} className={baseClassName} data-slot="base" {...rest}>
+    <div ref={ref} className={baseClassName} data-slot="base" data-open={openStateAttr} {...rest}>
       <Popover.Root
         open={open}
         defaultOpen={open === undefined ? defaultOpen : undefined}
@@ -122,6 +124,7 @@ export const Dropdown = React.forwardRef<HTMLDivElement, DropdownProps>((props, 
             sideOffset={sideOffset}
             collisionPadding={collisionPadding}
             data-slot="content"
+            data-open={openStateAttr}
           >
             {children}
           </Popover.Content>
