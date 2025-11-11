@@ -35,17 +35,13 @@ export const DialogStyleMap = defineStyleMap({
       'relative',
       'box-border',
       'z-10',
-      'outline-none',
       'text-color-content-default',
       'pointer-events-auto',
       'bg-background-modal-dark',
       'shadow-xl',
       'h-[min(650px,calc(100vh-40px))]',
       'overflow-visible',
-      'focus-visible:ring-2',
-      'focus-visible:ring-offset-4',
-      'focus-visible:ring-comp-border-focus-ring',
-      'focus-visible:ring-offset-color-background-default'
+      'focus-visible-brand'
     ] as const,
 
     // close row above the content body
