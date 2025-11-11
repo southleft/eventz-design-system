@@ -26,9 +26,7 @@ const baseClasses = `
   inline-flex select-none items-center justify-center
   rounded-full
   transition-colors
-  focus-visible:ring-2
-  focus-visible:ring-comp-border-focus-ring
-  focus-visible:ring-offset-2
+  focus-visible-brand
   whitespace-nowrap
 `;
 
