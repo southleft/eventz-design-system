@@ -9,9 +9,7 @@ export const IconButtonStyleMap = defineStyleMap({
     'justify-center',
     'outline-none',
     'transition-colors',
-    'focus-visible:ring-2',
-    'focus-visible:ring-comp-icon-button-focus-color-ring',
-    'focus-visible:ring-offset-2',
+    'focus-visible-brand',
     'disabled:opacity-50',
     'disabled:pointer-events-none',
     'whitespace-nowrap'
