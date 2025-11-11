@@ -40,7 +40,7 @@ export interface InteractiveListItemProps extends InteractiveListItemBaseProps {
 const baseClasses = `
   group flex justify-between data-[is-removable=true]:items-center gap-8 w-full outline-none pb-10 pl-8 pt-8 pr-8 bg-background-none border-l-0 border-r-0 border-b-0 border-t-0
   focus-visible:ring-2 focus-visible:ring-offset-4 focus-visible:ring-comp-border-focus-ring focus-visible:ring-offset-color-background-default
-  data-[border-bottom=true]:border-b data-[border-bottom=true]:border-b-color-border-subtle
+  data-[border-bottom=true]:border-b data-[border-bottom=true]:border-b-color-border-subtle no-underline
 `;
 
 const containerClasses = `flex items-center gap-8 w-full`;
@@ -114,7 +114,11 @@ export const InteractiveListItem = React.forwardRef<
           </span>
         </span>
         <span className={trailingIconClassName}>
-          {isRemovable ? <CancelIcon aria-hidden="true" /> : <ChevronRightIcon aria-hidden="true" />}
+          {isRemovable ? (
+            <CancelIcon aria-hidden="true" />
+          ) : (
+            <ChevronRightIcon aria-hidden="true" />
+          )}
         </span>
       </>
     );
