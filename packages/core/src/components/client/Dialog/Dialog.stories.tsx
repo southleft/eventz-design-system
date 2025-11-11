@@ -5,6 +5,7 @@
 import { Markdown } from '@storybook/addon-docs/blocks';
 import type { Meta, StoryObj } from '@storybook/react';
 import * as React from 'react';
+import { Button } from '../Button';
 import Readme from './README.md?raw';
 import { Dialog, DialogProps } from './Dialog';
 
@@ -30,7 +31,7 @@ export default meta;
 
 type Story = StoryObj<typeof Dialog>;
 
-const renderTrigger = (label: string) => <button type="button">{label}</button>;
+const renderTrigger = (label: string) => <Button>{label}</Button>;
 
 const renderContent = () => (
   <div style={{ width: '100%' }}>
