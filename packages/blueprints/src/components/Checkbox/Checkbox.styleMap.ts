@@ -18,9 +18,7 @@ export const CheckboxStyleMap = defineStyleMap({
       'inline-flex',
       'justify-center',
       'items-center',
-      'focus-visible:ring-2',
-      'focus-visible:ring-comp-border-focus-ring',
-      'focus-visible:ring-offset-2'
+      'focus-visible-brand'
     ] as const,
 
     // indicator matches Radix.Checkbox.Indicator (renders only when checked)
