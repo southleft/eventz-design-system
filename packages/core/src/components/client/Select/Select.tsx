@@ -24,6 +24,7 @@ export interface SelectProps
 
 const viewportClasses = `border rounded-lg -ml-[7px] !overflow-x-visible border-color-border-subtle bg-color-background-default`;
 const triggerClasses = `[&_input]:cursor-default`;
+const menuItemClasses = `w-full focus-visible-brand-inset`;
 
 export const Select = React.forwardRef<SelectElement, SelectProps>(
   (
@@ -63,6 +64,7 @@ export const Select = React.forwardRef<SelectElement, SelectProps>(
     const viewportClassName = collapseWhitespace(composeClasses(viewportClasses));
     const { className: inputClassName, ...restInputProps } = InputProps ?? {};
     const triggerClassName = collapseWhitespace(composeClasses(triggerClasses, inputClassName));
+    const menuItemClassName = collapseWhitespace(composeClasses(menuItemClasses));
 
     const defaultInputProps = {
       endIcon: <KeyboardArrowDownIcon aria-hidden="true" />
@@ -125,6 +127,7 @@ export const Select = React.forwardRef<SelectElement, SelectProps>(
                       <MenuItem
                         {...(restOptionProps as MenuItemComponentProps)}
                         option={option}
+                        className={menuItemClassName}
                         isSelected={resolvedIsSelected}
                         disabled={itemDisabled}
                       />
