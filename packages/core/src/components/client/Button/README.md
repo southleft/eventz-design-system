@@ -1,5 +1,5 @@
 # Button
-*Type: client* | *Base: Slot.Root* | *Last updated: 2025-11-08*
+*Type: client* | *Base: Slot.Root* | *Last updated: 2025-11-11*
 
 ## Overview
 Button triggers high-signal actions with four visual variants plus optional start/end icon slots. It disables itself while loading, forwards ARIA state (`aria-busy`, `aria-disabled`), and can render through another component via `asChild` when you need to inherit routing or layout semantics. Use it for primary CTAs, quiet inline actions, or knockout buttons on dark surfaces.
@@ -81,11 +81,18 @@ import type { ButtonProps } from '@doxyz-ui/core/client/Button';
 
 ## Classes
 
-| Data slot   | Classes |
-| ----------- | ------- |
-| `container` | `inline-flex select-none items-center justify-center font-medium text-sm transition-colors border-1 disabled:opacity-50 disabled:pointer-events-none whitespace-nowrap focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-comp-border-focus-ring focus-visible:ring-offset-color-background-default outline-none h-24 px-4 gap-2 rounded-md` + variant token set (`primary`, `secondary`, `bare`, `knockout`). |
-| `startIcon` | `shrink-0 -ml-0.5 pt-1` |
-| `endIcon`   | `shrink-0 -mr-0.5 pt-1` |
+| Data slot | Classes |
+| --------- | ------- |
+| `container` | `inline-flex` `select-none` `items-center` `justify-center` `transition-colors` `whitespace-nowrap` `font-medium` `text-sm` `focus-visible-brand` `disabled:opacity-50` `disabled:pointer-events-none` `h-32` `px-4` `gap-2` `rounded-md` `border-1` |
+| `startIcon` | `shrink-0` `-ml-0.5` `pt-1` |
+| `label` | — |
+| `endIcon` | `shrink-0` `-mr-0.5` `pt-1` |
+| `container (variant: primary)` | `bg-comp-button-primary-color-background-default` `text-comp-button-primary-color-content-default` `border-comp-border-none` `hover:bg-comp-button-primary-color-background-hover` `active:bg-comp-button-primary-color-background-active` |
+| `container (variant: secondary)` | `bg-comp-button-color-background-default` `border-comp-button-color-border-default` `text-comp-button-color-content-default` `hover:bg-comp-button-color-background-hover` `active:bg-comp-button-color-background-active` |
+| `container (variant: bare)` | `bg-background-none` `text-comp-button-color-content-default` `border-comp-border-none` `hover:bg-comp-button-color-background-hover` `active:bg-comp-button-color-background-active` |
+| `container (variant: knockout)` | `bg-comp-button-color-background-knockout` `text-comp-button-color-content-default` `border-comp-border-none` `hover:bg-comp-button-color-background-knockout-hover` `active:bg-comp-button-color-background-knockout-active` |
+| `container (state: loading)` | `pointer-events-none` `opacity-50` |
+| `container (state: disabled)` | `pointer-events-none` `opacity-50` |
 
 ---
 
@@ -147,4 +154,5 @@ import type { ButtonProps } from '@doxyz-ui/core/client/Button';
 
 | Date       | Changes |
 | ---------- | ------- |
+| 2025-11-11 | Synced classes with blueprint tokens. |
 | 2025-11-08 | Initial documentation and Storybook README wiring. |

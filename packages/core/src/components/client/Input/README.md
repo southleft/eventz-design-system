@@ -1,5 +1,5 @@
 # Input
-*Type: client* | *Base: FormElement* | *Last updated: 2025-11-08*
+*Type: client* | *Base: FormElement* | *Last updated: 2025-11-11*
 
 ## Overview
 Input renders the control row that lives inside `FormElement`: start icon → native `<input>` → end icon. All labeling, hint/error/info messaging, and focus treatment come from `FormElement`, while the control row handles adornments and native attributes. Use it whenever you need a single-line text field that matches the system’s tokens.
@@ -87,12 +87,13 @@ import type { InputProps } from '@doxyz-ui/core/client/Input';
 
 ## Classes
 
-| Data slot       | Classes |
-| --------------- | ------- |
-| `input`         | `inline-flex items-center gap-2 py-(--spacing-1_5) px-(--spacing-2_5) data-[invalid=true]:[&_[data-slot=input]]:border-comp-form-color-border-utility-danger` |
-| `startIcon`     | `inline-flex items-center gap-2 shrink-0 [&>svg]:size-4 py-(--spacing-1_5) text-color-content-default` |
-| `native input`  | `grow bg-transparent outline-none text-color-content-default placeholder-color-content-weak border-none py-(--spacing-1_5) focus:placeholder:opacity-0` |
-| `endIcon`       | `shrink-0 [&>svg]:size-4 py-(--spacing-1_5) inline-flex text-color-content-default` |
+| Data slot | Classes |
+| --------- | ------- |
+| `startIcon` | `inline-flex` `items-center` `gap-2` `py-[2px]` `px-12` |
+| `startIcon` | `inline-flex` `items-center` `gap-2` `shrink-0` `size-20` `text-color-content-default` |
+| `input` | `grow` `bg-transparent` `outline-none` `text-color-content-default` `placeholder-color-content-weak` `border-none` `py-(--spacing-1_5)` `focus:placeholder:opacity-0` |
+| `endIcon` | `shrink-0` `size-20` `inline-flex` `text-color-content-default` |
+| `startIcon (state: invalid)` | `data-[invalid=true]:[&_[data-slot=input]]:border-comp-form-color-border-utility-danger` |
 
 ---
 
@@ -161,4 +162,5 @@ import type { InputProps } from '@doxyz-ui/core/client/Input';
 
 | Date       | Changes |
 | ---------- | ------- |
+| 2025-11-11 | Synced classes with blueprint tokens. |
 | 2025-11-08 | Initial documentation and Storybook README wiring. |

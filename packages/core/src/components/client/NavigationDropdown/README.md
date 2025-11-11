@@ -1,5 +1,5 @@
 # NavigationDropdown
-*Type: client* | *Base: RadixPopover.Root* | *Last updated: 2025-11-08*
+*Type: client* | *Base: RadixPopover.Root* | *Last updated: 2025-11-11*
 
 ## Overview
 NavigationDropdown toggles a full-screen popover menu using an `IconButton` trigger and renders a list of link items via `MenuItem`. It’s ideal for compact headers that expand into a full navigation panel on small screens.
@@ -83,9 +83,11 @@ import type { NavigationDropdownProps } from '@doxyz-ui/core/client/NavigationDr
 
 ## Classes
 
-| Slot   | Classes |
-| ------ | ------- |
-| `panel`| `z-50 py-4 bg-background-none w-screen h-screen top-[var(--nav-offset)] overflow-y-auto` |
+| Data slot | Classes |
+| --------- | ------- |
+| `trigger` | — |
+| `panel` | `z-50` `py-4` `bg-background-none` `w-screen` `h-screen` `top-[var(--nav-offset)]` `overflow-y-auto` |
+| `list` | — |
 | `item` | `mx-4` |
 
 ---
@@ -139,4 +141,5 @@ import type { NavigationDropdownProps } from '@doxyz-ui/core/client/NavigationDr
 
 | Date       | Changes |
 | ---------- | ------- |
+| 2025-11-11 | Synced classes with blueprint tokens. |
 | 2025-11-08 | Initial documentation and Storybook README wiring. |

@@ -1,5 +1,5 @@
 # Carousel
-*Type: client* | *Base: div (Embla viewport)* | *Last updated: 2025-11-08*
+*Type: client* | *Base: div (Embla viewport)* | *Last updated: 2025-11-11*
 
 ## Overview
 Carousel wraps Embla Carousel and its Autoplay plugin to deliver a horizontal slider with snapping, peek support, indicators, and navigation helpers exposed via context. Use it for hero galleries, testimonials, or product cards where you need embeddable slides and optional autoplay.
@@ -77,13 +77,21 @@ import { useCarouselContext } from '@doxyz-ui/core/client/Carousel';
 
 ## Classes
 
-| Slot        | Classes |
-| ----------- | ------- |
-| `_container`| `embla relative block overflow-hidden w-full touch-pan-y`
-| `_track`    | `embla__container flex items-stretch [will-change:transform] [transform:translateZ(0)]`
-| `_slide`    | `embla__slide group shrink-0 not-data-[peek=true]:basis-full min-w-0`
-| `_indicators` | `flex justify-center items-center gap-2 pt-32 pb-12`
-| `_indicator` | `rounded-full transition-[transform,opacity] focus-visible:ring-2 ...` (active/inactive tokens built in).
+| Data slot | Classes |
+| --------- | ------- |
+| `container` | `embla` `relative` `block` `overflow-hidden` `w-full` `touch-pan-y` |
+| `_container` | `embla__container` `flex` `items-stretch` `[will-change:transform]` `[transform:translateZ(0)]` |
+| `_slide` | `embla__slide` `group` `shrink-0` `not-data-[peek=true]:basis-full` `min-w-0` |
+| `_indicators` | `flex` `justify-center` `items-center` `gap-2` `pt-32` `pb-12` |
+| `_indicator` | `relative` `shrink-0` `rounded-full` `transition-[transform,opacity]` `border-none` `focus-visible-brand` |
+| `container (state: is dragging)` | `[--carousel-dragging:1]` |
+| `container (state: is at start)` | `[--edge-start:1]` |
+| `container (state: is at end)` | `[--edge-end:1]` |
+| `container (state: rtl)` | `[direction:rtl]` |
+| `container (state: has indicators)` | `[--has-indicators:1]` |
+| `container (state: is auto playing)` | `[--autoplay-playing:1]` |
+| `container (state: indicator inactive)` | `size-14` `opacity-100` `bg-color-content-subtle` |
+| `container (state: indicator active)` | `size-20` `bg-color-background-brand` |
 
 ---
 
@@ -152,4 +160,5 @@ function AutoPlayToggle() {
 
 | Date       | Changes |
 | ---------- | ------- |
+| 2025-11-11 | Synced classes with blueprint tokens. |
 | 2025-11-08 | Initial documentation and Storybook README wiring. |

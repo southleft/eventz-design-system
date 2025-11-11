@@ -1,5 +1,5 @@
 # DatePicker
-*Type: client* | *Base: div* | *Last updated: 2025-11-08*
+*Type: client* | *Base: div* | *Last updated: 2025-11-11*
 
 ## Overview
 DatePicker wraps RSuite's `DateRangePicker`, replaces the visible trigger with the design-system `Input`, and scopes the popup portal to a stable wrapper so styles and tests can target predictable DOM. It supports both controlled and uncontrolled `value`/`open` flows, injects responsive defaults (single calendar below `lg`, dual calendars otherwise), and preloads desktop shortcuts plus localized copy. Reach for it when you need RSuite's calendar ergonomics without wiring the picker and trigger plumbing yourself.
@@ -138,9 +138,9 @@ Props are alphabetized and merge DatePicker's layout props with RSuite's `DateRa
 ## Classes
 
 | Data slot | Classes |
-| --- | --- |
+| --------- | ------- |
 | `container` | `relative` `dxyz-date-picker` |
-| `container (fullWidth=true)` | `relative` `dxyz-date-picker` `w-full` |
+| `container (layout: full width)` | `w-full` |
 
 ---
 
@@ -203,4 +203,5 @@ const [open, setOpen] = React.useState(false);
 
 | Date | Changes |
 | --- | --- |
+| 2025-11-11 | Synced classes with blueprint tokens. |
 | 2025-11-08 | Regenerated README and parity hash from runtime + blueprint. |

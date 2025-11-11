@@ -1,5 +1,5 @@
 # ToggleGroup
-*Type: client* | *Base: RadixToggleGroup.Root* | *Last updated: 2025-11-08*
+*Type: client* | *Base: RadixToggleGroup.Root* | *Last updated: 2025-11-11*
 
 ## Overview
 ToggleGroup renders an icon-only set of Radix toggle buttons with shared focus treatment, pressed styling, and accessibility wiring. Pass `items` with icons and values, provide a group-level `ariaLabel`, and use the underlying Radix props (`type`, `value`, `onValueChange`, etc.) to control selection. Use it for compact view toggles, formatting controls, or segmented actions.
@@ -84,8 +84,8 @@ import type { ToggleGroupProps } from '@doxyz-ui/core/client/ToggleGroup';
 
 | Data slot | Classes |
 | --------- | ------- |
-| `root`    | `inline-flex rounded` + custom `className` |
-| `item`    | `flex h-35 w-35 items-center justify-center border-none outline-none focus:shadow-none bg-comp-button-color-background-knockout active:bg-comp-button-color-background-knockout-active active:text-comp-button-color-content-default-active text-comp-button-color-content-default first:rounded-l-sm last:rounded-r-sm hover:bg-comp-button-color-background-knockout-hover hover:text-comp-button-color-content-default-hover focus:z-10 focus:shadow-[0_0_0_2px] focus-visible:ring-2 focus-visible:ring-offset-4 focus-visible:ring-comp-border-focus-ring focus-visible:ring-offset-color-background-default data-[state=on]:bg-comp-button-primary-color-background-default data-[state=on]:text-comp-button-primary-color-content-default data-[state=on]:hover:bg-comp-button-primary-color-background-hover data-[state=on]:hover:text-comp-button-primary-color-content-hover data-[state=on]:active:bg-comp-button-primary-color-background-active disabled:opacity-50 disabled:pointer-events-none` |
+| `root` | `inline-flex` `rounded` |
+| `item` | `flex` `h-35` `w-35` `items-center` `justify-center` `border-none` `focus:shadow-none` `bg-comp-button-color-background-knockout` `active:bg-comp-button-color-background-knockout-active` `active:text-comp-button-color-content-default-active` `text-comp-button-color-content-default` `first:rounded-l-sm` `last:rounded-r-sm` `hover:bg-comp-button-color-background-knockout-hover` `hover:text-comp-button-color-content-default-hover` `focus:z-10` `focus:shadow-[0_0_0_2px]` `focus-visible-brand` `data-[state=on]:bg-comp-button-primary-color-background-default` `data-[state=on]:text-comp-button-primary-color-content-default` `data-[state=on]:hover:bg-comp-button-primary-color-background-hover` `data-[state=on]:hover:text-comp-button-primary-color-content-hover` `data-[state=on]:active:bg-comp-button-primary-color-background-active` `disabled:opacity-50` `disabled:pointer-events-none` |
 
 ---
 
@@ -162,4 +162,5 @@ import type { ToggleGroupProps } from '@doxyz-ui/core/client/ToggleGroup';
 
 | Date       | Changes |
 | ---------- | ------- |
+| 2025-11-11 | Synced classes with blueprint tokens. |
 | 2025-11-08 | Initial documentation and Storybook README wiring. |

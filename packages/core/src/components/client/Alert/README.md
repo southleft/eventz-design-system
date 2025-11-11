@@ -1,7 +1,7 @@
 # Alert
 *Type: client* |
 *Base: div* |
-*Last updated: 2025-11-08*
+*Last updated: 2025-11-11*
 
 ## Overview
 Alert surfaces inline product or system status with gradient backgrounds, optional title and supporting description, and an inline remediation link. An icon that matches the selected variant plus an IconButton-based dismiss affordance make the component scannable and easy to clear. Danger alerts escalate urgency with `role="alert"` while all other variants stay polite via `role="status"`, keeping announcements aligned with severity.
@@ -95,15 +95,19 @@ The following table flattens Alert’s declared props together with the single i
 
 ## Classes
 
-| Data slot      | Classes |
-| -------------- | ------- |
-| `container`    | `flex` `gap-8` `items-start` `pt-12` `pb-12` `pl-16` `pr-16` `w-390` `rounded-md` `text-color-content-inverse` plus `bg-gradient-utility-{variant}` |
-| `icon`         | `mt-0.5` `shrink-0` plus `fill-color-content-utility-{variant}-strong` |
-| `content`      | `flex` `flex-col` `gap-2` `flex-grow` |
-| `title`        | `text-base` `font-bold` |
-| `description`  | `text-sm` |
-| `textLink`     | — (inherits whichever `TextLink` variant is passed) |
-| `closeIcon`    | `fill-color-content-inverse` `-mt-2` |
+| Data slot | Classes |
+| --------- | ------- |
+| `container` | `flex` `gap-8` `items-start` `pt-12` `pb-12` `pl-16` `pr-16` `w-390` `rounded-md` `text-color-content-inverse` |
+| `icon` | `mt-0.5` `shrink-0` |
+| `content` | `flex` `flex-col` `gap-2` `flex-grow` |
+| `title` | `text-base` `font-bold` |
+| `description` | `text-sm` |
+| `textLink` | — |
+| `closeIcon` | `fill-color-content-inverse` `-mt-2` |
+| `container (variant: success)` | `bg-gradient-utility-success` |
+| `container (variant: info)` | `bg-gradient-utility-info` |
+| `container (variant: warning)` | `bg-gradient-utility-warning` |
+| `container (variant: danger)` | `bg-gradient-utility-danger` |
 
 ---
 
@@ -167,4 +171,5 @@ The following table flattens Alert’s declared props together with the single i
 
 | Date       | Changes |
 | ---------- | ------- |
+| 2025-11-11 | Synced classes with blueprint tokens. |
 | 2025-11-08 | Initial documentation covering props, slots, accessibility, and blueprint parity. |

@@ -1,5 +1,5 @@
 # RadioButtonGroup
-*Type: client* | *Base: fieldset/RadioGroup.Root* | *Last updated: 2025-11-08*
+*Type: client* | *Base: fieldset/RadioGroup.Root* | *Last updated: 2025-11-11*
 
 ## Overview
 RadioButtonGroup wraps Radix `RadioGroup` inside a labeled fieldset so single-select questions share the same labeling, hint/error, and info popover patterns as other inputs. It enforces a visible `label` or `ariaLabel`, renders each choice with optional sub-hint copy, and forwards Radix props such as `value`, `defaultValue`, and `orientation`.
@@ -107,17 +107,18 @@ import type { RadioButtonGroupProps } from '@doxyz-ui/core/client/RadioButtonGro
 
 ## Classes
 
-| Data slot    | Classes |
-| ------------ | ------- |
-| `fieldset`   | `inline-flex flex-col gap-1 border-none py-8` + custom `className` + `data-[has-error=true]:[&_[data-slot=control]]:border-color-border-utility-danger-subtle` |
-| `label`      | `inline-flex items-center gap-1 text-color-content-default text-xs uppercase` |
-| `hint`       | `text-color-content-subtle text-xs -mt-8` |
-| `radiogroup` | `flex flex-col gap-3` (Radix orientation handles horizontal layouts) |
-| `control`    | `flex flex-col gap-3 items-center justify-center size-4 shrink-0 rounded-full border mt-[2px] border-color-content-weak bg-background-none focus:outline-none disabled:opacity-50 focus-visible:ring-2 focus-visible:ring-comp-border-focus-ring focus-visible:ring-offset-4 focus-visible:ring-offset-color-background-default` |
-| `indicator`  | `pointer-events-none block size-2 rounded-full bg-color-content-brand` |
-| `choiceLabel`| *(inherits default text styles)* |
-| `choiceHint` | `text-color-content-subtle text-xs` |
-| `error`      | `text-color-content-utility-danger-subtle text-xs mt-1 inline-flex items-start gap-2` |
+| Data slot | Classes |
+| --------- | ------- |
+| `label` | `inline-flex` `flex-col` `gap-1` `border-none` `py-8` |
+| `label` | `inline-flex` `items-center` `gap-1` `text-color-content-default` `text-xs` `uppercase` |
+| `hint` | `text-color-content-subtle` `text-xs` `-mt-8` |
+| `radiogroup` | `flex` `flex-col` `gap-3` |
+| `control` | `flex` `flex-col` `gap-3` `items-center` `justify-center` `size-4` `shrink-0` `rounded-full` `border` `mt-[2px]` `border-color-content-weak` `bg-background-none` `focus:outline-none` `disabled:opacity-50` `focus-visible-brand` |
+| `indicator` | `pointer-events-none` `block` `size-2` `rounded-full` `bg-color-content-brand` |
+| `choiceLabel` | — |
+| `choiceHint` | `text-color-content-subtle` `text-xs` |
+| `error` | `text-color-content-utility-danger-subtle` `text-xs` `mt-1` `inline-flex` `items-start` `gap-2` `items-center` |
+| `label (state: has error)` | `data-[has-error=true]:[&_[data-slot=control]]:border-color-border-utility-danger-subtle` |
 
 ---
 
@@ -193,4 +194,5 @@ import type { RadioButtonGroupProps } from '@doxyz-ui/core/client/RadioButtonGro
 
 | Date       | Changes |
 | ---------- | ------- |
+| 2025-11-11 | Synced classes with blueprint tokens. |
 | 2025-11-08 | Initial documentation and Storybook README wiring. |

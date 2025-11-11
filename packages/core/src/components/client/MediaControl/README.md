@@ -1,5 +1,5 @@
 # MediaControl
-*Type: client* | *Base: Control* | *Last updated: 2025-11-08*
+*Type: client* | *Base: Control* | *Last updated: 2025-11-11*
 
 ## Overview
 MediaControl is an icon-only button that toggles between play and pause states. It wraps the shared `Control` component, supports controlled/uncontrolled state, and emits `onPlay`, `onPause`, and `onStateChange` callbacks so you can synchronize external media players. Use it inside MediaCards, hero sections, or any audio/video UI that needs a concise toggle.
@@ -79,7 +79,8 @@ import type { MediaControlProps } from '@doxyz-ui/core/client/MediaControl';
 
 | Data slot | Classes |
 | --------- | ------- |
-| `_icon`   | Inherits Control icon spacing; when playing, the runtime adds `text-color-content-brand`.
+| `_icon` | — |
+| `container (state: playing)` | `text-color-content-brand` |
 
 ---
 
@@ -140,4 +141,5 @@ import type { MediaControlProps } from '@doxyz-ui/core/client/MediaControl';
 
 | Date       | Changes |
 | ---------- | ------- |
+| 2025-11-11 | Synced classes with blueprint tokens. |
 | 2025-11-08 | Initial documentation and Storybook README wiring. |

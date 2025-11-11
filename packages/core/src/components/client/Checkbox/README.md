@@ -1,5 +1,5 @@
 # Checkbox
-*Type: client* | *Base: RadixCheckbox.Root* | *Last updated: 2025-11-08*
+*Type: client* | *Base: RadixCheckbox.Root* | *Last updated: 2025-11-11*
 
 ## Overview
 Checkbox renders a Radix checkbox with a visible label, optional hint copy, and focus ring tokens that align with the rest of the system. It merges custom `aria-describedby` with hint ids, enforces a non-empty label, and forwards form props (`name`, `value`, `required`, `checked`). Use it for single Boolean selections or as part of CheckboxGroup.
@@ -86,13 +86,14 @@ import type { CheckboxProps } from '@doxyz-ui/core/client/Checkbox';
 
 ## Classes
 
-| Data slot   | Classes |
-| ----------- | ------- |
-| `container` | `inline-flex items-start gap-2 select-none` + `opacity-50 pointer-events-none` when disabled. |
-| `control`   | `size-20 bg-background-none border-2 border-color-content-weak rounded-xs inline-flex justify-center items-center focus-visible:ring-2 focus-visible:ring-comp-border-focus-ring focus-visible:ring-offset-2` |
-| `indicator` | `bg-color-content-brand border-color-content-brand border-[2.5px] h-16 rounded-xs hover:bg-comp-checkbox-checked-color-background-hover active:bg-comp-checkbox-checked-color-background-active text-comp-checkbox-checked-color-icon-default` |
-| `label`     | `text-color-content-default text-sm leading-tight` |
-| `hint`      | `text-color-content-subtle text-xs` |
+| Data slot | Classes |
+| --------- | ------- |
+| `container` | `inline-flex` `items-start` `gap-2` `select-none` |
+| `control` | `size-20` `bg-background-none` `border-2` `border-color-content-weak` `rounded-xs` `inline-flex` `justify-center` `items-center` `focus-visible-brand` |
+| `indicator` | `bg-color-content-brand` `border-color-content-brand` `border-[2.5px]` `h-16` `rounded-xs` `hover:bg-comp-checkbox-checked-color-background-hover` `active:bg-comp-checkbox-checked-color-background-active` `text-comp-checkbox-checked-color-icon-default` |
+| `label` | `text-color-content-default` `text-sm` `leading-tight` |
+| `hint` | `text-color-content-subtle` `text-xs` |
+| `container (state: disabled)` | `opacity-50` `pointer-events-none` |
 
 ---
 
@@ -155,4 +156,5 @@ import type { CheckboxProps } from '@doxyz-ui/core/client/Checkbox';
 
 | Date       | Changes |
 | ---------- | ------- |
+| 2025-11-11 | Synced classes with blueprint tokens. |
 | 2025-11-08 | Initial documentation and Storybook README wiring. |

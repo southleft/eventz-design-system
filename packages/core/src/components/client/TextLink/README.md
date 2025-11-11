@@ -1,5 +1,5 @@
 # TextLink
-*Type: client* | *Base: a* | *Last updated: 2025-11-08*
+*Type: client* | *Base: a* | *Last updated: 2025-11-11*
 
 ## Overview
 TextLink renders a styled anchor that behaves like inline text rather than a button. Variants cover brand, strong, subtle, and inverted treatments, and you can prepend/append icons while keeping the label accessible. Use it inside paragraphs, card footers, or navigation summaries when you need a compact link.
@@ -75,12 +75,16 @@ import type { TextLinkProps } from '@doxyz-ui/core/client/TextLink';
 
 ## Classes
 
-| Data slot   | Classes |
-| ----------- | ------- |
-| `container` | `inline-flex items-center select-none justify-center no-underline gap-2 text-sm whitespace-nowrap transition-colors outline-none rounded-sm focus-visible:ring focus-visible:ring-comp-border-focus-ring focus-visible:ring-offset-2 aria-disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:select-none` + variant token set (`brand`, `strong`, `subtle`, `inverted`). |
-| `startIcon` | `shrink-0 -ml-0.5 pt-2` |
-| `label`     | *(inherits base text styles)* |
-| `endIcon`   | `shrink-0 -mr-0.5 pt-2` |
+| Data slot | Classes |
+| --------- | ------- |
+| `container` | `inline-flex` `items-center` `select-none` `no-underline` `gap-2` `text-sm` `whitespace-nowrap` `transition-colors` `outline-none` `rounded-sm` `focus-visible-brand` `aria-disabled:opacity-50` `aria-disabled:pointer-events-none` `aria-disabled:select-none` |
+| `startIcon` | `shrink-0` `-ml-0.5` `pt-2` |
+| `label` | — |
+| `endIcon` | `shrink-0` `-mr-0.5` `pt-2` |
+| `container (variant: brand)` | `text-color-content-brand` `hover:text-color-content-brand-hover` `font-bold` |
+| `container (variant: strong)` | `text-color-content-default` `hover:text-color-content-default-hover` `font-medium` |
+| `container (variant: subtle)` | `text-color-content-weak` `hover:text-color-content-weak-hover` |
+| `container (variant: inverted)` | `text-comp-button-primary-color-content-default` `hover:text-comp-button-primary-color-content-hover` `active:text-comp-button-primary-color-content-active` |
 
 ---
 
@@ -143,4 +147,5 @@ import type { TextLinkProps } from '@doxyz-ui/core/client/TextLink';
 
 | Date       | Changes |
 | ---------- | ------- |
+| 2025-11-11 | Synced classes with blueprint tokens. |
 | 2025-11-08 | Initial documentation and Storybook README wiring. |

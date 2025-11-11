@@ -1,5 +1,5 @@
 # Slider
-*Type: client* | *Base: RadixSlider.Root* | *Last updated: 2025-11-08*
+*Type: client* | *Base: RadixSlider.Root* | *Last updated: 2025-11-11*
 
 ## Overview
 Slider exposes a single-thumb, horizontal slider built on Radix Slider. It targets volume/seek scenarios, uses a controlled `value`, and emits “change” and “commit” callbacks so you can separate live updates from final actions. Keyboard interactions mirror Radix (Arrow, Page, Home/End), and you must provide an accessible label for the thumb.
@@ -77,10 +77,10 @@ import type { SliderProps } from '@doxyz-ui/core/client/Slider';
 
 | Data slot | Classes |
 | --------- | ------- |
-| `container` | `w-full select-none touch-none relative w-full h-[12px] flex items-center` |
-| `_track`    | `relative w-full h-[4px] rounded-full bg-color-background-subtle overflow-hidden` |
-| `_range`    | `absolute left-0 top-0 h-full rounded-full bg-color-background-brand` |
-| `_thumb`    | `block size-[8px] rounded-full bg-color-background-brand focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-4 focus-visible:ring-comp-border-focus-ring focus-visible:ring-offset-color-background-default` |
+| `container` | `w-full` `select-none` `touch-none` `relative` `w-full` `h-[12px]` `flex` `items-center` |
+| `_track` | `relative` `w-full` `h-[4px]` `rounded-full` `bg-color-background-subtle` `overflow-hidden` |
+| `_track ._range` | `absolute` `left-0` `top-0` `h-full` `rounded-full` `bg-color-background-brand` |
+| `_thumb` | `block` `size-[8px]` `rounded-full` `bg-color-background-brand` `focus-visible-brand` |
 
 ---
 
@@ -150,4 +150,5 @@ import type { SliderProps } from '@doxyz-ui/core/client/Slider';
 
 | Date       | Changes |
 | ---------- | ------- |
+| 2025-11-11 | Synced classes with blueprint tokens. |
 | 2025-11-08 | Initial documentation and Storybook README wiring. |

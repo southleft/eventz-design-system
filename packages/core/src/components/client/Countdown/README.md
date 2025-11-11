@@ -1,5 +1,5 @@
 # Countdown
-*Type: client* | *Base: time* | *Last updated: 2025-11-08*
+*Type: client* | *Base: time* | *Last updated: 2025-11-11*
 
 ## Overview
 Countdown displays the remaining time until an absolute ISO-8601 timestamp. It runs on the client, updates once per second, optionally announces a screen-reader prefix, and fires an `onComplete` callback exactly once when the timer hits zero. Use it to highlight flash-sale expirations, session timeouts, or onboarding deadlines.
@@ -70,9 +70,11 @@ import type { CountdownProps } from '@doxyz-ui/core/client/Countdown';
 
 ## Classes
 
-| Slot        | Classes |
-| ----------- | ------- |
-| `container` | `inline-flex items-center justify-center whitespace-nowrap w-full p-2 text-3xl text-color-content-inverse` + variant tokens (`bg-color-background-brand` or `bg-color-background-utility-danger`). |
+| Data slot | Classes |
+| --------- | ------- |
+| `container` | `inline-flex` `items-center` `justify-center` `whitespace-nowrap` `w-full` `p-2` `text-3xl` `text-color-content-inverse` |
+| `container (variant: default)` | `bg-color-background-brand` |
+| `container (variant: expiring)` | `bg-color-background-utility-danger` |
 
 ---
 
@@ -135,4 +137,5 @@ import type { CountdownProps } from '@doxyz-ui/core/client/Countdown';
 
 | Date       | Changes |
 | ---------- | ------- |
+| 2025-11-11 | Synced classes with blueprint tokens. |
 | 2025-11-08 | Initial documentation and Storybook README wiring. |
