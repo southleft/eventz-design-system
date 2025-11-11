@@ -4,16 +4,26 @@
 
 import type { Meta, StoryObj } from '@storybook/react';
 import * as React from 'react';
-
-import { ArrowDropDownIcon } from '../../../icons';
-import { Button } from '../Button';
+import { fn } from 'storybook/internal/test';
+import { Search } from '../Search';
+import { Map } from '../../server/Map';
+import { LocationIcon } from '../../../icons';
 import { Dropdown, type DropdownProps } from './Dropdown';
 
-const menuContent = (
-  <div className="flex flex-col gap-1 text-sm">
-    <Button>Edit</Button>
-    <Button>Duplicate</Button>
-    <Button>Archive</Button>
+const MapWithMarkerChip: React.FC = () => (
+  <div className="relative h-full w-full">
+    <img
+      src="/images/austin-dark-map.png"
+      alt="Austin, TX — map placeholder with marker"
+      className="object-cover"
+      loading="lazy"
+      decoding="async"
+    />
+    <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+      <div className="dx-markerchip">
+        <LocationIcon className="size-full" />
+      </div>
+    </div>
   </div>
 );
 
@@ -21,15 +31,14 @@ const meta: Meta<DropdownProps> = {
   title: 'Client components/Dropdown',
   component: Dropdown,
   args: {
-    label: 'Actions',
+    label: 'Locations',
     align: 'start',
     side: 'bottom',
     sideOffset: 8,
     collisionPadding: 8,
     trapFocus: false,
     ariaHaspopup: 'menu',
-    disabled: false,
-    children: menuContent
+    disabled: false
   },
   tags: ['autodocs']
 };
@@ -38,18 +47,20 @@ export default meta;
 
 type Story = StoryObj<DropdownProps>;
 
-export const Default: Story = {};
-
-export const WithIcons: Story = {
+export const Default: Story = {
   args: {
-    label: 'Filters',
-    startIcon: <ArrowDropDownIcon aria-hidden="true" />,
-    endIcon: <ArrowDropDownIcon aria-hidden="true" />,
     children: (
-      <div className="flex flex-col gap-1 text-sm">
-        <Button>All</Button>
-        <Button>Active only</Button>
-        <Button>Archived</Button>
+      <div className="inline-flex flex-col gap-8">
+        <Search
+          placeholder="Search locations..."
+          onResultSelect={fn()}
+          onSearchTermChange={fn()}
+          results={[]}
+          noResultsMessage="No matches for this search."
+        />
+        <Map ariaLabel="Map" isNested={true}>
+          <MapWithMarkerChip />
+        </Map>
       </div>
     )
   }
