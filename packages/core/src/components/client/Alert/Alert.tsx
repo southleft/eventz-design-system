@@ -102,11 +102,13 @@ export const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
             <div className={titleClassName} data-slot="title">
               {trimmedTitle}
             </div>
-          ) : (
+          ) : null}
+
+          {children ? (
             <div className={descriptionClassName} data-slot="description">
               {children}
             </div>
-          )}
+          ) : null}
 
           {textLinkElement}
         </div>
