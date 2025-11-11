@@ -48,8 +48,8 @@ const sectionTriggerClasses = `
   focus-visible:ring-2 focus-visible:ring-offset-4 focus-visible:ring-comp-border-focus-ring
   focus-visible:ring-offset-color-background-default gap-6
   hover:text-color-content-weak-hover hover:border-b-color-border-default-hover
-  data-[state=active]:border-b-color-border-brand data-[state=active]:text-color-content-brand
-  data-[state=active]:hover:border-b-color-border-brand-hover data-[state=active]:hover:text-color-content-brand-hover
+  data-[state=active]:border-b-color-content-brand data-[state=active]:text-color-content-brand
+  data-[state=active]:hover:border-b-color-content-brand-hover data-[state=active]:hover:text-color-content-brand-hover
 `;
 const triggerButtonClasses = ``;
 const triggerIconClasses = `shrink-0 [&>svg]:size-16`;
