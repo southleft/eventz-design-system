@@ -65,12 +65,13 @@ const supportingTextClasses = `
 `;
 
 const imageClasses = `
-  h-40 w-40 rounded-sm object-cover group-hover:opacity-75 data-[is-placeholder=true]:bg-color-background-brand
+  h-40 w-40 rounded-sm object-cover group-hover:opacity-75 data-[is-placeholder=true]:bg-color-background-weak
 `;
 
 const mediaIconClasses = `
-  text-color-content-brand group-hover:text-color-content-brand-hover bg-color-background-weak
-  group-hover:bg-color-background-weak-hover flex items-center justify-center
+  text-color-content-default group-hover:text-color-content-default-hover
+  flex items-center justify-center
+  group-data-[is-selected=true]:text-color-content-brand
 `;
 
 const complexSelectedWrapperClasses = `

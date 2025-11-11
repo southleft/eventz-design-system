@@ -72,10 +72,10 @@ export const MenuItemStyleMap = defineStyleMap({
       'rounded-sm',
       'object-cover',
       'group-hover:opacity-75',
-      'text-color-content-brand',
-      'group-hover:text-color-content-brand-hover',
+      'text-color-content-default',
+      'group-hover:text-color-content-default-hover',
       'bg-color-background-weak',
-      'group-hover:bg-color-background-weak-hover',
+      'group-data-[is-selected=true]:text-color-content-brand',
       'flex',
       'items-center',
       'justify-center'
