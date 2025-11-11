@@ -3,8 +3,7 @@
 // Summary: Tag renders interactive or static chips with variant styling, active state data attributes, and trimmed label text.
 
 import * as React from 'react';
-import { composeClasses } from '../../../utilities/composeClasses/composeClasses';
-import { collapseWhitespace } from '../../../utilities/collapseWhitespace/collapseWhitespace';
+import { collapseWhitespace, composeClasses } from '../../../utilities';
 
 type TagVariant = 'parent' | 'child';
 
@@ -52,18 +51,18 @@ const variantClasses: Record<TagVariant, string> = {
     data-[interactive=true]:bg-color-background-weak
     data-[interactive=true]:hover:bg-color-background-weak-hover
     data-[interactive=true]:hover:text-color-content-default-hover
-    data-[interactive=true]:data-[active=true]:bg-color-background-brand
+    data-[interactive=true]:data-[active=true]:bg-color-content-brand
     data-[interactive=true]:data-[active=true]:text-color-background-default
-    data-[interactive=true]:data-[active=true]:hover:bg-color-background-brand-hover
+    data-[interactive=true]:data-[active=true]:hover:bg-color-content-brand-hover
   `,
   child: `
     data-[interactive=true]:bg-background-none
     data-[interactive=true]:text-color-content-weak
     data-[interactive=true]:hover:bg-color-background-weak-hover
     data-[interactive=true]:hover:text-color-content-weak-hover
-    data-[interactive=true]:data-[active=true]:text-color-background-brand
+    data-[interactive=true]:data-[active=true]:text-color-content-brand
     data-[interactive=true]:data-[active=true]:hover:bg-color-background-subtle-hover
-    data-[interactive=true]:data-[active=true]:hover:text-color-background-brand-hover
+    data-[interactive=true]:data-[active=true]:hover:text-color-content-brand-hover
   `
 };
 
