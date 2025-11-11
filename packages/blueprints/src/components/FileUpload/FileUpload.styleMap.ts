@@ -39,12 +39,9 @@ export default defineStyleMap({
       // Hover (when the dropzone itself is hovered)
       'hover:bg-comp-form-color-background-hover',
       'hover:border-comp-form-color-hover',
-      'focus-visible:ring-2',
-      'focus-visible:ring-offset-4',
-      'focus-visible:ring-comp-border-focus-ring',
-      'focus-visible:ring-offset-color-background-default',
       // focus-within:* ring is applied conditionally at runtime (keyboard modality)
       // conditional focus-within:* ring classes are applied as 'focusWithinRingClasses'
+      'focus-visible-brand',
       'focus-within:ring-2',
       'focus-within:ring-offset-4',
       'focus-within:ring-comp-border-focus-ring',

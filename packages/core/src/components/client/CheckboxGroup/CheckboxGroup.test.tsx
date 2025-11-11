@@ -320,7 +320,7 @@ describe('CheckboxGroup info popover', () => {
   it('applies the focus ring token classes to the info trigger', () => {
     render(<CheckboxGroup label="Notifications" info="More info" choices={[{ label: 'Email' }]} />);
     const trigger = screen.getByRole('button', { name: 'Notifications info' });
-    expect(trigger).toHaveClass('focus-visible:ring-comp-border-focus-ring');
+    expect(trigger).toHaveClass('focus-visible-brand');
   });
 
   it('names the info trigger for accessibility', () => {

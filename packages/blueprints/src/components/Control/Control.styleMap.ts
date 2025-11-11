@@ -14,9 +14,7 @@ export const ControlStyleMap = defineStyleMap({
     'outline-none',
     'whitespace-nowrap',
     // Focus-visible ring (matches component)
-    'focus-visible:ring-2',
-    'focus-visible:ring-comp-border-focus-ring',
-    'focus-visible:ring-offset-2'
+    'focus-visible-brand'
   ] as const,
 
   // Slots: icon-only control

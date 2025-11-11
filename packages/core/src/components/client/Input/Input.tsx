@@ -5,12 +5,11 @@
 // Summary: Input wraps FormElement to render a labeled field with optional icons, merges aria wiring, and composes slot-based input row.
 
 import * as React from 'react';
-import { composeClasses } from '../../../utilities/composeClasses/composeClasses';
-import { collapseWhitespace } from '../../../utilities/collapseWhitespace/collapseWhitespace';
+import { collapseWhitespace, composeClasses } from '../../../utilities';
 import { FormElement, type FormElementProps } from '../FormElement';
 
 const inputRowClasses = `
-  inline-flex items-center gap-2 py-(--spacing-1_5) px-(--spacing-2_5)
+  inline-flex items-center gap-2 px-12 py-[2px]
 `;
 
 const startIconClasses = `
@@ -18,7 +17,8 @@ const startIconClasses = `
 `;
 
 const inputClasses = `
-  grow bg-transparent outline-none text-color-content-default placeholder-color-content-weak border-none py-(--spacing-1_5) focus:placeholder:opacity-0
+  grow bg-transparent outline-none text-color-content-default placeholder-color-content-weak border-none py-(--spacing-1_5)
+  focus:placeholder:opacity-0
 `;
 
 const endIconClasses = `

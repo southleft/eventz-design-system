@@ -246,9 +246,6 @@ describe('RadioButtonGroup chrome', () => {
   it('applies focus ring token classes on the radio control', () => {
     render(<RadioButtonGroup label="Focus test" choices={baseChoices} />);
     const control = screen.getAllByRole('radio')[0];
-    const hasFocusClasses =
-      control.className.includes('focus-visible:ring-2') &&
-      control.className.includes('focus-visible:ring-comp-border-focus-ring');
-    expect(hasFocusClasses).toBe(true);
+    expect(control.className).toContain('focus-visible-brand');
   });
 });

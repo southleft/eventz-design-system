@@ -6,7 +6,6 @@ export const TextLinkStyleMap = defineStyleMap({
     'inline-flex',
     'items-center',
     'select-none',
-    'justify-center',
     'no-underline',
     'gap-2',
     'text-sm',
@@ -14,9 +13,7 @@ export const TextLinkStyleMap = defineStyleMap({
     'transition-colors',
     'outline-none',
     'rounded-sm',
-    'focus-visible:ring',
-    'focus-visible:ring-comp-border-focus-ring',
-    'focus-visible:ring-offset-2',
+    'focus-visible-brand',
     'aria-disabled:opacity-50',
     'aria-disabled:pointer-events-none',
     'aria-disabled:select-none'
@@ -39,10 +36,7 @@ export const TextLinkStyleMap = defineStyleMap({
       'hover:text-color-content-default-hover',
       'font-medium'
     ] as const,
-    subtle: [
-      'text-color-content-weak',
-      'hover:text-color-content-weak-hover'
-    ] as const,
+    subtle: ['text-color-content-weak', 'hover:text-color-content-weak-hover'] as const,
     inverted: [
       'text-comp-button-primary-color-content-default',
       'hover:text-comp-button-primary-color-content-hover',

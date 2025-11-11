@@ -15,16 +15,12 @@ export const ButtonStyleMap = defineStyleMap({
     'font-medium',
     'text-sm',
     // focus ring (token)
-    'focus-visible:ring-2',
-    'focus-visible:ring-offset-2',
-    'focus-visible:ring-comp-border-focus-ring',
-    'focus-visible:ring-offset-color-background-default',
-    'outline-none',
+    'focus-visible-brand',
     // disabled
     'disabled:opacity-50',
     'disabled:pointer-events-none',
     // structural
-    'h-24',
+    'h-32',
     'px-4',
     'gap-2',
     'rounded-md',

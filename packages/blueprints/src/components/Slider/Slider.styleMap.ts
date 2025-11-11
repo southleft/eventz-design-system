@@ -46,11 +46,7 @@ const map: StyleMapSpec = {
       'size-[8px]', // fixed per spec (was 4px)
       'rounded-full',
       'bg-color-background-brand', // token
-      'focus-visible:outline-none',
-      'focus-visible:ring-2',
-      'focus-visible:ring-offset-4',
-      'focus-visible:ring-comp-border-focus-ring',
-      'focus-visible:ring-offset-color-background-default'
+      'focus-visible-brand'
     ]
   },
 

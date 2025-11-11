@@ -121,7 +121,7 @@ describe('InfoPopover', () => {
       <InfoPopover ariaLabel="Focus check">Focus ring popover</InfoPopover>
     );
     const trigger = screen.getByRole('button', { name: 'Focus check' });
-    expect(trigger.className).toMatch(/focus-visible:ring-comp-border-focus-ring/);
+    expect(trigger.className).toContain('focus-visible-brand');
     view.unmount();
   });
 

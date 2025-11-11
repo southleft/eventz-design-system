@@ -24,9 +24,7 @@ const controlClasses = `
   inline-flex
   justify-center
   items-center
-  focus-visible:ring-2
-  focus-visible:ring-comp-border-focus-ring
-  focus-visible:ring-offset-2
+  focus-visible-brand
 `;
 
 const indicatorClasses = `

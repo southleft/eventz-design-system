@@ -128,8 +128,6 @@ describe('TextLink', () => {
 
   it('includes focus ring token class', () => {
     renderLink();
-    expect(screen.getByRole('link', { name: 'Visit example' })).toHaveClass(
-      'focus-visible:ring-comp-border-focus-ring'
-    );
+    expect(screen.getByRole('link', { name: 'Visit example' })).toHaveClass('focus-visible-brand');
   });
 });

@@ -58,7 +58,7 @@ describe('Stepper', () => {
     const [firstTab] = screen.getAllByRole('tab');
     firstTab.focus();
     const className = firstTab.className;
-    expect(className.includes('focus-visible:ring-comp-border-focus-ring')).toBe(true);
+    expect(className.includes('focus-visible-brand')).toBe(true);
   });
 
   it('names the active tab via aria-labelledby', () => {

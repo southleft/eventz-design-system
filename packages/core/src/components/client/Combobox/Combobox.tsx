@@ -30,9 +30,7 @@ const emptyClasses = `
 
 const clearAllClasses = `
   inline-flex items-center justify-center rounded-full border-0 bg-background-none text-color-content-default
-  focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-comp-border-focus-ring
-  focus-visible:ring-offset-2 focus-visible:ring-offset-color-background-default transition-opacity
-  opacity-0
+  transition-opacity opacity-0 focus-visible-brand
 `;
 
 const chipsContainerClasses = `
@@ -42,16 +40,13 @@ const chipsContainerClasses = `
 const chipClasses = `
   inline-flex items-center gap-1 rounded-xs border-0 text-xs font-medium leading-[18px]
   bg-color-background-brand hover:bg-color-background-brand-hover text-color-content-inverse
-  px-2 h-22 transition-colors group
-  focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-comp-border-focus-ring
-  focus-visible:ring-offset-[-4px]
+  px-2 h-22 transition-colors group focus-visible-brand
 `;
 
 const chipDismissClasses = `
   inline-flex items-center justify-center rounded-full h-20 w-20 shrink-0 border-0
   bg-color-background-brand group-hover:bg-color-background-brand-hover text-color-content-inverse
-  focus-visible:ring-2 focus-visible:ring-comp-border-focus-ring focus-visible:ring-offset-2
-  focus-visible:ring-offset-color-background-default
+  focus-visible-brand
 `;
 
 const startIconClasses = `
@@ -375,7 +370,7 @@ export function Combobox({
     }
   };
 
-  const menuItemClasses = `w-full`;
+  const menuItemClasses = `w-full focus-visible-brand-inset`;
   const menuItemClassName = collapseWhitespace(composeClasses(menuItemClasses));
 
   const rootClassName = collapseWhitespace(

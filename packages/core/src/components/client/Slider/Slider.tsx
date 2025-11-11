@@ -38,14 +38,11 @@ const rangeClasses = `
 `;
 
 const thumbClasses = `
-  block size-[8px] rounded-full bg-color-background-brand
-  focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-4
-  focus-visible:ring-comp-border-focus-ring focus-visible:ring-offset-color-background-default
+  block size-[8px] rounded-full bg-color-background-brand focus-visible-brand
 `;
 
 export const Slider = React.forwardRef<SliderRootElement, SliderProps>(
   ({ value, onChange, onCommit, min = 0, max = 100, step = 1, ariaLabel, ariaLabelledBy }, ref) => {
-
     const handleValueChange = React.useCallback(
       (nextValues: number[]) => {
         const nextValue = nextValues[0];

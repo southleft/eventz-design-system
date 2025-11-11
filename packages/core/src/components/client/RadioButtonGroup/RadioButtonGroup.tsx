@@ -35,8 +35,7 @@ const choiceClasses = `
 
 const controlClasses = `
   flex flex-col gap-3 items-center justify-center size-4 shrink-0 rounded-full border mt-[2px]
-  border-color-content-weak bg-background-none focus:outline-none disabled:opacity-50
-  focus-visible:ring-2 focus-visible:ring-comp-border-focus-ring focus-visible:ring-offset-4 focus-visible:ring-offset-color-background-default
+  border-color-content-weak bg-background-none focus:outline-none disabled:opacity-50 focus-visible-brand
 `;
 
 const indicatorClasses = `

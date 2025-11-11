@@ -6,8 +6,7 @@
 
 import * as React from 'react';
 import { ToggleGroup as RadixToggleGroup } from 'radix-ui';
-import { composeClasses } from '../../../utilities/composeClasses/composeClasses';
-import { collapseWhitespace } from '../../../utilities/collapseWhitespace/collapseWhitespace';
+import { collapseWhitespace, composeClasses } from '../../../utilities';
 
 type ToggleGroupRootProps = React.ComponentPropsWithoutRef<typeof RadixToggleGroup.Root>;
 
@@ -32,7 +31,6 @@ const itemClasses = `
   items-center
   justify-center
   border-none
-  outline-none
   focus:shadow-none
   bg-comp-button-color-background-knockout
   active:bg-comp-button-color-background-knockout-active
@@ -44,10 +42,7 @@ const itemClasses = `
   hover:text-comp-button-color-content-default-hover
   focus:z-10
   focus:shadow-[0_0_0_2px]
-  focus-visible:ring-2
-  focus-visible:ring-offset-4
-  focus-visible:ring-comp-border-focus-ring
-  focus-visible:ring-offset-color-background-default
+  focus-visible-brand
   data-[state=on]:bg-comp-button-primary-color-background-default
   data-[state=on]:text-comp-button-primary-color-content-default
   data-[state=on]:hover:bg-comp-button-primary-color-background-hover
