@@ -50,7 +50,7 @@ describe('Tag', () => {
     render(<Tag label="Active Parent" isInteractive isActive />);
     const button = screen.getByRole('button', { name: 'Active Parent' });
     expect(button.className).toContain(
-      'data-[interactive=true]:data-[active=true]:bg-color-background-brand'
+      'data-[interactive=true]:data-[active=true]:bg-color-content-brand'
     );
   });
 

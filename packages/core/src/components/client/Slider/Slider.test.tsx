@@ -96,9 +96,8 @@ describe('Slider', () => {
     const thumb = document.querySelector('[data-slot="_thumb"]') as HTMLElement | null;
     expect({
       track: track?.className.includes('bg-color-background-subtle'),
-      range: range?.className.includes('bg-color-background-brand'),
+      range: range?.className.includes('bg-color-content-brand'),
       thumb: thumb?.className.includes('size-[8px]')
     }).toEqual({ track: true, range: true, thumb: true });
   });
-
 });
