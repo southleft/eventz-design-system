@@ -21,7 +21,7 @@ import { Input, InputProps } from '../Input';
 import { Button } from '../Button';
 import { MenuItem } from '../MenuItem';
 
-const inputClasses = `min-w-480`;
+const inputClasses = `min-w-xs`;
 
 const resultsClasses = `
   inline-flex flex-col justify-center p-4 rounded-sm border overflow-hidden
@@ -110,6 +110,7 @@ export const Search = ({
   noResultsMessage,
   InputProps: inputPropsOverride,
   closeIcon,
+  className,
   viewAllLabel = defaultViewAllLabel
 }: SearchProps) => {
   const isControlled = value !== undefined;
@@ -153,7 +154,7 @@ export const Search = ({
     ...restInputProps
   } = inputPropsOverride ?? {};
 
-  const inputClassName = collapseWhitespace(composeClasses(inputClasses));
+  const inputClassName = collapseWhitespace(composeClasses(inputClasses, className));
   const resultsClassName = collapseWhitespace(composeClasses(resultsClasses, resultsStateClasses));
   const statusClassName = collapseWhitespace(composeClasses(statusClasses));
   const viewAllRowClassName = collapseWhitespace(composeClasses(viewAllRowClasses));

@@ -4,7 +4,7 @@ export const SearchStyleMap = defineStyleMap({
   base: [] as const,
 
   slots: {
-    anchor: ['min-w-480'] as const,
+    anchor: ['min-w-xs'] as const,
 
     // Popover content wrapper
     results: [
