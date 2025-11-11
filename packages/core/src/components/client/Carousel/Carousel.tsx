@@ -137,9 +137,7 @@ const indicatorsClasses = `
 `;
 
 const indicatorBaseClasses = `
-  relative shrink-0 rounded-full outline-none transition-[transform,opacity] border-none
-  focus-visible:ring-2 focus-visible:ring-comp-border-focus-ring
-  focus-visible:ring-offset-2 focus-visible:ring-offset-color-background-default
+  relative shrink-0 rounded-full transition-[transform,opacity] border-none focus-visible-brand
 `;
 
 const indicatorActiveClasses = `
