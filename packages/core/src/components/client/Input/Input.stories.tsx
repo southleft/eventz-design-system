@@ -5,7 +5,7 @@
 import { Markdown } from '@storybook/addon-docs/blocks';
 import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { MagnifyingGlassIcon, CheckIcon } from '@radix-ui/react-icons';
+import { SearchIcon, CheckIcon } from '@/icons';
 import Readme from './README.md?raw';
 import { Input, InputProps } from './Input';
 
@@ -43,7 +43,7 @@ const meta: Meta<InputStoryArgs> = {
   render: ({ showStartIcon, showEndIcon, ...args }) => (
     <Input
       {...args}
-      startIcon={showStartIcon ? <MagnifyingGlassIcon aria-hidden="true" /> : undefined}
+      startIcon={showStartIcon ? <SearchIcon aria-hidden="true" /> : undefined}
       endIcon={showEndIcon ? <CheckIcon aria-hidden="true" /> : undefined}
     />
   ),
