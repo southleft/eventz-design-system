@@ -5,8 +5,7 @@
 // Summary: Control button enforces ariaLabel, applies size and variant styling, and renders the provided icon.
 
 import * as React from 'react';
-import { composeClasses } from '../../../utilities/composeClasses/composeClasses';
-import { collapseWhitespace } from '../../../utilities/collapseWhitespace/collapseWhitespace';
+import { collapseWhitespace, composeClasses } from '../../../utilities';
 
 type Variant = 'brand' | 'dark' | 'light';
 type Size = 'lg' | 'sm';
@@ -32,15 +31,15 @@ const baseClasses = `
 
 const variantClasses: Record<Variant, string> = {
   brand: `
-    bg-comp-button-primary-color-background-default text-comp-button-primary-color-content-default border-comp-border-none
+    bg-comp-button-primary-color-background-default text-comp-button-primary-color-content-default border-none
     hover:bg-comp-button-primary-color-background-hover active:bg-comp-button-primary-color-background-active
   `,
   dark: `
-    bg-comp-button-color-background-knockout-blur text-comp-button-color-content-default border-comp-border-none
+    bg-comp-button-color-background-knockout-blur text-comp-button-color-content-default border-none
     hover:bg-comp-button-color-background-knockout-blur-hover active:bg-comp-button-color-background-knockout-blur-active
   `,
   light: `
-    bg-comp-button-color-background-default-blur border-comp-border-none text-comp-button-color-content-default
+    bg-comp-button-color-background-default-blur border-none text-comp-button-color-content-default
     hover:bg-comp-button-color-background-default-blur-hover active:bg-comp-button-color-background-default-blur-active
   `
 };
