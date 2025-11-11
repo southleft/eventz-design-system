@@ -155,7 +155,7 @@ describe('Checkbox', () => {
     await user.tab();
     await user.tab();
     const control = screen.getByRole('checkbox', { name: 'Focus me' });
-    expect(control.className).toMatch(/focus-visible:ring-comp-border-focus-ring/);
+    expect(control.className).toContain('focus-visible-brand');
     view.unmount();
   });
 

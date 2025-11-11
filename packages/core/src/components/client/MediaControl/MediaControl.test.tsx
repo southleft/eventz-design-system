@@ -222,7 +222,7 @@ describe('MediaControl', () => {
     const button = screen.getByRole('button');
     const focusState = {
       isFocused: document.activeElement === button,
-      hasFocusClass: button.className.includes('focus-visible:ring-comp-border-focus-ring')
+      hasFocusClass: button.className.includes('focus-visible-brand')
     };
     expect(focusState).toEqual({ isFocused: true, hasFocusClass: true });
   });

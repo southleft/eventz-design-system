@@ -48,7 +48,7 @@ describe('IconButton', () => {
     it('applies focus ring token class on the root', () => {
       render(<IconButton icon={sampleIcon} ariaLabel="Focus test" />);
       const button = screen.getByRole('button', { name: 'Focus test' });
-      expect(button.className).toMatch(/focus-visible:ring-comp-icon-button-focus-color-ring/);
+      expect(button.className).toContain('focus-visible-brand');
     });
   });
 

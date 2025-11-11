@@ -53,7 +53,7 @@ describe('Button', () => {
   it('includes focus ring token class on the root element', () => {
     const view: RenderResult = render(<Button>Focus</Button>);
     const root = screen.getByRole('button', { name: 'Focus' });
-    expect(root.className).toMatch(/focus-visible:ring-comp-border-focus-ring/);
+    expect(root.className).toContain('focus-visible-brand');
     view.unmount();
   });
 

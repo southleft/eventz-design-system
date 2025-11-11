@@ -597,7 +597,7 @@ describe('FileUpload', () => {
     const user = userEvent.setup();
     render(<FileUpload ariaLabel="Upload file" />);
     const dropzone = screen.getByRole('group', { name: 'Upload file' });
-    // Static classes include focus-visible tokens; focus-within tokens are enabled by keyboard modality.
+    // Static classes include the focus-visible utility; focus-within tokens are enabled by keyboard modality.
     const initialClasses = dropzone.className;
     fireEvent.keyDown(dropzone, { key: 'Tab' });
     const afterKeyDown = dropzone.className;
@@ -607,7 +607,7 @@ describe('FileUpload', () => {
       '[data-slot="primaryAction"] button'
     ) as HTMLButtonElement;
     expect({
-      hasFocusVisible: initialClasses.includes('focus-visible:ring-2'),
+      hasFocusVisible: initialClasses.includes('focus-visible-brand'),
       initialFocusWithin: initialClasses.includes('focus-within:ring-2'),
       afterKeyDownFocusWithin: afterKeyDown.includes('focus-within:ring-2'),
       primaryHasFocus: document.activeElement === primaryButton
