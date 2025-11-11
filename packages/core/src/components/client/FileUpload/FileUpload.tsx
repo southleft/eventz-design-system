@@ -77,9 +77,8 @@ const labelRowClasses = `
 
 const dropzoneClasses = `
   relative group inline-flex w-full flex-col items-center justify-center gap-4 w-570 rounded-lg border pt-32 pl-4 pr-4 pb-24 transition-colors
-  bg-comp-form-color-background-default border-comp-form-color-border-default
+  bg-comp-form-color-background-default border-comp-form-color-border-default focus-visible-brand
   hover:bg-comp-form-color-background-hover hover:border-comp-form-color-hover
-  focus-visible:ring-2 focus-visible:ring-offset-4 focus-visible:ring-comp-border-focus-ring focus-visible:ring-offset-color-background-default
 `;
 
 const focusWithinRingClasses = `
