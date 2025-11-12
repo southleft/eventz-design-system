@@ -13,7 +13,7 @@ import { CircleCheckIcon, CloseIcon, ErrorIcon, InfoIcon, WarningIcon } from '..
 type AlertVariant = 'success' | 'info' | 'warning' | 'danger';
 
 const containerClasses = `
-  flex gap-8 items-start pt-12 pb-12 pl-16 pr-16 w-390 rounded-md text-color-content-inverse
+  flex gap-2 items-start pt-3 pb-3 pl-3 pr-3 w-97.5 rounded-md text-color-content-inverse
 `;
 
 const surfaceByVariant: Record<AlertVariant, string> = {

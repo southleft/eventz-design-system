@@ -53,7 +53,7 @@ describe('IconButton', () => {
   });
 
   describe('square sizing', () => {
-    const sizeCases = ['h-32', 'w-32', 'rounded-md'] as const;
+    const sizeCases = ['h-8', 'w-8', 'rounded-md'] as const;
     it.each(sizeCases)('applies %s', cls => {
       render(<IconButton icon={sampleIcon} ariaLabel="Square check" />);
       const button = screen.getByRole('button', { name: 'Square check' });

@@ -36,8 +36,8 @@ const baseClasses = `
 `;
 
 const containerClasses = `
-  h-32
-  w-32
+  h-8
+  w-8
   rounded-md
 `;
 
@@ -71,7 +71,7 @@ const stateClasses = {
 } as const;
 
 const slotClasses = {
-  icon: 'shrink-0 pt-1 [&_svg]:size-20'
+  icon: 'shrink-0 pt-1/4 [&_svg]:size-5'
 } as const;
 
 export const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(

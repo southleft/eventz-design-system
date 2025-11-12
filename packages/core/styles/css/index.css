@@ -30,19 +30,6 @@
 @source '../../**/*.stories.@(ts|tsx|mdx)';
 
 @theme {
-  /* Brand scale */
-  --color-brand-50: var(--dt-color-brand-50);
-  --color-brand-100: var(--dt-color-brand-100);
-  --color-brand-200: var(--dt-color-brand-200);
-  --color-brand-300: var(--dt-color-brand-300);
-  --color-brand-400: var(--dt-color-brand-400);
-  --color-brand-500: var(--dt-color-brand-500);
-  --color-brand-600: var(--dt-color-brand-600);
-  --color-brand-700: var(--dt-color-brand-700);
-  --color-brand-800: var(--dt-color-brand-800);
-  --color-brand-900: var(--dt-color-brand-900);
-  --color-brand-950: var(--dt-color-brand-950);
-
   /* Backgrounds */
   --color-background-none: var(--dt-color-background-none);
   --color-body-background: var(--dt-color-background-default);
@@ -175,7 +162,7 @@
   --shadow-shadows-shadow-6: var(--dt-shadows-shadow-6);
 
   /* Spacing */
-  --spacing: 1px;
+  --spacing: 4px;
   --spacing-0: 0px;
   --spacing-0_5: calc(var(--dt-spacing-0-5) * 1px);
   --spacing-1: calc(var(--dt-spacing-1) * 1px);

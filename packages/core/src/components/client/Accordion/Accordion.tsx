@@ -20,16 +20,16 @@ const itemClasses = `
 `;
 const triggerClasses = `
   text-color-content-default hover:text-color-content-default-hover border-none
-  w-full flex justify-between outline-none bg-background-none pt-2 pb-2 pl-1 pr-1 group
+  w-full flex justify-between outline-none bg-background-none pt-1/2 pb-1/2 pl-1/4 pr-1/4 group
 `;
-const imageClasses = `[&_img]:h-24 [&_img]:w-24 [&_img]:rounded-[4px] overflow-hidden [&_img]:object-cover`;
+const imageClasses = `[&_img]:h-6 [&_img]:w-6 [&_img]:rounded-[4px] overflow-hidden [&_img]:object-cover`;
 const titleClasses = `text-base lg:text-lg`;
 const iconContainerClasses = `shrink-0`;
-const iconClasses = `transition-transform group-data-[state=open]:rotate-180 group-data-[state=closed]:rotate-0 size-20`;
-const contentClasses = `text-color-content-weak text-sm pl-1 pr-1`;
+const iconClasses = `transition-transform group-data-[state=open]:rotate-180 group-data-[state=closed]:rotate-0 size-5`;
+const contentClasses = `text-color-content-weak text-sm pl-1/4 pr-1/4`;
 const introClasses = `text-color-content-weak text-sm`;
 const emphasisStrongClasses = `font-bold`;
-const triggerLabelGroupClasses = `inline-flex items-center gap-8`;
+const triggerLabelGroupClasses = `inline-flex items-center gap-2`;
 
 type AccordionRootProps = React.ComponentPropsWithoutRef<typeof RadixAccordion.Root>;
 

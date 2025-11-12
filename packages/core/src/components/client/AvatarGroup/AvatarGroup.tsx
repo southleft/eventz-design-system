@@ -24,19 +24,19 @@ export interface AvatarGroupProps extends Omit<NativeDivProps, 'children'> {
   users: ReadonlyArray<AvatarUser>;
 }
 
-const baseClass = `flex gap-8 items-center`;
+const baseClass = `flex gap-2 items-center`;
 
 const avatarsClasses = `flex items-center flex-row-reverse`;
 const avatarClasses = `
   inline-flex select-none items-center justify-center overflow-hidden rounded-full align-middle
-  w-24 lg:w-32 -mr-12 lg:-mr-18 border-color-border-inverse border
+  w-6 lg:w-8 -mr-8 lg:-mr-4.5 border-color-border-inverse border
 `;
 const avatarImageClasses = `size-full rounded-[inherit] object-cover`;
 const avatarFallbackClasses = `
   flex items-center justify-center overflow-hidden rounded-full bg-background-none text-base font-medium
-  w-24 h-24 lg:w-32 lg:h-32 -mr-12 lg:-mr-18
+  w-6 h-6 lg:w-6 lg:h-6 -mr-3 lg:-mr-4.5
 `;
-const messageClasses = `inline-flex gap-[4px] text-color-content-subtle text-sm ml-12 lg:ml-18`;
+const messageClasses = `inline-flex gap-1 text-color-content-subtle text-sm ml-3 lg:ml-4.5`;
 const indicatorClasses = ``;
 const countClasses = ``;
 const messageTextClasses = ``;
