@@ -7,6 +7,7 @@ import { defineStyleMap } from '../../utilities';
 export default defineStyleMap({
   base: [
     'outline-none',
+    'no-underline',
     'rounded-md',
     'border-0',
     'group',

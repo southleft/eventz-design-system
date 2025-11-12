@@ -423,6 +423,14 @@
     background-image: var(--dt-background-footer-dark);
   }
 
+  :where(html.light, html[data-theme='light']) .background-modal {
+    background-image: var(--dt-background-modal-light);
+  }
+
+  :where(html:not(.light):not([data-theme='light'])) .background-modal {
+    background-image: var(--dt-background-modal-dark);
+  }
+
   .ring-comp-button-focus-color-ring {
     --tw-ring-color: var(--color-comp-button-focus-color-ring);
   }

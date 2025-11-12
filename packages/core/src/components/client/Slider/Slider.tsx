@@ -34,11 +34,11 @@ const trackClasses = `
 `;
 
 const rangeClasses = `
-  absolute left-0 top-0 h-full rounded-full bg-color-background-brand
+  absolute left-0 top-0 h-full rounded-full bg-color-content-brand
 `;
 
 const thumbClasses = `
-  block size-[8px] rounded-full bg-color-background-brand focus-visible-brand
+  block size-[8px] rounded-full bg-color-content-brand focus-visible-brand
 `;
 
 export const Slider = React.forwardRef<SliderRootElement, SliderProps>(

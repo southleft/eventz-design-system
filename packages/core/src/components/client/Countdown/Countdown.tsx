@@ -26,7 +26,7 @@ const baseClasses = `
 
 const variantClasses: Record<CountdownVariant, string> = {
   default: 'bg-color-background-brand',
-  expiring: 'bg-color-background-utility-danger'
+  expiring: 'bg-color-content-utility-danger-subtle'
 };
 
 function pad(value: number): string {

@@ -37,7 +37,7 @@ const map: StyleMapSpec = {
       'top-0',
       'h-full',
       'rounded-full',
-      'bg-color-background-brand' // token
+      'bg-color-content-brand' // token
     ],
 
     // Thumb (handle)
@@ -45,7 +45,7 @@ const map: StyleMapSpec = {
       'block',
       'size-[8px]', // fixed per spec (was 4px)
       'rounded-full',
-      'bg-color-background-brand', // token
+      'bg-color-content-brand', // token
       'focus-visible-brand'
     ]
   },

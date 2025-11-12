@@ -87,10 +87,10 @@ import type { ButtonProps } from '@doxyz-ui/core/client/Button';
 | `startIcon` | `shrink-0` `-ml-0.5` `pt-1` |
 | `label` | — |
 | `endIcon` | `shrink-0` `-mr-0.5` `pt-1` |
-| `container (variant: primary)` | `bg-comp-button-primary-color-background-default` `text-comp-button-primary-color-content-default` `border-comp-border-none` `hover:bg-comp-button-primary-color-background-hover` `active:bg-comp-button-primary-color-background-active` |
-| `container (variant: secondary)` | `bg-comp-button-color-background-default` `border-comp-button-color-border-default` `text-comp-button-color-content-default` `hover:bg-comp-button-color-background-hover` `active:bg-comp-button-color-background-active` |
-| `container (variant: bare)` | `bg-background-none` `text-comp-button-color-content-default` `border-comp-border-none` `hover:bg-comp-button-color-background-hover` `active:bg-comp-button-color-background-active` |
-| `container (variant: knockout)` | `bg-comp-button-color-background-knockout` `text-comp-button-color-content-default` `border-comp-border-none` `hover:bg-comp-button-color-background-knockout-hover` `active:bg-comp-button-color-background-knockout-active` |
+| `container (variant: primary)` | `bg-comp-button-primary-color-background-default` `text-comp-button-primary-color-content-default` `border-none` `hover:bg-comp-button-primary-color-background-hover` `active:bg-comp-button-primary-color-background-active` |
+| `container (variant: secondary)` | `bg-comp-button-color-background-default` `border-comp-button-color-border-default` `text-comp-button-color-content-default` `hover:bg-comp-button-color-background-hover` `active:bg-comp-button-color-background-active` `border` |
+| `container (variant: bare)` | `bg-background-none` `text-comp-button-color-content-default` `border-none` `hover:bg-comp-button-color-background-hover` `active:bg-comp-button-color-background-active` |
+| `container (variant: knockout)` | `bg-comp-button-color-background-knockout` `text-comp-button-color-content-default` `border-none` `hover:bg-comp-button-color-background-knockout-hover` `active:bg-comp-button-color-background-knockout-active` |
 | `container (state: loading)` | `pointer-events-none` `opacity-50` |
 | `container (state: disabled)` | `pointer-events-none` `opacity-50` |
 

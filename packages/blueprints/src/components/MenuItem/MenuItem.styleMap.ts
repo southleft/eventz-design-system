@@ -7,6 +7,7 @@ export const MenuItemStyleMap = defineStyleMap({
     'flex-nowrap',
     'items-center',
     'gap-8',
+    'no-underline',
     'bg-background-none',
     'border-l-0',
     'border-r-0',
@@ -61,7 +62,7 @@ export const MenuItemStyleMap = defineStyleMap({
       'rounded-sm',
       'object-cover',
       'group-hover:opacity-75',
-      'data-[is-placeholder=true]:bg-color-background-brand'
+      'data-[is-placeholder=true]:bg-color-background-weak'
     ] as const,
 
     // Thumbnail when rendering an icon instead of an image
@@ -71,10 +72,9 @@ export const MenuItemStyleMap = defineStyleMap({
       'rounded-sm',
       'object-cover',
       'group-hover:opacity-75',
-      'text-color-content-brand',
-      'group-hover:text-color-content-brand-hover',
-      'bg-color-background-weak',
-      'group-hover:bg-color-background-weak-hover',
+      'text-color-content-default',
+      'group-hover:text-color-content-default-hover',
+      'group-data-[is-selected=true]:text-color-content-brand',
       'flex',
       'items-center',
       'justify-center'

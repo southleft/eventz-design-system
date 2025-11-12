@@ -10,6 +10,7 @@ export default defineStyleMap({
     'gap-8',
     'w-full',
     'outline-none',
+    'no-underline',
     'pb-10',
     'pl-8',
     'pt-8',
@@ -32,13 +33,7 @@ export default defineStyleMap({
   slots: {
     container: ['flex', 'items-center', 'gap-8', 'w-full'].join(' '),
 
-    image: [
-      'h-40',
-      'w-40',
-      'rounded-full',
-      'bg-color-background-brand',
-      'shrink-0'
-    ].join(' '),
+    image: ['h-40', 'w-40', 'rounded-full', 'bg-color-background-brand', 'shrink-0'].join(' '),
 
     title: [
       'text-base',

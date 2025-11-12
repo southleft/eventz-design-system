@@ -23,9 +23,9 @@ export const TagStyleMap = defineStyleMap({
       'data-[interactive=true]:bg-color-background-weak',
       'data-[interactive=true]:hover:bg-color-background-weak-hover',
       'data-[interactive=true]:hover:text-color-content-default-hover',
-      'data-[interactive=true]:data-[active=true]:bg-color-background-brand',
+      'data-[interactive=true]:data-[active=true]:bg-color-content-brand',
       'data-[interactive=true]:data-[active=true]:text-color-background-default',
-      'data-[interactive=true]:data-[active=true]:hover:bg-color-background-brand-hover'
+      'data-[interactive=true]:data-[active=true]:hover:bg-color-content-brand-hover'
     ] as const,
 
     child: [
@@ -33,9 +33,9 @@ export const TagStyleMap = defineStyleMap({
       'data-[interactive=true]:text-color-content-weak',
       'data-[interactive=true]:hover:bg-color-background-weak-hover',
       'data-[interactive=true]:hover:text-color-content-weak-hover',
-      'data-[interactive=true]:data-[active=true]:text-color-background-brand',
+      'data-[interactive=true]:data-[active=true]:text-color-content-brand',
       'data-[interactive=true]:data-[active=true]:hover:bg-color-background-subtle-hover',
-      'data-[interactive=true]:data-[active=true]:hover:text-color-background-brand-hover'
+      'data-[interactive=true]:data-[active=true]:hover:text-color-content-brand-hover'
     ] as const
   },
 

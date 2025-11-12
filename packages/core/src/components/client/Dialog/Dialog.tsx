@@ -29,7 +29,7 @@ const centererClasses = `fixed inset-0 grid place-items-center p-20 pointer-even
 const overlayClasses = `fixed inset-0 z-0 bg-color-background-inverted/50 data-[state=open]:animate-overlayShow`;
 const contentClasses = `
   rounded-md flex flex-col min-h-0 gap-8 items-center p-40 relative box-border z-10 text-color-content-default
-  pointer-events-auto bg-background-modal-dark shadow-xl h-[min(650px,calc(100vh-40px))] overflow-visible
+  pointer-events-auto background-modal shadow-xl h-[min(650px,calc(100vh-40px))] overflow-visible
   focus-visible-brand
 `;
 const closeClasses = `h-40 w-full flex justify-end`;

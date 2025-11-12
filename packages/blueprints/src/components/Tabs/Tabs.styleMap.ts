@@ -32,9 +32,9 @@ export const TabsStyleMap = defineStyleMap({
       'gap-6',
       'hover:text-color-content-weak-hover',
       'hover:border-b-color-border-default-hover',
-      'data-[state=active]:border-b-color-border-brand',
+      'data-[state=active]:border-b-color-content-brand',
       'data-[state=active]:text-color-content-brand',
-      'data-[state=active]:hover:border-b-color-border-brand-hover',
+      'data-[state=active]:hover:border-b-color-content-brand-hover',
       'data-[state=active]:hover:text-color-content-brand-hover'
     ] as const,
     triggerIcon: ['shrink-0', '[&>svg]:size-16'] as const,

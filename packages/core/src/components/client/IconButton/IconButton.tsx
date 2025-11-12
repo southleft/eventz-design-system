@@ -43,23 +43,23 @@ const containerClasses = `
 
 const variantClasses: Record<Variant, string> = {
   primary: `
-    bg-comp-button-primary-color-background-default text-comp-button-primary-color-content-default border-comp-border-none
+    bg-comp-button-primary-color-background-default text-comp-button-primary-color-content-default border-none
     hover:bg-comp-button-primary-color-background-hover active:bg-comp-button-primary-color-background-active
   `,
   secondary: `
     bg-comp-button-color-background-default border-comp-button-color-border-default text-comp-button-color-content-default
-    hover:bg-comp-button-color-background-hover active:bg-comp-button-color-background-active
+    hover:bg-comp-button-color-background-hover active:bg-comp-button-color-background-active border
   `,
   bare: `
-    bg-background-none text-comp-button-color-content-default border-comp-border-none
+    bg-background-none text-comp-button-color-content-default border-none
     hover:bg-comp-button-color-background-hover active:bg-comp-button-color-background-active
   `,
   knockout: `
-    bg-comp-button-color-background-knockout text-comp-button-color-content-default border-comp-border-none
+    bg-comp-button-color-background-knockout text-comp-button-color-content-default border-none
     hover:bg-comp-button-color-background-knockout-hover active:bg-comp-button-color-background-knockout-active
   `,
   bareKnockout: `
-    bg-background-none text-comp-button-primary-color-content-default border-comp-border-none
+    bg-background-none text-comp-button-primary-color-content-default border-none
     hover:bg-comp-button-color-background-hover active:bg-comp-button-color-background-active
   `
 };

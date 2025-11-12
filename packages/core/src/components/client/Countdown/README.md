@@ -74,7 +74,7 @@ import type { CountdownProps } from '@doxyz-ui/core/client/Countdown';
 | --------- | ------- |
 | `container` | `inline-flex` `items-center` `justify-center` `whitespace-nowrap` `w-full` `p-2` `text-3xl` `text-color-content-inverse` |
 | `container (variant: default)` | `bg-color-background-brand` |
-| `container (variant: expiring)` | `bg-color-background-utility-danger` |
+| `container (variant: expiring)` | `bg-color-content-utility-danger-subtle` |
 
 ---
 

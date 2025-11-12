@@ -66,6 +66,6 @@ export default defineStyleMap({
     // Colors are token-friendly with safe fallbacks; feel free to remap in theme.
     indicatorInactive: ['size-14', 'opacity-100', 'bg-color-content-subtle'] as const,
 
-    indicatorActive: ['size-20', 'bg-color-background-brand'] as const
+    indicatorActive: ['size-20', 'bg-color-content-brand'] as const
   }
 });

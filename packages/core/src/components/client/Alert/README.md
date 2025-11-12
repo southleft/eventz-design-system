@@ -103,7 +103,7 @@ The following table flattens Alert’s declared props together with the single i
 | `title` | `text-base` `font-bold` |
 | `description` | `text-sm` |
 | `textLink` | — |
-| `closeIcon` | `fill-color-content-inverse` `-mt-2` |
+| `closeIcon` | — |
 | `container (variant: success)` | `bg-gradient-utility-success` |
 | `container (variant: info)` | `bg-gradient-utility-info` |
 | `container (variant: warning)` | `bg-gradient-utility-warning` |

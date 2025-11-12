@@ -112,7 +112,9 @@ describe('Countdown', () => {
 
     const timerText = (screen.getByRole('timer').textContent ?? '').trim();
     const handlerCalls = handler.mock.calls.length;
-    const logged = errorSpy.mock.calls.some(call => call[0] === '[Countdown] until must be ISO-8601 with timezone (Z or ±HH:MM)');
+    const logged = errorSpy.mock.calls.some(
+      call => call[0] === '[Countdown] until must be ISO-8601 with timezone (Z or ±HH:MM)'
+    );
 
     expect([timerText, handlerCalls, logged]).toEqual(['00:00', 0, true]);
 
@@ -308,7 +310,7 @@ describe('Countdown', () => {
   describe('variant classes', () => {
     const cases = [
       ['default', 'bg-color-background-brand'],
-      ['expiring', 'bg-color-background-utility-danger']
+      ['expiring', 'bg-color-content-utility-danger-subtle']
     ] as const;
 
     it.each(cases)('applies %s variant token classes', (variant, expectedToken) => {

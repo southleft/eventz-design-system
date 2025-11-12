@@ -141,7 +141,7 @@ const indicatorBaseClasses = `
 `;
 
 const indicatorActiveClasses = `
-  size-20 bg-color-background-brand
+  size-20 bg-color-content-brand
 `;
 
 const indicatorInactiveClasses = `

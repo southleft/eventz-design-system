@@ -37,7 +37,7 @@ type AnchorLinkProps = Pick<
 export interface ContentCardProps extends NativeDivProps, AnchorLinkProps, ContentCardOwnProps {}
 
 const baseClasses = `
-  outline-none rounded-md border-0 group bg-background-none hover:bg-color-background-default
+  outline-none rounded-md border-0 group bg-background-none hover:bg-color-background-default no-underline
   data-[is-focusable=true]:focus-visible:ring-2 data-[is-focusable=true]:focus-visible:ring-offset-2
   data-[is-focusable=true]:focus-visible:ring-comp-border-focus-ring data-[is-focusable=true]:focus-visible:ring-offset-color-background-default
 `;

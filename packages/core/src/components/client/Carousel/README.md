@@ -91,7 +91,7 @@ import { useCarouselContext } from '@doxyz-ui/core/client/Carousel';
 | `container (state: has indicators)` | `[--has-indicators:1]` |
 | `container (state: is auto playing)` | `[--autoplay-playing:1]` |
 | `container (state: indicator inactive)` | `size-14` `opacity-100` `bg-color-content-subtle` |
-| `container (state: indicator active)` | `size-20` `bg-color-background-brand` |
+| `container (state: indicator active)` | `size-20` `bg-color-content-brand` |
 
 ---
 
