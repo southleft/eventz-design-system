@@ -23,7 +23,7 @@ export interface MediaCardProps extends NativeDivProps {
 
 const baseClasses = `
   relative outline-none rounded-md border-0 group bg-background-none hover:bg-color-background-default
-  grid [&:has(img)]:grid-cols-[92px_1fr] sm:[&:has(img)]:grid-cols-[112px_1fr] items-start p-0.5 w-85
+  grid [&:has(img)]:grid-cols-[92px_1fr] sm:[&:has(img)]:grid-cols-[112px_1fr] items-start p-2 w-85
   [&_[data-slot=media]]:row-span-4
   [&:has(:focus-visible)]:ring-offset-2 [&:has(:focus-visible)]:ring-2
   [&:has(:focus-visible)]:ring-comp-border-focus-ring
@@ -69,7 +69,7 @@ const metaIconClasses = `
 `;
 
 const controlClasses = `
-  absolute right-0.5 top-5 sm:top-8 inline-grid place-items-center rounded-full backdrop-blur-sm p-0.25
+  absolute right-1.5 top-5 sm:top-8 inline-grid place-items-center rounded-full backdrop-blur-sm p-0.25
 `;
 
 export const MediaCard = React.forwardRef<HTMLDivElement, MediaCardProps>(
