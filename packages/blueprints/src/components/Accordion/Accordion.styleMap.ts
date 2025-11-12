@@ -13,11 +13,7 @@ export const AccordionStyleMap = defineStyleMap({
     container: ['flex', 'flex-col', 'w-full'] as const,
 
     // One logical item wrapper (contained/default surface)
-    item: [
-      'bg-comp-accordion-item-color-background-default',
-      'text-comp-accordion-item-color-foreground-default',
-      'rounded-md'
-    ] as const,
+    item: ['rounded-md'] as const,
 
     // Radix header element wraps the trigger
     header: ['border', 'mt-auto', 'mb-auto', 'border-none'] as const,
@@ -46,7 +42,7 @@ export const AccordionStyleMap = defineStyleMap({
     image: [
       '[&_img]:h-24',
       '[&_img]:w-24',
-      '[&_img]:rounded-[4px]',
+      '[&_img]:rounded-sm',
       'overflow-hidden',
       '[&_img]:object-cover'
     ] as const,
