@@ -3,7 +3,7 @@ import { defineContract } from '../../utilities';
 export const BadgeContract = defineContract({
   description: 'A small, color-coded label for denoting status or metadata.',
   component: 'Badge',
-  base: 'Badge', // maps to the Radix primitive name
+  base: 'span',
   props: {
     variant: {
       type: 'enum',
@@ -20,11 +20,6 @@ export const BadgeContract = defineContract({
       type: 'string',
       required: false,
       description: 'Text content inside the badge.'
-    },
-    asChild: {
-      type: 'boolean',
-      default: false,
-      description: 'Change the rendered element using the asChild prop.'
     }
   },
   slots: ['icon', 'label'],

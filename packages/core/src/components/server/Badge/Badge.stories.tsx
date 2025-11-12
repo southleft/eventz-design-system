@@ -5,6 +5,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { Markdown } from '@storybook/addon-docs/blocks';
 import * as React from 'react';
+import { InfoIcon } from '../../../icons';
 import { Badge, BadgeProps } from './Badge';
 import Readme from './README.md?raw';
 
@@ -16,10 +17,6 @@ const meta: Meta<BadgeProps> = {
     docs: {
       page: () => <Markdown>{Readme}</Markdown>
     }
-  },
-  args: {
-    label: 'Badge',
-    icon: <span aria-hidden="true">🏷️</span>
   }
 };
 
@@ -29,6 +26,43 @@ type Story = StoryObj<BadgeProps>;
 
 export const Default: Story = {
   args: {
+    variant: 'brand',
+    label: 'Badge'
+  }
+};
+
+export const Purple: Story = {
+  args: {
     variant: 'purple',
+    label: 'Badge'
+  }
+};
+
+export const Blue: Story = {
+  args: {
+    variant: 'blue',
+    label: 'Badge'
+  }
+};
+
+export const Pink: Story = {
+  args: {
+    variant: 'pink',
+    label: 'Badge'
+  }
+};
+
+export const Orange: Story = {
+  args: {
+    variant: 'orange',
+    label: 'Badge'
   },
+};
+
+export const WithIcon: Story = {
+  args: {
+    variant: 'blue',
+    label: 'Badge',
+    icon: <InfoIcon aria-hidden="true" />
+  }
 };
