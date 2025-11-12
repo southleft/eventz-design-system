@@ -36,7 +36,7 @@ const railClasses = `
 `;
 
 const controlsClasses = `
-  mt-0.75 flex gap-0.5 justify-end
+  mt-0.75 flex gap-2 justify-end
 `;
 
 const prevWrapperClasses = `
