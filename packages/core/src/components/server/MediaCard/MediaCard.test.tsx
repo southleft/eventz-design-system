@@ -108,7 +108,7 @@ describe('MediaCard', () => {
       className.includes('absolute') &&
       className.includes('top-5') &&
       className.includes('sm:top-8') &&
-      className.includes('right-0.5');
+      className.includes('right-1.5');
     expect(hasTokens).toBe(true);
   });
 
