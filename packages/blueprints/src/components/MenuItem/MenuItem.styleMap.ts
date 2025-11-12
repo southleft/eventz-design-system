@@ -62,7 +62,7 @@ export const MenuItemStyleMap = defineStyleMap({
       'rounded-sm',
       'object-cover',
       'group-hover:opacity-75',
-      'data-[is-placeholder=true]:bg-color-background-brand'
+      'data-[is-placeholder=true]:bg-color-background-weak'
     ] as const,
 
     // Thumbnail when rendering an icon instead of an image
@@ -74,7 +74,6 @@ export const MenuItemStyleMap = defineStyleMap({
       'group-hover:opacity-75',
       'text-color-content-default',
       'group-hover:text-color-content-default-hover',
-      'bg-color-background-weak',
       'group-data-[is-selected=true]:text-color-content-brand',
       'flex',
       'items-center',
