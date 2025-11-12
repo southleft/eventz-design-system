@@ -2,25 +2,24 @@
 import { defineStyleMap } from '../../utilities';
 
 export const CheckboxGroupStyleMap = defineStyleMap({
-  base: ['inline-flex', 'flex-col', 'gap-1', 'border-none', 'py-8'] as const,
+  base: ['inline-flex', 'flex-col', 'gap-1', 'border-none', 'py-2'] as const,
 
   slots: {
     label: [
       'inline-flex',
-      'gap-1',
+      'gap-2',
       'text-color-content-default',
       'text-xs',
       'uppercase'
     ] as const,
 
-    hint: ['text-color-content-subtle', 'text-xs', '-mt-8'] as const,
+    hint: ['text-color-content-subtle', 'text-xs', '-mt-2'] as const,
 
-    choices: ['flex', 'flex-col', 'gap-3'] as const,
+    choices: ['flex', 'flex-col', 'gap-2'] as const,
 
     error: [
       'text-color-content-utility-danger-subtle',
       'text-xs',
-      'mt-1',
       'inline-flex',
       'gap-2',
       'items-center'

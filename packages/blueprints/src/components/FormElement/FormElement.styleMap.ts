@@ -7,13 +7,13 @@ export const FormElementStyleMap = defineStyleMap({
     'border-none',
     'flex-col',
     'p-0',
-    'gap-1',
+    'gap-0.25',
     'disabled:opacity-50',
     'disabled:pointer-events-none'
   ] as const,
 
   slots: {
-    label: ['inline-flex', 'gap-1', 'text-color-content-default', 'text-xs', 'uppercase'] as const,
+    label: ['inline-flex', 'gap-0.25', 'text-color-content-default', 'text-xs', 'uppercase'] as const,
 
     hint: ['text-color-content-subtle', 'text-xs'] as const,
 

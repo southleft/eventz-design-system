@@ -6,15 +6,15 @@ export const InputStyleMap = defineStyleMap({
   description:
     'Control-only row (startIcon → input → endIcon). FormElement wraps this row to supply label, messaging, focus ring, etc.',
 
-  base: ['inline-flex', 'items-center', 'gap-2', 'py-[2px]', 'px-12'] as const,
+  base: ['inline-flex', 'items-center', 'gap-0.5', 'py-0.5', 'px-3'] as const,
 
   slots: {
     startIcon: [
       'inline-flex',
       'items-center',
-      'gap-2',
+      'gap-0.5',
       'shrink-0',
-      'size-20',
+      'size-5',
       'text-color-content-default'
     ] as const,
     input: [
@@ -24,10 +24,10 @@ export const InputStyleMap = defineStyleMap({
       'text-color-content-default',
       'placeholder-color-content-weak',
       'border-none',
-      'py-(--spacing-1_5)',
+      'py-1.5',
       'focus:placeholder:opacity-0'
     ] as const,
-    endIcon: ['shrink-0', 'size-20', 'inline-flex', 'text-color-content-default'] as const
+    endIcon: ['shrink-0', 'size-5', 'inline-flex', 'text-color-content-default'] as const
   },
 
   state: {

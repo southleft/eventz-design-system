@@ -10,7 +10,7 @@ export const CheckboxStyleMap = defineStyleMap({
 
     // control matches Radix.Checkbox.Root
     control: [
-      'size-20',
+      'size-5',
       'bg-background-none',
       'border-2',
       'border-color-content-weak',
@@ -26,7 +26,7 @@ export const CheckboxStyleMap = defineStyleMap({
       'bg-color-content-brand',
       'border-color-content-brand',
       'border-[2.5px]',
-      'h-16',
+      'h-4',
       'rounded-xs',
       'hover:bg-comp-checkbox-checked-color-background-hover',
       'active:bg-comp-checkbox-checked-color-background-active',

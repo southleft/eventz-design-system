@@ -16,16 +16,16 @@ export default defineStyleMap({
     'flex-col',
     'items-start',
     'w-full',
-    'h-78',
-    'data-[variant=compact]:w-418',
+    'h-19.5',
+    'data-[variant=compact]:w-104.5',
     'group',
-    'data-[variant=mini]:size-40',
+    'data-[variant=mini]:size-10',
     'data-[variant=mini]:rounded-full'
   ],
 
   slots: {
     // Top seek slider (full-width) — placement only
-    _seek: ['flex', 'items-center', 'w-full', '-mb-6', 'pr-2'],
+    _seek: ['flex', 'items-center', 'w-full', '-mb-1.5', 'pr-0.5'],
 
     // Main row surface (rounded chrome)
     _row: [
@@ -33,21 +33,21 @@ export default defineStyleMap({
       'items-center',
       'w-full',
       'bg-color-background-subtle',
-      'py-20',
-      'group-data-[variant=mini]:h-40',
+      'py-5',
+      'group-data-[variant=mini]:h-10',
       'group-data-[variant=mini]:rounded-full',
       'group-data-[variant=mini]:py-0'
     ],
 
     // Lead (artwork + labels)
-    _lead: ['flex', 'items-center', 'gap-16', 'min-w-0', 'flex-1', 'pl-16'],
-    '_lead ._artwork': ['relative', 'shrink-0', 'size-40', 'overflow-clip'],
+    _lead: ['flex', 'items-center', 'gap-4', 'min-w-0', 'flex-1', 'pl-4'],
+    '_lead ._artwork': ['relative', 'shrink-0', 'size-10', 'overflow-clip'],
     '_lead ._labels': ['flex', 'flex-col', 'min-w-0', 'gap-0'],
 
     '_lead ._labels ._subtitle': ['text-xs', 'font-medium', 'text-color-content-weak', 'truncate'],
 
     // Inline title + time row
-    '_lead ._labels ._titleRow': ['flex', 'items-baseline', 'gap-8', 'min-w-0'],
+    '_lead ._labels ._titleRow': ['flex', 'items-baseline', 'gap-2', 'min-w-0'],
     '_lead ._labels ._titleRow ._title': [
       'font-[family-name:var(--font-family/primary)]',
       'text-base',
@@ -60,13 +60,13 @@ export default defineStyleMap({
       'font-medium',
       'text-color-content-weak',
       'whitespace-nowrap',
-      'pl-8',
+      'pl-2',
       'border-l',
       'border-color-background-subtle'
     ],
 
     // Controls cluster (MediaControl internals not styled here)
-    _controls: ['flex', 'items-center', 'gap-8'],
+    _controls: ['flex', 'items-center', 'gap-2'],
 
     // Volume cluster (Slider goes into _volumeRange; Slider owns its visuals)
     _volumeGroup: [
@@ -74,13 +74,13 @@ export default defineStyleMap({
       'justify-end',
       'flex',
       'items-center',
-      'gap-8',
-      'pr-16'
+      'gap-2',
+      'pr-4'
     ],
-    '_volumeGroup ._volumeRange': ['w-120'],
+    '_volumeGroup ._volumeRange': ['w-30'],
 
     // Actions cluster (e.g., overflow)
-    _actions: ['flex', 'items-center', 'gap-8']
+    _actions: ['flex', 'items-center', 'gap-2']
   },
 
   /**

@@ -13,12 +13,12 @@ export const NavigationBarStyleMap = defineStyleMap({
     'data-[wrap=true]:items-baseline',
     'data-[wrap=true]:lg:flex-row',
     'data-[wrap=true]:lg:items-center',
-    'h-68',
-    'lg:h-88',
+    'h-17',
+    'lg:h-22',
     'data-[wrap=true]:h-auto',
-    'data-[wrap=true]:lg:h-88',
-    'px-16',
-    'lg:px-112',
+    'data-[wrap=true]:lg:h-22',
+    'px-4',
+    'lg:px-28',
     'bg-background-none',
     'transition-colors'
   ] as const,
@@ -37,18 +37,18 @@ export const NavigationBarStyleMap = defineStyleMap({
       'justify-start',
       'flex-1',
       'min-w-0',
-      'gap-4',
-      'lg:gap-8'
+      'gap-1',
+      'lg:gap-2'
     ] as const,
 
     /** Brand mark slot (optional) */
-    logo: ['shrink-0', 'max-h-83'] as const,
+    logo: ['shrink-0', 'max-h-20.75'] as const,
 
     /** Tagline slot placed after the logo */
     tagline: [] as const,
 
     /** Horizontal list of primary links (TextLink hosts) */
-    list: ['items-center', 'min-w-0', 'gap-4', 'lg:gap-8'] as const,
+    list: ['items-center', 'min-w-0', 'gap-1', 'lg:gap-2'] as const,
 
     /** Per-item wrapper around each TextLink */
     item: ['inline-flex'] as const,

@@ -9,7 +9,7 @@ export const BreadcrumbsStyleMap = defineStyleMap({
     container: [] as const,
 
     // <ol> that visually lays out the crumbs
-    list: ['flex', 'gap-8', 'list-none'] as const,
+    list: ['flex', 'gap-2', 'list-none'] as const,
 
     // <li> around each TextLink crumb
     item: [] as const,
@@ -18,7 +18,7 @@ export const BreadcrumbsStyleMap = defineStyleMap({
     separator: ['shrink-0'] as const,
 
     // <li> wrapper for MoreHorizIcon (when collapsed)
-    ellipsis: ['shrink-0', 'pt-1'] as const,
+    ellipsis: ['shrink-0', 'pt-0.25'] as const,
 
     // <li> content for the current page (non-link)
     current: ['text-sm', 'font-bold', 'text-color-content-default'] as const

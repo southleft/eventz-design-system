@@ -7,14 +7,14 @@ export default defineStyleMap({
     'flex',
     'justify-between',
     'data-[is-removable=true]:items-center',
-    'gap-8',
+    'gap-2',
     'w-full',
     'outline-none',
     'no-underline',
-    'pb-10',
-    'pl-8',
-    'pt-8',
-    'pr-8',
+    'pb-2.5',
+    'pl-2',
+    'pt-2',
+    'pr-2',
     'bg-background-none',
     'border-l-0',
     'border-r-0',
@@ -31,9 +31,9 @@ export default defineStyleMap({
   ].join(' '),
 
   slots: {
-    container: ['flex', 'items-center', 'gap-8', 'w-full'].join(' '),
+    container: ['flex', 'items-center', 'gap-2', 'w-full'].join(' '),
 
-    image: ['h-40', 'w-40', 'rounded-full', 'bg-color-background-brand', 'shrink-0'].join(' '),
+    image: ['h-10', 'w-10', 'rounded-full', 'bg-color-background-brand', 'shrink-0'].join(' '),
 
     title: [
       'text-base',
@@ -64,6 +64,6 @@ export default defineStyleMap({
 
     nonRemovableWrapper: ['flex', 'flex-col', 'min-w-0', 'flex-1'].join(' '),
 
-    trailingIcon: ['shrink-0', 'text-color-content-default', 'h-20', 'w-20'].join(' ')
+    trailingIcon: ['shrink-0', 'text-color-content-default', 'h-5', 'w-5'].join(' ')
   }
 });

@@ -34,7 +34,7 @@ export default defineStyleMap({
       'min-w-0'
     ] as const,
 
-    _indicators: ['flex', 'justify-center', 'items-center', 'gap-2', 'pt-32', 'pb-12'] as const,
+    _indicators: ['flex', 'justify-center', 'items-center', 'gap-4', 'pt-8', 'pb-3'] as const,
 
     // Each indicator is a <button>; no visible text, SR label provided at runtime.
     // Focus ring lives here (not on base).
@@ -64,8 +64,8 @@ export default defineStyleMap({
     // Indicator visual states (apply to each button)
     // Inactive ≈ 14px gray; Active ≈ 20px lime (per Figma selection).
     // Colors are token-friendly with safe fallbacks; feel free to remap in theme.
-    indicatorInactive: ['size-14', 'opacity-100', 'bg-color-content-subtle'] as const,
+    indicatorInactive: ['size-3.5', 'opacity-100', 'bg-color-content-subtle'] as const,
 
-    indicatorActive: ['size-20', 'bg-color-content-brand'] as const
+    indicatorActive: ['size-5', 'bg-color-content-brand'] as const
   }
 });

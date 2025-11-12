@@ -3,7 +3,7 @@ import { defineStyleMap } from '../../utilities';
 
 export const EventPanelStyleMap = defineStyleMap({
   // Base container (width spacing aligns to runtime)
-  base: ['isolate', 'w-[390px]', 'lg:w-[560px]', 'lg:mx-32'] as const,
+  base: ['isolate', 'w-97.5', 'lg:w-140', 'lg:mx-8'] as const,
 
   slots: {
     // Media wrapper (image + overlay + split nav)
@@ -11,10 +11,10 @@ export const EventPanelStyleMap = defineStyleMap({
       'relative',
       'overflow-clip',
       // Fixed panel sizing
-      'w-[390px]',
-      'h-[390px]',
-      'lg:w-[560px]',
-      'lg:h-[490px]',
+      'w-97.5',
+      'h-97.5',
+      'lg:w-140',
+      'lg:h-122.5',
       // Transform + transition
       'transform-gpu',
       'transition-transform',
@@ -39,7 +39,7 @@ export const EventPanelStyleMap = defineStyleMap({
       'flex',
       'items-center',
       'justify-between',
-      'p-4',
+      'p-1',
       'opacity-0',
       'transition-opacity',
       'duration-1000',
@@ -47,15 +47,15 @@ export const EventPanelStyleMap = defineStyleMap({
       'group-data-[is-in-view=true]:opacity-100',
       'motion-reduce:transition-none'
     ] as const,
-    _left: ['flex', 'items-center', 'gap-2'] as const,
-    _right: ['flex', 'items-center', 'gap-2'] as const,
+    _left: ['flex', 'items-center', 'gap-0.5'] as const,
+    _right: ['flex', 'items-center', 'gap-0.5'] as const,
 
     // Under-image event details (mobile-only block)
     _details: [
-      'px-2',
-      'py-4',
+      'px-0.5',
+      'py-1',
       'lg:hidden',
-      'w-[380px]',
+      'w-95',
       'opacity-0',
       'transition-opacity',
       'duration-1000',
@@ -66,24 +66,24 @@ export const EventPanelStyleMap = defineStyleMap({
 
     _subtitle: ['text-sm', 'tracking-wide', 'uppercase', 'text-color-content-weak'] as const,
     _title: ['text-2xl', 'text-color-content-default'] as const,
-    _description: ['text-base', 'text-color-content-weak', 'mb-12'] as const,
+    _description: ['text-base', 'text-color-content-weak', 'mb-3'] as const,
 
     _meta: [
       'flex',
       'flex-col',
       'items-start',
-      'gap-2',
+      'gap-0.5',
       'text-sm',
       'text-color-content-weak'
     ] as const,
-    _labels: ['flex', 'flex-wrap', 'gap-3', 'mb-12'] as const,
+    _labels: ['flex', 'flex-wrap', 'gap-0.5', 'mb-3'] as const,
 
-    _avatars: ['flex', '-space-x-2', 'items-center'] as const,
+    _avatars: ['flex', '-space-x-0.5', 'items-center'] as const,
 
     _buttons: [
-      'mt-12',
-      'lg:mt-24',
-      'mx-12',
+      'mt-3',
+      'lg:mt-6',
+      'mx-1',
       'lg:mx-0',
       'flex',
       'gap-3',
