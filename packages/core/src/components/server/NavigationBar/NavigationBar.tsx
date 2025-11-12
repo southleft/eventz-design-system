@@ -35,8 +35,8 @@ const containerClasses = `
   data-[wrap=true]:lg:flex-row
   data-[wrap=true]:lg:items-center
   justify-between
-  h-68
-  lg:h-88
+  h-17
+  lg:h-22
   data-[wrap=true]:h-auto
   data-[wrap=true]:lg:h-22
   px-4
