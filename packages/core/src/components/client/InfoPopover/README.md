@@ -89,7 +89,7 @@ import type { InfoPopoverProps } from '@doxyz-ui/core/client/InfoPopover';
 | --------- | ------- |
 | `container` | `relative` `dxyz-info-popover` |
 | `infoTrigger` | `inline-flex` `items-center` `justify-center` `shrink-0` `border-none` `bg-background-none` `text-color-content-subtle` `focus-visible-brand` `rounded-full` `[&>svg]:size-16` |
-| `infoContent` | `max-w-xs` `rounded-md` `bg-color-content-default` `p-3` `text-sm` `shadow-lg` |
+| `infoContent` | `max-w-xs` `rounded-md` `background-modal` `text-color-content-default` `p-3` `text-sm` `shadow-lg` |
 
 ---
 

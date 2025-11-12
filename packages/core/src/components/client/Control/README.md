@@ -74,9 +74,9 @@ import type { ControlProps } from '@doxyz-ui/core/client/Control';
 | --------- | ------- |
 | `button` | `inline-flex` `select-none` `items-center` `justify-center` `rounded-full` `transition-colors` `outline-none` `whitespace-nowrap` `focus-visible-brand` |
 | `icon` | `shrink-0` |
-| `button (variant: brand)` | `bg-comp-button-primary-color-background-default` `text-comp-button-primary-color-content-default` `border-comp-border-none` `hover:bg-comp-button-primary-color-background-hover` `active:bg-comp-button-primary-color-background-active` |
-| `button (variant: dark)` | `bg-comp-button-color-background-knockout-blur` `text-comp-button-color-content-default` `border-comp-border-none` `hover:bg-comp-button-color-background-knockout-blur-hover` `active:bg-comp-button-color-background-knockout-blur-active` |
-| `button (variant: light)` | `bg-comp-button-color-background-default-blur` `text-comp-button-color-content-default` `border-comp-border-none` `hover:bg-comp-button-color-background-default-blur-hover` `active:bg-comp-button-color-background-default-blur-active` |
+| `button (variant: brand)` | `bg-comp-button-primary-color-background-default` `text-comp-button-primary-color-content-default` `border-none` `hover:bg-comp-button-primary-color-background-hover` `active:bg-comp-button-primary-color-background-active` |
+| `button (variant: dark)` | `bg-comp-button-color-background-knockout-blur` `text-comp-button-color-content-default` `border-none` `hover:bg-comp-button-color-background-knockout-blur-hover` `active:bg-comp-button-color-background-knockout-blur-active` |
+| `button (variant: light)` | `bg-comp-button-color-background-default-blur` `text-comp-button-color-content-default` `border-none` `hover:bg-comp-button-color-background-default-blur-hover` `active:bg-comp-button-color-background-default-blur-active` |
 | `button (state: size lg)` | `h-40` `w-40` `[&>svg]:size-20` |
 | `button (state: size sm)` | `h-32` `w-32` `[&>svg]:size-16` |
 

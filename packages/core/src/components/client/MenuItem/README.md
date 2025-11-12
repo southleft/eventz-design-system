@@ -106,12 +106,12 @@ import type { MenuItemProps } from '@doxyz-ui/core/client/MenuItem';
 
 | Data slot | Classes |
 | --------- | ------- |
-| `root` | `group` `flex` `flex-nowrap` `items-center` `gap-8` `bg-background-none` `border-l-0` `border-r-0` `border-b-0` `border-t-0` `pb-10` `pl-8` `pt-8` `pr-8` `outline-none` `[&:focus-visible:not(:hover)]:ring-2` `[&:focus-visible:not(:hover)]:ring-offset-4` `[&:focus-visible:not(:hover)]:ring-comp-border-focus-ring` `[&:focus-visible:not(:hover)]:ring-offset-color-background-default` `data-[border-bottom=true]:border-b` `data-[border-bottom=true]:border-color-border-subtle` |
+| `root` | `group` `flex` `flex-nowrap` `items-center` `gap-8` `bg-background-none` `no-underline` `border-l-0` `border-r-0` `border-b-0` `border-t-0` `pb-10` `pl-8` `pt-8` `pr-8` `outline-none` `[&:focus-visible:not(:hover)]:ring-2` `[&:focus-visible:not(:hover)]:ring-offset-4` `[&:focus-visible:not(:hover)]:ring-comp-border-focus-ring` `[&:focus-visible:not(:hover)]:ring-offset-color-background-default` `data-[border-bottom=true]:border-b` `data-[border-bottom=true]:border-color-border-subtle` |
 | `option` | `text-sm` `flex-grow` `text-color-content-default` `group-hover:text-color-content-default-hover` `group-data-[highlighted]:text-color-content-default-hover` `group-data-[is-selected=true]:text-color-content-brand` `text-left` |
 | `startIcon` | `shrink-0` `text-color-content-default` `group-hover:text-color-content-default-hover` `group-data-[is-selected=true]:text-color-content-brand` `h-20` `w-20` |
 | `supportingText` | `text-color-content-weak` `group-hover:text-color-content-weak-hover` `text-left` |
-| `media` | `h-40` `w-40` `rounded-sm` `object-cover` `group-hover:opacity-75` `data-[is-placeholder=true]:bg-color-background-brand` |
-| `mediaIcon` | `h-40` `w-40` `rounded-sm` `object-cover` `group-hover:opacity-75` `text-color-content-brand` `group-hover:text-color-content-brand-hover` `bg-color-background-weak` `group-hover:bg-color-background-weak-hover` `flex` `items-center` `justify-center` |
+| `media` | `h-40` `w-40` `rounded-sm` `object-cover` `group-hover:opacity-75` `data-[is-placeholder=true]:bg-color-background-weak` |
+| `mediaIcon` | `h-40` `w-40` `rounded-sm` `object-cover` `group-hover:opacity-75` `data-[is-placeholder=true]:bg-color-background-weak` `text-color-content-default` `group-hover:text-color-content-default-hover` `flex` `items-center` `justify-center` `group-data-[is-selected=true]:text-color-content-brand` |
 | `complexSelectedWrapper` | `flex` `flex-col` `flex-grow` `gap-1` |
 | `primaryRow` | `flex` `items-center` `justify-between` `gap-8` |
 | `selectedIcon` | `_selectedIcon` `hidden` `shrink-0` `text-color-content-brand` `group-data-[is-selected=true]:inline-flex` |

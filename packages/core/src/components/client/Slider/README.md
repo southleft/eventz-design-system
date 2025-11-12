@@ -79,8 +79,8 @@ import type { SliderProps } from '@doxyz-ui/core/client/Slider';
 | --------- | ------- |
 | `container` | `w-full` `select-none` `touch-none` `relative` `w-full` `h-[12px]` `flex` `items-center` |
 | `_track` | `relative` `w-full` `h-[4px]` `rounded-full` `bg-color-background-subtle` `overflow-hidden` |
-| `_track ._range` | `absolute` `left-0` `top-0` `h-full` `rounded-full` `bg-color-background-brand` |
-| `_thumb` | `block` `size-[8px]` `rounded-full` `bg-color-background-brand` `focus-visible-brand` |
+| `_track ._range` | `absolute` `left-0` `top-0` `h-full` `rounded-full` `bg-color-content-brand` |
+| `_thumb` | `block` `size-[8px]` `rounded-full` `bg-color-content-brand` `focus-visible-brand` |
 
 ---
 
