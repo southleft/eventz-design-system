@@ -45,7 +45,7 @@ const baseClasses = `
 const mediaVariantClasses = {
   vertical: `
     relative overflow-hidden rounded-sm border-0
-    [&>img]:w-168 [&>img]:h-42 [&>img]:object-cover [&>img]:group-hover:opacity-30
+    [&>img]:w-42 [&>img]:h-42 [&>img]:object-cover [&>img]:group-hover:opacity-30
   `,
   horizontal: `
     relative overflow-hidden rounded-sm border-0 row-span-4
