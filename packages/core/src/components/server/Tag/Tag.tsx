@@ -38,10 +38,7 @@ const baseClasses = `
   data-[interactive=false]:bg-comp-button-color-background-default
   data-[interactive=true]:select-none
   data-[interactive=true]:rounded-md
-  data-[interactive=true]:focus-visible:ring-2
-  data-[interactive=true]:focus-visible:ring-comp-border-focus-ring
-  data-[interactive=true]:focus-visible:ring-offset-4
-  data-[interactive=true]:focus-visible:ring-offset-color-background-default
+  data-[interactive=true]:focus-visible-brand
   whitespace-nowrap pt-2 pb-2 px-4
 `;
 

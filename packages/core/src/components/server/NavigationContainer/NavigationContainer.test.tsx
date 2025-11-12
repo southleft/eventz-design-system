@@ -32,10 +32,10 @@ describe('NavigationContainer', () => {
 
     const element = screen.getByTestId('navigation-container');
     const flags = {
-      px16: element.className.includes('px-16'),
-      lgPx112: element.className.includes('lg:px-112'),
-      py24: element.className.includes('py-24'),
-      lgPy56: element.className.includes('lg:py-56'),
+      px16: element.className.includes('px-4'),
+      lgPx112: element.className.includes('lg:px-28'),
+      py24: element.className.includes('py-6'),
+      lgPy56: element.className.includes('lg:py-14'),
       background: element.className.includes('bg-background-none'),
       custom: element.className.includes('custom-class')
     };

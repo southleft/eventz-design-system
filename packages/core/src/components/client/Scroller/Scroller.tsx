@@ -7,8 +7,7 @@
 import * as React from 'react';
 import { Control } from '../Control';
 import { ArrowForwardIcon, ArrowBackIcon } from '../../../icons';
-import { composeClasses } from '../../../utilities/composeClasses/composeClasses';
-import { collapseWhitespace } from '../../../utilities/collapseWhitespace/collapseWhitespace';
+import { collapseWhitespace, composeClasses } from '../../../utilities';
 
 type PageBy = 'viewport' | 'fixed';
 
@@ -37,7 +36,7 @@ const railClasses = `
 `;
 
 const controlsClasses = `
-  mt-3 flex gap-2 justify-end
+  mt-0.75 flex gap-0.5 justify-end
 `;
 
 const prevWrapperClasses = `

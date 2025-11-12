@@ -13,9 +13,9 @@ import { composeClasses } from '../../../utilities/composeClasses/composeClasses
 const baseClasses = `relative dxyz-info-popover`;
 const triggerClasses = `
   inline-flex items-center justify-center shrink-0 border-none bg-background-none text-color-content-subtle
-  focus-visible-brand [&>svg]:size-4 rounded-full
+  focus-visible-brand h-4 [&>svg]:size-4 rounded-full
 `;
-const contentClasses = `max-w-xs rounded-md background-modal text-color-content-default p-3 text-sm shadow-lg`;
+const contentClasses = `max-w-xs rounded-md background-modal text-color-content-default p-0.75 text-sm shadow-lg`;
 
 type Side = 'top' | 'right' | 'bottom' | 'left';
 

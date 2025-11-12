@@ -72,9 +72,7 @@ describe('Tag', () => {
     render(<Tag label="Focus" isInteractive />);
     const button = screen.getByRole('button', { name: 'Focus' });
     button.focus();
-    expect(button.className).toContain(
-      'data-[interactive=true]:focus-visible:ring-comp-border-focus-ring'
-    );
+    expect(button.className).toContain('data-[interactive=true]:focus-visible-brand');
   });
 
   it('exposes data-interactive="false" when non-interactive', () => {

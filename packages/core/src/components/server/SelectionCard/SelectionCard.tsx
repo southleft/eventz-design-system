@@ -18,20 +18,20 @@ export interface SelectionCardProps extends NativeDivProps {
 }
 
 const baseClasses = `
-  w-[240px] inline-flex flex-col items-center justify-start
-  gap-4 py-8 px-6 rounded-lg bg-color-background-default py-32 px-24 focus-visible:ring-offset-color-background-default
-  cursor-pointer select-none outline-none focus-visible:ring-2 focus-visible:ring-comp-border-focus-ring focus-visible:ring-offset-2
+  w-60 inline-flex flex-col items-center justify-start
+  gap-1 py-2 px-1.5 rounded-lg bg-color-background-default py-8 px-6 focus-visible-brand
+  cursor-pointer select-none outline-none
   group text-color-content-default hover:text-color-content-default-hover
 `;
 
 const selectedStateClasses = `
-  border border-2 border-color-border-brand
+  border border-0.5 border-color-border-brand
   text-color-content-brand rounded-lg
 `;
 
 const iconClasses = `
-  size-48 shrink-0 text-base
-  [&>svg]:size-48
+  size-12 shrink-0 text-base
+  [&>svg]:size-12
 `;
 
 const labelClasses = `

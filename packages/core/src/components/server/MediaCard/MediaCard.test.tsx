@@ -106,9 +106,9 @@ describe('MediaCard', () => {
     const className = control?.className ?? '';
     const hasTokens =
       className.includes('absolute') &&
-      className.includes('top-20') &&
-      className.includes('sm:top-32') &&
-      className.includes('right-2');
+      className.includes('top-5') &&
+      className.includes('sm:top-8') &&
+      className.includes('right-0.5');
     expect(hasTokens).toBe(true);
   });
 

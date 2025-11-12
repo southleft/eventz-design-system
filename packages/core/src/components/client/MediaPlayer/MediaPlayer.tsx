@@ -36,26 +36,26 @@ export interface MediaPlayerProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 const baseClasses = `
-  flex flex-col items-start w-full h-78
-  data-[variant=compact]:w-418 group
-  data-[variant=mini]:size-40 data-[variant=mini]:rounded-full
+  flex flex-col items-start w-full h-19.5
+  data-[variant=compact]:w-104.5 group
+  data-[variant=mini]:size-10 data-[variant=mini]:rounded-full
 `;
-const seekClasses = `_seek flex items-center w-full -mb-6 pr-2`;
+const seekClasses = `_seek flex items-center w-full -mb-1.5 pr-0.5`;
 const rowClasses = `
-  _row flex items-center w-full bg-color-background-subtle py-20
-  group-data-[variant=mini]:h-40 group-data-[variant=mini]:rounded-full group-data-[variant=mini]:py-0
+  _row flex items-center w-full bg-color-background-subtle py-5
+  group-data-[variant=mini]:h-10 group-data-[variant=mini]:rounded-full group-data-[variant=mini]:py-0
 `;
-const leadClasses = `_lead flex items-center gap-16 min-w-0 flex-1 pl-16`;
-const artworkClasses = `_artwork relative shrink-0 size-40 overflow-clip`;
+const leadClasses = `_lead flex items-center gap-4 min-w-0 flex-1 pl-4`;
+const artworkClasses = `_artwork relative shrink-0 size-10 overflow-clip`;
 const labelsClasses = `_labels flex flex-col min-w-0 gap-0`;
 const subtitleClasses = `_subtitle text-xs font-medium text-color-content-weak truncate`;
-const titleRowClasses = `_titleRow flex items-baseline gap-8 min-w-0`;
+const titleRowClasses = `_titleRow flex items-baseline gap-2 min-w-0`;
 const titleClasses = `_title font-[family-name:var(--font-family/primary)] text-base font-medium text-color-content-default truncate`;
-const timeDisplayClasses = `_timeDisplay text-xs font-medium text-color-content-weak whitespace-nowrap pl-8 border-l border-color-background-subtle`;
-const controlsClasses = `_controls flex items-center gap-8`;
-const volumeGroupClasses = `_volumeGroup text-comp-button-color-content-default justify-end flex items-center gap-8 pr-16`;
-const volumeRangeClasses = `_volumeRange w-120`;
-const actionsClasses = `_actions flex items-center gap-8`;
+const timeDisplayClasses = `_timeDisplay text-xs font-medium text-color-content-weak whitespace-nowrap pl-2 border-l border-color-background-subtle`;
+const controlsClasses = `_controls flex items-center gap-2`;
+const volumeGroupClasses = `_volumeGroup text-comp-button-color-content-default justify-end flex items-center gap-2 pr-4`;
+const volumeRangeClasses = `_volumeRange w-30`;
+const actionsClasses = `_actions flex items-center gap-2`;
 
 const seekStep = 0.1;
 

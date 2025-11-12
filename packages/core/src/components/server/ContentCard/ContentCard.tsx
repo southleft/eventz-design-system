@@ -45,15 +45,15 @@ const baseClasses = `
 const mediaVariantClasses = {
   vertical: `
     relative overflow-hidden rounded-sm border-0
-    [&>img]:w-168 [&>img]:h-168 [&>img]:object-cover [&>img]:group-hover:opacity-30
+    [&>img]:w-168 [&>img]:h-42 [&>img]:object-cover [&>img]:group-hover:opacity-30
   `,
   horizontal: `
     relative overflow-hidden rounded-sm border-0 row-span-4
-    [&>img]:w-104 [&>img]:h-104 [&>img]:object-cover [&>img]:group-hover:opacity-30
+    [&>img]:w-26 [&>img]:h-104 [&>img]:object-cover [&>img]:group-hover:opacity-30
   `,
   post: `
     relative overflow-hidden rounded-sm border-0
-    [&>img]:w-288 [&>img]:h-288 [&>img]:object-cover [&>img]:group-hover:opacity-30
+    [&>img]:w-72 [&>img]:h-72 [&>img]:object-cover [&>img]:group-hover:opacity-30
   `
 };
 
@@ -70,7 +70,7 @@ const titleClasses = `
 `;
 
 const titleIconClasses = `
-  ml-1 shrink-0 [&>svg]:size-[20px] invisible group-hover:visible group-hover:text-color-content-brand
+  ml-1 shrink-0 [&>svg]:size-5 invisible group-hover:visible group-hover:text-color-content-brand
 `;
 
 const descriptionClasses = `
@@ -78,26 +78,26 @@ const descriptionClasses = `
 `;
 
 const metaClasses = `
-  mt-2 flex flex-wrap gap-2 items-center
+  mt-0.5 flex flex-wrap gap-0.5 items-center
 `;
 
 const metaItemClasses = `
-  inline-flex items-center gap-1 text-xs text-color-content-subtle group-hover:text-color-content-subtle-hover
+  inline-flex items-center gap-0.25 text-xs text-color-content-subtle group-hover:text-color-content-subtle-hover
 `;
 
 const metaIconClasses = `
-  shrink-0 [&>svg]:size-3
+  shrink-0 [&>svg]:size-0.75
 `;
 
 const layoutVariantClasses: Record<Layout, string> = {
   vertical: `
-    flex flex-col items-start text-left w-168 p-2
+    flex flex-col items-start text-left w-42 p-0.5
   `,
   horizontal: `
-    grid [&:has(img)]:grid-cols-[112px_1fr] items-start p-2 w-340
+    grid [&:has(img)]:grid-cols-[112px_1fr] items-start p-0.5 w-85
   `,
   post: `
-    flex flex-col items-start text-left w-288 p-2
+    flex flex-col items-start text-left w-72 p-0.5
   `
 };
 

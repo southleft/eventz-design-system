@@ -26,7 +26,7 @@ const imageClasses = `[&_img]:h-6 [&_img]:w-6 [&_img]:rounded-[4px] overflow-hid
 const titleClasses = `text-base lg:text-lg`;
 const iconContainerClasses = `shrink-0`;
 const iconClasses = `transition-transform group-data-[state=open]:rotate-180 group-data-[state=closed]:rotate-0 size-5`;
-const contentClasses = `text-color-content-weak text-sm pl-1/4 pr-1/4`;
+const contentClasses = `text-color-content-weak text-sm pl-0.25 pr-0.25`;
 const introClasses = `text-color-content-weak text-sm`;
 const emphasisStrongClasses = `font-bold`;
 const triggerLabelGroupClasses = `inline-flex items-center gap-2`;

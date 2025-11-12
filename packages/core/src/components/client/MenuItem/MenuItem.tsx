@@ -75,7 +75,7 @@ const mediaIconClasses = `
 `;
 
 const complexSelectedWrapperClasses = `
-  flex flex-col flex-grow gap-1/4
+  flex flex-col flex-grow gap-0.25
 `;
 
 const primaryRowClasses = `

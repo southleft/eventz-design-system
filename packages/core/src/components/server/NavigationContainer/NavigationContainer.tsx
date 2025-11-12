@@ -9,7 +9,7 @@ export interface NavigationContainerProps extends React.HTMLAttributes<HTMLDivEl
   className?: string;
 }
 
-const baseClasses = `px-16 lg:px-112 py-24 lg:py-56 bg-background-none`;
+const baseClasses = `px-4 lg:px-28 py-6 lg:py-14 bg-background-none`;
 
 export const NavigationContainer = (props: NavigationContainerProps) => {
   const { className, children, ...rest } = props;

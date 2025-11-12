@@ -34,11 +34,11 @@ export interface FormElementProps extends Omit<FieldsetProps, 'children' | 'disa
 }
 
 const baseClasses = `
-  inline-flex p-0 border-none flex-col gap-1 disabled:opacity-50 disabled:pointer-events-none
+  inline-flex p-0 border-none flex-col gap-0.25 disabled:opacity-50 disabled:pointer-events-none
 `;
 
 const labelClasses = `
-  inline-flex gap-1 text-color-content-default text-xs uppercase
+  inline-flex gap-0.25 text-color-content-default text-xs uppercase
 `;
 
 const rowClasses = `

@@ -25,9 +25,9 @@ export interface ImagePanelProps extends NativeDivProps {
 }
 
 const baseClasses = `
-  relative isolate overflow-clip w-[390px] h-[390px] lg:w-[1040px] lg:h-[620px]
+  relative isolate overflow-clip w-97.5 h-97.5 lg:w-260 lg:h-155
   transform-gpu transition-transform duration-700 ease-in-out motion-reduce:transition-none
-  scale-80 group-data-[is-in-view=true]:scale-100 mx-0 lg:-mx-36
+  scale-80 group-data-[is-in-view=true]:scale-100 mx-0 lg:-mx-9
 `;
 
 const imageSlotClasses = `
@@ -40,7 +40,7 @@ const overlaySlotClasses = `
 `;
 
 const contentSlotClasses = `
-  absolute inset-0 flex flex-col justify-end p-4 items-start opacity-0
+  absolute inset-0 flex flex-col justify-end p-1 items-start opacity-0
   transition-opacity duration-1000 ease-in-out
   group-data-[is-in-view=true]:opacity-100 motion-reduce:transition-none
 `;
@@ -50,19 +50,19 @@ const titleSlotClasses = `
 `;
 
 const descriptionSlotClasses = `
-  text-base text-color-content-weak -mt-22
+  text-base text-color-content-weak -mt-5.5
 `;
 
 const labelsSlotClasses = `
-  text-sm text-color-content-weak flex gap-4
+  text-sm text-color-content-weak flex gap-1
 `;
 
 const labelSlotClasses = `
-  flex items-center gap-1
+  flex items-center gap-0.25
 `;
 
 const actionsSlotClasses = `
-  flex gap-3 items-center -mb-4
+  flex gap-0.75 items-center -mb-1
 `;
 
 export const ImagePanel = React.forwardRef<HTMLDivElement, ImagePanelProps>(

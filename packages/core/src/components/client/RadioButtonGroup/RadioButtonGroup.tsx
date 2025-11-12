@@ -13,19 +13,19 @@ import { mergeDescribedBy } from '../../../utilities/mergeDescribedBy/mergeDescr
 import { InfoPopover } from '../InfoPopover';
 
 const baseClasses = `
-  inline-flex flex-col gap-1 border-none py-8
+  inline-flex flex-col gap-0.25 border-none py-2
 `;
 
 const labelClasses = `
-  inline-flex items-center gap-1 text-color-content-default text-xs uppercase
+  inline-flex gap-0.25 text-color-content-default text-xs uppercase
 `;
 
 const hintClasses = `
-  text-color-content-subtle text-xs -mt-8
+  text-color-content-subtle text-xs -mt-2
 `;
 
 const groupClasses = `
-  flex flex-col gap-3
+  flex flex-col gap-2
 `;
 
 const choiceClasses = `
@@ -34,7 +34,7 @@ const choiceClasses = `
 `;
 
 const controlClasses = `
-  flex flex-col gap-3 items-center justify-center size-4 shrink-0 rounded-full border mt-[2px]
+  flex flex-col gap-3 items-center justify-center size-4 shrink-0 rounded-full border mt-0.5
   border-color-content-weak bg-background-none focus:outline-none disabled:opacity-50 focus-visible-brand
 `;
 
@@ -47,7 +47,7 @@ const choiceHintClasses = `
 `;
 
 const errorClasses = `
-  text-color-content-utility-danger-subtle text-xs mt-1 inline-flex items-start gap-2 items-center
+  text-color-content-utility-danger-subtle text-xs mt-1 inline-flex items-start gap-0.5 items-center
 `;
 
 type RadioGroupRootProps = React.ComponentPropsWithoutRef<typeof RadioGroup.Root>;

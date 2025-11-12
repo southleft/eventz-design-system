@@ -119,7 +119,7 @@ describe('ActionCard', () => {
     const base = container.querySelector('[data-slot="base"]');
     const actions = container.querySelector('[data-slot="actions"]');
     const baseHasToken = base?.className.includes('group') ?? false;
-    const actionsHasToken = actions?.className.includes('mt-2') ?? false;
+    const actionsHasToken = actions?.className.includes('mt-0.5') ?? false;
     expect(baseHasToken && actionsHasToken).toBe(true);
   });
 });

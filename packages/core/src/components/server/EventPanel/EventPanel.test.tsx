@@ -60,7 +60,7 @@ describe('EventPanel', () => {
     const details = container.querySelector('[data-slot="_details"]');
     const buttons = container.querySelector('[data-slot="_buttons"]');
     const visibilityAndPlacement =
-      Boolean(details?.className.includes('py-4')) &&
+      Boolean(details?.className.includes('py-1')) &&
       Boolean(buttons) &&
       buttons?.parentElement !== details;
     expect(visibilityAndPlacement).toBe(true);
@@ -95,7 +95,7 @@ describe('EventPanel', () => {
     const media = container.querySelector('[data-slot="_media"]');
     const overlay = container.querySelector('[data-slot="_overlay"]');
     const classTokensApplied =
-      Boolean(media?.className.includes('w-[390px]')) &&
+      Boolean(media?.className.includes('w-97.5')) &&
       Boolean(media?.className.includes('group-data-[is-in-view=true]:scale-100')) &&
       Boolean(overlay?.className.includes('overlay-image-overlay'));
     expect(classTokensApplied).toBe(true);

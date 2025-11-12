@@ -22,9 +22,7 @@ const renderInteractiveListItem = (props: Partial<InteractiveListItemProps> = {}
     ...props
   };
 
-  return render(
-    <InteractiveListItem {...(defaultProps as InteractiveListItemComponentProps)} />
-  );
+  return render(<InteractiveListItem {...(defaultProps as InteractiveListItemComponentProps)} />);
 };
 
 describe('InteractiveListItem', () => {
@@ -130,7 +128,7 @@ describe('InteractiveListItem', () => {
     renderInteractiveListItem();
     await user.tab();
     expect(screen.getByRole('button', { name: /Account settings/ }).className).toContain(
-      'focus-visible:ring-comp-border-focus-ring'
+      'focus-visible-brand'
     );
   });
 });
