@@ -32,14 +32,10 @@ export const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
 
     return (
       <div>
-        <span
-          ref={ref}
-          className={rootClassName}
-          {...props}
-        >
+        <span ref={ref} className={rootClassName} {...props}>
           <span className="flex items-center gap-1.5">
             {icon && (
-              <span className="shrink-0" aria-hidden="true">
+              <span className="shrink-0 h-20" aria-hidden="true">
                 {icon}
               </span>
             )}
