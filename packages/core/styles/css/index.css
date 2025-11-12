@@ -162,20 +162,7 @@
   --shadow-shadows-shadow-6: var(--dt-shadows-shadow-6);
 
   /* Spacing */
-<<<<<<< Updated upstream
-  --spacing: 4px;
-  --spacing-0: 0px;
-  --spacing-0_5: calc(var(--dt-spacing-0-5) * 1px);
-  --spacing-1: calc(var(--dt-spacing-1) * 1px);
-  --spacing-1_5: calc(var(--dt-spacing-1-5) * 1px);
-  --spacing-2: calc(var(--dt-spacing-2) * 1px);
-  --spacing-2_5: calc(var(--dt-spacing-2-5) * 1px);
-  --spacing-3: calc(var(--dt-spacing-3) * 1px);
-  --spacing-3_5: calc(var(--dt-spacing-3-5) * 1px);
-  --spacing-4: calc(var(--dt-spacing-4) * 1px);
-=======
   --spacing: 1px;
->>>>>>> Stashed changes
 }
 
 @layer components {
