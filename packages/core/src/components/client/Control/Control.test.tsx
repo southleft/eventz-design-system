@@ -51,8 +51,8 @@ describe('Control', () => {
 
   describe('sizes', () => {
     const sizeCases: ReadonlyArray<[ControlProps['size'], [string, string]]> = [
-      ['lg', ['h-40', 'w-40']],
-      ['sm', ['h-32', 'w-32']]
+      ['lg', ['h-10', 'w-10']],
+      ['sm', ['h-8', 'w-8']]
     ];
 
     it.each(sizeCases)('applies %s size classes', (size, expectedClasses) => {

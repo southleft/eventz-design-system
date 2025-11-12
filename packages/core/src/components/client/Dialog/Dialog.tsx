@@ -25,26 +25,26 @@ export interface DialogProps extends Omit<DialogRootProps, 'children'> {
   children?: React.ReactNode;
 }
 
-const centererClasses = `fixed inset-0 grid place-items-center p-20 pointer-events-none`;
+const centererClasses = `fixed inset-0 grid place-items-center p-5 pointer-events-none`;
 const overlayClasses = `fixed inset-0 z-0 bg-color-background-inverted/50 data-[state=open]:animate-overlayShow`;
 const contentClasses = `
-  rounded-md flex flex-col min-h-0 gap-8 items-center p-40 relative box-border z-10 text-color-content-default
+  rounded-md flex flex-col min-h-0 gap-2 items-center p-10 relative box-border z-10 text-color-content-default
   pointer-events-auto background-modal shadow-xl h-[min(650px,calc(100vh-40px))] overflow-visible
   focus-visible-brand
 `;
-const closeClasses = `h-40 w-full flex justify-end`;
+const closeClasses = `h-10 w-full flex justify-end`;
 const contentBodyClasses = `
   w-full
   flex-1
   min-h-0
   overflow-auto
 `;
-const navigationClasses = `h-40 w-40 !rounded-full border-none absolute z-20 pointer-events-auto bg-comp-button-color-background-knockout-blur`;
-const controlLeftClasses = `top-1/2 -translate-y-1/2 -left-20`;
-const controlRightClasses = `top-1/2 -translate-y-1/2 -right-20`;
-const sizeSmClasses = `w-600`;
-const sizeMdClasses = `w-full max-w-1300`;
-const sizeLgClasses = `w-full max-w-1600`;
+const navigationClasses = `h-10 w-10 !rounded-full border-none absolute z-20 pointer-events-auto bg-comp-button-color-background-knockout-blur`;
+const controlLeftClasses = `top-1/2 -translate-y-1/2 -left-5`;
+const controlRightClasses = `top-1/2 -translate-y-1/2 -right-5`;
+const sizeSmClasses = `w-150`;
+const sizeMdClasses = `w-full max-w-325`;
+const sizeLgClasses = `w-full max-w-400`;
 
 const contentBodyClassName = collapseWhitespace(composeClasses(contentBodyClasses));
 

@@ -55,9 +55,9 @@ describe('Dialog', () => {
   });
 
   it.each([
-    ['sm', ['w-600']],
-    ['md', ['w-full', 'max-w-1300']],
-    ['lg', ['w-full', 'max-w-1600']]
+    ['sm', ['w-150']],
+    ['md', ['w-full', 'max-w-325']],
+    ['lg', ['w-full', 'max-w-400']]
   ] as const)('applies %s size classes', async (size, expectedClasses) => {
     const { dialog } = await openDialog({ size });
     const hasAll = expectedClasses.every(c => dialog.classList.contains(c));
@@ -110,7 +110,10 @@ describe('Dialog', () => {
   it('applies overlay classes from the style map', async () => {
     await openDialog();
     const overlay = document.querySelector('[data-radix-dialog-overlay]');
-    const result = [Boolean(overlay), overlay?.classList.contains('bg-color-background-inverted/50') ?? false];
+    const result = [
+      Boolean(overlay),
+      overlay?.classList.contains('bg-color-background-inverted/50') ?? false
+    ];
     expect(result).toEqual([true, true]);
   });
 });

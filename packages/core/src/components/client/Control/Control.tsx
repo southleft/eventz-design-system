@@ -45,8 +45,8 @@ const variantClasses: Record<Variant, string> = {
 };
 
 const sizeClasses: Record<Size, string> = {
-  lg: 'h-40 w-40',
-  sm: 'h-32 w-32'
+  lg: 'h-10 w-10',
+  sm: 'h-8 w-8'
 };
 
 const slotClasses = {
@@ -54,8 +54,8 @@ const slotClasses = {
 } as const;
 
 const iconSizeSelectorBySize: Record<Size, string> = {
-  sm: '[&>svg]:size-16',
-  lg: '[&>svg]:size-20'
+  sm: '[&>svg]:size-4',
+  lg: '[&>svg]:size-5'
 };
 
 export const Control = React.forwardRef<HTMLButtonElement, ControlProps>(

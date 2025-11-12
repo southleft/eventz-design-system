@@ -25,7 +25,7 @@ describe('Dropdown', () => {
     const result = {
       popup: trigger.getAttribute('aria-haspopup'),
       expanded: trigger.getAttribute('aria-expanded'),
-      minWidth: trigger.className.includes('min-w-160')
+      minWidth: trigger.className.includes('min-w-40')
     };
     expect(result).toEqual({
       popup: 'menu',
@@ -98,7 +98,7 @@ describe('Dropdown', () => {
       const content = document.querySelector('[data-slot="content"]');
       const result = {
         hasBorder: content?.className.includes('border') ?? false,
-        hasPadding: content?.className.includes('p-2') ?? false,
+        hasPadding: content?.className.includes('p-0.5') ?? false,
         align: content?.getAttribute('data-align'),
         side: content?.getAttribute('data-side')
       };

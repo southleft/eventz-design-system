@@ -9,12 +9,12 @@ import { ArrowBackIcon, ArrowForwardIcon } from '../../../icons';
 import { IconButton } from '../IconButton';
 import { composeClasses, collapseWhitespace } from '../../../utilities';
 
-const baseClasses = `flex items-center justify-between gap-2 px-16 py-24 bg-color-background-default outline-none`;
+const baseClasses = `flex items-center justify-between gap-0.5 px-4 py-6 bg-color-background-default outline-none`;
 const startButtonWrapperClasses = `_startButton shrink-0`;
 const endButtonWrapperClasses = `_endButton shrink-0`;
-const railClasses = `_rail flex items-center gap-2 min-w-0 flex-1`;
+const railClasses = `_rail flex items-center gap-0.5 min-w-0 flex-1`;
 const contentClasses = `_content min-w-0 flex-1 justify-start truncate text-color-content-default text-lg`;
-const actionsClasses = `_actions inline-flex gap-2 shrink-0 justify-end`;
+const actionsClasses = `_actions inline-flex gap-0.5 shrink-0 justify-end`;
 
 type FloatingBarScrollEvent = MouseEvent | KeyboardEvent;
 
