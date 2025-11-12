@@ -23,7 +23,7 @@ export interface ActionCardProps extends NativeDivProps, ActionCardOwnProps {}
 
 const baseClasses = `
   outline-none border-0 rounded-md group flex flex-col gap-0.25 items-center text-center p-0.5
-  [&:has(:focus-visible)]:ring-2 w-10.5 [&:has(img)]:w-42
+  [&:has(:focus-visible)]:ring-2 w-20.5 [&:has(img)]:w-42
   [&:has(:focus-visible)]:ring-offset-2
   [&:has(:focus-visible)]:ring-comp-border-focus-ring
   [&:has(:focus-visible)]:ring-offset-color-background-default
