@@ -40,21 +40,21 @@ const chipsContainerClasses = `
 const chipClasses = `
   inline-flex items-center gap-1 rounded-xs border-0 text-xs font-medium leading-[18px]
   bg-color-background-brand hover:bg-color-background-brand-hover text-color-content-inverse
-  px-2 h-22 transition-colors group focus-visible-brand
+  px-2 h-5.5 transition-colors group focus-visible-brand
 `;
 
 const chipDismissClasses = `
-  inline-flex items-center justify-center rounded-full h-20 w-20 shrink-0 border-0
+  inline-flex items-center justify-center rounded-full h-5 w-5 shrink-0 border-0
   bg-color-background-brand group-hover:bg-color-background-brand-hover text-color-content-inverse
   focus-visible-brand
 `;
 
 const startIconClasses = `
-  shrink-0 py-(--spacing-1_5) inline-flex text-color-content-default
+  shrink-0 py-1.5 inline-flex text-color-content-default
 `;
 
 const endIconClasses = `
-  shrink-0 py-(--spacing-1_5) inline-flex text-color-content-default
+  shrink-0 py-1.5 inline-flex text-color-content-default
 `;
 
 const inputClasses = `
@@ -64,7 +64,7 @@ const inputClasses = `
 `;
 
 const fieldWrapperClasses = `
-  flex flex-wrap items-center gap-1 w-full  py-(--spacing-1) px-(--spacing-2_5)
+  flex flex-wrap items-center gap-1 w-full  py-1 px-1.5
 `;
 
 const openStateClasses = `

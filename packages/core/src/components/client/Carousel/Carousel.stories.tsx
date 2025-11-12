@@ -15,7 +15,7 @@ const slideItems = Array.from({ length: 5 }, (_, index) => {
   return (
     <div
       key={label}
-      className={`flex h-48 min-w-full items-center justify-center rounded-lg bg-color-background-subtle text-color-content-strong text-lg font-semibold`}
+      className={`flex h-12 min-w-full items-center justify-center rounded-lg bg-color-background-subtle text-color-content-strong text-lg font-semibold`}
     >
       {label}
     </div>

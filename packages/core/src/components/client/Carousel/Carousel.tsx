@@ -133,7 +133,7 @@ const containerClasses = `
 `;
 
 const indicatorsClasses = `
-  flex justify-center items-center gap-2 pt-32 pb-12
+  flex justify-center items-center gap-4 pt-8 pb-3
 `;
 
 const indicatorBaseClasses = `
@@ -141,11 +141,11 @@ const indicatorBaseClasses = `
 `;
 
 const indicatorActiveClasses = `
-  size-20 bg-color-content-brand
+  size-5 bg-color-content-brand
 `;
 
 const indicatorInactiveClasses = `
-  size-14 opacity-100 bg-color-content-subtle
+  size-3.5 opacity-100 bg-color-content-subtle
 `;
 
 const slideClasses = `

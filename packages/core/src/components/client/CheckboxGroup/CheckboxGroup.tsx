@@ -13,23 +13,23 @@ import { Checkbox } from '../Checkbox';
 import { InfoPopover } from '../InfoPopover';
 
 const baseClasses = `
-  inline-flex flex-col gap-1 border-none py-8
+  inline-flex flex-col gap-1 border-none py-2
 `;
 
 const labelClasses = `
-  inline-flex gap-1 text-color-content-default text-xs uppercase
+  inline-flex gap-2 text-color-content-default text-xs uppercase
 `;
 
 const hintClasses = `
-  text-color-content-subtle text-xs -mt-8
+  text-color-content-subtle text-xs -mt-2
 `;
 
 const choicesClasses = `
-  flex flex-col gap-3
+  flex flex-col gap-2
 `;
 
 const errorClasses = `
-  text-color-content-utility-danger-subtle text-xs mt-1 inline-flex gap-2 items-center
+  text-color-content-utility-danger-subtle text-xs inline-flex gap-2 items-center
 `;
 
 type CheckboxChoice = {
@@ -121,7 +121,9 @@ export const CheckboxGroup = React.forwardRef<HTMLFieldSetElement, CheckboxGroup
       >
         <legend className={legendClassName} data-slot="label">
           {trimmedLabel ?? trimmedAriaLabel}
-          {trimmedLabel && info ? <InfoPopover ariaLabel={infoAriaLabel}>{info}</InfoPopover> : null}
+          {trimmedLabel && info ? (
+            <InfoPopover ariaLabel={infoAriaLabel}>{info}</InfoPopover>
+          ) : null}
         </legend>
 
         {hintId ? (
