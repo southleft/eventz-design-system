@@ -162,7 +162,7 @@
   --shadow-shadows-shadow-6: var(--dt-shadows-shadow-6);
 
   /* Spacing */
-  --spacing: 1px;
+  --spacing: 4px;
 }
 
 @layer components {
@@ -425,7 +425,7 @@
   .dx-markerchip {
     @apply inline-flex items-center justify-center rounded-full select-none;
     @apply border border-color-background-brand/20;
-    @apply p-120 size-32 lg:size-48;
+    @apply p-30 size-8 lg:size-12;
     @apply text-color-content-brand bg-color-background-brand/5;
   }
 }

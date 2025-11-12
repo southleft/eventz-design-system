@@ -40,7 +40,7 @@ const overlaySlotClasses = `
 `;
 
 const contentSlotClasses = `
-  absolute inset-0 flex flex-col justify-end p-1 items-start opacity-0
+  absolute inset-0 flex flex-col justify-end p-4 items-start opacity-0
   transition-opacity duration-1000 ease-in-out
   group-data-[is-in-view=true]:opacity-100 motion-reduce:transition-none
 `;
