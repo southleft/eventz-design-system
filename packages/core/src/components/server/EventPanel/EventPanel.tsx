@@ -72,7 +72,7 @@ const chipsClasses = `
 `;
 
 const buttonsClasses = `
-  mt-3 lg:mt-6 mx-6 lg:mx-0 flex gap-0.75 items-center justify-start lg:justify-end
+  mt-3 lg:mt-6 mx-1 lg:mx-0 flex gap-3 items-center justify-start lg:justify-end
   opacity-0 transition-opacity duration-1000 ease-in-out
   group-data-[is-in-view=true]:opacity-100 motion-reduce:transition-none
 `;
