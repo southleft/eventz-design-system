@@ -23,6 +23,9 @@ This package expects the following to already be installed in your application:
 - `react` (>=18)
 - `react-dom` (>=18)
 - `radix-ui` (>=1.0.0)
+- `embla-carousel` (>=8.6.0)
+- `embla-carousel-autoplay` (>=8.6.0)
+- `rsuite` (>=5.83.3)
 
 They are marked as **peerDependencies** to avoid duplicate React or Radix versions in consuming apps.
 
