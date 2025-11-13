@@ -6,7 +6,7 @@ export const SubscriptionCardStyleMap = defineStyleMap({
 
   // Mirrors runtime base class literals (no border token in base).
   base: [
-    'flex flex-col gap-0.5 p-1 rounded-md border bg-color-background-none transition-colors',
+    'flex flex-col gap-0.5 p-4 rounded-md border bg-color-background-none transition-colors',
     'text-left w-123.25'
   ] as const,
 
