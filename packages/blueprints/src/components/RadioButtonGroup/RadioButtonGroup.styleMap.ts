@@ -8,7 +8,6 @@ export const RadioButtonGroupStyleMap = defineStyleMap({
   slots: {
     label: [
       'inline-flex',
-      'items-center',
       'gap-0.25',
       'text-color-content-default',
       'text-xs',

@@ -26,8 +26,8 @@ export const ComboboxStyleMap = defineStyleMap({
       'items-center',
       'gap-1',
       'w-full',
-      'py-(--spacing-1)',
-      'px-(--spacing-2_5)'
+      'py-1',
+      'px-1.5'
     ] as const,
 
     clearAll: [
@@ -81,14 +81,14 @@ export const ComboboxStyleMap = defineStyleMap({
 
     startIcon: [
       'shrink-0',
-      'py-(--spacing-1_5)',
+      'py-1.5',
       'inline-flex',
       'text-color-content-default'
     ] as const,
 
     endIcon: [
       'shrink-0',
-      'py-(--spacing-1_5)',
+      'py-1.5',
       'inline-flex',
       'text-color-content-default'
     ] as const,
