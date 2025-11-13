@@ -1,9 +1,7 @@
 name: 'Chromatic (core)'
 
 on:
-  push:
-    branches:
-      - development
+  workflow_dispatch:
 
 concurrency:
   group: chromatic-core-${{ github.ref }}
