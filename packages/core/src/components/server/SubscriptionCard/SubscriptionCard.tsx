@@ -20,7 +20,7 @@ export interface SubscriptionCardProps extends NativeDivProps {
 }
 
 const baseClasses = `
-  flex flex-col gap-0.5 p-1 rounded-md border bg-color-background-none transition-colors
+  flex flex-col gap-0.5 p-4 rounded-md border bg-color-background-none transition-colors
   text-left w-123.25
 `;
 
