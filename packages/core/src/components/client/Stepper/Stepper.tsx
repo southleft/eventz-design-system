@@ -18,9 +18,9 @@ export interface StepperProps extends NavProps {
 }
 
 const containerClasses = `flex items-center select-none transition-colors`;
-const stepWrapperClasses = `relative flex items-center justify-center h-32`;
+const stepWrapperClasses = `relative flex items-center justify-center h-8`;
 const stepElementClasses = `
-  flex flex-col items-center justify-center relative size-32 rounded-full font-bold border-[2px] transition-colors
+  flex flex-col items-center justify-center relative size-8 rounded-full font-bold border-[2px] transition-colors
   data-[step-status=active]:bg-color-background-default data-[step-status=active]:text-color-content-brand focus-visible-brand
   data-[step-status=active]:border-color-border-strong
   data-[step-status=completed]:bg-color-content-brand data-[step-status=completed]:text-color-background-default

@@ -40,19 +40,19 @@ export interface TabsProps
 
 const baseSlotClasses = `flex flex-col`;
 const sectionListClasses = `flex`;
-const buttonListClasses = `flex gap-8`;
+const buttonListClasses = `flex gap-2`;
 const sectionTriggerClasses = `
-  flex-grow inline-flex cursor-default select-none items-center justify-center h-34 px-10
+  flex-grow inline-flex cursor-default select-none items-center justify-center h-8.5 px-2.5
   outline-none text-color-content-weak border-b border-b-color-border-default bg-background-none border-t-0 border-l-0 border-r-0
   disabled:opacity-50 disabled:pointer-events-none
-  focus-visible:ring-2 focus-visible:ring-offset-4 focus-visible:ring-comp-border-focus-ring
-  focus-visible:ring-offset-color-background-default gap-6
+  focus-visible-brand
+  focus-visible:ring-offset-color-background-default gap-1.5
   hover:text-color-content-weak-hover hover:border-b-color-border-default-hover
   data-[state=active]:border-b-color-content-brand data-[state=active]:text-color-content-brand
   data-[state=active]:hover:border-b-color-content-brand-hover data-[state=active]:hover:text-color-content-brand-hover
 `;
 const triggerButtonClasses = ``;
-const triggerIconClasses = `shrink-0 [&>svg]:size-16`;
+const triggerIconClasses = `shrink-0 [&>svg]:size-4`;
 const contentClasses = `outline-none text-color-content-default`;
 
 export const Tabs = React.forwardRef<HTMLDivElement, TabsProps>(

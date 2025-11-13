@@ -13,8 +13,8 @@ export const TabsStyleMap = defineStyleMap({
       'select-none',
       'items-center',
       'justify-center',
-      'h-34',
-      'px-10',
+      'h-8.5',
+      'px-5',
       'outline-none',
       'text-color-content-weak',
       'border-b',
@@ -25,11 +25,8 @@ export const TabsStyleMap = defineStyleMap({
       'border-r-0',
       'disabled:opacity-50',
       'disabled:pointer-events-none',
-      'focus-visible:ring-2',
-      'focus-visible:ring-offset-4',
-      'focus-visible:ring-comp-border-focus-ring',
-      'focus-visible:ring-offset-color-background-default',
-      'gap-6',
+      'focus-visible-brand',
+      'gap-1.5',
       'hover:text-color-content-weak-hover',
       'hover:border-b-color-border-default-hover',
       'data-[state=active]:border-b-color-content-brand',
@@ -37,12 +34,12 @@ export const TabsStyleMap = defineStyleMap({
       'data-[state=active]:hover:border-b-color-content-brand-hover',
       'data-[state=active]:hover:text-color-content-brand-hover'
     ] as const,
-    triggerIcon: ['shrink-0', '[&>svg]:size-16'] as const,
+    triggerIcon: ['shrink-0', '[&>svg]:size-4'] as const,
     content: ['outline-none', 'text-color-content-default'] as const
   },
 
   layout: {
-    listGapped: ['gap-8'] as const
+    listGapped: ['gap-2'] as const
   } as const,
 
   variants: {
