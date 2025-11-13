@@ -102,11 +102,11 @@ import type { CheckboxGroupProps } from '@doxyz-ui/core/client/CheckboxGroup';
 
 | Data slot | Classes |
 | --------- | ------- |
-| `label` | `inline-flex` `flex-col` `gap-1` `border-none` `py-8` |
-| `label` | `inline-flex` `gap-1` `text-color-content-default` `text-xs` `uppercase` |
-| `hint` | `text-color-content-subtle` `text-xs` `-mt-8` |
-| `choices` | `flex` `flex-col` `gap-3` |
-| `error` | `text-color-content-utility-danger-subtle` `text-xs` `mt-1` `inline-flex` `gap-2` `items-center` |
+| `fieldset` | `inline-flex` `flex-col` `gap-1` `border-none` `py-2` |
+| `label` | `inline-flex` `gap-2` `text-color-content-default` `text-xs` `uppercase` |
+| `hint` | `text-color-content-subtle` `text-xs` `-mt-2` |
+| `choices` | `flex` `flex-col` `gap-2` |
+| `error` | `text-color-content-utility-danger-subtle` `text-xs` `inline-flex` `gap-2` `items-center` |
 
 ---
 

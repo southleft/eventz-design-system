@@ -94,13 +94,13 @@ Resolve all extended interfaces and list only public, component-level props. Exc
 
 | Data slot      | Classes                                                                                                                                                                                       |
 | -------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `base`         | `outline-none` `border-0` `rounded-md` `group` `flex` `flex-col` `gap-1` `items-center` `text-center` `p-2` `w-82` `[&:has(img)]:w-168` `[&:has(:focus-visible)]:ring-2` `[&:has(:focus-visible)]:ring-offset-2` `[&:has(:focus-visible)]:ring-comp-border-focus-ring` `[&:has(:focus-visible)]:ring-offset-color-background-default` |
-| `media`        | `relative` `overflow-hidden` `rounded-sm` `border-0` `mb-8` `[&>img]:w-168` `[&>img]:h-168` `[&>img]:object-cover` `[&>img]:group-hover:opacity-30`                                             |
+| `base`         | `outline-none` `border-0` `rounded-md` `group` `flex` `flex-col` `gap-0.25` `items-center` `text-center` `p-0.5` `w-20.5` `[&:has(img)]:w-42` `[&:has(:focus-visible)]:ring-2` `[&:has(:focus-visible)]:ring-offset-2` `[&:has(:focus-visible)]:ring-comp-border-focus-ring` `[&:has(:focus-visible)]:ring-offset-color-background-default` |
+| `media`        | `relative` `overflow-hidden` `rounded-sm` `border-0` `mb-2` `[&>img]:w-42` `[&>img]:h-42` `[&>img]:object-cover` `[&>img]:group-hover:opacity-30`                                             |
 | `badge`        | `absolute` `top-2` `left-2`                                                                                                                                                                   |
 | `subtitle`     | `text-xs` `text-color-content-subtle` `group-hover:text-color-content-subtle-hover`                                                                                                           |
 | `title`        | `text-color-content-default` `group-hover:text-color-content-default-hover` `text-base` `sm:text-lg`                                                                                          |
 | `description`  | `text-color-content-weak` `group-hover:text-color-content-weak-hover` `text-sm`                                                                                                               |
-| `actions`      | `mt-2` `sm:mt-3`                                                                                                                                                                              |
+| `actions`      | `mt-0.5` `sm:mt-0.75`                                                                                                                                                                         |
 
 ---
 

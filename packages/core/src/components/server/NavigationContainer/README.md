@@ -71,7 +71,7 @@ Resolve all extended interfaces and list only public, component-level props. Exc
 
 | Data slot  | Classes                                       |
 | ---------- | --------------------------------------------- |
-| `base`     | `px-16` `lg:px-112` `py-24` `lg:py-56` `bg-background-none` |
+| `base`     | `px-4` `lg:px-28` `py-6` `lg:py-14` `bg-background-none` |
 | `container`| *(none)*                                      |
 
 ---

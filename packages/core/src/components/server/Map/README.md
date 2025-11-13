@@ -89,12 +89,12 @@ Resolve all extended interfaces and list only public, component-level props. Exc
 
 | Data slot | Classes                                                                                                                                                         |
 | --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `base`    | `relative` `block` `w-480` `lg:w-full` `h-240` `lg:h-680` `overflow-hidden` `rounded-xl` `[_map-layer]:absolute` `[_map-layer]:inset-0` `data-[is-nested=true]:w-358` `data-[is-nested=true]:h-400` |
+| `base`    | `relative` `block` `w-120` `lg:w-full` `h-60` `lg:h-170` `overflow-hidden` `rounded-xl` `[_map-layer]:absolute` `[_map-layer]:inset-0` `data-[is-nested=true]:w-89.5` `data-[is-nested=true]:h-100` |
 | `_surface`| `absolute` `inset-0`                                                                                                                                           |
 | `_overlay`| `pointer-events-none` `absolute` `inset-x-0` `bottom-0` `w-full` `h-[82px]` `bg-linear-to-b` `from-opacity-overlay/0` `to-opacity-overlay`                       |
 | `_rail`   | `absolute` `top-3` `right-3` `flex` `flex-col` `gap-2` `border-none` `bg-color-background-subtle/10` `text-color-content-default`                               |
 | `_segment`| `flex` `flex-col` `gap-[2px]` `[&>button]:first:rounded-b-none` `[&>button]:last:rounded-t-none`                                                                 |
-| `_tile`   | `size-40` `rounded-md` `bg-color-background-subtle` `text-color-content-default` `backdrop-blur-sm` `transition-colors` `border-none`                            |
+| `_tile`   | `size-10` `rounded-md` `bg-color-background-subtle` `text-color-content-default` `backdrop-blur-sm` `transition-colors` `border-none`                            |
 | `_icon`   | `pointer-events-none` `[&>svg]:size-20` `[&>*]:aria-hidden`                                                                                                      |
 
 ---

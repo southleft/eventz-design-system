@@ -91,8 +91,8 @@ import type { DropdownProps } from '@doxyz-ui/core/client/Dropdown';
 
 | Data slot | Classes |
 | --------- | ------- |
-| `container` | `min-w-160` |
-| `content` | `rounded-md` `border` `shadow-md` `p-2` `bg-color-background-default` `text-color-content-default` `border-color-border-subtle` |
+| `container` | `min-w-40` |
+| `content` | `rounded-md` `border` `shadow-md` `p-0.5` `bg-color-background-default` `text-color-content-default` `border-color-border-subtle` |
 
 ---
 

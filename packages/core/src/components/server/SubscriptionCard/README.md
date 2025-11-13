@@ -98,14 +98,14 @@ Resolve all extended interfaces and list only public, component-level props. Exc
 
 | Data slot        | Classes                                                                                                                                                    |
 | ---------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `base`           | `flex` `flex-col` `gap-2` `p-4` `rounded-md` `border` `bg-color-background-none` `transition-colors` `text-left` `w-[439px]` plus conditional border tokens (`border-color-background-utility-danger` when active, `border-color-background-utility-success` otherwise). |
-| `header`         | `flex` `items-start` `justify-between` `gap-4`                                                                                                              |
+| `base`           | `flex` `flex-col` `gap-0.5` `p-1` `rounded-md` `border` `bg-color-background-none` `transition-colors` `text-left` `w-123.25` plus conditional border tokens (`border-color-background-utility-danger` when active, `border-color-background-utility-success` otherwise). |
+| `header`         | `flex` `items-start` `justify-between` `gap-1`                                                                                                              |
 | `terms`          | `text-3xl` `font-bold` `text-color-content-default`                                                                                                        |
 | `cancel`         | `text-sm` `font-medium` `text-color-content-weak` (applied only when a custom slot is rendered)                                                             |
 | `subtitle`       | `text-sm` `text-color-content-weak`                                                                                                                         |
-| `details`        | `flex` `flex-col` `gap-1`                                                                                                                                   |
-| `detailRow`      | `flex` `items-center` `gap-2`                                                                                                                               |
-| `detailLabel`    | `uppercase` `text-sm` `w-[135px]` `font-medium` `text-color-content-default`                                                                                |
+| `details`        | `flex` `flex-col` `gap-0.25`                                                                                                                                |
+| `detailRow`      | `flex` `items-center` `gap-0.5`                                                                                                                             |
+| `detailLabel`    | `uppercase` `text-sm` `w-33.75` `font-medium` `text-color-content-default`                                                                                  |
 | `detailValue`    | `text-sm` `text-color-content-weak`                                                                                                                         |
 
 ---

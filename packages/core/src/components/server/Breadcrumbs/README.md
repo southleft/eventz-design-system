@@ -94,10 +94,10 @@ Resolve all extended interfaces and list only public, component-level props. Exc
 | Data slot   | Classes                                   |
 | ----------- | ----------------------------------------- |
 | `container` | *(none – inherits from root `<nav>`)*     |
-| `list`      | `flex` `gap-8` `list-none`                |
+| `list`      | `flex` `gap-2` `list-none`                |
 | `item`      | *(none – styling handled by TextLink)*    |
 | `separator` | `shrink-0`                                |
-| `ellipsis`  | `shrink-0` `pt-1`                         |
+| `ellipsis`  | `shrink-0` `pt-0.25`                      |
 | `current`   | `text-sm` `font-bold` `text-color-content-default` |
 
 ---

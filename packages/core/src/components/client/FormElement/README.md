@@ -97,14 +97,14 @@ import type { FormElementProps } from '@doxyz-ui/core/client/FormElement';
 
 | Data slot | Classes |
 | --------- | ------- |
-| `label` | `inline-flex` `border-none` `flex-col` `p-0` `gap-1` `disabled:opacity-50` `disabled:pointer-events-none` |
-| `label` | `inline-flex` `gap-1` `text-color-content-default` `text-xs` `uppercase` |
+| `container` | `inline-flex` `border-none` `flex-col` `p-0` `gap-0.25` `disabled:opacity-50` `disabled:pointer-events-none` |
+| `label` | `inline-flex` `gap-0.25` `text-color-content-default` `text-xs` `uppercase` |
 | `hint` | `text-color-content-subtle` `text-xs` |
 | `error` | `text-color-content-utility-danger-subtle` `text-xs` `mt-1` `inline-flex` `gap-2` `items-center` |
 | `row` | `inline-flex` `items-start` `gap-2` `gap-y-1` `rounded-lg` `text-color-content-default` `bg-comp-form-color-background-default` `border` `border-comp-form-color-border-default` `text-sm` `hover:bg-comp-form-color-background-hover` `hover:border-comp-form-color-hover` `[&:has(:focus-visible)]:ring-2` `[&:has(:focus-visible)]:ring-offset-4` `[&:has(:focus-visible)]:ring-comp-border-focus-ring` `[&:has(:focus-visible)]:ring-offset-color-background-default` |
 | `value` | — |
-| `label (state: disabled)` | `data-[disabled=true]:opacity-50` `data-[disabled=true]:pointer-events-none` |
-| `label (state: invalid)` | `data-[invalid=true]:[&_[data-slot=row]]:border-comp-form-color-border-utility-danger` |
+| `container (state: disabled)` | `data-[disabled=true]:opacity-50` `data-[disabled=true]:pointer-events-none` |
+| `container (state: invalid)` | `data-[invalid=true]:[&_[data-slot=row]]:border-comp-form-color-border-utility-danger` |
 
 ---
 

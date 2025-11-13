@@ -98,18 +98,18 @@ import type { DialogProps } from '@doxyz-ui/core/client/Dialog';
 
 | Data slot | Classes |
 | --------- | ------- |
-| `centerer` | `relative` `outline-none` |
-| `centerer` | `fixed` `inset-0` `grid` `place-items-center` `p-20` `pointer-events-none` |
+| `base` | `relative` `outline-none` |
+| `centerer` | `fixed` `inset-0` `grid` `place-items-center` `p-5` `pointer-events-none` |
 | `overlay` | `fixed` `inset-0` `z-0` `bg-color-background-inverted/50` `data-[state=open]:animate-overlayShow` |
-| `content` | `rounded-md` `flex` `flex-col` `min-h-0` `gap-8` `items-center` `p-40` `relative` `box-border` `z-10` `text-color-content-default` `pointer-events-auto` `background-modal` `shadow-xl` `h-[min(650px,calc(100vh-40px))]` `overflow-visible` `focus-visible-brand` |
-| `close` | `h-40` `w-full` `flex` `justify-end` |
+| `content` | `rounded-md` `flex` `flex-col` `min-h-0` `gap-2` `items-center` `p-10` `relative` `box-border` `z-10` `text-color-content-default` `pointer-events-auto` `background-modal` `shadow-xl` `h-[min(650px,calc(100vh-40px))]` `overflow-visible` `focus-visible-brand` |
+| `close` | `h-10` `w-full` `flex` `justify-end` |
 | `contentBody` | `w-full` `flex-1` `min-h-0` `overflow-auto` |
-| `controlLeft` | `h-40` `w-40` `!rounded-full` `border-none` `absolute` `z-20` `pointer-events-auto` `top-1/2` `-translate-y-1/2` `-left-20` `bg-comp-button-color-background-knockout-blur` |
-| `controlRight` | `h-40` `w-40` `!rounded-full` `border-none` `absolute` `z-20` `pointer-events-auto` `top-1/2` `-translate-y-1/2` `-right-20` `bg-comp-button-color-background-knockout-blur` |
+| `controlLeft` | `h-10` `w-10` `!rounded-full` `border-none` `absolute` `z-20` `pointer-events-auto` `top-1/2` `-translate-y-1/2` `-left-5` `bg-comp-button-color-background-knockout-blur` |
+| `controlRight` | `h-10` `w-10` `!rounded-full` `border-none` `absolute` `z-20` `pointer-events-auto` `top-1/2` `-translate-y-1/2` `-right-5` `bg-comp-button-color-background-knockout-blur` |
 | `portal` | — |
-| `centerer (state: size sm)` | `w-600` |
-| `centerer (state: size md)` | `w-full` `max-w-1300` |
-| `centerer (state: size lg)` | `w-full` `max-w-1600` |
+| `centerer (state: size sm)` | `w-150` |
+| `centerer (state: size md)` | `w-full` `max-w-325` |
+| `centerer (state: size lg)` | `w-full` `max-w-400` |
 
 ---
 

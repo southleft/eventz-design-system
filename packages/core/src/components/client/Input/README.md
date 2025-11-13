@@ -89,11 +89,11 @@ import type { InputProps } from '@doxyz-ui/core/client/Input';
 
 | Data slot | Classes |
 | --------- | ------- |
-| `startIcon` | `inline-flex` `items-center` `gap-2` `py-[2px]` `px-12` |
-| `startIcon` | `inline-flex` `items-center` `gap-2` `shrink-0` `size-20` `text-color-content-default` |
-| `input` | `grow` `bg-transparent` `outline-none` `text-color-content-default` `placeholder-color-content-weak` `border-none` `py-(--spacing-1_5)` `focus:placeholder:opacity-0` |
-| `endIcon` | `shrink-0` `size-20` `inline-flex` `text-color-content-default` |
-| `startIcon (state: invalid)` | `data-[invalid=true]:[&_[data-slot=input]]:border-comp-form-color-border-utility-danger` |
+| `field` | `inline-flex` `items-center` `gap-0.5` `py-0.5` `px-3` |
+| `startIcon` | `inline-flex` `items-center` `gap-0.5` `shrink-0` `size-5` `text-color-content-default` |
+| `input` | `grow` `bg-transparent` `outline-none` `text-color-content-default` `placeholder-color-content-weak` `border-none` `py-1.5` `focus:placeholder:opacity-0` |
+| `endIcon` | `shrink-0` `size-5` `inline-flex` `text-color-content-default` |
+| `field (state: invalid)` | `data-[invalid=true]:[&_[data-slot=input]]:border-comp-form-color-border-utility-danger` |
 
 ---
 

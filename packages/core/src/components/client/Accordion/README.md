@@ -110,13 +110,13 @@ The table below flattens `RadixAccordion.Root` into component-level props (alpha
 | `container` | `[&:has(:focus-visible)]:ring-2` `[&:has(:focus-visible)]:ring-offset-4` `[&:has(:focus-visible)]:ring-comp-border-focus-ring` `[&:has(:focus-visible)]:ring-offset-color-background-default` `flex` `flex-col` `w-full` |
 | `item` | `bg-comp-accordion-item-color-background-default` `text-comp-accordion-item-color-foreground-default` `rounded-md` |
 | `header` | `border` `mt-auto` `mb-auto` `border-none` |
-| `trigger` | `text-color-content-default` `hover:text-color-content-default-hover` `border-none` `w-full` `flex` `justify-between` `outline-none` `bg-background-none` `pt-2` `pb-2` `pl-1` `pr-1` `group` |
-| `triggerLabelGroup` | `inline-flex` `items-center` `gap-8` |
-| `image` | `[&_img]:h-24` `[&_img]:w-24` `[&_img]:rounded-[4px]` `overflow-hidden` `[&_img]:object-cover` |
+| `trigger` | `text-color-content-default` `hover:text-color-content-default-hover` `border-none` `w-full` `flex` `justify-between` `outline-none` `bg-background-none` `pt-0.5` `pb-0.5` `pl-0.25` `pr-0.25` `group` |
+| `triggerLabelGroup` | `inline-flex` `items-center` `gap-2` |
+| `image` | `[&_img]:h-6` `[&_img]:w-6` `[&_img]:rounded-sm` `overflow-hidden` `[&_img]:object-cover` |
 | `title` | `text-base` `lg:text-lg` |
 | `icon` | `shrink-0` |
-| `iconGlyph` | `transition-transform` `group-data-[state=open]:rotate-180` `group-data-[state=closed]:rotate-0` `size-20` |
-| `content` | `text-color-content-weak` `text-sm` `pl-1` `pr-1` |
+| `iconGlyph` | `transition-transform` `group-data-[state=open]:rotate-180` `group-data-[state=closed]:rotate-0` `size-5` |
+| `content` | `text-color-content-weak` `text-sm` `pl-0.25` `pr-0.25` |
 | `intro` | `text-color-content-weak` `text-sm` |
 | `title (state: strong)` | `font-bold` |
 
