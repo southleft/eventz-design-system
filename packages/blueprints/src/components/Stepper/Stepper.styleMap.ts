@@ -18,7 +18,7 @@ const StepperStyleMap = {
       'items-center',
       'justify-center',
       'relative',
-      'size-32',
+      'size-8',
       'rounded-full',
       'font-bold',
       'border-[2px]',
