@@ -82,7 +82,7 @@ import { useCarouselContext } from '@doxyz-ui/core/client/Carousel';
 | `container` | `embla` `relative` `block` `overflow-hidden` `w-full` `touch-pan-y` |
 | `_container` | `embla__container` `flex` `items-stretch` `[will-change:transform]` `[transform:translateZ(0)]` |
 | `_slide` | `embla__slide` `group` `shrink-0` `not-data-[peek=true]:basis-full` `min-w-0` |
-| `_indicators` | `flex` `justify-center` `items-center` `gap-2` `pt-32` `pb-12` |
+| `_indicators` | `flex` `justify-center` `items-center` `gap-4` `pt-8` `pb-3` |
 | `_indicator` | `relative` `shrink-0` `rounded-full` `transition-[transform,opacity]` `border-none` `focus-visible-brand` |
 | `container (state: is dragging)` | `[--carousel-dragging:1]` |
 | `container (state: is at start)` | `[--edge-start:1]` |
@@ -90,8 +90,8 @@ import { useCarouselContext } from '@doxyz-ui/core/client/Carousel';
 | `container (state: rtl)` | `[direction:rtl]` |
 | `container (state: has indicators)` | `[--has-indicators:1]` |
 | `container (state: is auto playing)` | `[--autoplay-playing:1]` |
-| `container (state: indicator inactive)` | `size-14` `opacity-100` `bg-color-content-subtle` |
-| `container (state: indicator active)` | `size-20` `bg-color-content-brand` |
+| `container (state: indicator inactive)` | `size-3.5` `opacity-100` `bg-color-content-subtle` |
+| `container (state: indicator active)` | `size-5` `bg-color-content-brand` |
 
 ---
 

@@ -22,16 +22,16 @@ type ActionCardOwnProps = {
 export interface ActionCardProps extends NativeDivProps, ActionCardOwnProps {}
 
 const baseClasses = `
-  outline-none border-0 rounded-md group flex flex-col gap-1 items-center text-center p-2
-  [&:has(:focus-visible)]:ring-2 w-82 [&:has(img)]:w-168
+  outline-none border-0 rounded-md group flex flex-col gap-0.25 items-center text-center p-0.5
+  [&:has(:focus-visible)]:ring-2 w-20.5 [&:has(img)]:w-42
   [&:has(:focus-visible)]:ring-offset-2
   [&:has(:focus-visible)]:ring-comp-border-focus-ring
   [&:has(:focus-visible)]:ring-offset-color-background-default
 `;
 
 const mediaClasses = `
-  relative overflow-hidden rounded-sm border-0 mb-8
-  [&>img]:w-168 [&>img]:h-168 [&>img]:object-cover [&>img]:group-hover:opacity-30
+  relative overflow-hidden rounded-sm border-0 mb-2
+  [&>img]:w-42 [&>img]:h-42 [&>img]:object-cover [&>img]:group-hover:opacity-30
 `;
 
 const badgeClasses = `
@@ -51,7 +51,7 @@ const descriptionClasses = `
 `;
 
 const actionsClasses = `
-  mt-2 sm:mt-3
+  mt-0.5 sm:mt-0.75
 `;
 
 export const ActionCard = React.forwardRef<HTMLDivElement, ActionCardProps>(

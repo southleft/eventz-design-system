@@ -16,9 +16,9 @@ export interface MapProps extends NativeSectionProps {
 }
 
 const baseClasses = `
-  relative block w-480 lg:w-full h-240 lg:h-680 overflow-hidden rounded-xl
+  relative block w-120 lg:w-full h-60 lg:h-170 overflow-hidden rounded-xl
   [_map-layer]:absolute [_map-layer]:inset-0
-  data-[is-nested=true]:w-358 data-[is-nested=true]:h-400
+  data-[is-nested=true]:w-89.5 data-[is-nested=true]:h-100
 `;
 
 const surfaceClasses = `
@@ -39,7 +39,7 @@ const segmentClasses = `
 `;
 
 const tileClasses = `
-  size-40 rounded-md bg-color-background-subtle text-color-content-default backdrop-blur-sm transition-colors border-none
+  size-10 rounded-md bg-color-background-subtle text-color-content-default backdrop-blur-sm transition-colors border-none
 `;
 
 const iconClasses = `

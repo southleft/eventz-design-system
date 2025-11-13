@@ -53,7 +53,7 @@ describe('ImagePanel', () => {
     const base = container.querySelector('[data-slot="base"]');
     const content = container.querySelector('[data-slot="_content"]');
     const tokensApplied =
-      (base?.className.includes('w-[390px]') ?? false) &&
+      (base?.className.includes('w-97.5') ?? false) &&
       (base?.className.includes('group-data-[is-in-view=true]:scale-100') ?? false) &&
       (content?.className.includes('opacity-0') ?? false) &&
       (content?.className.includes('group-data-[is-in-view=true]:opacity-100') ?? false);

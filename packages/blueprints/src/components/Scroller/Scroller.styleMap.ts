@@ -30,7 +30,7 @@ export default defineStyleMap({
     ] as const,
 
     // Controls area beneath the viewport
-    _controls: ['mt-3', 'flex', 'gap-2', 'justify-end'] as const,
+    _controls: ['mt-0.75', 'flex', 'gap-2', 'justify-end'] as const,
     _prev: ['shrink-0'] as const,
     _next: ['shrink-0'] as const
   },

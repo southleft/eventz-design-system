@@ -83,10 +83,10 @@ import type { ButtonProps } from '@doxyz-ui/core/client/Button';
 
 | Data slot | Classes |
 | --------- | ------- |
-| `container` | `inline-flex` `select-none` `items-center` `justify-center` `transition-colors` `whitespace-nowrap` `font-medium` `text-sm` `focus-visible-brand` `disabled:opacity-50` `disabled:pointer-events-none` `h-32` `px-4` `gap-2` `rounded-md` `border-1` |
-| `startIcon` | `shrink-0` `-ml-0.5` `pt-1` |
+| `container` | `inline-flex` `select-none` `items-center` `justify-center` `transition-colors` `whitespace-nowrap` `font-medium` `text-sm` `focus-visible-brand` `disabled:opacity-50` `disabled:pointer-events-none` `h-8.5` `px-3` `gap-1` `rounded-md` `border-1` |
+| `startIcon` | `size-5` |
 | `label` | — |
-| `endIcon` | `shrink-0` `-mr-0.5` `pt-1` |
+| `endIcon` | `size-5` |
 | `container (variant: primary)` | `bg-comp-button-primary-color-background-default` `text-comp-button-primary-color-content-default` `border-none` `hover:bg-comp-button-primary-color-background-hover` `active:bg-comp-button-primary-color-background-active` |
 | `container (variant: secondary)` | `bg-comp-button-color-background-default` `border-comp-button-color-border-default` `text-comp-button-color-content-default` `hover:bg-comp-button-color-background-hover` `active:bg-comp-button-color-background-active` `border` |
 | `container (variant: bare)` | `bg-background-none` `text-comp-button-color-content-default` `border-none` `hover:bg-comp-button-color-background-hover` `active:bg-comp-button-color-background-active` |

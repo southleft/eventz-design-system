@@ -82,9 +82,9 @@ import type { FileUploadProps } from '@doxyz-ui/core/client/FileUpload';
 
 | Data slot | Classes |
 | --------- | ------- |
-| `labelRow` | `inline-flex` `border-none` `flex-col` `gap-1` |
+| `container` | `inline-flex` `border-none` `flex-col` `gap-1` |
 | `labelRow` | `inline-flex` `gap-1` `text-color-content-default` `text-xs` `uppercase` |
-| `dropzone` | `relative` `group` `inline-flex` `w-full` `flex-col` `items-center` `justify-center` `gap-4` `w-570` `rounded-lg` `border` `pt-32` `pl-4` `pr-4` `pb-24` `transition-colors` `bg-comp-form-color-background-default` `border-comp-form-color-border-default` `hover:bg-comp-form-color-background-hover` `hover:border-comp-form-color-hover` `focus-visible-brand` `focus-within:ring-2` `focus-within:ring-offset-4` `focus-within:ring-comp-border-focus-ring` `focus-within:ring-offset-color-background-default` |
+| `dropzone` | `relative` `group` `inline-flex` `w-full` `flex-col` `items-center` `justify-center` `gap-6` `w-142.5` `rounded-lg` `border` `pt-8` `pl-1` `pr-1` `pb-6` `transition-colors` `bg-comp-form-color-background-default` `border-comp-form-color-border-default` `hover:bg-comp-form-color-background-hover` `hover:border-comp-form-color-hover` `focus-visible-brand` `focus-within:ring-2` `focus-within:ring-offset-4` `focus-within:ring-comp-border-focus-ring` `focus-within:ring-offset-color-background-default` |
 | `thumbnail` | `w-[192px]` `overflow-hidden` `rounded-lg` `[&_img]:object-cover` `[&_img]:size-full` |
 | `primaryAction` | `group-hover:[&_button]:bg-comp-button-primary-color-background-hover` |
 | `secondaryAction` | `group-hover:[&_*]:text-color-content-weak-hover` `text-color-content-weak` `cursor-default` `select-none` |

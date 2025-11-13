@@ -97,15 +97,15 @@ Resolve all extended interfaces and list only public, component-level props. Exc
 
 | Data slot    | Classes                                                                                                                                           |
 | ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `base`       | `relative` `isolate` `overflow-clip` `w-[390px]` `h-[390px]` `lg:w-[1040px]` `lg:h-[620px]` `transform-gpu` `transition-transform` `duration-700` `ease-in-out` `motion-reduce:transition-none` `scale-80` `group-data-[is-in-view=true]:scale-100` `mx-0` `lg:-mx-36` |
+| `base`       | `relative` `isolate` `overflow-clip` `w-97.5` `h-97.5` `lg:w-260` `lg:h-155` `transform-gpu` `transition-transform` `duration-700` `ease-in-out` `motion-reduce:transition-none` `scale-80` `group-data-[is-in-view=true]:scale-100` `mx-0` `lg:-mx-9` |
 | `_image`     | `block` `size-full` `object-cover` `object-center`                                                                                                 |
 | `_overlay`   | `pointer-events-none` `absolute` `inset-0` `overlay-image-overlay`                                                                                 |
 | `_content`   | `absolute` `inset-0` `flex` `flex-col` `justify-end` `items-start` `p-4` `opacity-0` `transition-opacity` `duration-1000` `ease-in-out` `group-data-[is-in-view=true]:opacity-100` `motion-reduce:transition-none` |
-| `_actions`   | `flex` `gap-3` `items-center` `-mb-4`                                                                                                             |
+| `_actions`   | `flex` `gap-0.75` `items-center` `-mb-1`                                                                                                          |
 | `_title`     | `text-2xl` `text-color-content-default`                                                                                                           |
-| `_description` | `text-base` `text-color-content-weak` `-mt-22`                                                                                                  |
-| `_labels`    | `text-sm` `text-color-content-weak` `flex` `gap-4`                                                                                                |
-| `_labelItem` | `flex` `items-center` `gap-1`                                                                                                                     |
+| `_description` | `text-base` `text-color-content-weak` `-mt-5.5`                                                                                                 |
+| `_labels`    | `text-sm` `text-color-content-weak` `flex` `gap-1`                                                                                                |
+| `_labelItem` | `flex` `items-center` `gap-0.25`                                                                                                                  |
 
 ---
 

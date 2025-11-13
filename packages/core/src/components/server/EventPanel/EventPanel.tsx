@@ -22,11 +22,11 @@ export interface EventPanelProps extends NativeDivProps {
 }
 
 const baseClasses = `
-  isolate w-[390px] lg:w-[560px] lg:mx-32
+  isolate w-97.5 lg:w-140 lg:mx-8
 `;
 
 const mediaClasses = `
-  relative overflow-clip w-[390px] h-[390px] lg:w-[560px] lg:h-[490px]
+  relative overflow-clip w-97.5 h-97.5 lg:w-140 lg:h-122.5
   transform-gpu transition-transform duration-700 ease-in-out motion-reduce:transition-none
   scale-80 lg:scale-110 group-data-[is-in-view=true]:scale-100
 `;
@@ -40,13 +40,13 @@ const overlayClasses = `
 `;
 
 const actionsBarClasses = `
-  absolute inset-x-0 bottom-0 flex items-center justify-between p-4
+  absolute inset-x-0 bottom-0 flex items-center justify-between p-1
   opacity-0 transition-opacity duration-1000 ease-in-out
   group-data-[is-in-view=true]:opacity-100 motion-reduce:transition-none
 `;
 
 const detailsClasses = `
-  px-2 py-4 lg:hidden w-[380px]
+  px-0.5 py-1 lg:hidden w-95
   opacity-0 transition-opacity duration-1000 ease-in-out
   group-data-[is-in-view=true]:opacity-100 motion-reduce:transition-none
 `;
@@ -60,33 +60,33 @@ const titleClasses = `
 `;
 
 const descriptionClasses = `
-  text-base text-color-content-weak mb-12
+  text-base text-color-content-weak mb-3
 `;
 
 const metaClasses = `
-  flex flex-col items-start gap-2 text-sm text-color-content-weak
+  flex flex-col items-start gap-0.5 text-sm text-color-content-weak
 `;
 
 const chipsClasses = `
-  flex flex-wrap gap-3 mb-12
+  flex flex-wrap gap-0.5 mb-3
 `;
 
 const buttonsClasses = `
-  mt-12 lg:mt-24 mx-12 lg:mx-0 flex gap-3 items-center justify-start lg:justify-end
+  mt-3 lg:mt-6 mx-1 lg:mx-0 flex gap-3 items-center justify-start lg:justify-end
   opacity-0 transition-opacity duration-1000 ease-in-out
   group-data-[is-in-view=true]:opacity-100 motion-reduce:transition-none
 `;
 
 const leftClasses = `
-  flex items-center gap-2
+  flex items-center gap-0.5
 `;
 
 const rightClasses = `
-  flex items-center gap-2
+  flex items-center gap-0.5
 `;
 
 const avatarsClasses = `
-  flex -space-x-2 items-center
+  flex -space-x-0.5 items-center
 `;
 
 const isNonEmpty = (value?: string): value is string =>

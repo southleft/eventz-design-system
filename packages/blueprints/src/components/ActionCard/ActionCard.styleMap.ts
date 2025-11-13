@@ -12,12 +12,12 @@ export default defineStyleMap({
     'group',
     'flex',
     'flex-col',
-    'gap-1',
+    'gap-0.25',
     'items-center',
     'text-center',
-    'p-2',
-    'w-82',
-    '[&:has(img)]:w-168',
+    'p-0.5',
+    'w-20.5',
+    '[&:has(img)]:w-42',
     '[&:has(:focus-visible)]:ring-2',
     '[&:has(:focus-visible)]:ring-offset-2',
     '[&:has(:focus-visible)]:ring-comp-border-focus-ring',
@@ -30,9 +30,9 @@ export default defineStyleMap({
       'overflow-hidden',
       'rounded-sm',
       'border-0',
-      'mb-8',
-      '[&>img]:w-168',
-      '[&>img]:h-168',
+      'mb-2',
+      '[&>img]:w-42',
+      '[&>img]:h-42',
       '[&>img]:object-cover',
       '[&>img]:group-hover:opacity-30'
     ] as const,
@@ -49,6 +49,6 @@ export default defineStyleMap({
       'group-hover:text-color-content-weak-hover',
       'text-sm'
     ] as const,
-    actions: ['mt-2', 'sm:mt-3'] as const
+    actions: ['mt-0.5', 'sm:mt-0.75'] as const
   }
 });

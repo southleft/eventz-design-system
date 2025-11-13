@@ -75,8 +75,8 @@ import type { IconButtonProps } from '@doxyz-ui/core/client/IconButton';
 
 | Data slot | Classes |
 | --------- | ------- |
-| `container` | `inline-flex` `select-none` `items-center` `justify-center` `outline-none` `transition-colors` `focus-visible-brand` `disabled:opacity-50` `disabled:pointer-events-none` `whitespace-nowrap` `h-32` `w-32` `rounded-md` |
-| `icon` | `shrink-0` `pt-1` `[&_svg]:size-20` |
+| `container` | `inline-flex` `select-none` `items-center` `justify-center` `outline-none` `transition-colors` `focus-visible-brand` `disabled:opacity-50` `disabled:pointer-events-none` `whitespace-nowrap` `h-8` `w-8` `rounded-md` |
+| `icon` | `shrink-0` `pt-0.25` `[&_svg]:size-5` |
 | `container (variant: primary)` | `bg-comp-button-primary-color-background-default` `text-comp-button-primary-color-content-default` `border-none` `hover:bg-comp-button-primary-color-background-hover` `active:bg-comp-button-primary-color-background-active` |
 | `container (variant: secondary)` | `bg-comp-button-color-background-default` `border-comp-button-color-border-default` `text-comp-button-color-content-default` `hover:bg-comp-button-color-background-hover` `active:bg-comp-button-color-background-active` `border` |
 | `container (variant: bare)` | `bg-background-none` `text-comp-button-color-content-default` `border-none` `hover:bg-comp-button-color-background-hover` `active:bg-comp-button-color-background-active` |

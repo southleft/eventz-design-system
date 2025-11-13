@@ -5,7 +5,7 @@
 import { Markdown } from '@storybook/addon-docs/blocks';
 import type { Meta, StoryObj } from '@storybook/react';
 import * as React from 'react';
-import { InfoCircledIcon } from '@radix-ui/react-icons';
+import { InfoIcon } from '../../../icons';
 import Readme from './README.md?raw';
 import { Button, ButtonProps } from './Button';
 
@@ -57,7 +57,7 @@ export const Knockout: Story = {
 export const WithIcons: Story = {
   args: {
     variant: 'primary',
-    startIcon: <InfoCircledIcon />,
-    endIcon: <InfoCircledIcon />
+    startIcon: <InfoIcon />,
+    endIcon: <InfoIcon />
   }
 };

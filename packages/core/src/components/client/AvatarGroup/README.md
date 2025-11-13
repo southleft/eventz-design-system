@@ -93,12 +93,12 @@ import type { AvatarGroupProps } from '@doxyz-ui/core/client/AvatarGroup';
 
 | Data slot | Classes |
 | --------- | ------- |
-| `container` | `flex` `gap-8` `items-center` |
+| `container` | `flex` `gap-2` `items-center` |
 | `avatars` | `flex` `items-center` `flex-row-reverse` |
-| `avatar` | `inline-flex` `select-none` `items-center` `justify-center` `overflow-hidden` `rounded-full` `align-middle` `w-24` `lg:w-32` `-mr-12` `lg:-mr-18` `border-color-border-inverse` `border` |
+| `avatar` | `inline-flex` `select-none` `items-center` `justify-center` `overflow-hidden` `rounded-full` `align-middle` `w-6` `lg:w-8` `-mr-8` `lg:-mr-4.5` `border-color-border-inverse` `border` |
 | `avatarImage` | `size-full` `rounded-[inherit]` `object-cover` |
-| `avatarFallback` | `flex` `items-center` `justify-center` `overflow-hidden` `rounded-full` `bg-background-none` `text-base` `font-medium` `w-24` `h-24` `lg:w-32` `lg:h-32` `-mr-12` `lg:-mr-18` |
-| `message` | `inline-flex` `gap-[4]` `text-color-content-subtle` `text-sm` `ml-12` `lg:ml-18` |
+| `avatarFallback` | `flex` `items-center` `justify-center` `overflow-hidden` `rounded-full` `bg-background-none` `text-base` `font-medium` `w-6` `h-6` `lg:w-6` `lg:h-6` `-mr-3` `lg:-mr-4.5` |
+| `message` | `inline-flex` `gap-1` `text-color-content-subtle` `text-sm` `ml-3` `lg:ml-4.5` |
 | `indicator` | — |
 | `count` | — |
 | `messageText` | — |

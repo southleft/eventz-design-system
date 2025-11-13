@@ -20,9 +20,9 @@ export const ButtonStyleMap = defineStyleMap({
     'disabled:opacity-50',
     'disabled:pointer-events-none',
     // structural
-    'h-32',
-    'px-4',
-    'gap-2',
+    'h-8.5',
+    'px-3',
+    'gap-1',
     'rounded-md',
     // border thickness (as used by the component)
     'border-1'
@@ -30,9 +30,9 @@ export const ButtonStyleMap = defineStyleMap({
 
   // Slots used by the runtime component (no container wrapper)
   slots: {
-    startIcon: ['shrink-0', '-ml-0.5', 'pt-1'] as const,
+    startIcon: ['size-5'] as const,
     label: [] as const,
-    endIcon: ['shrink-0', '-mr-0.5', 'pt-1'] as const
+    endIcon: ['size-5'] as const
   },
 
   // Variants match Button.tsx exactly

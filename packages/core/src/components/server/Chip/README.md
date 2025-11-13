@@ -77,7 +77,7 @@ Resolve all extended interfaces and list only public, component-level props. Exc
 
 | Data slot | Classes                                                                 |
 | --------- | ----------------------------------------------------------------------- |
-| `base`    | `inline-flex` `items-start` `gap-1` `text-color-content-weak` `bg-background-none` |
+| `base`    | `inline-flex` `items-start` `gap-0.25` `text-color-content-weak` `bg-background-none` |
 | `_icon`   | `shrink-0`                                                              |
 | `_text`   | `truncate`                                                              |
 

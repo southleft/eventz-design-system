@@ -35,12 +35,12 @@ const containerClasses = `
   data-[wrap=true]:lg:flex-row
   data-[wrap=true]:lg:items-center
   justify-between
-  h-68
-  lg:h-88
+  h-17
+  lg:h-22
   data-[wrap=true]:h-auto
-  data-[wrap=true]:lg:h-88
-  px-16
-  lg:px-112
+  data-[wrap=true]:lg:h-22
+  px-4
+  lg:px-28
   bg-background-none
   transition-colors
 `;
@@ -55,20 +55,20 @@ const primaryClasses = `
   justify-start
   flex-1
   min-w-0
-  gap-4
-  lg:gap-8
+  gap-1
+  lg:gap-2
 `;
 
 const logoClasses = `
-  max-h-83
+  max-h-20.75
   shrink-0
 `;
 
 const listClasses = `
   items-center
   min-w-0
-  gap-4
-  lg:gap-8
+  gap-1
+  lg:gap-2
 `;
 
 const itemClasses = `

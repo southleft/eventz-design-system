@@ -109,16 +109,15 @@ import type { RadioButtonGroupProps } from '@doxyz-ui/core/client/RadioButtonGro
 
 | Data slot | Classes |
 | --------- | ------- |
-| `label` | `inline-flex` `flex-col` `gap-1` `border-none` `py-8` |
-| `label` | `inline-flex` `items-center` `gap-1` `text-color-content-default` `text-xs` `uppercase` |
-| `hint` | `text-color-content-subtle` `text-xs` `-mt-8` |
-| `radiogroup` | `flex` `flex-col` `gap-3` |
-| `control` | `flex` `flex-col` `gap-3` `items-center` `justify-center` `size-4` `shrink-0` `rounded-full` `border` `mt-[2px]` `border-color-content-weak` `bg-background-none` `focus:outline-none` `disabled:opacity-50` `focus-visible-brand` |
+| `fieldset` | `inline-flex` `flex-col` `gap-0.25` `border-none` `py-2` |
+| `label` | `inline-flex` `items-center` `gap-0.25` `text-color-content-default` `text-xs` `uppercase` |
+| `hint` | `text-color-content-subtle` `text-xs` `-mt-2` |
+| `radiogroup` | `flex` `flex-col` `gap-2` |
+| `control` | `flex` `flex-col` `gap-3` `items-center` `justify-center` `size-4` `shrink-0` `rounded-full` `border` `mt-0.5` `border-color-content-weak` `bg-background-none` `focus:outline-none` `disabled:opacity-50` `focus-visible-brand` |
 | `indicator` | `pointer-events-none` `block` `size-2` `rounded-full` `bg-color-content-brand` |
 | `choiceLabel` | — |
 | `choiceHint` | `text-color-content-subtle` `text-xs` |
-| `error` | `text-color-content-utility-danger-subtle` `text-xs` `mt-1` `inline-flex` `items-start` `gap-2` `items-center` |
-| `label (state: has error)` | `data-[has-error=true]:[&_[data-slot=control]]:border-color-border-utility-danger-subtle` |
+| `error` | `text-color-content-utility-danger-subtle` `text-xs` `mt-1` `inline-flex` `gap-2` `items-center` |
 
 ---
 

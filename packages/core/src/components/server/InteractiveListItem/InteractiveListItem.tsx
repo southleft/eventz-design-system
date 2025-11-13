@@ -38,14 +38,13 @@ export interface InteractiveListItemProps extends InteractiveListItemBaseProps {
 }
 
 const baseClasses = `
-  group flex justify-between data-[is-removable=true]:items-center gap-8 w-full outline-none pb-10 pl-8 pt-8 pr-8 bg-background-none border-l-0 border-r-0 border-b-0 border-t-0
-  focus-visible:ring-2 focus-visible:ring-offset-4 focus-visible:ring-comp-border-focus-ring focus-visible:ring-offset-color-background-default
-  data-[border-bottom=true]:border-b data-[border-bottom=true]:border-b-color-border-subtle no-underline
+  group flex justify-between data-[is-removable=true]:items-center gap-2 w-full outline-none pb-2.5 pl-2 pt-2 pr-2 bg-background-none border-l-0 border-r-0 border-b-0 border-t-0
+  focus-visible-brand data-[border-bottom=true]:border-b data-[border-bottom=true]:border-b-color-border-subtle no-underline
 `;
 
-const containerClasses = `flex items-center gap-8 w-full`;
+const containerClasses = `flex items-center gap-2 w-full`;
 
-const imageClasses = `h-40 w-40 rounded-full bg-color-background-brand shrink-0`;
+const imageClasses = `h-10 w-10 rounded-full bg-color-background-brand shrink-0`;
 
 const titleClasses = `text-base lg:text-lg font-bold text-left truncate whitespace-nowrap text-color-content-default group-hover:text-color-content-default-hover`;
 
@@ -55,7 +54,7 @@ const highlightTextClasses = `text-sm text-left truncate whitespace-nowrap text-
 
 const nonRemovableWrapperClasses = `flex flex-col min-w-0 flex-1`;
 
-const trailingIconClasses = `shrink-0 text-color-content-default h-20 w-20`;
+const trailingIconClasses = `shrink-0 text-color-content-default h-5 w-5`;
 
 export const InteractiveListItem = React.forwardRef<
   HTMLButtonElement | HTMLAnchorElement,

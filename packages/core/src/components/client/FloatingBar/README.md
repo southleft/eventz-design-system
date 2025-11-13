@@ -83,12 +83,12 @@ import type { FloatingBarProps } from '@doxyz-ui/core/client/FloatingBar';
 
 | Data slot | Classes |
 | --------- | ------- |
-| `container` | `flex` `items-center` `justify-between` `gap-2` `px-16` `py-24` `bg-color-background-default` `outline-none` |
+| `container` | `flex` `items-center` `justify-between` `gap-0.5` `px-4` `py-6` `bg-color-background-default` `outline-none` |
 | `_startButton` | `_startButton` `shrink-0` |
 | `_endButton` | `_endButton` `shrink-0` |
-| `_rail` | `_rail` `flex` `items-center` `gap-2` `min-w-0` `flex-1` |
+| `_rail` | `_rail` `flex` `items-center` `gap-0.5` `min-w-0` `flex-1` |
 | `_content` | `_content` `min-w-0` `flex-1` `justify-start` `truncate` `text-color-content-default` `text-lg` |
-| `_actions` | `_actions` `inline-flex` `gap-2` `shrink-0` `justify-end` |
+| `_actions` | `_actions` `inline-flex` `gap-0.5` `shrink-0` `justify-end` |
 
 ---
 

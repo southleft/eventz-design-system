@@ -207,9 +207,9 @@ describe('ContentCard', () => {
 
   describe('layout variants', () => {
     const layoutCases: ReadonlyArray<{ layout: ContentCardProps['layout']; token: string }> = [
-      { layout: 'vertical', token: 'w-168' },
+      { layout: 'vertical', token: 'w-42' },
       { layout: 'horizontal', token: 'grid-cols-[112px_1fr]' },
-      { layout: 'post', token: 'w-288' }
+      { layout: 'post', token: 'w-72' }
     ];
 
     it.each(layoutCases)('applies the %s layout tokens', ({ layout, token }) => {

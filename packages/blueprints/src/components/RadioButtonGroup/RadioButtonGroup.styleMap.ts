@@ -3,20 +3,19 @@ import { defineStyleMap } from '../../utilities';
 
 // TODO: Reconcile token blurbs against finalized component styling before shipping.
 export const RadioButtonGroupStyleMap = defineStyleMap({
-  base: ['inline-flex', 'flex-col', 'gap-1', 'border-none', 'py-8'] as const,
+  base: ['inline-flex', 'flex-col', 'gap-0.25', 'border-none', 'py-2'] as const,
 
   slots: {
     label: [
       'inline-flex',
-      'items-center',
-      'gap-1',
+      'gap-0.25',
       'text-color-content-default',
       'text-xs',
       'uppercase'
     ] as const,
-    hint: ['text-color-content-subtle', 'text-xs', '-mt-8'] as const,
+    hint: ['text-color-content-subtle', 'text-xs', '-mt-2'] as const,
     // Layout handled by Radix RadioGroup orientation handling.
-    radiogroup: ['flex', 'flex-col', 'gap-3'] as const,
+    radiogroup: ['flex', 'flex-col', 'gap-2'] as const,
     control: [
       'flex',
       'flex-col',
@@ -27,7 +26,7 @@ export const RadioButtonGroupStyleMap = defineStyleMap({
       'shrink-0',
       'rounded-full',
       'border',
-      'mt-[2px]',
+      'mt-0.5',
       'border-color-content-weak',
       'bg-background-none',
       'focus:outline-none',
@@ -51,7 +50,7 @@ export const RadioButtonGroupStyleMap = defineStyleMap({
       'mt-1',
       'inline-flex',
       'items-start',
-      'gap-2',
+      'gap-0.5',
       'items-center'
     ] as const
   },

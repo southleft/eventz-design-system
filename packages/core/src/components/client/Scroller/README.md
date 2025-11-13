@@ -92,7 +92,7 @@ import type { ScrollerProps } from '@doxyz-ui/core/client/Scroller';
 | `base` | `relative` `block` `w-full` |
 | `_viewport` | `overflow-x-auto` `overscroll-x-contain` `touch-pan-x` `[scrollbar-gutter:stable]` `[-ms-overflow-style:none]` `[scrollbar-width:none]` `[&::-webkit-scrollbar]:hidden` |
 | `_rail` | `flex` `items-stretch` `min-w-0` `w-max` `data-[stack-rows=true]:flex-col` |
-| `_controls` | `mt-3` `flex` `gap-2` `justify-end` |
+| `_controls` | `mt-0.75` `flex` `gap-2` `justify-end` |
 | `_prev` | `shrink-0` |
 | `_next` | `shrink-0` |
 | `base (state: is scrolling)` | `[--scroller-scrolling:1]` |

@@ -114,16 +114,19 @@ const Wrapper = href ? 'a' : 'div';
 
 | Data slot   | Classes                                                                                                                                                                       |
 | ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `base`      | `outline-none` `no-underline` `rounded-md` `border-0` `group` `bg-background-none` `hover:bg-color-background-default` `data-[is-focusable=true]:focus-visible:ring-2` `data-[is-focusable=true]:focus-visible:ring-offset-2` `data-[is-focusable=true]:focus-visible:ring-comp-border-focus-ring` `data-[is-focusable=true]:focus-visible:ring-offset-color-background-default` plus layout variant tokens (`vertical`, `horizontal`, `post`). |
-| `media`     | `relative` `overflow-hidden` `rounded-sm` `border-0` `[&>img]:object-cover` `[&>img]:group-hover:opacity-30` with layout-specific width/height utilities.                      |
+| `base`      | `outline-none` `no-underline` `rounded-md` `border-0` `group` `bg-background-none` `hover:bg-color-background-default` `data-[is-focusable=true]:focus-visible:ring-2` `data-[is-focusable=true]:focus-visible:ring-offset-2` `data-[is-focusable=true]:focus-visible:ring-comp-border-focus-ring` `data-[is-focusable=true]:focus-visible:ring-offset-color-background-default` |
+| `base (layout: vertical)` | `flex` `flex-col` `items-start` `text-left` `w-42` `p-0.5` `[&_[data-slot=media]>img]:w-42` `[&_[data-slot=media]>img]:h-42` |
+| `base (layout: horizontal)` | `grid` `[&:has(img)]:grid-cols-[112px_1fr]` `items-start` `p-0.5` `w-85` `[&_[data-slot=media]]:row-span-4` `[&_[data-slot=media]>img]:w-26` `[&_[data-slot=media]>img]:h-104` |
+| `base (layout: post)` | `flex` `flex-col` `items-start` `text-left` `w-72` `p-0.5` `[&_[data-slot=media]>img]:w-72` `[&_[data-slot=media]>img]:h-72` |
+| `media`     | `relative` `overflow-hidden` `rounded-sm` `border-0` `[&>img]:object-cover` `[&>img]:group-hover:opacity-30` |
 | `badge`     | `absolute` `top-2` `left-2`                                                                                                                                                    |
 | `subtitle`  | `text-xs` `text-color-content-subtle` `group-hover:text-color-content-subtle-hover`                                                                                           |
 | `title`     | `inline-flex` `justify-between` `items-center` `w-full` `text-color-content-default` `group-hover:text-color-content-default-hover` `text-base` `sm:text-lg`                   |
-| `titleIcon` | `ml-1` `shrink-0` `[&>svg]:size-[20px]` `invisible` `group-hover:visible` `group-hover:text-color-content-brand`                                                               |
+| `titleIcon` | `ml-1` `shrink-0` `[&>svg]:size-5` `invisible` `group-hover:visible` `group-hover:text-color-content-brand`                                                               |
 | `description` | `text-color-content-weak` `group-hover:text-color-content-weak-hover` `text-sm`                                                                                            |
-| `meta`      | `mt-2` `flex` `flex-wrap` `gap-2` `items-center`                                                                                                                               |
-| `metaItem`  | `inline-flex` `items-center` `gap-1` `text-xs` `text-color-content-subtle` `group-hover:text-color-content-subtle-hover`                                                       |
-| `metaIcon`  | `shrink-0` `[&>svg]:size-3`                                                                                                                                                    |
+| `meta`      | `mt-0.5` `flex` `flex-wrap` `gap-0.5` `items-center`                                                                                                                           |
+| `metaItem`  | `inline-flex` `items-center` `gap-0.25` `text-xs` `text-color-content-subtle` `group-hover:text-color-content-subtle-hover`                                                    |
+| `metaIcon`  | `shrink-0` `[&>svg]:size-0.75`                                                                                                                                                 |
 
 ---
 

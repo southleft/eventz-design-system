@@ -76,7 +76,7 @@ const labelRowClasses = `
 `;
 
 const dropzoneClasses = `
-  relative group inline-flex w-full flex-col items-center justify-center gap-4 w-570 rounded-lg border pt-32 pl-4 pr-4 pb-24 transition-colors
+  relative group inline-flex w-full flex-col items-center justify-center gap-6 w-142.5 rounded-lg border pt-8 pl-1 pr-1 pb-6 transition-colors
   bg-comp-form-color-background-default border-comp-form-color-border-default focus-visible-brand
   hover:bg-comp-form-color-background-hover hover:border-comp-form-color-hover
 `;

@@ -7,10 +7,10 @@ export const ImagePanelStyleMap = defineStyleMap({
     'relative',
     'isolate',
     'overflow-clip',
-    'w-[390px]',
-    'h-[390px]',
-    'lg:w-[1040px]',
-    'lg:h-[620px]',
+    'w-97.5',
+    'h-97.5',
+    'lg:w-260',
+    'lg:h-155',
     // Transform + transition (explicit duration/ease; motion-reduce guarded)
     'transform-gpu',
     'transition-transform',
@@ -22,7 +22,7 @@ export const ImagePanelStyleMap = defineStyleMap({
     'group-data-[is-in-view=true]:scale-100',
     // Edge spacing adjustments at large breakpoints
     'mx-0',
-    'lg:-mx-36'
+    'lg:-mx-9'
   ] as const,
 
   slots: {
@@ -63,13 +63,13 @@ export const ImagePanelStyleMap = defineStyleMap({
 
     _title: ['text-2xl', 'text-color-content-default'] as const,
 
-    _description: ['text-base', 'text-color-content-weak', '-mt-22'] as const,
+    _description: ['text-base', 'text-color-content-weak', '-mt-5.5'] as const,
 
-    _labels: ['text-sm', 'text-color-content-weak', 'flex', 'gap-4'] as const,
+    _labels: ['text-sm', 'text-color-content-weak', 'flex', 'gap-1'] as const,
 
-    label: ['flex', 'items-center', 'gap-1'] as const,
+    label: ['flex', 'items-center', 'gap-0.25'] as const,
 
-    _actions: ['flex', 'gap-3', 'items-center', '-mb-4'] as const
+    _actions: ['flex', 'gap-0.75', 'items-center', '-mb-1'] as const
   },
 
   // No variants; visuals are token-driven

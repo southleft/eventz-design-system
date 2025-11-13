@@ -37,7 +37,7 @@ describe('SelectionCard', () => {
     const root = container.firstElementChild as HTMLElement;
     const hasTokens =
       root.className.includes('border-color-border-brand') &&
-      root.className.includes('border-2') &&
+      root.className.includes('border-0.5') &&
       root.getAttribute('data-selected') === 'true';
     expect(hasTokens).toBe(true);
   });
@@ -45,17 +45,14 @@ describe('SelectionCard', () => {
   it('includes focus-visible ring tokens on the root', () => {
     const { container } = renderSelectionCard();
     const root = container.firstElementChild as HTMLElement;
-    const hasFocusTokens =
-      root.className.includes('focus-visible:ring-2') &&
-      root.className.includes('focus-visible:ring-comp-border-focus-ring') &&
-      root.className.includes('focus-visible:ring-offset-2');
+    const hasFocusTokens = root.className.includes('focus-visible-brand');
     expect(hasFocusTokens).toBe(true);
   });
 
   it('enforces fixed width via tokens', () => {
     const { container } = renderSelectionCard();
     const root = container.firstElementChild as HTMLElement;
-    const hasWidth = root.className.includes('w-[240px]');
+    const hasWidth = root.className.includes('w-60');
     expect(hasWidth).toBe(true);
   });
 

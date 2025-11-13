@@ -7,8 +7,7 @@
 import * as React from 'react';
 import { Accordion as RadixAccordion } from 'radix-ui';
 import { KeyboardArrowDownIcon } from '../../../icons';
-import { composeClasses } from '../../../utilities/composeClasses/composeClasses';
-import { collapseWhitespace } from '../../../utilities/collapseWhitespace/collapseWhitespace';
+import { collapseWhitespace, composeClasses } from '../../../utilities';
 
 const baseClasses = `
   [&:has(:focus-visible)]:ring-2 [&:has(:focus-visible)]:ring-offset-4 [&:has(:focus-visible)]:ring-comp-border-focus-ring [&:has(:focus-visible)]:ring-offset-color-background-default
@@ -16,20 +15,20 @@ const baseClasses = `
 const containerClasses = `flex flex-col w-full`;
 const headerClasses = `border mt-auto mb-auto border-none`;
 const itemClasses = `
-  bg-comp-accordion-item-color-background-default text-comp-accordion-item-color-foreground-default rounded-md
+  rounded-md
 `;
 const triggerClasses = `
   text-color-content-default hover:text-color-content-default-hover border-none
-  w-full flex justify-between outline-none bg-background-none pt-2 pb-2 pl-1 pr-1 group
+  w-full flex justify-between outline-none bg-background-none pt-0.5 pb-0.5 pl-0.25 pr-0.25 group
 `;
-const imageClasses = `[&_img]:h-24 [&_img]:w-24 [&_img]:rounded-[4px] overflow-hidden [&_img]:object-cover`;
+const imageClasses = `[&_img]:h-6 [&_img]:w-6 [&_img]:rounded-sm overflow-hidden [&_img]:object-cover`;
 const titleClasses = `text-base lg:text-lg`;
 const iconContainerClasses = `shrink-0`;
-const iconClasses = `transition-transform group-data-[state=open]:rotate-180 group-data-[state=closed]:rotate-0 size-20`;
-const contentClasses = `text-color-content-weak text-sm pl-1 pr-1`;
+const iconClasses = `transition-transform group-data-[state=open]:rotate-180 group-data-[state=closed]:rotate-0 size-5`;
+const contentClasses = `text-color-content-weak text-sm pl-0.25 pr-0.25`;
 const introClasses = `text-color-content-weak text-sm`;
 const emphasisStrongClasses = `font-bold`;
-const triggerLabelGroupClasses = `inline-flex items-center gap-8`;
+const triggerLabelGroupClasses = `inline-flex items-center gap-2`;
 
 type AccordionRootProps = React.ComponentPropsWithoutRef<typeof RadixAccordion.Root>;
 

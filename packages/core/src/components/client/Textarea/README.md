@@ -103,7 +103,7 @@ import type { TextareaProps } from '@doxyz-ui/core/client/Textarea';
 | `value` | `grow` `bg-transparent` `outline-none` `text-color-content-default` `placeholder-color-content-weak` `border-none` `py-(--spacing-1_5)` `focus:placeholder:opacity-0` |
 | `endIcon` | `shrink-0` `[&>svg]:size-4` `py-(--spacing-1_5)` `inline-flex` `text-color-content-default` |
 | `hint` | `text-color-content-subtle` `text-xs` |
-| `error` | `text-color-content-utility-danger-subtle` `text-xs` `mt-1` `inline-flex` `gap-2` `pl-1` |
+| `error` | `text-color-content-utility-danger-subtle` `text-xs` `mt-1` `inline-flex` `gap-2` |
 | `container (state: disabled)` | `data-[disabled=true]:opacity-50` `data-[disabled=true]:pointer-events-none` |
 | `container (state: invalid)` | `data-[invalid=true]:[&_[data-slot=textarea]]:border-comp-form-color-border-utility-danger` |
 

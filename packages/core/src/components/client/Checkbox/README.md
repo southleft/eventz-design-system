@@ -89,8 +89,8 @@ import type { CheckboxProps } from '@doxyz-ui/core/client/Checkbox';
 | Data slot | Classes |
 | --------- | ------- |
 | `container` | `inline-flex` `items-start` `gap-2` `select-none` |
-| `control` | `size-20` `bg-background-none` `border-2` `border-color-content-weak` `rounded-xs` `inline-flex` `justify-center` `items-center` `focus-visible-brand` |
-| `indicator` | `bg-color-content-brand` `border-color-content-brand` `border-[2.5px]` `h-16` `rounded-xs` `hover:bg-comp-checkbox-checked-color-background-hover` `active:bg-comp-checkbox-checked-color-background-active` `text-comp-checkbox-checked-color-icon-default` |
+| `control` | `size-5` `bg-background-none` `border-2` `border-color-content-weak` `rounded-xs` `inline-flex` `justify-center` `items-center` `focus-visible-brand` |
+| `indicator` | `bg-color-content-brand` `border-color-content-brand` `border-[2.5px]` `h-4` `rounded-xs` `hover:bg-comp-checkbox-checked-color-background-hover` `active:bg-comp-checkbox-checked-color-background-active` `text-comp-checkbox-checked-color-icon-default` |
 | `label` | `text-color-content-default` `text-sm` `leading-tight` |
 | `hint` | `text-color-content-subtle` `text-xs` |
 | `container (state: disabled)` | `opacity-50` `pointer-events-none` |

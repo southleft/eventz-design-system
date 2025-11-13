@@ -14,13 +14,10 @@ const renderExpandableContent = (
   props?: Partial<ExpandableContentProps> & { children?: React.ReactNode }
 ) => {
   render(
-    <ExpandableContent {...props}>
-      {props?.children ?? defaultText.repeat(3)}
-    </ExpandableContent>
+    <ExpandableContent {...props}>{props?.children ?? defaultText.repeat(3)}</ExpandableContent>
   );
 
-  const getControl = () =>
-    screen.getByRole('button', { name: 'Toggle expanded content' });
+  const getControl = () => screen.getByRole('button', { name: 'Toggle expanded content' });
 
   const getContent = () => {
     const control = getControl();
@@ -71,7 +68,10 @@ describe('ExpandableContent', () => {
   describe('controlled mode', () => {
     it('calls onExpandedChange with next state', async () => {
       const handleExpandedChange = jest.fn();
-      const { getControl } = renderExpandableContent({ expanded: false, onExpandedChange: handleExpandedChange });
+      const { getControl } = renderExpandableContent({
+        expanded: false,
+        onExpandedChange: handleExpandedChange
+      });
       const control = getControl();
       const user = userEvent.setup();
       await user.click(control);
@@ -79,7 +79,10 @@ describe('ExpandableContent', () => {
     });
 
     it('does not change aria-expanded without external state update', async () => {
-      const { getControl } = renderExpandableContent({ expanded: false, onExpandedChange: () => {} });
+      const { getControl } = renderExpandableContent({
+        expanded: false,
+        onExpandedChange: () => {}
+      });
       const control = getControl();
       const user = userEvent.setup();
       await user.click(control);
@@ -98,7 +101,7 @@ describe('ExpandableContent', () => {
     it('applies closed-state clamping classes when collapsed', () => {
       const { getContent } = renderExpandableContent();
       const content = getContent();
-      expect(content).toHaveClass('data-[state=closed]:mh-75');
+      expect(content).toHaveClass('data-[state=closed]:mh-18.75');
     });
 
     it('applies line clamp class when collapsed', () => {

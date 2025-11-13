@@ -77,8 +77,8 @@ import type { ControlProps } from '@doxyz-ui/core/client/Control';
 | `button (variant: brand)` | `bg-comp-button-primary-color-background-default` `text-comp-button-primary-color-content-default` `border-none` `hover:bg-comp-button-primary-color-background-hover` `active:bg-comp-button-primary-color-background-active` |
 | `button (variant: dark)` | `bg-comp-button-color-background-knockout-blur` `text-comp-button-color-content-default` `border-none` `hover:bg-comp-button-color-background-knockout-blur-hover` `active:bg-comp-button-color-background-knockout-blur-active` |
 | `button (variant: light)` | `bg-comp-button-color-background-default-blur` `text-comp-button-color-content-default` `border-none` `hover:bg-comp-button-color-background-default-blur-hover` `active:bg-comp-button-color-background-default-blur-active` |
-| `button (state: size lg)` | `h-40` `w-40` `[&>svg]:size-20` |
-| `button (state: size sm)` | `h-32` `w-32` `[&>svg]:size-16` |
+| `button (state: size lg)` | `h-10` `w-10` `[&>svg]:size-5` |
+| `button (state: size sm)` | `h-8` `w-8` `[&>svg]:size-4` |
 
 ---
 

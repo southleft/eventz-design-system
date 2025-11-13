@@ -9,20 +9,20 @@ import { collapseWhitespace, composeClasses } from '../../../utilities';
 import { FormElement, type FormElementProps } from '../FormElement';
 
 const inputRowClasses = `
-  inline-flex items-center gap-2 px-12 py-[2px]
+  inline-flex items-center gap-0.5 px-3 py-0.5
 `;
 
 const startIconClasses = `
-  inline-flex items-center gap-2 shrink-0 size-20 inline-flex text-color-content-default
+  inline-flex items-center gap-0.5 shrink-0 size-5 inline-flex text-color-content-default
 `;
 
 const inputClasses = `
-  grow bg-transparent outline-none text-color-content-default placeholder-color-content-weak border-none py-(--spacing-1_5)
+  grow bg-transparent outline-none text-color-content-default placeholder-color-content-weak border-none py-1.5
   focus:placeholder:opacity-0
 `;
 
 const endIconClasses = `
-  shrink-0 size-20 inline-flex text-color-content-default
+  shrink-0 size-5 inline-flex text-color-content-default
 `;
 
 const invalidStateClasses = `

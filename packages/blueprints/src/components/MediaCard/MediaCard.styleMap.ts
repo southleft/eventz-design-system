@@ -17,8 +17,8 @@ export default defineStyleMap({
     '[&:has(img)]:grid-cols-[92px_1fr]',
     'sm:[&:has(img)]:grid-cols-[112px_1fr]',
     'items-start',
-    'p-2',
-    'w-340',
+    'p-0.5',
+    'w-85',
     '[&_[data-slot=media]]:row-span-4',
     '[&:has(:focus-visible)]:ring-offset-2',
     '[&:has(:focus-visible)]:ring-2',
@@ -34,19 +34,19 @@ export default defineStyleMap({
       'rounded-sm',
       'border-0',
       'shrink-0',
-      '[&>img]:w-80',
-      '[&>img]:h-80',
-      'sm:[&>img]:w-104',
-      'sm:[&>img]:h-104',
+      '[&>img]:w-20',
+      '[&>img]:h-20',
+      'sm:[&>img]:w-26',
+      'sm:[&>img]:h-26',
       '[&>img]:object-cover',
       '[&>img]:group-hover:opacity-30'
     ],
 
     subtitle: [
       'text-xs',
-      'mt-1',
-      'sm:mt-12',
-      'sm:mt-6',
+      'mt-0.25',
+      'sm:mt-3',
+      'sm:mt-1.5',
       'text-color-content-subtle',
       'group-hover:text-color-content-subtle-hover',
       'min-w-0',
@@ -57,11 +57,11 @@ export default defineStyleMap({
       'inline-flex',
       'justify-between',
       'items-center',
-      'mt-1',
+      'mt-0.25',
       'min-w-0',
-      'w-286',
-      'w-200',
-      'sm:w-180'
+      'w-71.5',
+      'w-50',
+      'sm:w-45'
     ],
 
     titleText: [
@@ -73,34 +73,34 @@ export default defineStyleMap({
       'flex-1',
       'min-w-0',
       'truncate',
-      'mb-8',
-      'sm:mb-12'
+      'mb-2',
+      'sm:mb-3'
     ],
 
-    meta: ['mt-1', 'flex', 'flex-wrap', 'gap-2', 'items-center', 'min-w-0', 'w-full'],
+    meta: ['mt-1', 'flex', 'flex-wrap', 'gap-0.5', 'items-center', 'min-w-0', 'w-full'],
 
     metaItem: [
       'inline-flex',
       'items-center',
-      'gap-1',
+      'gap-0.25',
       'text-xs',
       'text-color-content-subtle',
       'group-hover:text-color-content-subtle-hover'
     ],
 
-    metaIcon: ['shrink-0', '[&>svg]:size-3'],
+    metaIcon: ['shrink-0', '[&>svg]:size-0.75'],
 
     control: [
       // Overlay capsule — matches spec (blur + tint + rounded bubble)
       'absolute',
-      'right-2',
-      'top-20',
-      'sm:top-32',
+      'right-1.5',
+      'top-5',
+      'sm:top-8',
       'inline-grid',
       'place-items-center',
       'rounded-full',
       'backdrop-blur-sm',
-      'p-1.5'
+      'p-0.25'
     ]
   },
 

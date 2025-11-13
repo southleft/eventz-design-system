@@ -31,7 +31,7 @@ const baseClasses = `
   disabled:opacity-50 disabled:pointer-events-none whitespace-nowrap focus-visible-brand
 `;
 
-const containerClasses = 'h-32 px-4 gap-2 rounded-md';
+const containerClasses = 'h-8.5 px-3 gap-1 rounded-md';
 
 const variantClasses: Record<Variant, string> = {
   primary: `
@@ -53,8 +53,8 @@ const variantClasses: Record<Variant, string> = {
 };
 
 const slotClasses = {
-  startIcon: 'shrink-0 -ml-0.5 pt-1',
-  endIcon: 'shrink-0 -mr-0.5 pt-1'
+  startIcon: 'size-5',
+  endIcon: 'size-5'
 } as const;
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(

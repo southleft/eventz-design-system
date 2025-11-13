@@ -12,7 +12,7 @@ export interface ChipProps {
   className?: string;
 }
 
-const baseClasses = `inline-flex items-start gap-1 text-color-content-weak bg-background-none`;
+const baseClasses = `inline-flex items-start gap-0.25 text-color-content-weak bg-background-none`;
 const iconClasses = `shrink-0`;
 const textClasses = `truncate`;
 

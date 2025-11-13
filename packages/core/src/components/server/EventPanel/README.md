@@ -104,21 +104,21 @@ Resolve all extended interfaces and list only public, component-level props. Exc
 
 | Data slot    | Classes                                                                                                                                                      |
 | ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `base`       | `isolate` `w-[390px]` `lg:w-[560px]` `lg:mx-32`                                                                                                               |
-| `_media`     | `relative` `overflow-clip` `w-[390px]` `h-[390px]` `lg:w-[560px]` `lg:h-[490px]` `transform-gpu` `transition-transform` `duration-700` `ease-in-out` `motion-reduce:transition-none` `scale-80` `lg:scale-110` `group-data-[is-in-view=true]:scale-100` |
+| `base`       | `isolate` `w-97.5` `lg:w-140` `lg:mx-8`                                                                                                                        |
+| `_media`     | `relative` `overflow-clip` `w-97.5` `h-97.5` `lg:w-140` `lg:h-122.5` `transform-gpu` `transition-transform` `duration-700` `ease-in-out` `motion-reduce:transition-none` `scale-80` `lg:scale-110` `group-data-[is-in-view=true]:scale-100` |
 | `_image`     | `block` `size-full` `object-cover` `object-center`                                                                                                            |
 | `_overlay`   | `pointer-events-none` `absolute` `inset-0` `overlay-image-overlay`                                                                                             |
-| `_actionsBar`| `absolute` `inset-x-0` `bottom-0` `flex` `items-center` `justify-between` `p-4` `opacity-0` `transition-opacity` `duration-1000` `ease-in-out` `group-data-[is-in-view=true]:opacity-100` `motion-reduce:transition-none` |
-| `_left`      | `flex` `items-center` `gap-2`                                                                                                                                 |
-| `_right`     | `flex` `items-center` `gap-2`                                                                                                                                 |
-| `_details`   | `px-2` `py-4` `lg:hidden` `w-[380px]` `opacity-0` `transition-opacity` `duration-1000` `ease-in-out` `group-data-[is-in-view=true]:opacity-100` `motion-reduce:transition-none` |
+| `_actionsBar`| `absolute` `inset-x-0` `bottom-0` `flex` `items-center` `justify-between` `p-1` `opacity-0` `transition-opacity` `duration-1000` `ease-in-out` `group-data-[is-in-view=true]:opacity-100` `motion-reduce:transition-none` |
+| `_left`      | `flex` `items-center` `gap-0.5`                                                                                                                                |
+| `_right`     | `flex` `items-center` `gap-0.5`                                                                                                                                |
+| `_details`   | `px-0.5` `py-1` `lg:hidden` `w-95` `opacity-0` `transition-opacity` `duration-1000` `ease-in-out` `group-data-[is-in-view=true]:opacity-100` `motion-reduce:transition-none` |
 | `_subtitle`  | `text-sm` `tracking-wide` `uppercase` `text-color-content-weak`                                                                                               |
 | `_title`     | `text-2xl` `text-color-content-default`                                                                                                                       |
-| `_description` | `text-base` `text-color-content-weak` `mb-12`                                                                                                               |
-| `_meta`      | `flex` `flex-col` `items-start` `gap-2` `text-sm` `text-color-content-weak`                                                                                   |
-| `_labels`    | `flex` `flex-wrap` `gap-3` `mb-12`                                                                                                                            |
-| `_avatars`   | `flex` `-space-x-2` `items-center`                                                                                                                            |
-| `_buttons`   | `mt-12` `lg:mt-24` `mx-12` `lg:mx-0` `flex` `gap-3` `items-center` `justify-start` `lg:justify-end` `opacity-0` `transition-opacity` `duration-1000` `ease-in-out` `group-data-[is-in-view=true]:opacity-100` `motion-reduce:transition-none` |
+| `_description` | `text-base` `text-color-content-weak` `mb-3`                                                                                                                |
+| `_meta`      | `flex` `flex-col` `items-start` `gap-0.5` `text-sm` `text-color-content-weak`                                                                                |
+| `_labels`    | `flex` `flex-wrap` `gap-0.5` `mb-3`                                                                                                                           |
+| `_avatars`   | `flex` `-space-x-0.5` `items-center`                                                                                                                          |
+| `_buttons`   | `mt-3` `lg:mt-6` `mx-1` `lg:mx-0` `flex` `gap-3` `items-center` `justify-start` `lg:justify-end` `opacity-0` `transition-opacity` `duration-1000` `ease-in-out` `group-data-[is-in-view=true]:opacity-100` `motion-reduce:transition-none` |
 
 ---
 

@@ -5,17 +5,17 @@ export default defineStyleMap({
   base: [
     'relative',
     'block',
-    'w-480',
+    'w-120',
     'lg:w-full',
-    'h-240',
-    'lg:h-680',
+    'h-60',
+    'lg:h-170',
     'overflow-hidden',
     'rounded-xl',
     // map surface fills container
     '[_map-layer]:absolute',
     '[_map-layer]:inset-0',
-    'data-[is-nested=true]:w-358',
-    'data-[is-nested=true]:h-400'
+    'data-[is-nested=true]:w-89.5',
+    'data-[is-nested=true]:h-100'
   ],
   parts: {
     // container for consumer map mount (positioned fill)
@@ -58,7 +58,7 @@ export default defineStyleMap({
 
     // control tile (visual only)
     _tile: [
-      'size-40',
+      'size-10',
       'rounded-md',
       'bg-color-background-subtle',
       'text-color-content-default',

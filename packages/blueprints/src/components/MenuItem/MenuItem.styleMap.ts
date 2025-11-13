@@ -6,17 +6,17 @@ export const MenuItemStyleMap = defineStyleMap({
     'flex',
     'flex-nowrap',
     'items-center',
-    'gap-8',
+    'gap-2',
     'no-underline',
     'bg-background-none',
     'border-l-0',
     'border-r-0',
     'border-b-0',
     'border-t-0',
-    'pb-10',
-    'pl-8',
-    'pt-8',
-    'pr-8',
+    'pb-2.5',
+    'pl-2',
+    'pt-2',
+    'pr-2',
     'outline-none',
     '[&:focus-visible:not(:hover)]:ring-2',
     '[&:focus-visible:not(:hover)]:ring-offset-4',
@@ -44,8 +44,8 @@ export const MenuItemStyleMap = defineStyleMap({
       'text-color-content-default',
       'group-hover:text-color-content-default-hover',
       'group-data-[is-selected=true]:text-color-content-brand',
-      'h-20',
-      'w-20'
+      'h-5',
+      'w-5'
     ] as const,
 
     // Supporting line for complex type
@@ -57,8 +57,8 @@ export const MenuItemStyleMap = defineStyleMap({
 
     // Thumbnail for complex type (img or placeholder)
     media: [
-      'h-40',
-      'w-40',
+      'h-10',
+      'w-10',
       'rounded-sm',
       'object-cover',
       'group-hover:opacity-75',
@@ -67,8 +67,8 @@ export const MenuItemStyleMap = defineStyleMap({
 
     // Thumbnail when rendering an icon instead of an image
     mediaIcon: [
-      'h-40',
-      'w-40',
+      'h-10',
+      'w-10',
       'rounded-sm',
       'object-cover',
       'group-hover:opacity-75',
@@ -81,9 +81,9 @@ export const MenuItemStyleMap = defineStyleMap({
     ] as const,
 
     // Wrapper that stacks [option + selectedIcon] over [supportingText]
-    complexSelectedWrapper: ['flex', 'flex-col', 'flex-grow', 'gap-1'] as const,
+    complexSelectedWrapper: ['flex', 'flex-col', 'flex-grow', 'gap-0.25'] as const,
 
-    primaryRow: ['flex', 'items-center', 'justify-between', 'gap-8'] as const,
+    primaryRow: ['flex', 'items-center', 'justify-between', 'gap-2'] as const,
 
     selectedIcon: [
       '_selectedIcon',

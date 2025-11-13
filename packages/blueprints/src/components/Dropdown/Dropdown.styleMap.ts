@@ -7,13 +7,13 @@ export const DropdownStyleMap = defineStyleMap({
 
   slots: {
     // Trigger button (extends Button secondary styles; these are additive constraints)
-    container: ['min-w-160'] as const,
+    container: ['min-w-40'] as const,
     // Popover panel container
     content: [
       'rounded-md',
       'border',
       'shadow-md',
-      'p-2',
+      'p-0.5',
       'bg-color-background-default',
       'text-color-content-default',
       'border-color-border-subtle'

@@ -44,7 +44,7 @@ const railClasses = `
   data-[rail-status=partial]:bg-color-border-default
 `;
 const railFillBaseClasses = 'block h-px bg-color-border-strong';
-const railFillPartialClasses = 'w-1/2';
+const railFillPartialClasses = 'w-0.5';
 const railFillFullClasses = 'w-full';
 const activeLabelOverlayClasses = 'absolute left-1/2 top-[calc(100%+6px)] -translate-x-1/2';
 

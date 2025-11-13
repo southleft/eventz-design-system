@@ -23,7 +23,7 @@ export interface MediaCardProps extends NativeDivProps {
 
 const baseClasses = `
   relative outline-none rounded-md border-0 group bg-background-none hover:bg-color-background-default
-  grid [&:has(img)]:grid-cols-[92px_1fr] sm:[&:has(img)]:grid-cols-[112px_1fr] items-start p-2 w-340
+  grid [&:has(img)]:grid-cols-[92px_1fr] sm:[&:has(img)]:grid-cols-[112px_1fr] items-start p-2 w-85
   [&_[data-slot=media]]:row-span-4
   [&:has(:focus-visible)]:ring-offset-2 [&:has(:focus-visible)]:ring-2
   [&:has(:focus-visible)]:ring-comp-border-focus-ring
@@ -32,44 +32,44 @@ const baseClasses = `
 
 const mediaClasses = `
   relative overflow-hidden rounded-sm border-0 shrink-0
-  [&>img]:w-80 [&>img]:h-80 sm:[&>img]:w-104 sm:[&>img]:h-104
+  [&>img]:w-20 [&>img]:h-20 sm:[&>img]:w-26 sm:[&>img]:h-26
   [&>img]:object-cover [&>img]:group-hover:opacity-30
 `;
 
 const subtitleClasses = `
-  text-xs mt-1 sm:mt-12 sm:mt-6 text-color-content-subtle group-hover:text-color-content-subtle-hover
+  text-xs mt-0.25 sm:mt-3 sm:mt-1.5 text-color-content-subtle group-hover:text-color-content-subtle-hover
   min-w-0 w-full
 `;
 
 const titleWrapperClasses = `
-  inline-flex justify-between items-center mt-1 min-w-0
+  inline-flex justify-between items-center mt-0.25 min-w-0
 `;
 
-const titleWrapperNoImageClasses = `w-286`;
+const titleWrapperNoImageClasses = `w-71.5`;
 
-const titleWrapperHasImageClasses = `w-200 sm:w-180`;
+const titleWrapperHasImageClasses = `w-50 sm:w-45`;
 
 const titleTextClasses = `
   block text-color-content-default
   group-hover:text-color-content-default-hover text-base sm:text-lg
-  flex-1 min-w-0 truncate mb-8 sm:mb-12
+  flex-1 min-w-0 truncate mb-2 sm:mb-3
 `;
 
 const metaClasses = `
-  mt-1 flex flex-wrap gap-2 items-center
+  mt-1 flex flex-wrap gap-0.5 items-center
   min-w-0 w-full
 `;
 
 const metaItemClasses = `
-  inline-flex items-center gap-1 text-xs text-color-content-subtle group-hover:text-color-content-subtle-hover
+  inline-flex items-center gap-0.25 text-xs text-color-content-subtle group-hover:text-color-content-subtle-hover
 `;
 
 const metaIconClasses = `
-  shrink-0 [&>svg]:size-3
+  shrink-0 [&>svg]:size-0.75
 `;
 
 const controlClasses = `
-  absolute right-2 top-20 sm:top-32 inline-grid place-items-center rounded-full backdrop-blur-sm p-1.5
+  absolute right-1.5 top-5 sm:top-8 inline-grid place-items-center rounded-full backdrop-blur-sm p-0.25
 `;
 
 export const MediaCard = React.forwardRef<HTMLDivElement, MediaCardProps>(

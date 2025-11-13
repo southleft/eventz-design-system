@@ -97,7 +97,7 @@ The following table flattens Alert’s declared props together with the single i
 
 | Data slot | Classes |
 | --------- | ------- |
-| `container` | `flex` `gap-8` `items-start` `pt-12` `pb-12` `pl-16` `pr-16` `w-390` `rounded-md` `text-color-content-inverse` |
+| `container` | `flex` `gap-2` `items-start` `pt-3` `pb-3` `pl-3` `pr-3` `w-97.5` `rounded-md` `text-color-content-inverse` |
 | `icon` | `mt-0.5` `shrink-0` |
 | `content` | `flex` `flex-col` `gap-2` `flex-grow` |
 | `title` | `text-base` `font-bold` |

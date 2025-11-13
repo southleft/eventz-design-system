@@ -10,7 +10,7 @@ import { ArrowDropDownIcon } from '../../../icons';
 import { collapseWhitespace, composeClasses } from '../../../utilities';
 import { Button } from '../Button';
 
-const containerClasses = `min-w-160`;
+const containerClasses = `min-w-40`;
 
 const containerChildClasses = `grow text-left`;
 
@@ -18,7 +18,7 @@ const contentClasses = `
   rounded-md
   border
   shadow-md
-  p-2
+  p-0.5
   bg-color-background-default
   text-color-content-default
   border-color-border-subtle

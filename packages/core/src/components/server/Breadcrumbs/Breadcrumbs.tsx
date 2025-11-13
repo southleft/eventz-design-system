@@ -9,11 +9,11 @@ import { MoreHorizIcon } from '../../../icons/MoreHorizIcon';
 import { collapseWhitespace, composeClasses } from '../../../utilities';
 
 const baseClasses = ``;
-const listClasses = `flex gap-8 list-none`;
+const listClasses = `flex gap-2 list-none`;
 const itemClasses = ``;
 const separatorClasses = `shrink-0`;
 const iconClasses = `text-color-content-subtle`;
-const ellipsisClasses = `shrink-0 pt-1`;
+const ellipsisClasses = `shrink-0 pt-0.25`;
 const currentClasses = `text-sm font-bold text-color-content-default`;
 
 type BreadcrumbItem = {

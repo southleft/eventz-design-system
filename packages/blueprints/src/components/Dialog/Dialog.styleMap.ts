@@ -10,7 +10,7 @@ export const DialogStyleMap = defineStyleMap({
       'inset-0',
       'grid',
       'place-items-center',
-      'p-20',
+      'p-5',
       'pointer-events-none'
     ] as const,
 
@@ -29,9 +29,9 @@ export const DialogStyleMap = defineStyleMap({
       'flex',
       'flex-col',
       'min-h-0',
-      'gap-8',
+      'gap-2',
       'items-center',
-      'p-40',
+      'p-10',
       'relative',
       'box-border',
       'z-10',
@@ -45,15 +45,15 @@ export const DialogStyleMap = defineStyleMap({
     ] as const,
 
     // close row above the content body
-    close: ['h-40', 'w-full', 'flex', 'justify-end'] as const,
+    close: ['h-10', 'w-full', 'flex', 'justify-end'] as const,
 
     // scrollable body for consumer content
     contentBody: ['w-full', 'flex-1', 'min-h-0', 'overflow-auto'] as const,
 
     // absolute nav controls that protrude 20px beyond edges; round & above content
     controlLeft: [
-      'h-40',
-      'w-40',
+      'h-10',
+      'w-10',
       '!rounded-full',
       'border-none',
       'absolute',
@@ -61,12 +61,12 @@ export const DialogStyleMap = defineStyleMap({
       'pointer-events-auto',
       'top-1/2',
       '-translate-y-1/2',
-      '-left-20',
+      '-left-5',
       'bg-comp-button-color-background-knockout-blur'
     ] as const,
     controlRight: [
-      'h-40',
-      'w-40',
+      'h-10',
+      'w-10',
       '!rounded-full',
       'border-none',
       'absolute',
@@ -74,7 +74,7 @@ export const DialogStyleMap = defineStyleMap({
       'pointer-events-auto',
       'top-1/2',
       '-translate-y-1/2',
-      '-right-20',
+      '-right-5',
       'bg-comp-button-color-background-knockout-blur'
     ] as const,
 
@@ -87,8 +87,8 @@ export const DialogStyleMap = defineStyleMap({
   variants: {},
 
   state: {
-    sizeSm: ['w-600'] as const,
-    sizeMd: ['w-full', 'max-w-1300'] as const,
-    sizeLg: ['w-full', 'max-w-1600'] as const
+    sizeSm: ['w-150'] as const,
+    sizeMd: ['w-full', 'max-w-325'] as const,
+    sizeLg: ['w-full', 'max-w-400'] as const
   }
 });

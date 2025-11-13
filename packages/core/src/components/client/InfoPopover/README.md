@@ -88,8 +88,8 @@ import type { InfoPopoverProps } from '@doxyz-ui/core/client/InfoPopover';
 | Data slot | Classes |
 | --------- | ------- |
 | `container` | `relative` `dxyz-info-popover` |
-| `infoTrigger` | `inline-flex` `items-center` `justify-center` `shrink-0` `border-none` `bg-background-none` `text-color-content-subtle` `focus-visible-brand` `rounded-full` `[&>svg]:size-16` |
-| `infoContent` | `max-w-xs` `rounded-md` `background-modal` `text-color-content-default` `p-3` `text-sm` `shadow-lg` |
+| `infoTrigger` | `inline-flex` `items-center` `justify-center` `shrink-0` `border-none` `bg-background-none` `text-color-content-subtle` `focus-visible-brand` `h-4` `rounded-full` `[&>svg]:size-4` |
+| `infoContent` | `max-w-xs` `rounded-md` `background-modal` `text-color-content-default` `p-0.75` `text-sm` `shadow-lg` |
 
 ---
 

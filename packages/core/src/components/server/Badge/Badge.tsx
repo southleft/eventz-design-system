@@ -20,7 +20,7 @@ const variantClasses: Record<NonNullable<BadgeProps['variant']>, string> = {
   purple: 'bg-gradient-purple',
   blue: 'bg-gradient-blue',
   pink: 'bg-gradient-pink',
-  brand: 'bg-brand-500',
+  brand: 'bg-color-background-brand',
   orange: 'bg-gradient-orange'
 };
 
@@ -35,7 +35,7 @@ export const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
         <span ref={ref} className={rootClassName} {...props}>
           <span className="flex items-center gap-1.5">
             {icon && (
-              <span className="shrink-0 h-20" aria-hidden="true">
+              <span className="shrink-0 h-5" aria-hidden="true">
                 {icon}
               </span>
             )}

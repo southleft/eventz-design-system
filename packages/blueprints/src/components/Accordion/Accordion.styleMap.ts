@@ -13,11 +13,7 @@ export const AccordionStyleMap = defineStyleMap({
     container: ['flex', 'flex-col', 'w-full'] as const,
 
     // One logical item wrapper (contained/default surface)
-    item: [
-      'bg-comp-accordion-item-color-background-default',
-      'text-comp-accordion-item-color-foreground-default',
-      'rounded-md'
-    ] as const,
+    item: ['rounded-md'] as const,
 
     // Radix header element wraps the trigger
     header: ['border', 'mt-auto', 'mb-auto', 'border-none'] as const,
@@ -32,21 +28,21 @@ export const AccordionStyleMap = defineStyleMap({
       'justify-between',
       'outline-none',
       'bg-background-none',
-      'pt-2',
-      'pb-2',
-      'pl-1',
-      'pr-1',
+      'pt-0.5',
+      'pb-0.5',
+      'pl-0.25',
+      'pr-0.25',
       'group'
     ] as const,
 
     // Wrapper around image + title to handle spacing
-    triggerLabelGroup: ['inline-flex', 'items-center', 'gap-8'] as const,
+    triggerLabelGroup: ['inline-flex', 'items-center', 'gap-2'] as const,
 
     // Optional decorative thumbnail
     image: [
-      '[&_img]:h-24',
-      '[&_img]:w-24',
-      '[&_img]:rounded-[4px]',
+      '[&_img]:h-6',
+      '[&_img]:w-6',
+      '[&_img]:rounded-sm',
       'overflow-hidden',
       '[&_img]:object-cover'
     ] as const,
@@ -62,11 +58,11 @@ export const AccordionStyleMap = defineStyleMap({
       'transition-transform',
       'group-data-[state=open]:rotate-180',
       'group-data-[state=closed]:rotate-0',
-      'size-20'
+      'size-5'
     ] as const,
 
     // Collapsible region
-    content: ['text-color-content-weak', 'text-sm', 'pl-1', 'pr-1'] as const,
+    content: ['text-color-content-weak', 'text-sm', 'pl-0.25', 'pr-0.25'] as const,
 
     // Intro line above body; same treatment as body
     intro: ['text-color-content-weak', 'text-sm'] as const

@@ -20,8 +20,8 @@ export interface SubscriptionCardProps extends NativeDivProps {
 }
 
 const baseClasses = `
-  flex flex-col gap-2 p-4 rounded-md border bg-color-background-none transition-colors
-  text-left w-[439px]
+  flex flex-col gap-0.5 p-1 rounded-md border bg-color-background-none transition-colors
+  text-left w-123.25
 `;
 
 const activeStateClasses = `
@@ -33,7 +33,7 @@ const inactiveStateClasses = `
 `;
 
 const headerClasses = `
-  flex items-start justify-between gap-4
+  flex items-start justify-between gap-1
 `;
 
 const termsClasses = `
@@ -49,15 +49,15 @@ const subtitleClasses = `
 `;
 
 const detailsClasses = `
-  flex flex-col gap-1
+  flex flex-col gap-0.25
 `;
 
 const detailRowClasses = `
-  flex items-center gap-2
+  flex items-center gap-0.5
 `;
 
 const detailLabelClasses = `
-  uppercase text-sm w-[135px] font-medium text-color-content-default
+  uppercase text-sm w-33.75 font-medium text-color-content-default
 `;
 
 const detailValueClasses = `

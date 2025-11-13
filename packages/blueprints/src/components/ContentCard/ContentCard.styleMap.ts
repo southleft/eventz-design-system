@@ -54,7 +54,7 @@ export default defineStyleMap({
     titleIcon: [
       'ml-1',
       'shrink-0',
-      '[&>svg]:size-[20px]',
+      '[&>svg]:size-5',
       'invisible',
       'group-hover:visible',
       'group-hover:text-color-content-brand'
@@ -66,16 +66,16 @@ export default defineStyleMap({
     ] as const,
 
     // Meta badges row
-    meta: ['mt-2', 'flex', 'flex-wrap', 'gap-2', 'items-center'] as const,
+    meta: ['mt-0.5', 'flex', 'flex-wrap', 'gap-0.5', 'items-center'] as const,
     metaItem: [
       'inline-flex',
       'items-center',
-      'gap-1',
+      'gap-0.25',
       'text-xs',
       'text-color-content-subtle',
       'group-hover:text-color-content-subtle-hover'
     ] as const,
-    metaIcon: ['shrink-0', '[&>svg]:size-3'] as const
+    metaIcon: ['shrink-0', '[&>svg]:size-0.75'] as const
   },
 
   // Flat variant map: keys = contract enum options
@@ -85,19 +85,19 @@ export default defineStyleMap({
       'flex-col',
       'items-start',
       'text-left',
-      'w-168',
-      'p-2',
-      '[&_[data-slot=media]>img]:w-168',
-      '[&_[data-slot=media]>img]:h-168'
+      'w-42',
+      'p-0.5',
+      '[&_[data-slot=media]>img]:w-42',
+      '[&_[data-slot=media]>img]:h-42'
     ],
     horizontal: [
       'grid',
       '[&:has(img)]:grid-cols-[112px_1fr]',
       'items-start',
-      'p-2',
-      'w-340',
+      'p-0.5',
+      'w-85',
       '[&_[data-slot=media]]:row-span-4',
-      '[&_[data-slot=media]>img]:w-104',
+      '[&_[data-slot=media]>img]:w-26',
       '[&_[data-slot=media]>img]:h-104'
     ],
     post: [
@@ -106,10 +106,10 @@ export default defineStyleMap({
       'flex-col',
       'items-start',
       'text-left',
-      'w-288',
-      'p-2',
-      '[&_[data-slot=media]>img]:w-288',
-      '[&_[data-slot=media]>img]:h-288'
+      'w-72',
+      'p-0.5',
+      '[&_[data-slot=media]>img]:w-72',
+      '[&_[data-slot=media]>img]:h-72'
     ]
   } as const,
 

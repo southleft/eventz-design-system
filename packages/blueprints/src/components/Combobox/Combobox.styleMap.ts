@@ -26,8 +26,8 @@ export const ComboboxStyleMap = defineStyleMap({
       'items-center',
       'gap-1',
       'w-full',
-      'py-(--spacing-1)',
-      'px-(--spacing-2_5)'
+      'py-1',
+      'px-1.5'
     ] as const,
 
     clearAll: [
@@ -58,7 +58,7 @@ export const ComboboxStyleMap = defineStyleMap({
       'hover:bg-color-background-brand-hover',
       'text-color-content-inverse',
       'px-2',
-      'h-22',
+      'h-5.5',
       'transition-colors',
       'group',
       'focus-visible-brand'
@@ -69,8 +69,8 @@ export const ComboboxStyleMap = defineStyleMap({
       'items-center',
       'justify-center',
       'rounded-full',
-      'h-20',
-      'w-20',
+      'h-5',
+      'w-5',
       'shrink-0',
       'border-0',
       'bg-color-background-brand',
@@ -81,14 +81,14 @@ export const ComboboxStyleMap = defineStyleMap({
 
     startIcon: [
       'shrink-0',
-      'py-(--spacing-1_5)',
+      'py-1.5',
       'inline-flex',
       'text-color-content-default'
     ] as const,
 
     endIcon: [
       'shrink-0',
-      'py-(--spacing-1_5)',
+      'py-1.5',
       'inline-flex',
       'text-color-content-default'
     ] as const,

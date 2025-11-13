@@ -66,8 +66,7 @@ export const TextareaStyleMap = defineStyleMap({
       'text-xs',
       'mt-1',
       'inline-flex',
-      'gap-2',
-      'pl-1'
+      'gap-2'
     ] as const
   },
 
