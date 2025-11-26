@@ -1,9 +1,24 @@
-import { defineConfig } from 'vite';
+import { defineConfig, type PluginOption } from 'vite';
 import react from '@vitejs/plugin-react';
 import mdx from '@mdx-js/rollup';
 import dts from 'vite-plugin-dts';
 import { fileURLToPath, URL } from 'node:url';
 import pkg from './package.json' with { type: 'json' };
+
+const addUseClientDirective = (): PluginOption => ({
+  name: 'add-use-client-directive',
+  generateBundle(_options, bundle) {
+    Object.values(bundle).forEach(chunk => {
+      if (
+        chunk.type === 'chunk' &&
+        chunk.facadeModuleId?.endsWith('src/index.client-components.ts') &&
+        !chunk.code.startsWith("'use client'")
+      ) {
+        chunk.code = `'use client';\n${chunk.code}`;
+      }
+    });
+  }
+});
 
 export default defineConfig(({ mode }) => {
   // Treat either an explicit Vite mode of "lib" OR an env var as the signal for a library build
@@ -28,7 +43,8 @@ export default defineConfig(({ mode }) => {
           rollupTypes: false,
           // Never scan story files or MDX when generating types
           exclude: ['**/*.stories.*', '**/*.story.*', '**/*.mdx']
-        })
+        }),
+      isLib && addUseClientDirective()
     ].filter(Boolean),
     // Only apply lib-specific build settings when doing a library build
     ...(isLib

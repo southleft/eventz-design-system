@@ -49,7 +49,6 @@ export default defineStyleMap({
     // Inline title + time row
     '_lead ._labels ._titleRow': ['flex', 'items-baseline', 'gap-2', 'min-w-0'],
     '_lead ._labels ._titleRow ._title': [
-      'font-[family-name:var(--font-family/primary)]',
       'text-base',
       'font-medium',
       'text-color-content-default',

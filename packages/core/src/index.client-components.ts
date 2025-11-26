@@ -1,3 +1,5 @@
+'use client';
+
 // client components barrel
 export * from './components/client/Accordion';
 export * from './components/client/Alert';
