@@ -120,7 +120,7 @@ import type { MediaPlayerProps } from '@doxyz-ui/core/client/MediaPlayer';
 | `_lead ._labels` | `flex` `flex-col` `min-w-0` `gap-0` |
 | `_lead ._labels ._subtitle` | `text-xs` `font-medium` `text-color-content-weak` `truncate` |
 | `_lead ._labels ._titleRow` | `flex` `items-baseline` `gap-2` `min-w-0` |
-| `_lead ._labels ._titleRow ._title` | `font-[family-name:var(--font-family/primary)]` `text-base` `font-medium` `text-color-content-default` `truncate` |
+| `_lead ._labels ._titleRow ._title` | `text-base` `font-medium` `text-color-content-default` `truncate` |
 | `_lead ._labels ._titleRow ._timeDisplay` | `text-xs` `font-medium` `text-color-content-weak` `whitespace-nowrap` `pl-2` `border-l` `border-color-background-subtle` |
 | `_controls` | `flex` `items-center` `gap-2` |
 | `_volumeGroup` | `text-comp-button-color-content-default` `justify-end` `flex` `items-center` `gap-2` `pr-4` |
