@@ -30,7 +30,7 @@ export const configs = [
     source: [
       'styles/tokens/core/Default.json',
       'styles/tokens/component/**/*.json',
-      'styles/tokens/theme/light.json'
+      'styles/tokens/theme/Light.json'
     ],
     platforms: {
       css: {
