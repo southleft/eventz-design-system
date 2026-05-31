@@ -1,0 +1,35 @@
+{
+  "display_information": {
+    "name": "Company Docs Bot",
+    "description": "Search and access company documentation",
+    "background_color": "#1a1a1a"
+  },
+  "features": {
+    "bot_user": {
+      "display_name": "Docs Bot",
+      "always_online": true
+    },
+    "slash_commands": [
+      {
+        "command": "/docs",
+        "url": "https://company-docs-mcp.<your-subdomain>.workers.dev/slack",
+        "description": "Search company documentation",
+        "usage_hint": "[search query]",
+        "should_escape": false
+      }
+    ]
+  },
+  "oauth_config": {
+    "scopes": {
+      "bot": [
+        "commands",
+        "chat:write"
+      ]
+    }
+  },
+  "settings": {
+    "org_deploy_enabled": false,
+    "socket_mode_enabled": false,
+    "token_rotation_enabled": false
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "eventz-docs": {
+      "type": "http",
+      "url": "https://eventz-docs-mcp.southleft-llc.workers.dev/mcp"
+    }
+  }
+}

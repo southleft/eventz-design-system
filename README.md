@@ -71,6 +71,18 @@ Storybook runs on [http://localhost:6006](http://localhost:6006) by default.
 
 ---
 
+## Documentation MCP
+
+Eventz ships a **Company Docs MCP** server so AI tools can query the design-system documentation.
+Component docs are authored in [`docs/`](./docs) and published to a Supabase vector store; the tooling
+is vendored in [`docs-mcp/`](./docs-mcp). The live endpoint is wired up in [`.mcp.json`](./.mcp.json):
+
+```
+https://eventz-docs-mcp.southleft-llc.workers.dev/mcp
+```
+
+See [`docs/README.md`](./docs/README.md) for the authoring + publishing workflow.
+
 ## License
 
 MIT © Southleft

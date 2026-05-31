@@ -1,0 +1,91 @@
+# Environment variables
+.env
+.env.local
+.env.production
+
+# Local configuration (for personal testing)
+wrangler.toml.local
+*.local
+
+# Dependencies
+node_modules/
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Build outputs
+dist/
+build/
+.tmp-build/
+.wrangler/
+.mf/
+
+# Supabase CLI (project-specific migration history)
+supabase/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Testing
+coverage/
+.nyc_output/
+
+# Cloudflare
+.dev.vars
+
+# Content (organization-specific)
+content/**/*
+!content/.gitkeep
+!examples/
+
+# Organization-specific documentation
+docs/*canvas*
+docs/*workday*
+*CanvasKit*
+*canvas-kit*
+
+# Database
+*.db
+*.sqlite
+
+# Temporary files
+tmp/
+temp/
+.cache/
+
+# OS files
+Thumbs.db
+desktop.ini
+
+# CSV data files (source data for ingestion)
+*.csv
+
+# Wrangler configuration (may contain sensitive data)
+wrangler.toml
+
+# Keep example only
+!wrangler.toml.example
+
+# Serena AI assistant (local development only)
+.serena/
+
+# Debug and test files
+debug-frontend.html
+test-slack-response.js
+
+# Playwright/browser automation artifacts
+.playwright-mcp/
+*.png
+*.jpg
+*.gif
