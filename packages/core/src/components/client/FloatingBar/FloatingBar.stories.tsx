@@ -3,7 +3,7 @@
 // Summary: Stories for FloatingBar showcasing default layout, interactive scroll controls, and disabled scroll buttons.
 
 import { Markdown } from '@storybook/addon-docs/blocks';
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { fn } from 'storybook/test';
 import { Button } from '../Button';
 import Readme from './README.md?raw';

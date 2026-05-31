@@ -3,7 +3,7 @@
 // Summary: Storybook stories for AvatarGroup showing default copy, hiding message, large counts, and trimmed user lists, with indicator/message/count controls and users control disabled.
 
 import { Markdown } from '@storybook/addon-docs/blocks';
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import * as React from 'react';
 import Readme from './README.md?raw';
 import { AvatarGroup, type AvatarGroupProps } from './AvatarGroup';

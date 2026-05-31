@@ -3,7 +3,7 @@
 // Summary: Storybook story for DatePicker loading RSuite styles and rendering the default range picker configuration.
 
 import { Markdown } from '@storybook/addon-docs/blocks';
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import 'rsuite/DateRangePicker/styles/index.css';
 
 import Readme from './README.md?raw';

@@ -3,7 +3,7 @@
 // Summary: Stories for Search covering empty, loading, no-results, populated results, close-icon override, and InputProps customization with autoFocus tweaks for active states.
 
 import { Markdown } from '@storybook/addon-docs/blocks';
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import * as React from 'react';
 import { fn } from 'storybook/test';
 import { CancelIcon, CircleCheckIcon, MapIcon } from '../../../icons';

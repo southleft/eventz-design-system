@@ -3,7 +3,7 @@
 // Summary: Storybook story for FormElement documenting the shell wrapper with default label, info, and hint copy explaining Slot versus non-Slot behavior.
 
 import { Markdown } from '@storybook/addon-docs/blocks';
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import * as React from 'react';
 import Readme from './README.md?raw';
 import { FormElement } from './FormElement';

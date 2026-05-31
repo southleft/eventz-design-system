@@ -4,7 +4,7 @@
 
 import { Markdown } from '@storybook/addon-docs/blocks';
 import * as React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { MagnifyingGlassIcon, CheckIcon } from '@radix-ui/react-icons';
 import Readme from './README.md?raw';
 import { Textarea, TextareaProps } from './Textarea';

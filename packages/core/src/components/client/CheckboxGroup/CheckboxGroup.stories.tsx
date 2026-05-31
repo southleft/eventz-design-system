@@ -3,7 +3,7 @@
 // Summary: Stories for CheckboxGroup demonstrating hint, info, error, aria-label, and large choice sets while disabling the choices control and wiring onCheckedChange actions.
 
 import { Markdown } from '@storybook/addon-docs/blocks';
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import Readme from './README.md?raw';
 import { CheckboxGroup, CheckboxGroupProps } from './CheckboxGroup';
 

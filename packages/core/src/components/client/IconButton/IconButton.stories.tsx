@@ -3,7 +3,7 @@
 // Summary: Stories for IconButton highlighting variant styles, loading and disabled states, and sample Radix icons with aria-label controls.
 
 import { Markdown } from '@storybook/addon-docs/blocks';
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import * as React from 'react';
 import { InfoCircledIcon } from '@radix-ui/react-icons';
 import Readme from './README.md?raw';

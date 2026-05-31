@@ -3,7 +3,7 @@
 // Summary: Stories for Countdown showcasing the default timer, expiring variant styling, and long-duration configuration via until and announceLabel args.
 
 import { Markdown } from '@storybook/addon-docs/blocks';
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import Readme from './README.md?raw';
 import { Countdown, type CountdownProps } from './Countdown';
 

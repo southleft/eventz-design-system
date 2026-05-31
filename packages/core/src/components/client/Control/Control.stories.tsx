@@ -3,7 +3,7 @@
 // Summary: Stories for Control button showcasing brand/dark/light variants and size options with customizable icon aria labeling.
 
 import { Markdown } from '@storybook/addon-docs/blocks';
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import * as React from 'react';
 import { CheckIcon } from '@radix-ui/react-icons';
 import Readme from './README.md?raw';

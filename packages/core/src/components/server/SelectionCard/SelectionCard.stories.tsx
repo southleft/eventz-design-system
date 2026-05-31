@@ -3,7 +3,7 @@
 // Summary: Stories for SelectionCard presenting default checkbox tile, selected state, custom aria-label, and inactive styling.
 
 import { Markdown } from '@storybook/addon-docs/blocks';
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import * as React from 'react';
 import { EventIcon } from '../../../icons';
 import { SelectionCard, type SelectionCardProps } from './SelectionCard';

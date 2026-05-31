@@ -3,7 +3,7 @@
 // Summary: Stories for Tabs spanning section versus button triggers, manual activation, looping, and force-mounted panels with icon defaults and onValueChange actions.
 
 import { Markdown } from '@storybook/addon-docs/blocks';
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import * as React from 'react';
 import { LayersIcon, ReaderIcon, GearIcon } from '@radix-ui/react-icons';
 import Readme from './README.md?raw';

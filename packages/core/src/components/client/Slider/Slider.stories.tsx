@@ -3,7 +3,7 @@
 // Summary: Storybook demo showing the controlled Slider with adjustable domain props and inline value preview.
 
 import { Markdown } from '@storybook/addon-docs/blocks';
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import * as React from 'react';
 import { fn } from 'storybook/test';
 import Readme from './README.md?raw';

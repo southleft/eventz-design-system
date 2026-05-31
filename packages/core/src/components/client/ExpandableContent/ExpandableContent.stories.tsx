@@ -3,7 +3,7 @@
 // Summary: Stories for ExpandableContent covering collapsed versus defaultExpanded states and exposing onExpandedChange actions for panel toggling.
 
 import { Markdown } from '@storybook/addon-docs/blocks';
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import Readme from './README.md?raw';
 import { ExpandableContent } from './ExpandableContent';
 

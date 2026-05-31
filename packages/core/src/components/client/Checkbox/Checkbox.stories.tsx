@@ -3,7 +3,7 @@
 // Summary: Stories for Checkbox using a custom render to surface onCheckedChange actions while exposing controls for label, hint, name, value, disabled, and required states.
 
 import { Markdown } from '@storybook/addon-docs/blocks';
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import * as React from 'react';
 import Readme from './README.md?raw';
 import { Checkbox, CheckboxProps } from './Checkbox';

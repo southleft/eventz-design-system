@@ -3,7 +3,7 @@
 // Summary: Stories for Stepper contrasting interactive versus static views, alternate active steps, long labels, and onStepChange actions.
 
 import { Markdown } from '@storybook/addon-docs/blocks';
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { fn } from 'storybook/test';
 import Readme from './README.md?raw';
 import { Stepper, StepperProps } from './Stepper';

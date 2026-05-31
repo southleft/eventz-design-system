@@ -3,7 +3,7 @@
 // Summary: Stories for Carousel covering default usage, autoplay behavior, snapping alignments, RTL, and non-looping edge cases.
 
 import { Markdown } from '@storybook/addon-docs/blocks';
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { fn } from 'storybook/test';
 import * as React from 'react';
 import Readme from './README.md?raw';

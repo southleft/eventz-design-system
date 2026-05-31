@@ -3,7 +3,7 @@
 // Summary: Stories for Dialog including default trigger, navigation controls with Storybook actions, and a sizes gallery while disabling open/defaultOpen controls.
 
 import { Markdown } from '@storybook/addon-docs/blocks';
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import * as React from 'react';
 import { Button } from '../Button';
 import Readme from './README.md?raw';

@@ -3,7 +3,7 @@
 // Summary: Stories for Combobox covering default multi-select, start/end icon toggles, complex menu rows with info hints, custom end icon, and a disabled example.
 
 import * as React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Markdown } from '@storybook/addon-docs/blocks';
 import Readme from './README.md?raw';
 import { Combobox, type ComboboxProps } from './Combobox';

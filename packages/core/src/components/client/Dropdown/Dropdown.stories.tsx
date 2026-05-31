@@ -3,9 +3,9 @@
 // Summary: Storybook stories for Dropdown covering default menu usage and icon-enhanced triggers with adjustable placement props.
 
 import { Markdown } from '@storybook/addon-docs/blocks';
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import * as React from 'react';
-import { fn } from 'storybook/internal/test';
+import { fn } from 'storybook/test';
 import { Search } from '../Search';
 import { Map } from '../../server/Map';
 import { LocationIcon } from '../../../icons';

@@ -3,7 +3,7 @@
 // Summary: Storybook story for InfoPopover showing the default tooltip-style popover with configurable ariaLabel, placement, offset, and body content.
 
 import { Markdown } from '@storybook/addon-docs/blocks';
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import Readme from './README.md?raw';
 import { InfoPopover, InfoPopoverProps } from './InfoPopover';
 

@@ -3,7 +3,7 @@
 // Summary: Stories for Button spanning primary/secondary/bare/knockout variants and an icon slot example, keeping common args for label, disabled, loading, and type.
 
 import { Markdown } from '@storybook/addon-docs/blocks';
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import * as React from 'react';
 import { InfoIcon } from '../../../icons';
 import Readme from './README.md?raw';

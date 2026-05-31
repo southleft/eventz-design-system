@@ -3,7 +3,7 @@
 // Summary: Stories for TextLink demonstrating brand/strong/subtle/inverted variants, start/end icons, disabled state, and inline usage.
 
 import { Markdown } from '@storybook/addon-docs/blocks';
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import * as React from 'react';
 import { ArrowRightIcon, ArrowLeftIcon } from '@radix-ui/react-icons';
 import Readme from './README.md?raw';

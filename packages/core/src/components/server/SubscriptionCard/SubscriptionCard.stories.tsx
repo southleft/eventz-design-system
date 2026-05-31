@@ -3,7 +3,7 @@
 // Summary: Stories for SubscriptionCard showcasing active versus inactive states, custom cancel slot, and terms variations.
 
 import { Markdown } from '@storybook/addon-docs/blocks';
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import * as React from 'react';
 import Readme from './README.md?raw';
 import { SubscriptionCard, type SubscriptionCardProps } from './SubscriptionCard';

@@ -3,7 +3,7 @@
 // Summary: Storybook stories for Alert covering success/info/warning/danger variants, title versus description toggles, icon/dismiss/text-link states, with closeIcon control disabled and onClose actions.
 
 import { Markdown } from '@storybook/addon-docs/blocks';
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Alert, type AlertProps } from './Alert';
 import Readme from './README.md?raw';
 

@@ -3,7 +3,7 @@
 // Summary: Storybook stories for Accordion demonstrating default, image, and intro examples plus strong/weak emphasis; image control disabled.
 
 import { Markdown } from '@storybook/addon-docs/blocks';
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import * as React from 'react';
 import Readme from './README.md?raw';
 import { Accordion, AccordionProps } from './Accordion';

@@ -3,7 +3,7 @@
 // Summary: Stories for NavigationBar demonstrating default nav, fixed positioning, mobile navigation slot, logo slot, and long item lists.
 
 import * as React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Markdown } from '@storybook/addon-docs/blocks';
 import { Button } from '../../client/Button';
 import { NavigationDropdown } from '../../client/NavigationDropdown';

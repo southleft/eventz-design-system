@@ -3,7 +3,7 @@
 // Summary: Stories for FileUpload illustrating poster format, thumbnail toggle, error states, non-image accept settings, and info popover guidance with shared base args.
 
 import { Markdown } from '@storybook/addon-docs/blocks';
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import Readme from './README.md?raw';
 import { FileUpload, FileUploadProps } from './FileUpload';
 

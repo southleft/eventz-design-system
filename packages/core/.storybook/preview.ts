@@ -1,5 +1,5 @@
 import '../styles/css/styles.css';
-import type { Decorator } from '@storybook/react';
+import type { Decorator } from '@storybook/react-vite';
 
 function applyScheme(scheme: 'dark' | 'light') {
   const root = document.documentElement;
@@ -44,6 +44,6 @@ export const parameters = {
     matchers: { color: /(background|color)$/i, date: /Date$/i }
   },
   backgrounds: {
-    disable: true
+    disabled: true
   }
 };

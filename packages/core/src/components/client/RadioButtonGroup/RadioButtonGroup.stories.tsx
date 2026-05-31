@@ -3,7 +3,7 @@
 // Summary: Stories for RadioButtonGroup demonstrating hint, info, error states, disabled choices, and larger sets while disabling the choices control and wiring onValueChange actions.
 
 import { Markdown } from '@storybook/addon-docs/blocks';
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import Readme from './README.md?raw';
 import { RadioButtonGroup, type RadioButtonGroupProps } from './RadioButtonGroup';
 

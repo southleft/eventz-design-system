@@ -3,7 +3,7 @@
 // Summary: Stories for NavigationDropdown showing default menu, aria-label landmark, long item list, trigger label overrides, and custom open/close icons.
 
 import { Markdown } from '@storybook/addon-docs/blocks';
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import * as React from 'react';
 import { NavigationDropdown, type NavigationDropdownProps } from './NavigationDropdown';
 import { ChevronLeftIcon, ChevronRightIcon } from '../../../icons';

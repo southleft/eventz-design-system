@@ -3,7 +3,7 @@
 // Summary: Stories for MediaControl featuring a controlled demo with internal state and an uncontrolled example, surfacing onStateChange, onPlay, and onPause actions.
 
 import { Markdown } from '@storybook/addon-docs/blocks';
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import * as React from 'react';
 import { fn } from 'storybook/test';
 import Readme from './README.md?raw';
