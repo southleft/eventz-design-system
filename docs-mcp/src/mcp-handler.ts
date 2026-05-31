@@ -8,8 +8,14 @@
  */
 
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
-import { zodToJsonSchema } from "zod-to-json-schema";
+// Use the SDK's own schema-compat helpers (handle both Zod v3 and the v4 internals
+// that zod@3.25 emits) instead of the external zod-to-json-schema, which only supports
+// Zod v3 and throws "Cannot read properties of undefined (reading 'typeName')" on v4 schemas.
+import { normalizeObjectSchema } from "@modelcontextprotocol/sdk/server/zod-compat.js";
+import { toJsonSchemaCompat } from "@modelcontextprotocol/sdk/server/zod-json-schema-compat.js";
 import { registerTools, type Env, type WorkerExecutionContext } from "./tools";
+
+const EMPTY_OBJECT_JSON_SCHEMA = { type: "object", properties: {} } as const;
 
 // CORS headers for all responses
 const CORS_HEADERS = {
@@ -144,13 +150,22 @@ function getRegisteredToolSchemas(server: McpServer): any[] {
 
   return entries
     .filter(([, tool]) => tool?.enabled !== false)
-    .map(([name, tool]) => ({
-      name,
-      description: tool?.description || "",
-      inputSchema: tool?.inputSchema
-        ? zodToJsonSchema(tool.inputSchema, { strictUnions: true })
-        : { type: "object", properties: {} },
-    }));
+    .map(([name, tool]) => {
+      let inputSchema: unknown = EMPTY_OBJECT_JSON_SCHEMA;
+      try {
+        const obj = tool?.inputSchema ? normalizeObjectSchema(tool.inputSchema) : null;
+        if (obj) {
+          inputSchema = toJsonSchemaCompat(obj, { strictUnions: true, pipeStrategy: "input" });
+        }
+      } catch (err: any) {
+        console.warn(`[MCP] Failed to convert inputSchema for tool "${name}": ${err?.message}`);
+      }
+      return {
+        name,
+        description: tool?.description || "",
+        inputSchema,
+      };
+    });
 }
 
 /**
