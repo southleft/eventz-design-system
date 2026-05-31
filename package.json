@@ -16,7 +16,10 @@
     "agents:verify": "node scripts/agents-sync.mjs && markdown-link-check -q AGENTS/*.md",
     "check:doc-blocks": "node scripts/check-doc-blocks.mjs --changed-only",
     "check:doc-blocks:strict": "node scripts/check-doc-blocks.mjs --changed-only --require-header",
-    "check:doc-blocks:all": "node scripts/check-doc-blocks.mjs"
+    "check:doc-blocks:all": "node scripts/check-doc-blocks.mjs",
+    "docs:ingest": "cd docs-mcp && npm run --silent ingest:markdown -- --dir=../docs",
+    "docs:preview": "bash scripts/docs-publish.sh --dry-run --verbose",
+    "docs:publish": "bash scripts/docs-publish.sh"
   },
   "devDependencies": {
     "@types/jest": "^30.0.0",

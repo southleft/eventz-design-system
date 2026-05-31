@@ -31,37 +31,33 @@ Frontmatter is optional but recommended — it drives category/tags and search q
 
 ## Publishing workflow
 
-Run from [`../docs-mcp/`](../docs-mcp) (uses the local `.env` for Supabase + Cloudflare creds):
+Run these from the **repo root** — no need to `cd` into `docs-mcp/`:
 
 ```bash
-cd docs-mcp
+# Preview what would change (no writes)
+pnpm docs:preview
 
-# 1. Parse this doc root into intermediate entries
-npm run ingest:markdown -- --dir=../docs
+# Embed (Cloudflare Workers AI) + push vectors to Supabase
+pnpm docs:publish
 
-# 2. Preview what will change (no writes)
-npm run ingest:preview
-
-# 3. Embed (Cloudflare Workers AI) + push vectors to Supabase
-npm run ingest:supabase
-#   add `-- --clear` to wipe + re-ingest from scratch (ingest:fresh)
+# Just parse the doc root into intermediate entries (no publish)
+pnpm docs:ingest
 ```
 
-Only changed entries are re-embedded (content-hash diffing); removed docs are cleaned up.
+`pnpm docs:publish` parses `docs/`, regenerates the manifest, embeds, and upserts to Supabase in one
+step. Only changed entries are re-embedded (content-hash diffing); removed docs are cleaned up. Pass
+extra flags through after `--`, e.g. `pnpm docs:publish -- --clear` to wipe + re-ingest from scratch.
 
-### Publish prerequisites (gotchas)
+The two former gotchas are handled automatically by [`scripts/docs-publish.sh`](../scripts/docs-publish.sh):
 
-- **Node ≥ 22 for `ingest:supabase`.** `@supabase/supabase-js` initializes a realtime client that
-  needs a native `WebSocket` (built in on Node 22+). On Node 20 the publish step throws
-  "Node.js 20 detected without native WebSocket support." Run it with Node 22, e.g.:
-  ```bash
-  nvm use 22 && npm run ingest:supabase
-  # or invoke the v22 binary directly if a project nvm hook forces v20
-  ```
-- **Cloudflare token for embeddings.** Publishing embeds via the Workers-AI REST API and needs a
-  Cloudflare token. It will use your `wrangler login` OAuth token automatically; if it reports
-  "No Cloudflare API token found," create a scoped **Workers AI** API token and add
-  `CLOUDFLARE_API_TOKEN=...` to `docs-mcp/.env`.
+- **Node version** — `@supabase/supabase-js` needs a `WebSocket` global (native only on Node 22+).
+  The script preloads a `ws` polyfill (`docs-mcp/scripts/ws-polyfill.cjs`) so it runs on the project's
+  default Node 20.
+- **Cloudflare token** — embedding uses the Workers-AI REST API. The script refreshes your
+  `wrangler` session and reads its OAuth token automatically. (To override, set
+  `CLOUDFLARE_API_TOKEN` in `docs-mcp/.env` or the environment.)
+
+Supabase credentials still come from `docs-mcp/.env` (gitignored).
 
 ## The MCP endpoint
 
