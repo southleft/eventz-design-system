@@ -49,6 +49,20 @@ npm run ingest:supabase
 
 Only changed entries are re-embedded (content-hash diffing); removed docs are cleaned up.
 
+### Publish prerequisites (gotchas)
+
+- **Node ≥ 22 for `ingest:supabase`.** `@supabase/supabase-js` initializes a realtime client that
+  needs a native `WebSocket` (built in on Node 22+). On Node 20 the publish step throws
+  "Node.js 20 detected without native WebSocket support." Run it with Node 22, e.g.:
+  ```bash
+  nvm use 22 && npm run ingest:supabase
+  # or invoke the v22 binary directly if a project nvm hook forces v20
+  ```
+- **Cloudflare token for embeddings.** Publishing embeds via the Workers-AI REST API and needs a
+  Cloudflare token. It will use your `wrangler login` OAuth token automatically; if it reports
+  "No Cloudflare API token found," create a scoped **Workers AI** API token and add
+  `CLOUDFLARE_API_TOKEN=...` to `docs-mcp/.env`.
+
 ## The MCP endpoint
 
 The Eventz MCP server is the Cloudflare Worker `eventz-docs-mcp` (Southleft account). Once deployed,
