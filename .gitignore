@@ -149,3 +149,8 @@ docs-mcp/.wrangler/
 docs-mcp/.env
 docs-mcp/content/entries/
 docs-mcp/content/manifest.json
+
+# macOS / local tooling
+.DS_Store
+**/.DS_Store
+.serena/
