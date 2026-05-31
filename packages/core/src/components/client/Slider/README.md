@@ -10,13 +10,13 @@ Slider exposes a single-thumb, horizontal slider built on Radix Slider. It targe
 
 ### Component
 ```ts
-import { Slider } from '@doxyz-ui/core/client/Slider';
+import { Slider } from '@eventz-ui/core/client/Slider';
 ```
 
 ### Types
 
 ```ts
-import type { SliderProps } from '@doxyz-ui/core/client/Slider';
+import type { SliderProps } from '@eventz-ui/core/client/Slider';
 ```
 
 ---

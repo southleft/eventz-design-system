@@ -10,13 +10,13 @@ Dialog renders a modal overlay using Radix Dialog primitives. It includes a conf
 
 ### Component
 ```ts
-import { Dialog } from '@doxyz-ui/core/client/Dialog';
+import { Dialog } from '@eventz-ui/core/client/Dialog';
 ```
 
 ### Types
 
 ```ts
-import type { DialogProps } from '@doxyz-ui/core/client/Dialog';
+import type { DialogProps } from '@eventz-ui/core/client/Dialog';
 ```
 
 ---

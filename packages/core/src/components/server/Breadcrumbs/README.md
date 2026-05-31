@@ -12,13 +12,13 @@ Breadcrumbs renders a semantic navigation landmark with an ordered list of inter
 
 ### Component
 ```ts
-import { Breadcrumbs } from '@doxyz-ui/core/server/Breadcrumbs';
+import { Breadcrumbs } from '@eventz-ui/core/server/Breadcrumbs';
 ```
 
 ### Types
 
 ```ts
-import type { BreadcrumbsProps } from '@doxyz-ui/core/server/Breadcrumbs';
+import type { BreadcrumbsProps } from '@eventz-ui/core/server/Breadcrumbs';
 ```
 
 ---

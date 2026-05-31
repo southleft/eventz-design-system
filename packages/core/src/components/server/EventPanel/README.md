@@ -12,13 +12,13 @@ EventPanel showcases a large hero image with overlay navigation controls and a s
 
 ### Component
 ```ts
-import { EventPanel } from '@doxyz-ui/core/server/EventPanel';
+import { EventPanel } from '@eventz-ui/core/server/EventPanel';
 ```
 
 ### Types
 
 ```ts
-import type { EventPanelProps } from '@doxyz-ui/core/server/EventPanel';
+import type { EventPanelProps } from '@eventz-ui/core/server/EventPanel';
 ```
 
 ---
@@ -158,7 +158,7 @@ Resolve all extended interfaces and list only public, component-level props. Exc
   leftAction={<IconButton icon={<ChevronLeftIcon />} aria-label="Previous show" />}
   rightAction={<IconButton icon={<ChevronRightIcon />} aria-label="Next show" />}
   subtitle="On tour"
-  title="DoXYZ Sessions"
+  title="Eventz Sessions"
   chips={[<Chip key="city" label="Berlin" />, <Chip key="date" label="May 4" />]}
   avatars={<AvatarGroup size="lg" />}
 />

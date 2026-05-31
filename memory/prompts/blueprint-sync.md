@@ -52,8 +52,8 @@ POST-PATCH SELF-CHECK (required)
 - If any mismatch remains, STOP and re-apply until equal.
 
 ### Imports policy
-- Use explicit subpaths when showing imports in examples: @doxyz-ui/core/server-components, /client-components, /icons, /utilities
-- Never import from @doxyz-ui/core (root)
+- Use explicit subpaths when showing imports in examples: @eventz-ui/core/server-components, /client-components, /icons, /utilities
+- Never import from @eventz-ui/core (root)
 
 Constraints
 - Edit only the two blueprint files.

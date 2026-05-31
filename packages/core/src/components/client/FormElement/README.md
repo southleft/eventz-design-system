@@ -10,13 +10,13 @@ FormElement is the shared shell used by inputs, selects, and other controls. It 
 
 ### Component
 ```ts
-import { FormElement } from '@doxyz-ui/core/client/FormElement';
+import { FormElement } from '@eventz-ui/core/client/FormElement';
 ```
 
 ### Types
 
 ```ts
-import type { FormElementProps } from '@doxyz-ui/core/client/FormElement';
+import type { FormElementProps } from '@eventz-ui/core/client/FormElement';
 ```
 
 ---

@@ -10,13 +10,13 @@ Tabs renders a Radix-powered tab system with two trigger styles: `section` (clas
 
 ### Component
 ```ts
-import { Tabs } from '@doxyz-ui/core/client/Tabs';
+import { Tabs } from '@eventz-ui/core/client/Tabs';
 ```
 
 ### Types
 
 ```ts
-import type { TabsProps } from '@doxyz-ui/core/client/Tabs';
+import type { TabsProps } from '@eventz-ui/core/client/Tabs';
 ```
 
 ---

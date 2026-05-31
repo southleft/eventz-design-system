@@ -12,13 +12,13 @@
 
 ### Component
 ```ts
-import { {{ComponentName}} } from '@doxyz-ui/core/{{server | client}}/{{ComponentName}}';
+import { {{ComponentName}} } from '@eventz-ui/core/{{server | client}}/{{ComponentName}}';
 ```
 
 ### Types
 
 ```ts
-import type { {{ComponentName}}Props } from '@doxyz-ui/core/{{server | client}}/{{ComponentName}}';
+import type { {{ComponentName}}Props } from '@eventz-ui/core/{{server | client}}/{{ComponentName}}';
 ```
 
 ---

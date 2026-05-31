@@ -10,13 +10,13 @@ Textarea wraps a native `<textarea>` in a Radix `Label`/fieldset combo so labeli
 
 ### Component
 ```ts
-import { Textarea } from '@doxyz-ui/core/client/Textarea';
+import { Textarea } from '@eventz-ui/core/client/Textarea';
 ```
 
 ### Types
 
 ```ts
-import type { TextareaProps } from '@doxyz-ui/core/client/Textarea';
+import type { TextareaProps } from '@eventz-ui/core/client/Textarea';
 ```
 
 ---

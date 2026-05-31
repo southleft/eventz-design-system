@@ -14,10 +14,10 @@
     "target": "ESNext",
     "paths": {
       "@/*": ["./src/*"],
-      "@doxyz-ui/core/server-components": ["./src/index.server-components.ts"],
-      "@doxyz-ui/core/client-components": ["./src/index.client-components.ts"],
-      "@doxyz-ui/core/icons": ["./src/index.icons.ts"],
-      "@doxyz-ui/core/utilities": ["./src/index.utilities.ts"]
+      "@eventz-ui/core/server-components": ["./src/index.server-components.ts"],
+      "@eventz-ui/core/client-components": ["./src/index.client-components.ts"],
+      "@eventz-ui/core/icons": ["./src/index.icons.ts"],
+      "@eventz-ui/core/utilities": ["./src/index.utilities.ts"]
     },
     "tsBuildInfoFile": "node_modules/.cache/tsbuildinfo.jest",
     "types": ["jest", "node"]

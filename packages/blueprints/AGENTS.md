@@ -1,12 +1,12 @@
-# 🤖 AGENTS.md – @doxyz-ui/blueprints
+# 🤖 AGENTS.md – @eventz-ui/blueprints
 
-This file outlines how AI agents interact with the `@doxyz-ui/blueprints` package, which contains component **contracts** and **style maps** used by the MCP server for component generation.
+This file outlines how AI agents interact with the `@eventz-ui/blueprints` package, which contains component **contracts** and **style maps** used by the MCP server for component generation.
 
 ---
 
 ## 📦 Package Purpose
 
-`@doxyz-ui/blueprints` contains structured design intent in the form of:
+`@eventz-ui/blueprints` contains structured design intent in the form of:
 
 - `*.contract.ts` files: describe the structure and semantics of UI components
 - `*.styleMap.ts` files: map tokens to Tailwind utility classes and variants

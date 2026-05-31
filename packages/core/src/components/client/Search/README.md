@@ -10,13 +10,13 @@ Search combines an `Input` trigger with a Radix Popover that displays async sear
 
 ### Component
 ```ts
-import { Search } from '@doxyz-ui/core/client/Search';
+import { Search } from '@eventz-ui/core/client/Search';
 ```
 
 ### Types
 
 ```ts
-import type { SearchProps, SearchResult } from '@doxyz-ui/core/client/Search';
+import type { SearchProps, SearchResult } from '@eventz-ui/core/client/Search';
 ```
 
 ---

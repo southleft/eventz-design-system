@@ -12,13 +12,13 @@ NavigationContainer is a simple layout wrapper that applies consistent padding a
 
 ### Component
 ```ts
-import { NavigationContainer } from '@doxyz-ui/core/server/NavigationContainer';
+import { NavigationContainer } from '@eventz-ui/core/server/NavigationContainer';
 ```
 
 ### Types
 
 ```ts
-import type { NavigationContainerProps } from '@doxyz-ui/core/server/NavigationContainer';
+import type { NavigationContainerProps } from '@eventz-ui/core/server/NavigationContainer';
 ```
 
 ---

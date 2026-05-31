@@ -12,13 +12,13 @@ InteractiveListItem renders a one-line row that behaves like either a button (de
 
 ### Component
 ```ts
-import { InteractiveListItem } from '@doxyz-ui/core/server/InteractiveListItem';
+import { InteractiveListItem } from '@eventz-ui/core/server/InteractiveListItem';
 ```
 
 ### Types
 
 ```ts
-import type { InteractiveListItemProps } from '@doxyz-ui/core/server/InteractiveListItem';
+import type { InteractiveListItemProps } from '@eventz-ui/core/server/InteractiveListItem';
 ```
 
 ---

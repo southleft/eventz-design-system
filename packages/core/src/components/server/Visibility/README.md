@@ -12,13 +12,13 @@ Visibility is a utility wrapper that toggles its children between Tailwind break
 
 ### Component
 ```ts
-import { Visibility } from '@doxyz-ui/core/server/Visibility';
+import { Visibility } from '@eventz-ui/core/server/Visibility';
 ```
 
 ### Types
 
 ```ts
-import type { VisibilityProps } from '@doxyz-ui/core/server/Visibility';
+import type { VisibilityProps } from '@eventz-ui/core/server/Visibility';
 ```
 
 ---

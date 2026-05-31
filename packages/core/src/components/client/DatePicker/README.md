@@ -10,13 +10,13 @@ DatePicker wraps RSuite's `DateRangePicker`, replaces the visible trigger with t
 
 ### Component
 ```ts
-import { DatePicker } from '@doxyz-ui/core/client/DatePicker';
+import { DatePicker } from '@eventz-ui/core/client/DatePicker';
 ```
 
 ### Types
 
 ```ts
-import type { DatePickerProps } from '@doxyz-ui/core/client/DatePicker';
+import type { DatePickerProps } from '@eventz-ui/core/client/DatePicker';
 ```
 
 ---

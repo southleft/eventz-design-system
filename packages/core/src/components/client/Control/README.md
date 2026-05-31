@@ -10,13 +10,13 @@ Control is a compact, icon-only button used for lightweight actions (carousel ar
 
 ### Component
 ```ts
-import { Control } from '@doxyz-ui/core/client/Control';
+import { Control } from '@eventz-ui/core/client/Control';
 ```
 
 ### Types
 
 ```ts
-import type { ControlProps } from '@doxyz-ui/core/client/Control';
+import type { ControlProps } from '@eventz-ui/core/client/Control';
 ```
 
 ---

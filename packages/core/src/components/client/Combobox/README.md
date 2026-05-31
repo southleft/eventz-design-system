@@ -12,13 +12,13 @@ Combobox is a multi-select text input that renders chips for the active selectio
 
 ### Component
 ```ts
-import { Combobox } from '@doxyz-ui/core/client/Combobox';
+import { Combobox } from '@eventz-ui/core/client/Combobox';
 ```
 
 ### Types
 
 ```ts
-import type { ComboboxProps } from '@doxyz-ui/core/client/Combobox';
+import type { ComboboxProps } from '@eventz-ui/core/client/Combobox';
 ```
 
 ---

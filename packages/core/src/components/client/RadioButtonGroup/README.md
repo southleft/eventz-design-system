@@ -10,13 +10,13 @@ RadioButtonGroup wraps Radix `RadioGroup` inside a labeled fieldset so single-se
 
 ### Component
 ```ts
-import { RadioButtonGroup } from '@doxyz-ui/core/client/RadioButtonGroup';
+import { RadioButtonGroup } from '@eventz-ui/core/client/RadioButtonGroup';
 ```
 
 ### Types
 
 ```ts
-import type { RadioButtonGroupProps } from '@doxyz-ui/core/client/RadioButtonGroup';
+import type { RadioButtonGroupProps } from '@eventz-ui/core/client/RadioButtonGroup';
 ```
 
 ---

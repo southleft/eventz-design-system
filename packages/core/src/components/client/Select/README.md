@@ -10,13 +10,13 @@ Select composes Radix Select with the system `Input` as the trigger and `MenuIte
 
 ### Component
 ```ts
-import { Select } from '@doxyz-ui/core/client/Select';
+import { Select } from '@eventz-ui/core/client/Select';
 ```
 
 ### Types
 
 ```ts
-import type { SelectProps } from '@doxyz-ui/core/client/Select';
+import type { SelectProps } from '@eventz-ui/core/client/Select';
 ```
 
 ---

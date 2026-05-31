@@ -10,13 +10,13 @@ FloatingBar is a horizontally aligned utility bar that can display summary conte
 
 ### Component
 ```ts
-import { FloatingBar } from '@doxyz-ui/core/client/FloatingBar';
+import { FloatingBar } from '@eventz-ui/core/client/FloatingBar';
 ```
 
 ### Types
 
 ```ts
-import type { FloatingBarProps } from '@doxyz-ui/core/client/FloatingBar';
+import type { FloatingBarProps } from '@eventz-ui/core/client/FloatingBar';
 ```
 
 ---

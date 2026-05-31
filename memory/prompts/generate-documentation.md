@@ -94,7 +94,7 @@ FAIL FAST
 	•	If the component’s Props type cannot be resolved, stop and report the expected symbol.
 	•	If the story file is missing, stop and report; do not create one.
 	•	If blueprints are missing, still generate README but mark “Blueprint Parity” and “Data Attributes & States” as “Unavailable (missing blueprint)”.
-	•	Open the file /Users/tonym/Documents/Github/doxyz-ui/memory/examples/readme-template.md.
+	•	Open the file /Users/tonym/Documents/Github/eventz-ui/memory/examples/readme-template.md.
 	•	In the “## Props (Declared + Inherited)” introduction paragraph, replace the existing guidance line with the exact line below, preserving surrounding formatting:
 
 {{Agent: Resolve all extended interfaces and list only public, component-level props. Except for className, exclude HTMLElement attributes from @types/react. List props in alphabetical order. Do NOT include a catch‑all row like “…rest” or “Other props”—every inherited prop must appear as its own row.}}

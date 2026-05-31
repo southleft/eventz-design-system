@@ -4,7 +4,7 @@
 *Last updated: 2025-11-09*
 
 ## Overview
-Footer is a minimal wrapper that applies the system footer gradient background and forwards every native `<div>` attribute to the root. It is intentionally content-agnostic so product teams can compose navigation links, metadata, or social lists without opinionated layout. Use it any time you need the standard DoXYZ footer backdrop behind custom markup.
+Footer is a minimal wrapper that applies the system footer gradient background and forwards every native `<div>` attribute to the root. It is intentionally content-agnostic so product teams can compose navigation links, metadata, or social lists without opinionated layout. Use it any time you need the standard Eventz footer backdrop behind custom markup.
 
 ---
 
@@ -12,13 +12,13 @@ Footer is a minimal wrapper that applies the system footer gradient background a
 
 ### Component
 ```ts
-import { Footer } from '@doxyz-ui/core/server/Footer';
+import { Footer } from '@eventz-ui/core/server/Footer';
 ```
 
 ### Types
 
 ```ts
-import type { FooterProps } from '@doxyz-ui/core/server/Footer';
+import type { FooterProps } from '@eventz-ui/core/server/Footer';
 ```
 
 ---
@@ -107,7 +107,7 @@ Resolve all extended interfaces and list only public, component-level props. Exc
 
 ```tsx
 <Footer className="py-8 text-sm text-color-content-weak">
-  <p>© {new Date().getFullYear()} DoXYZ Labs. All rights reserved.</p>
+  <p>© {new Date().getFullYear()} Eventz Labs. All rights reserved.</p>
 </Footer>
 ```
 - Keep the legal variant lightweight—smaller typography and muted color reinforce its secondary role.

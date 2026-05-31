@@ -202,7 +202,7 @@ export interface ContractHints {
 export interface ContractSpec {
   /** One-line description for docs/agents. */
   description?: string;
-  /** Logical DoXYZ component name, e.g., 'Button'. */
+  /** Logical Eventz component name, e.g., 'Button'. */
   component: string;
   /** Optional passthrough type for component props (e.g., 'React.SVGAttributes<SVGSVGElement>'). */
   extends?: string;

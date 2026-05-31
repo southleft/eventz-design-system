@@ -12,13 +12,13 @@ ContentCard displays editorial content with optional media, badge overlays, desc
 
 ### Component
 ```ts
-import { ContentCard } from '@doxyz-ui/core/server/ContentCard';
+import { ContentCard } from '@eventz-ui/core/server/ContentCard';
 ```
 
 ### Types
 
 ```ts
-import type { ContentCardProps } from '@doxyz-ui/core/server/ContentCard';
+import type { ContentCardProps } from '@eventz-ui/core/server/ContentCard';
 ```
 
 ---
@@ -162,7 +162,7 @@ const Wrapper = href ? 'a' : 'div';
 <ContentCard
   layout="horizontal"
   title="Studio Visit"
-  description="A peek into DoXYZ's process."
+  description="A peek into Eventz's process."
   imgSrc="/images/studio.jpg"
   imgAlt="Studio interior"
   href="/stories/studio-visit"

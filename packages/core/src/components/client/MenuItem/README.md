@@ -10,13 +10,13 @@ MenuItem is the internal row used by dropdown menus, selects, and comboboxes. It
 
 ### Component
 ```ts
-import { MenuItem } from '@doxyz-ui/core/client/MenuItem';
+import { MenuItem } from '@eventz-ui/core/client/MenuItem';
 ```
 
 ### Types
 
 ```ts
-import type { MenuItemProps } from '@doxyz-ui/core/client/MenuItem';
+import type { MenuItemProps } from '@eventz-ui/core/client/MenuItem';
 ```
 
 ---

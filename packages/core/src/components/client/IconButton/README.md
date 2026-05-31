@@ -10,13 +10,13 @@ IconButton renders an icon-only control with the same visual variants as the sta
 
 ### Component
 ```ts
-import { IconButton } from '@doxyz-ui/core/client/IconButton';
+import { IconButton } from '@eventz-ui/core/client/IconButton';
 ```
 
 ### Types
 
 ```ts
-import type { IconButtonProps } from '@doxyz-ui/core/client/IconButton';
+import type { IconButtonProps } from '@eventz-ui/core/client/IconButton';
 ```
 
 ---

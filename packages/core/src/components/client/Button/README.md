@@ -10,13 +10,13 @@ Button triggers high-signal actions with four visual variants plus optional star
 
 ### Component
 ```ts
-import { Button } from '@doxyz-ui/core/client/Button';
+import { Button } from '@eventz-ui/core/client/Button';
 ```
 
 ### Types
 
 ```ts
-import type { ButtonProps } from '@doxyz-ui/core/client/Button';
+import type { ButtonProps } from '@eventz-ui/core/client/Button';
 ```
 
 ---

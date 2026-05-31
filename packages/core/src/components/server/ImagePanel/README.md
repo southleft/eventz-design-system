@@ -12,13 +12,13 @@ ImagePanel powers hero-scale carousel slides by rendering a responsive image, ov
 
 ### Component
 ```ts
-import { ImagePanel } from '@doxyz-ui/core/server/ImagePanel';
+import { ImagePanel } from '@eventz-ui/core/server/ImagePanel';
 ```
 
 ### Types
 
 ```ts
-import type { ImagePanelProps } from '@doxyz-ui/core/server/ImagePanel';
+import type { ImagePanelProps } from '@eventz-ui/core/server/ImagePanel';
 ```
 
 ---

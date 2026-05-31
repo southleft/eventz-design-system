@@ -10,13 +10,13 @@ InfoPopover renders an icon-only trigger that opens a Radix Popover for short he
 
 ### Component
 ```ts
-import { InfoPopover } from '@doxyz-ui/core/client/InfoPopover';
+import { InfoPopover } from '@eventz-ui/core/client/InfoPopover';
 ```
 
 ### Types
 
 ```ts
-import type { InfoPopoverProps } from '@doxyz-ui/core/client/InfoPopover';
+import type { InfoPopoverProps } from '@eventz-ui/core/client/InfoPopover';
 ```
 
 ---

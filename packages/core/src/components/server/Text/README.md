@@ -12,13 +12,13 @@ Text is a polymorphic typography primitive that maps semantic props (`size`, `we
 
 ### Component
 ```ts
-import { Text } from '@doxyz-ui/core/server/Text';
+import { Text } from '@eventz-ui/core/server/Text';
 ```
 
 ### Types
 
 ```ts
-import type { TextProps } from '@doxyz-ui/core/server/Text';
+import type { TextProps } from '@eventz-ui/core/server/Text';
 ```
 
 ---
@@ -110,7 +110,7 @@ const Comp = as ?? 'span';
 
 ```tsx
 <Text as="code" size="sm" color="inverse">
-  npm install @doxyz-ui/core
+  npm install @eventz-ui/core
 </Text>
 ```
 - Switch the `as` prop to semantic elements like `code` when you need inline formatting.

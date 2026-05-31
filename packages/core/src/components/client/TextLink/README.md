@@ -10,13 +10,13 @@ TextLink renders a styled anchor that behaves like inline text rather than a but
 
 ### Component
 ```ts
-import { TextLink } from '@doxyz-ui/core/client/TextLink';
+import { TextLink } from '@eventz-ui/core/client/TextLink';
 ```
 
 ### Types
 
 ```ts
-import type { TextLinkProps } from '@doxyz-ui/core/client/TextLink';
+import type { TextLinkProps } from '@eventz-ui/core/client/TextLink';
 ```
 
 ---

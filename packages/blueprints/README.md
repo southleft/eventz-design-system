@@ -1,4 +1,4 @@
-# @doxyz-ui/blueprints
+# @eventz-ui/blueprints
 
 This package contains contracts and style maps used by the MCP server to generate component source code.
 
@@ -10,12 +10,12 @@ This package contains contracts and style maps used by the MCP server to generat
 
 ## Usage
 
-Contracts and style maps are **not executed directly**. Instead, they are consumed by the `@doxyz-ui/mcp` package to generate and validate component code.
+Contracts and style maps are **not executed directly**. Instead, they are consumed by the `@eventz-ui/mcp` package to generate and validate component code.
 
 ### Example
 
 ```ts
-import { defineContract } from '@doxyz-ui/mcp';
+import { defineContract } from '@eventz-ui/mcp';
 
 export default defineContract({
   componentName: 'DialogWithHeading',

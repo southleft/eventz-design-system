@@ -12,13 +12,13 @@ Map wraps consumer-provided map layers inside a sized region with optional overl
 
 ### Component
 ```ts
-import { Map } from '@doxyz-ui/core/server/Map';
+import { Map } from '@eventz-ui/core/server/Map';
 ```
 
 ### Types
 
 ```ts
-import type { MapProps } from '@doxyz-ui/core/server/Map';
+import type { MapProps } from '@eventz-ui/core/server/Map';
 ```
 
 ---

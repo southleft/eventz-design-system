@@ -10,13 +10,13 @@ ToggleGroup renders an icon-only set of Radix toggle buttons with shared focus t
 
 ### Component
 ```ts
-import { ToggleGroup } from '@doxyz-ui/core/client/ToggleGroup';
+import { ToggleGroup } from '@eventz-ui/core/client/ToggleGroup';
 ```
 
 ### Types
 
 ```ts
-import type { ToggleGroupProps } from '@doxyz-ui/core/client/ToggleGroup';
+import type { ToggleGroupProps } from '@eventz-ui/core/client/ToggleGroup';
 ```
 
 ---

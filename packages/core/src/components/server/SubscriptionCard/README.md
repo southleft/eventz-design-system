@@ -12,13 +12,13 @@ SubscriptionCard displays plan terms with either an active state (billing detail
 
 ### Component
 ```ts
-import { SubscriptionCard } from '@doxyz-ui/core/server/SubscriptionCard';
+import { SubscriptionCard } from '@eventz-ui/core/server/SubscriptionCard';
 ```
 
 ### Types
 
 ```ts
-import type { SubscriptionCardProps } from '@doxyz-ui/core/server/SubscriptionCard';
+import type { SubscriptionCardProps } from '@eventz-ui/core/server/SubscriptionCard';
 ```
 
 ---

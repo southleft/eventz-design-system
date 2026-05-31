@@ -12,13 +12,13 @@ ActionCard surfaces a promotional tile with an optional media preview, subtitle,
 
 ### Component
 ```ts
-import { ActionCard } from '@doxyz-ui/core/server/ActionCard';
+import { ActionCard } from '@eventz-ui/core/server/ActionCard';
 ```
 
 ### Types
 
 ```ts
-import type { ActionCardProps } from '@doxyz-ui/core/server/ActionCard';
+import type { ActionCardProps } from '@eventz-ui/core/server/ActionCard';
 ```
 
 ---

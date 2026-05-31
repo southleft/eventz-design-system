@@ -10,13 +10,13 @@ Stepper renders a horizontal sequence of numbered steps that visualize progress 
 
 ### Component
 ```ts
-import { Stepper } from '@doxyz-ui/core/client/Stepper';
+import { Stepper } from '@eventz-ui/core/client/Stepper';
 ```
 
 ### Types
 
 ```ts
-import type { StepperProps } from '@doxyz-ui/core/client/Stepper';
+import type { StepperProps } from '@eventz-ui/core/client/Stepper';
 ```
 
 ---

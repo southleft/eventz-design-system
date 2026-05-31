@@ -10,13 +10,13 @@ Accordion reveals a single collapsible answer or detail block with a Radix-power
 
 ### Component
 ```ts
-import { Accordion } from '@doxyz-ui/core/client/Accordion';
+import { Accordion } from '@eventz-ui/core/client/Accordion';
 ```
 
 ### Types
 
 ```ts
-import type { AccordionProps } from '@doxyz-ui/core/client/Accordion';
+import type { AccordionProps } from '@eventz-ui/core/client/Accordion';
 ```
 
 ---
@@ -137,8 +137,8 @@ The table below flattens `RadixAccordion.Root` into component-level props (alpha
 ### Basic Disclosure
 
 ```tsx
-<Accordion title="What is DoXYZ?">
-  <p>DoXYZ pairs AI + design systems to help teams launch better docs faster.</p>
+<Accordion title="What is Eventz?">
+  <p>Eventz pairs AI + design systems to help teams launch better docs faster.</p>
 </Accordion>
 ```
 

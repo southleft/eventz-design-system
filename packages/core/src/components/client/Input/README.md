@@ -10,13 +10,13 @@ Input renders the control row that lives inside `FormElement`: start icon → na
 
 ### Component
 ```ts
-import { Input } from '@doxyz-ui/core/client/Input';
+import { Input } from '@eventz-ui/core/client/Input';
 ```
 
 ### Types
 
 ```ts
-import type { InputProps } from '@doxyz-ui/core/client/Input';
+import type { InputProps } from '@eventz-ui/core/client/Input';
 ```
 
 ---

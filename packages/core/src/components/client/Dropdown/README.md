@@ -4,7 +4,7 @@
 *Last updated: 2025-11-11*
 
 ## Overview
-Dropdown composes a Radix Popover with the DoXYZ secondary Button to show consumer-owned panel content behind a labeled trigger. Use it for lightweight menus, filters, or preview panels where you control everything inside the surface. The component centralizes trigger labeling, icon affordances, placement controls, and focus management while leaving panel layout entirely up to the children slot.
+Dropdown composes a Radix Popover with the Eventz secondary Button to show consumer-owned panel content behind a labeled trigger. Use it for lightweight menus, filters, or preview panels where you control everything inside the surface. The component centralizes trigger labeling, icon affordances, placement controls, and focus management while leaving panel layout entirely up to the children slot.
 
 ---
 
@@ -12,13 +12,13 @@ Dropdown composes a Radix Popover with the DoXYZ secondary Button to show consum
 
 ### Component
 ```ts
-import { Dropdown } from '@doxyz-ui/core/client/Dropdown';
+import { Dropdown } from '@eventz-ui/core/client/Dropdown';
 ```
 
 ### Types
 
 ```ts
-import type { DropdownProps } from '@doxyz-ui/core/client/Dropdown';
+import type { DropdownProps } from '@eventz-ui/core/client/Dropdown';
 ```
 
 ---

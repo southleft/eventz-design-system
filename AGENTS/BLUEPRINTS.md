@@ -8,7 +8,7 @@
 > Source: AGENTS/META.yml (version: 1)
 <!-- @agents:paths:end -->
 
-This document explains **what contracts are**, **what styleMaps are**, and **how agents must use them** to generate components that are consistent with **DoXYZ** design tokens and **Radix UI Primitives** (Primitives only; Themes are disallowed as a `base`).
+This document explains **what contracts are**, **what styleMaps are**, and **how agents must use them** to generate components that are consistent with **Eventz** design tokens and **Radix UI Primitives** (Primitives only; Themes are disallowed as a `base`).
 
 ---
 

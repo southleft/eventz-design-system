@@ -10,13 +10,13 @@ ExpandableContent reveals long-form text or descriptions behind a collapsible re
 
 ### Component
 ```ts
-import { ExpandableContent } from '@doxyz-ui/core/client/ExpandableContent';
+import { ExpandableContent } from '@eventz-ui/core/client/ExpandableContent';
 ```
 
 ### Types
 
 ```ts
-import type { ExpandableContentProps } from '@doxyz-ui/core/client/ExpandableContent';
+import type { ExpandableContentProps } from '@eventz-ui/core/client/ExpandableContent';
 ```
 
 ---

@@ -2,43 +2,43 @@
   "color": {
     "brand": {
       "100": {
-        "value": "#e6fd97",
+        "value": "#e8f1f5",
         "type": "color"
       },
       "200": {
-        "value": "#ddfc86",
+        "value": "#c9dee8",
         "type": "color"
       },
       "300": {
-        "value": "#d4fb75",
+        "value": "#9ec2d2",
         "type": "color"
       },
       "400": {
-        "value": "#cafa64",
+        "value": "#6ba0b8",
         "type": "color"
       },
       "500": {
-        "value": "#c2f853",
+        "value": "#3d7a95",
         "type": "color"
       },
       "600": {
-        "value": "#96c23d",
+        "value": "#2d6079",
         "type": "color"
       },
       "700": {
-        "value": "#7a9b32",
+        "value": "#224b60",
         "type": "color"
       },
       "800": {
-        "value": "#5e7827",
+        "value": "#173647",
         "type": "color"
       },
       "900": {
-        "value": "#4a5f26",
+        "value": "#102837",
         "type": "color"
       },
       "950": {
-        "value": "#3a4a20",
+        "value": "#0a1a24",
         "type": "color"
       }
     },
@@ -395,7 +395,7 @@
   },
   "font-family": {
     "primary": {
-      "value": "Karla",
+      "value": "Geist",
       "type": "text"
     }
   },
@@ -1230,8 +1230,8 @@
     }
   },
   "fontFamilies": {
-    "karla": {
-      "value": "Karla",
+    "geist": {
+      "value": "Geist",
       "type": "fontFamilies"
     }
   },
@@ -1350,19 +1350,19 @@
     }
   },
   "fontWeights": {
-    "karla-0": {
+    "geist-0": {
       "value": "Bold",
       "type": "fontWeights"
     },
-    "karla-1": {
+    "geist-1": {
       "value": "ExtraBold",
       "type": "fontWeights"
     },
-    "karla-2": {
+    "geist-2": {
       "value": "Medium",
       "type": "fontWeights"
     },
-    "karla-3": {
+    "geist-3": {
       "value": "Regular",
       "type": "fontWeights"
     }
@@ -1712,8 +1712,8 @@
   "display": {
     "md": {
       "value": {
-        "fontFamily": "{fontFamilies.karla}",
-        "fontWeight": "{fontWeights.karla-0}",
+        "fontFamily": "{fontFamilies.geist}",
+        "fontWeight": "{fontWeights.geist-0}",
         "lineHeight": "{lineHeights.0}",
         "fontSize": "{fontSize.0}",
         "letterSpacing": "{letterSpacing.0}",
@@ -1728,8 +1728,8 @@
   "heading": {
     "xl": {
       "value": {
-        "fontFamily": "{fontFamilies.karla}",
-        "fontWeight": "{fontWeights.karla-0}",
+        "fontFamily": "{fontFamilies.geist}",
+        "fontWeight": "{fontWeights.geist-0}",
         "lineHeight": "{lineHeights.1}",
         "fontSize": "{fontSize.1}",
         "letterSpacing": "{letterSpacing.0}",
@@ -1742,8 +1742,8 @@
     },
     "lg": {
       "value": {
-        "fontFamily": "{fontFamilies.karla}",
-        "fontWeight": "{fontWeights.karla-0}",
+        "fontFamily": "{fontFamilies.geist}",
+        "fontWeight": "{fontWeights.geist-0}",
         "lineHeight": "{lineHeights.2}",
         "fontSize": "{font-size.24}",
         "letterSpacing": "{letterSpacing.0}",
@@ -1756,8 +1756,8 @@
     },
     "md": {
       "value": {
-        "fontFamily": "{fontFamilies.karla}",
-        "fontWeight": "{fontWeights.karla-1}",
+        "fontFamily": "{fontFamilies.geist}",
+        "fontWeight": "{fontWeights.geist-1}",
         "lineHeight": "{lineHeights.3}",
         "fontSize": "{fontSize.3}",
         "letterSpacing": "{letterSpacing.0}",
@@ -1770,8 +1770,8 @@
     },
     "sm": {
       "value": {
-        "fontFamily": "{fontFamilies.karla}",
-        "fontWeight": "{fontWeights.karla-0}",
+        "fontFamily": "{fontFamilies.geist}",
+        "fontWeight": "{fontWeights.geist-0}",
         "lineHeight": "{lineHeights.4}",
         "fontSize": "{font-size.20}",
         "letterSpacing": "{letterSpacing.0}",
@@ -1784,8 +1784,8 @@
     },
     "xs": {
       "value": {
-        "fontFamily": "{fontFamilies.karla}",
-        "fontWeight": "{fontWeights.karla-0}",
+        "fontFamily": "{fontFamilies.geist}",
+        "fontWeight": "{fontWeights.geist-0}",
         "lineHeight": "{line-height.24}",
         "fontSize": "{font-size.18}",
         "letterSpacing": "{letterSpacing.0}",
@@ -1800,8 +1800,8 @@
   "body": {
     "lg": {
       "value": {
-        "fontFamily": "{fontFamilies.karla}",
-        "fontWeight": "{fontWeights.karla-2}",
+        "fontFamily": "{fontFamilies.geist}",
+        "fontWeight": "{fontWeights.geist-2}",
         "lineHeight": "{lineHeights.4}",
         "fontSize": "{font-size.18}",
         "letterSpacing": "{letterSpacing.0}",
@@ -1814,8 +1814,8 @@
     },
     "lg-bold": {
       "value": {
-        "fontFamily": "{fontFamilies.karla}",
-        "fontWeight": "{fontWeights.karla-0}",
+        "fontFamily": "{fontFamilies.geist}",
+        "fontWeight": "{fontWeights.geist-0}",
         "lineHeight": "{lineHeights.4}",
         "fontSize": "{font-size.18}",
         "letterSpacing": "{letterSpacing.0}",
@@ -1828,8 +1828,8 @@
     },
     "md": {
       "value": {
-        "fontFamily": "{fontFamilies.karla}",
-        "fontWeight": "{fontWeights.karla-2}",
+        "fontFamily": "{fontFamilies.geist}",
+        "fontWeight": "{fontWeights.geist-2}",
         "lineHeight": "{lineHeights.8}",
         "fontSize": "{fontSize.8}",
         "letterSpacing": "{letterSpacing.0}",
@@ -1842,8 +1842,8 @@
     },
     "md-bold": {
       "value": {
-        "fontFamily": "{fontFamilies.karla}",
-        "fontWeight": "{fontWeights.karla-0}",
+        "fontFamily": "{fontFamilies.geist}",
+        "fontWeight": "{fontWeights.geist-0}",
         "lineHeight": "{lineHeights.8}",
         "fontSize": "{fontSize.8}",
         "letterSpacing": "{letterSpacing.0}",
@@ -1856,8 +1856,8 @@
     },
     "sm": {
       "value": {
-        "fontFamily": "{fontFamilies.karla}",
-        "fontWeight": "{fontWeights.karla-2}",
+        "fontFamily": "{fontFamilies.geist}",
+        "fontWeight": "{fontWeights.geist-2}",
         "lineHeight": "{lineHeights.8}",
         "fontSize": "{fontSize.10}",
         "letterSpacing": "{letterSpacing.0}",
@@ -1870,8 +1870,8 @@
     },
     "sm-allcaps": {
       "value": {
-        "fontFamily": "{fontFamilies.karla}",
-        "fontWeight": "{fontWeights.karla-2}",
+        "fontFamily": "{fontFamilies.geist}",
+        "fontWeight": "{fontWeights.geist-2}",
         "lineHeight": "{lineHeights.8}",
         "fontSize": "{fontSize.10}",
         "letterSpacing": "{letterSpacing.0}",
@@ -1884,8 +1884,8 @@
     },
     "sm-bold": {
       "value": {
-        "fontFamily": "{fontFamilies.karla}",
-        "fontWeight": "{fontWeights.karla-0}",
+        "fontFamily": "{fontFamilies.geist}",
+        "fontWeight": "{fontWeights.geist-0}",
         "lineHeight": "{lineHeights.8}",
         "fontSize": "{fontSize.10}",
         "letterSpacing": "{letterSpacing.0}",
@@ -1898,8 +1898,8 @@
     },
     "xs": {
       "value": {
-        "fontFamily": "{fontFamilies.karla}",
-        "fontWeight": "{fontWeights.karla-2}",
+        "fontFamily": "{fontFamilies.geist}",
+        "fontWeight": "{fontWeights.geist-2}",
         "lineHeight": "{lineHeights.8}",
         "fontSize": "{fontSize.13}",
         "letterSpacing": "{letterSpacing.0}",
@@ -1912,8 +1912,8 @@
     },
     "xs-bold": {
       "value": {
-        "fontFamily": "{fontFamilies.karla}",
-        "fontWeight": "{fontWeights.karla-0}",
+        "fontFamily": "{fontFamilies.geist}",
+        "fontWeight": "{fontWeights.geist-0}",
         "lineHeight": "{lineHeights.8}",
         "fontSize": "{fontSize.13}",
         "letterSpacing": "{letterSpacing.0}",
@@ -1926,8 +1926,8 @@
     },
     "xs-allcaps-bold": {
       "value": {
-        "fontFamily": "{fontFamilies.karla}",
-        "fontWeight": "{fontWeights.karla-0}",
+        "fontFamily": "{fontFamilies.geist}",
+        "fontWeight": "{fontWeights.geist-0}",
         "lineHeight": "{lineHeights.8}",
         "fontSize": "{fontSize.13}",
         "letterSpacing": "{letterSpacing.0}",
@@ -1942,7 +1942,7 @@
   "caption": {
     "lg": {
       "value": {
-        "fontWeight": "{fontWeights.karla-2}",
+        "fontWeight": "{fontWeights.geist-2}",
         "lineHeight": "{lineHeights.16}",
         "fontSize": "{fontSize.16}",
         "letterSpacing": "{letterSpacing.0}",
@@ -1955,7 +1955,7 @@
     },
     "lg-allcaps": {
       "value": {
-        "fontWeight": "{fontWeights.karla-2}",
+        "fontWeight": "{fontWeights.geist-2}",
         "lineHeight": "{lineHeights.16}",
         "fontSize": "{fontSize.16}",
         "letterSpacing": "{letterSpacing.0}",
@@ -1968,7 +1968,7 @@
     },
     "lg-allcaps-bold": {
       "value": {
-        "fontWeight": "{fontWeights.karla-0}",
+        "fontWeight": "{fontWeights.geist-0}",
         "lineHeight": "{lineHeights.16}",
         "fontSize": "{fontSize.16}",
         "letterSpacing": "{letterSpacing.0}",
@@ -1981,7 +1981,7 @@
     },
     "sm": {
       "value": {
-        "fontWeight": "{fontWeights.karla-3}",
+        "fontWeight": "{fontWeights.geist-3}",
         "lineHeight": "{lineHeights.19}",
         "fontSize": "{fontSize.19}",
         "letterSpacing": "{letterSpacing.0}",
@@ -1994,7 +1994,7 @@
     },
     "sm-allcaps-bold": {
       "value": {
-        "fontWeight": "{fontWeights.karla-0}",
+        "fontWeight": "{fontWeights.geist-0}",
         "lineHeight": "{lineHeights.19}",
         "fontSize": "{fontSize.19}",
         "letterSpacing": "{letterSpacing.0}",
@@ -2010,8 +2010,8 @@
     "display": {
       "md": {
         "value": {
-          "fontFamily": "{fontFamilies.karla}",
-          "fontWeight": "{fontWeights.karla-0}",
+          "fontFamily": "{fontFamilies.geist}",
+          "fontWeight": "{fontWeights.geist-0}",
           "lineHeight": "{lineHeights.21}",
           "fontSize": "{fontSize.21}",
           "letterSpacing": "{letterSpacing.0}",
@@ -2026,8 +2026,8 @@
     "heading": {
       "xl": {
         "value": {
-          "fontFamily": "{fontFamilies.karla}",
-          "fontWeight": "{fontWeights.karla-0}",
+          "fontFamily": "{fontFamilies.geist}",
+          "fontWeight": "{fontWeights.geist-0}",
           "lineHeight": "{lineHeights.2}",
           "fontSize": "{fontSize.22}",
           "letterSpacing": "{letterSpacing.0}",
@@ -2040,8 +2040,8 @@
       },
       "lg": {
         "value": {
-          "fontFamily": "{fontFamilies.karla}",
-          "fontWeight": "{fontWeights.karla-0}",
+          "fontFamily": "{fontFamilies.geist}",
+          "fontWeight": "{fontWeights.geist-0}",
           "lineHeight": "{lineHeights.3}",
           "fontSize": "{fontSize.3}",
           "letterSpacing": "{letterSpacing.0}",
@@ -2054,8 +2054,8 @@
       },
       "md": {
         "value": {
-          "fontFamily": "{fontFamilies.karla}",
-          "fontWeight": "{fontWeights.karla-0}",
+          "fontFamily": "{fontFamilies.geist}",
+          "fontWeight": "{fontWeights.geist-0}",
           "lineHeight": "{lineHeights.4}",
           "fontSize": "{font-size.20}",
           "letterSpacing": "{letterSpacing.0}",
@@ -2068,8 +2068,8 @@
       },
       "sm": {
         "value": {
-          "fontFamily": "{fontFamilies.karla}",
-          "fontWeight": "{fontWeights.karla-0}",
+          "fontFamily": "{fontFamilies.geist}",
+          "fontWeight": "{fontWeights.geist-0}",
           "lineHeight": "{lineHeights.4}",
           "fontSize": "{font-size.18}",
           "letterSpacing": "{letterSpacing.0}",
@@ -2082,8 +2082,8 @@
       },
       "xs": {
         "value": {
-          "fontFamily": "{fontFamilies.karla}",
-          "fontWeight": "{fontWeights.karla-0}",
+          "fontFamily": "{fontFamilies.geist}",
+          "fontWeight": "{fontWeights.geist-0}",
           "lineHeight": "{lineHeights.4}",
           "fontSize": "{fontSize.8}",
           "letterSpacing": "{letterSpacing.0}",
@@ -2098,8 +2098,8 @@
     "body": {
       "lg": {
         "value": {
-          "fontFamily": "{fontFamilies.karla}",
-          "fontWeight": "{fontWeights.karla-2}",
+          "fontFamily": "{fontFamilies.geist}",
+          "fontWeight": "{fontWeights.geist-2}",
           "lineHeight": "{lineHeights.8}",
           "fontSize": "{fontSize.8}",
           "letterSpacing": "{letterSpacing.0}",
@@ -2112,8 +2112,8 @@
       },
       "lg-bold": {
         "value": {
-          "fontFamily": "{fontFamilies.karla}",
-          "fontWeight": "{fontWeights.karla-0}",
+          "fontFamily": "{fontFamilies.geist}",
+          "fontWeight": "{fontWeights.geist-0}",
           "lineHeight": "{lineHeights.8}",
           "fontSize": "{fontSize.8}",
           "letterSpacing": "{letterSpacing.0}",

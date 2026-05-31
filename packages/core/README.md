@@ -1,17 +1,17 @@
-# DoXYZ Design System
+# Eventz Design System
 
-Reusable UI primitives and components for DoXYZ projects, built with [React](https://react.dev/), [Radix UI](https://www.radix-ui.com/), and [Tailwind CSS](https://tailwindcss.com/).
+Reusable UI primitives and components for Eventz projects, built with [React](https://react.dev/), [Radix UI](https://www.radix-ui.com/), and [Tailwind CSS](https://tailwindcss.com/).
 
 ---
 
 ## Installation
 
 ```bash
-npm install @doxyz-ui/core
+npm install @eventz-ui/core
 # or
-yarn add @doxyz-ui/core
+yarn add @eventz-ui/core
 # or
-pnpm add @doxyz-ui/core
+pnpm add @eventz-ui/core
 ```
 
 ---
@@ -35,15 +35,15 @@ They are marked as **peerDependencies** to avoid duplicate React or Radix versio
 
 ```ts
 // RSC-safe (layouts/pages, SSR-only)
-import { Heading, TextLink } from '@doxyz-ui/core/server-components';
+import { Heading, TextLink } from '@eventz-ui/core/server-components';
 // Client islands (hooks/Radix/portals)
-import { Button, Dialog, Accordion } from '@doxyz-ui/core/client-components';
+import { Button, Dialog, Accordion } from '@eventz-ui/core/client-components';
 // Icons & utilities
-import { PlayIcon } from '@doxyz-ui/core/icons';
-import { collapseWhitespace, composeClasses } from '@doxyz-ui/core/utilities';
+import { PlayIcon } from '@eventz-ui/core/icons';
+import { collapseWhitespace, composeClasses } from '@eventz-ui/core/utilities';
 ```
 
-> Do not import from `@doxyz-ui/core` (root); use explicit subpaths.
+> Do not import from `@eventz-ui/core` (root); use explicit subpaths.
 
 ---
 
@@ -56,7 +56,7 @@ import { collapseWhitespace, composeClasses } from '@doxyz-ui/core/utilities';
   ```js
   // next.config.mjs
   export default {
-    transpilePackages: ['@doxyz-ui/core']
+    transpilePackages: ['@eventz-ui/core']
   };
   ```
   Most projects won’t need this if targeting Node 20 + modern Next.js.
@@ -87,4 +87,4 @@ npm test
 
 ## License
 
-MIT © DoXYZ
+MIT © Eventz

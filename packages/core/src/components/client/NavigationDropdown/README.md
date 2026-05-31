@@ -10,13 +10,13 @@ NavigationDropdown toggles a full-screen popover menu using an `IconButton` trig
 
 ### Component
 ```ts
-import { NavigationDropdown } from '@doxyz-ui/core/client/NavigationDropdown';
+import { NavigationDropdown } from '@eventz-ui/core/client/NavigationDropdown';
 ```
 
 ### Types
 
 ```ts
-import type { NavigationDropdownProps } from '@doxyz-ui/core/client/NavigationDropdown';
+import type { NavigationDropdownProps } from '@eventz-ui/core/client/NavigationDropdown';
 ```
 
 ---

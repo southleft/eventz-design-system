@@ -12,13 +12,13 @@ ScrollerRow is a lightweight flex container that evenly spaces items across hori
 
 ### Component
 ```ts
-import { ScrollerRow } from '@doxyz-ui/core/server/ScrollerRow';
+import { ScrollerRow } from '@eventz-ui/core/server/ScrollerRow';
 ```
 
 ### Types
 
 ```ts
-import type { ScrollerRowProps } from '@doxyz-ui/core/server/ScrollerRow';
+import type { ScrollerRowProps } from '@eventz-ui/core/server/ScrollerRow';
 ```
 
 ---

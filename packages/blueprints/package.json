@@ -1,5 +1,5 @@
 {
-  "name": "@doxyz-ui/blueprints",
+  "name": "@eventz-ui/blueprints",
   "version": "0.1.0",
   "description": "Component contracts and style maps for MCP-based generation",
   "private": true,

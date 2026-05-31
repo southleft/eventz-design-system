@@ -12,13 +12,13 @@ Badge renders a small label with tightly controlled typography and gradient back
 
 ### Component
 ```ts
-import { Badge } from '@doxyz-ui/core/server/Badge';
+import { Badge } from '@eventz-ui/core/server/Badge';
 ```
 
 ### Types
 
 ```ts
-import type { BadgeProps } from '@doxyz-ui/core/server/Badge';
+import type { BadgeProps } from '@eventz-ui/core/server/Badge';
 ```
 
 ---

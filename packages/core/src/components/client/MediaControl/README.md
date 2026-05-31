@@ -10,13 +10,13 @@ MediaControl is an icon-only button that toggles between play and pause states. 
 
 ### Component
 ```ts
-import { MediaControl } from '@doxyz-ui/core/client/MediaControl';
+import { MediaControl } from '@eventz-ui/core/client/MediaControl';
 ```
 
 ### Types
 
 ```ts
-import type { MediaControlProps } from '@doxyz-ui/core/client/MediaControl';
+import type { MediaControlProps } from '@eventz-ui/core/client/MediaControl';
 ```
 
 ---

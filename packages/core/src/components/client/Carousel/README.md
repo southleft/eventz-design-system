@@ -10,12 +10,12 @@ Carousel wraps Embla Carousel and its Autoplay plugin to deliver a horizontal sl
 
 ### Component
 ```ts
-import { Carousel } from '@doxyz-ui/core/client/Carousel';
+import { Carousel } from '@eventz-ui/core/client/Carousel';
 ```
 
 ### Hook
 ```ts
-import { useCarouselContext } from '@doxyz-ui/core/client/Carousel';
+import { useCarouselContext } from '@eventz-ui/core/client/Carousel';
 ```
 
 ---

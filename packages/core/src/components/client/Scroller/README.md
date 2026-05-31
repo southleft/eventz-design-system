@@ -10,13 +10,13 @@ Scroller provides a horizontally scrollable rail with hidden scrollbars, optiona
 
 ### Component
 ```ts
-import { Scroller } from '@doxyz-ui/core/client/Scroller';
+import { Scroller } from '@eventz-ui/core/client/Scroller';
 ```
 
 ### Types
 
 ```ts
-import type { ScrollerProps } from '@doxyz-ui/core/client/Scroller';
+import type { ScrollerProps } from '@eventz-ui/core/client/Scroller';
 ```
 
 ---

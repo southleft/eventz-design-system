@@ -10,12 +10,12 @@ FileUpload renders a labeled dropzone for image uploads with drag states, live-r
 
 ### Component
 ```ts
-import { FileUpload } from '@doxyz-ui/core/client/FileUpload';
+import { FileUpload } from '@eventz-ui/core/client/FileUpload';
 ```
 
 ### Types
 ```ts
-import type { FileUploadProps } from '@doxyz-ui/core/client/FileUpload';
+import type { FileUploadProps } from '@eventz-ui/core/client/FileUpload';
 ```
 
 ---

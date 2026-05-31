@@ -12,13 +12,13 @@ Heading renders semantic `h1`–`h6` elements with opt-in typography controls (s
 
 ### Component
 ```ts
-import { Heading } from '@doxyz-ui/core/server/Heading';
+import { Heading } from '@eventz-ui/core/server/Heading';
 ```
 
 ### Types
 
 ```ts
-import type { HeadingProps } from '@doxyz-ui/core/server/Heading';
+import type { HeadingProps } from '@eventz-ui/core/server/Heading';
 ```
 
 ---

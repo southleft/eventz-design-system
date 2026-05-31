@@ -10,13 +10,13 @@ AvatarGroup stacks user faces with overlapping Radix Avatars and an optional tra
 
 ### Component
 ```ts
-import { AvatarGroup } from '@doxyz-ui/core/client/AvatarGroup';
+import { AvatarGroup } from '@eventz-ui/core/client/AvatarGroup';
 ```
 
 ### Types
 
 ```ts
-import type { AvatarGroupProps } from '@doxyz-ui/core/client/AvatarGroup';
+import type { AvatarGroupProps } from '@eventz-ui/core/client/AvatarGroup';
 ```
 
 ---

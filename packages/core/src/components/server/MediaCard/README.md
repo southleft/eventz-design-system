@@ -12,13 +12,13 @@ MediaCard displays a horizontal preview with an optional image, subtitle, label 
 
 ### Component
 ```ts
-import { MediaCard } from '@doxyz-ui/core/server/MediaCard';
+import { MediaCard } from '@eventz-ui/core/server/MediaCard';
 ```
 
 ### Types
 
 ```ts
-import type { MediaCardProps } from '@doxyz-ui/core/server/MediaCard';
+import type { MediaCardProps } from '@eventz-ui/core/server/MediaCard';
 ```
 
 ---

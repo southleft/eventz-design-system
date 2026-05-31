@@ -12,13 +12,13 @@ MediaPlayer wraps a native `<audio>` element with MediaControl, Slider, artwork,
 
 ### Component
 ```ts
-import { MediaPlayer } from '@doxyz-ui/core/client/MediaPlayer';
+import { MediaPlayer } from '@eventz-ui/core/client/MediaPlayer';
 ```
 
 ### Types
 
 ```ts
-import type { MediaPlayerProps } from '@doxyz-ui/core/client/MediaPlayer';
+import type { MediaPlayerProps } from '@eventz-ui/core/client/MediaPlayer';
 ```
 
 ---

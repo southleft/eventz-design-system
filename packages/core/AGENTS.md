@@ -1,16 +1,16 @@
-# 🤖 AGENTS.md – @doxyz-ui/core
+# 🤖 AGENTS.md – @eventz-ui/core
 
-This file defines how AI agents interact with the `@doxyz-ui/core` package, which houses the core component library and Tailwind configuration used by the MCP server.
+This file defines how AI agents interact with the `@eventz-ui/core` package, which houses the core component library and Tailwind configuration used by the MCP server.
 
 ---
 
 ## 📦 Package Purpose
 
-`@doxyz-ui/core` contains:
+`@eventz-ui/core` contains:
 
 - Primitives and foundational UI components (e.g., Button, Dialog)
 - Tailwind configuration and token mappings
-- Generated components created from blueprints in `@doxyz-ui/blueprints`
+- Generated components created from blueprints in `@eventz-ui/blueprints`
 
 ---
 
@@ -19,7 +19,7 @@ This file defines how AI agents interact with the `@doxyz-ui/core` package, whic
 Agents working in this package must:
 
 - Generate components **only** via the MCP pipeline (`generate_component('Dialog')`)
-- Read contracts and style maps from `@doxyz-ui/blueprints`
+- Read contracts and style maps from `@eventz-ui/blueprints`
 - Write generated code to `src/components/`
 - Avoid overwriting existing hand-written components
 - Use local relative imports when referencing other core components (e.g., `../Button`)

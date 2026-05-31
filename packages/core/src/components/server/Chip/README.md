@@ -12,13 +12,13 @@ Chip renders a lightweight inline label with an optional decorative icon, making
 
 ### Component
 ```ts
-import { Chip } from '@doxyz-ui/core/server/Chip';
+import { Chip } from '@eventz-ui/core/server/Chip';
 ```
 
 ### Types
 
 ```ts
-import type { ChipProps } from '@doxyz-ui/core/server/Chip';
+import type { ChipProps } from '@eventz-ui/core/server/Chip';
 ```
 
 ---

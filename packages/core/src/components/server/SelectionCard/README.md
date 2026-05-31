@@ -12,13 +12,13 @@ SelectionCard is a focusable checkbox-style tile used in multi-select grids. It 
 
 ### Component
 ```ts
-import { SelectionCard } from '@doxyz-ui/core/server/SelectionCard';
+import { SelectionCard } from '@eventz-ui/core/server/SelectionCard';
 ```
 
 ### Types
 
 ```ts
-import type { SelectionCardProps } from '@doxyz-ui/core/server/SelectionCard';
+import type { SelectionCardProps } from '@eventz-ui/core/server/SelectionCard';
 ```
 
 ---

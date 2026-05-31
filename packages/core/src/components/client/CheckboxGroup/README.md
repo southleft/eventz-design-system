@@ -10,13 +10,13 @@ CheckboxGroup arranges related Checkbox options inside a fieldset with shared le
 
 ### Component
 ```ts
-import { CheckboxGroup } from '@doxyz-ui/core/client/CheckboxGroup';
+import { CheckboxGroup } from '@eventz-ui/core/client/CheckboxGroup';
 ```
 
 ### Types
 
 ```ts
-import type { CheckboxGroupProps } from '@doxyz-ui/core/client/CheckboxGroup';
+import type { CheckboxGroupProps } from '@eventz-ui/core/client/CheckboxGroup';
 ```
 
 ---

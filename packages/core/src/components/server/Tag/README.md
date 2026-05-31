@@ -12,13 +12,13 @@ Tag renders pill-style labels that can be either decorative (`isInteractive=fals
 
 ### Component
 ```ts
-import { Tag } from '@doxyz-ui/core/server/Tag';
+import { Tag } from '@eventz-ui/core/server/Tag';
 ```
 
 ### Types
 
 ```ts
-import type { TagProps } from '@doxyz-ui/core/server/Tag';
+import type { TagProps } from '@eventz-ui/core/server/Tag';
 ```
 
 ---

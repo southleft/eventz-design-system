@@ -12,13 +12,13 @@ Alert surfaces inline product or system status with gradient backgrounds, option
 
 ### Component
 ```ts
-import { Alert } from '@doxyz-ui/core/client/Alert';
+import { Alert } from '@eventz-ui/core/client/Alert';
 ```
 
 ### Types
 
 ```ts
-import type { AlertProps } from '@doxyz-ui/core/client/Alert';
+import type { AlertProps } from '@eventz-ui/core/client/Alert';
 ```
 
 ---

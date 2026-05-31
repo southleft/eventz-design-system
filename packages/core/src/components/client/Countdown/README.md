@@ -10,13 +10,13 @@ Countdown displays the remaining time until an absolute ISO-8601 timestamp. It r
 
 ### Component
 ```ts
-import { Countdown } from '@doxyz-ui/core/client/Countdown';
+import { Countdown } from '@eventz-ui/core/client/Countdown';
 ```
 
 ### Types
 
 ```ts
-import type { CountdownProps } from '@doxyz-ui/core/client/Countdown';
+import type { CountdownProps } from '@eventz-ui/core/client/Countdown';
 ```
 
 ---

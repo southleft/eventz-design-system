@@ -12,13 +12,13 @@ NavigationBar renders the site-wide primary navigation shell with slots for a lo
 
 ### Component
 ```ts
-import { NavigationBar } from '@doxyz-ui/core/server/NavigationBar';
+import { NavigationBar } from '@eventz-ui/core/server/NavigationBar';
 ```
 
 ### Types
 
 ```ts
-import type { NavigationBarProps } from '@doxyz-ui/core/server/NavigationBar';
+import type { NavigationBarProps } from '@eventz-ui/core/server/NavigationBar';
 ```
 
 ---

@@ -10,13 +10,13 @@ Checkbox renders a Radix checkbox with a visible label, optional hint copy, and 
 
 ### Component
 ```ts
-import { Checkbox } from '@doxyz-ui/core/client/Checkbox';
+import { Checkbox } from '@eventz-ui/core/client/Checkbox';
 ```
 
 ### Types
 
 ```ts
-import type { CheckboxProps } from '@doxyz-ui/core/client/Checkbox';
+import type { CheckboxProps } from '@eventz-ui/core/client/Checkbox';
 ```
 
 ---
