@@ -154,3 +154,7 @@ docs-mcp/content/manifest.json
 .DS_Store
 **/.DS_Store
 .serena/
+
+# Mintlify local cache
+docs/.mint/
+.mint/

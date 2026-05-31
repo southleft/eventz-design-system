@@ -12,9 +12,7 @@ system: Eventz
 lastUpdated: 2026-05-31
 ---
 
-# Button
-
-**[Open in Figma](https://www.figma.com/design/E7oXr98i91HYQGZxA2USOQ/DEMO-Eventz-Design-System?node-id=2313-42)** | **[View Source](packages/core/src/components/client/Button/Button.tsx)**
+**[Open in Figma](https://www.figma.com/design/E7oXr98i91HYQGZxA2USOQ/DEMO-Eventz-Design-System?node-id=2313-42)** | **[View Source](https://github.com/southleft/eventz-design-system/blob/development/packages/core/src/components/client/Button/Button.tsx)**
 
 > Generated from the Eventz Figma library via the Company Docs MCP component-doc tool, lightly curated.
 

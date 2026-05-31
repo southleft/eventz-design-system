@@ -1,0 +1,43 @@
+{
+  "$schema": "https://mintlify.com/docs.json",
+  "theme": "mint",
+  "name": "Eventz Design System",
+  "colors": {
+    "primary": "#3D7A95",
+    "light": "#9EC2D2",
+    "dark": "#224B60"
+  },
+  "appearance": {
+    "default": "light"
+  },
+  "navigation": {
+    "groups": [
+      {
+        "group": "Get Started",
+        "pages": ["introduction"]
+      },
+      {
+        "group": "Components",
+        "pages": [
+          "components/button",
+          "components/badge",
+          "components/alert",
+          "components/input"
+        ]
+      }
+    ]
+  },
+  "navbar": {
+    "links": [
+      {
+        "label": "GitHub",
+        "href": "https://github.com/southleft/eventz-design-system"
+      }
+    ]
+  },
+  "footer": {
+    "socials": {
+      "github": "https://github.com/southleft/eventz-design-system"
+    }
+  }
+}

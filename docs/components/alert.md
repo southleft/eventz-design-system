@@ -12,9 +12,7 @@ system: Eventz
 lastUpdated: 2026-05-31
 ---
 
-# Alert
-
-**[Open in Figma](https://www.figma.com/design/E7oXr98i91HYQGZxA2USOQ/DEMO-Eventz-Design-System?node-id=2629-56948)** | **[View Source](packages/core/src/components/client/Alert/Alert.tsx)**
+**[Open in Figma](https://www.figma.com/design/E7oXr98i91HYQGZxA2USOQ/DEMO-Eventz-Design-System?node-id=2629-56948)** | **[View Source](https://github.com/southleft/eventz-design-system/blob/development/packages/core/src/components/client/Alert/Alert.tsx)**
 
 > Generated from the Eventz Figma library via the Company Docs MCP component-doc tool, lightly curated.
 
