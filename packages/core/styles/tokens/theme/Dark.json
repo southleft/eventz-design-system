@@ -271,15 +271,15 @@
         "color": {
           "content": {
             "active": {
-              "value": "{color.neutral.950}",
+              "value": "{color.neutral.white}",
               "type": "color"
             },
             "default": {
-              "value": "{color.neutral.950}",
+              "value": "{color.neutral.white}",
               "type": "color"
             },
             "hover": {
-              "value": "{color.neutral.950}",
+              "value": "{color.neutral.white}",
               "type": "color"
             }
           },

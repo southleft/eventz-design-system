@@ -462,9 +462,9 @@
 --dt-comp-button-color-border-active: rgba(0, 0, 2, 0.1);
 --dt-comp-button-color-border-hover: rgba(0, 0, 2, 0.1);
 --dt-comp-button-color-border-default: rgba(0, 0, 2, 0.1);
---dt-comp-button-primary-color-content-active: #252729;
---dt-comp-button-primary-color-content-default: #252729;
---dt-comp-button-primary-color-content-hover: #000002;
+--dt-comp-button-primary-color-content-active: #ffffff;
+--dt-comp-button-primary-color-content-default: #ffffff;
+--dt-comp-button-primary-color-content-hover: #ffffff;
 --dt-comp-button-primary-color-background-hover: #2d6079;
 --dt-comp-button-primary-color-background-active: #3d7a95;
 --dt-comp-button-primary-color-background-default: #3d7a95;

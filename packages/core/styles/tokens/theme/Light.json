@@ -454,21 +454,21 @@
         "color": {
           "content": {
             "active": {
-              "value": "{color.neutral.950}",
+              "value": "{color.neutral.white}",
               "type": "color",
               "attributes": {
                 "theme": "light"
               }
             },
             "default": {
-              "value": "{color.neutral.950}",
+              "value": "{color.neutral.white}",
               "type": "color",
               "attributes": {
                 "theme": "light"
               }
             },
             "hover": {
-              "value": "{color.neutral.black}",
+              "value": "{color.neutral.white}",
               "type": "color",
               "attributes": {
                 "theme": "light"
