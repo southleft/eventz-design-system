@@ -19,7 +19,9 @@
     "check:doc-blocks:all": "node scripts/check-doc-blocks.mjs",
     "docs:ingest": "cd docs-mcp && npm run --silent ingest:markdown -- --dir=../docs",
     "docs:preview": "bash scripts/docs-publish.sh --dry-run --verbose",
-    "docs:publish": "bash scripts/docs-publish.sh"
+    "docs:publish": "bash scripts/docs-publish.sh",
+    "docs:release": "bash scripts/docs-release.sh",
+    "docs:site": "cd docs && npx -y mint@latest dev --no-open"
   },
   "devDependencies": {
     "@types/jest": "^30.0.0",

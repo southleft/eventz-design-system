@@ -1,6 +1,6 @@
 {
   "$schema": "https://mintlify.com/docs.json",
-  "theme": "mint",
+  "theme": "maple",
   "name": "Eventz Design System",
   "colors": {
     "primary": "#3D7A95",
@@ -8,7 +8,13 @@
     "dark": "#224B60"
   },
   "appearance": {
-    "default": "light"
+    "default": "system"
+  },
+  "background": {
+    "decoration": "gradient"
+  },
+  "fonts": {
+    "family": "Geist"
   },
   "navigation": {
     "groups": [
