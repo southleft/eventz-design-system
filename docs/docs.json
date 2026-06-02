@@ -20,7 +20,9 @@
     "groups": [
       {
         "group": "Get Started",
-        "pages": ["introduction"]
+        "pages": [
+          "introduction"
+        ]
       },
       {
         "group": "Components",
@@ -28,7 +30,8 @@
           "components/button",
           "components/badge",
           "components/alert",
-          "components/input"
+          "components/input",
+          "components/checkbox"
         ]
       }
     ]
