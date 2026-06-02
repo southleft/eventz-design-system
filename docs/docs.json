@@ -30,14 +30,16 @@
           "components/badge",
           "components/button",
           "components/checkbox",
-          "components/input"
+          "components/input",
+          "components/tag"
         ]
       },
       {
         "group": "Molecules",
         "pages": [
           "components/accordion",
-          "components/alert"
+          "components/alert",
+          "components/avatar-group"
         ]
       }
     ]
