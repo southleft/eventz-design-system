@@ -18,7 +18,7 @@ lastUpdated: 2026-06-02
 
 ## Overview
 
-A form control for selecting or deselecting a binary option. Each checkbox pairs a clickable square with a descriptive label and optional supporting text, and covers the full set of states — unchecked, checked, hover, focus, and disabled — with accessible keyboard and screen-reader behavior.
+A form input control that allows users to select or deselect binary options through an interactive square container with visual confirmation. The component features a clickable square checkbox element paired with descriptive text labels and optional supporting text for additional context. The checkbox displays clear visual states including unchecked, checked, focused, and hover states with appropriate visual feedback. The component supports disabled functionality and includes comprehensive accessibility features for keyboard navigation and screen reader compatibility.
 
 ## Component Anatomy
 
@@ -40,6 +40,21 @@ Checkbox (horizontal auto-layout, gap: 4px)
 | focus | adds focus ring `#2D6079` (brand/600) | keyboard focus |
 | disabled | reduced opacity | non-interactive |
 
+### State behavior
+
+**Selection**
+- **isChecked: false** — Checkbox appears as an empty square with a border, indicating an unselected state.
+- **isChecked: true** — Checkbox shows a checkmark/filled indicator with appropriate contrast, confirming the selected state.
+
+**Interaction**
+- **default** — Standard visual state with base styling; no interaction feedback.
+- **focus** — Keyboard focus indicator forms a clear boundary for accessibility navigation; coordinates with the checked/unchecked state while meeting contrast requirements.
+- **hover** — Visual feedback when the cursor is over the checkbox or its text; the cursor changes to a pointer over interactive areas.
+
+**Disabled**
+- **isDisabled: true** — Non-interactive, reduced opacity across checkbox, label, and supporting text; clicks disabled and the cursor stays default.
+- **isDisabled: false** — Full interactive functionality with complete focus, hover, and selection support.
+
 ## Configurable Properties
 
 | Property | Type | Default | Description |
@@ -49,6 +64,13 @@ Checkbox (horizontal auto-layout, gap: 4px)
 | `isChecked` | `boolean` | `false` | Selected state |
 | `isDisabled` | `boolean` | `false` | Non-interactive, muted styling |
 | `hasHint` | `boolean` | `true` | Show supporting text below the label |
+
+### Content configuration
+
+- **label** — Primary text describing the checkbox option.
+- **supportingText** — Secondary text providing additional context or explanation.
+- **hasSupportingText: true** — Additional descriptive text appears below the main label using secondary styling and clear visual hierarchy; spacing keeps a logical label↔supporting relationship, and screen readers announce both as related content.
+- **hasSupportingText: false** — Only the primary label is shown; component height adjusts to a single line.
 
 ## Token Specification
 
@@ -68,10 +90,23 @@ Checkbox (horizontal auto-layout, gap: 4px)
 
 ## Usage Guidelines
 
-- Use for independent on/off choices — settings, filters, terms acceptance, or multi-select lists.
-- Write labels that state what checking the box does; add supporting text only when it improves understanding.
-- Group related checkboxes with consistent spacing and alignment.
-- Ensure adequate touch targets on mobile.
+**Primary use cases**
+
+- Form selections requiring multiple independent choices
+- Settings and preferences configuration with on/off options
+- Terms and conditions acceptance in registration flows
+- Filter controls in search and browsing interfaces
+- Task completion tracking in to-do lists or project management
+
+**Implementation considerations**
+
+- Use clear, descriptive labels that explain what checking the box means.
+- Include supporting text when additional context improves understanding.
+- Group related checkboxes logically with appropriate spacing.
+- Ensure adequate touch targets for mobile accessibility.
+- Consider visual hierarchy when mixing checkboxes with other form elements.
+- Provide a clear visual distinction between checked and unchecked states.
+- Maintain consistent spacing and alignment in checkbox groups.
 
 ## Implementation
 
@@ -83,8 +118,10 @@ import { Checkbox } from '@eventz-ui/core/client-components';
 
 ## Accessibility
 
-- Keyboard accessible; toggles with Space.
-- The label is programmatically associated with the input, and supporting text is linked for context.
-- Checked/unchecked state is announced by screen readers and is not conveyed by color alone (the check glyph is present).
-- Focus is shown with a visible brand-600 (`#2D6079`) ring.
-- Disabled checkboxes are announced as non-interactive.
+- Checkbox must be keyboard accessible with space-bar activation.
+- Labels must be properly associated with checkbox inputs for screen readers.
+- Focus indicators must be clearly visible for keyboard navigation (brand-600 `#2D6079` ring).
+- Checked/unchecked states must be announced by screen readers.
+- Supporting text should be connected to the main label for context.
+- Color cannot be the only indicator of the checked state (the check glyph is present).
+- Disabled checkboxes should be announced as non-interactive.
