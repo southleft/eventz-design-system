@@ -1,12 +1,13 @@
 #!/usr/bin/env node
 /**
- * Sync the Mintlify "Components" nav in docs/docs.json with the files in
- * docs/components/. New component docs are appended (alphabetically); existing
- * curated order is preserved; pages whose files were removed are dropped.
+ * Sync the Mintlify nav in docs/docs.json with the files in docs/components/,
+ * grouped by atomic-design level (read from each doc's `level:` frontmatter).
  *
- * Runs automatically as the first step of `pnpm docs:release`, so a newly
- * generated component doc shows up in the site sidebar without manual edits.
- * Can also be run on its own: `pnpm docs:nav`.
+ * Groups render in hierarchy order: Atoms → Molecules → Organisms → Templates → Pages.
+ * Docs without a `level` fall back to a "Components" group. Pages are alphabetised
+ * within each group. Non-component groups (e.g. "Get Started") are preserved.
+ *
+ * Runs as the first step of `pnpm docs:release`; also available as `pnpm docs:nav`.
  */
 import { readFileSync, writeFileSync, readdirSync } from 'node:fs';
 import { resolve, dirname } from 'node:path';
@@ -16,33 +17,49 @@ const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const docsJsonPath = resolve(root, 'docs/docs.json');
 const componentsDir = resolve(root, 'docs/components');
 
-const docs = JSON.parse(readFileSync(docsJsonPath, 'utf8'));
+// atomic-design level → nav group title, in hierarchy order
+const LEVEL_GROUPS = [
+  ['atom', 'Atoms'],
+  ['molecule', 'Molecules'],
+  ['organism', 'Organisms'],
+  ['template', 'Templates'],
+  ['page', 'Pages'],
+];
+const FALLBACK_GROUP = 'Components';
 
-const files = readdirSync(componentsDir)
-  .filter((f) => f.endsWith('.md'))
-  .map((f) => `components/${f.replace(/\.md$/, '')}`);
-
-const group = (docs.navigation?.groups ?? []).find((g) => g.group === 'Components');
-if (!group) {
-  console.error('✗ No "Components" group found in docs/docs.json navigation.');
-  process.exit(1);
+function levelOf(file) {
+  const txt = readFileSync(resolve(componentsDir, file), 'utf8');
+  const fm = txt.match(/^---\n([\s\S]*?)\n---/);
+  const m = fm && fm[1].match(/^level:\s*([\w-]+)/m);
+  return m ? m[1].toLowerCase() : '__fallback__';
 }
 
-const existing = group.pages ?? [];
-const kept = existing.filter((p) => files.includes(p)); // preserve curated order, drop removed
-const added = files.filter((p) => !existing.includes(p)).sort(); // new docs, alphabetical
-const next = [...kept, ...added];
+const byLevel = {};
+for (const f of readdirSync(componentsDir).filter((f) => f.endsWith('.md'))) {
+  const page = `components/${f.replace(/\.md$/, '')}`;
+  (byLevel[levelOf(f)] ||= []).push(page);
+}
+for (const k of Object.keys(byLevel)) byLevel[k].sort();
 
-if (JSON.stringify(next) === JSON.stringify(existing)) {
-  console.log(`✓ docs.json nav already in sync (${next.length} component pages).`);
+const componentGroups = [];
+for (const [lvl, title] of LEVEL_GROUPS) {
+  if (byLevel[lvl]?.length) componentGroups.push({ group: title, pages: byLevel[lvl] });
+}
+if (byLevel.__fallback__?.length) {
+  componentGroups.push({ group: FALLBACK_GROUP, pages: byLevel.__fallback__ });
+}
+
+const docs = JSON.parse(readFileSync(docsJsonPath, 'utf8'));
+const groups = docs.navigation?.groups ?? [];
+const componentTitles = new Set([FALLBACK_GROUP, ...LEVEL_GROUPS.map(([, t]) => t)]);
+const preserved = groups.filter((g) => !componentTitles.has(g.group));
+const next = [...preserved, ...componentGroups];
+
+const before = JSON.stringify(groups);
+docs.navigation.groups = next;
+if (JSON.stringify(next) === before) {
+  console.log('✓ docs.json nav already in sync.');
   process.exit(0);
 }
-
-group.pages = next;
 writeFileSync(docsJsonPath, JSON.stringify(docs, null, 2) + '\n');
-const removed = existing.filter((p) => !files.includes(p));
-console.log(
-  `✓ docs.json nav updated → ${next.length} component pages` +
-    (added.length ? ` | added: ${added.join(', ')}` : '') +
-    (removed.length ? ` | removed: ${removed.join(', ')}` : '')
-);
+console.log(`✓ docs.json nav grouped by atomic level → ${componentGroups.map((g) => `${g.group} (${g.pages.length})`).join(', ')}`);
