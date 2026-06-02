@@ -4,6 +4,7 @@ description: Interactive button with text labels and optional start/end icons, a
 status: stable
 version: 1.0.0
 category: components
+level: atom
 tags: [button, action, variants, interactive]
 figma: https://www.figma.com/design/E7oXr98i91HYQGZxA2USOQ/DEMO-Eventz-Design-System?node-id=2313-42
 source: packages/core/src/components/client/Button/Button.tsx

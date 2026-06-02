@@ -25,13 +25,19 @@
         ]
       },
       {
-        "group": "Components",
+        "group": "Atoms",
         "pages": [
-          "components/button",
           "components/badge",
-          "components/alert",
-          "components/input",
-          "components/checkbox"
+          "components/button",
+          "components/checkbox",
+          "components/input"
+        ]
+      },
+      {
+        "group": "Molecules",
+        "pages": [
+          "components/accordion",
+          "components/alert"
         ]
       }
     ]

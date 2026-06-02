@@ -4,6 +4,7 @@ description: Binary selection control with a labeled checkbox and optional suppo
 status: stable
 version: 1.0.0
 category: components
+level: atom
 tags: [checkbox, form, selection, input]
 figma: https://www.figma.com/design/E7oXr98i91HYQGZxA2USOQ/DEMO-Eventz-Design-System?node-id=2323-181
 source: packages/core/src/components/client/Checkbox/Checkbox.tsx

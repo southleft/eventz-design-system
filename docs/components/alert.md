@@ -4,6 +4,7 @@ description: Inline notification surfacing product or system status across succe
 status: stable
 version: 1.0.0
 category: components
+level: molecule
 tags: [alert, notification, status, variants, dismissible]
 figma: https://www.figma.com/design/E7oXr98i91HYQGZxA2USOQ/DEMO-Eventz-Design-System?node-id=2629-56948
 source: packages/core/src/components/client/Alert/Alert.tsx

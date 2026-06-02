@@ -4,6 +4,7 @@ description: Single-line text field with label, optional start/end icons, and hi
 status: stable
 version: 1.0.0
 category: components
+level: atom
 tags: [input, form, text-field, states, validation]
 figma: https://www.figma.com/design/E7oXr98i91HYQGZxA2USOQ/DEMO-Eventz-Design-System?node-id=2365-108
 source: packages/core/src/components/client/Input/Input.tsx

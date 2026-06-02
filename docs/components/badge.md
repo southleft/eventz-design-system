@@ -4,6 +4,7 @@ description: Small non-interactive label with a gradient or brand background and
 status: stable
 version: 1.0.0
 category: components
+level: atom
 tags: [badge, status, label, variants]
 figma: https://www.figma.com/design/E7oXr98i91HYQGZxA2USOQ/DEMO-Eventz-Design-System?node-id=2369-2993
 source: packages/core/src/components/server/Badge/Badge.tsx
