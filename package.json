@@ -17,6 +17,7 @@
     "check:doc-blocks": "node scripts/check-doc-blocks.mjs --changed-only",
     "check:doc-blocks:strict": "node scripts/check-doc-blocks.mjs --changed-only --require-header",
     "check:doc-blocks:all": "node scripts/check-doc-blocks.mjs",
+    "docs:nav": "node scripts/sync-docs-nav.mjs",
     "docs:ingest": "cd docs-mcp && npm run --silent ingest:markdown -- --dir=../docs",
     "docs:preview": "bash scripts/docs-publish.sh --dry-run --verbose",
     "docs:publish": "bash scripts/docs-publish.sh",

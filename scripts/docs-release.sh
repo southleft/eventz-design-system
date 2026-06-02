@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 #
 # Release the Eventz docs to BOTH consumers from one source:
-#   1. Company Docs MCP  — embed + upsert docs into Supabase (vector search)
-#   2. Mintlify site      — commit docs/ + push so the connected site rebuilds
+#   1. Sync Mintlify nav  — add any new docs/components/*.md to docs.json
+#   2. Company Docs MCP   — embed + upsert docs into Supabase (vector search)
+#   3. Mintlify site      — commit docs/ + push so the connected site rebuilds
 #
 # Usage (from repo root):
 #   pnpm docs:release                 # default commit message
@@ -14,13 +15,19 @@ ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 MSG="${1:-docs: publish docs update}"
 
 echo "═══════════════════════════════════════════════════════"
-echo "  1/2 · Publishing to the Company Docs MCP (Supabase)"
+echo "  1/3 · Syncing Mintlify nav (docs/docs.json)"
+echo "═══════════════════════════════════════════════════════"
+node "$ROOT/scripts/sync-docs-nav.mjs"
+
+echo ""
+echo "═══════════════════════════════════════════════════════"
+echo "  2/3 · Publishing to the Company Docs MCP (Supabase)"
 echo "═══════════════════════════════════════════════════════"
 bash "$ROOT/scripts/docs-publish.sh"
 
 echo ""
 echo "═══════════════════════════════════════════════════════"
-echo "  2/2 · Releasing to the Mintlify site (git push)"
+echo "  3/3 · Releasing to the Mintlify site (git push)"
 echo "═══════════════════════════════════════════════════════"
 cd "$ROOT"
 git add docs/
