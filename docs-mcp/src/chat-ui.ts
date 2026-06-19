@@ -95,16 +95,21 @@ export function getChatHtml(env: Env): string {
     </div>
     <div id="root"></div>
 
-    <!-- React and ReactDOM -->
-    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <!-- React and ReactDOM (pinned — never use unversioned CDN URLs here) -->
+    <script crossorigin src="https://unpkg.com/react@18.3.1/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
 
-    <!-- Babel Standalone for JSX -->
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <!-- Babel Standalone for JSX.
+         MUST stay on Babel 7.x: its preset-react defaults to the classic JSX
+         runtime (React.createElement). Babel 8 defaults to the automatic
+         runtime, which injects a react/jsx-runtime ES import into the inline
+         script and breaks it with a "Cannot use import statement outside a
+         module" error — the app never mounts and the page hangs on the loader. -->
+    <script src="https://unpkg.com/@babel/standalone@7.26.4/babel.min.js"></script>
 
     <!-- Marked for markdown parsing - preload for better performance -->
-    <link rel="preload" href="https://cdn.jsdelivr.net/npm/marked/marked.min.js" as="script">
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/marked@13.0.3/marked.min.js" as="script">
+    <script src="https://cdn.jsdelivr.net/npm/marked@13.0.3/marked.min.js"></script>
 
     <script type="text/babel">
         // Configure marked for better rendering
