@@ -31,7 +31,8 @@
           "components/button",
           "components/checkbox",
           "components/input",
-          "components/tag"
+          "components/tag",
+          "components/textarea"
         ]
       },
       {
