@@ -10,7 +10,7 @@ figma: https://www.figma.com/design/E7oXr98i91HYQGZxA2USOQ/DEMO-Eventz-Design-Sy
 source: packages/core/src/components/client/AvatarGroup/AvatarGroup.tsx
 package: "@eventz-ui/core"
 system: Eventz
-lastUpdated: 2026-06-02
+lastUpdated: 2026-06-30
 ---
 
 **[Open in Figma](https://www.figma.com/design/E7oXr98i91HYQGZxA2USOQ/DEMO-Eventz-Design-System?node-id=2625-52953)** | **[View Source](https://github.com/southleft/eventz-design-system/blob/main/packages/core/src/components/client/AvatarGroup/AvatarGroup.tsx)**
@@ -55,11 +55,11 @@ The Figma `breakpoint` variant (`sm` / `lg`) is implemented in code with Tailwin
 
 ### Color
 
-| Element | Value | Token |
+| Token | Value | Role |
 |---|---|---|
-| Avatar border | `#FFFFFF` (72% alpha) | `border-color-border-inverse` |
-| Message text | `#424446` | `text-color-content-subtle` |
-| Fallback background | transparent | `bg-background-none` |
+| `color/background/default` | `#FFFFFF` | Group container surface |
+| `color/border/inverse` | `#FFFFFFB2` | Avatar ring / overlap border (~70% white) |
+| `color/content/subtle` | `#424446` | Message text |
 
 ### Spacing & Typography
 

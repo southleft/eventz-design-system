@@ -10,7 +10,7 @@ figma: https://www.figma.com/design/E7oXr98i91HYQGZxA2USOQ/DEMO-Eventz-Design-Sy
 source: packages/core/src/components/client/Accordion/Accordion.tsx
 package: "@eventz-ui/core"
 system: Eventz
-lastUpdated: 2026-06-02
+lastUpdated: 2026-06-30
 ---
 
 **[Open in Figma](https://www.figma.com/design/E7oXr98i91HYQGZxA2USOQ/DEMO-Eventz-Design-System?node-id=2403-1099)** | **[View Source](https://github.com/southleft/eventz-design-system/blob/main/packages/core/src/components/client/Accordion/Accordion.tsx)**
@@ -38,13 +38,13 @@ Accordion (vertical auto-layout, gap: 12px)
 
 | State | Treatment |
 |---|---|
-| default | Title `#FFFFFF`; collapsed shows a right-pointing chevron, expanded points down |
-| hover | Title/body deepen to `#C6C7C6` |
-| focused | Adds a brand focus stroke `#3D7A95` (brand/500) around the header |
-| expanded (`isExpanded: true`) | Body content + slot visible; divider stroke `#FFFFFF80` |
+| default | Title `color/content/default` (`#FFFFFF`); collapsed shows a right-pointing chevron, expanded points down |
+| hover | Title/body deepen to `color/content/default-hover` (`#C6C7C6`) |
+| focused | Adds a brand focus stroke `comp/border/focus-ring` (`#3D7A95`) around the header |
+| expanded (`isExpanded: true`) | Body content + slot visible; divider stroke `color/border/default` (`#FFFFFF80`) |
 | collapsed (`isExpanded: false`) | Header only; compact footprint |
 
-Header background is transparent (`#FFFFFF00`); emphasis `strong` gives the header a more prominent treatment, `weak` a subdued one.
+Header background is transparent `color/background/none` (`#FFFFFF00`); emphasis `strong` gives the header a more prominent treatment, `weak` a subdued one.
 
 ## Configurable Properties
 
@@ -67,6 +67,20 @@ Header background is transparent (`#FFFFFF00`); emphasis `strong` gives the head
 - **title** — accepts custom text to replace the default "Accordion title" placeholder.
 
 ## Token Specification
+
+### Color
+
+Accordion ships on a dark surface, so `color/*` content tokens resolve to light values here.
+
+| Token | Value | Role |
+|---|---|---|
+| `color/background/default` | `#252729` | Accordion surface |
+| `color/content/default` | `#FFFFFF` | Title + icon on surface |
+| `color/content/default-hover` | `#C6C7C6` | Title + icon on hover |
+| `color/content/weak` | `#C6C7C6` | Body content |
+| `color/border/default` | `#FFFFFF80` | Divider / slot border |
+| `comp/border/focus-ring` | `#3D7A95` | Focus ring |
+| `color/background/none` | `#FFFFFF00` | Transparent header background |
 
 ### Spacing
 

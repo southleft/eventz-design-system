@@ -10,7 +10,7 @@ figma: https://www.figma.com/design/E7oXr98i91HYQGZxA2USOQ/DEMO-Eventz-Design-Sy
 source: packages/core/src/components/server/Badge/Badge.tsx
 package: "@eventz-ui/core"
 system: Eventz
-lastUpdated: 2026-05-31
+lastUpdated: 2026-06-30
 ---
 
 **[Open in Figma](https://www.figma.com/design/E7oXr98i91HYQGZxA2USOQ/DEMO-Eventz-Design-System?node-id=2369-2993)** | **[View Source](https://github.com/southleft/eventz-design-system/blob/main/packages/core/src/components/server/Badge/Badge.tsx)**
@@ -33,11 +33,11 @@ Badge (span, inline-flex, horizontal auto-layout, gap: 2px)
 
 | Variant | Background | Text / Icon | Use |
 |---|---|---|---|
-| **purple** | gradient (purple) | `#252729` | Default; neutral metadata callout |
-| **blue** | gradient (blue) | `#252729` | Informational / featured tags |
-| **pink** | gradient (pink) | `#252729` | In-progress, beta, "new" states |
-| **orange** | gradient (orange) | `#252729` | Warnings, time-sensitive flags |
-| **brand** | `#3D7A95` (brand/500) | `#252729` | On-brand emphasis |
+| **purple** | gradient (purple) | `color/content/inverse` (`#252729`) | Default; neutral metadata callout |
+| **blue** | gradient (blue) | `color/content/inverse` (`#252729`) | Informational / featured tags |
+| **pink** | gradient (pink) | `color/content/inverse` (`#252729`) | In-progress, beta, "new" states |
+| **orange** | gradient (orange) | `color/content/inverse` (`#252729`) | Warnings, time-sensitive flags |
+| **brand** | `color/background/brand` (`#3D7A95`) | `color/content/inverse` (`#252729`) | On-brand emphasis |
 
 Each variant additionally supports `hasIcon` and `hasLabel` toggles, giving label-only, icon-only, and icon+label compositions (15 design permutations in Figma). Avoid the icon-only form unless an `aria-label` is supplied.
 
@@ -53,6 +53,16 @@ Each variant additionally supports `hasIcon` and `hasLabel` toggles, giving labe
 | `className` | `string` | — | Utility classes merged after the base tokens |
 
 ## Token Specification
+
+### Color
+
+| Token | Value | Role |
+|---|---|---|
+| `color/background/default` | `#FFFFFF` | Badge container surface |
+| `color/content/inverse` | `#252729` | Label + icon (all variants) |
+| `color/background/brand` | `#3D7A95` | `brand` variant fill |
+
+The `purple` / `blue` / `pink` / `orange` variants use gradient fills rather than a single color variable, so they have no flat token.
 
 ### Spacing
 

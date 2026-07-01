@@ -10,7 +10,7 @@ figma: https://www.figma.com/design/E7oXr98i91HYQGZxA2USOQ/DEMO-Eventz-Design-Sy
 source: packages/core/src/components/client/Button/Button.tsx
 package: "@eventz-ui/core"
 system: Eventz
-lastUpdated: 2026-05-31
+lastUpdated: 2026-06-30
 ---
 
 **[Open in Figma](https://www.figma.com/design/E7oXr98i91HYQGZxA2USOQ/DEMO-Eventz-Design-System?node-id=2313-42)** | **[View Source](https://github.com/southleft/eventz-design-system/blob/main/packages/core/src/components/client/Button/Button.tsx)**
@@ -35,19 +35,19 @@ Button (auto-layout, horizontal, gap: 4px)
 
 | Variant | Background (default) | Text / Icon | Notes |
 |---|---|---|---|
-| **primary** | `#3D7A95` (brand/500) | `#FFFFFF` | Main action; solid brand fill |
-| **secondary** | `rgba(0,0,2,0.05)` | `#252729` | Supporting action; subtle fill |
-| **bare** | transparent | `#252729` | Text-like, minimal emphasis |
-| **knockout** | `#F7F8F7` (neutral/100) | `#252729` | For dark/high-contrast surfaces |
+| **primary** | `comp/button/primary/color/background/default` (`#3D7A95`) | `comp/button/primary/color/content/default` (`#FFFFFF`) | Main action; solid brand fill |
+| **secondary** | `comp/button/color/background/default` (`#0000020D`) | `comp/button/color/content/default` (`#252729`) | Supporting action; subtle fill |
+| **bare** | `color/background/none` (`#00000200`) | `comp/button/color/content/default` (`#252729`) | Text-like, minimal emphasis |
+| **knockout** | `comp/button/color/background/knockout` (`#F7F8F7`) | `comp/button/color/content/default` (`#252729`) | For dark/high-contrast surfaces |
 
 ### Interaction states (primary)
 
 | State | Background |
 |---|---|
-| default | `#3D7A95` |
-| hover | `#2D6079` (brand/600) |
-| active | `#2D6079` |
-| focus | `#3D7A95` + focus ring `#2D6079` |
+| default | `comp/button/primary/color/background/default` (`#3D7A95`) |
+| hover | `comp/button/primary/color/background/hover` (`#2D6079`) |
+| active | `comp/button/primary/color/background/active` (`#2D6079`) |
+| focus | `comp/button/primary/color/background/default` (`#3D7A95`) + focus ring `comp/border/focus-ring` (`#2D6079`) |
 | disabled | reduced opacity |
 
 ## Configurable Properties
@@ -62,6 +62,24 @@ Button (auto-layout, horizontal, gap: 4px)
 | `text` | `string` | `"Label"` | Button label content |
 
 ## Token Specification
+
+### Color
+
+| Token | Value | Role |
+|---|---|---|
+| `comp/button/primary/color/background/default` | `#3D7A95` | Primary fill (default / focus) |
+| `comp/button/primary/color/background/hover` | `#2D6079` | Primary fill (hover) |
+| `comp/button/primary/color/background/active` | `#2D6079` | Primary fill (active) |
+| `comp/button/primary/color/content/default` | `#FFFFFF` | Primary label + icon |
+| `comp/button/color/background/default` | `#0000020D` | Secondary fill (default) |
+| `comp/button/color/background/hover` | `#00000233` | Secondary fill (hover) |
+| `comp/button/color/border/default` | `#0000021A` | Secondary border |
+| `comp/button/color/content/default` | `#252729` | Secondary / bare / knockout label + icon |
+| `comp/button/color/background/knockout` | `#F7F8F7` | Knockout fill (default / active) |
+| `comp/button/color/background/knockout-hover` | `#C6C7C6` | Knockout fill (hover) |
+| `color/background/none` | `#00000200` | Bare variant (transparent) fill |
+| `comp/border/none` | `#0000021A` | Primary / bare transparent border |
+| `comp/border/focus-ring` | `#2D6079` | Focus ring (all variants) |
 
 ### Spacing
 

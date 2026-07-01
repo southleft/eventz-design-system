@@ -10,7 +10,7 @@ figma: https://www.figma.com/design/E7oXr98i91HYQGZxA2USOQ/DEMO-Eventz-Design-Sy
 source: packages/core/src/components/client/Alert/Alert.tsx
 package: "@eventz-ui/core"
 system: Eventz
-lastUpdated: 2026-05-31
+lastUpdated: 2026-06-30
 ---
 
 **[Open in Figma](https://www.figma.com/design/E7oXr98i91HYQGZxA2USOQ/DEMO-Eventz-Design-System?node-id=2629-56948)** | **[View Source](https://github.com/southleft/eventz-design-system/blob/main/packages/core/src/components/client/Alert/Alert.tsx)**
@@ -37,12 +37,12 @@ Alert (div, horizontal auto-layout, gap: 8px) — role="status" | "alert"
 
 | Variant | Accent | Icon | ARIA role | Use |
 |---|---|---|---|---|
-| **success** | `#329B40` (green) | check | `status` | Positive confirmations (e.g. registration complete) |
-| **info** | `#326E9B` (blue) | info | `status` | Neutral system info, tips, scheduled notices |
-| **warning** | `#9B6E31` (amber) | triangle | `status` | Cautionary, non-blocking messages |
-| **danger** | `#9B3232` (red) | exclamation | `alert` | Errors, failures, critical issues |
+| **success** | `color/content/utility/success-strong` (`#329B40`) | check | `status` | Positive confirmations (e.g. registration complete) |
+| **info** | `color/content/utility/info-strong` (`#326E9B`) | info | `status` | Neutral system info, tips, scheduled notices |
+| **warning** | `color/content/utility/warning-strong` (`#9B6E31`) | triangle | `status` | Cautionary, non-blocking messages |
+| **danger** | `color/content/utility/danger-strong` (`#9B3232`) | exclamation | `alert` | Errors, failures, critical issues |
 
-Text and icon glyphs render at `#252729` across all variants. Each variant also supports `hasIcon`, `hasTitle`, `hasLink`, and `isDismissible` toggles.
+Text and icon glyphs render at `color/content/inverse` (`#252729`) across all variants. Each variant also supports `hasIcon`, `hasTitle`, `hasLink`, and `isDismissible` toggles.
 
 ## Configurable Properties
 
@@ -59,6 +59,17 @@ Text and icon glyphs render at `#252729` across all variants. Each variant also 
 | `className` | `string` | — | Utility classes merged onto the root |
 
 ## Token Specification
+
+### Color
+
+| Token | Value | Role |
+|---|---|---|
+| `color/background/default` | `#FFFFFF` | Alert surface |
+| `color/content/inverse` | `#252729` | Title / description / icon glyph |
+| `color/content/utility/success-strong` | `#329B40` | Success accent + icon |
+| `color/content/utility/info-strong` | `#326E9B` | Info accent + icon |
+| `color/content/utility/warning-strong` | `#9B6E31` | Warning accent + icon |
+| `color/content/utility/danger-strong` | `#9B3232` | Danger accent + icon |
 
 ### Spacing
 

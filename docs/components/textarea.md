@@ -10,7 +10,7 @@ figma: https://www.figma.com/design/E7oXr98i91HYQGZxA2USOQ/DEMO-Eventz-Design-Sy
 source: packages/core/src/components/client/Textarea/Textarea.tsx
 package: "@eventz-ui/core"
 system: Eventz
-lastUpdated: 2026-06-20
+lastUpdated: 2026-06-30
 ---
 
 **[Open in Figma](https://www.figma.com/design/E7oXr98i91HYQGZxA2USOQ/DEMO-Eventz-Design-System?node-id=2369-2738)** | **[View Source](https://github.com/southleft/eventz-design-system/blob/main/packages/core/src/components/client/Textarea/Textarea.tsx)**
@@ -37,12 +37,12 @@ Textarea (fieldset, vertical auto-layout, gap: 4px)
 
 | State | Border | Notable treatment |
 |---|---|---|
-| **default** | `#00000233` | White fill (`#FFFFFF`), placeholder text `#5B5D5E` |
-| **hover** | `#0000024d` | Slightly stronger border, subtle background shift |
-| **focus** | `#2D6079` (brand/600) ring | Brand focus ring around the control |
-| **filled** | `#00000233` | Value text deepens to `#252729` |
-| **error** | `#C23737` | Error border + supporting text `#FF5A6B` (`data-invalid="true"`) |
-| **disabled** | `#00000233` | Reduced opacity, non-interactive (`data-disabled="true"`) |
+| **default** | `comp/form/color/border/default` (`#00000233`) | White fill `color/background/default` (`#FFFFFF`), placeholder text `color/content/weak` (`#5B5D5E`) |
+| **hover** | `comp/form/color/border/hover` (`#0000024D`) | Stronger border, subtle background shift `comp/form/color/background/hover` (`#00000226`) |
+| **focus** | `comp/border/focus-ring` (`#2D6079`) ring | Brand focus ring around the control |
+| **filled** | `comp/form/color/border/default` (`#00000233`) | Value text deepens to `color/content/default` (`#252729`) |
+| **error** | `comp/form/color/border/utility/danger` (`#C23737`) | Error border + supporting text `color/content/utility/danger-subtle` (`#FF5A6B`) (`data-invalid="true"`) |
+| **disabled** | `comp/form/color/border/default` (`#00000233`) | Reduced opacity, non-interactive (`data-disabled="true"`) |
 
 The Figma component set ships 13 variants spanning the `state` (default / hover / focus), `isFilled`, `hasError`, and `isDisabled` axes, plus `hasLabel`, `hasStartIcon`, `hasEndIcon`, and `hasHint` toggles.
 
@@ -65,6 +65,23 @@ Standard native `<textarea>` attributes (`maxLength`, `readOnly`, `onChange`, `n
 
 ## Token Specification
 
+### Color
+
+| Token | Value | Role |
+|---|---|---|
+| `color/background/default` | `#FFFFFF` | Field fill |
+| `comp/form/color/background/default` | `#0000020D` | Control background (default / focus) |
+| `comp/form/color/background/hover` | `#00000226` | Control background (hover) |
+| `comp/form/color/border/default` | `#00000233` | Border — default, filled, disabled |
+| `comp/form/color/border/hover` | `#0000024D` | Border — hover |
+| `comp/form/color/border/utility/danger` | `#C23737` | Border — error |
+| `comp/border/focus-ring` | `#2D6079` | Focus ring |
+| `color/content/default` | `#252729` | Label + filled value text |
+| `color/content/weak` | `#5B5D5E` | Placeholder / empty value text |
+| `color/content/weak-hover` | `#2C2E30` | Value text on hover |
+| `color/content/subtle` | `#424446` | Hint / supporting text |
+| `color/content/utility/danger-subtle` | `#FF5A6B` | Error supporting text |
+
 ### Spacing
 
 | Property | Value |
@@ -74,7 +91,7 @@ Standard native `<textarea>` attributes (`maxLength`, `readOnly`, `onChange`, `n
 | Control padding (horizontal) | 6px (`spacing/1.5`) |
 | Border radius | 8px (`border/radius/lg`) |
 | Border width | 1px |
-| Focus ring | `#2D6079` (brand/600), 2px with 4px offset |
+| Focus ring | `comp/border/focus-ring` (`#2D6079`), 2px with 4px offset |
 
 ### Typography
 

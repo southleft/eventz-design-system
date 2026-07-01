@@ -10,7 +10,7 @@ figma: https://www.figma.com/design/E7oXr98i91HYQGZxA2USOQ/DEMO-Eventz-Design-Sy
 source: packages/core/src/components/client/Checkbox/Checkbox.tsx
 package: "@eventz-ui/core"
 system: Eventz
-lastUpdated: 2026-06-02
+lastUpdated: 2026-06-30
 ---
 
 **[Open in Figma](https://www.figma.com/design/E7oXr98i91HYQGZxA2USOQ/DEMO-Eventz-Design-System?node-id=2323-181)** | **[View Source](https://github.com/southleft/eventz-design-system/blob/main/packages/core/src/components/client/Checkbox/Checkbox.tsx)**
@@ -35,10 +35,10 @@ Checkbox (horizontal auto-layout, gap: 4px)
 
 | State | Box | Notes |
 |---|---|---|
-| unchecked | border `#5B5D5E` (neutral/700) | empty square |
-| hover | border `#2C2E30` (neutral/900) | darker border |
-| checked | fill `#224B60` (brand/700) + check glyph | filled teal box |
-| focus | adds focus ring `#2D6079` (brand/600) | keyboard focus |
+| unchecked | border `color/content/weak` (`#5B5D5E`) | empty square |
+| hover | border `color/content/weak-hover` (`#2C2E30`) | darker border |
+| checked | fill `color/content/brand` (`#224B60`) + check glyph | filled teal box |
+| focus | adds focus ring `comp/border/focus-ring` (`#2D6079`) | keyboard focus |
 | disabled | reduced opacity | non-interactive |
 
 ### State behavior
@@ -74,6 +74,18 @@ Checkbox (horizontal auto-layout, gap: 4px)
 - **hasSupportingText: false** — Only the primary label is shown; component height adjusts to a single line.
 
 ## Token Specification
+
+### Color
+
+| Token | Value | Role |
+|---|---|---|
+| `color/background/default` | `#FFFFFF` | Control / field background |
+| `color/content/weak` | `#5B5D5E` | Unchecked box border |
+| `color/content/weak-hover` | `#2C2E30` | Box border on hover |
+| `color/content/brand` | `#224B60` | Checked box fill + check glyph |
+| `comp/border/focus-ring` | `#2D6079` | Focus ring |
+| `color/content/default` | `#252729` | Label |
+| `color/content/subtle` | `#424446` | Supporting text |
 
 ### Spacing
 
