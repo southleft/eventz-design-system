@@ -31,6 +31,7 @@
           "components/button",
           "components/checkbox",
           "components/input",
+          "components/radio-button-group",
           "components/tag",
           "components/textarea"
         ]
