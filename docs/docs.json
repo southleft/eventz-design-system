@@ -33,6 +33,7 @@
           "components/input",
           "components/radio-button-group",
           "components/tag",
+          "components/text-link",
           "components/textarea"
         ]
       },
