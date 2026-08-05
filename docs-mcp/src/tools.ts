@@ -233,12 +233,16 @@ export function registerTools(server: McpServer, env: Env): void {
         .describe("Category to browse (use get_all_tags or search to discover available categories)"),
     },
     async ({ category }) => {
+      // Load the local corpus up front: getEntriesByCategoryFromSupabase falls back
+      // internally (returning []) instead of throwing when Supabase isn't configured,
+      // so the catch below never fires and a cold isolate would answer with 0 entries.
+      await ensureContentLoaded();
+
       // Try Supabase first, fall back to local content-manager
       let entries: ContentEntry[];
       try {
         entries = await getEntriesByCategoryFromSupabase(category, env);
       } catch {
-        await ensureContentLoaded();
         entries = getEntriesByCategory(category as Category);
       }
 
@@ -268,12 +272,15 @@ export function registerTools(server: McpServer, env: Env): void {
 
   // Tool 4: List all tags
   server.tool("get_all_tags", "Get a list of all available tags in the knowledge base", {}, async () => {
+    // Load up front for the same reason as browse_by_category above:
+    // getAllTagsFromSupabase falls back internally rather than throwing.
+    await ensureContentLoaded();
+
     // Try Supabase first, fall back to local content-manager
     let tagList: string[];
     try {
       tagList = await getAllTagsFromSupabase(env);
     } catch {
-      await ensureContentLoaded();
       tagList = getAllTags().sort();
     }
 

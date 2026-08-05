@@ -89,3 +89,5 @@ test-slack-response.js
 *.png
 *.jpg
 *.gif
+# Local dev config (recognized .toml extension; see package.json dev:local)
+wrangler.local.toml

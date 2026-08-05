@@ -116,16 +116,27 @@ function parseFrontmatter(content: string): FrontmatterResult {
 /**
  * Generates a deterministic ID from a file path.
  * Same file always produces the same ID, preventing duplicates on re-ingestion.
+ *
+ * The hash is taken over a machine-independent key (the file's basename plus its
+ * immediate parent directory, e.g. "components/button.md") rather than the full
+ * absolute path. Hashing the absolute path meant the same doc ingested from a
+ * different checkout — /Users/alice/repo/docs vs /Users/bob/work/docs — produced
+ * a different ID, so `publish` inserted a duplicate row instead of upserting.
+ * The parent directory is retained so two same-named files in different
+ * sections still disambiguate, which is what the hash is for.
  */
 function generateIdFromPath(filepath: string): string {
-  const basename = filepath.split('/').pop() || filepath;
+  const segments = filepath.split('/').filter(Boolean);
+  const basename = segments[segments.length - 1] || filepath;
   const slug = basename
     .replace(/\.md$/i, '')
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-|-$/g, '');
+  // Stable across checkouts: "<parent>/<basename>" (or just the basename at root).
+  const stableKey = segments.slice(-2).join('/') || basename;
   // Short hash for uniqueness in case two files slug to the same thing
-  const hash = crypto.createHash('sha256').update(filepath).digest('base64url').slice(0, 8);
+  const hash = crypto.createHash('sha256').update(stableKey).digest('base64url').slice(0, 8);
   return `${slug}-${hash}`;
 }
 
